@@ -1,10 +1,15 @@
-"""End-to-End Vertical Slice Integration Test.
+"""End-to-End Seven-Agent Research Integration Tests.
 
-Exercises the full multi-agent pipeline:
-ResearchRequest -> ADK Coordinator -> FastMCP Tools -> Official A2A Protocol ->
-CrewAI Specialist -> Blackboard Shared State -> Validated QuantitativeResearchReport.
+Exercises the full multi-agent research pipeline:
+- Seven Primary Agents (4 Google ADK + 3 CrewAI)
+- Three Orchestration Patterns: SEQUENTIAL, PARALLEL, HIERARCHICAL
+- FastMCP Tools (query_market_data, calculate_statutory_costs)
+- Official A2A Protocol client/server exchange
+- Observability tracing and RunAuditSummary generation
+- Financial safety: Live trading guardrail and honest missing-data handling
 """
 
+import asyncio
 from datetime import datetime, timezone
 import pytest
 
@@ -14,34 +19,31 @@ from arthaai.orchestration.a2a_bridge import (
     A2AClientBridge,
     create_a2a_crewai_app,
 )
-from arthaai.orchestration.adk_coordinator import ADKCoordinator
+from arthaai.orchestration.adk_coordinator import (
+    ADKCoordinator,
+    ADKResearchManager,
+    OrchestrationPattern,
+)
+from arthaai.orchestration.observability import generate_run_summary
 from arthaai.schemas.research_output import (
     QuantitativeResearchReport,
     ResearchRequest,
 )
 
 
-import asyncio
-
 def test_end_to_end_vertical_slice():
+    """Milestone 1 vertical slice regression test."""
     async def _test():
-        # Verify safety: Live trading must remain blocked
         config = AppConfig()
         assert config.live_trading_enabled is False
 
-        # 1. Setup real in-process A2A server & client bridge
-        crewai_app = create_a2a_crewai_app("crewai_adversarial_specialist")
+        crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
         a2a_bridge = A2AClientBridge(
             app=crewai_app, base_url="http://testserver", rpc_url="http://testserver/rpc"
         )
-
-        # 2. Setup real FastMCP client
         mcp_client = get_mcp_client()
-
-        # 3. Initialize Google ADK Coordinator
         coordinator = ADKCoordinator(mcp_client=mcp_client, a2a_bridge=a2a_bridge)
 
-        # 4. Formulate validated ResearchRequest
         now = datetime(2024, 11, 1, 10, 30, tzinfo=timezone.utc)
         request = ResearchRequest(
             request_id="req-e2e-001",
@@ -52,36 +54,159 @@ def test_end_to_end_vertical_slice():
             scope=["quant", "compliance", "adversarial"],
         )
 
-        # 5. Execute full vertical slice
-        report = await coordinator.run_research(request)
+        report = await coordinator.run_research(request, pattern=OrchestrationPattern.SEQUENTIAL)
 
-        # 6. Verify final Pydantic validated output
         assert isinstance(report, QuantitativeResearchReport)
         assert report.run_id == "run-e2e-slice-alpha"
         assert report.symbol == "RELIANCE"
         assert report.as_of_time == now
 
-        # Verify quantitative findings from FastMCP Tool 1
         assert "records_retrieved" in report.quantitative_findings
         assert report.quantitative_findings["data_source"] == "duckdb_parquet_partitioned"
 
-        # Verify statutory risk bounds from FastMCP Tool 2
         assert "total_statutory_costs_inr" in report.statutory_risk_bounds
         assert report.statutory_risk_bounds["total_statutory_costs_inr"] > 0
         assert report.statutory_risk_bounds["effective_rate_pct"] > 0
 
-        # Verify qualitative evidence from CrewAI via A2A
         assert len(report.qualitative_evidence) >= 2
         assert any("NSE" in cite or "SEBI" in cite for cite in report.qualitative_evidence)
 
-        # Verify explicit caveats and honesty
         assert len(report.limitations_and_uncertainties) >= 2
         assert any("Live trading disabled" in lim for lim in report.limitations_and_uncertainties)
         assert any("zero lookahead" in lim.lower() for lim in report.limitations_and_uncertainties)
 
-        # Verify synthesis text
         assert "RELIANCE" in report.executive_thesis
         assert "DuckDB" in report.executive_thesis
         assert "INR" in report.executive_thesis
+
+    asyncio.run(_test())
+
+
+def test_sequential_pattern_with_seven_agents():
+    """Tests the SEQUENTIAL orchestration pattern activating all 7 primary agents."""
+    async def _test():
+        crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
+        a2a_bridge = A2AClientBridge(
+            app=crewai_app, base_url="http://testserver", rpc_url="http://testserver/rpc"
+        )
+        mcp_client = get_mcp_client()
+        manager = ADKResearchManager(mcp_client=mcp_client, a2a_bridge=a2a_bridge)
+
+        now = datetime(2024, 11, 1, 11, 0, tzinfo=timezone.utc)
+        request = ResearchRequest(
+            request_id="req-seq-001",
+            run_id="run-seq-7agents",
+            symbol="TCS",
+            as_of_time=now,
+            timeframe="1d",
+            scope=["quant", "microstructure", "news", "filings", "adversarial", "compliance"],
+        )
+
+        report = await manager.run_research(request, pattern=OrchestrationPattern.SEQUENTIAL)
+
+        assert isinstance(report, QuantitativeResearchReport)
+        assert report.symbol == "TCS"
+        assert "orchestration_pattern_SEQUENTIAL" in report.source_provenance
+
+        # Check qualitative evidence and limitations
+        assert len(report.qualitative_evidence) >= 3
+        assert len(report.limitations_and_uncertainties) >= 3
+
+    asyncio.run(_test())
+
+
+def test_parallel_pattern_with_seven_agents():
+    """Tests the PARALLEL orchestration pattern with concurrent collection and deterministic merge."""
+    async def _test():
+        crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
+        a2a_bridge = A2AClientBridge(
+            app=crewai_app, base_url="http://testserver", rpc_url="http://testserver/rpc"
+        )
+        mcp_client = get_mcp_client()
+        manager = ADKResearchManager(mcp_client=mcp_client, a2a_bridge=a2a_bridge)
+
+        now = datetime(2024, 11, 1, 11, 0, tzinfo=timezone.utc)
+        request = ResearchRequest(
+            request_id="req-par-001",
+            run_id="run-par-7agents",
+            symbol="INFY",
+            as_of_time=now,
+            timeframe="1d",
+            scope=["quant", "microstructure", "news", "filings", "adversarial", "compliance"],
+        )
+
+        report = await manager.run_research(request, pattern=OrchestrationPattern.PARALLEL)
+
+        assert isinstance(report, QuantitativeResearchReport)
+        assert report.symbol == "INFY"
+        assert "orchestration_pattern_PARALLEL" in report.source_provenance
+        assert report.statutory_risk_bounds["total_statutory_costs_inr"] > 0
+
+    asyncio.run(_test())
+
+
+def test_hierarchical_pattern_with_seven_agents():
+    """Tests the HIERARCHICAL orchestration pattern with supervisory task delegation."""
+    async def _test():
+        crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
+        a2a_bridge = A2AClientBridge(
+            app=crewai_app, base_url="http://testserver", rpc_url="http://testserver/rpc"
+        )
+        mcp_client = get_mcp_client()
+        manager = ADKResearchManager(mcp_client=mcp_client, a2a_bridge=a2a_bridge)
+
+        now = datetime(2024, 11, 1, 11, 0, tzinfo=timezone.utc)
+        request = ResearchRequest(
+            request_id="req-hie-001",
+            run_id="run-hie-7agents",
+            symbol="HDFCBANK",
+            as_of_time=now,
+            timeframe="1d",
+            scope=["quant", "microstructure", "news", "filings", "adversarial", "compliance"],
+        )
+
+        report = await manager.run_research(request, pattern=OrchestrationPattern.HIERARCHICAL)
+
+        assert isinstance(report, QuantitativeResearchReport)
+        assert report.symbol == "HDFCBANK"
+        assert "orchestration_pattern_HIERARCHICAL" in report.source_provenance
+        assert report.statutory_risk_bounds["total_statutory_costs_inr"] > 0
+
+    asyncio.run(_test())
+
+
+def test_honest_missing_data_behavior():
+    """Verifies that empty market data records never generate fabricated metrics."""
+    async def _test():
+        crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
+        a2a_bridge = A2AClientBridge(
+            app=crewai_app, base_url="http://testserver", rpc_url="http://testserver/rpc"
+        )
+        mcp_client = get_mcp_client()
+        manager = ADKResearchManager(mcp_client=mcp_client, a2a_bridge=a2a_bridge)
+
+        now = datetime(2024, 11, 1, 11, 0, tzinfo=timezone.utc)
+        request = ResearchRequest(
+            request_id="req-empty-001",
+            run_id="run-empty-check",
+            symbol="NONEXISTENT_ASSET",
+            as_of_time=now,
+            timeframe="1d",
+        )
+
+        report = await manager.run_research(request, pattern=OrchestrationPattern.SEQUENTIAL)
+
+        # Assert no numerical indicators fabricated
+        assert report.quantitative_findings["records_retrieved"] == 0
+        assert report.quantitative_findings["empty_result"] is True
+        metrics = report.quantitative_findings.get("calculated_metrics", {})
+        assert metrics.get("simple_returns") is None
+        assert metrics.get("realized_volatility_20d") is None
+        assert metrics.get("rsi_14d") is None
+
+        # Assert limitations explicitly report absence of data
+        assert any("no pre-recorded Parquet bars" in lim for lim in report.limitations_and_uncertainties)
+        assert any("External news feed unconfigured" in lim for lim in report.limitations_and_uncertainties)
+        assert any("Official filing disclosures unconfigured" in lim for lim in report.limitations_and_uncertainties)
 
     asyncio.run(_test())

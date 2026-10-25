@@ -19,9 +19,33 @@ class Blackboard:
         self.run_id = run_id
         self.request = request
         self.created_at = now_utc()
+        self.version: int = 0
+        self._audit_trail: list[dict[str, Any]] = []
         self._contributions: list[AgentContribution] = []
         self._tool_results: dict[str, Any] = {}
         self._metadata: dict[str, Any] = {}
+        self._record_change("INITIALIZE", {"run_id": run_id})
+
+    def _record_change(self, action: str, details: dict[str, Any]) -> None:
+        self.version += 1
+        self._audit_trail.append(
+            {
+                "version": self.version,
+                "action": action,
+                "timestamp": now_utc().isoformat(),
+                "details": details,
+            }
+        )
+
+    def get_version(self) -> int:
+        """Returns the current monotonic state version."""
+        with self._lock:
+            return self.version
+
+    def get_audit_trail(self) -> list[dict[str, Any]]:
+        """Returns the complete sequence of state modifications."""
+        with self._lock:
+            return list(self._audit_trail)
 
     def set_request(self, request: ResearchRequest) -> None:
         """Atomically sets or updates the active research request."""
@@ -29,16 +53,27 @@ class Blackboard:
             self.request = request
             if not self.run_id:
                 self.run_id = request.run_id
+            self._record_change("SET_REQUEST", {"request_id": request.request_id, "symbol": request.symbol})
 
     def add_contribution(self, contribution: AgentContribution) -> None:
         """Atomically appends a validated agent contribution."""
         with self._lock:
             self._contributions.append(contribution)
+            self._record_change(
+                "ADD_CONTRIBUTION",
+                {
+                    "agent_id": contribution.agent_id,
+                    "framework": contribution.framework,
+                    "task_name": contribution.task_name,
+                    "status": contribution.status,
+                },
+            )
 
     def add_tool_result(self, tool_name: str, result: Any) -> None:
         """Atomically stores raw or structured output from a tool call."""
         with self._lock:
             self._tool_results[tool_name] = result
+            self._record_change("ADD_TOOL_RESULT", {"tool_name": tool_name})
 
     def get_contributions(
         self, agent_id: str | None = None, framework: str | None = None
@@ -91,6 +126,7 @@ class Blackboard:
         """Sets an arbitrary execution metadata key."""
         with self._lock:
             self._metadata[key] = value
+            self._record_change("SET_METADATA", {"key": key})
 
     def get_metadata(self, key: str) -> Any | None:
         """Retrieves execution metadata."""
@@ -102,6 +138,8 @@ class Blackboard:
         with self._lock:
             return {
                 "run_id": self.run_id,
+                "version": self.version,
+                "audit_trail_count": len(self._audit_trail),
                 "request": self.request.model_dump(mode="json") if self.request else None,
                 "created_at": self.created_at.isoformat(),
                 "contributions_count": len(self._contributions),

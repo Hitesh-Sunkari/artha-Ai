@@ -37,3 +37,65 @@ def test_a2a_client_specialist_invocation():
         assert len(contribution.warnings) > 0
 
     asyncio.run(_test())
+
+
+def test_a2a_macro_specialist_invocation():
+    async def _test():
+        app = create_a2a_crewai_app("crewai_specialist_suite")
+        bridge = A2AClientBridge(app=app, base_url="http://testserver", rpc_url="http://testserver/rpc")
+
+        contribution = await bridge.invoke_specialist(
+            symbol="TCS",
+            run_id="run-test-a2a-macro",
+            task_name="macro_analysis",
+            instructions="Analyze interest rate sensitivity",
+        )
+
+        assert contribution.framework == "CREWAI"
+        assert contribution.status == "SUCCESS"
+        assert contribution.task_name == "news_macro_analysis"
+        assert contribution.findings.get("source_status") == "NOT_CONFIGURED"
+        assert "minimum_connector_required" in contribution.findings
+        assert any("External news feed unconfigured" in w for w in contribution.warnings)
+
+    asyncio.run(_test())
+
+
+def test_a2a_corporate_filing_specialist_invocation():
+    async def _test():
+        app = create_a2a_crewai_app("crewai_specialist_suite")
+        bridge = A2AClientBridge(app=app, base_url="http://testserver", rpc_url="http://testserver/rpc")
+
+        contribution = await bridge.invoke_specialist(
+            symbol="INFY",
+            run_id="run-test-a2a-filing",
+            task_name="filing_analysis",
+            instructions="Inspect quarterly disclosures",
+        )
+
+        assert contribution.framework == "CREWAI"
+        assert contribution.status == "SUCCESS"
+        assert contribution.task_name == "corporate_filing_analysis"
+        assert contribution.findings.get("source_status") == "NOT_CONFIGURED"
+        assert "minimum_connector_required" in contribution.findings
+        assert any("Official filing disclosures unconfigured" in w for w in contribution.warnings)
+
+    asyncio.run(_test())
+
+
+def test_a2a_communication_failure_handling():
+    async def _test():
+        # Point to invalid unroutable port
+        bridge = A2AClientBridge(app=None, base_url="http://127.0.0.1:59999", rpc_url="http://127.0.0.1:59999/rpc")
+        contribution = await bridge.invoke_specialist(
+            symbol="INFY",
+            run_id="run-test-a2a-fail",
+            task_name="macro_analysis",
+        )
+        assert contribution.framework == "CREWAI"
+        assert contribution.status == "FAILED"
+        assert "error" in contribution.findings
+        assert len(contribution.warnings) > 0
+
+    asyncio.run(_test())
+

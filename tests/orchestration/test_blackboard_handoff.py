@@ -96,3 +96,47 @@ def test_blackboard_thread_safety():
 
     assert len(errors) == 0
     assert len(bb.get_contributions()) == 100
+
+
+def test_blackboard_monotonic_versioning_and_audit():
+    bb = Blackboard(run_id="run-versioning-test")
+    assert bb.get_version() == 1  # Initialized
+
+    now = datetime.now(timezone.utc)
+    req = ResearchRequest(
+        request_id="req-v1",
+        run_id="run-versioning-test",
+        symbol="INFY",
+        as_of_time=now,
+    )
+    bb.set_request(req)
+    assert bb.get_version() == 2
+
+    c = AgentContribution(
+        agent_id="adk_quant_specialist",
+        framework="GOOGLE_ADK",
+        task_name="market_data_and_quant_features",
+        status="SUCCESS",
+        findings={"records_retrieved": 0},
+    )
+    bb.add_contribution(c)
+    assert bb.get_version() == 3
+
+    bb.add_tool_result("query_market_data", {"empty_result": True})
+    assert bb.get_version() == 4
+
+    bb.set_metadata("custom_key", "custom_val")
+    assert bb.get_version() == 5
+
+    audit = bb.get_audit_trail()
+    assert len(audit) == 5
+    assert audit[0]["action"] == "INITIALIZE"
+    assert audit[1]["action"] == "SET_REQUEST"
+    assert audit[2]["action"] == "ADD_CONTRIBUTION"
+    assert audit[3]["action"] == "ADD_TOOL_RESULT"
+    assert audit[4]["action"] == "SET_METADATA"
+
+    snapshot = bb.export_state()
+    assert snapshot["version"] == 5
+    assert snapshot["audit_trail_count"] == 5
+
