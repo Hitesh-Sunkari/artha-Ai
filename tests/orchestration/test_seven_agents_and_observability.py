@@ -28,6 +28,11 @@ from arthaai.schemas.research_output import ResearchRequest
 
 
 def test_adk_quant_specialist_contract():
+    """Verifies ADKQuantSpecialist contract: citations are populated IFF records > 0.
+
+    Evidence-integrity rule: zero historical observations => empty citations,
+    non-zero observations => at least one Parquet citation.
+    """
     async def _test():
         mcp_client = get_mcp_client()
         quant = ADKQuantSpecialist(mcp_client)
@@ -39,7 +44,17 @@ def test_adk_quant_specialist_contract():
         assert contrib.status == "SUCCESS"
         assert "records_retrieved" in contrib.findings
         assert "calculated_metrics" in contrib.findings
-        assert len(contrib.evidence_citations) > 0
+
+        # Evidence-integrity contract: citations exist IFF records were retrieved
+        records_retrieved = contrib.findings.get("records_retrieved", 0)
+        if records_retrieved > 0:
+            assert len(contrib.evidence_citations) > 0, (
+                f"Expected citations when {records_retrieved} records retrieved"
+            )
+        else:
+            assert contrib.evidence_citations == [], (
+                f"Expected empty citations when 0 records retrieved (honest missing-data handling)"
+            )
 
     asyncio.run(_test())
 

@@ -161,37 +161,30 @@ class CrewAISpecialistExecutor(AgentExecutor):
         self, symbol: str, run_id: str, context: dict[str, Any]
     ) -> AgentContribution:
         """Executes News & Macro Specialist analysis with honest unconfigured source handling."""
-        # Check if live news/macro feed is configured
         has_macro_feed = context.get("has_macro_feed", False)
         if not has_macro_feed:
             findings = {
                 "source_status": "NOT_CONFIGURED",
+                "finding_category": "UNAVAILABLE",
                 "message": (
                     f"No verified external news or macroeconomic wire configured for {symbol}. "
-                    "Unverified commentary omitted to prevent hallucination."
+                    "Real-time news analysis omitted to prevent hallucination."
                 ),
                 "minimum_connector_required": "rbi_monetary_policy_feed_v1, nse_corporate_announcements_wire",
-                "macro_baseline": {
-                    "policy_repo_rate": "6.50%",
-                    "monetary_stance": "Disinflationary / Withdrawal of Accommodation",
-                    "sovereign_benchmark_10y_yield": "6.95% - 7.10% baseline",
-                },
             }
-            citations = [
-                "RBI Monetary Policy Resolution (Baseline: 6.50%)",
-                "Ministry of Statistics and Programme Implementation (MOSPI) CPI Headline",
-            ]
+            citations: list[str] = []
             warnings = [
                 f"External news feed unconfigured for {symbol}; real-time news headlines omitted to prevent data fabrication."
             ]
         else:
             findings = {
                 "source_status": "CONFIGURED",
+                "finding_category": "SOURCE_REPORTED",
                 "symbol": symbol,
-                "macro_regime": "Neutral to cautious",
+                "macro_regime": context.get("macro_regime", "Neutral to cautious"),
                 "headline_summary": context.get("news_summary", "Baseline macro indicators steady."),
             }
-            citations = context.get("citations", ["NSE News Feed"])
+            citations = context.get("citations", [])
             warnings = []
 
         return AgentContribution(
@@ -213,27 +206,27 @@ class CrewAISpecialistExecutor(AgentExecutor):
         if not has_filings_feed:
             findings = {
                 "source_status": "NOT_CONFIGURED",
+                "finding_category": "UNAVAILABLE",
                 "message": (
                     f"No official corporate disclosure / MCA filings repository configured for {symbol}. "
-                    "Secondary commentary excluded to maintain regulatory audit integrity."
+                    "Corporate filings analysis omitted to maintain regulatory audit integrity."
                 ),
                 "minimum_connector_required": "sebi_regulation_30_feed, mca_corporate_filings_registry",
             }
-            citations = [
-                "SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015",
-            ]
+            citations: list[str] = []
             warnings = [
                 f"Official filing disclosures unconfigured for {symbol}; no filing claims fabricated."
             ]
         else:
             findings = {
                 "source_status": "CONFIGURED",
+                "finding_category": "SOURCE_REPORTED",
                 "symbol": symbol,
                 "latest_filing_type": context.get("filing_type", "Quarterly Financial Results"),
                 "filing_date": context.get("filing_date", "2024-10-15"),
                 "summary": context.get("filing_summary", "Statutory disclosures compliant."),
             }
-            citations = [f"BSE/NSE Filing Archive: {symbol}"]
+            citations = context.get("citations", [])
             warnings = []
 
         return AgentContribution(
@@ -254,38 +247,45 @@ class CrewAISpecialistExecutor(AgentExecutor):
         quant_records = context.get("records_retrieved", 0)
         empty_data = context.get("empty_result", True)
 
-        findings: dict[str, Any] = {
-            "thesis_critique": (
-                f"Adversarial analysis for {symbol}: Historical volume regimes indicate high concentration "
-                "risk during derivative expiry sessions. Liquidity drying outside top-3 order book levels "
-                "can induce slippage exceeding standard 5 bps models."
-            ),
-            "statutory_drag_impact": (
-                "Statutory transaction costs (STT + GST + Stamp Duty) require a minimum gross edge "
-                "of 3.5-5.0 bps per roundtrip in equity delivery and 1.8 bps in index derivatives to achieve net profitability."
-            ),
-            "regime_fragility": "High sensitivity to sudden implied volatility spikes and SEBI MWPL ban risk.",
-        }
-
-        warnings = [
-            f"Adversarial warning: Do not execute market orders during pre-open or first 15 minutes of regular session for {symbol}.",
-            "Liquidity gap warning: Wide bid-ask spreads expected during extreme volatility regimes.",
-        ]
-
         if empty_data or quant_records == 0:
-            findings["data_absence_challenge"] = (
-                f"Critical Challenge: 0 historical observations found for {symbol}. "
-                "Any technical momentum or mean-reversion conclusions are completely unsupported."
-            )
-            warnings.append(
-                f"Data absence mandate: Manager must explicitly report that no quantitative edge can be claimed for {symbol} without observations."
-            )
-
-        citations = [
-            f"NSE Microstructure Bulletin: {symbol} spread distribution",
-            "SEBI Circular SEBI/HO/MRD2/DCAP/P/CIR/2021/628",
-            "Master Circular on Surveillance Measures (ASM/ESM)",
-        ]
+            findings: dict[str, Any] = {
+                "finding_category": "HYPOTHESIS",
+                "thesis_critique": (
+                    f"Evidence Absence Challenge for {symbol}: 0 historical observations were retrieved from the market data engine. "
+                    "Any technical momentum, volatility regime, or directional edge claims are completely unsupported and rejected."
+                ),
+                "data_absence_challenge": (
+                    f"Critical Challenge: Zero historical observations for {symbol}. "
+                    "All quantitative indicators and execution parameters are classified as UNAVAILABLE."
+                ),
+                "statutory_friction_challenge": (
+                    "Statutory costs (STT, GST, Stamp Duty, Exchange/SEBI fees) will create a guaranteed negative return drag "
+                    "unless an empirical, verified quantitative alpha is demonstrated on verified data."
+                ),
+                "regime_fragility": "UNVERIFIED: Lack of historical market data and open interest prevents empirical regime classification.",
+            }
+            citations: list[str] = []
+            warnings = [
+                f"Data absence mandate: Zero historical observations retrieved for {symbol}; no quantitative edge can be claimed.",
+                f"Execution warning: Market orders must not be placed on unobserved asset {symbol}.",
+            ]
+        else:
+            findings = {
+                "finding_category": "INFERRED",
+                "thesis_critique": (
+                    f"Empirical Adversarial Analysis for {symbol}: Evaluated {quant_records} observations. "
+                    "Caution: Sample size requires volatility clustering and slippage testing before strategy deployment."
+                ),
+                "statutory_drag_impact": (
+                    "Statutory transaction costs (STT + GST + Stamp Duty) require a minimum gross edge "
+                    "of 3.5-5.0 bps per roundtrip in equity delivery to achieve net profitability."
+                ),
+                "regime_fragility": "Sample-based evaluation: Regime shift tests required across quarterly expiry cycles.",
+            }
+            citations = context.get("citations", [])
+            warnings = [
+                f"Adversarial warning: Verify execution friction and slippage models for {symbol}.",
+            ]
 
         return AgentContribution(
             agent_id="crewai_adversarial_specialist",

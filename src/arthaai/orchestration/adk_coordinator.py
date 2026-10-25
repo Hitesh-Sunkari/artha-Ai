@@ -101,6 +101,7 @@ class ADKQuantSpecialist:
             findings = {
                 "records_retrieved": 0,
                 "empty_result": True,
+                "finding_category": "UNAVAILABLE",
                 "data_source": market_data_res.get("source", "duckdb_parquet"),
                 "calculated_metrics": {
                     "simple_returns": None,
@@ -111,6 +112,7 @@ class ADKQuantSpecialist:
                 },
                 "data_quality_warning": f"Zero historical bars retrieved for {symbol}. No numerical indicators calculated.",
             }
+            citations: list[str] = []
             warnings = [
                 market_data_res.get("message", f"No historical records found for {symbol}."),
                 f"Historical store has no pre-recorded Parquet bars for {symbol} in selected window.",
@@ -129,6 +131,7 @@ class ADKQuantSpecialist:
             findings = {
                 "records_retrieved": len(close_prices),
                 "empty_result": False,
+                "finding_category": "MEASURED",
                 "data_source": market_data_res.get("source", "duckdb_parquet"),
                 "calculated_metrics": {
                     "latest_close": close_prices[-1] if close_prices else None,
@@ -139,6 +142,7 @@ class ADKQuantSpecialist:
                     "latest_rsi": rsi,
                 },
             }
+            citations = [f"parquet://data/ohlcv/{symbol.lower()}:{len(close_prices)}_bars"]
             warnings = []
 
         contribution = AgentContribution(
@@ -147,7 +151,7 @@ class ADKQuantSpecialist:
             task_name="market_data_and_quant_features",
             status="SUCCESS",
             findings=findings,
-            evidence_citations=[f"parquet://data/ohlcv/{symbol.lower()}"],
+            evidence_citations=citations,
             warnings=warnings,
             timestamp=now_utc(),
         )
@@ -183,6 +187,7 @@ class ADKMicrostructureSpecialist:
         # Explicit honest missing-data handling for Level 2/3 order book
         findings = {
             "microstructure_status": "UNAVAILABLE",
+            "finding_category": "UNAVAILABLE",
             "symbol": symbol,
             "message": (
                 f"Level 2/3 order book snapshots and tick-level order flow not populated for {symbol}. "
@@ -201,7 +206,7 @@ class ADKMicrostructureSpecialist:
             task_name="microstructure_analysis",
             status="SUCCESS",
             findings=findings,
-            evidence_citations=["NSE Market Depth Standards: SEBI Circular CIR/MRD/DP/10/2014"],
+            evidence_citations=[],
             warnings=warnings,
             timestamp=now_utc(),
         )

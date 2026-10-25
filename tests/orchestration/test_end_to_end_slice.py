@@ -68,8 +68,10 @@ def test_end_to_end_vertical_slice():
         assert report.statutory_risk_bounds["total_statutory_costs_inr"] > 0
         assert report.statutory_risk_bounds["effective_rate_pct"] > 0
 
-        assert len(report.qualitative_evidence) >= 2
-        assert any("NSE" in cite or "SEBI" in cite for cite in report.qualitative_evidence)
+        # Evidence-integrity: statutory citation is always present; Parquet citations only when data exists
+        assert len(report.qualitative_evidence) >= 1
+        # Statutory citation always contains Finance Act provenance reference
+        assert any("Finance Act" in cite or "Statutory Source" in cite for cite in report.qualitative_evidence)
 
         assert len(report.limitations_and_uncertainties) >= 2
         assert any("Live trading disabled" in lim for lim in report.limitations_and_uncertainties)
@@ -108,9 +110,10 @@ def test_sequential_pattern_with_seven_agents():
         assert report.symbol == "TCS"
         assert "orchestration_pattern_SEQUENTIAL" in report.source_provenance
 
-        # Check qualitative evidence and limitations
-        assert len(report.qualitative_evidence) >= 3
-        assert len(report.limitations_and_uncertainties) >= 3
+        # Evidence-integrity: with empty Parquet store, only statutory citation present
+        # Limitations must reflect missing data + live trading guardrail
+        assert len(report.qualitative_evidence) >= 1
+        assert len(report.limitations_and_uncertainties) >= 2
 
     asyncio.run(_test())
 

@@ -127,6 +127,11 @@ def calculate_statutory_costs(
         transaction_type: BUY or SELL
         as_of_date: Date for point-in-time tax rates (default is current date)
     """
+    supported_instruments = ("EQUITY_DELIVERY", "EQUITY_INTRADAY", "FUTURES", "OPTIONS")
+    if instrument_type not in supported_instruments:
+        raise ValueError(
+            f"Unsupported instrument_type '{instrument_type}'. Supported: {list(supported_instruments)}"
+        )
     if price <= 0:
         raise ValueError("Price must be strictly positive.")
     if quantity <= 0:

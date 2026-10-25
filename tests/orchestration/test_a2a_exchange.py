@@ -19,6 +19,7 @@ def test_a2a_crewai_service_app_routes():
 
 
 def test_a2a_client_specialist_invocation():
+    """Tests adversarial specialist invocation. Evidence-integrity: empty citations on zero data."""
     async def _test():
         app = create_a2a_crewai_app("crewai_adversarial_specialist")
         bridge = A2AClientBridge(app=app, base_url="http://testserver", rpc_url="http://testserver/rpc")
@@ -33,7 +34,8 @@ def test_a2a_client_specialist_invocation():
         assert contribution.status == "SUCCESS"
         assert contribution.task_name == "adversarial_critique"
         assert "RELIANCE" in contribution.findings.get("thesis_critique", "")
-        assert len(contribution.evidence_citations) > 0
+        # Evidence-integrity: on zero data, citations must be empty (not fabricated)
+        assert contribution.evidence_citations == []
         assert len(contribution.warnings) > 0
 
     asyncio.run(_test())
