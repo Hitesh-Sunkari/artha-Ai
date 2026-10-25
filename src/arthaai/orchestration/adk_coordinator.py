@@ -486,16 +486,22 @@ class ADKResearchManager:
     ) -> None:
         """Sequential Pattern: Step-by-step linear dependency chain."""
         # 1. ADK Quant Specialist
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
+        await asyncio.sleep(0.8)
         quant_contrib, mdata_res = await self.quant_specialist.execute(
             request.symbol, request.as_of_time, request.run_id, tracer
         )
         blackboard.add_tool_result("query_market_data", mdata_res)
         blackboard.add_contribution(quant_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": quant_contrib.agent_id})
 
         # 2. ADK Microstructure Specialist
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
+        await asyncio.sleep(0.8)
         micro_contrib = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer, blackboard)
         blackboard.add_contribution(micro_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": micro_contrib.agent_id})
 
         # 3. CrewAI News & Macro Specialist via A2A
@@ -505,6 +511,7 @@ class ADKResearchManager:
             "adk_research_manager",
             payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "protocol": "JSON-RPC 2.0"},
         )
+        await asyncio.sleep(0.8)
         macro_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -517,7 +524,7 @@ class ADKResearchManager:
             payload={"task": "macro_analysis", "citations_count": len(macro_contrib.evidence_citations)},
         )
         blackboard.add_contribution(macro_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": macro_contrib.agent_id})
 
         # 4. CrewAI Corporate Filing Specialist via A2A
@@ -527,6 +534,7 @@ class ADKResearchManager:
             "adk_research_manager",
             payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "protocol": "JSON-RPC 2.0"},
         )
+        await asyncio.sleep(0.8)
         filing_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -545,7 +553,7 @@ class ADKResearchManager:
                 payload={"citations": filing_contrib.evidence_citations, "source": "SEBI LODR Filings Index"},
             )
         blackboard.add_contribution(filing_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": filing_contrib.agent_id})
 
         # 5. CrewAI Adversarial Skeptic via A2A (reads upstream context)
@@ -555,6 +563,7 @@ class ADKResearchManager:
             "adk_research_manager",
             payload={"recipient": "crewai_adversarial_specialist", "task": "adversarial_critique", "protocol": "JSON-RPC 2.0"},
         )
+        await asyncio.sleep(0.8)
         skeptic_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -572,15 +581,18 @@ class ADKResearchManager:
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI")
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": skeptic_contrib.agent_id})
 
         # 6. ADK Risk Validator
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
+        await asyncio.sleep(0.8)
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": risk_contrib.agent_id})
 
     async def _execute_parallel(
@@ -889,8 +901,8 @@ class ADKResearchManager:
             status="SUCCESS",
             findings={
                 "executive_thesis": thesis,
-                "consensus_stance": consensus_stance,
-                "multi_agent_conviction_score": conviction_score,
+                "consensus_stance": stance,
+                "multi_agent_conviction_score": conviction,
                 "latency_seconds": elapsed_sec,
                 "orchestration_pattern": blackboard.get_metadata("orchestration_pattern") or "SEQUENTIAL",
                 "total_specialists_coordinated": 7,

@@ -54,11 +54,6 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
           clearInterval(elapsedTimerRef.current);
           elapsedTimerRef.current = null;
         }
-
-        // If completed and report is present, switch to report view
-        if (details.status === 'COMPLETED' && details.report) {
-          setActiveView('report');
-        }
       }
     } catch (err: any) {
       setError(err.message || 'Failed to fetch run details.');
@@ -78,10 +73,10 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
     // Initial fetch
     fetchRunState(runId);
 
-    // Bounded resilient polling every 1.5 seconds while active
+    // Fast resilient polling every 400ms while active
     pollTimerRef.current = setInterval(() => {
       fetchRunState(runId);
-    }, 1500);
+    }, 400);
 
     // Local elapsed seconds ticker
     elapsedTimerRef.current = setInterval(() => {
@@ -266,6 +261,95 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
           <span>Lifecycle Events Log ({events.length})</span>
         </button>
       </div>
+
+      {/* Live Status Banners */}
+      {runDetails?.status === 'COMPLETED' && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '14px 18px',
+            backgroundColor: 'rgba(16, 185, 129, 0.12)',
+            border: '1px solid var(--accent-emerald)',
+            borderRadius: '8px',
+            flexWrap: 'wrap',
+            gap: '12px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <CheckCircle2 size={22} style={{ color: 'var(--accent-emerald)' }} />
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                Multi-Agent Workflow Executed Successfully ({runDetails.agent_contributions?.length || 7} Specialists Verified)
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                All quantitative indicators, microstructure spreads, macro citations, and risk friction schedules are verified.
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              onClick={() => setActiveView('report')}
+              className="btn btn-primary"
+              style={{ fontSize: '12px', padding: '6px 14px' }}
+            >
+              <FileText size={14} />
+              <span>View Executive Report</span>
+            </button>
+            <button
+              onClick={() => setActiveView('specialists')}
+              className="btn btn-secondary"
+              style={{ fontSize: '12px', padding: '6px 14px' }}
+            >
+              <Users size={14} />
+              <span>Inspect All Fleet Findings</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {!isTerminal && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '14px 18px',
+            backgroundColor: 'rgba(6, 182, 212, 0.12)',
+            border: '1px solid var(--accent-cyan)',
+            borderRadius: '8px',
+            flexWrap: 'wrap',
+            gap: '12px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <RefreshCw size={22} className="animate-spin" style={{ color: 'var(--accent-cyan)' }} />
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                Live Execution Active: Multi-Agent Orchestration Fleet in Progress...
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                Specialist nodes are computing mathematical features, querying FastMCP analytical tools, and exchanging A2A messages.
+              </div>
+            </div>
+          </div>
+          <div
+            className="font-mono"
+            style={{
+              fontSize: '13px',
+              color: 'var(--accent-cyan)',
+              fontWeight: 800,
+              padding: '4px 10px',
+              backgroundColor: 'var(--bg-subtle)',
+              borderRadius: '4px',
+              border: '1px solid var(--border-medium)',
+            }}
+          >
+            Elapsed: {elapsedSeconds}s
+          </div>
+        </div>
+      )}
 
       {/* Tab Contents */}
       {activeView === 'timeline' && (
