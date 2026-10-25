@@ -265,7 +265,7 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
       )}
 
       {activeView === 'report' && runDetails?.report && (
-        <ReportView report={runDetails.report} />
+        <ReportView report={runDetails.report} events={events} />
       )}
 
       {activeView === 'events' && (

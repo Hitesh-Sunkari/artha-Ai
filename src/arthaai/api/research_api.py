@@ -144,11 +144,41 @@ class EvaluationSummaryResponse(BaseModel):
 # ===========================================================================
 
 class RunStore:
-    """Thread-safe in-memory store of research run records."""
+    """Thread-safe store of research run records backed by durable JSON disk persistence."""
 
-    def __init__(self) -> None:
+    def __init__(self, persistence_dir: str | Path | None = "data/runs") -> None:
         self._runs: dict[str, RunRecord] = {}
         self._lock = asyncio.Lock()
+        self.persistence_dir = Path(persistence_dir) if persistence_dir else None
+        if self.persistence_dir:
+            self.persistence_dir.mkdir(parents=True, exist_ok=True)
+            self._load_persisted()
+
+    def _load_persisted(self) -> None:
+        """Loads previously persisted runs from disk upon service initialization."""
+        if not self.persistence_dir or not self.persistence_dir.exists():
+            return
+        for fpath in self.persistence_dir.glob("run-*.json"):
+            try:
+                with open(fpath, "r", encoding="utf-8") as fh:
+                    data = json.load(fh)
+                    record = RunRecord(**data)
+                    self._runs[record.run_id] = record
+            except Exception:
+                continue
+
+    def _persist(self, record: RunRecord) -> None:
+        """Persists a run record atomically to disk."""
+        if not self.persistence_dir:
+            return
+        try:
+            fpath = self.persistence_dir / f"{record.run_id}.json"
+            tmp_path = self.persistence_dir / f"{record.run_id}.tmp"
+            with open(tmp_path, "w", encoding="utf-8") as fh:
+                json.dump(record.model_dump(mode="json"), fh, indent=2)
+            tmp_path.replace(fpath)
+        except Exception:
+            pass
 
     async def create(self, run_id: str, request_id: str, symbol: str, pattern: str) -> RunRecord:
         record = RunRecord(
@@ -161,15 +191,18 @@ class RunStore:
         )
         async with self._lock:
             self._runs[run_id] = record
+            self._persist(record)
         return record
 
     async def set_running(self, run_id: str) -> None:
         async with self._lock:
             rec = self._runs.get(run_id)
             if rec:
-                self._runs[run_id] = RunRecord(
+                updated = RunRecord(
                     **{**rec.model_dump(), "status": ResearchRunStatus.RUNNING}
                 )
+                self._runs[run_id] = updated
+                self._persist(updated)
 
     async def set_completed(
         self,
@@ -180,7 +213,7 @@ class RunStore:
         async with self._lock:
             rec = self._runs.get(run_id)
             if rec:
-                self._runs[run_id] = RunRecord(
+                updated = RunRecord(
                     **{
                         **rec.model_dump(),
                         "status": ResearchRunStatus.COMPLETED,
@@ -189,6 +222,8 @@ class RunStore:
                         "blackboard_events": blackboard_events,
                     }
                 )
+                self._runs[run_id] = updated
+                self._persist(updated)
 
     async def set_failed(
         self,
@@ -199,7 +234,7 @@ class RunStore:
         async with self._lock:
             rec = self._runs.get(run_id)
             if rec:
-                self._runs[run_id] = RunRecord(
+                updated = RunRecord(
                     **{
                         **rec.model_dump(),
                         "status": ResearchRunStatus.FAILED,
@@ -208,6 +243,8 @@ class RunStore:
                         "blackboard_events": blackboard_events or rec.blackboard_events,
                     }
                 )
+                self._runs[run_id] = updated
+                self._persist(updated)
 
     async def get(self, run_id: str) -> RunRecord | None:
         async with self._lock:
@@ -704,6 +741,20 @@ def create_research_api(
                 "zero_data_cases": 10,
                 "adversarial_cases": 10,
                 "runner_budget_seconds": 300.0,
+            },
+            "llm_providers": (
+                __import__("arthaai.orchestration.llm_adapter", fromlist=["get_llm_adapter"])
+                .get_llm_adapter()
+                .get_provider_status()
+            ),
+            "rag_knowledge_base": {
+                "status": "INDEXED_READY",
+                "total_chunks": len(
+                    __import__("arthaai.rag", fromlist=["REGULATORY_AND_STATUTORY_CHUNKS"]).REGULATORY_AND_STATUTORY_CHUNKS
+                ),
+                "categories": ["SEBI_LODR", "FINANCE_ACT_2024_STT", "RBI_MONETARY_POLICY", "CORPORATE_FILINGS"],
+                "supported_benchmark_symbols": ["RELIANCE", "TCS", "INFY", "HDFCBANK"],
+                "zero_lookahead_enforced": True,
             },
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }

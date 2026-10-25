@@ -12,14 +12,16 @@ import {
   Activity,
   Calendar,
 } from 'lucide-react';
-import type { QuantitativeResearchReport } from '../api/types';
+import type { LifecycleEvent, QuantitativeResearchReport } from '../api/types';
 import { StatCostBreakdown } from './StatCostBreakdown';
+import { FinancialCharts } from './FinancialCharts';
 
 interface ReportViewProps {
   report: QuantitativeResearchReport;
+  events?: LifecycleEvent[];
 }
 
-export const ReportView: React.FC<ReportViewProps> = ({ report }) => {
+export const ReportView: React.FC<ReportViewProps> = ({ report, events = [] }) => {
   const [copied, setCopied] = useState(false);
 
   const qf = report.quantitative_findings || {};
@@ -245,6 +247,14 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
           </div>
         )}
       </div>
+
+      {/* Usable Visualizations: Candlestick Price Charts, RSI & Agent Latency Breakdown */}
+      <FinancialCharts
+        symbol={report.symbol}
+        bars={qf.historical_bars || []}
+        metrics={metrics}
+        events={events}
+      />
 
       {/* Indian Statutory Friction & Transaction Bounds */}
       <StatCostBreakdown statutoryBounds={report.statutory_risk_bounds} />

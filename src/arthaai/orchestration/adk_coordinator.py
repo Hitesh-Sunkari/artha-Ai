@@ -128,11 +128,27 @@ class ADKQuantSpecialist:
             ema = calculate_ema(close_prices, span=min(20, max(1, len(close_prices))))
             rsi = calculate_rsi(close_prices, period=min(14, max(1, len(close_prices) - 1)))
 
+            # Sample bars for frontend charts (last 60 bars)
+            chart_bars = [
+                {
+                    "timestamp": str(r.get("timestamp", ""))[:19],
+                    "open": float(r["open"]),
+                    "high": float(r["high"]),
+                    "low": float(r["low"]),
+                    "close": float(r["close"]),
+                    "volume": int(r.get("volume", 0)),
+                }
+                for r in records[-60:]
+                if "open" in r and "close" in r
+            ]
+
             findings = {
                 "records_retrieved": len(close_prices),
                 "empty_result": False,
                 "finding_category": "MEASURED",
                 "data_source": market_data_res.get("source", "duckdb_parquet"),
+                "historical_bars": chart_bars,
+                "recent_returns": [round(ret, 5) for ret in returns[-30:]] if returns else [],
                 "calculated_metrics": {
                     "latest_close": close_prices[-1] if close_prices else None,
                     "sample_return_mean": (sum(returns) / len(returns)) if returns else None,
@@ -419,11 +435,21 @@ class ADKResearchManager:
 
         # 3. CrewAI News & Macro Specialist via A2A
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_SENT,
+            "adk_research_manager",
+            payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "protocol": "JSON-RPC 2.0"},
+        )
         macro_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
             task_name="macro_analysis",
             instructions=f"Analyze macroeconomic environment for {request.symbol}",
+        )
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_RECEIVED,
+            "crewai_news_macro_specialist",
+            payload={"task": "macro_analysis", "citations_count": len(macro_contrib.evidence_citations)},
         )
         blackboard.add_contribution(macro_contrib)
         tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
@@ -431,18 +457,39 @@ class ADKResearchManager:
 
         # 4. CrewAI Corporate Filing Specialist via A2A
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_SENT,
+            "adk_research_manager",
+            payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "protocol": "JSON-RPC 2.0"},
+        )
         filing_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
             task_name="filing_analysis",
             instructions=f"Inspect statutory filings for {request.symbol}",
         )
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_RECEIVED,
+            "crewai_corporate_filing_specialist",
+            payload={"task": "filing_analysis", "status": filing_contrib.status},
+        )
+        if filing_contrib.evidence_citations:
+            tracer.record_event(
+                LifecycleEventType.RAG_RETRIEVAL,
+                "crewai_corporate_filing_specialist",
+                payload={"citations": filing_contrib.evidence_citations, "source": "SEBI LODR Filings Index"},
+            )
         blackboard.add_contribution(filing_contrib)
         tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": filing_contrib.agent_id})
 
         # 5. CrewAI Adversarial Skeptic via A2A (reads upstream context)
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_adversarial_specialist", framework="CREWAI")
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_SENT,
+            "adk_research_manager",
+            payload={"recipient": "crewai_adversarial_specialist", "task": "adversarial_critique", "protocol": "JSON-RPC 2.0"},
+        )
         skeptic_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -452,6 +499,11 @@ class ADKResearchManager:
                 "records_retrieved": quant_contrib.findings.get("records_retrieved", 0),
                 "empty_result": quant_contrib.findings.get("empty_result", True),
             },
+        )
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_RECEIVED,
+            "crewai_adversarial_specialist",
+            payload={"task": "adversarial_critique", "challenges": len(skeptic_contrib.warnings)},
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
@@ -479,17 +531,43 @@ class ADKResearchManager:
 
         async def fetch_macro():
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_SENT,
+                "adk_research_manager",
+                payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "concurrency": "PARALLEL_BRANCH"},
+            )
             res = await self.a2a_bridge.invoke_specialist(
                 symbol=request.symbol, run_id=request.run_id, task_name="macro_analysis"
+            )
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_RECEIVED,
+                "crewai_news_macro_specialist",
+                payload={"task": "macro_analysis", "status": res.status},
             )
             tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
             return res
 
         async def fetch_filings():
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_SENT,
+                "adk_research_manager",
+                payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "concurrency": "PARALLEL_BRANCH"},
+            )
             res = await self.a2a_bridge.invoke_specialist(
                 symbol=request.symbol, run_id=request.run_id, task_name="filing_analysis"
             )
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_RECEIVED,
+                "crewai_corporate_filing_specialist",
+                payload={"task": "filing_analysis", "status": res.status},
+            )
+            if res.evidence_citations:
+                tracer.record_event(
+                    LifecycleEventType.RAG_RETRIEVAL,
+                    "crewai_corporate_filing_specialist",
+                    payload={"citations": res.evidence_citations, "source": "SEBI LODR Filings Index"},
+                )
             tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
             return res
 
@@ -522,11 +600,21 @@ class ADKResearchManager:
         count_flag = quant_latest.findings.get("records_retrieved", 0) if quant_latest else 0
 
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_adversarial_specialist", framework="CREWAI")
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_SENT,
+            "adk_research_manager",
+            payload={"recipient": "crewai_adversarial_specialist", "task": "adversarial_critique", "stage": "SUPERVISORY_AUDIT"},
+        )
         skeptic_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
             task_name="adversarial_critique",
             upstream_context={"records_retrieved": count_flag, "empty_result": empty_flag},
+        )
+        tracer.record_event(
+            LifecycleEventType.A2A_MESSAGE_RECEIVED,
+            "crewai_adversarial_specialist",
+            payload={"task": "adversarial_critique", "challenges": len(skeptic_contrib.warnings)},
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
@@ -556,15 +644,45 @@ class ADKResearchManager:
         # Delegation based on scope
         scope = set(s.lower() for s in request.scope)
         if "news" in scope or "macro" in scope or "quant" in scope:
+            tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_SENT,
+                "adk_research_manager",
+                payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "pattern": "HIERARCHICAL"},
+            )
             macro_contrib = await self.a2a_bridge.invoke_specialist(
                 symbol=request.symbol, run_id=request.run_id, task_name="macro_analysis"
             )
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_RECEIVED,
+                "crewai_news_macro_specialist",
+                payload={"task": "macro_analysis", "status": macro_contrib.status},
+            )
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
             blackboard.add_contribution(macro_contrib)
 
         if "filing" in scope or "filings" in scope or "compliance" in scope:
+            tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_SENT,
+                "adk_research_manager",
+                payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "pattern": "HIERARCHICAL"},
+            )
             filing_contrib = await self.a2a_bridge.invoke_specialist(
                 symbol=request.symbol, run_id=request.run_id, task_name="filing_analysis"
             )
+            tracer.record_event(
+                LifecycleEventType.A2A_MESSAGE_RECEIVED,
+                "crewai_corporate_filing_specialist",
+                payload={"task": "filing_analysis", "status": filing_contrib.status},
+            )
+            if filing_contrib.evidence_citations:
+                tracer.record_event(
+                    LifecycleEventType.RAG_RETRIEVAL,
+                    "crewai_corporate_filing_specialist",
+                    payload={"citations": filing_contrib.evidence_citations, "source": "SEBI LODR Filings Index"},
+                )
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
             blackboard.add_contribution(filing_contrib)
 
         # Manager inspects intermediate outputs and directs Skeptic

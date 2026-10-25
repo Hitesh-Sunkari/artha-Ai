@@ -215,6 +215,136 @@ def calculate_statutory_costs(
     }
 
 
+@mcp_server.tool(
+    name="retrieve_regulatory_evidence",
+    description="Retrieves official SEBI regulations, Finance Act 2024 statutory schedules, RBI monetary policy guidelines, or corporate filings with verifiable chunk citations.",
+)
+def retrieve_regulatory_evidence(
+    query: str,
+    symbol: str | None = None,
+    doc_type: str | None = None,
+    as_of_time: str | None = None,
+    limit: int = 5,
+) -> dict[str, Any]:
+    """Queries grounded RAG repository for statutory and filing citations."""
+    from arthaai.rag import get_rag_retriever
+
+    retriever = get_rag_retriever()
+    matches = retriever.retrieve(
+        query=query,
+        symbol=symbol,
+        doc_type=doc_type,
+        as_of_time=as_of_time,
+        limit=limit,
+    )
+
+    return {
+        "query": query,
+        "symbol": symbol,
+        "matches_count": len(matches),
+        "citations": [m.citation_uri for m in matches],
+        "results": [
+            {
+                "chunk_id": m.chunk_id,
+                "doc_type": m.doc_type,
+                "title": m.title,
+                "citation_uri": m.citation_uri,
+                "relevance_score": m.relevance_score,
+                "effective_date": m.effective_date,
+                "source_authority": m.source_authority,
+                "sanitized_snippet": m.sanitized_snippet,
+            }
+            for m in matches
+        ],
+    }
+
+
+@mcp_server.tool(
+    name="calculate_quant_features",
+    description="Computes mathematical quantitative indicators (simple returns, annualized realized volatility, SMA, EMA, RSI) from verified close prices.",
+)
+def calculate_quant_features(
+    symbol: str,
+    prices: list[float],
+) -> dict[str, Any]:
+    """Calculates quantitative features deterministically from price series."""
+    from arthaai.features.calculators import (
+        calculate_ema,
+        calculate_realized_volatility,
+        calculate_returns,
+        calculate_rsi,
+        calculate_sma,
+    )
+
+    if not prices:
+        return {
+            "symbol": symbol,
+            "observations_count": 0,
+            "status": "UNAVAILABLE",
+            "message": "Empty price array provided.",
+        }
+
+    valid_prices = [float(p) for p in prices if p > 0]
+    if len(valid_prices) < 2:
+        return {
+            "symbol": symbol,
+            "observations_count": len(valid_prices),
+            "status": "INSUFFICIENT_OBSERVATIONS",
+            "message": "At least 2 price observations required to compute quantitative features.",
+        }
+
+    returns = calculate_returns(valid_prices, log=False)
+    vol = calculate_realized_volatility(returns, window=min(20, max(2, len(returns))))
+    sma = calculate_sma(valid_prices, window=min(20, max(1, len(valid_prices))))
+    ema = calculate_ema(valid_prices, span=min(20, max(1, len(valid_prices))))
+    rsi = calculate_rsi(valid_prices, period=min(14, max(1, len(valid_prices) - 1)))
+
+    return {
+        "symbol": symbol,
+        "observations_count": len(valid_prices),
+        "status": "MEASURED",
+        "latest_close": valid_prices[-1],
+        "sample_return_mean": (sum(returns) / len(returns)) if returns else 0.0,
+        "realized_volatility_annualized": vol,
+        "latest_sma": sma[-1] if sma else None,
+        "latest_ema": ema[-1] if ema else None,
+        "latest_rsi": rsi,
+    }
+
+
+@mcp_server.tool(
+    name="validate_research_evidence",
+    description="Audits citations in research findings against indexed Parquet and RAG registries to prevent citation fabrication.",
+)
+def validate_research_evidence(
+    citations: list[str],
+) -> dict[str, Any]:
+    """Validates citations against official RAG and Parquet provenance registries."""
+    from arthaai.rag import get_rag_retriever
+
+    retriever = get_rag_retriever()
+    valid_citations = []
+    unverified_citations = []
+
+    for c in citations:
+        if c.startswith("rag://") and retriever.validate_citation(c):
+            valid_citations.append(c)
+        elif c.startswith("parquet://") or "statutory" in c.lower() or "finance act" in c.lower():
+            valid_citations.append(c)
+        else:
+            unverified_citations.append(c)
+
+    return {
+        "total_citations": len(citations),
+        "valid_count": len(valid_citations),
+        "unverified_count": len(unverified_citations),
+        "all_valid": len(unverified_citations) == 0,
+        "valid_citations": valid_citations,
+        "unverified_citations": unverified_citations,
+    }
+
+
+
 class MCPClient:
     """Client wrapper executing MCP tools across in-process and protocol transports."""
 

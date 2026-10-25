@@ -90,6 +90,42 @@ class DataConfig(BaseSettings):
             d.mkdir(parents=True, exist_ok=True)
 
 
+class LLMConfig(BaseSettings):
+    """Centralized LLM model provider and cost control configuration."""
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
+    gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
+    google_api_key: str | None = Field(default=None, alias="GOOGLE_API_KEY")
+
+    default_provider: str = "openai"
+    openai_model: str = "gpt-4o-mini"
+    gemini_model: str = "gemini-1.5-flash"
+
+    timeout_seconds: float = 30.0
+    max_retries: int = 2
+    max_concurrent_requests: int = 5
+    max_calls_per_run: int = 10
+    max_budget_per_run_usd: float = 0.10
+
+    @property
+    def effective_gemini_key(self) -> str | None:
+        return self.gemini_api_key or self.google_api_key
+
+    @property
+    def has_openai(self) -> bool:
+        return bool(self.openai_api_key and self.openai_api_key.strip())
+
+    @property
+    def has_gemini(self) -> bool:
+        return bool(self.effective_gemini_key and self.effective_gemini_key.strip())
+
+
 class AppConfig(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="ARTHAAI_",
@@ -107,6 +143,7 @@ class AppConfig(BaseSettings):
     redis: RedisConfig = Field(default_factory=RedisConfig)
     risk: RiskConfig = Field(default_factory=RiskConfig)
     data: DataConfig = Field(default_factory=DataConfig)
+    llm: LLMConfig = Field(default_factory=LLMConfig)
 
     @model_validator(mode="after")
     def guard_live_trading(self) -> "AppConfig":

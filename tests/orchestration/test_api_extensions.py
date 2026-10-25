@@ -10,7 +10,7 @@ from arthaai.api.research_api import create_research_api, RunStore
 
 @pytest.fixture
 def client():
-    store = RunStore()
+    store = RunStore(persistence_dir=None)
     app = create_research_api(run_store=store)
     return TestClient(app)
 

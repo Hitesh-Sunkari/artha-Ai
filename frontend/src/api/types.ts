@@ -255,13 +255,39 @@ export interface SystemStatusResponse {
     storage: string;
     lookahead_bias_guard: string;
   };
-  evaluation_engine: {
+    evaluation_engine: {
     dataset_version: string;
     total_cases: number;
     statutory_cases: number;
     zero_data_cases: number;
     adversarial_cases: number;
     runner_budget_seconds: number;
+  };
+  llm_providers?: {
+    default_provider: string;
+    openai: {
+      configured: boolean;
+      model: string;
+      status: string;
+    };
+    gemini: {
+      configured: boolean;
+      model: string;
+      status: string;
+    };
+    guardrails: {
+      max_calls_per_run: number;
+      max_budget_per_run_usd: number;
+      timeout_seconds: number;
+      max_retries: number;
+    };
+  };
+  rag_knowledge_base?: {
+    status: string;
+    total_chunks: number;
+    categories: string[];
+    supported_benchmark_symbols: string[];
+    zero_lookahead_enforced: boolean;
   };
   timestamp: string;
 }

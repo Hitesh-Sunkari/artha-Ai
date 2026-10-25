@@ -268,6 +268,122 @@ export const SystemStatusPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Model Providers & LLM Guardrails */}
+      <div className="terminal-card">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+          <Cpu size={16} style={{ color: 'var(--accent-indigo)' }} />
+          <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            Model Providers & Cost Control Guardrails
+          </h3>
+        </div>
+
+        <div className="grid-cols-2" style={{ gap: '14px' }}>
+          {/* OpenAI */}
+          <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 700 }}>OpenAI Adapter</span>
+              <span
+                className={`status-pill ${
+                  status?.llm_providers?.openai?.status === 'CONFIGURED'
+                    ? 'status-completed'
+                    : status?.llm_providers?.openai?.status === 'QUOTA_EXHAUSTED'
+                    ? 'status-pending'
+                    : 'status-failed'
+                }`}
+              >
+                {status?.llm_providers?.openai?.status || 'Configured'}
+              </span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+              Model: <span className="font-mono" style={{ color: 'var(--text-primary)' }}>{status?.llm_providers?.openai?.model || 'gpt-4o-mini'}</span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+              Role: CrewAI Adversarial Skeptic & Qualitative Synthesis
+            </div>
+          </div>
+
+          {/* Google Gemini */}
+          <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 700 }}>Google Gemini Adapter</span>
+              <span
+                className={`status-pill ${
+                  status?.llm_providers?.gemini?.configured
+                    ? 'status-completed'
+                    : 'status-pending'
+                }`}
+              >
+                {status?.llm_providers?.gemini?.configured ? 'Configured' : 'Not Configured'}
+              </span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+              Model: <span className="font-mono" style={{ color: 'var(--text-primary)' }}>{status?.llm_providers?.gemini?.model || 'gemini-1.5-flash'}</span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+              Role: Google ADK Supervisory Planning & Risk Verification
+            </div>
+          </div>
+        </div>
+
+        {/* Cost Controls Schedule */}
+        <div
+          style={{
+            marginTop: '12px',
+            padding: '10px 14px',
+            backgroundColor: 'rgba(99, 102, 241, 0.08)',
+            border: '1px solid rgba(99, 102, 241, 0.25)',
+            borderRadius: '6px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontSize: '11px',
+            fontFamily: 'var(--font-mono)',
+          }}
+        >
+          <span style={{ color: 'var(--text-secondary)' }}>
+            Max Calls/Run: <strong style={{ color: 'var(--accent-cyan)' }}>{status?.llm_providers?.guardrails?.max_calls_per_run || 10}</strong>
+          </span>
+          <span style={{ color: 'var(--text-secondary)' }}>
+            Budget/Run: <strong style={{ color: 'var(--accent-emerald)' }}>${(status?.llm_providers?.guardrails?.max_budget_per_run_usd || 0.1).toFixed(2)} USD</strong>
+          </span>
+          <span style={{ color: 'var(--text-secondary)' }}>
+            Timeout: <strong style={{ color: 'var(--text-primary)' }}>{status?.llm_providers?.guardrails?.timeout_seconds || 30}s</strong>
+          </span>
+          <span style={{ color: 'var(--text-secondary)' }}>
+            Max Retries: <strong style={{ color: 'var(--text-primary)' }}>{status?.llm_providers?.guardrails?.max_retries || 2}</strong>
+          </span>
+        </div>
+      </div>
+
+      {/* Grounded RAG Knowledge Base */}
+      <div className="terminal-card">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+          <Database size={16} style={{ color: 'var(--accent-cyan)' }} />
+          <h3 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            Regulatory & Statutory RAG Knowledge Base
+          </h3>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px' }}>
+            <span style={{ color: 'var(--text-secondary)' }}>SEBI (LODR) Regulations (2015)</span>
+            <span className="font-mono" style={{ color: 'var(--accent-emerald)' }}>Regulations 30 & 33 Indexed</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px' }}>
+            <span style={{ color: 'var(--text-secondary)' }}>Finance (No. 2) Act 2024</span>
+            <span className="font-mono" style={{ color: 'var(--accent-emerald)' }}>STT Revised Rates (Effective Oct 1, 2024)</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px' }}>
+            <span style={{ color: 'var(--text-secondary)' }}>RBI Monetary Policy Guidelines</span>
+            <span className="font-mono" style={{ color: 'var(--accent-emerald)' }}>Repo Rate Corridor & LAF Window</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px' }}>
+            <span style={{ color: 'var(--text-secondary)' }}>Benchmark Corporate Filings</span>
+            <span className="font-mono" style={{ color: 'var(--accent-cyan)' }}>RELIANCE, TCS, INFY, HDFCBANK (Q2 FY25)</span>
+          </div>
+        </div>
+      </div>
+
       {/* Security Disclaimer */}
       <div
         style={{
