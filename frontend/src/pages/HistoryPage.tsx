@@ -70,7 +70,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
         </button>
       </div>
 
-      {/* Memory Retention Notice */}
+      {/* Storage Retention Notice */}
       <div
         style={{
           display: 'flex',
@@ -86,7 +86,9 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
       >
         <Info size={16} style={{ color: 'var(--accent-cyan)', flexShrink: 0 }} />
         <span>
-          <strong>Storage Retention Notice:</strong> Research run records and lifecycle traces are stored in thread-safe active backend memory (<span className="font-mono">RunStore</span>). Evaluation reports are persisted to <span className="font-mono">evaluation_results/</span>.
+          <strong>Storage Retention Notice:</strong> Research run records and lifecycle traces are persisted atomically to
+          {' '}<span className="font-mono">data/runs/</span> on disk and survive server restarts. Evaluation reports are stored in{' '}
+          <span className="font-mono">evaluation_results/</span>. Browser refreshes restore recorded state.
         </span>
       </div>
 

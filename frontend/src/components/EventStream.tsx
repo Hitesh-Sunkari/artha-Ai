@@ -12,6 +12,9 @@ import {
   X,
   Copy,
   Check,
+  Send,
+  Download,
+  BookOpen,
 } from 'lucide-react';
 import type { LifecycleEvent } from '../api/types';
 
@@ -50,6 +53,12 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
         return <AlertTriangle size={13} style={{ color: 'var(--accent-amber)' }} />;
       case 'RISK_VALIDATION':
         return <Shield size={13} style={{ color: 'var(--accent-emerald)' }} />;
+      case 'A2A_MESSAGE_SENT':
+        return <Send size={13} style={{ color: '#f472b6' }} />;
+      case 'A2A_MESSAGE_RECEIVED':
+        return <Download size={13} style={{ color: '#f472b6' }} />;
+      case 'RAG_RETRIEVAL':
+        return <BookOpen size={13} style={{ color: 'var(--accent-amber)' }} />;
       default:
         return <Code size={13} style={{ color: 'var(--text-muted)' }} />;
     }
@@ -103,6 +112,9 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
             <option value="BLACKBOARD_WRITE">BLACKBOARD_WRITE</option>
             <option value="SKEPTIC_CHALLENGE">SKEPTIC_CHALLENGE</option>
             <option value="RISK_VALIDATION">RISK_VALIDATION</option>
+            <option value="A2A_MESSAGE_SENT">A2A_MESSAGE_SENT</option>
+            <option value="A2A_MESSAGE_RECEIVED">A2A_MESSAGE_RECEIVED</option>
+            <option value="RAG_RETRIEVAL">RAG_RETRIEVAL</option>
           </select>
         </div>
       </div>

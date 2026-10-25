@@ -17,6 +17,10 @@ export type LifecycleEventType =
   | 'BLACKBOARD_WRITE'
   | 'SKEPTIC_CHALLENGE'
   | 'RISK_VALIDATION'
+  | 'A2A_MESSAGE_SENT'
+  | 'A2A_MESSAGE_RECEIVED'
+  | 'RAG_RETRIEVAL'
+  | 'LLM_INVOCATION'
   | 'ERROR';
 
 export interface LifecycleEvent {
@@ -160,7 +164,7 @@ export interface EvaluationSummaryResponse {
   schema_valid_pct: number;
   orchestration_pattern_counts: Record<string, number>;
   symbols_analyzed: string[];
-  timestamp: string;
+  timestamp?: string; // Optional: computed on demand from backend
 }
 
 export interface EvaluationCase {

@@ -14,7 +14,7 @@ import {
   PlusCircle,
 } from 'lucide-react';
 import { api } from '../api/client';
-import type { EvaluationSummaryResponse, ReadinessResponse, RunListItem } from '../api/types';
+import type { EvaluationSummaryResponse, ReadinessResponse, RunListItem, SystemStatusResponse } from '../api/types';
 import { MetricCard } from '../components/MetricCard';
 import { StatusBadge } from '../components/StatusBadge';
 
@@ -26,6 +26,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
   const [runs, setRuns] = useState<RunListItem[]>([]);
   const [evalSummary, setEvalSummary] = useState<EvaluationSummaryResponse | null>(null);
   const [readiness, setReadiness] = useState<ReadinessResponse | null>(null);
+  const [sysStatus, setSysStatus] = useState<SystemStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,10 +34,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     setLoading(true);
     setError(null);
     try {
-      const [runsData, evalData, readyData] = await Promise.allSettled([
+      const [runsData, evalData, readyData, statusData] = await Promise.allSettled([
         api.listRuns(),
         api.getEvaluationSummary(),
         api.getReadiness(),
+        api.getSystemStatus(),
       ]);
 
       if (runsData.status === 'fulfilled') {
@@ -47,6 +49,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
       }
       if (readyData.status === 'fulfilled') {
         setReadiness(readyData.value);
+      }
+      if (statusData.status === 'fulfilled') {
+        setSysStatus(statusData.value);
       }
     } catch (err: any) {
       setError(err.message || 'Failed to load dashboard metrics');
@@ -166,10 +171,15 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
           <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
               <span style={{ fontSize: '12px', fontWeight: 700, color: '#818cf8' }}>Google ADK Coordinator</span>
-              <span className="status-pill status-completed" style={{ fontSize: '10px' }}>Active</span>
+              <span
+                className={`status-pill ${readiness ? 'status-completed' : 'status-pending'}`}
+                style={{ fontSize: '10px' }}
+              >
+                {readiness ? 'Active' : 'Checking...'}
+              </span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              4 in-process specialists (Manager, Quant, Microstructure, Risk Validator)
+              {sysStatus?.adk_orchestration?.specialists?.length ?? 4} in-process specialists (Manager, Quant, Microstructure, Risk Validator)
             </div>
           </div>
 
@@ -181,7 +191,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               </span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              3 A2A-dispatched specialists (News/Macro, Filings, Adversarial Skeptic)
+              {sysStatus?.crewai_specialists?.specialists?.length ?? 3} A2A-dispatched specialists (News/Macro, Filings, Adversarial Skeptic)
             </div>
           </div>
 
@@ -193,7 +203,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
               </span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              2 registered tools (<span className="font-mono">query_market_data, calculate_statutory_costs</span>)
+              {sysStatus?.fastmcp_server?.discovered_tools?.length ?? '?'} registered tools
+              {sysStatus?.fastmcp_server?.discovered_tools?.length ? (
+                <span className="font-mono"> ({sysStatus.fastmcp_server.discovered_tools.slice(0, 2).join(', ')}
+                  {sysStatus.fastmcp_server.discovered_tools.length > 2 ? ` +${sysStatus.fastmcp_server.discovered_tools.length - 2} more` : ''})
+                </span>
+              ) : ''}
             </div>
           </div>
         </div>
