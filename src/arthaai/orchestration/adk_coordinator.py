@@ -346,6 +346,24 @@ class ADKResearchManager:
         self.microstructure_specialist = ADKMicrostructureSpecialist()
         self.risk_validator = ADKRiskValidator(self.mcp_client)
 
+        # Active run tracking
+        self._tracers: dict[str, ExecutionTracer] = {}
+        self._blackboards: dict[str, Blackboard] = {}
+
+    def get_run_events(self, run_id: str) -> list[dict[str, Any]]:
+        """Returns all recorded lifecycle events for a run ID."""
+        tracer = self._tracers.get(run_id)
+        if tracer:
+            return [e.model_dump(mode="json") for e in tracer.get_events()]
+        bb = self._blackboards.get(run_id)
+        if bb:
+            return bb.get_metadata("lifecycle_events") or []
+        return []
+
+    def get_run_blackboard(self, run_id: str) -> Blackboard | None:
+        """Returns the Blackboard instance for a run ID."""
+        return self._blackboards.get(run_id)
+
     async def run_research(
         self,
         request: ResearchRequest,
@@ -361,6 +379,8 @@ class ADKResearchManager:
         blackboard.set_metadata("start_time", now_utc().isoformat())
 
         tracer = ExecutionTracer(run_id=request.run_id, pattern=pattern.value)
+        self._tracers[request.run_id] = tracer
+        self._blackboards[request.run_id] = blackboard
         tracer.record_event(LifecycleEventType.AGENT_START, "adk_research_manager")
 
         # Dispatch based on pattern

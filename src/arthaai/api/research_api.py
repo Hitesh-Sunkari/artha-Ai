@@ -19,13 +19,17 @@ Design:
 from __future__ import annotations
 
 import asyncio
+import json
+import os
 import time
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
 
 from arthaai.core.config import AppConfig
@@ -186,7 +190,12 @@ class RunStore:
                     }
                 )
 
-    async def set_failed(self, run_id: str, error: str) -> None:
+    async def set_failed(
+        self,
+        run_id: str,
+        error: str,
+        blackboard_events: list[dict[str, Any]] | None = None,
+    ) -> None:
         async with self._lock:
             rec = self._runs.get(run_id)
             if rec:
@@ -196,6 +205,7 @@ class RunStore:
                         "status": ResearchRunStatus.FAILED,
                         "completed_at": datetime.now(timezone.utc),
                         "error": error,
+                        "blackboard_events": blackboard_events or rec.blackboard_events,
                     }
                 )
 
@@ -229,6 +239,14 @@ def create_research_api(
             "Multi-agent research pipeline using Google ADK, CrewAI, FastMCP, and A2A protocol."
         ),
         version="1.0.0",
+    )
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     _store = run_store or RunStore()
@@ -348,6 +366,7 @@ def create_research_api(
         # Execute research in background
         async def _execute() -> None:
             await _store.set_running(run_id)
+            mgr = None
             try:
                 mgr = await _get_manager()
                 request = ResearchRequest(
@@ -359,13 +378,11 @@ def create_research_api(
                     scope=body.scope,
                 )
                 report = await mgr.run_research(request, pattern)
-                # Extract blackboard events from report source_provenance metadata
-                # (tracer events are embedded during run_research)
-                blackboard_events: list[dict[str, Any]] = []
-                bb = Blackboard(run_id=run_id, request=request)
-                await _store.set_completed(run_id, report, blackboard_events)
+                events = mgr.get_run_events(run_id) if hasattr(mgr, "get_run_events") else []
+                await _store.set_completed(run_id, report, events)
             except Exception as exc:
-                await _store.set_failed(run_id, f"{type(exc).__name__}: {exc}")
+                events = mgr.get_run_events(run_id) if (mgr and hasattr(mgr, "get_run_events")) else []
+                await _store.set_failed(run_id, f"{type(exc).__name__}: {exc}", events)
 
         background_tasks.add_task(_execute)
 
@@ -424,17 +441,51 @@ def create_research_api(
         tags=["observability"],
     )
     async def get_run_trace(run_id: str) -> dict[str, Any]:
-        """Returns the lifecycle event trace for a completed research run."""
+        """Returns the lifecycle event trace for a completed or active research run."""
         record = await _store.get(run_id)
         if record is None:
             raise HTTPException(status_code=404, detail=f"Run '{run_id}' not found.")
 
+        events = list(record.blackboard_events)
+        if not events and _manager and hasattr(_manager, "get_run_events"):
+            events = _manager.get_run_events(run_id)
+
         return {
             "run_id": run_id,
             "status": record.status.value,
-            "events": record.blackboard_events,
-            "events_count": len(record.blackboard_events),
+            "events": events,
+            "events_count": len(events),
         }
+
+    # -------------------------------------------------------------------------
+    # GET /runs
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/runs",
+        summary="List all research runs",
+        tags=["research"],
+    )
+    async def list_runs() -> list[dict[str, Any]]:
+        """Returns all research runs recorded in memory, sorted descending by submission time."""
+        records = await _store.all_records()
+        sorted_records = sorted(records, key=lambda r: r.submitted_at, reverse=True)
+        return [
+            {
+                "run_id": r.run_id,
+                "request_id": r.request_id,
+                "symbol": r.symbol,
+                "orchestration_pattern": r.orchestration_pattern,
+                "status": r.status.value,
+                "submitted_at": r.submitted_at.isoformat(),
+                "completed_at": r.completed_at.isoformat() if r.completed_at else None,
+                "latency_seconds": round((r.completed_at - r.submitted_at).total_seconds(), 3) if r.completed_at else None,
+                "has_report": r.report is not None,
+                "events_count": len(r.blackboard_events),
+                "error": r.error,
+            }
+            for r in sorted_records
+        ]
 
     # -------------------------------------------------------------------------
     # GET /evaluation/summary
@@ -495,6 +546,187 @@ def create_research_api(
             orchestration_pattern_counts=pattern_counts,
             symbols_analyzed=symbols,
         )
+
+    # -------------------------------------------------------------------------
+    # GET /evaluation/dataset
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/evaluation/dataset",
+        summary="Get evaluation dataset metadata and test cases",
+        tags=["evaluation"],
+    )
+    async def get_evaluation_dataset() -> dict[str, Any]:
+        """Returns the versioned evaluation dataset summary, category distribution, and sample cases."""
+        from arthaai.evaluation.dataset import ALL_CASES, get_dataset_summary
+        summary = get_dataset_summary()
+        case_items = [
+            {
+                "case_id": c.case_id,
+                "category": c.category.value,
+                "symbol": c.symbol,
+                "orchestration_pattern": c.orchestration_pattern,
+                "expected_outcome": c.expected_outcome.value,
+                "description": c.description,
+                "assertion_tags": c.assertion_tags,
+            }
+            for c in ALL_CASES
+        ]
+        return {
+            "dataset_version": "1.0.0",
+            "total_cases": len(ALL_CASES),
+            "summary": summary,
+            "cases": case_items,
+        }
+
+    # -------------------------------------------------------------------------
+    # GET /evaluation/experiments
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/evaluation/experiments",
+        summary="List persisted evaluation experiment reports",
+        tags=["evaluation"],
+    )
+    async def list_evaluation_experiments() -> list[dict[str, Any]]:
+        """Returns all persisted experiment reports from evaluation_results/ directory."""
+        results_dir = Path("evaluation_results")
+        experiments = []
+        if results_dir.exists():
+            for fpath in sorted(results_dir.glob("experiment_*.json"), reverse=True):
+                try:
+                    with open(fpath, "r", encoding="utf-8") as fh:
+                        experiments.append(json.load(fh))
+                except Exception:
+                    continue
+        return experiments
+
+    # -------------------------------------------------------------------------
+    # POST /evaluation/run
+    # -------------------------------------------------------------------------
+
+    @app.post(
+        "/evaluation/run",
+        summary="Execute deterministic evaluation suite",
+        tags=["evaluation"],
+    )
+    async def execute_evaluation_suite(
+        max_cases: int = 12,
+    ) -> dict[str, Any]:
+        """Executes statutory and deterministic verification cases safely without external LLM costs."""
+        from arthaai.evaluation.runner import ExperimentRunner, RunnerConfig
+        config = RunnerConfig(
+            categories=["STATUTORY_COST"],
+            max_cases=max(1, min(max_cases, 20)),
+            budget_seconds=45.0,
+            persist_results=True,
+        )
+        runner = ExperimentRunner(config)
+        report = await runner.run_all()
+        return report.model_dump(mode="json")
+
+    # -------------------------------------------------------------------------
+    # GET /system/status
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/system/status",
+        summary="Comprehensive system diagnostics and architecture status",
+        tags=["observability"],
+    )
+    async def get_system_status() -> dict[str, Any]:
+        """Detailed status of all internal subsystems, guardrails, and registered tools."""
+        config = AppConfig()
+        mcp_tools: list[str] = []
+        mcp_healthy = False
+        try:
+            mcp_client = get_mcp_client()
+            mcp_tools = await mcp_client.list_tools()
+            mcp_healthy = len(mcp_tools) >= 2
+        except Exception:
+            mcp_healthy = False
+
+        a2a_healthy = False
+        a2a_routes: list[str] = []
+        try:
+            crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
+            a2a_routes = [r.path for r in crewai_app.routes]
+            a2a_healthy = "/rpc" in a2a_routes and "/.well-known/agent-card.json" in a2a_routes
+        except Exception:
+            a2a_healthy = False
+
+        return {
+            "api_version": "1.0.0",
+            "environment": config.environment,
+            "live_trading_guardrail": {
+                "live_trading_enabled": config.live_trading_enabled,
+                "status": "ENFORCED_BLOCKED" if not config.live_trading_enabled else "VIOLATION",
+                "policy": "Deterministic prohibition of order placement",
+            },
+            "adk_orchestration": {
+                "coordinator": "ADKResearchManager",
+                "framework": "Google ADK",
+                "specialists": [
+                    {"name": "Research Manager", "framework": "Google ADK", "id": "adk_research_manager", "role": "Supervisory coordination & Pydantic synthesis"},
+                    {"name": "Quant Specialist", "framework": "Google ADK", "id": "adk_quant_specialist", "role": "Historical bar retrieval & feature calculation"},
+                    {"name": "Microstructure Specialist", "framework": "Google ADK", "id": "adk_microstructure_specialist", "role": "Spread, depth & Kyle's lambda estimation"},
+                    {"name": "Risk Validator", "framework": "Google ADK", "id": "adk_risk_validator", "role": "Statutory friction & guardrail audit"},
+                ],
+                "patterns_supported": ["SEQUENTIAL", "PARALLEL", "HIERARCHICAL"],
+            },
+            "crewai_specialists": {
+                "framework": "CrewAI",
+                "protocol": "A2A Protocol (JSON-RPC 2.0)",
+                "suite_service": "crewai_specialist_suite",
+                "specialists": [
+                    {"name": "News & Macro Specialist", "framework": "CrewAI", "id": "crewai_news_macro_specialist", "role": "RBI circulars, macro indicators, sentiment"},
+                    {"name": "Corporate Filing Specialist", "framework": "CrewAI", "id": "crewai_corporate_filing_specialist", "role": "BSE/NSE disclosures, earnings notes, governance"},
+                    {"name": "Adversarial Skeptic", "framework": "CrewAI", "id": "crewai_adversarial_specialist", "role": "Overfitting challenge, regime shift stress tests"},
+                ],
+                "routes": a2a_routes,
+                "healthy": a2a_healthy,
+            },
+            "fastmcp_server": {
+                "service": "ArthaAI-Market-Intelligence",
+                "protocol": "Model Context Protocol (FastMCP)",
+                "discovered_tools": mcp_tools,
+                "healthy": mcp_healthy,
+            },
+            "data_engine": {
+                "engine": "DuckDB in-process analytical engine",
+                "storage": "Partitioned Parquet (OHLCV + PIT availability)",
+                "lookahead_bias_guard": "Enforced UTC as_of_time upper bound",
+            },
+            "evaluation_engine": {
+                "dataset_version": "1.0.0",
+                "total_cases": 44,
+                "statutory_cases": 12,
+                "zero_data_cases": 10,
+                "adversarial_cases": 10,
+                "runner_budget_seconds": 300.0,
+            },
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+
+    # -------------------------------------------------------------------------
+    # Optional Single-Binary SPA Static Files Serving
+    # -------------------------------------------------------------------------
+
+    frontend_dist = Path(__file__).resolve().parent.parent.parent.parent / "frontend" / "dist"
+    if frontend_dist.exists() and (frontend_dist / "index.html").exists():
+        from fastapi.staticfiles import StaticFiles
+        from starlette.responses import FileResponse
+
+        assets_dir = frontend_dist / "assets"
+        if assets_dir.exists():
+            app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+        @app.get("/{full_path:path}", include_in_schema=False)
+        async def serve_spa(full_path: str):
+            candidate = frontend_dist / full_path
+            if candidate.is_file():
+                return FileResponse(str(candidate))
+            return FileResponse(str(frontend_dist / "index.html"))
 
     return app
 

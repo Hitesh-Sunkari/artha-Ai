@@ -123,48 +123,148 @@ ArthAI/
 
 ---
 
-## Installation & Setup
+## Multi-Agent Architecture & Orchestration
 
-### Requirements
-- Python 3.11 or Python 3.12
-- Virtual environment recommended
+ArthaAI integrates a seven-specialist multi-agent intelligence pipeline engineered on **Google ADK** and **CrewAI**, interoperating over **FastMCP** (Model Context Protocol) and the official **A2A Protocol** (JSON-RPC 2.0):
 
-### Install in Editable Mode
-```bash
-# Create and activate virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install package with development dependencies
-python -m pip install -e ".[dev]"
 ```
+                   ┌──────────────────────────────────────────────┐
+                   │    Client Web Terminal / Research REST API   │
+                   └───────────────────────┬──────────────────────┘
+                                           │
+                                           ▼
+                   ┌──────────────────────────────────────────────┐
+                   │  Google ADK Central Research Manager (Coord) │
+                   └──────┬──────────────────────┬─────────┬──────┘
+                          │                      │         │
+             ┌────────────▼──────────┐           │         └───────────┐
+             │ FastMCP Server Engine │           │                     │
+             │  • query_market_data  │           ▼                     ▼
+             │  • calculate_statutory│   ┌───────────────┐     ┌───────────────┐
+             └────────────┬──────────┘   │   Thread-Safe │     │  A2A Protocol │
+                          │              │   Blackboard  │     │ Client Bridge │
+                          ▼              │  Shared State │     └───────┬───────┘
+             ┌───────────────────────┐   └───────────────┘             │
+             │   Google ADK Fleet    │                                 ▼
+             │ • Quant Specialist    │                         ┌───────────────┐
+             │ • Microstructure Spec │                         │ CrewAI Suite  │
+             │ • Risk Validator Gate │                         │ • News/Macro  │
+             └───────────────────────┘                         │ • Filings Spec│
+                                                               │ • Adversarial │
+                                                               └───────────────┘
+```
+
+### Seven Specialist Agents
+1. **Research Manager (`adk_research_manager` - Google ADK)**: Supervisory coordinator managing request intake, Blackboard initialization, pattern dispatch, and Pydantic v2 final report synthesis.
+2. **Quant Specialist (`adk_quant_specialist` - Google ADK)**: Invokes FastMCP `query_market_data` over DuckDB/Parquet storage; calculates returns, realized volatility, SMA, EMA, and RSI.
+3. **Microstructure Specialist (`adk_microstructure_specialist` - Google ADK)**: Analyzes orderbook depth, bid-ask spread, and Kyle's lambda price impact bounds.
+4. **News & Macro Specialist (`crewai_news_macro_specialist` - CrewAI via A2A)**: Evaluates RBI monetary policy circulars, macro inflation indicators, and news sentiment.
+5. **Corporate Filing Specialist (`crewai_corporate_filing_specialist` - CrewAI via A2A)**: Parses quarterly earnings, corporate governance disclosures, and BSE/NSE filings.
+6. **Adversarial Skeptic (`crewai_adversarial_specialist` - CrewAI via A2A)**: Veto reviewer challenging small-sample findings, identifying overfitting, and flagging zero-data statistical fragility.
+7. **Risk Validator (`adk_risk_validator` - Google ADK)**: Mandatory gating agent enforcing the deterministic live-trading prohibition and calculating exact Indian statutory friction (STT, GST, Stamp Duty, Exchange/SEBI fees).
+
+### Supported Orchestration Patterns
+- **`SEQUENTIAL`**: Deterministic linear pipeline with step-by-step Blackboard handoffs.
+- **`PARALLEL`**: Concurrent branch execution (`asyncio.gather`) across independent specialists, reducing latency.
+- **`HIERARCHICAL`**: Two-tier supervisory pattern where the Manager directs the Skeptic challenge gate based on intermediate data density.
+
+---
+
+## Institutional Research Terminal (Web Interface)
+
+ArthaAI includes a dark-first institutional research terminal inspired by professional quantitative workstations (Bloomberg Terminal, FactSet):
+
+- **Research Dashboard**: Live session runs, average execution latency, schema validation rate, fleet status, and quick links.
+- **New Research Submission**: Point-in-time analysis form with instrument presets (`RELIANCE`, `TCS`, `INFY`, `HDFCBANK`, `ICICIBANK`, `NIFTY50`), pattern selector, UTC timestamping, and scope options.
+- **Live Execution Monitor**: Real-time multi-agent execution timeline with distinct branch rendering for Parallel and Hierarchical runs, elapsed timer, and live lifecycle event tracing.
+- **Final Research Report (`QuantitativeResearchReport`)**: Pydantic-validated executive thesis, quantitative indicators, itemized Indian statutory transaction cost schedule, citations, provenance, and Markdown/JSON export.
+- **System Topology**: Interactive visual architecture diagram showing ADK, CrewAI, FastMCP, and A2A inter-agent connections.
+- **Evaluation & Benchmarks**: Summary statistics, versioned 44-case evaluation dataset explorer, saved experiment reports, and deterministic statutory test runner.
+- **Execution History & Traces**: Searchable, filterable table of session executions with trace logs and report inspection.
+- **System Status & Settings**: Real-time probes (`/health`, `/ready`), live trading guardrail status, and configurable API base URL.
+
+---
+
+## Local Development & Startup
+
+### Prerequisites
+- Python 3.11 or 3.12
+- Node.js 20+ or 22+ and npm
+
+### 1. Unified Process Runner (Recommended)
+Run both backend and frontend together with a single command:
+
+```bash
+# Build frontend and launch unified production server at http://127.0.0.1:8000/
+python scripts/start.py
+
+# Or launch development mode (uvicorn port 8000 + Vite port 5173 with HMR):
+python scripts/start.py --dev
+```
+
+### 2. Manual Startup
+
+**Backend Server:**
+```bash
+python -m uvicorn arthaai.api.research_api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+**Frontend Dev Server:**
+```bash
+cd frontend
+npm install --legacy-peer-deps
+npm run dev
+```
+Open `http://localhost:5173` in your browser.
+
+**Build Frontend Production Bundle:**
+```bash
+cd frontend
+npm run build
+```
+
+---
+
+## API Endpoints Reference
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/health` | Liveness probe returning process status |
+| `GET` | `/ready` | Readiness probe checking FastMCP, A2A, and safety guardrails |
+| `POST` | `/research` | Submit an asynchronous multi-agent quantitative research run |
+| `GET` | `/runs` | List all session research runs, statuses, and latencies |
+| `GET` | `/runs/{run_id}` | Retrieve run status and completed `QuantitativeResearchReport` |
+| `GET` | `/runs/{run_id}/trace` | Retrieve real-time lifecycle event trace for a run |
+| `GET` | `/evaluation/summary` | Aggregate session research evaluation metrics |
+| `GET` | `/evaluation/dataset` | Versioned 44-case evaluation dataset and category distribution |
+| `GET` | `/evaluation/experiments` | List persisted experiment benchmark reports |
+| `POST` | `/evaluation/run` | Execute deterministic statutory evaluation suite |
+| `GET` | `/system/status` | Comprehensive subsystem diagnostics and fleet configuration |
 
 ---
 
 ## Verification & Testing
 
-The repository maintains an institutional-grade test suite with strict architecture boundary enforcement and over 87% line coverage:
+The repository maintains an institutional-grade test suite with 341 passing tests:
 
 ```bash
-# Run full pytest suite with branch coverage enforcement
+# Run complete pytest test suite
 python -m pytest
 
-# Run fast linting and formatting check
-python -m ruff check src/ tests/
+# Run specific API integration tests
+python -m pytest tests/orchestration/test_research_api.py tests/orchestration/test_api_extensions.py -v
 
-# Run static type checking
-python -m mypy src/arthaai
+# Run multi-agent orchestration tests
+python -m pytest tests/orchestration/test_seven_agents_and_observability.py -v
 ```
 
 ---
 
-## Architecture Boundaries
+## Safety Guardrails & Evidence Integrity
 
-The architecture enforces strict acyclic layer dependencies verified by automated tests:
-1. `core` must never import from `data`, `features`, `strategy`, `execution`, `control_plane`, or `integrations`.
-2. `data` must never import from `strategy`, `features`, `execution`, or `integrations`.
-3. `strategy` must never import from external broker SDKs, FastAPI, LangGraph, or database implementations.
-4. Provider adapters (`integrations/`) reside exclusively at the external boundary and translate into canonical `arthaai` schemas.
+1. **Strict Live Trading Prohibition**: `live_trading_enabled` defaults to `False` and cannot be activated without explicit multi-stage authorization. Order execution APIs are blocked.
+2. **Point-In-Time Invariant**: Enforced UTC timestamp cutoff ensures no historical leakage or lookahead bias during backtests and indicator calculation.
+3. **Zero Citation Fabrication**: If 0 historical records exist for an instrument, `records_retrieved` is set to `0`, `finding_category` is labeled `UNAVAILABLE`, and zero numerical claims or Parquet bar citations are fabricated.
 
 ---
 

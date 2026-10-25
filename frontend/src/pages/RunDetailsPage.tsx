@@ -1,0 +1,276 @@
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  Activity,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  RefreshCw,
+  FileText,
+  GitBranch,
+  ShieldAlert,
+  ArrowLeft,
+  Share2,
+} from 'lucide-react';
+import { api } from '../api/client';
+import type { LifecycleEvent, RunDetailsResponse } from '../api/types';
+import { StatusBadge } from '../components/StatusBadge';
+import { LiveTimeline } from '../components/LiveTimeline';
+import { EventStream } from '../components/EventStream';
+import { ReportView } from '../components/ReportView';
+
+interface RunDetailsPageProps {
+  runId: string | null;
+  onBack: () => void;
+}
+
+export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack }) => {
+  const [runDetails, setRunDetails] = useState<RunDetailsResponse | null>(null);
+  const [events, setEvents] = useState<LifecycleEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+  const [activeView, setActiveView] = useState<'timeline' | 'report' | 'events'>('timeline');
+
+  const pollTimerRef = useRef<any>(null);
+  const elapsedTimerRef = useRef<any>(null);
+  const startTimeRef = useRef<number>(Date.now());
+
+  const fetchRunState = async (id: string) => {
+    try {
+      const [details, trace] = await Promise.all([api.getRun(id), api.getRunTrace(id)]);
+      setRunDetails(details);
+      setEvents(trace.events || []);
+
+      if (details.status === 'COMPLETED' || details.status === 'FAILED') {
+        // Run has finished; stop polling
+        if (pollTimerRef.current) {
+          clearInterval(pollTimerRef.current);
+          pollTimerRef.current = null;
+        }
+        if (elapsedTimerRef.current) {
+          clearInterval(elapsedTimerRef.current);
+          elapsedTimerRef.current = null;
+        }
+
+        // If completed and report is present, switch to report view
+        if (details.status === 'COMPLETED' && details.report) {
+          setActiveView('report');
+        }
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to fetch run details.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!runId) return;
+
+    setLoading(true);
+    setError(null);
+    startTimeRef.current = Date.now();
+    setElapsedSeconds(0);
+
+    // Initial fetch
+    fetchRunState(runId);
+
+    // Bounded resilient polling every 1.5 seconds while active
+    pollTimerRef.current = setInterval(() => {
+      fetchRunState(runId);
+    }, 1500);
+
+    // Local elapsed seconds ticker
+    elapsedTimerRef.current = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - startTimeRef.current) / 1000));
+    }, 1000);
+
+    return () => {
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
+      if (elapsedTimerRef.current) clearInterval(elapsedTimerRef.current);
+    };
+  }, [runId]);
+
+  if (!runId) {
+    return (
+      <div className="terminal-card" style={{ textAlign: 'center', padding: '48px' }}>
+        <Clock size={32} style={{ color: 'var(--text-muted)', marginBottom: '12px' }} />
+        <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
+          No Active Research Run Selected
+        </h3>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '20px' }}>
+          Select a completed execution from the Run History, or submit a new research query.
+        </p>
+        <button onClick={onBack} className="btn btn-primary">
+          <ArrowLeft size={14} />
+          <span>Return to Dashboard</span>
+        </button>
+      </div>
+    );
+  }
+
+  const isTerminal = runDetails?.status === 'COMPLETED' || runDetails?.status === 'FAILED';
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Top Navigation Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button onClick={onBack} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }}>
+            <ArrowLeft size={14} />
+            <span>Back</span>
+          </button>
+
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="font-mono" style={{ fontSize: '18px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+                {runId}
+              </span>
+              {runDetails && <StatusBadge status={runDetails.status} />}
+              {runDetails?.symbol && (
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-medium)',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {runDetails.symbol}
+                </span>
+              )}
+            </div>
+
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+              Pattern: {runDetails?.orchestration_pattern || 'SEQUENTIAL'} • Submitted:{' '}
+              {runDetails?.submitted_at
+                ? new Date(runDetails.submitted_at).toUTCString()
+                : 'Pending'}
+            </div>
+          </div>
+        </div>
+
+        {/* Live Timer or Completed Latency */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {!isTerminal ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                border: '1px solid rgba(6, 182, 212, 0.3)',
+                borderRadius: '6px',
+                color: 'var(--accent-cyan)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '13px',
+                fontWeight: 700,
+              }}
+            >
+              <RefreshCw size={14} className="animate-spin" />
+              <span>LIVE POLLING ({elapsedSeconds}s elapsed)</span>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-medium)',
+                borderRadius: '6px',
+                color: 'var(--text-secondary)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '12px',
+              }}
+            >
+              <span>
+                Total Latency:{' '}
+                <strong style={{ color: 'var(--text-primary)' }}>
+                  {runDetails?.latency_seconds ? `${runDetails.latency_seconds.toFixed(2)}s` : `${elapsedSeconds}s`}
+                </strong>
+              </span>
+            </div>
+          )}
+
+          <button
+            onClick={() => fetchRunState(runId)}
+            className="btn btn-secondary"
+            style={{ padding: '6px 10px', fontSize: '12px' }}
+            title="Manual poll refresh"
+          >
+            <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <div
+          style={{
+            padding: '12px 16px',
+            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            borderRadius: '6px',
+            color: 'var(--accent-rose)',
+            fontSize: '13px',
+          }}
+        >
+          {error}
+        </div>
+      )}
+
+      {/* Sub-Tabs: Live Timeline, Final Report, Event Stream */}
+      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px' }}>
+        <button
+          onClick={() => setActiveView('timeline')}
+          className={`btn ${activeView === 'timeline' ? 'btn-primary' : 'btn-secondary'}`}
+          style={{ fontSize: '12px', padding: '6px 14px' }}
+        >
+          <GitBranch size={14} />
+          <span>Multi-Agent Timeline</span>
+        </button>
+
+        <button
+          onClick={() => setActiveView('report')}
+          disabled={!runDetails?.report}
+          className={`btn ${activeView === 'report' ? 'btn-primary' : 'btn-secondary'}`}
+          style={{ fontSize: '12px', padding: '6px 14px' }}
+        >
+          <FileText size={14} />
+          <span>Final Research Report {runDetails?.report ? '(Ready)' : '(In Progress)'}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveView('events')}
+          className={`btn ${activeView === 'events' ? 'btn-primary' : 'btn-secondary'}`}
+          style={{ fontSize: '12px', padding: '6px 14px' }}
+        >
+          <Activity size={14} />
+          <span>Lifecycle Events Log ({events.length})</span>
+        </button>
+      </div>
+
+      {/* Tab Contents */}
+      {activeView === 'timeline' && (
+        <LiveTimeline
+          pattern={runDetails?.orchestration_pattern || 'SEQUENTIAL'}
+          events={events}
+          runStatus={runDetails?.status || 'PENDING'}
+        />
+      )}
+
+      {activeView === 'report' && runDetails?.report && (
+        <ReportView report={runDetails.report} />
+      )}
+
+      {activeView === 'events' && (
+        <EventStream events={events} />
+      )}
+    </div>
+  );
+};

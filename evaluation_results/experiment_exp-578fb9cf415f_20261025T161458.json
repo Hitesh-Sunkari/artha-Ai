@@ -1,0 +1,195 @@
+{
+  "experiment_id": "exp-578fb9cf415f",
+  "started_at": "2026-10-25T16:14:58.311046Z",
+  "completed_at": "2026-10-25T16:14:58.342715Z",
+  "total_cases": 9,
+  "passed": 9,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pass_rate_pct": 100.0,
+  "mean_latency_seconds": 0.0,
+  "p50_latency_seconds": 0.0,
+  "p95_latency_seconds": 0.0,
+  "max_latency_seconds": 0.0,
+  "unsupported_claim_violations": 0,
+  "schema_validation_failures": 0,
+  "results": [
+    {
+      "case_id": "EVL-026",
+      "category": "STATUTORY_COST",
+      "symbol": "RELIANCE",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "stt_0.1pct",
+        "stamp_duty_applied",
+        "positive_total"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.340700Z"
+    },
+    {
+      "case_id": "EVL-027",
+      "category": "STATUTORY_COST",
+      "symbol": "INFY",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "stt_0.1pct",
+        "no_stamp_duty_on_sell",
+        "positive_total"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.340700Z"
+    },
+    {
+      "case_id": "EVL-028",
+      "category": "STATUTORY_COST",
+      "symbol": "NIFTY",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "futures_stt_sell_only_post_oct2024",
+        "positive_total"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.340700Z"
+    },
+    {
+      "case_id": "EVL-029",
+      "category": "STATUTORY_COST",
+      "symbol": "NIFTY",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "futures_stt_zero_on_buy"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    },
+    {
+      "case_id": "EVL-030",
+      "category": "STATUTORY_COST",
+      "symbol": "BANKNIFTY",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "options_stt_sell_only_0.1pct"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    },
+    {
+      "case_id": "EVL-031",
+      "category": "STATUTORY_COST",
+      "symbol": "HDFCBANK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "intraday_stt_sell_only_0.025pct"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    },
+    {
+      "case_id": "EVL-032",
+      "category": "STATUTORY_COST",
+      "symbol": "SBIN",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "FAIL_VALIDATION",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "rejects_zero_price"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    },
+    {
+      "case_id": "EVL-033",
+      "category": "STATUTORY_COST",
+      "symbol": "WIPRO",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "FAIL_VALIDATION",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "rejects_invalid_instrument"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    },
+    {
+      "case_id": "EVL-034",
+      "category": "STATUTORY_COST",
+      "symbol": "RELIANCE",
+      "orchestration_pattern": "SEQUENTIAL",
+      "expected_outcome": "PASS",
+      "actual_outcome": "PASS",
+      "passed": true,
+      "latency_seconds": 0.0,
+      "assertion_tags_checked": [
+        "futures_stt_pre_oct2024_0.0125pct"
+      ],
+      "assertion_failures": [],
+      "error": null,
+      "report_summary": {},
+      "timestamp": "2026-10-25T16:14:58.342715Z"
+    }
+  ],
+  "dataset_version": "1.0.0",
+  "config": {
+    "max_cases": 12,
+    "budget_seconds": 30.0,
+    "per_case_timeout_seconds": 60.0,
+    "categories": [
+      "STATUTORY_COST"
+    ],
+    "orchestration_patterns": [
+      "SEQUENTIAL",
+      "PARALLEL",
+      "HIERARCHICAL"
+    ],
+    "persist_results": true,
+    "results_dir": "evaluation_results",
+    "run_statutory_cases": true,
+    "run_injection_cases": true
+  }
+}

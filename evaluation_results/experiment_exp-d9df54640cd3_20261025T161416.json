@@ -1,0 +1,36 @@
+{
+  "experiment_id": "exp-d9df54640cd3",
+  "started_at": "2026-10-25T16:14:16.924493Z",
+  "completed_at": "2026-10-25T16:14:17.009181Z",
+  "total_cases": 0,
+  "passed": 0,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pass_rate_pct": 0.0,
+  "mean_latency_seconds": 0.0,
+  "p50_latency_seconds": 0.0,
+  "p95_latency_seconds": 0.0,
+  "max_latency_seconds": 0.0,
+  "unsupported_claim_violations": 0,
+  "schema_validation_failures": 0,
+  "results": [],
+  "dataset_version": "1.0.0",
+  "config": {
+    "max_cases": 12,
+    "budget_seconds": 30.0,
+    "per_case_timeout_seconds": 60.0,
+    "categories": [
+      "STATUTORY_COSTS"
+    ],
+    "orchestration_patterns": [
+      "SEQUENTIAL",
+      "PARALLEL",
+      "HIERARCHICAL"
+    ],
+    "persist_results": true,
+    "results_dir": "evaluation_results",
+    "run_statutory_cases": true,
+    "run_injection_cases": true
+  }
+}
