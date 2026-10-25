@@ -27,8 +27,10 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
   const loadRuns = async () => {
     setLoading(true);
     try {
-      const data = await api.listRuns();
-      setRuns(data);
+      const data = await api.listRuns(true);
+      // Ensure only successful executions with valid report are included
+      const successfulOnly = data.filter((r) => r.status === 'COMPLETED' && r.has_report);
+      setRuns(successfulOnly);
     } catch {
       setRuns([]);
     } finally {
@@ -41,14 +43,14 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
   }, []);
 
   const filteredRuns = runs.filter((r) => {
+    if (r.status !== 'COMPLETED' || !r.has_report) return false;
     const matchesSearch =
       r.run_id.toLowerCase().includes(search.toLowerCase()) ||
       r.symbol.toLowerCase().includes(search.toLowerCase());
 
-    const matchesStatus = statusFilter === 'ALL' || r.status === statusFilter;
     const matchesPattern = patternFilter === 'ALL' || r.orchestration_pattern === patternFilter;
 
-    return matchesSearch && matchesStatus && matchesPattern;
+    return matchesSearch && matchesPattern;
   });
 
   return (
@@ -60,7 +62,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
             Execution History & Saved Traces
           </h2>
           <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-            Searchable log of research executions recorded in active session memory
+            Searchable log of verified successful quantitative research executions
           </div>
         </div>
 
@@ -70,7 +72,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
         </button>
       </div>
 
-      {/* Storage Retention Notice */}
+      {/* Storage Retention & Verified Filter Notice */}
       <div
         style={{
           display: 'flex',
@@ -86,9 +88,8 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
       >
         <Info size={16} style={{ color: 'var(--accent-cyan)', flexShrink: 0 }} />
         <span>
-          <strong>Storage Retention Notice:</strong> Research run records and lifecycle traces are persisted atomically to
-          {' '}<span className="font-mono">data/runs/</span> on disk and survive server restarts. Evaluation reports are stored in{' '}
-          <span className="font-mono">evaluation_results/</span>. Browser refreshes restore recorded state.
+          <strong>Storage Retention Policy:</strong> Only verified successful executions with validated Pydantic v2 reports
+          are preserved in the historical audit ledger. Records and traces are saved atomically to <span className="font-mono">data/runs/</span>.
         </span>
       </div>
 
@@ -109,18 +110,24 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
           </div>
 
           {/* Status Filter */}
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="form-select"
-            style={{ width: '160px' }}
+          <div
+            style={{
+              padding: '6px 12px',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              border: '1px solid rgba(16, 185, 129, 0.25)',
+              borderRadius: '6px',
+              fontSize: '12px',
+              fontWeight: 700,
+              fontFamily: 'var(--font-mono)',
+              color: 'var(--accent-emerald)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
           >
-            <option value="ALL">All Statuses</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="RUNNING">Running</option>
-            <option value="PENDING">Pending</option>
-            <option value="FAILED">Failed</option>
-          </select>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--accent-emerald)' }} />
+            <span>Successful Only</span>
+          </div>
 
           {/* Pattern Filter */}
           <select

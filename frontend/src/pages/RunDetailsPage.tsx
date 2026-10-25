@@ -10,6 +10,9 @@ import {
   ShieldAlert,
   ArrowLeft,
   Share2,
+  Users,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import { api } from '../api/client';
 import type { LifecycleEvent, RunDetailsResponse } from '../api/types';
@@ -29,7 +32,7 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
-  const [activeView, setActiveView] = useState<'timeline' | 'report' | 'events'>('timeline');
+  const [activeView, setActiveView] = useState<'timeline' | 'specialists' | 'report' | 'events'>('timeline');
 
   const pollTimerRef = useRef<any>(null);
   const elapsedTimerRef = useRef<any>(null);
@@ -224,15 +227,24 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
         </div>
       )}
 
-      {/* Sub-Tabs: Live Timeline, Final Report, Event Stream */}
-      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px' }}>
+      {/* Sub-Tabs: Live Timeline, Specialist Findings, Final Report, Event Stream */}
+      <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px', flexWrap: 'wrap' }}>
         <button
           onClick={() => setActiveView('timeline')}
           className={`btn ${activeView === 'timeline' ? 'btn-primary' : 'btn-secondary'}`}
           style={{ fontSize: '12px', padding: '6px 14px' }}
         >
           <GitBranch size={14} />
-          <span>Multi-Agent Timeline</span>
+          <span>Multi-Agent Live Timeline</span>
+        </button>
+
+        <button
+          onClick={() => setActiveView('specialists')}
+          className={`btn ${activeView === 'specialists' ? 'btn-primary' : 'btn-secondary'}`}
+          style={{ fontSize: '12px', padding: '6px 14px' }}
+        >
+          <Users size={14} />
+          <span>Specialist Fleet Findings ({runDetails?.agent_contributions?.length ?? 0}/7)</span>
         </button>
 
         <button
@@ -261,7 +273,185 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
           pattern={runDetails?.orchestration_pattern || 'SEQUENTIAL'}
           events={events}
           runStatus={runDetails?.status || 'PENDING'}
+          contributions={runDetails?.agent_contributions || []}
         />
+      )}
+
+      {activeView === 'specialists' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div
+            style={{
+              padding: '12px 16px',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '6px',
+              fontSize: '12px',
+              color: 'var(--text-secondary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>
+              <strong>Specialist Agent Execution Fleet:</strong> In-depth factual outputs, mathematical indicators,
+              and grounded regulatory citations contributed to the Blackboard.
+            </span>
+            <span
+              className="font-mono"
+              style={{
+                fontSize: '11px',
+                color: 'var(--accent-cyan)',
+                fontWeight: 700,
+              }}
+            >
+              {runDetails?.agent_contributions?.length ?? 0} of 7 agents completed
+            </span>
+          </div>
+
+          {(runDetails?.agent_contributions || []).length === 0 ? (
+            <div className="terminal-card" style={{ textAlign: 'center', padding: '36px' }}>
+              <RefreshCw size={24} className="animate-spin" style={{ color: 'var(--accent-cyan)', margin: '0 auto 10px' }} />
+              <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                Agents Executing...
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                Intermediate agent findings will populate dynamically as each specialist completes its step.
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {(runDetails?.agent_contributions || []).map((contrib, idx) => (
+                <div
+                  key={contrib.agent_id || idx}
+                  className="terminal-card"
+                  style={{
+                    padding: '18px',
+                    borderLeft: `4px solid ${
+                      contrib.status === 'SUCCESS' ? 'var(--accent-emerald)' : 'var(--accent-rose)'
+                    }`,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 800,
+                          color: 'var(--text-primary)',
+                        }}
+                      >
+                        {contrib.agent_id}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontFamily: 'var(--font-mono)',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          backgroundColor: contrib.framework === 'GOOGLE_ADK' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(236, 72, 153, 0.15)',
+                          color: contrib.framework === 'GOOGLE_ADK' ? '#818cf8' : '#f472b6',
+                          fontWeight: 700,
+                        }}
+                      >
+                        {contrib.framework}
+                      </span>
+                      <span
+                        className="font-mono"
+                        style={{ fontSize: '11px', color: 'var(--text-muted)' }}
+                      >
+                        task: {contrib.task_name}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span
+                        className={`status-pill ${contrib.status === 'SUCCESS' ? 'status-completed' : 'status-failed'}`}
+                      >
+                        {contrib.status}
+                      </span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                        {new Date(contrib.timestamp).toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Findings Structured Display */}
+                  <div style={{ marginTop: '10px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '6px' }}>
+                      Factual Findings & Structured Metrics:
+                    </div>
+                    <div
+                      className="font-mono"
+                      style={{
+                        backgroundColor: 'var(--bg-surface)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: '6px',
+                        padding: '12px',
+                        fontSize: '11px',
+                        color: 'var(--text-secondary)',
+                        maxHeight: '220px',
+                        overflowY: 'auto',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                      }}
+                    >
+                      {JSON.stringify(contrib.findings, null, 2)}
+                    </div>
+                  </div>
+
+                  {/* Evidence Citations */}
+                  {contrib.evidence_citations && contrib.evidence_citations.length > 0 && (
+                    <div style={{ marginTop: '10px' }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--accent-emerald)', marginBottom: '4px' }}>
+                        Grounded Evidence Citations:
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                        {contrib.evidence_citations.map((cite, cIdx) => (
+                          <span
+                            key={cIdx}
+                            className="font-mono"
+                            style={{
+                              fontSize: '10px',
+                              padding: '2px 8px',
+                              borderRadius: '4px',
+                              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                              border: '1px solid rgba(16, 185, 129, 0.25)',
+                              color: 'var(--accent-emerald)',
+                            }}
+                          >
+                            {cite}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Warnings */}
+                  {contrib.warnings && contrib.warnings.length > 0 && (
+                    <div style={{ marginTop: '8px' }}>
+                      {contrib.warnings.map((w, wIdx) => (
+                        <div
+                          key={wIdx}
+                          style={{
+                            fontSize: '11px',
+                            color: 'var(--accent-amber)',
+                            backgroundColor: 'rgba(245, 158, 11, 0.08)',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            border: '1px solid rgba(245, 158, 11, 0.2)',
+                            marginTop: '4px',
+                          }}
+                        >
+                          ⚠️ {w}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {activeView === 'report' && runDetails?.report && (

@@ -110,7 +110,8 @@ export const api = {
 
   getRunTrace: (runId: string) => request<RunTraceResponse>(`/runs/${encodeURIComponent(runId)}/trace`),
 
-  listRuns: () => request<RunListItem[]>('/runs'),
+  listRuns: (onlySuccessful = false) =>
+    request<RunListItem[]>(`/runs${onlySuccessful ? '?only_successful=true' : ''}`),
 
   // Evaluation & Benchmarking
   getEvaluationSummary: () => request<EvaluationSummaryResponse>('/evaluation/summary'),

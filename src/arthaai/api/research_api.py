@@ -85,6 +85,7 @@ class RunRecord(BaseModel):
     completed_at: datetime | None = None
     report: QuantitativeResearchReport | None = None
     blackboard_events: list[dict[str, Any]] = Field(default_factory=list)
+    agent_contributions: list[dict[str, Any]] = Field(default_factory=list)
     error: str | None = None
 
 
@@ -209,6 +210,7 @@ class RunStore:
         run_id: str,
         report: QuantitativeResearchReport,
         blackboard_events: list[dict[str, Any]],
+        agent_contributions: list[dict[str, Any]] | None = None,
     ) -> None:
         async with self._lock:
             rec = self._runs.get(run_id)
@@ -220,6 +222,7 @@ class RunStore:
                         "completed_at": datetime.now(timezone.utc),
                         "report": report,
                         "blackboard_events": blackboard_events,
+                        "agent_contributions": agent_contributions or [],
                     }
                 )
                 self._runs[run_id] = updated
@@ -416,7 +419,9 @@ def create_research_api(
                 )
                 report = await mgr.run_research(request, pattern)
                 events = mgr.get_run_events(run_id) if hasattr(mgr, "get_run_events") else []
-                await _store.set_completed(run_id, report, events)
+                bb = mgr.get_run_blackboard(run_id) if hasattr(mgr, "get_run_blackboard") else None
+                contribs = [c.model_dump(mode="json") for c in bb.get_contributions()] if bb else []
+                await _store.set_completed(run_id, report, events, contribs)
             except Exception as exc:
                 events = mgr.get_run_events(run_id) if (mgr and hasattr(mgr, "get_run_events")) else []
                 await _store.set_failed(run_id, f"{type(exc).__name__}: {exc}", events)
@@ -466,6 +471,14 @@ def create_research_api(
         if record.status == ResearchRunStatus.FAILED:
             response["error"] = record.error
 
+        # Attach intermediate and completed agent contributions for full visibility
+        contributions = list(record.agent_contributions)
+        if not contributions and _manager and hasattr(_manager, "get_run_blackboard"):
+            bb = _manager.get_run_blackboard(run_id)
+            if bb:
+                contributions = [c.model_dump(mode="json") for c in bb.get_contributions()]
+        response["agent_contributions"] = contributions
+
         return response
 
     # -------------------------------------------------------------------------
@@ -503,10 +516,15 @@ def create_research_api(
         summary="List all research runs",
         tags=["research"],
     )
-    async def list_runs() -> list[dict[str, Any]]:
+    async def list_runs(only_successful: bool = False) -> list[dict[str, Any]]:
         """Returns all research runs recorded in memory, sorted descending by submission time."""
         records = await _store.all_records()
         sorted_records = sorted(records, key=lambda r: r.submitted_at, reverse=True)
+        if only_successful:
+            sorted_records = [
+                r for r in sorted_records
+                if r.status == ResearchRunStatus.COMPLETED and r.report is not None
+            ]
         return [
             {
                 "run_id": r.run_id,

@@ -107,6 +107,17 @@ export interface QuantitativeResearchReport {
   generated_at: string;
 }
 
+export interface AgentContribution {
+  agent_id: string;
+  framework: AgentFramework;
+  task_name: string;
+  status: 'SUCCESS' | 'FAILED';
+  findings: Record<string, any>;
+  evidence_citations: string[];
+  warnings: string[];
+  timestamp: string;
+}
+
 export interface RunDetailsResponse {
   run_id: string;
   status: RunStatus;
@@ -116,6 +127,7 @@ export interface RunDetailsResponse {
   completed_at?: string | null;
   latency_seconds?: number | null;
   report?: QuantitativeResearchReport | null;
+  agent_contributions?: AgentContribution[];
   error?: string | null;
 }
 

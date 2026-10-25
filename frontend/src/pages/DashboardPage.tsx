@@ -35,14 +35,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
     setError(null);
     try {
       const [runsData, evalData, readyData, statusData] = await Promise.allSettled([
-        api.listRuns(),
+        api.listRuns(true),
         api.getEvaluationSummary(),
         api.getReadiness(),
         api.getSystemStatus(),
       ]);
 
       if (runsData.status === 'fulfilled') {
-        setRuns(runsData.value);
+        setRuns(runsData.value.filter((r) => r.status === 'COMPLETED' && r.has_report));
       }
       if (evalData.status === 'fulfilled') {
         setEvalSummary(evalData.value);
