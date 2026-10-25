@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# =============================================================
+# ARTHAAI GENERATED DATA — NEVER COMMIT
+# These directories contain generated market data, raw provider
+# responses, Parquet datasets, quality reports, and manifests.
+# They may contain sensitive financial data and large binary files.
+# =============================================================
+data/
+data/raw/
+data/parquet/
+data/manifests/
+data/quality/
+
+# Any other data root set via ARTHAAI_DATA_ROOT
+*.parquet
+*.jsonl.gz
+datasets/
+
+# Environment / secrets — NEVER COMMIT
+.env
+.env.local
+.env.production
+*.key
+*.pem
+secrets/
+
+# Benchmark output
+benchmarks/results/
+*.benchmark.json
+
+# Reference repositories (cloned for study only)
+reference/
+
+# OS
+.DS_Store
+Thumbs.db
