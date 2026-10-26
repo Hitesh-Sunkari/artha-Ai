@@ -521,6 +521,34 @@ def create_research_api(
             "events_count": len(events),
         }
 
+    @app.get(
+        "/runs/{run_id}/heatmap",
+        summary="Get operational heatmap for a research run",
+        tags=["observability"],
+    )
+    async def get_run_heatmap(run_id: str) -> dict[str, Any]:
+        """Returns the multidimensional agent operational heatmap."""
+        record = await _store.get(run_id)
+        if record is None:
+            raise HTTPException(status_code=404, detail=f"Run '{run_id}' not found.")
+
+        # Reconstruct Blackboard state or compute from stored contributions
+        from arthaai.orchestration.observability import compute_agent_heat_map
+        from arthaai.orchestration.blackboard import Blackboard
+        bb = Blackboard(run_id=run_id)
+        bb.set_metadata("orchestration_pattern", record.orchestration_pattern)
+        bb.set_metadata("lifecycle_events", record.blackboard_events)
+        if record.agent_contributions:
+            from arthaai.schemas.research_output import AgentContribution
+            for ac in record.agent_contributions:
+                try:
+                    bb.add_contribution(AgentContribution(**ac))
+                except Exception:
+                    pass
+
+        heatmap = compute_agent_heat_map(bb)
+        return heatmap.model_dump(mode="json")
+
     # -------------------------------------------------------------------------
     # GET /runs
     # -------------------------------------------------------------------------
@@ -798,6 +826,86 @@ def create_research_api(
             }
         except Exception as exc:
             return {"error": str(exc), "timestamp": datetime.now(timezone.utc).isoformat()}
+
+    # -------------------------------------------------------------------------
+    # RAG Evidence & Corpus Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/rag/manifest",
+        summary="Get curated RAG source manifest and statistics",
+        tags=["rag"],
+    )
+    async def get_rag_manifest() -> dict[str, Any]:
+        """Returns the complete manifest of authoritative statutory and filing sources."""
+        from arthaai.rag.chroma_store import get_chroma_rag_store
+        store = get_chroma_rag_store()
+        return {
+            "manifest": [m.model_dump() for m in store.get_source_manifest()],
+            "statistics": store.get_corpus_statistics(),
+        }
+
+    @app.post(
+        "/rag/search",
+        summary="Search persistent ChromaDB corpus",
+        tags=["rag"],
+    )
+    async def search_rag(body: dict[str, Any]) -> dict[str, Any]:
+        """Queries persistent ChromaDB for statutory and filing chunks."""
+        from arthaai.rag.chroma_store import get_chroma_rag_store
+        store = get_chroma_rag_store()
+        matches = store.search(
+            query=body.get("query", ""),
+            symbol=body.get("symbol"),
+            doc_type=body.get("doc_type"),
+            limit=int(body.get("limit", 5)),
+        )
+        return {
+            "query": body.get("query", ""),
+            "matches_count": len(matches),
+            "results": [m.model_dump() for m in matches],
+        }
+
+    # -------------------------------------------------------------------------
+    # Investment Committee & Copilot Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.post(
+        "/committee/deliberate",
+        summary="Execute multi-persona Investment Committee debate",
+        tags=["committee"],
+    )
+    async def committee_deliberate(body: dict[str, Any]) -> dict[str, Any]:
+        """Executes multi-persona debate across Macro, Quant, Skeptic, and CIO."""
+        from arthaai.portfolio.committee import run_committee_deliberation
+        subject = body.get("target_subject", "RELIANCE.NS")
+        result = await run_committee_deliberation(subject, context=body)
+        return result.model_dump(mode="json")
+
+    @app.post(
+        "/copilot/chat",
+        summary="Context-aware Copilot assistant",
+        tags=["copilot"],
+    )
+    async def copilot_chat(body: dict[str, Any]) -> dict[str, Any]:
+        """Answers investment and market research questions grounded in run context."""
+        from arthaai.orchestration.llm_adapter import get_llm_adapter
+        adapter = get_llm_adapter()
+        prompt = body.get("message", "")
+        context = body.get("context", "")
+        sys_prompt = (
+            "You are ArthaAI Copilot, an institutional quantitative research assistant for Indian financial markets. "
+            "Answer user questions accurately using the provided research context and Indian regulatory knowledge (SEBI, RBI, Finance Act 2024). "
+            "Keep answers crisp, analytical, and professional."
+        )
+        full_prompt = f"CONTEXT:\n{context}\n\nUSER QUESTION:\n{prompt}" if context else prompt
+        resp = await adapter.generate(prompt=full_prompt, system_prompt=sys_prompt, temperature=0.3)
+        return {
+            "reply": resp.content if resp.status == "SUCCESS" else "ArthaAI Copilot is operating under baseline heuristic rules.",
+            "provider": resp.provider,
+            "tokens": resp.completion_tokens,
+            "latency_ms": resp.latency_ms,
+        }
 
     # -------------------------------------------------------------------------
     # GET /system/status

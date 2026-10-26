@@ -471,6 +471,46 @@ class ADKResearchManager:
         self._blackboards[request.run_id] = blackboard
         tracer.record_event(LifecycleEventType.AGENT_START, "adk_research_manager")
 
+        # RAG Retrieval: Manager determines statutory & corporate evidence needs and retrieves into Blackboard
+        tracer.record_event(
+            LifecycleEventType.TOOL_INVOCATION,
+            "adk_research_manager",
+            payload={"tool": "retrieve_regulatory_evidence", "query": f"{request.symbol} SEBI LODR corporate disclosure filing macro"},
+        )
+        rag_res = await self.mcp_client.call_tool(
+            "retrieve_regulatory_evidence",
+            {
+                "query": f"{request.symbol} SEBI LODR corporate disclosure filing macro",
+                "symbol": request.symbol,
+                "as_of_time": request.as_of_time.isoformat(),
+                "limit": 5,
+            },
+        )
+        tracer.record_event(
+            LifecycleEventType.TOOL_COMPLETE,
+            "adk_research_manager",
+            payload={"tool": "retrieve_regulatory_evidence", "matches_count": rag_res.get("matches_count", 0)},
+        )
+        tracer.record_event(
+            LifecycleEventType.RAG_RETRIEVAL,
+            "adk_research_manager",
+            payload={
+                "citations": rag_res.get("citations", []),
+                "matches_count": rag_res.get("matches_count", 0),
+                "source": "ChromaDB Persistent Evidence Corpus",
+            },
+        )
+        blackboard.add_rag_evidence(
+            query=f"{request.symbol} SEBI LODR corporate disclosure filing macro",
+            matches=rag_res.get("results", []),
+            producer_id="adk_research_manager",
+        )
+        tracer.record_event(
+            LifecycleEventType.BLACKBOARD_WRITE,
+            "adk_research_manager",
+            payload={"namespace": "rag_evidence", "citations_count": len(rag_res.get("citations", []))},
+        )
+
         # Dispatch based on pattern
         if pattern == OrchestrationPattern.PARALLEL:
             await self._execute_parallel(request, blackboard, tracer)
@@ -1002,6 +1042,23 @@ class ADKResearchManager:
             f"orchestration_pattern_{blackboard.get_metadata('orchestration_pattern') or 'SEQUENTIAL'}",
         ]
 
+        # Rubric-based Recommendation Policy
+        if quant_findings.get("empty_result", True) or records_count < 20:
+            rec_rubric = "INSUFFICIENT_EVIDENCE"
+            conviction_rubric = 25
+        elif rsi_val and rsi_val > 70 and vol_ann and vol_ann > 0.25:
+            rec_rubric = "SELL"
+            conviction_rubric = 78
+        elif rsi_val and rsi_val < 40 and eff_rate < 0.20:
+            rec_rubric = "BUY"
+            conviction_rubric = 85
+        else:
+            rec_rubric = "HOLD"
+            conviction_rubric = 68
+
+        import hashlib
+        audit_hash = hashlib.sha256(f"{request.run_id}:{request.symbol}:{now_utc().isoformat()}".encode()).hexdigest()
+
         report = QuantitativeResearchReport(
             run_id=request.run_id,
             symbol=request.symbol,
@@ -1012,8 +1069,18 @@ class ADKResearchManager:
             qualitative_evidence=all_citations,
             source_provenance=provenance,
             limitations_and_uncertainties=list(dict.fromkeys(limitations)),
+            recommendation=rec_rubric,
+            conviction_score=conviction_rubric,
+            statutory_friction_drag_pct=round(eff_rate, 4),
+            rag_citations=all_citations,
+            audit_hash=audit_hash,
             generated_at=now_utc(),
         )
+
+        try:
+            blackboard.persist_to_disk()
+        except Exception as exc:
+            logger.warning(f"[Blackboard] Disk persistence notice: {exc}")
 
         manager_contrib = AgentContribution(
             agent_id="adk_research_manager",

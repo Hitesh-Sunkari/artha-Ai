@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-10-26T18:34:02.308528+00:00",
+  "status": "ALL_TESTS_PASSED",
+  "results": {
+    "health": {
+      "status": "ok",
+      "service": "arthaai-research-api",
+      "timestamp": "2026-10-26T18:33:24.102960Z"
+    },
+    "ready": {
+      "ready": true,
+      "mcp_available": true,
+      "a2a_available": true,
+      "live_trading_blocked": true,
+      "timestamp": "2026-10-26T18:33:24.135696Z"
+    },
+    "universe_count": 74,
+    "optimization": {
+      "status": "OPTIMAL_CONVERGED",
+      "candidates": [
+        "target_risk_suitable",
+        "max_sharpe",
+        "min_volatility",
+        "target_return_growth"
+      ]
+    },
+    "simulation": {
+      "p10_terminal": 126.91,
+      "p50_terminal": 4346.77,
+      "p90_terminal": 179132.4
+    },
+    "stress_test": [
+      {
+        "scenario": "2008 Global Financial Crisis",
+        "drawdown": -3362.5
+      },
+      {
+        "scenario": "2020 COVID-19 Pandemic Crash",
+        "drawdown": -2606.9
+      },
+      {
+        "scenario": "2022 Global Inflation & Rate Shock",
+        "drawdown": -858.9
+      },
+      {
+        "scenario": "2013 Taper Tantrum & INR Crisis",
+        "drawdown": -993.5
+      }
+    ],
+    "committee": {
+      "verdict": "CONDITIONALLY_APPROVED",
+      "votes": {
+        "APPROVE": 2,
+        "CONDITIONAL": 2,
+        "REJECT": 0
+      },
+      "constraints": [
+        "Maximum single-asset allocation capped at 20.0%",
+        "Trailing statutory friction reserve of 0.12% retained",
+        "Tranche execution over 3 trading sessions to minimize market impact",
+        "SEBI LODR quarterly review audit triggers active"
+      ]
+    },
+    "rag": {
+      "indexed_chunks": 13,
+      "top_match_title": "Reliance Industries Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures",
+      "relevance_score": 0.1624
+    },
+    "copilot": {
+      "reply_preview": "ArthaAI Copilot is operating under baseline heuristic rules...."
+    }
+  },
+  "run_id": "run-api-f3589e9691ce",
+  "report_summary": {
+    "recommendation": "HOLD",
+    "conviction_score": 68,
+    "statutory_friction_drag_pct": 0.1186,
+    "rag_citations": [
+      "parquet://data/ohlcv/reliance.ns:100_bars",
+      "academic://corwin_schultz_2012#high_low_spread_estimator",
+      "academic://amihud_2002#illiquidity_ratio",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+      "Statutory Source: Finance (No. 2) Act 2024",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+      "rag://nse/surveillance_asm#NSE-ASM-FRAMEWORK-SURVEILLANCE"
+    ],
+    "audit_hash": "17e4dc392fcbf89f96bc7948ecdb5d8704ba9064ca49665ab34eae33a9c97d78"
+  }
+}

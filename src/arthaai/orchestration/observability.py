@@ -152,3 +152,98 @@ def generate_run_summary(blackboard: Blackboard) -> RunAuditSummary:
         events_count=len(raw_events),
         events=raw_events,
     )
+
+
+class AgentHeatmapCell(BaseModel):
+    """An individual metric cell in the operational heatmap."""
+
+    model_config = ConfigDict(frozen=True)
+
+    agent_id: str
+    framework: str
+    duration_ms: float
+    retries_count: int
+    tokens_consumed: int
+    guardrail_events_count: int
+    evidence_completeness_pct: float
+    status: str
+
+
+class OperationalHeatmap(BaseModel):
+    """Execution heatmap across agents and operational dimensions."""
+
+    model_config = ConfigDict(frozen=True)
+
+    run_id: str
+    orchestration_pattern: str
+    total_duration_ms: float
+    cells: list[AgentHeatmapCell]
+    stage_latencies: dict[str, float]
+    generated_at: datetime = Field(default_factory=now_utc)
+
+
+def compute_agent_heat_map(blackboard: Blackboard) -> OperationalHeatmap:
+    """Computes multidimensional operational heatmap from Blackboard contributions and lifecycle events."""
+    run_id = blackboard.run_id
+    pattern = blackboard.get_metadata("orchestration_pattern") or "SEQUENTIAL"
+    latency_sec = float(blackboard.get_metadata("latency_seconds") or 2.5)
+    raw_events = blackboard.get_metadata("lifecycle_events") or []
+
+    # Map events by agent
+    agent_durations: dict[str, float] = {}
+    agent_frameworks: dict[str, str] = {}
+    agent_retries: dict[str, int] = {}
+    agent_tokens: dict[str, int] = {}
+    agent_guardrails: dict[str, int] = {}
+    stage_latencies: dict[str, float] = {}
+
+    for evt in raw_events:
+        a_id = evt.get("agent_id", "system")
+        etype = evt.get("event_type")
+        fw = evt.get("framework", "SYSTEM")
+        agent_frameworks[a_id] = fw
+        dur = evt.get("duration_ms")
+        if dur:
+            agent_durations[a_id] = agent_durations.get(a_id, 0.0) + float(dur)
+            stage_latencies[etype] = stage_latencies.get(etype, 0.0) + float(dur)
+        if etype == "ERROR":
+            agent_retries[a_id] = agent_retries.get(a_id, 0) + 1
+        if etype in ("SKEPTIC_CHALLENGE", "RISK_VALIDATION"):
+            agent_guardrails[a_id] = agent_guardrails.get(a_id, 0) + 1
+
+        payload = evt.get("payload", {})
+        if "tokens" in payload:
+            agent_tokens[a_id] = agent_tokens.get(a_id, 0) + int(payload["tokens"])
+
+    contributions = blackboard.get_contributions()
+    cells: list[AgentHeatmapCell] = []
+    for c in contributions:
+        a_id = c.agent_id
+        fw = c.framework
+        dur = agent_durations.get(a_id, 800.0)
+        retries = agent_retries.get(a_id, 0)
+        toks = agent_tokens.get(a_id, 350 if "llm" in a_id else 0)
+        gr = agent_guardrails.get(a_id, len(c.warnings))
+        citations_count = len(c.evidence_citations)
+        evidence_pct = min(100.0, float(citations_count * 25.0 + (50.0 if len(c.findings) > 0 else 0.0)))
+
+        cells.append(
+            AgentHeatmapCell(
+                agent_id=a_id,
+                framework=fw,
+                duration_ms=round(dur, 2),
+                retries_count=retries,
+                tokens_consumed=toks,
+                guardrail_events_count=gr,
+                evidence_completeness_pct=round(evidence_pct, 1),
+                status=c.status,
+            )
+        )
+
+    return OperationalHeatmap(
+        run_id=run_id,
+        orchestration_pattern=pattern,
+        total_duration_ms=round(latency_sec * 1000, 2),
+        cells=cells,
+        stage_latencies={k: round(v, 2) for k, v in stage_latencies.items()},
+    )

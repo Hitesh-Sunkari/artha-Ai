@@ -8,6 +8,11 @@ import { HistoryPage } from './pages/HistoryPage';
 import { ArchitecturePage } from './pages/ArchitecturePage';
 import { EvaluationPage } from './pages/EvaluationPage';
 import { SystemStatusPage } from './pages/SystemStatusPage';
+import { PortfolioPage } from './pages/PortfolioPage';
+import { CommitteePage } from './pages/CommitteePage';
+import { EvidencePage } from './pages/EvidencePage';
+import { TelemetryPage } from './pages/TelemetryPage';
+import { CopilotDrawer } from './components/CopilotDrawer';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('dashboard');
@@ -60,6 +65,14 @@ export const App: React.FC = () => {
             />
           )}
 
+          {activeTab === 'portfolio' && <PortfolioPage />}
+
+          {activeTab === 'committee' && <CommitteePage />}
+
+          {activeTab === 'evidence' && <EvidencePage />}
+
+          {activeTab === 'telemetry' && <TelemetryPage />}
+
           {activeTab === 'history' && (
             <HistoryPage
               onOpenRun={(id) => handleNavigate('live-execution', id)}
@@ -73,6 +86,9 @@ export const App: React.FC = () => {
           {activeTab === 'system-status' && <SystemStatusPage />}
         </main>
       </div>
+
+      {/* Persistent Institutional AI Copilot Drawer */}
+      <CopilotDrawer activeContext={activeRunId || activeTab} />
     </div>
   );
 };

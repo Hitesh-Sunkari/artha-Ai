@@ -64,4 +64,13 @@ class QuantitativeResearchReport(BaseModel):
     limitations_and_uncertainties: list[str] = Field(
         default_factory=list, description="Explicit caveats and missing data warnings (zero fabrication)"
     )
+    recommendation: Literal["BUY", "HOLD", "SELL", "INSUFFICIENT_EVIDENCE"] = Field(
+        default="HOLD", description="Evidence-grounded recommendation rubric"
+    )
+    conviction_score: int = Field(default=50, description="Multi-agent conviction score (0-100)")
+    statutory_friction_drag_pct: float = Field(default=0.1186, description="Statutory roundtrip drag percentage")
+    rag_citations: list[str] = Field(
+        default_factory=list, description="Authoritative RAG statutory and filing citations"
+    )
+    audit_hash: str | None = Field(default=None, description="Cryptographic SHA-256 state provenance hash")
     generated_at: datetime = Field(default_factory=now_utc, description="Report generation timestamp")

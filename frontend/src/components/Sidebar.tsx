@@ -9,12 +9,20 @@ import {
   Settings,
   Shield,
   Layers,
+  Briefcase,
+  Users,
+  Database,
+  Cpu,
 } from 'lucide-react';
 
 export type TabId =
   | 'dashboard'
   | 'new-research'
   | 'live-execution'
+  | 'portfolio'
+  | 'committee'
+  | 'evidence'
+  | 'telemetry'
   | 'history'
   | 'architecture'
   | 'evaluation'
@@ -36,6 +44,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       icon: Activity,
       badge: activeRunId ? 'Active' : undefined,
     },
+    { id: 'portfolio' as TabId, label: 'Portfolio Engine', icon: Briefcase },
+    { id: 'committee' as TabId, label: 'Investment Committee', icon: Users },
+    { id: 'evidence' as TabId, label: 'Evidence Explorer', icon: Database },
+    { id: 'telemetry' as TabId, label: 'Telemetry Observatory', icon: Cpu },
     { id: 'history' as TabId, label: 'Run History', icon: History },
     { id: 'architecture' as TabId, label: 'System Topology', icon: GitFork },
     { id: 'evaluation' as TabId, label: 'Evaluation & Benchmarks', icon: FlaskConical },

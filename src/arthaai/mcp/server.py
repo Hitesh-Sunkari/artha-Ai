@@ -125,14 +125,40 @@ def query_market_data(
         raise ValueError(f"Invalid date range format: {e}") from e
 
     clean_symbol = symbol.upper().replace(".NS", "").replace(".BO", "").strip()
+
+    # 1. First query through production YahooFinancePipeline with live/cached Parquet resilience
+    try:
+        from arthaai.data.yfinance_pipeline import get_yfinance_pipeline
+        yf_pipeline = get_yfinance_pipeline()
+        canonical_data = yf_pipeline.fetch_market_data(
+            symbol=clean_symbol,
+            start_date=start_date,
+            end_date=end_date,
+            as_of_time=pit_cutoff,
+        )
+        if canonical_data.observation_count > 0:
+            return {
+                "symbol": clean_symbol,
+                "records_count": canonical_data.observation_count,
+                "empty_result": False,
+                "records": canonical_data.records[:limit],
+                "pit_cutoff": pit_cutoff.isoformat(),
+                "source": canonical_data.source,
+                "data_mode": canonical_data.data_mode,
+                "quality_status": canonical_data.quality.quality_status,
+                "indicators": canonical_data.indicators,
+                "warnings": canonical_data.warnings,
+            }
+    except Exception as exc:
+        logger.warning(f"[FastMCP] YahooFinancePipeline query error for {clean_symbol}: {exc}")
+
     ensure_market_data_for_symbol(clean_symbol)
 
-    # Initialize in-process DuckDB engine and refresh views to detect any newly generated files
+    # 2. Fallback to in-process DuckDB engine
     engine = DuckDBEngine()
     engine.refresh_views()
 
     try:
-        # Check if ohlcv view exists
         tables = [r[0] for r in engine.conn.execute("SHOW TABLES").fetchall()]
         if "ohlcv" in tables:
             query = """
@@ -159,9 +185,12 @@ def query_market_data(
                     "records": records,
                     "pit_cutoff": pit_cutoff.isoformat(),
                     "source": "duckdb_parquet_partitioned",
+                    "data_mode": "HISTORICAL",
+                    "quality_status": "PASSED",
+                    "indicators": {},
+                    "warnings": [],
                 }
     except Exception as ex:
-        # If engine query fails, return honest error
         return {
             "symbol": clean_symbol,
             "records_count": 0,
@@ -169,6 +198,10 @@ def query_market_data(
             "records": [],
             "message": f"Storage query exception: {ex}",
             "source": "duckdb_parquet_partitioned",
+            "data_mode": "UNAVAILABLE",
+            "quality_status": "FAILED",
+            "indicators": {},
+            "warnings": [f"Storage query exception: {ex}"],
         }
 
     return {
@@ -178,6 +211,10 @@ def query_market_data(
         "records": [],
         "message": f"No historical records found for {clean_symbol} in range {start_date} to {end_date} before {as_of_time}.",
         "source": "duckdb_parquet_partitioned",
+        "data_mode": "UNAVAILABLE",
+        "quality_status": "FAILED",
+        "indicators": {},
+        "warnings": [f"Zero historical records found for {clean_symbol}."],
     }
 
 

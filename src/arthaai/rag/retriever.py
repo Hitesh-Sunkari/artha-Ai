@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from arthaai.core.clock.timezone import enforce_utc, now_utc
 from arthaai.rag.documents import REGULATORY_AND_STATUTORY_CHUNKS, DocumentChunk
+from arthaai.rag.chroma_store import ChromaRAGStore, get_chroma_rag_store, RAGRetrievalMatch
 
 
 class RetrievalResult(BaseModel):
@@ -32,12 +33,13 @@ class RetrievalResult(BaseModel):
 
 
 class RAGRetriever:
-    """Hybrid lexical and semantic document retriever over Indian regulatory and corporate texts."""
+    """Hybrid lexical and semantic document retriever over Indian regulatory and corporate texts backed by persistent ChromaDB."""
 
-    def __init__(self, chunks: list[DocumentChunk] | None = None) -> None:
+    def __init__(self, chunks: list[DocumentChunk] | None = None, chroma_store: ChromaRAGStore | None = None) -> None:
         self.chunks = list(chunks if chunks is not None else REGULATORY_AND_STATUTORY_CHUNKS)
         self._citation_index = {c.citation_uri: c for c in self.chunks}
         self._chunk_index = {c.chunk_id: c for c in self.chunks}
+        self.chroma_store = chroma_store or get_chroma_rag_store()
 
     def _sanitize_text(self, text: str) -> str:
         """Sanitizes untrusted text and neutralizes potential prompt-injection payloads."""
@@ -80,6 +82,34 @@ class RAGRetriever:
             elif isinstance(as_of_time, datetime):
                 pit_date = as_of_time.date()
 
+        # Execute query against persistent ChromaDB collection
+        chroma_matches = self.chroma_store.search(
+            query=clean_query,
+            symbol=symbol,
+            doc_type=doc_type,
+            as_of_time=as_of_time,
+            limit=limit,
+        )
+
+        if chroma_matches:
+            return [
+                RetrievalResult(
+                    chunk_id=m.chunk_id,
+                    doc_id=m.doc_id,
+                    doc_type=m.doc_type,
+                    title=m.title,
+                    symbol=m.symbol,
+                    effective_date=m.effective_date,
+                    relevance_score=m.relevance_score,
+                    citation_uri=m.citation_uri,
+                    source_authority=m.source_authority,
+                    content=m.content,
+                    sanitized_snippet=m.sanitized_snippet,
+                )
+                for m in chroma_matches
+            ]
+
+        # Fallback to in-memory scored results if Chroma returns zero
         scored_results: list[tuple[float, DocumentChunk]] = []
 
         for chunk in self.chunks:
@@ -120,7 +150,6 @@ class RAGRetriever:
             score += len(title_overlap) * 2.0
 
             if score > 0.0 or (symbol_upper and chunk.symbol == symbol_upper):
-                # Normalization
                 norm_score = round(min(1.0, score / max(1.0, math.sqrt(len(query_tokens) + 1))), 4)
                 scored_results.append((norm_score, chunk))
 
