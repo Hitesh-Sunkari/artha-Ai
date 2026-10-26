@@ -122,7 +122,13 @@ class LLMAdapter:
         temperature: float = 0.2,
         correlation_id: str | None = None,
     ) -> LLMResponse:
-        """Executes a structured or textual LLM call with bounded retries and cost controls."""
+        """Executes a structured or textual LLM call with automatic provider cascade.
+
+        Cascade order (configurable via default_provider):
+          1. GEMINI  — if GEMINI_API_KEY is set and not quota-exhausted
+          2. OPENAI  — if OPENAI_API_KEY is set and not quota-exhausted
+          3. DETERMINISTIC — transparent fallback, never fails
+        """
         corr_id = correlation_id or f"corr-{uuid.uuid4().hex[:8]}"
         t0 = time.perf_counter()
 
@@ -138,43 +144,87 @@ class LLMAdapter:
                 error_message=f"Run reached max LLM calls limit ({self.config.max_calls_per_run}).",
             )
 
-        provider_name = (preferred_provider or self.config.default_provider).upper()
+        # Build ordered provider cascade
+        preferred = (preferred_provider or self.config.default_provider).upper()
+        if preferred in ("GEMINI", "GOOGLE"):
+            cascade = ["GEMINI", "OPENAI"]
+        elif preferred == "OPENAI":
+            cascade = ["OPENAI", "GEMINI"]
+        else:
+            cascade = ["GEMINI", "OPENAI"]
 
-        # Check if selected provider is configured
-        if provider_name == "OPENAI" and self.config.has_openai:
-            if "OPENAI" in self._quota_exhausted_providers:
-                return self._build_quota_fallback("OPENAI", self.config.openai_model, corr_id)
-            return await self._call_openai(
-                prompt=prompt,
-                system_prompt=system_prompt,
-                run_id=run_id,
-                corr_id=corr_id,
-                json_mode=json_mode,
-                temperature=temperature,
-                t0=t0,
-            )
+        for provider_name in cascade:
+            if provider_name == "GEMINI":
+                if not self.config.has_gemini:
+                    logger.debug("Gemini key not configured, skipping.")
+                    continue
+                if "GEMINI" in self._quota_exhausted_providers:
+                    logger.debug("Gemini quota exhausted, cascading.")
+                    continue
+                logger.info("[LLM] Attempting GEMINI (%s) — run=%s", self.config.gemini_model, run_id)
+                result = await self._call_gemini(
+                    prompt=prompt,
+                    system_prompt=system_prompt,
+                    run_id=run_id,
+                    corr_id=corr_id,
+                    json_mode=json_mode,
+                    temperature=temperature,
+                    t0=t0,
+                )
+                if result.status == "SUCCESS":
+                    logger.info("[LLM] GEMINI succeeded — tokens=%d cost=$%.5f latency=%.0fms",
+                                result.completion_tokens, result.estimated_cost_usd, result.latency_ms)
+                    return result
+                if result.status == "QUOTA_EXHAUSTED":
+                    logger.warning("[LLM] GEMINI quota exhausted — cascading to next provider.")
+                    continue
+                # Other failure (auth, timeout) — cascade
+                logger.warning("[LLM] GEMINI failed (%s) — cascading. err=%s",
+                               result.status, result.error_message)
+                continue
 
-        if provider_name in ("GEMINI", "GOOGLE") and self.config.has_gemini:
-            if "GEMINI" in self._quota_exhausted_providers:
-                return self._build_quota_fallback("GEMINI", self.config.gemini_model, corr_id)
-            return await self._call_gemini(
-                prompt=prompt,
-                system_prompt=system_prompt,
-                run_id=run_id,
-                corr_id=corr_id,
-                json_mode=json_mode,
-                temperature=temperature,
-                t0=t0,
-            )
+            if provider_name == "OPENAI":
+                if not self.config.has_openai:
+                    logger.debug("OpenAI key not configured, skipping.")
+                    continue
+                if "OPENAI" in self._quota_exhausted_providers:
+                    logger.debug("OpenAI quota exhausted, cascading.")
+                    continue
+                logger.info("[LLM] Attempting OPENAI (%s) — run=%s", self.config.openai_model, run_id)
+                result = await self._call_openai(
+                    prompt=prompt,
+                    system_prompt=system_prompt,
+                    run_id=run_id,
+                    corr_id=corr_id,
+                    json_mode=json_mode,
+                    temperature=temperature,
+                    t0=t0,
+                )
+                if result.status == "SUCCESS":
+                    logger.info("[LLM] OPENAI succeeded — tokens=%d cost=$%.5f latency=%.0fms",
+                                result.completion_tokens, result.estimated_cost_usd, result.latency_ms)
+                    return result
+                if result.status == "QUOTA_EXHAUSTED":
+                    logger.warning("[LLM] OPENAI quota exhausted — cascading to deterministic fallback.")
+                    continue
+                logger.warning("[LLM] OPENAI failed (%s) — cascading to deterministic. err=%s",
+                               result.status, result.error_message)
+                continue
 
-        # Unconfigured provider fallback
+        # Final deterministic fallback — always succeeds
+        logger.warning("[LLM] All providers exhausted or unavailable — using DETERMINISTIC fallback for run=%s", run_id)
         return LLMResponse(
-            status="NOT_CONFIGURED",
-            provider=provider_name,
-            model="none",
+            content="",
+            status="FALLBACK",
+            provider="DETERMINISTIC",
+            model="rule-engine-v2",
             correlation_id=corr_id,
-            error_message=f"Model provider '{provider_name}' is not configured with an API key.",
+            error_message=(
+                "All configured LLM providers are unavailable (quota exhausted or not configured). "
+                "Using deterministic analytical rules. Add GEMINI_API_KEY to .env to enable AI generation."
+            ),
         )
+
 
     async def _call_openai(
         self,

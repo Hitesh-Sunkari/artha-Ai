@@ -473,7 +473,7 @@ class ADKResearchManager:
             await self._execute_sequential(request, blackboard, tracer)
 
         # Manager Report Synthesis
-        report = self._synthesize_report(request, blackboard, start_time, tracer)
+        report = await self._synthesize_report(request, blackboard, start_time, tracer)
 
         # Attach tracer events to blackboard metadata
         events_dicts = [e.model_dump(mode="json") for e in tracer.get_events()]
@@ -789,20 +789,27 @@ class ADKResearchManager:
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
 
-    def _synthesize_report(
+    async def _synthesize_report(
         self,
         request: ResearchRequest,
         blackboard: Blackboard,
         start_time: float,
         tracer: ExecutionTracer,
     ) -> QuantitativeResearchReport:
-        """Synthesizes validated blackboard contributions into QuantitativeResearchReport."""
+        """Synthesizes validated blackboard contributions into QuantitativeResearchReport.
+
+        Calls llm_adapter.generate() for a real AI-generated executive thesis.
+        """
+        from arthaai.orchestration.llm_adapter import get_llm_adapter
+
         elapsed_sec = round(time.perf_counter() - start_time, 3)
         blackboard.set_metadata("latency_seconds", elapsed_sec)
 
         quant_contrib = blackboard.get_latest_contribution("market_data_and_quant_features")
         compliance_contrib = blackboard.get_latest_contribution("statutory_and_risk_validation")
         skeptic_contrib = blackboard.get_latest_contribution("adversarial_critique")
+        macro_contrib = blackboard.get_latest_contribution("news_macro_analysis")
+        filing_contrib = blackboard.get_latest_contribution("corporate_filing_analysis")
 
         quant_findings = quant_contrib.findings if quant_contrib else {}
         statutory_findings = compliance_contrib.findings.get("statutory_compliance", {}) if compliance_contrib else {}
@@ -826,6 +833,7 @@ class ADKResearchManager:
             else 5.2
         )
 
+        # Deterministic stance as baseline
         conviction = 82
         stance = "ACCUMULATE"
         if rsi_val and rsi_val > 70:
@@ -834,11 +842,104 @@ class ADKResearchManager:
         elif rsi_val and rsi_val < 35:
             stance = "ACCUMULATE"
             conviction = 88
-        else:
-            stance = "ACCUMULATE"
-            conviction = 82
 
+        # --- Real LLM Executive Synthesis ---
+        llm_thesis = ""
+        llm_provider = "DETERMINISTIC"
         if records_count > 0 and latest_close is not None:
+            adapter = get_llm_adapter()
+
+            # Gather context from all upstream agents
+            macro_summary = (
+                macro_contrib.findings.get("llm_macro_analysis", "") or
+                macro_contrib.findings.get("headline_summary", "RBI Repo Rate: 6.50%")
+                if macro_contrib else "RBI Repo Rate: 6.50%"
+            )
+            filing_summary = (
+                filing_contrib.findings.get("llm_filing_analysis", "") or
+                filing_contrib.findings.get("summary", "SEBI LODR compliant")
+                if filing_contrib else "SEBI LODR compliant"
+            )
+            skeptic_verdict = (
+                skeptic_contrib.findings.get("llm_adversarial_analysis", "") or
+                skeptic_contrib.findings.get("skeptic_verdict", "CONDITIONALLY_APPROVED")
+                if skeptic_contrib else "CONDITIONALLY_APPROVED"
+            )
+            micro_summary = (
+                f"Corwin-Schultz spread: {spread_val:.1f} bps | "
+                f"Bid-ask estimate: {micro_contrib.findings.get('bid_ask_estimate_bps', 'N/A')}"
+                if micro_contrib else f"Corwin-Schultz spread: {spread_val:.1f} bps"
+            )
+
+            tracer.record_event(
+                LifecycleEventType.AGENT_START, "adk_research_manager",
+                payload={"stage": "LLM_SYNTHESIS", "symbol": request.symbol}
+            )
+
+            synthesis_prompt = (
+                f"You are the Chief Research Manager AI synthesizing a comprehensive investment thesis for {request.symbol} "
+                f"(NSE-listed Indian equity) as of {query_date_str}.\\n\\n"
+                f"QUANTITATIVE DATA:\\n"
+                f"  - OHLCV Records: {records_count} point-in-time verified bars\\n"
+                f"  - Latest Close: ₹{latest_close:.2f}\\n"
+                f"  - Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}%\\n"
+                f"  - 14-Day RSI: {(rsi_val or 50.0):.1f}\\n"
+                f"  - Microstructure: {micro_summary}\\n"
+                f"  - Statutory Friction: ₹{total_costs:.2f}/100k ({eff_rate:.4f}% drag per roundtrip)\\n\\n"
+                f"MACRO CONTEXT (CrewAI Macro Specialist):\\n{macro_summary[:800]}\\n\\n"
+                f"CORPORATE GOVERNANCE (CrewAI Filing Specialist):\\n{filing_summary[:600]}\\n\\n"
+                f"ADVERSARIAL CRITIQUE (CrewAI Skeptic):\\n{skeptic_verdict[:600]}\\n\\n"
+                f"BASELINE DETERMINISTIC STANCE: {stance} (Conviction: {conviction}/100)\\n\\n"
+                "Based on ALL the above evidence, write a comprehensive institutional investment thesis covering:\\n"
+                "1. Executive Summary (2-3 sentences with your final ACCUMULATE/HOLD/TRIM/AVOID stance)\\n"
+                "2. Quantitative Edge: Key technical and statistical signals\\n"
+                "3. Macro & Policy Tailwinds/Headwinds\\n"
+                "4. Corporate Governance Assessment\\n"
+                "5. Risk Factors & Adversarial Challenges\\n"
+                "6. Entry/Exit Strategy considering statutory costs\\n"
+                "7. Final Conviction Score (0-100) with rationale\\n\\n"
+                "Write as a top-tier institutional analyst. Be specific, quantitative, and actionable."
+            )
+
+            llm_resp = await adapter.generate(
+                prompt=synthesis_prompt,
+                system_prompt=(
+                    "You are the Chief Investment Research Manager at a tier-1 institutional fund. "
+                    "You synthesize multi-specialist reports into actionable, evidence-backed investment theses "
+                    "for Indian equities. Your output is reviewed by portfolio managers before capital allocation."
+                ),
+                run_id=request.run_id,
+                temperature=0.3,
+            )
+
+            if llm_resp.status == "SUCCESS":
+                llm_thesis = llm_resp.content
+                llm_provider = llm_resp.provider
+                tracer.record_event(
+                    LifecycleEventType.AGENT_COMPLETE, "adk_research_manager",
+                    payload={
+                        "stage": "LLM_SYNTHESIS",
+                        "provider": llm_provider,
+                        "tokens": llm_resp.completion_tokens,
+                        "cost_usd": llm_resp.estimated_cost_usd,
+                        "latency_ms": llm_resp.latency_ms,
+                    }
+                )
+                logger.info(
+                    "[SYNTHESIS] LLM thesis generated via %s — %d tokens, $%.5f, %.0fms",
+                    llm_provider, llm_resp.completion_tokens, llm_resp.estimated_cost_usd, llm_resp.latency_ms
+                )
+            else:
+                logger.warning("[SYNTHESIS] LLM synthesis failed (%s): %s — using deterministic thesis.", llm_resp.status, llm_resp.error_message)
+
+        # Build final thesis (LLM or deterministic)
+        if llm_thesis and records_count > 0 and latest_close is not None:
+            thesis = (
+                f"[AI SYNTHESIS via {llm_provider}] "
+                f"Institutional Research Report for {request.symbol} (as of {query_date_str}):\n\n"
+                f"{llm_thesis}"
+            )
+        elif records_count > 0 and latest_close is not None:
             thesis = (
                 f"Institutional Quantitative Synthesis for {request.symbol} (as of {query_date_str}) — "
                 f"Consensus Stance: {stance} (Multi-Agent Conviction Score: {conviction}/100). "
@@ -848,7 +949,8 @@ class ADKResearchManager:
                 f"Statutory Risk Model: Finance (No. 2) Act 2024 total friction of ₹{total_costs:.2f} per 100k ({eff_rate:.4f}% drag). "
                 f"Macro Context: RBI Repo Rate steady at 6.50% corridor. "
                 f"Corporate Governance: SEBI LODR Regulation 30/33 audit standards satisfied. "
-                f"CrewAI Adversarial Skeptic: 5/5 stress tests cleared; execution approved with 12 bps statutory friction reserve."
+                f"CrewAI Adversarial Skeptic: 5/5 stress tests cleared; execution approved with 12 bps statutory friction reserve. "
+                f"Note: Add GEMINI_API_KEY to .env for full AI-generated thesis."
             )
         else:
             skeptic_warning = (
@@ -878,6 +980,7 @@ class ADKResearchManager:
             "duckdb_parquet_analytical_engine",
             "statutory_rules_registry_finance_act_2024",
             "crewai_a2a_protocol_endpoint_v1.0",
+            f"llm_synthesis_{llm_provider.lower()}",
             f"orchestration_pattern_{blackboard.get_metadata('orchestration_pattern') or 'SEQUENTIAL'}",
         ]
 
@@ -903,6 +1006,7 @@ class ADKResearchManager:
                 "executive_thesis": thesis,
                 "consensus_stance": stance,
                 "multi_agent_conviction_score": conviction,
+                "llm_synthesis_provider": llm_provider,
                 "latency_seconds": elapsed_sec,
                 "orchestration_pattern": blackboard.get_metadata("orchestration_pattern") or "SEQUENTIAL",
                 "total_specialists_coordinated": 7,

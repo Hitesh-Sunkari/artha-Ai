@@ -103,19 +103,26 @@ class LLMConfig(BaseSettings):
     gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
     google_api_key: str | None = Field(default=None, alias="GOOGLE_API_KEY")
 
-    default_provider: str = "openai"
-    openai_model: str = "gpt-4o-mini"
-    gemini_model: str = "gemini-1.5-flash"
+    # Cascade: prefer GEMINI if key is present, else OPENAI, else DETERMINISTIC
+    default_provider: str = Field(default="GEMINI", alias="LLM_DEFAULT_PROVIDER")
+    openai_model: str = Field(default="gpt-4o-mini", alias="LLM_OPENAI_MODEL")
+    gemini_model: str = Field(default="gemini-1.5-flash", alias="LLM_GEMINI_MODEL")
 
-    timeout_seconds: float = 30.0
+    timeout_seconds: float = Field(default=45.0, alias="LLM_TIMEOUT_SECONDS")
     max_retries: int = 2
     max_concurrent_requests: int = 5
-    max_calls_per_run: int = 10
-    max_budget_per_run_usd: float = 0.10
+    max_calls_per_run: int = Field(default=20, alias="LLM_MAX_CALLS_PER_RUN")
+    max_budget_per_run_usd: float = 0.50
 
     @property
     def effective_gemini_key(self) -> str | None:
-        return self.gemini_api_key or self.google_api_key
+        import os
+        return (
+            self.gemini_api_key
+            or self.google_api_key
+            or os.environ.get("GEMINI_API_KEY")
+            or os.environ.get("GOOGLE_API_KEY")
+        )
 
     @property
     def has_openai(self) -> bool:

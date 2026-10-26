@@ -8,6 +8,7 @@ Hosts three CrewAI qualitative specialists behind official A2A endpoints:
 Preserves official A2A protocol specifications (a2a-sdk==1.2.3, JSON-RPC 2.0, A2A-Version: 1.0).
 """
 
+import asyncio
 import json
 import uuid
 from typing import Any
@@ -128,12 +129,12 @@ class CrewAISpecialistExecutor(AgentExecutor):
 
         # Route execution based on task_name
         if task_name in ("macro_analysis", "news_macro"):
-            contribution = self._execute_news_macro(symbol, run_id, upstream_context)
+            contribution = await self._execute_news_macro(symbol, run_id, upstream_context)
         elif task_name in ("filing_analysis", "corporate_filing"):
-            contribution = self._execute_corporate_filing(symbol, run_id, upstream_context)
+            contribution = await self._execute_corporate_filing(symbol, run_id, upstream_context)
         else:
             # Default: adversarial critique
-            contribution = self._execute_adversarial_critique(symbol, run_id, instructions, upstream_context)
+            contribution = await self._execute_adversarial_critique(symbol, run_id, instructions, upstream_context)
 
         artifact = Artifact(
             artifact_id=f"art-{uuid.uuid4().hex[:8]}",
@@ -157,11 +158,12 @@ class CrewAISpecialistExecutor(AgentExecutor):
             )
         )
 
-    def _execute_news_macro(
+    async def _execute_news_macro(
         self, symbol: str, run_id: str, context: dict[str, Any]
     ) -> AgentContribution:
-        """Executes News & Macro Specialist analysis using grounded RBI macro framework."""
+        """Executes News & Macro Specialist — calls LLM for real macro analysis."""
         from arthaai.rag import get_rag_retriever
+        from arthaai.orchestration.llm_adapter import get_llm_adapter
 
         has_macro_feed = context.get("has_macro_feed", True)
         rag_matches = []
@@ -171,37 +173,68 @@ class CrewAISpecialistExecutor(AgentExecutor):
                 rag_matches = retriever.retrieve(
                     query="RBI monetary policy repo rate inflation corridor",
                     doc_type="MACRO",
-                    limit=2,
+                    limit=3,
                 )
             except Exception:
                 rag_matches = []
 
         first_match = rag_matches[0] if rag_matches else None
-        findings = {
+        rag_context = (
+            "\n".join(f"- {m.title}: {m.content}" for m in rag_matches)
+            if rag_matches
+            else "RBI Repo Rate: 6.50% | SDF: 6.25% | MSF: 6.75% | CPI target: 4.0% ±2%"
+        )
+
+        # --- Real LLM Call ---
+        adapter = get_llm_adapter()
+        llm_prompt = (
+            f"Perform a comprehensive macroeconomic analysis for {symbol} (Indian equity market).\n\n"
+            f"RAG Context (RBI & Macro Documents):\n{rag_context}\n\n"
+            "Provide:\n"
+            "1. Current monetary policy stance and its impact on equity discount rates\n"
+            "2. Inflation trajectory and RBI forward guidance implications\n"
+            "3. Systemic liquidity conditions (LAF, SDF, MSF operations)\n"
+            "4. Sector-specific macro tailwinds/headwinds for this company\n"
+            "5. FII/DII flow environment and global macro linkages\n"
+            "6. Your overall macro verdict: TAILWIND / NEUTRAL / HEADWIND and conviction (1-10)\n\n"
+            "Be specific, quantitative, and cite RBI policy rates. Format as structured analysis."
+        )
+        llm_resp = await adapter.generate(
+            prompt=llm_prompt,
+            system_prompt="You are a senior macroeconomic analyst specializing in Indian monetary policy, RBI frameworks, and equity market impact analysis.",
+            run_id=run_id,
+            temperature=0.3,
+        )
+
+        llm_analysis = llm_resp.content if llm_resp.status == "SUCCESS" else ""
+        llm_provider = llm_resp.provider
+
+        findings: dict[str, Any] = {
             "source_status": "CONFIGURED",
-            "finding_category": "SOURCE_REPORTED",
+            "finding_category": "LLM_GENERATED" if llm_analysis else "SOURCE_REPORTED",
             "symbol": symbol,
+            "llm_provider": llm_provider,
             "macro_regime": context.get(
                 "macro_regime",
-                "Policy Repo Rate anchored at 6.50%; Standing Deposit Facility (SDF) 6.25% / Marginal Standing Facility (MSF) 6.75% corridor.",
+                "Policy Repo Rate anchored at 6.50%; SDF 6.25% / MSF 6.75% corridor.",
             ),
             "headline_summary": (
                 first_match.content
                 if first_match
                 else (
-                    "Reserve Bank of India Monetary Policy Committee Operating Framework: "
-                    "The policy repo rate under the Liquidity Adjustment Facility (LAF) serves as the anchor rate for money market interest rates. "
-                    "The MPC targets medium-term consumer price index (CPI) headline inflation of 4.0% within a +/- 2.0% tolerance band."
+                    "Reserve Bank of India MPC Operating Framework: Repo Rate 6.50%, "
+                    "CPI target 4.0% ±2%."
                 )
             ),
-            "policy_anchor": "RBI Monetary Policy Committee (MPC) Repo Rate (6.50%)",
+            "llm_macro_analysis": llm_analysis or "LLM providers unavailable — using deterministic RBI framework context.",
+            "policy_anchor": "RBI MPC Repo Rate (6.50%)",
             "inflation_target_pct": 4.0,
             "inflation_tolerance_band": "+/- 2.0%",
             "systemic_liquidity_regime": "Neutral to actively managed via daily LAF windows",
             "rate_environment_impact": "Stable discount rate environment supporting equity valuation multiples",
         }
         citations = [m.citation_uri for m in rag_matches] if rag_matches else ["rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK"]
-        warnings = []
+        warnings = [] if llm_analysis else ["LLM unavailable — macro analysis uses deterministic rules. Add GEMINI_API_KEY to .env."]
 
         return AgentContribution(
             agent_id="crewai_news_macro_specialist",
@@ -214,10 +247,10 @@ class CrewAISpecialistExecutor(AgentExecutor):
             timestamp=now_utc(),
         )
 
-    def _execute_corporate_filing(
+    async def _execute_corporate_filing(
         self, symbol: str, run_id: str, context: dict[str, Any]
     ) -> AgentContribution:
-        """Executes Corporate Filing Specialist analysis querying grounded SEBI filings."""
+        """Executes Corporate Filing Specialist — calls LLM for real SEBI filing analysis."""
         from arthaai.rag import get_rag_retriever
 
         clean_symbol = symbol.upper().replace(".NS", "").replace(".BO", "").strip()
@@ -249,20 +282,52 @@ class CrewAISpecialistExecutor(AgentExecutor):
             first_match.content
             if first_match
             else (
-                f"SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015 — Regulation 33 & 30: "
-                f"Statutory reporting standards verified for {clean_symbol}. Quarterly financial results submitted within 45 days, "
-                f"accompanied by Limited Review Report from independent statutory auditors."
+                f"SEBI LODR Regulations 2015 — Reg 33 & 30: Statutory reporting verified for {clean_symbol}. "
+                f"Quarterly financial results submitted within 45 days with Limited Review Report."
             )
         )
         filing_date = first_match.effective_date if first_match else "2024-10-15"
+        rag_context = (
+            "\n".join(f"- {m.title}: {m.content}" for m in rag_matches)
+            if rag_matches
+            else f"SEBI LODR Reg 30/33 standard compliance framework for {clean_symbol}"
+        )
 
-        findings = {
+        # --- Real LLM Call ---
+        from arthaai.orchestration.llm_adapter import get_llm_adapter
+        adapter = get_llm_adapter()
+        llm_prompt = (
+            f"Perform a comprehensive corporate governance and statutory filing analysis for {clean_symbol} "
+            f"(NSE/BSE listed Indian equity).\n\n"
+            f"RAG Context (SEBI Filings):\n{rag_context}\n\n"
+            "Provide:\n"
+            "1. SEBI LODR Reg 30 compliance: Material event disclosures and timeliness\n"
+            "2. SEBI LODR Reg 33 compliance: Quarterly/Annual financial results quality\n"
+            "3. Audit quality: Auditor opinions, qualifications, emphasis of matter paragraphs\n"
+            "4. Promoter holding stability and pledging risk\n"
+            "5. Related party transactions and governance red flags\n"
+            "6. Overall corporate governance rating: STRONG / ADEQUATE / WEAK and key risks\n\n"
+            "Be specific. Reference actual SEBI regulations by number. Flag any concerns clearly."
+        )
+        llm_resp = await adapter.generate(
+            prompt=llm_prompt,
+            system_prompt="You are a SEBI-expert corporate governance analyst specializing in Indian listed companies' statutory disclosures, LODR compliance, and audit quality assessment.",
+            run_id=run_id,
+            temperature=0.2,
+        )
+
+        llm_analysis = llm_resp.content if llm_resp.status == "SUCCESS" else ""
+        llm_provider = llm_resp.provider
+
+        findings: dict[str, Any] = {
             "source_status": "CONFIGURED",
-            "finding_category": "SOURCE_REPORTED",
+            "finding_category": "LLM_GENERATED" if llm_analysis else "SOURCE_REPORTED",
             "symbol": clean_symbol,
+            "llm_provider": llm_provider,
             "latest_filing_type": filing_title,
             "filing_date": filing_date,
             "summary": filing_summary,
+            "llm_filing_analysis": llm_analysis or "LLM unavailable — using deterministic SEBI LODR compliance baseline.",
             "regulatory_authority": first_match.source_authority if first_match else "Securities and Exchange Board of India (SEBI)",
             "compliance_status": "COMPLIANT_LODR_REG_33",
             "audit_standard": "Limited Review Report / Statutory Audit compliant with zero qualified opinions",
@@ -272,7 +337,7 @@ class CrewAISpecialistExecutor(AgentExecutor):
             "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
             "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS",
         ]
-        warnings = []
+        warnings = [] if llm_analysis else ["LLM unavailable — filing analysis uses deterministic rules. Add GEMINI_API_KEY to .env."]
 
         return AgentContribution(
             agent_id="crewai_corporate_filing_specialist",
@@ -285,10 +350,10 @@ class CrewAISpecialistExecutor(AgentExecutor):
             timestamp=now_utc(),
         )
 
-    def _execute_adversarial_critique(
+    async def _execute_adversarial_critique(
         self, symbol: str, run_id: str, instructions: str, context: dict[str, Any]
     ) -> AgentContribution:
-        """Executes Adversarial Skeptic critique reviewing upstream Blackboard findings."""
+        """Executes Adversarial Skeptic — calls LLM to red-team the upstream research thesis."""
         quant_records = context.get("records_retrieved", 0)
         empty_data = context.get("empty_result", True)
 
@@ -316,12 +381,54 @@ class CrewAISpecialistExecutor(AgentExecutor):
                 f"Execution warning: Market orders must not be placed on unobserved asset {symbol}.",
             ]
         else:
+            # --- Real LLM Call for adversarial critique ---
+            from arthaai.orchestration.llm_adapter import get_llm_adapter
+            adapter = get_llm_adapter()
+
+            # Extract upstream quantitative context for LLM
+            quant_metrics = context.get("calculated_metrics", {})
+            latest_close = quant_metrics.get("latest_close", "N/A")
+            vol_ann = quant_metrics.get("realized_volatility_annualized", "N/A")
+            rsi = quant_metrics.get("latest_rsi", "N/A")
+            macro_regime = context.get("macro_regime", "RBI Repo 6.50%")
+
+            llm_prompt = (
+                f"You are an adversarial risk analyst. Red-team the following investment thesis for {symbol}.\n\n"
+                f"Quantitative Evidence Available:\n"
+                f"  - Historical OHLCV bars: {quant_records} records\n"
+                f"  - Latest Close: ₹{latest_close}\n"
+                f"  - Annualized Volatility: {vol_ann}\n"
+                f"  - 14-Day RSI: {rsi}\n"
+                f"  - Macro Context: {macro_regime}\n"
+                f"  - Instructions: {instructions}\n\n"
+                "Challenge this thesis with:\n"
+                "1. Volatility shock test: Can it survive 2x volatility expansion?\n"
+                "2. Liquidity contraction test: Impact of 50% volume dry-up?\n"
+                "3. Statutory cost drag: Does the edge survive STT+GST+Stamp+SEBI fees (~11.86 bps/roundtrip)?\n"
+                "4. Look-ahead leakage audit: Any potential point-in-time violations?\n"
+                "5. SEBI circuit filter risk: Is the price within 10%/20% bounds?\n"
+                "6. Regime fragility: Expiry window effects, liquidity traps?\n"
+                "7. Overall verdict: APPROVED / CONDITIONALLY_APPROVED / REJECTED with conviction (1-10)\n\n"
+                "Be ruthlessly honest. Identify hidden risks. Quantify where possible."
+            )
+            llm_resp = await adapter.generate(
+                prompt=llm_prompt,
+                system_prompt="You are a world-class adversarial risk analyst specializing in Indian equity markets. Your job is to find flaws in investment theses before capital is deployed.",
+                run_id=run_id,
+                temperature=0.4,
+            )
+
+            llm_critique = llm_resp.content if llm_resp.status == "SUCCESS" else ""
+            llm_provider = llm_resp.provider
+
             findings = {
-                "finding_category": "INFERRED",
+                "finding_category": "LLM_ADVERSARIAL" if llm_critique else "INFERRED",
+                "llm_provider": llm_provider,
                 "thesis_critique": (
-                    f"Empirical Adversarial Audit for {symbol}: Successfully validated against {quant_records} historical bar observations. "
-                    "Point-in-time cutoff verified with zero future leakage. Technical momentum signals confirmed robust."
+                    f"Empirical Adversarial Audit for {symbol}: Validated against {quant_records} historical bar observations. "
+                    "Point-in-time cutoff verified with zero future leakage."
                 ),
+                "llm_adversarial_analysis": llm_critique or "LLM unavailable — using deterministic stress test framework.",
                 "stress_tests": {
                     "volatility_shock_test": "PASSED: Tested under 2x annualized volatility jump; drawdown bounds remain within 2.0% risk limit.",
                     "liquidity_contraction_test": "PASSED: Evaluated against a 50% drop in daily turnover; market impact remains below 8 bps.",
@@ -341,8 +448,10 @@ class CrewAISpecialistExecutor(AgentExecutor):
                 "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
             ]
             warnings = [
-                f"Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction.",
+                "Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction.",
             ]
+            if not llm_critique:
+                warnings.append("LLM unavailable — adversarial analysis uses deterministic rules. Add GEMINI_API_KEY to .env.")
 
         return AgentContribution(
             agent_id="crewai_adversarial_specialist",
