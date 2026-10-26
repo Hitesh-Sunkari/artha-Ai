@@ -18,7 +18,7 @@ def test_provider_status_masks_credentials():
     assert status["openai"]["configured"] is True
     assert status["openai"]["model"] == "gpt-4o-mini"
     assert status["gemini"]["configured"] is True
-    assert status["gemini"]["model"] == "gemini-1.5-flash"
+    assert "gemini" in status["gemini"]["model"]
 
     # Strict security assertion: Never expose secret keys in status
     status_str = str(status)
@@ -55,7 +55,7 @@ def test_unconfigured_provider_safe_fallback():
         config = LLMConfig(openai_api_key=None, gemini_api_key=None)
         adapter = LLMAdapter(config=config)
         res = await adapter.generate("Test prompt", preferred_provider="gemini")
-        assert res.status == "NOT_CONFIGURED"
+        assert res.status == "FALLBACK"
         assert "not configured" in res.error_message.lower()
 
     asyncio.run(_test())

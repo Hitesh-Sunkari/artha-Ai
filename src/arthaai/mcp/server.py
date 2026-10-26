@@ -152,9 +152,7 @@ def query_market_data(
     except Exception as exc:
         logger.warning(f"[FastMCP] YahooFinancePipeline query error for {clean_symbol}: {exc}")
 
-    ensure_market_data_for_symbol(clean_symbol)
-
-    # 2. Fallback to in-process DuckDB engine
+    # 2. Fallback to in-process DuckDB engine over pre-existing Parquet store
     engine = DuckDBEngine()
     engine.refresh_views()
 

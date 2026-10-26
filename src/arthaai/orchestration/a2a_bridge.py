@@ -165,18 +165,36 @@ class CrewAISpecialistExecutor(AgentExecutor):
         from arthaai.rag import get_rag_retriever
         from arthaai.orchestration.llm_adapter import get_llm_adapter
 
-        has_macro_feed = context.get("has_macro_feed", True)
+        has_macro_feed = context.get("has_macro_feed", False)
+        if not has_macro_feed:
+            findings: dict[str, Any] = {
+                "source_status": "NOT_CONFIGURED",
+                "finding_category": "UNAVAILABLE",
+                "symbol": symbol,
+                "headline_summary": None,
+                "macro_regime": "Macro/News data feed is not configured for this environment.",
+            }
+            return AgentContribution(
+                agent_id="crewai_news_macro_specialist",
+                framework="CREWAI",
+                task_name="news_macro_analysis",
+                status="SUCCESS",
+                findings=findings,
+                evidence_citations=[],
+                warnings=["News and macro data feed is not configured. External market headlines unavailable."],
+                timestamp=now_utc(),
+            )
+
         rag_matches = []
-        if has_macro_feed:
-            try:
-                retriever = get_rag_retriever()
-                rag_matches = retriever.retrieve(
-                    query="RBI monetary policy repo rate inflation corridor",
-                    doc_type="MACRO",
-                    limit=3,
-                )
-            except Exception:
-                rag_matches = []
+        try:
+            retriever = get_rag_retriever()
+            rag_matches = retriever.retrieve(
+                query="RBI monetary policy repo rate inflation corridor",
+                doc_type="MACRO",
+                limit=3,
+            )
+        except Exception:
+            rag_matches = []
 
         first_match = rag_matches[0] if rag_matches else None
         rag_context = (
@@ -254,27 +272,45 @@ class CrewAISpecialistExecutor(AgentExecutor):
         from arthaai.rag import get_rag_retriever
 
         clean_symbol = symbol.upper().replace(".NS", "").replace(".BO", "").strip()
-        has_filings_feed = context.get("has_filings_feed", True)
+        has_filings_feed = context.get("has_filings_feed", False)
+        if not has_filings_feed:
+            findings: dict[str, Any] = {
+                "source_status": "NOT_CONFIGURED",
+                "finding_category": "UNAVAILABLE",
+                "symbol": clean_symbol,
+                "latest_filing_type": None,
+                "summary": "SEBI corporate filings feed is not configured for this environment.",
+            }
+            return AgentContribution(
+                agent_id="crewai_corporate_filing_specialist",
+                framework="CREWAI",
+                task_name="corporate_filing_analysis",
+                status="SUCCESS",
+                findings=findings,
+                evidence_citations=[],
+                warnings=["Corporate filings feed is not configured. Statutory regulatory filings unavailable."],
+                timestamp=now_utc(),
+            )
+
         rag_matches = []
-        if has_filings_feed:
-            try:
-                retriever = get_rag_retriever()
-                # Try specific symbol filing first
+        try:
+            retriever = get_rag_retriever()
+            # Try specific symbol filing first
+            rag_matches = retriever.retrieve(
+                query=f"financial results quarterly disclosures {clean_symbol}",
+                symbol=clean_symbol,
+                doc_type="FILING",
+                limit=2,
+            )
+            # If no company-specific chunk, retrieve SEBI LODR regulations
+            if not rag_matches:
                 rag_matches = retriever.retrieve(
-                    query=f"financial results quarterly disclosures {clean_symbol}",
-                    symbol=clean_symbol,
-                    doc_type="FILING",
+                    query="SEBI LODR Regulation 30 33 disclosure financial results audit",
+                    doc_type="REGULATION",
                     limit=2,
                 )
-                # If no company-specific chunk, retrieve SEBI LODR regulations
-                if not rag_matches:
-                    rag_matches = retriever.retrieve(
-                        query="SEBI LODR Regulation 30 33 disclosure financial results audit",
-                        doc_type="REGULATION",
-                        limit=2,
-                    )
-            except Exception:
-                rag_matches = []
+        except Exception:
+            rag_matches = []
 
         first_match = rag_matches[0] if rag_matches else None
         filing_title = first_match.title if first_match else f"{clean_symbol} Statutory Disclosure Review"

@@ -151,9 +151,9 @@ class TestCrewAISpecialistUnconfiguredFeed:
     def test_news_macro_unconfigured_source_status(self):
         """News macro specialist must report NOT_CONFIGURED and zero citations."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_news_macro(
+        contrib = _sync(executor._execute_news_macro(
             symbol="RELIANCE", run_id="test-feed-001", context={}
-        )
+        ))
         assert contrib.findings["source_status"] == "NOT_CONFIGURED"
         assert contrib.findings["finding_category"] == "UNAVAILABLE"
         assert contrib.evidence_citations == []
@@ -162,9 +162,9 @@ class TestCrewAISpecialistUnconfiguredFeed:
     def test_corporate_filing_unconfigured_source_status(self):
         """Filing specialist must report NOT_CONFIGURED and zero citations."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_corporate_filing(
+        contrib = _sync(executor._execute_corporate_filing(
             symbol="TCS", run_id="test-feed-002", context={}
-        )
+        ))
         assert contrib.findings["source_status"] == "NOT_CONFIGURED"
         assert contrib.findings["finding_category"] == "UNAVAILABLE"
         assert contrib.evidence_citations == []
@@ -173,9 +173,9 @@ class TestCrewAISpecialistUnconfiguredFeed:
     def test_news_macro_does_not_fabricate_headlines(self):
         """News macro specialist must not fabricate specific stock-related headlines."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_news_macro(
+        contrib = _sync(executor._execute_news_macro(
             symbol="INFY", run_id="test-feed-003", context={}
-        )
+        ))
         findings_str = str(contrib.findings).lower()
         # Should not mention specific financial data / numbers as fabricated headlines
         assert "q3 result" not in findings_str or "configured" not in findings_str
@@ -192,12 +192,12 @@ class TestAdversarialOnZeroData:
     def test_regime_fragility_prefixed_unverified_on_zero_data(self):
         """Adversarial critique must label regime_fragility as UNVERIFIED when data absent."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_adversarial_critique(
+        contrib = _sync(executor._execute_adversarial_critique(
             symbol=_GHOST_SYMBOL,
             run_id="test-adv-001",
             instructions="",
             context={"records_retrieved": 0, "empty_result": True},
-        )
+        ))
         regime = contrib.findings.get("regime_fragility", "")
         assert regime.startswith("UNVERIFIED"), (
             f"Expected 'UNVERIFIED' prefix, got: {regime!r}"
@@ -206,23 +206,23 @@ class TestAdversarialOnZeroData:
     def test_finding_category_is_hypothesis_not_measured(self):
         """Adversarial critique on zero data must be HYPOTHESIS, not MEASURED."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_adversarial_critique(
+        contrib = _sync(executor._execute_adversarial_critique(
             symbol=_GHOST_SYMBOL,
             run_id="test-adv-002",
             instructions="",
             context={"records_retrieved": 0, "empty_result": True},
-        )
+        ))
         assert contrib.findings["finding_category"] == "HYPOTHESIS"
 
     def test_no_empirical_claims_cited_on_zero_data(self):
         """Adversarial critique must produce zero citations when data is absent."""
         executor = CrewAISpecialistExecutor()
-        contrib = executor._execute_adversarial_critique(
+        contrib = _sync(executor._execute_adversarial_critique(
             symbol=_GHOST_SYMBOL,
             run_id="test-adv-003",
             instructions="",
             context={"records_retrieved": 0, "empty_result": True},
-        )
+        ))
         assert contrib.evidence_citations == []
 
 

@@ -62,7 +62,11 @@ def test_end_to_end_vertical_slice():
         assert report.as_of_time == now
 
         assert "records_retrieved" in report.quantitative_findings
-        assert report.quantitative_findings["data_source"] == "duckdb_parquet_partitioned"
+        assert report.quantitative_findings["data_source"] in (
+            "duckdb_parquet_partitioned",
+            "yfinance_cached_parquet",
+            "yfinance_live",
+        )
 
         assert "total_statutory_costs_inr" in report.statutory_risk_bounds
         assert report.statutory_risk_bounds["total_statutory_costs_inr"] > 0

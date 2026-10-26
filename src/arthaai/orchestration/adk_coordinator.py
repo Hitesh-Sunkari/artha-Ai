@@ -222,6 +222,29 @@ class ADKMicrostructureSpecialist:
             else []
         )
 
+        if not bars:
+            findings = {
+                "microstructure_status": "UNAVAILABLE",
+                "finding_category": "UNAVAILABLE",
+                "symbol": symbol,
+                "minimum_required_schema": "L2_ORDER_BOOK_OR_OHLCV_BARS",
+                "message": f"Microstructure metrics unavailable for {symbol} due to absence of order book depth or bar observations.",
+            }
+            warnings = [
+                f"Tick queue depth and order book telemetry unavailable for {symbol}; parametric estimation skipped."
+            ]
+            citations: list[str] = []
+            return AgentContribution(
+                agent_id="adk_microstructure_specialist",
+                framework="GOOGLE_ADK",
+                task_name="microstructure_analysis",
+                status="SUCCESS",
+                findings=findings,
+                evidence_citations=citations,
+                warnings=warnings,
+                timestamp=now_utc(),
+            )
+
         spread_bps = 5.2
         turnover_cr = 385.0
         kyles_lambda = 0.0135
@@ -564,6 +587,7 @@ class ADKResearchManager:
             run_id=request.run_id,
             task_name="macro_analysis",
             instructions=f"Analyze macroeconomic environment for {request.symbol}",
+            upstream_context={"has_macro_feed": True},
         )
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -587,6 +611,7 @@ class ADKResearchManager:
             run_id=request.run_id,
             task_name="filing_analysis",
             instructions=f"Inspect statutory filings for {request.symbol}",
+            upstream_context={"has_filings_feed": True},
         )
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -663,7 +688,10 @@ class ADKResearchManager:
                 payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "concurrency": "PARALLEL_BRANCH"},
             )
             res = await self.a2a_bridge.invoke_specialist(
-                symbol=request.symbol, run_id=request.run_id, task_name="macro_analysis"
+                symbol=request.symbol,
+                run_id=request.run_id,
+                task_name="macro_analysis",
+                upstream_context={"has_macro_feed": True},
             )
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -681,7 +709,10 @@ class ADKResearchManager:
                 payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "concurrency": "PARALLEL_BRANCH"},
             )
             res = await self.a2a_bridge.invoke_specialist(
-                symbol=request.symbol, run_id=request.run_id, task_name="filing_analysis"
+                symbol=request.symbol,
+                run_id=request.run_id,
+                task_name="filing_analysis",
+                upstream_context={"has_filings_feed": True},
             )
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -782,7 +813,10 @@ class ADKResearchManager:
                 payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "pattern": "HIERARCHICAL"},
             )
             macro_contrib = await self.a2a_bridge.invoke_specialist(
-                symbol=request.symbol, run_id=request.run_id, task_name="macro_analysis"
+                symbol=request.symbol,
+                run_id=request.run_id,
+                task_name="macro_analysis",
+                upstream_context={"has_macro_feed": True},
             )
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -800,7 +834,10 @@ class ADKResearchManager:
                 payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "pattern": "HIERARCHICAL"},
             )
             filing_contrib = await self.a2a_bridge.invoke_specialist(
-                symbol=request.symbol, run_id=request.run_id, task_name="filing_analysis"
+                symbol=request.symbol,
+                run_id=request.run_id,
+                task_name="filing_analysis",
+                upstream_context={"has_filings_feed": True},
             )
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -1001,10 +1038,10 @@ class ADKResearchManager:
             thesis = (
                 f"Institutional Quantitative Synthesis for {request.symbol} (as of {query_date_str}) — "
                 f"Consensus Stance: {stance} (Multi-Agent Conviction Score: {conviction}/100). "
-                f"Retrieved {records_count} point-in-time verified OHLCV bars. "
-                f"Market Profile: Latest Close ₹{latest_close:.2f} | Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}% | 14-Day RSI: {(rsi_val or 50.0):.1f}. "
+                f"Retrieved {records_count} point-in-time verified OHLCV bars via DuckDB analytical engine. "
+                f"Market Profile: Latest Close INR {latest_close:.2f} | Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}% | 14-Day RSI: {(rsi_val or 50.0):.1f}. "
                 f"Microstructure: Corwin-Schultz quoted spread {spread_val:.1f} bps (Tier-1 liquidity). "
-                f"Statutory Risk Model: Finance (No. 2) Act 2024 total friction of ₹{total_costs:.2f} per 100k ({eff_rate:.4f}% drag). "
+                f"Statutory Risk Model: Finance (No. 2) Act 2024 total friction of INR {total_costs:.2f} per 100k ({eff_rate:.4f}% drag). "
                 f"Macro Context: RBI Repo Rate steady at 6.50% corridor. "
                 f"Corporate Governance: SEBI LODR Regulation 30/33 audit standards satisfied. "
                 f"CrewAI Adversarial Skeptic: 5/5 stress tests cleared; execution approved with 12 bps statutory friction reserve. "
@@ -1032,6 +1069,13 @@ class ADKResearchManager:
             limitations.append(
                 f"Historical store has no pre-recorded Parquet bars for {request.symbol} in selected window."
             )
+            limitations.append("External news feed unconfigured; macro context derived from statutory policy baseline.")
+            limitations.append("Official filing disclosures unconfigured; compliance evaluated against SEBI LODR rules registry.")
+        else:
+            if not macro_contrib or macro_contrib.findings.get("source_status") == "NOT_CONFIGURED" or macro_contrib.findings.get("finding_category") == "UNAVAILABLE":
+                limitations.append("External news feed unconfigured; macro context derived from statutory policy baseline.")
+            if not filing_contrib or filing_contrib.findings.get("source_status") == "NOT_CONFIGURED" or filing_contrib.findings.get("finding_category") == "UNAVAILABLE":
+                limitations.append("Official filing disclosures unconfigured; compliance evaluated against SEBI LODR rules registry.")
         limitations.extend(all_warnings)
 
         provenance = [
