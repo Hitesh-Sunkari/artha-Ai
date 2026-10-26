@@ -14,6 +14,10 @@ export default defineConfig({
       '/runs': 'http://127.0.0.1:8000',
       '/evaluation': 'http://127.0.0.1:8000',
       '/system': 'http://127.0.0.1:8000',
+      '/portfolio': 'http://127.0.0.1:8000',
+      '/committee': 'http://127.0.0.1:8000',
+      '/rag': 'http://127.0.0.1:8000',
+      '/copilot': 'http://127.0.0.1:8000',
     },
   },
 })

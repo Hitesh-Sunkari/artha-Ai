@@ -104,6 +104,11 @@ export interface QuantitativeResearchReport {
   qualitative_evidence: string[];
   source_provenance: string[];
   limitations_and_uncertainties: string[];
+  recommendation?: 'BUY' | 'HOLD' | 'SELL' | 'INSUFFICIENT_EVIDENCE' | string;
+  conviction_score?: number;
+  statutory_friction_drag_pct?: number;
+  rag_citations?: string[];
+  audit_hash?: string | null;
   generated_at: string;
 }
 
@@ -148,6 +153,7 @@ export interface RunListItem {
   completed_at?: string | null;
   latency_seconds?: number | null;
   has_report: boolean;
+  recommendation?: string | null;
   events_count: number;
   error?: string | null;
 }
@@ -177,6 +183,12 @@ export interface EvaluationSummaryResponse {
   orchestration_pattern_counts: Record<string, number>;
   symbols_analyzed: string[];
   timestamp?: string; // Optional: computed on demand from backend
+  total_experiments?: number;
+  total_cases_in_dataset?: number;
+  latest_experiment?: {
+    accuracy: number;
+    [key: string]: any;
+  } | null;
 }
 
 export interface EvaluationCase {

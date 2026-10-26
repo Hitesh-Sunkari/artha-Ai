@@ -1,35 +1,65 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { Sidebar, type TabId } from './components/Sidebar';
-import { DashboardPage } from './pages/DashboardPage';
-import { NewResearchPage } from './pages/NewResearchPage';
-import { RunDetailsPage } from './pages/RunDetailsPage';
-import { HistoryPage } from './pages/HistoryPage';
-import { ArchitecturePage } from './pages/ArchitecturePage';
-import { EvaluationPage } from './pages/EvaluationPage';
-import { SystemStatusPage } from './pages/SystemStatusPage';
-import { PortfolioPage } from './pages/PortfolioPage';
-import { CommitteePage } from './pages/CommitteePage';
-import { EvidencePage } from './pages/EvidencePage';
-import { TelemetryPage } from './pages/TelemetryPage';
+import { Sidebar, type PrimaryWorkspace, type TabId } from './components/Sidebar';
+import { CommandCenterPage } from './pages/CommandCenterPage';
+import { ResearchWorkspacePage } from './pages/ResearchWorkspacePage';
+import { PortfolioTradingPage } from './pages/PortfolioTradingPage';
+import { OperationsPage } from './pages/OperationsPage';
 import { CopilotDrawer } from './components/CopilotDrawer';
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('dashboard');
+  const [activeWorkspace, setActiveWorkspace] = useState<PrimaryWorkspace>('command-center');
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
+  const [portfolioHandoff, setPortfolioHandoff] = useState<{
+    ticker?: string;
+    side?: 'BUY' | 'SELL';
+  } | null>(null);
+  const [operationsSubTab, setOperationsSubTab] = useState<
+    'overview' | 'telemetry' | 'topology' | 'audit' | 'diagnostics' | 'evaluation'
+  >('overview');
   const [refreshKey, setRefreshKey] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // Consolidated navigation normalizer
   const handleNavigate = (tab: TabId, runId?: string) => {
     if (runId) {
       setActiveRunId(runId);
     }
-    setActiveTab(tab);
+
+    if (tab === 'command-center' || tab === 'dashboard') {
+      setActiveWorkspace('command-center');
+    } else if (
+      tab === 'research' ||
+      tab === 'new-research' ||
+      tab === 'live-execution' ||
+      tab === 'committee' ||
+      tab === 'evidence'
+    ) {
+      setActiveWorkspace('research');
+    } else if (tab === 'portfolio') {
+      setActiveWorkspace('portfolio');
+    } else {
+      // Operations mapping
+      setActiveWorkspace('operations');
+      if (tab === 'telemetry') setOperationsSubTab('telemetry');
+      else if (tab === 'history') setOperationsSubTab('audit');
+      else if (tab === 'architecture') setOperationsSubTab('topology');
+      else if (tab === 'system-status') setOperationsSubTab('diagnostics');
+      else if (tab === 'evaluation') setOperationsSubTab('evaluation');
+      else setOperationsSubTab('overview');
+    }
   };
 
-  const handleSubmitted = (newRunId: string) => {
-    setActiveRunId(newRunId);
-    setActiveTab('live-execution');
+  // Safe research -> paper trading handoff
+  const handleTradeHandoff = (ticker?: string, side?: 'BUY' | 'SELL') => {
+    setPortfolioHandoff({ ticker, side });
+    setActiveWorkspace('portfolio');
+  };
+
+  // Open any historical or audit run directly in the Research Workspace
+  const handleOpenRunInResearch = (runId: string) => {
+    setActiveRunId(runId);
+    setActiveWorkspace('research');
   };
 
   const handleRefresh = () => {
@@ -40,9 +70,9 @@ export const App: React.FC = () => {
 
   return (
     <div className="terminal-layout">
-      {/* Persistent Institutional Sidebar */}
+      {/* Exactly 4 Primary Institutional Navigation Destinations */}
       <Sidebar
-        activeTab={activeTab}
+        activeTab={activeWorkspace}
         onSelectTab={(tab) => handleNavigate(tab)}
         activeRunId={activeRunId}
       />
@@ -52,43 +82,37 @@ export const App: React.FC = () => {
         {/* Top Control-Plane Header */}
         <Header onRefresh={handleRefresh} isRefreshing={isRefreshing} />
 
-        {/* Scrollable Workspace Content Area */}
+        {/* Scrollable Primary Workspace Area */}
         <main className="terminal-content" key={refreshKey}>
-          {activeTab === 'dashboard' && <DashboardPage onNavigate={handleNavigate} />}
+          {activeWorkspace === 'command-center' && (
+            <CommandCenterPage onNavigate={handleNavigate} />
+          )}
 
-          {activeTab === 'new-research' && <NewResearchPage onSubmitted={handleSubmitted} />}
-
-          {activeTab === 'live-execution' && (
-            <RunDetailsPage
-              runId={activeRunId}
-              onBack={() => handleNavigate('dashboard')}
+          {activeWorkspace === 'research' && (
+            <ResearchWorkspacePage
+              initialRunId={activeRunId}
+              onNavigateToPortfolio={handleTradeHandoff}
             />
           )}
 
-          {activeTab === 'portfolio' && <PortfolioPage />}
-
-          {activeTab === 'committee' && <CommitteePage />}
-
-          {activeTab === 'evidence' && <EvidencePage />}
-
-          {activeTab === 'telemetry' && <TelemetryPage />}
-
-          {activeTab === 'history' && (
-            <HistoryPage
-              onOpenRun={(id) => handleNavigate('live-execution', id)}
+          {activeWorkspace === 'portfolio' && (
+            <PortfolioTradingPage
+              initialSymbol={portfolioHandoff?.ticker}
+              initialSide={portfolioHandoff?.side}
             />
           )}
 
-          {activeTab === 'architecture' && <ArchitecturePage />}
-
-          {activeTab === 'evaluation' && <EvaluationPage />}
-
-          {activeTab === 'system-status' && <SystemStatusPage />}
+          {activeWorkspace === 'operations' && (
+            <OperationsPage
+              onOpenRunInResearch={handleOpenRunInResearch}
+              initialTab={operationsSubTab}
+            />
+          )}
         </main>
       </div>
 
       {/* Persistent Institutional AI Copilot Drawer */}
-      <CopilotDrawer activeContext={activeRunId || activeTab} />
+      <CopilotDrawer activeContext={activeRunId || activeWorkspace} />
     </div>
   );
 };

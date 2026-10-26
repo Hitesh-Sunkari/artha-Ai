@@ -1,32 +1,17 @@
 import React from 'react';
 import {
   LayoutDashboard,
-  PlusCircle,
-  Activity,
-  History,
-  GitFork,
-  FlaskConical,
-  Settings,
-  Shield,
-  Layers,
+  BrainCircuit,
   Briefcase,
-  Users,
-  Database,
-  Cpu,
+  Activity,
+  Layers,
+  ShieldAlert,
 } from 'lucide-react';
 
-export type TabId =
-  | 'dashboard'
-  | 'new-research'
-  | 'live-execution'
-  | 'portfolio'
-  | 'committee'
-  | 'evidence'
-  | 'telemetry'
-  | 'history'
-  | 'architecture'
-  | 'evaluation'
-  | 'system-status';
+export type PrimaryWorkspace = 'command-center' | 'research' | 'portfolio' | 'operations';
+
+// For backward compatibility with any internal callers
+export type TabId = PrimaryWorkspace | 'dashboard' | 'new-research' | 'live-execution' | 'committee' | 'evidence' | 'telemetry' | 'history' | 'architecture' | 'evaluation' | 'system-status';
 
 interface SidebarProps {
   activeTab: TabId;
@@ -35,23 +20,42 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, activeRunId }) => {
+  // Normalize legacy tab IDs to one of the 4 primary workspaces
+  const normalizedActive: PrimaryWorkspace =
+    activeTab === 'command-center' || activeTab === 'dashboard'
+      ? 'command-center'
+      : activeTab === 'research' || activeTab === 'new-research' || activeTab === 'live-execution' || activeTab === 'committee' || activeTab === 'evidence'
+      ? 'research'
+      : activeTab === 'portfolio'
+      ? 'portfolio'
+      : 'operations';
+
   const navItems = [
-    { id: 'dashboard' as TabId, label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'new-research' as TabId, label: 'New Research', icon: PlusCircle },
     {
-      id: 'live-execution' as TabId,
-      label: 'Live Execution',
-      icon: Activity,
-      badge: activeRunId ? 'Active' : undefined,
+      id: 'command-center' as PrimaryWorkspace,
+      label: 'Command Center',
+      sublabel: 'Market & Research Overview',
+      icon: LayoutDashboard,
     },
-    { id: 'portfolio' as TabId, label: 'Portfolio Engine', icon: Briefcase },
-    { id: 'committee' as TabId, label: 'Investment Committee', icon: Users },
-    { id: 'evidence' as TabId, label: 'Evidence Explorer', icon: Database },
-    { id: 'telemetry' as TabId, label: 'Telemetry Observatory', icon: Cpu },
-    { id: 'history' as TabId, label: 'Run History', icon: History },
-    { id: 'architecture' as TabId, label: 'System Topology', icon: GitFork },
-    { id: 'evaluation' as TabId, label: 'Evaluation & Benchmarks', icon: FlaskConical },
-    { id: 'system-status' as TabId, label: 'System Status & API', icon: Settings },
+    {
+      id: 'research' as PrimaryWorkspace,
+      label: 'Research Workspace',
+      sublabel: 'Multi-Agent Journey & Report',
+      icon: BrainCircuit,
+      badge: activeRunId ? 'Active Run' : undefined,
+    },
+    {
+      id: 'portfolio' as PrimaryWorkspace,
+      label: 'Portfolio & Trading',
+      sublabel: 'Optimization & Paper Trading',
+      icon: Briefcase,
+    },
+    {
+      id: 'operations' as PrimaryWorkspace,
+      label: 'Operations',
+      sublabel: 'Telemetry, Fleet & Audit',
+      icon: Activity,
+    },
   ];
 
   return (
@@ -86,7 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeTab === item.id;
+          const isActive = normalizedActive === item.id;
           return (
             <button
               key={item.id}
@@ -96,10 +100,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 width: '100%',
-                padding: '10px 14px',
-                borderRadius: '6px',
+                padding: '11px 14px',
+                borderRadius: '8px',
                 border: 'none',
-                backgroundColor: isActive ? 'var(--bg-subtle)' : 'transparent',
+                backgroundColor: isActive ? 'var(--bg-elevated)' : 'transparent',
                 color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
                 fontWeight: isActive ? 600 : 500,
                 fontSize: '13px',
@@ -110,7 +114,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
               }}
               onMouseEnter={(e) => {
                 if (!isActive) {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
                   e.currentTarget.style.color = 'var(--text-primary)';
                 }
               }}
@@ -121,25 +125,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
                 }
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <Icon
-                  size={16}
+                  size={18}
                   style={{
                     color: isActive ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                    flexShrink: 0,
                   }}
                 />
-                <span>{item.label}</span>
+                <div>
+                  <div style={{ lineHeight: '1.2' }}>{item.label}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 400, marginTop: '2px' }}>
+                    {item.sublabel}
+                  </div>
+                </div>
               </div>
               {item.badge && (
                 <span
                   style={{
                     fontSize: '10px',
                     fontFamily: 'var(--font-mono)',
-                    padding: '2px 6px',
+                    padding: '2px 7px',
                     borderRadius: '4px',
-                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    backgroundColor: 'rgba(34, 211, 238, 0.15)',
                     color: 'var(--accent-cyan)',
                     fontWeight: 700,
+                    border: '1px solid rgba(34, 211, 238, 0.3)',
                   }}
                 >
                   {item.badge}

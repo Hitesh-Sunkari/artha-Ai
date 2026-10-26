@@ -578,6 +578,7 @@ def create_research_api(
                 "completed_at": r.completed_at.isoformat() if r.completed_at else None,
                 "latency_seconds": round((r.completed_at - r.submitted_at).total_seconds(), 3) if r.completed_at else None,
                 "has_report": r.report is not None,
+                "recommendation": r.report.recommendation if r.report else None,
                 "events_count": len(r.blackboard_events),
                 "error": r.error,
             }
