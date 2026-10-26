@@ -349,39 +349,97 @@ class LLMAdapter:
         temperature: float,
         t0: float,
     ) -> LLMResponse:
-        """Executes a Google Gemini model invocation with bounded retries."""
-        try:
-            import google.generativeai as genai
-            genai.configure(api_key=self.config.effective_gemini_key)
-            model_name = self.config.gemini_model
-            model = genai.GenerativeModel(model_name)
+        """Executes a Google Gemini model invocation via direct HTTPS REST (bypasses gRPC)."""
+        import httpx
 
-            combined_prompt = f"{system_prompt}\n\n{prompt}"
+        api_key = self.config.effective_gemini_key
+        # Normalize model name: strip models/ prefix if present
+        model_name = self.config.gemini_model
+        if model_name.startswith("models/"):
+            model_name = model_name[len("models/"):]
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        headers = {"Content-Type": "application/json"}
+        params = {"key": api_key}
+
+        generation_cfg = {
+            "temperature": temperature,
+            "maxOutputTokens": 4096,
+        }
+        if json_mode:
+            generation_cfg["responseMimeType"] = "application/json"
+
+        body = {
+            "contents": [
+                {
+                    "parts": [{"text": f"{system_prompt}\n\n{prompt}"}]
+                }
+            ],
+            "generationConfig": generation_cfg,
+        }
+
+        try:
             self._run_call_counts[run_id] = self._run_call_counts.get(run_id, 0) + 1
 
-            response = await asyncio.wait_for(
-                asyncio.to_thread(model.generate_content, combined_prompt),
-                timeout=self.config.timeout_seconds,
-            )
+            async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
+                resp = await client.post(url, headers=headers, params=params, json=body)
 
             latency_ms = (time.perf_counter() - t0) * 1000
-            content = response.text or ""
+
+            if resp.status_code == 429:
+                logger.warning("[LLM] Gemini REST quota exceeded (429).")
+                self._quota_exhausted_providers.add("GEMINI")
+                return self._build_quota_fallback("GEMINI", model_name, corr_id)
+
+            if resp.status_code in (503, 500, 404):
+                error_text = resp.text[:300]
+                fallback_models = ["gemini-3.5-flash", "gemini-3.7-flash"]
+                retry_model = next((m for m in fallback_models if m != model_name), None)
+                if retry_model:
+                    logger.warning("[LLM] Gemini %s status %d. Trying %s...", model_name, resp.status_code, retry_model)
+                    url2 = f"https://generativelanguage.googleapis.com/v1beta/models/{retry_model}:generateContent"
+                    async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client2:
+                        resp = await client2.post(url2, headers=headers, params=params, json=body)
+                    model_name = retry_model
+
+            if resp.status_code != 200:
+                raise RuntimeError(f"Gemini REST error {resp.status_code}: {resp.text[:300]}")
+
+            data = resp.json()
+            candidates = data.get("candidates", [])
+            if not candidates:
+                raise RuntimeError("Gemini returned no candidates.")
+
+            content = ""
+            for part in candidates[0].get("content", {}).get("parts", []):
+                content += part.get("text", "")
+
+            usage = data.get("usageMetadata", {})
+            p_tokens = usage.get("promptTokenCount", len(prompt.split()) * 2)
+            c_tokens = usage.get("candidatesTokenCount", len(content.split()) * 2)
+            cost = self._estimate_cost("gemini-1.5-flash", p_tokens, c_tokens)
+            self._run_costs[run_id] = self._run_costs.get(run_id, 0.0) + cost
 
             parsed = None
             if json_mode:
+                clean = content.strip()
+                if clean.startswith("```json"):
+                    clean = clean[7:]
+                elif clean.startswith("```"):
+                    clean = clean[3:]
+                if clean.endswith("```"):
+                    clean = clean[:-3]
+                clean = clean.strip()
                 try:
-                    parsed = json.loads(content)
+                    parsed = json.loads(clean)
                 except Exception:
                     parsed = None
-
-            cost = self._estimate_cost(model_name, len(prompt.split()) * 2, len(content.split()) * 2)
-            self._run_costs[run_id] = self._run_costs.get(run_id, 0.0) + cost
 
             return LLMResponse(
                 content=content,
                 parsed_json=parsed,
-                prompt_tokens=len(prompt.split()) * 2,
-                completion_tokens=len(content.split()) * 2,
+                prompt_tokens=p_tokens,
+                completion_tokens=c_tokens,
                 estimated_cost_usd=cost,
                 latency_ms=round(latency_ms, 2),
                 provider="GEMINI",
@@ -390,19 +448,28 @@ class LLMAdapter:
                 correlation_id=corr_id,
             )
 
+        except asyncio.TimeoutError:
+            return LLMResponse(
+                status="TIMEOUT",
+                provider="GEMINI",
+                model=model_name,
+                correlation_id=corr_id,
+                error_message=f"Gemini REST call timed out after {self.config.timeout_seconds}s.",
+            )
         except Exception as exc:
             err_str = str(exc).lower()
-            if "quota" in err_str or "resource_exhausted" in err_str:
+            if "quota" in err_str or "resource_exhausted" in err_str or "429" in err_str:
                 self._quota_exhausted_providers.add("GEMINI")
-                return self._build_quota_fallback("GEMINI", self.config.gemini_model, corr_id)
+                return self._build_quota_fallback("GEMINI", model_name, corr_id)
 
             return LLMResponse(
                 status="FAILED",
                 provider="GEMINI",
-                model=self.config.gemini_model,
+                model=model_name,
                 correlation_id=corr_id,
                 error_message=f"Gemini execution failed: {exc}",
             )
+
 
     def _build_quota_fallback(self, provider: str, model: str, corr_id: str) -> LLMResponse:
         """Creates a transparent, deterministic fallback response when provider quota is exhausted."""

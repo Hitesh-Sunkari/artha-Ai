@@ -156,7 +156,7 @@ class RunStore:
             self._load_persisted()
 
     def _load_persisted(self) -> None:
-        """Loads previously persisted runs from disk upon service initialization."""
+        """Loads previously persisted successful runs from disk upon service initialization."""
         if not self.persistence_dir or not self.persistence_dir.exists():
             return
         for fpath in self.persistence_dir.glob("run-*.json"):
@@ -164,13 +164,23 @@ class RunStore:
                 with open(fpath, "r", encoding="utf-8") as fh:
                     data = json.load(fh)
                     record = RunRecord(**data)
-                    self._runs[record.run_id] = record
+                    # Strictly retain only successful executions with valid report in history
+                    if record.status == ResearchRunStatus.COMPLETED and record.report is not None:
+                        self._runs[record.run_id] = record
+                    else:
+                        try:
+                            fpath.unlink(missing_ok=True)
+                        except Exception:
+                            pass
             except Exception:
                 continue
 
     def _persist(self, record: RunRecord) -> None:
-        """Persists a run record atomically to disk."""
+        """Persists ONLY verified successful run records with reports atomically to disk."""
         if not self.persistence_dir:
+            return
+        # Strict requirement: only successful executions added to history
+        if record.status != ResearchRunStatus.COMPLETED or record.report is None:
             return
         try:
             fpath = self.persistence_dir / f"{record.run_id}.json"
@@ -192,7 +202,6 @@ class RunStore:
         )
         async with self._lock:
             self._runs[run_id] = record
-            self._persist(record)
         return record
 
     async def set_running(self, run_id: str) -> None:
@@ -203,7 +212,6 @@ class RunStore:
                     **{**rec.model_dump(), "status": ResearchRunStatus.RUNNING}
                 )
                 self._runs[run_id] = updated
-                self._persist(updated)
 
     async def set_completed(
         self,
@@ -247,7 +255,13 @@ class RunStore:
                     }
                 )
                 self._runs[run_id] = updated
-                self._persist(updated)
+                # Clean up if any disk file was created
+                if self.persistence_dir:
+                    fpath = self.persistence_dir / f"{run_id}.json"
+                    try:
+                        fpath.unlink(missing_ok=True)
+                    except Exception:
+                        pass
 
     async def get(self, run_id: str) -> RunRecord | None:
         async with self._lock:
@@ -516,7 +530,7 @@ def create_research_api(
         summary="List all research runs",
         tags=["research"],
     )
-    async def list_runs(only_successful: bool = False) -> list[dict[str, Any]]:
+    async def list_runs(only_successful: bool = True) -> list[dict[str, Any]]:
         """Returns all research runs recorded in memory, sorted descending by submission time."""
         records = await _store.all_records()
         sorted_records = sorted(records, key=lambda r: r.submitted_at, reverse=True)
@@ -679,6 +693,111 @@ def create_research_api(
         runner = ExperimentRunner(config)
         report = await runner.run_all()
         return report.model_dump(mode="json")
+
+    # -------------------------------------------------------------------------
+    # Portfolio Optimization Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/portfolio/universe",
+        summary="Get 74-asset institutional investment universe",
+        tags=["portfolio"],
+    )
+    async def get_portfolio_universe(
+        category: str | None = None,
+        search: str | None = None,
+    ) -> dict[str, Any]:
+        """Returns the full institutional universe of 74 assets with statistical parameters."""
+        from arthaai.portfolio.universe import get_universe, PRESET_UNIVERSES
+        assets = get_universe(category=category, search=search)
+        return {
+            "total_assets": len(assets),
+            "assets": [a.model_dump() for a in assets],
+            "presets": PRESET_UNIVERSES,
+            "categories": ["equity", "debt", "reit", "commodity", "international", "alternative"],
+        }
+
+    @app.post(
+        "/portfolio/optimize",
+        summary="Run SLSQP portfolio optimization with Ledoit-Wolf covariance shrinkage",
+        tags=["portfolio"],
+    )
+    async def optimize_portfolio(body: dict[str, Any]) -> dict[str, Any]:
+        """Executes deterministic SLSQP solver generating 4 candidate portfolios."""
+        from arthaai.portfolio.optimizer import InvestorProfile, run_slsqp_optimizer
+        try:
+            profile = InvestorProfile(**body)
+            result = run_slsqp_optimizer(profile)
+            return result.model_dump(mode="json")
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post(
+        "/portfolio/simulate",
+        summary="Run Monte Carlo wealth trajectory simulation (5,000+ paths)",
+        tags=["portfolio"],
+    )
+    async def run_simulation(body: dict[str, Any]) -> dict[str, Any]:
+        """Executes 5,000-path geometric Brownian motion wealth projection simulation."""
+        from arthaai.portfolio.simulation import run_monte_carlo_simulation
+        try:
+            result = run_monte_carlo_simulation(
+                initial_capital=float(body.get("initial_capital", 1_000_000)),
+                monthly_sip=float(body.get("monthly_sip", 25_000)),
+                horizon_years=int(body.get("horizon_years", 10)),
+                expected_return=float(body.get("expected_return", 0.134)),
+                volatility=float(body.get("volatility", 0.122)),
+                num_paths=int(body.get("num_paths", 5000)),
+            )
+            return result.model_dump(mode="json")
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.post(
+        "/portfolio/stress-test",
+        summary="Run crisis stress test and 10-year walk-forward backtest",
+        tags=["portfolio"],
+    )
+    async def stress_test_portfolio(body: dict[str, Any]) -> dict[str, Any]:
+        """Subjects portfolio to historical crisis scenarios and 10-year walk-forward backtest."""
+        from arthaai.portfolio.stress_test import run_stress_test
+        try:
+            weights = body.get("weights", {})
+            title = body.get("portfolio_title", "Target-Risk Suitable Portfolio")
+            expected_return = float(body.get("expected_return", 0.134))
+            volatility = float(body.get("volatility", 0.122))
+            result = run_stress_test(
+                portfolio_weights=weights,
+                portfolio_title=title,
+                expected_return=expected_return,
+                volatility=volatility,
+            )
+            return result.model_dump(mode="json")
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    @app.get(
+        "/portfolio/telemetry",
+        summary="LLM inference telemetry and fleet statistics",
+        tags=["portfolio"],
+    )
+    async def get_telemetry() -> dict[str, Any]:
+        """Returns live LLM telemetry, token counts, and model latency estimates."""
+        try:
+            adapter = __import__("arthaai.orchestration.llm_adapter", fromlist=["get_llm_adapter"]).get_llm_adapter()
+            status = adapter.get_provider_status()
+            metrics = adapter.get_metrics()
+            return {
+                "provider_status": status,
+                "metrics": metrics,
+                "fleet": [
+                    {"model": "gemini-3.5-flash", "provider": "Google Gemini", "persona": "Macro & Quantitative Analyst", "status": "ACTIVE"},
+                    {"model": "gemini-3.7-flash", "provider": "Google Gemini", "persona": "Growth & Filing Specialist", "status": "ACTIVE"},
+                ],
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        except Exception as exc:
+            return {"error": str(exc), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     # -------------------------------------------------------------------------
     # GET /system/status

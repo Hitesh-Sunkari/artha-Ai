@@ -13,11 +13,14 @@ Implements the three orchestration patterns:
 """
 
 import asyncio
+import logging
 import time
 from datetime import datetime
 from enum import Enum
 from typing import Any
 from google.adk import Agent
+
+logger = logging.getLogger(__name__)
 
 from arthaai.core.clock.timezone import now_utc
 from arthaai.core.config import AppConfig
@@ -420,7 +423,11 @@ class ADKResearchManager:
             description="Google ADK Central Research Manager supervising 7-agent workflow and Pydantic synthesis.",
         )
         self.mcp_client = mcp_client or get_mcp_client()
-        self.a2a_bridge = a2a_bridge or A2AClientBridge()
+        if a2a_bridge is None:
+            from arthaai.orchestration.a2a_bridge import create_a2a_crewai_app
+            self.a2a_bridge = A2AClientBridge(app=create_a2a_crewai_app("crewai_specialist_suite"))
+        else:
+            self.a2a_bridge = a2a_bridge
 
         # Instantiate ADK specialists
         self.quant_specialist = ADKQuantSpecialist(self.mcp_client)
@@ -572,6 +579,8 @@ class ADKResearchManager:
             upstream_context={
                 "records_retrieved": quant_contrib.findings.get("records_retrieved", 0),
                 "empty_result": quant_contrib.findings.get("empty_result", True),
+                "calculated_metrics": quant_contrib.findings.get("calculated_metrics", {}),
+                "macro_regime": macro_contrib.findings.get("macro_regime", "RBI Repo 6.50%"),
             },
         )
         tracer.record_event(
@@ -686,7 +695,12 @@ class ADKResearchManager:
             symbol=request.symbol,
             run_id=request.run_id,
             task_name="adversarial_critique",
-            upstream_context={"records_retrieved": count_flag, "empty_result": empty_flag},
+            upstream_context={
+                "records_retrieved": count_flag,
+                "empty_result": empty_flag,
+                "calculated_metrics": quant_latest.findings.get("calculated_metrics", {}) if quant_latest else {},
+                "macro_regime": macro_res.findings.get("macro_regime", "RBI Repo 6.50%") if isinstance(macro_res, AgentContribution) else "RBI Repo 6.50%",
+            },
         )
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
@@ -776,7 +790,11 @@ class ADKResearchManager:
             run_id=request.run_id,
             task_name="adversarial_critique",
             instructions=skeptic_instructions,
-            upstream_context={"empty_result": is_empty, "records_retrieved": quant_contrib.findings.get("records_retrieved", 0)},
+            upstream_context={
+                "empty_result": is_empty,
+                "records_retrieved": quant_contrib.findings.get("records_retrieved", 0),
+                "calculated_metrics": quant_contrib.findings.get("calculated_metrics", {}),
+            },
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
