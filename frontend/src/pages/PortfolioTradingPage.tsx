@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Briefcase,
   TrendingUp,
@@ -11,6 +11,11 @@ import {
   DollarSign,
   Clock,
   Sparkles,
+  Lock,
+  ArrowUpRight,
+  ArrowDownRight,
+  RefreshCw,
+  Sliders,
 } from 'lucide-react';
 import { PortfolioPage } from './PortfolioPage';
 
@@ -51,7 +56,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
   const [activeTab, setActiveTab] = useState<PortfolioSubTab>(initialSymbol ? 'trading' : 'builder');
 
   // Simulated Account State (Isolated Paper Trading)
-  const [cash, setCash] = useState<number>(675000.0); // Baseline available paper cash
+  const [cash, setCash] = useState<number>(675000.0);
   const [positions, setPositions] = useState<PaperPosition[]>([
     {
       symbol: 'RELIANCE.NS',
@@ -113,7 +118,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [orderNotification, setOrderNotification] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (initialSymbol) {
       setOrderSymbol(initialSymbol);
       if (initialSide) setOrderSide(initialSide);
@@ -123,7 +128,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
 
   // Statutory Calculations (Finance Act 2024)
   const tradeValue = orderQty * orderPrice;
-  const stt = orderSide === 'BUY' ? tradeValue * 0.001 : tradeValue * 0.001; // 0.1% STT delivery
+  const stt = tradeValue * 0.001; // 0.1% STT delivery
   const brokerage = Math.min(20, tradeValue * 0.0003); // ₹20 cap
   const exchTurnover = tradeValue * 0.0000345;
   const gst = (brokerage + exchTurnover) * 0.18;
@@ -138,456 +143,394 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
     (acc, p) => acc + p.shares * (p.currentPrice - p.avgPrice),
     0
   );
-  const unrealizedPnLPct = ((totalUnrealizedPnL / (totalPortfolioValue - totalUnrealizedPnL)) * 100);
 
-  const handleExecuteSimulatedTrade = () => {
-    setShowConfirmModal(false);
-
-    if (orderSide === 'BUY') {
-      if (cash < netOutlay) {
-        setOrderNotification(`Simulated order rejected: Insufficient cash balance (₹${cash.toLocaleString()} available).`);
-        return;
-      }
-      setCash((prev) => prev - netOutlay);
-      // update positions
-      const existing = positions.find((p) => p.symbol === orderSymbol);
-      if (existing) {
-        const totalShares = existing.shares + orderQty;
-        const newAvg = (existing.shares * existing.avgPrice + orderQty * orderPrice) / totalShares;
-        setPositions((prev) =>
-          prev.map((p) => (p.symbol === orderSymbol ? { ...p, shares: totalShares, avgPrice: newAvg } : p))
-        );
-      } else {
-        setPositions((prev) => [
-          ...prev,
-          {
-            symbol: orderSymbol,
-            name: `${orderSymbol} (Simulated)`,
-            shares: orderQty,
-            avgPrice: orderPrice,
-            currentPrice: orderPrice,
-            side: 'BUY',
-          },
-        ]);
-      }
-    } else {
-      // SELL
-      const existing = positions.find((p) => p.symbol === orderSymbol);
-      if (!existing || existing.shares < orderQty) {
-        setOrderNotification(`Simulated order rejected: Cannot sell ${orderQty} shares (You hold ${existing ? existing.shares : 0}).`);
-        return;
-      }
-      setCash((prev) => prev + netOutlay);
-      if (existing.shares === orderQty) {
-        setPositions((prev) => prev.filter((p) => p.symbol !== orderSymbol));
-      } else {
-        setPositions((prev) =>
-          prev.map((p) => (p.symbol === orderSymbol ? { ...p, shares: p.shares - orderQty } : p))
-        );
-      }
+  const handleExecutePaperOrder = () => {
+    if (orderSide === 'BUY' && netOutlay > cash) {
+      alert('Insufficient simulated cash balance.');
+      return;
     }
 
     const newOrder: PaperOrder = {
       orderId: `SIM-ORD-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC',
+      timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
       symbol: orderSymbol,
       side: orderSide,
       shares: orderQty,
       price: orderPrice,
-      statutoryCharges: totalFriction,
-      totalOutlay: netOutlay,
+      statutoryCharges: parseFloat(totalFriction.toFixed(2)),
+      totalOutlay: parseFloat(netOutlay.toFixed(2)),
       status: 'FILLED',
     };
-    setOrders((prev) => [newOrder, ...prev]);
-    setOrderNotification(`✓ Simulated ${orderSide} filled for ${orderQty} shares of ${orderSymbol} at ₹${orderPrice.toLocaleString()}. Zero capital at risk.`);
-    setTimeout(() => setOrderNotification(null), 5000);
+
+    setOrders([newOrder, ...orders]);
+
+    if (orderSide === 'BUY') {
+      setCash((c) => c - netOutlay);
+      setPositions((prev) => {
+        const existing = prev.find((p) => p.symbol === orderSymbol);
+        if (existing) {
+          const totalShares = existing.shares + orderQty;
+          const avgPrice =
+            (existing.shares * existing.avgPrice + orderQty * orderPrice) / totalShares;
+          return prev.map((p) =>
+            p.symbol === orderSymbol
+              ? { ...p, shares: totalShares, avgPrice, currentPrice: orderPrice }
+              : p
+          );
+        } else {
+          return [
+            ...prev,
+            {
+              symbol: orderSymbol,
+              name: orderSymbol.replace('.NS', ''),
+              shares: orderQty,
+              avgPrice: orderPrice,
+              currentPrice: orderPrice,
+              side: 'BUY',
+            },
+          ];
+        }
+      });
+    } else {
+      setCash((c) => c + netOutlay);
+      setPositions((prev) =>
+        prev
+          .map((p) => (p.symbol === orderSymbol ? { ...p, shares: Math.max(0, p.shares - orderQty) } : p))
+          .filter((p) => p.shares > 0)
+      );
+    }
+
+    setShowConfirmModal(false);
+    setOrderNotification(`Simulated order ${newOrder.orderId} filled at ₹${orderPrice.toLocaleString()}!`);
+    setTimeout(() => setOrderNotification(null), 4000);
   };
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {/* ── Top Workspace Header with Integrated Sub-Nav ──────────────────── */}
-      <div
-        className="terminal-card"
-        style={{
-          padding: '18px 24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '3px 8px',
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(52, 211, 153, 0.12)',
-                  color: 'var(--accent-emerald)',
-                  fontSize: '11px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                }}
-              >
-                <Briefcase size={13} /> PORTFOLIO & PAPER TRADING
-              </span>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  padding: '3px 8px',
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(251, 191, 36, 0.12)',
-                  color: 'var(--accent-amber)',
-                  fontSize: '11px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                }}
-              >
-                <ShieldCheck size={12} /> SIMULATION MODE ONLY
-              </span>
-            </div>
-            <h1 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', margin: '4px 0 0 0' }}>
-              Portfolio Construction & Simulated Execution Desk
-            </h1>
-          </div>
+  const fmtINR = (n: number) => `₹${n.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
 
-          {/* Account Snapshot Badges */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Simulated Equity</div>
-              <div style={{ fontSize: '16px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                ₹{totalPortfolioValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-              </div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Unrealized P&L</div>
-              <div
-                style={{
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  fontFamily: 'var(--font-mono)',
-                  color: totalUnrealizedPnL >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)',
-                }}
-              >
-                {totalUnrealizedPnL >= 0 ? '+' : ''}₹{totalUnrealizedPnL.toLocaleString()} ({unrealizedPnLPct.toFixed(2)}%)
-              </div>
-            </div>
+  return (
+    <div className="space-y-6">
+      {/* Workspace Header & Snapshot */}
+      <div className="terminal-card p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-1 rounded bg-[#65D5C3]/15 text-[#65D5C3] font-mono text-xs font-bold border border-[#65D5C3]/30">
+              PORTFOLIO & PAPER TRADING
+            </span>
+            <span className="px-2.5 py-1 rounded bg-[#E8B866]/15 text-[#E8B866] font-mono text-xs font-bold border border-[#E8B866]/30">
+              SIMULATION MODE ONLY
+            </span>
           </div>
+          <h1 className="text-2xl font-bold text-white tracking-tight mt-2">
+            Portfolio Construction & Simulated Execution Desk
+          </h1>
+          <p className="text-xs text-[#8998AC] mt-1">
+            Build optimal portfolios with SLSQP solver or execute risk-free paper trades with Finance Act 2024 statutory friction modeling.
+          </p>
         </div>
 
-        {/* ── Sub-Navigation Bar ─────────────────────────────────────────── */}
-        <div className="segment-tab-bar" style={{ alignSelf: 'flex-start' }}>
-          <button
-            onClick={() => setActiveTab('builder')}
-            className={`segment-tab-btn ${activeTab === 'builder' ? 'active' : ''}`}
-          >
-            <Layers size={15} /> 7-Step Portfolio Builder
-          </button>
-          <button
-            onClick={() => setActiveTab('trading')}
-            className={`segment-tab-btn ${activeTab === 'trading' ? 'active' : ''}`}
-          >
-            <TrendingUp size={15} /> Paper Trading Desk
-          </button>
-          <button
-            onClick={() => setActiveTab('positions')}
-            className={`segment-tab-btn ${activeTab === 'positions' ? 'active' : ''}`}
-          >
-            <BarChart3 size={15} /> Positions & Trade History ({positions.length})
-          </button>
+        {/* Real-time Account Balance Readout */}
+        <div className="flex items-center gap-6 font-mono text-xs bg-[#101722] p-3 rounded-xl border border-[#2A3748]">
+          <div>
+            <span className="text-[#8998AC] block">Simulated Equity</span>
+            <span className="text-lg font-bold text-white mt-0.5 block">{fmtINR(totalPortfolioValue)}</span>
+          </div>
+          <div className="border-l border-[#2A3748] pl-4">
+            <span className="text-[#8998AC] block">Unrealized P&L</span>
+            <span
+              className={`text-lg font-bold mt-0.5 block ${
+                totalUnrealizedPnL >= 0 ? 'text-[#43C99A]' : 'text-[#F07883]'
+              }`}
+            >
+              {totalUnrealizedPnL >= 0 ? '+' : ''}
+              {fmtINR(totalUnrealizedPnL)} (
+              {((totalUnrealizedPnL / (totalPortfolioValue - totalUnrealizedPnL)) * 100).toFixed(2)}%)
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* ── View 1: 7-Step Portfolio Builder ──────────────────────────────── */}
-      {activeTab === 'builder' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <PortfolioPage />
+      {/* Segmented Sub-Workspace Selector */}
+      <div className="segment-tab-bar">
+        <button
+          onClick={() => setActiveTab('builder')}
+          className={`segment-tab-btn ${activeTab === 'builder' ? 'active' : ''}`}
+        >
+          <Sliders size={14} />
+          <span>7-Step Portfolio Builder</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('trading')}
+          className={`segment-tab-btn ${activeTab === 'trading' ? 'active' : ''}`}
+        >
+          <TrendingUp size={14} />
+          <span>Paper Trading Desk</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('positions')}
+          className={`segment-tab-btn ${activeTab === 'positions' ? 'active' : ''}`}
+        >
+          <BarChart3 size={14} />
+          <span>Positions & Trade History ({positions.length})</span>
+        </button>
+      </div>
+
+      {orderNotification && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[#43C99A] font-mono text-xs flex items-center gap-2">
+          <CheckCircle2 size={16} />
+          <span>{orderNotification}</span>
         </div>
       )}
 
-      {/* ── View 2: Paper Trading Desk ────────────────────────────────────── */}
+      {/* ── Sub-view 1: 7-Step Portfolio Builder ─────────────────────────── */}
+      {activeTab === 'builder' && (
+        <PortfolioPage
+          onHandoffToTrading={(ticker, side) => {
+            setOrderSymbol(ticker);
+            setOrderSide(side);
+            setActiveTab('trading');
+          }}
+        />
+      )}
+
+      {/* ── Sub-view 2: Paper Trading Desk ──────────────────────────────── */}
       {activeTab === 'trading' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px' }}>
-          {/* Order Configuration Form */}
-          <div className="terminal-card" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0' }}>
-              Simulate Paper Order Execution
-            </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Order Placement Form */}
+          <div className="lg:col-span-7 terminal-card space-y-5">
+            <div className="flex items-center justify-between border-b border-[#2A3748] pb-3">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <TrendingUp size={16} className="text-[#65D5C3]" />
+                Simulated Order Form
+              </h3>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-cyan-500/10 text-[#65D5C3] border border-cyan-500/30">
+                NSE CASH EQUITIES
+              </span>
+            </div>
 
-            {orderNotification && (
-              <div
-                style={{
-                  padding: '12px 14px',
-                  borderRadius: '6px',
-                  backgroundColor: orderNotification.includes('rejected')
-                    ? 'rgba(251, 113, 133, 0.15)'
-                    : 'rgba(52, 211, 153, 0.15)',
-                  border: `1px solid ${
-                    orderNotification.includes('rejected') ? 'var(--accent-rose)' : 'var(--accent-emerald)'
-                  }`,
-                  color: orderNotification.includes('rejected') ? 'var(--accent-rose)' : 'var(--accent-emerald)',
-                  fontSize: '12px',
-                  marginBottom: '16px',
-                  fontWeight: 600,
-                }}
-              >
-                {orderNotification}
+            {/* Instrument Selection */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-[#B4C0D0]">Instrument Symbol (NSE/BSE)</label>
+              <input
+                type="text"
+                value={orderSymbol}
+                onChange={(e) => setOrderSymbol(e.target.value.toUpperCase())}
+                placeholder="e.g. RELIANCE.NS"
+                className="w-full font-mono text-sm font-bold text-white uppercase"
+              />
+              <div className="flex gap-1.5 mt-1">
+                {['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'TATAMOTORS.NS'].map((sym) => (
+                  <button
+                    key={sym}
+                    type="button"
+                    onClick={() => {
+                      setOrderSymbol(sym);
+                      if (sym === 'RELIANCE.NS') setOrderPrice(1285.5);
+                      if (sym === 'TCS.NS') setOrderPrice(4120.0);
+                      if (sym === 'HDFCBANK.NS') setOrderPrice(1682.4);
+                      if (sym === 'INFY.NS') setOrderPrice(1890.0);
+                      if (sym === 'TATAMOTORS.NS') setOrderPrice(980.0);
+                    }}
+                    className={`px-2 py-1 rounded text-[10px] font-mono border transition-all ${
+                      orderSymbol === sym
+                        ? 'bg-[#65D5C3] text-[#0B0F17] font-bold border-[#65D5C3]'
+                        : 'bg-[#1C293A] text-[#B4C0D0] border-[#2A3748] hover:text-white'
+                    }`}
+                  >
+                    {sym.replace('.NS', '')}
+                  </button>
+                ))}
               </div>
-            )}
+            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Order Side Selector */}
-              <div>
-                <label className="form-label">Execution Side</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            {/* Side & Order Type */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#B4C0D0]">Order Side</label>
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setOrderSide('BUY')}
-                    style={{
-                      padding: '10px',
-                      borderRadius: '6px',
-                      border: 'none',
-                      backgroundColor: orderSide === 'BUY' ? 'var(--accent-emerald)' : 'var(--bg-surface)',
-                      color: orderSide === 'BUY' ? '#090D16' : 'var(--text-muted)',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
+                    className={`py-2 px-3 rounded-lg text-xs font-bold font-mono transition-all border ${
+                      orderSide === 'BUY'
+                        ? 'bg-emerald-500/20 text-[#43C99A] border-[#43C99A]'
+                        : 'bg-[#1C293A] text-[#8998AC] border-[#2A3748]'
+                    }`}
                   >
-                    BUY (Long Accumulation)
+                    BUY
                   </button>
                   <button
                     type="button"
                     onClick={() => setOrderSide('SELL')}
-                    style={{
-                      padding: '10px',
-                      borderRadius: '6px',
-                      border: 'none',
-                      backgroundColor: orderSide === 'SELL' ? 'var(--accent-rose)' : 'var(--bg-surface)',
-                      color: orderSide === 'SELL' ? '#090D16' : 'var(--text-muted)',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease',
-                    }}
+                    className={`py-2 px-3 rounded-lg text-xs font-bold font-mono transition-all border ${
+                      orderSide === 'SELL'
+                        ? 'bg-rose-500/20 text-[#F07883] border-[#F07883]'
+                        : 'bg-[#1C293A] text-[#8998AC] border-[#2A3748]'
+                    }`}
                   >
-                    SELL (Square-off / Liquidation)
+                    SELL
                   </button>
                 </div>
               </div>
 
-              {/* Symbol */}
-              <div>
-                <label className="form-label">Ticker Symbol</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#B4C0D0]">Order Type</label>
+                <select
+                  value={orderType}
+                  onChange={(e) => setOrderType(e.target.value as any)}
+                  className="w-full font-mono text-xs"
+                >
+                  <option value="MARKET">MARKET ORDER (Immediate Fill)</option>
+                  <option value="LIMIT">LIMIT ORDER</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Quantity & Price */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#B4C0D0]">Quantity (Shares)</label>
                 <input
-                  type="text"
-                  value={orderSymbol}
-                  onChange={(e) => setOrderSymbol(e.target.value.toUpperCase())}
-                  className="form-input"
-                  style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}
+                  type="number"
+                  min={1}
+                  max={10000}
+                  value={orderQty}
+                  onChange={(e) => setOrderQty(Math.max(1, parseInt(e.target.value) || 1))}
+                  className="w-full font-mono text-sm text-white font-bold"
                 />
               </div>
 
-              {/* Quantity and Price */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div>
-                  <label className="form-label">Quantity (Shares)</label>
-                  <input
-                    type="number"
-                    min={1}
-                    value={orderQty}
-                    onChange={(e) => setOrderQty(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="form-input"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  />
-                </div>
-                <div>
-                  <label className="form-label">Simulated Execution Price (₹)</label>
-                  <input
-                    type="number"
-                    step={0.5}
-                    value={orderPrice}
-                    onChange={(e) => setOrderPrice(Math.max(1, parseFloat(e.target.value) || 1))}
-                    className="form-input"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#B4C0D0]">Price (₹)</label>
+                <input
+                  type="number"
+                  step={0.05}
+                  value={orderPrice}
+                  onChange={(e) => setOrderPrice(Math.max(0.05, parseFloat(e.target.value) || 0))}
+                  className="w-full font-mono text-sm text-white font-bold"
+                />
               </div>
-
-              {/* Statutory Friction Preview */}
-              <div
-                style={{
-                  padding: '14px 16px',
-                  borderRadius: '8px',
-                  backgroundColor: 'var(--bg-surface)',
-                  border: '1px solid var(--border-subtle)',
-                  fontSize: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '6px',
-                }}
-              >
-                <div style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '4px' }}>
-                  Statutory Friction & Outlay (Finance Act 2024)
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                  <span>Gross Order Value:</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    ₹{tradeValue.toLocaleString()}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                  <span>Securities Transaction Tax (0.10% STT):</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    ₹{stt.toFixed(2)}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)' }}>
-                  <span>Brokerage, GST & Stamp Duty:</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    ₹{(totalFriction - stt).toFixed(2)}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    fontWeight: 700,
-                    paddingTop: '6px',
-                    borderTop: '1px solid var(--border-subtle)',
-                    color: 'var(--accent-cyan)',
-                  }}
-                >
-                  <span>Total Net Estimated Outlay:</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px' }}>
-                    ₹{netOutlay.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                  </span>
-                </div>
-              </div>
-
-              {/* Review & Execute Button */}
-              <button
-                type="button"
-                onClick={() => setShowConfirmModal(true)}
-                className="btn btn-primary"
-                style={{ padding: '12px 20px', fontSize: '14px', marginTop: '6px' }}
-              >
-                Review & Confirm Simulated Order
-              </button>
             </div>
+
+            <button
+              onClick={() => setShowConfirmModal(true)}
+              className={`btn w-full py-3 font-bold mt-2 ${
+                orderSide === 'BUY'
+                  ? 'btn-primary'
+                  : 'bg-rose-500 hover:bg-rose-400 text-white shadow-md shadow-rose-500/20'
+              }`}
+            >
+              <span>Review Simulated {orderSide} Order</span>
+              <ArrowRight size={15} />
+            </button>
           </div>
 
-          {/* Account Balance & Cash Reserve Card */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className="terminal-card" style={{ padding: '20px' }}>
-              <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
-                Simulated Account Status
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '13px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Available Cash:</span>
-                  <span style={{ fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
-                    ₹{cash.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                  </span>
+          {/* Statutory Friction Preview (Finance Act 2024) */}
+          <div className="lg:col-span-5 terminal-card flex flex-col justify-between space-y-5">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-[#2A3850] pb-3">
+                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <ShieldCheck size={16} className="text-[#43C99A]" />
+                  Finance Act 2024 Friction Modeling
+                </h3>
+                <span className="text-[10px] font-mono text-[#8998AC]">Statutory Breakdown</span>
+              </div>
+
+              <div className="space-y-2 text-xs font-mono">
+                <div className="flex justify-between text-[#B4C0D0]">
+                  <span>Gross Trade Value:</span>
+                  <span className="text-white font-bold">{fmtINR(tradeValue)}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Invested in Securities:</span>
-                  <span style={{ fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    ₹{positionsValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                  </span>
+                <div className="flex justify-between text-[#8998AC]">
+                  <span>STT (0.1% Delivery):</span>
+                  <span>₹{stt.toFixed(2)}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Active Positions Count:</span>
-                  <span style={{ fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    {positions.length} Assets
-                  </span>
+                <div className="flex justify-between text-[#8998AC]">
+                  <span>Brokerage (Max ₹20):</span>
+                  <span>₹{brokerage.toFixed(2)}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Broker Execution:</span>
-                  <span style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>100% PAPER (Zero Capital Risk)</span>
+                <div className="flex justify-between text-[#8998AC]">
+                  <span>Exchange Turnover (0.00345%):</span>
+                  <span>₹{exchTurnover.toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between text-[#8998AC]">
+                  <span>GST (18% on Charges):</span>
+                  <span>₹{gst.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-[#8998AC]">
+                  <span>Stamp Duty (0.015%):</span>
+                  <span>₹{stampDuty.toFixed(2)}</span>
+                </div>
+                <div className="border-t border-[#2A3850] pt-2 flex justify-between text-[#B4C0D0] font-bold">
+                  <span>Total Statutory Drag:</span>
+                  <span className="text-[#E8B866]">₹{totalFriction.toFixed(2)}</span>
+                </div>
+                <div className="border-t border-[#2A3850] pt-2 flex justify-between text-sm font-bold">
+                  <span className="text-white">Net Cash Outlay:</span>
+                  <span className="text-[#65D5C3]">{fmtINR(netOutlay)}</span>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#101722] border border-[#2A3850] space-y-1.5 text-[11px] font-mono text-[#8998AC]">
+                <div className="text-white font-bold flex items-center gap-1.5">
+                  <Lock size={13} className="text-[#65D5C3]" />
+                  Simulated Safety Verification
+                </div>
+                <div>Available Cash: <strong className="text-white">{fmtINR(cash)}</strong></div>
+                <div>Post-Trade Cash: <strong className="text-white">{fmtINR(orderSide === 'BUY' ? cash - netOutlay : cash + netOutlay)}</strong></div>
               </div>
             </div>
 
-            <div
-              className="terminal-card"
-              style={{
-                padding: '20px',
-                backgroundColor: 'rgba(52, 211, 153, 0.05)',
-                borderColor: 'rgba(52, 211, 153, 0.3)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-emerald)', fontWeight: 700, fontSize: '13px', marginBottom: '6px' }}>
-                <ShieldCheck size={16} /> Paper Trading Safety Invariant
-              </div>
-              <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.4' }}>
-                ArthaAI strictly models order fills using real Yahoo Finance tick prices and Finance Act 2024 statutory friction. Live broker execution remains hard-blocked.
-              </p>
+            <div className="text-[10px] text-[#8998AC] font-mono border-t border-[#2A3850] pt-2">
+              Note: Orders remain strictly internal to the simulated portfolio. No real broker API is connected.
             </div>
           </div>
         </div>
       )}
 
-      {/* ── View 3: Open Positions & Order History ─────────────────────────── */}
+      {/* ── Sub-view 3: Positions & History ───────────────────────────────── */}
       {activeTab === 'positions' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Open Positions */}
-          <div className="terminal-card" style={{ padding: '20px' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
-              Simulated Open Positions ({positions.length})
+        <div className="space-y-6">
+          {/* Open Positions Table */}
+          <div className="terminal-card p-5 space-y-4">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Briefcase size={16} className="text-[#65D5C3]" />
+              Open Simulated Positions ({positions.length})
             </h3>
-            <div className="terminal-table-container">
-              <table className="terminal-table">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Shares</th>
-                    <th>Avg Buy Price</th>
-                    <th>Current Price</th>
-                    <th>Market Value</th>
-                    <th>Unrealized P&L</th>
-                    <th>Action</th>
+                  <tr className="border-b border-[#2A3850] text-[#8998AC] uppercase">
+                    <th className="py-2.5 px-3">Symbol</th>
+                    <th className="py-2.5 px-3">Name</th>
+                    <th className="py-2.5 px-3 text-right">Shares</th>
+                    <th className="py-2.5 px-3 text-right">Avg Price</th>
+                    <th className="py-2.5 px-3 text-right">Current Price</th>
+                    <th className="py-2.5 px-3 text-right">Position Value</th>
+                    <th className="py-2.5 px-3 text-right">Unrealized P&L</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {positions.map((p) => {
-                    const val = p.shares * p.currentPrice;
-                    const pnl = p.shares * (p.currentPrice - p.avgPrice);
-                    const pnlPct = ((p.currentPrice - p.avgPrice) / p.avgPrice) * 100;
+                <tbody className="divide-y divide-[#2A3850]">
+                  {positions.map((pos) => {
+                    const pnl = pos.shares * (pos.currentPrice - pos.avgPrice);
+                    const pnlPct = ((pos.currentPrice - pos.avgPrice) / pos.avgPrice) * 100;
                     return (
-                      <tr key={p.symbol}>
-                        <td style={{ fontWeight: 700, fontFamily: 'var(--font-mono)' }}>{p.symbol}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>{p.shares}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>₹{p.avgPrice.toLocaleString()}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>₹{p.currentPrice.toLocaleString()}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>₹{val.toLocaleString()}</td>
-                        <td
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontWeight: 700,
-                            color: pnl >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)',
-                          }}
-                        >
-                          {pnl >= 0 ? '+' : ''}₹{pnl.toFixed(2)} ({pnlPct.toFixed(2)}%)
+                      <tr key={pos.symbol} className="hover:bg-[#1C293A]/50">
+                        <td className="py-3 px-3 font-bold text-[#65D5C3]">{pos.symbol}</td>
+                        <td className="py-3 px-3 text-white">{pos.name}</td>
+                        <td className="py-3 px-3 text-right font-bold text-white">{pos.shares}</td>
+                        <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{pos.avgPrice.toFixed(2)}</td>
+                        <td className="py-3 px-3 text-right font-bold text-white">₹{pos.currentPrice.toFixed(2)}</td>
+                        <td className="py-3 px-3 text-right font-bold text-white">
+                          {fmtINR(pos.shares * pos.currentPrice)}
                         </td>
-                        <td>
-                          <button
-                            onClick={() => {
-                              setOrderSymbol(p.symbol);
-                              setOrderSide('SELL');
-                              setOrderQty(p.shares);
-                              setOrderPrice(p.currentPrice);
-                              setActiveTab('trading');
-                            }}
-                            className="btn btn-secondary"
-                            style={{ padding: '4px 10px', fontSize: '11px' }}
-                          >
-                            Square Off
-                          </button>
+                        <td className="py-3 px-3 text-right font-bold">
+                          <span className={pnl >= 0 ? 'text-[#43C99A]' : 'text-[#F07883]'}>
+                            {pnl >= 0 ? '+' : ''}
+                            {fmtINR(pnl)} ({pnlPct >= 0 ? '+' : ''}
+                            {pnlPct.toFixed(1)}%)
+                          </span>
                         </td>
                       </tr>
                     );
@@ -597,62 +540,49 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
             </div>
           </div>
 
-          {/* Execution History */}
-          <div className="terminal-card" style={{ padding: '20px' }}>
-            <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
-              Paper Order Execution Log
+          {/* Simulated Order Execution Log */}
+          <div className="terminal-card p-5 space-y-4">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <Clock size={16} className="text-[#65D5C3]" />
+              Simulated Order Execution Log
             </h3>
-            <div className="terminal-table-container">
-              <table className="terminal-table">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs font-mono">
                 <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Timestamp</th>
-                    <th>Symbol</th>
-                    <th>Side</th>
-                    <th>Shares</th>
-                    <th>Price</th>
-                    <th>Statutory Friction</th>
-                    <th>Total Outlay</th>
-                    <th>Status</th>
+                  <tr className="border-b border-[#2A3850] text-[#8998AC] uppercase">
+                    <th className="py-2.5 px-3">Order ID</th>
+                    <th className="py-2.5 px-3">Timestamp</th>
+                    <th className="py-2.5 px-3">Symbol</th>
+                    <th className="py-2.5 px-3">Side</th>
+                    <th className="py-2.5 px-3 text-right">Shares</th>
+                    <th className="py-2.5 px-3 text-right">Fill Price</th>
+                    <th className="py-2.5 px-3 text-right">Statutory Drag</th>
+                    <th className="py-2.5 px-3 text-right">Net Value</th>
+                    <th className="py-2.5 px-3 text-right">Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {orders.map((o) => (
-                    <tr key={o.orderId}>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-muted)' }}>
-                        {o.orderId}
-                      </td>
-                      <td style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>{o.timestamp}</td>
-                      <td style={{ fontWeight: 700, fontFamily: 'var(--font-mono)' }}>{o.symbol}</td>
-                      <td>
+                <tbody className="divide-y divide-[#2A3850]">
+                  {orders.map((ord) => (
+                    <tr key={ord.orderId} className="hover:bg-[#1C293A]/50">
+                      <td className="py-3 px-3 font-bold text-[#65D5C3]">{ord.orderId}</td>
+                      <td className="py-3 px-3 text-[#8998AC]">{ord.timestamp}</td>
+                      <td className="py-3 px-3 font-bold text-white">{ord.symbol}</td>
+                      <td className="py-3 px-3">
                         <span
-                          style={{
-                            padding: '2px 8px',
-                            borderRadius: '4px',
-                            fontSize: '11px',
-                            fontWeight: 700,
-                            fontFamily: 'var(--font-mono)',
-                            color: o.side === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)',
-                            backgroundColor: o.side === 'BUY' ? 'rgba(52, 211, 153, 0.15)' : 'rgba(251, 113, 133, 0.15)',
-                          }}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            ord.side === 'BUY'
+                              ? 'bg-emerald-500/10 text-[#43C99A] border border-emerald-500/30'
+                              : 'bg-rose-500/10 text-[#F07883] border border-rose-500/30'
+                          }`}
                         >
-                          {o.side}
+                          {ord.side}
                         </span>
                       </td>
-                      <td style={{ fontFamily: 'var(--font-mono)' }}>{o.shares}</td>
-                      <td style={{ fontFamily: 'var(--font-mono)' }}>₹{o.price.toLocaleString()}</td>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-muted)' }}>
-                        ₹{o.statutoryCharges.toFixed(2)}
-                      </td>
-                      <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                        ₹{o.totalOutlay.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                      </td>
-                      <td>
-                        <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--accent-emerald)', fontWeight: 700 }}>
-                          ● {o.status}
-                        </span>
-                      </td>
+                      <td className="py-3 px-3 text-right text-white font-bold">{ord.shares}</td>
+                      <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{ord.price.toFixed(2)}</td>
+                      <td className="py-3 px-3 text-right text-[#E8B866]">₹{ord.statutoryCharges.toFixed(2)}</td>
+                      <td className="py-3 px-3 text-right font-bold text-white">{fmtINR(ord.totalOutlay)}</td>
+                      <td className="py-3 px-3 text-right font-bold text-[#43C99A]">{ord.status}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -662,65 +592,57 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
         </div>
       )}
 
-      {/* ── Confirmation Modal ────────────────────────────────────────────── */}
+      {/* Confirmation Modal */}
       {showConfirmModal && (
         <div className="modal-overlay">
-          <div className="modal-content" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
-              Confirm Simulated Paper Order
-            </h3>
-            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-              You are about to execute a simulated <strong>{orderSide}</strong> of{' '}
-              <strong>{orderQty} shares</strong> of <strong>{orderSymbol}</strong> at ₹{orderPrice.toLocaleString()} per share.
-            </p>
-
-            <div
-              style={{
-                margin: '16px 0',
-                padding: '14px',
-                borderRadius: '8px',
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                fontSize: '12px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '6px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Estimated Net Outlay:</span>
-                <span style={{ fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
-                  ₹{netOutlay.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Finance Act 2024 Friction:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                  ₹{totalFriction.toFixed(2)}
-                </span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)' }}>Trading Mode:</span>
-                <span style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}>100% Simulated Paper Execution</span>
-              </div>
+          <div className="modal-content p-6 space-y-5 max-w-md">
+            <div className="flex justify-between items-center border-b border-[#2A3748] pb-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <ShieldCheck size={18} className="text-[#65D5C3]" />
+                Confirm Simulated Order
+              </h3>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-[#E8B866] border border-amber-500/30">
+                PAPER ONLY
+              </span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-              <button
-                type="button"
-                onClick={() => setShowConfirmModal(false)}
-                className="btn btn-secondary"
-                style={{ fontSize: '13px' }}
-              >
+            <div className="space-y-3 font-mono text-xs">
+              <div className="p-3 rounded-lg bg-[#101722] border border-[#2A3748] space-y-1.5">
+                <div className="flex justify-between">
+                  <span className="text-[#8998AC]">Instrument:</span>
+                  <span className="font-bold text-white">{orderSymbol}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8998AC]">Action:</span>
+                  <span className={`font-bold ${orderSide === 'BUY' ? 'text-[#43C99A]' : 'text-[#F07883]'}`}>
+                    {orderSide} {orderQty} Shares @ ₹{orderPrice.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8998AC]">Gross Trade Value:</span>
+                  <span className="text-white font-bold">{fmtINR(tradeValue)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8998AC]">Finance Act 2024 Friction:</span>
+                  <span className="text-[#E8B866] font-bold">₹{totalFriction.toFixed(2)}</span>
+                </div>
+                <div className="border-t border-[#2A3748] pt-1.5 flex justify-between font-bold text-sm">
+                  <span className="text-white">Net Outlay:</span>
+                  <span className="text-[#65D5C3]">{fmtINR(netOutlay)}</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-[#8998AC]">
+                By confirming, this simulated order will execute in your paper portfolio. No real funds or broker connections are utilized.
+              </p>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button onClick={() => setShowConfirmModal(false)} className="btn btn-secondary flex-1">
                 Cancel
               </button>
-              <button
-                type="button"
-                onClick={handleExecuteSimulatedTrade}
-                className="btn btn-primary"
-                style={{ fontSize: '13px' }}
-              >
-                Confirm & Fill Paper Order
+              <button onClick={handleExecutePaperOrder} className="btn btn-primary flex-1">
+                Confirm Execution
               </button>
             </div>
           </div>
@@ -729,5 +651,3 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
     </div>
   );
 };
-
-export default PortfolioTradingPage;

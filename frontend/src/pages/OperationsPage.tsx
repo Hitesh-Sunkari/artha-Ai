@@ -278,7 +278,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
       </div>
 
       {/* Segmented Sub-Navigation Bar */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-[#2A3850] pb-3">
+      <div className="segment-tab-bar" style={{ width: '100%', overflowX: 'auto', marginBottom: '8px' }}>
         {[
           { id: 'overview', label: 'Operations Overview', icon: Activity },
           { id: 'telemetry', label: 'Telemetry Observatory', icon: Zap },
@@ -293,13 +293,9 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveSubTab(tab.id as any)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all ${
-                isActive
-                  ? 'bg-[#1A2942] text-[#22D3EE] border border-[#22D3EE]/40 shadow-sm'
-                  : 'bg-[#131E32] text-[#B2C0D4] border border-[#2A3850] hover:text-white hover:border-[#B2C0D4]/40'
-              }`}
+              className={`segment-tab-btn ${isActive ? 'active' : ''}`}
             >
-              <Icon size={14} className={isActive ? 'text-[#22D3EE]' : 'text-[#8494AB]'} />
+              <Icon size={14} />
               <span>{tab.label}</span>
             </button>
           );

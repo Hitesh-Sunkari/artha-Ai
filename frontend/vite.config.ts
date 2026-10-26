@@ -18,6 +18,7 @@ export default defineConfig({
       '/committee': 'http://127.0.0.1:8000',
       '/rag': 'http://127.0.0.1:8000',
       '/copilot': 'http://127.0.0.1:8000',
+      '/market': 'http://127.0.0.1:8000',
     },
   },
 })
