@@ -240,25 +240,26 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Page Header */}
-      <div className="groww-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="groww-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', padding: '24px' }}>
         <div>
-          <div className="pill-badge pill-badge-blue">
-            <Activity size={14} /> Operations & Fleet Control
+          <div className="pill-badge pill-badge-blue" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <Activity size={14} />
+            <span>Operations & Fleet Control</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight mt-2">
+          <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginTop: '8px' }}>
             Institutional Operations & Telemetry
           </h1>
-          <p className="text-sm text-secondary mt-1 max-w-2xl">
+          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', maxWidth: '640px' }}>
             Live telemetry observatory, multi-agent fleet topology, searchable execution audit,
             real-time readiness diagnostics, and deterministic evaluation suite.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="pill-badge pill-badge-green">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            {healthOk ? 'CONTROL PLANE 200 OK' : 'CONTROL PLANE ONLINE'}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '10px' }}>
+          <div className="pill-badge pill-badge-green" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--groww-green)' }} className="animate-pulse" />
+            <span>{healthOk ? 'CONTROL PLANE 200 OK' : 'CONTROL PLANE ONLINE'}</span>
           </div>
           <button
             onClick={() => {
@@ -266,7 +267,8 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
               fetchRuns();
               fetchDiagnostics();
             }}
-            className="btn-groww-secondary text-xs flex items-center gap-1.5"
+            className="btn-groww-secondary"
+            style={{ fontSize: '12px', padding: '6px 14px' }}
           >
             <RefreshCw size={13} className={telemetryLoading ? 'animate-spin' : ''} />
             <span>Sync</span>
@@ -275,7 +277,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
       </div>
 
       {/* Segmented Sub-Navigation Bar */}
-      <div className="segment-tab-bar" style={{ width: '100%', overflowX: 'auto', marginBottom: '8px' }}>
+      <div className="segment-tab-bar" style={{ width: '100%', overflowX: 'auto', padding: '6px' }}>
         {[
           { id: 'overview', label: 'Operations Overview', icon: Activity },
           { id: 'telemetry', label: 'Telemetry Observatory', icon: Zap },
@@ -301,157 +303,140 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
 
       {/* TAB 1: OPERATIONS OVERVIEW */}
       {activeSubTab === 'overview' && (
-        <div className="space-y-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Top 4 Cockpit Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="groww-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
-                <Server size={14} style={{ color: 'var(--groww-green)' }} /> System Health
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Server size={14} color="var(--groww-green)" /> System Health
               </span>
-              <p className="text-2xl font-bold font-mono text-green-500 mt-1">200 OK</p>
-              <span className="text-[10px] font-mono text-muted">FastAPI ASGI In-Process</span>
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--groww-green)', marginTop: '6px' }}>
+                200 OK
+              </p>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                FastAPI ASGI In-Process
+              </span>
             </div>
 
-            <div className="groww-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
-                <Zap size={14} style={{ color: 'var(--groww-blue)' }} /> LLM Invocations
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Zap size={14} color="var(--groww-blue)" /> LLM Invocations
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', marginTop: '6px' }}>
                 {telemetry?.metrics?.total_calls ?? 14}
               </p>
-              <span className="text-[10px] font-mono text-muted">Google Gemini REST</span>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                Google Gemini REST
+              </span>
             </div>
 
-            <div className="groww-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
-                <Clock size={14} style={{ color: 'var(--groww-green)' }} /> Total Audited Runs
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Clock size={14} color="var(--groww-green)" /> Total Audited Runs
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', marginTop: '6px' }}>
                 {runs.length}
               </p>
-              <span className="text-[10px] font-mono text-muted">Persistent research traces</span>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                Persistent research traces
+              </span>
             </div>
 
-            <div className="groww-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
-                <Database size={14} style={{ color: 'var(--groww-green)' }} /> RAG Corpus Chunks
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Database size={14} color="var(--groww-green)" /> RAG Corpus Chunks
               </span>
-              <p className="text-2xl font-bold font-mono text-green-500 mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--groww-green)', marginTop: '6px' }}>
                 25
               </p>
-              <span className="text-[10px] font-mono text-muted">ChromaDB Indian Market</span>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                ChromaDB Indian Market
+              </span>
             </div>
           </div>
 
           {/* Core Services Status Grid */}
-          <div className="groww-card p-6 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Activity size={15} style={{ color: 'var(--groww-green)' }} />
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Activity size={16} color="var(--groww-green)" />
               Core Architecture & Subsystem Operational Matrix
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">FastAPI Control Plane</div>
-                  <div className="text-[11px] text-muted">Port 8000 / Direct HTTP</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+              {[
+                { title: 'FastAPI Control Plane', subtitle: 'Port 8000 / Direct HTTP', status: 'REACHABLE', badgeClass: 'pill-badge-green' },
+                { title: 'Google Gemini Direct REST', subtitle: 'HTTPS REST (bypasses gRPC)', status: 'ONLINE', badgeClass: 'pill-badge-green' },
+                { title: 'CrewAI A2A JSON-RPC 2.0', subtitle: 'Spec-compliant agent messaging', status: 'READY', badgeClass: 'pill-badge-green' },
+                { title: 'FastMCP Market Server', subtitle: '4 NSE/BSE analytical tools', status: 'MOUNTED', badgeClass: 'pill-badge-green' },
+                { title: 'ChromaDB Persistent Store', subtitle: 'Vector RAG & evidence metadata', status: 'ACTIVE', badgeClass: 'pill-badge-green' },
+                { title: 'Paper Trading Simulator', subtitle: 'Finance Act 2024 compliance', status: 'SIMULATED ONLY', badgeClass: 'pill-badge-blue' },
+              ].map((svc) => (
+                <div
+                  key={svc.title}
+                  style={{
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-input)',
+                    border: '1px solid var(--border-subtle)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>{svc.title}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>{svc.subtitle}</div>
+                  </div>
+                  <span className={`pill-badge ${svc.badgeClass}`}>
+                    {svc.status}
+                  </span>
                 </div>
-                <span className="pill-badge pill-badge-green">
-                  REACHABLE
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">Google Gemini Direct REST</div>
-                  <div className="text-[11px] text-muted">HTTPS REST (bypasses gRPC)</div>
-                </div>
-                <span className="pill-badge pill-badge-green">
-                  ONLINE
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">CrewAI A2A JSON-RPC 2.0</div>
-                  <div className="text-[11px] text-muted">Spec-compliant agent messaging</div>
-                </div>
-                <span className="pill-badge pill-badge-green">
-                  READY
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">FastMCP Market Server</div>
-                  <div className="text-[11px] text-muted">4 NSE/BSE analytical tools</div>
-                </div>
-                <span className="pill-badge pill-badge-green">
-                  MOUNTED
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">ChromaDB Persistent Store</div>
-                  <div className="text-[11px] text-muted">Vector RAG & evidence metadata</div>
-                </div>
-                <span className="pill-badge pill-badge-green">
-                  ACTIVE
-                </span>
-              </div>
-
-              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
-                <div>
-                  <div className="text-white font-bold">Paper Trading Simulator</div>
-                  <div className="text-[11px] text-muted">Finance Act 2024 compliance</div>
-                </div>
-                <span className="pill-badge pill-badge-blue">
-                  SIMULATED ONLY
-                </span>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Quick Action Hub */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
             <button
               onClick={() => setActiveSubTab('telemetry')}
-              className="groww-card groww-card-interactive p-5 text-left group"
+              className="groww-card groww-card-interactive"
+              style={{ padding: '20px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '8px' }}
             >
-              <div className="flex items-center justify-between">
-                <Zap size={20} style={{ color: 'var(--groww-green)' }} />
-                <ArrowRight size={16} className="text-muted group-hover:text-green-500 transition-colors" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <Zap size={20} color="var(--groww-green)" />
+                <ArrowRight size={16} color="var(--text-muted)" />
               </div>
-              <h4 className="text-sm font-bold text-white mt-3">Inspect LLM Telemetry</h4>
-              <p className="text-xs text-muted mt-1">
+              <h4 style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>Inspect LLM Telemetry</h4>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
                 Token consumption, latency breakdown, and model fleet statuses.
               </p>
             </button>
 
             <button
               onClick={() => setActiveSubTab('topology')}
-              className="groww-card groww-card-interactive p-5 text-left group"
+              className="groww-card groww-card-interactive"
+              style={{ padding: '20px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '8px' }}
             >
-              <div className="flex items-center justify-between">
-                <Layers size={20} style={{ color: 'var(--groww-blue)' }} />
-                <ArrowRight size={16} className="text-muted group-hover:text-blue-500 transition-colors" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <Layers size={20} color="var(--groww-blue)" />
+                <ArrowRight size={16} color="var(--text-muted)" />
               </div>
-              <h4 className="text-sm font-bold text-white mt-3">View Agent Topology</h4>
-              <p className="text-xs text-muted mt-1">
+              <h4 style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>View Agent Topology</h4>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
                 Architecture diagram of ADK, CrewAI, Blackboard, and MCP tools.
               </p>
             </button>
 
             <button
               onClick={() => setActiveSubTab('audit')}
-              className="groww-card groww-card-interactive p-5 text-left group"
+              className="groww-card groww-card-interactive"
+              style={{ padding: '20px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '8px' }}
             >
-              <div className="flex items-center justify-between">
-                <Clock size={20} style={{ color: 'var(--groww-green)' }} />
-                <ArrowRight size={16} className="text-[#8494AB] group-hover:text-[#22D3EE] transition-colors" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <Clock size={20} color="var(--groww-green)" />
+                <ArrowRight size={16} color="var(--text-muted)" />
               </div>
-              <h4 className="text-sm font-bold text-white mt-3">Review Execution Audit</h4>
-              <p className="text-xs text-[#8494AB] mt-1">
+              <h4 style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>Review Execution Audit</h4>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
                 Deep-dive into historical runs and open them directly in Research Workspace.
               </p>
             </button>
@@ -459,19 +444,20 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
         </div>
       )}
 
-      {/* TAB 2: TELEMETRY OBSERVATORY (Fixed Blank Screen Bug) */}
+      {/* TAB 2: TELEMETRY OBSERVATORY */}
       {activeSubTab === 'telemetry' && (
-        <div className="space-y-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Status / Error Banner */}
           {telemetryError && (
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div style={{ padding: '14px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--groww-amber-light)', border: '1px solid var(--groww-amber)', color: 'var(--groww-amber)', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <AlertCircle size={16} />
                 <span>Notice: {telemetryError}. Displaying baseline operational telemetry metrics.</span>
               </div>
               <button
                 onClick={fetchTelemetry}
-                className="px-3 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 transition-colors"
+                className="btn-groww-secondary"
+                style={{ padding: '4px 10px', fontSize: '11px' }}
               >
                 Retry
               </button>
@@ -479,82 +465,82 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
           )}
 
           {/* KPI Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Zap size={14} className="text-[#22D3EE]" /> Total LLM Invocations
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Zap size={14} color="var(--groww-green)" /> Total LLM Invocations
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', marginTop: '6px' }}>
                 {telemetry?.metrics?.total_calls ?? 0}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Across all agent runs</span>
+              <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Across all agent runs</span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Cpu size={14} className="text-[#22D3EE]" /> Total Tokens Processed
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Cpu size={14} color="var(--groww-blue)" /> Total Tokens Processed
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', marginTop: '6px' }}>
                 {(
                   (telemetry?.metrics?.total_prompt_tokens ?? 0) +
                   (telemetry?.metrics?.total_completion_tokens ?? 0)
                 ).toLocaleString()}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">
+              <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                 In: {(telemetry?.metrics?.total_prompt_tokens ?? 0).toLocaleString()} | Out:{' '}
                 {(telemetry?.metrics?.total_completion_tokens ?? 0).toLocaleString()}
               </span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <DollarSign size={14} className="text-emerald-400" /> Estimated Cost (USD)
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <DollarSign size={14} color="var(--groww-green)" /> Estimated Cost (USD)
               </span>
-              <p className="text-2xl font-bold font-mono text-emerald-400 mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--groww-green)', marginTop: '6px' }}>
                 ${(telemetry?.metrics?.total_cost_usd ?? 0.0).toFixed(5)}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Gemini rates</span>
+              <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Gemini rates</span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Clock size={14} className="text-[#22D3EE]" /> Average REST Latency
+            <div className="groww-card" style={{ padding: '20px' }}>
+              <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Clock size={14} color="var(--groww-green)" /> Average REST Latency
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">
+              <p style={{ fontSize: '24px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', marginTop: '6px' }}>
                 {telemetry?.metrics?.average_latency_ms ? (telemetry.metrics.average_latency_ms / 1000).toFixed(2) + 's' : '0.00s'}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Direct HTTPS REST pipeline</span>
+              <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>Direct HTTPS REST pipeline</span>
             </div>
           </div>
 
           {/* Model Fleet Table */}
-          <div className="terminal-card p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Cpu size={14} className="text-[#22D3EE]" /> Active Model Fleet & Persona Allocations
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Cpu size={16} color="var(--groww-green)" /> Active Model Fleet & Persona Allocations
             </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-mono">
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
                 <thead>
-                  <tr className="border-b border-[#2A3850] text-[#8494AB] uppercase">
-                    <th className="py-2.5 px-3">Model</th>
-                    <th className="py-2.5 px-3">Provider</th>
-                    <th className="py-2.5 px-3">Persona / Assigned Role</th>
-                    <th className="py-2.5 px-3">Endpoint Transport</th>
-                    <th className="py-2.5 px-3 text-right">Status</th>
+                  <tr style={{ borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                    <th style={{ padding: '10px 12px' }}>Model</th>
+                    <th style={{ padding: '10px 12px' }}>Provider</th>
+                    <th style={{ padding: '10px 12px' }}>Persona / Assigned Role</th>
+                    <th style={{ padding: '10px 12px' }}>Endpoint Transport</th>
+                    <th style={{ padding: '10px 12px', textAlign: 'right' }}>Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#2A3850]">
+                <tbody>
                   {(telemetry?.fleet && telemetry.fleet.length > 0 ? telemetry.fleet : [
                     { model: 'gemini-2.5-flash', provider: 'Google Gemini', persona: 'Macro & Quantitative Analyst', status: 'ACTIVE' },
                     { model: 'gemini-2.5-pro', provider: 'Google Gemini', persona: 'Growth & Filing Specialist', status: 'ACTIVE' },
                   ]).map((m) => (
-                    <tr key={m.model} className="hover:bg-[#1A2942]/50 transition-colors">
-                      <td className="py-3 px-3 font-bold text-[#22D3EE]">{m.model}</td>
-                      <td className="py-3 px-3 text-white">{m.provider}</td>
-                      <td className="py-3 px-3 text-[#B2C0D4]">{m.persona}</td>
-                      <td className="py-3 px-3 text-[#8494AB]">Direct HTTPS REST (bypasses gRPC)</td>
-                      <td className="py-3 px-3 text-right">
-                        <span className="text-emerald-400 font-bold inline-flex items-center gap-1">
+                    <tr key={m.model} style={{ borderBottom: '1px solid var(--border-subtle)' }} className="hover:bg-card-hover">
+                      <td style={{ padding: '12px', fontWeight: 700, color: 'var(--groww-green)' }}>{m.model}</td>
+                      <td style={{ padding: '12px', color: 'var(--text-primary)' }}>{m.provider}</td>
+                      <td style={{ padding: '12px', color: 'var(--text-secondary)' }}>{m.persona}</td>
+                      <td style={{ padding: '12px', color: 'var(--text-muted)' }}>Direct HTTPS REST (bypasses gRPC)</td>
+                      <td style={{ padding: '12px', textAlign: 'right' }}>
+                        <span style={{ color: 'var(--groww-green)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                           <CheckCircle2 size={12} /> {m.status}
                         </span>
                       </td>
@@ -566,24 +552,25 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
           </div>
 
           {/* Token Usage by Provider Bar */}
-          <div className="terminal-card p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Zap size={14} className="text-[#22D3EE]" />
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Zap size={16} color="var(--groww-green)" />
               Inference Token Consumption Distribution
             </h3>
-            <div className="space-y-3 font-mono text-xs">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
               <div>
-                <div className="flex justify-between text-[#B2C0D4] mb-1">
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-secondary)', marginBottom: '6px' }}>
                   <span>Google Gemini (Direct REST)</span>
-                  <span className="text-white font-bold">
+                  <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
                     {(telemetry?.metrics?.total_prompt_tokens ?? 0).toLocaleString()} prompt /{' '}
                     {(telemetry?.metrics?.total_completion_tokens ?? 0).toLocaleString()} completion tokens
                   </span>
                 </div>
-                <div className="w-full h-2.5 rounded-full bg-[#0B1020] overflow-hidden flex border border-[#2A3850]">
+                <div style={{ width: '100%', height: '10px', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--bg-input)', overflow: 'hidden', display: 'flex', border: '1px solid var(--border-subtle)' }}>
                   <div
-                    className="bg-[#22D3EE] h-full"
                     style={{
+                      backgroundColor: 'var(--groww-green)',
+                      height: '100%',
                       width: `${
                         ((telemetry?.metrics?.total_prompt_tokens ?? 0) /
                           Math.max(
@@ -597,8 +584,9 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                     title="Prompt tokens"
                   />
                   <div
-                    className="bg-[#A5B4FC] h-full"
                     style={{
+                      backgroundColor: 'var(--groww-blue)',
+                      height: '100%',
                       width: `${
                         ((telemetry?.metrics?.total_completion_tokens ?? 0) /
                           Math.max(
@@ -613,15 +601,15 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                   />
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-[11px] text-[#8494AB]">
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#22D3EE]" /> Prompt Context (73%)
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '11px', color: 'var(--text-muted)' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--groww-green)' }} /> Prompt Context (73%)
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[#A5B4FC]" /> Model Generation (27%)
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '2px', backgroundColor: 'var(--groww-blue)' }} /> Model Generation (27%)
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-emerald-400" /> Zero Rate Limit Exceeded
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--groww-green)' }}>
+                  <CheckCircle2 size={12} /> Zero Rate Limit Exceeded
                 </span>
               </div>
             </div>
@@ -631,23 +619,23 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
 
       {/* TAB 3: AGENT FLEET & TOPOLOGY */}
       {activeSubTab === 'topology' && (
-        <div className="space-y-6">
-          <div className="terminal-card p-5">
-            <h3 className="text-sm font-bold font-mono text-white mb-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div className="groww-card" style={{ padding: '24px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '6px' }}>
               Multi-Agent Architecture & Inter-Process Topology
             </h3>
-            <p className="text-xs text-[#8494AB] mb-4">
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>
               Google ADK coordinator, CrewAI specialists, FastMCP analytical tools, A2A JSON-RPC 2.0 protocol bridge, and shared Blackboard state.
             </p>
             <ArchitectureDiagram />
           </div>
 
           {/* Specialist Directory */}
-          <div className="terminal-card p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white">
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)' }}>
               Specialist Agent Fleet Registry (Seven Operational Personas)
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '14px', fontSize: '12px' }}>
               {[
                 {
                   name: 'Research Manager',
@@ -692,16 +680,37 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                   blackboard: 'Produces final recommendation with 6-part explainability breakdown.',
                 },
               ].map((agent) => (
-                <div key={agent.name} className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-white text-sm">{agent.name}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#172B43] border border-[#2A3850] text-[#22D3EE]">
+                <div
+                  key={agent.name}
+                  style={{
+                    padding: '16px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-input)',
+                    border: '1px solid var(--border-subtle)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontWeight: 800, fontSize: '14px', color: 'var(--text-primary)' }}>{agent.name}</span>
+                    <span
+                      style={{
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-pill)',
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        backgroundColor: 'var(--groww-green-light)',
+                        color: 'var(--groww-green)',
+                        border: '1px solid rgba(0, 208, 156, 0.3)',
+                      }}
+                    >
                       {agent.framework}
                     </span>
                   </div>
-                  <p className="text-[#B2C0D4]">{agent.responsibility}</p>
-                  <div className="text-[11px] text-[#8494AB] border-t border-[#2A3850]/50 pt-2">
-                    <strong className="text-[#A5B4FC]">Blackboard:</strong> {agent.blackboard}
+                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>{agent.responsibility}</p>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px solid var(--border-subtle)', paddingTop: '8px', marginTop: '4px' }}>
+                    <strong style={{ color: 'var(--groww-blue)' }}>Blackboard:</strong> {agent.blackboard}
                   </div>
                 </div>
               ))}
@@ -712,164 +721,163 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
 
       {/* TAB 4: RUN AUDIT & HISTORY */}
       {activeSubTab === 'audit' && (
-        <div className="space-y-4">
-          <div className="terminal-card p-5 space-y-4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div>
-                <h3 className="text-sm font-bold font-mono text-white">Execution Audit Log & Run History</h3>
-                <p className="text-xs text-[#8494AB] mt-0.5">
-                  Searchable log of all multi-agent executions. Click "Open in Research" to load any run's complete trace.
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 text-xs font-mono text-[#B2C0D4] cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={onlySuccessful}
-                    onChange={(e) => setOnlySuccessful(e.target.checked)}
-                    className="rounded bg-[#0B1020] border-[#2A3850] text-[#22D3EE]"
-                  />
-                  <span>Successful runs only</span>
-                </label>
-                <button
-                  onClick={fetchRuns}
-                  className="btn btn-secondary text-xs flex items-center gap-1.5"
-                >
-                  <RefreshCw size={13} className={runsLoading ? 'animate-spin' : ''} />
-                  <span>Refresh</span>
-                </button>
-              </div>
+        <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '14px' }}>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)' }}>Execution Audit Log & Run History</h3>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                Searchable log of all multi-agent executions. Click "Open in Research" to load any run's complete trace.
+              </p>
             </div>
 
-            {/* Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="relative">
-                <Search size={14} className="absolute left-3 top-3 text-[#8494AB]" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer' }}>
                 <input
-                  type="text"
-                  placeholder="Filter by Run ID or Ticker..."
-                  value={runSearch}
-                  onChange={(e) => setRunSearch(e.target.value)}
-                  className="form-input font-mono pl-9 text-xs w-full"
+                  type="checkbox"
+                  checked={onlySuccessful}
+                  onChange={(e) => setOnlySuccessful(e.target.checked)}
                 />
-              </div>
-
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="form-input font-mono text-xs"
+                <span>Successful runs only</span>
+              </label>
+              <button
+                onClick={fetchRuns}
+                className="btn-groww-secondary"
+                style={{ fontSize: '12px', padding: '6px 14px' }}
               >
-                <option value="ALL">All Statuses</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="FAILED">Failed</option>
-                <option value="IN_PROGRESS">In Progress</option>
-              </select>
+                <RefreshCw size={13} className={runsLoading ? 'animate-spin' : ''} />
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
 
-              <select
-                value={patternFilter}
-                onChange={(e) => setPatternFilter(e.target.value)}
-                className="form-input font-mono text-xs"
-              >
-                <option value="ALL">All Orchestration Patterns</option>
-                <option value="SEQUENTIAL">Sequential</option>
-                <option value="PARALLEL">Parallel</option>
-                <option value="HIERARCHICAL">Hierarchical</option>
-                <option value="REACT">Bounded ReAct</option>
-              </select>
+          {/* Filters */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+            <div style={{ position: 'relative' }}>
+              <Search size={14} style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted)' }} />
+              <input
+                type="text"
+                placeholder="Filter by Run ID or Ticker..."
+                value={runSearch}
+                onChange={(e) => setRunSearch(e.target.value)}
+                style={{ paddingLeft: '36px', width: '100%', fontSize: '12px' }}
+              />
             </div>
 
-            {/* Runs Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-mono">
-                <thead>
-                  <tr className="border-b border-[#2A3850] text-[#8494AB] uppercase">
-                    <th className="py-2.5 px-3">Run ID</th>
-                    <th className="py-2.5 px-3">Ticker</th>
-                    <th className="py-2.5 px-3">Pattern</th>
-                    <th className="py-2.5 px-3">Recommendation</th>
-                    <th className="py-2.5 px-3">Status</th>
-                    <th className="py-2.5 px-3">Timestamp</th>
-                    <th className="py-2.5 px-3 text-right">Action</th>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as any)}
+              style={{ fontSize: '12px' }}
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="FAILED">Failed</option>
+              <option value="IN_PROGRESS">In Progress</option>
+            </select>
+
+            <select
+              value={patternFilter}
+              onChange={(e) => setPatternFilter(e.target.value)}
+              style={{ fontSize: '12px' }}
+            >
+              <option value="ALL">All Orchestration Patterns</option>
+              <option value="SEQUENTIAL">Sequential</option>
+              <option value="PARALLEL">Parallel</option>
+              <option value="HIERARCHICAL">Hierarchical</option>
+              <option value="REACT">Bounded ReAct</option>
+            </select>
+          </div>
+
+          {/* Runs Table */}
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                  <th style={{ padding: '10px 12px' }}>Run ID</th>
+                  <th style={{ padding: '10px 12px' }}>Ticker</th>
+                  <th style={{ padding: '10px 12px' }}>Pattern</th>
+                  <th style={{ padding: '10px 12px' }}>Recommendation</th>
+                  <th style={{ padding: '10px 12px' }}>Status</th>
+                  <th style={{ padding: '10px 12px' }}>Timestamp</th>
+                  <th style={{ padding: '10px 12px', textAlign: 'right' }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredRuns.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} style={{ padding: '32px', textAlign: 'center', color: 'var(--text-muted)' }}>
+                      No execution runs found matching current filters.
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-[#2A3850]">
-                  {filteredRuns.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="py-8 text-center text-[#8494AB]">
-                        No execution runs found matching current filters.
+                ) : (
+                  filteredRuns.map((r) => (
+                    <tr key={r.run_id} style={{ borderBottom: '1px solid var(--border-subtle)' }} className="hover:bg-card-hover">
+                      <td style={{ padding: '12px', fontWeight: 700, color: 'var(--groww-green)' }}>{r.run_id}</td>
+                      <td style={{ padding: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>{r.symbol}</td>
+                      <td style={{ padding: '12px', color: 'var(--text-secondary)' }}>{r.orchestration_pattern}</td>
+                      <td style={{ padding: '12px' }}>
+                        {r.recommendation ? (
+                          <span
+                            className={`pill-badge ${
+                              r.recommendation === 'BUY'
+                                ? 'pill-badge-green'
+                                : r.recommendation === 'SELL'
+                                ? 'pill-badge-red'
+                                : 'pill-badge-amber'
+                            }`}
+                          >
+                            {r.recommendation}
+                          </span>
+                        ) : (
+                          <span style={{ color: 'var(--text-muted)' }}>—</span>
+                        )}
+                      </td>
+                      <td style={{ padding: '12px' }}>
+                        <StatusBadge status={r.status} />
+                      </td>
+                      <td style={{ padding: '12px', color: 'var(--text-muted)' }}>
+                        {r.submitted_at
+                          ? new Date(r.submitted_at).toLocaleString('en-IN', {
+                              dateStyle: 'short',
+                              timeStyle: 'short',
+                            })
+                          : '—'}
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'right' }}>
+                        <button
+                          onClick={() => onOpenRunInResearch?.(r.run_id)}
+                          className="btn-groww-secondary"
+                          style={{ fontSize: '11px', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                        >
+                          <span>Open in Research</span>
+                          <ArrowRight size={12} />
+                        </button>
                       </td>
                     </tr>
-                  ) : (
-                    filteredRuns.map((r) => (
-                      <tr key={r.run_id} className="hover:bg-[#1A2942]/50 transition-colors">
-                        <td className="py-3 px-3 font-bold text-[#22D3EE]">{r.run_id}</td>
-                        <td className="py-3 px-3 font-bold text-white">{r.symbol}</td>
-                        <td className="py-3 px-3 text-[#B2C0D4]">{r.orchestration_pattern}</td>
-                        <td className="py-3 px-3">
-                          {r.recommendation ? (
-                            <span
-                              className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                                r.recommendation === 'BUY'
-                                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                                  : r.recommendation === 'SELL'
-                                  ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
-                                  : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                              }`}
-                            >
-                              {r.recommendation}
-                            </span>
-                          ) : (
-                            <span className="text-[#8494AB]">—</span>
-                          )}
-                        </td>
-                        <td className="py-3 px-3">
-                          <StatusBadge status={r.status} />
-                        </td>
-                        <td className="py-3 px-3 text-[#8494AB]">
-                          {r.submitted_at
-                            ? new Date(r.submitted_at).toLocaleString('en-IN', {
-                                dateStyle: 'short',
-                                timeStyle: 'short',
-                              })
-                            : '—'}
-                        </td>
-                        <td className="py-3 px-3 text-right">
-                          <button
-                            onClick={() => onOpenRunInResearch?.(r.run_id)}
-                            className="btn btn-secondary text-[11px] py-1 px-2.5 inline-flex items-center gap-1 text-[#22D3EE] border-[#22D3EE]/30 hover:bg-[#22D3EE]/10"
-                          >
-                            <span>Open in Research</span>
-                            <ArrowRight size={12} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
 
       {/* TAB 5: SYSTEM DIAGNOSTICS */}
       {activeSubTab === 'diagnostics' && (
-        <div className="space-y-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Base URL & Health Check */}
-          <div className="terminal-card p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <LinkIcon size={14} className="text-[#22D3EE]" /> Research API Connection Configuration
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <LinkIcon size={16} color="var(--groww-green)" /> Research API Connection Configuration
             </h3>
-            <form onSubmit={handleSaveApiUrl} className="flex flex-col sm:flex-row gap-3">
+            <form onSubmit={handleSaveApiUrl} style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
               <input
                 type="text"
                 value={apiUrl}
                 onChange={(e) => setApiUrl(e.target.value)}
                 placeholder="http://127.0.0.1:8000"
-                className="form-input font-mono text-xs flex-1"
+                style={{ flex: 1, minWidth: '240px', fontFamily: 'var(--font-mono)' }}
               />
-              <button type="submit" className="btn btn-secondary text-xs flex items-center gap-1.5">
+              <button type="submit" className="btn-groww-secondary" style={{ fontSize: '12px', padding: '8px 16px' }}>
                 <Check size={14} />
                 <span>Save</span>
               </button>
@@ -877,7 +885,8 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                 type="button"
                 onClick={handleTestConnection}
                 disabled={testingConnection}
-                className="btn btn-primary text-xs flex items-center gap-1.5"
+                className="btn-groww-primary"
+                style={{ fontSize: '12px', padding: '8px 16px' }}
               >
                 <RefreshCw size={13} className={testingConnection ? 'animate-spin' : ''} />
                 <span>Test Endpoint</span>
@@ -885,17 +894,21 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
             </form>
 
             {saveSuccess && (
-              <div className="p-3 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs">
+              <div style={{ padding: '12px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--groww-green-light)', border: '1px solid var(--groww-green)', color: 'var(--groww-green)', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
                 Base URL updated and cached in localStorage.
               </div>
             )}
             {testResult && (
               <div
-                className={`p-3 rounded font-mono text-xs ${
-                  healthOk
-                    ? 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
-                    : 'bg-rose-500/10 border border-rose-500/30 text-rose-400'
-                }`}
+                style={{
+                  padding: '12px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: healthOk ? 'var(--groww-green-light)' : 'var(--groww-red-light)',
+                  border: `1px solid ${healthOk ? 'var(--groww-green)' : 'var(--groww-red)'}`,
+                  color: healthOk ? 'var(--groww-green)' : 'var(--groww-red)',
+                  fontSize: '12px',
+                  fontFamily: 'var(--font-mono)',
+                }}
               >
                 {testResult}
               </div>
@@ -903,42 +916,50 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
           </div>
 
           {/* Registered FastMCP Tools */}
-          <div className="terminal-card p-5 space-y-4">
-            <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Cpu size={14} className="text-[#22D3EE]" /> Registered FastMCP Market Tools
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Cpu size={16} color="var(--groww-green)" /> Registered FastMCP Market Tools
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', fontSize: '12px' }}>
               {[
                 { name: 'get_historical_market_data', desc: 'Fetches Yahoo Finance historical daily bars with corporate split and dividend adjustments.' },
                 { name: 'calculate_technical_indicators', desc: 'Computes SMA-20/50/200, EMA-12/26, RSI-14, MACD, and Bollinger Bands on real data.' },
                 { name: 'get_financial_news_and_filings', desc: 'Retrieves authoritative Indian business headlines and MCA quarterly disclosure filings.' },
                 { name: 'evaluate_statutory_risk', desc: 'Evaluates portfolio risk under Finance Act 2024 LTCG (12.5%) and STCG (20%) tax schedules.' },
               ].map((tool) => (
-                <div key={tool.name} className="p-3 rounded bg-[#0B1020] border border-[#2A3850]">
-                  <div className="font-bold text-[#22D3EE]">{tool.name}</div>
-                  <div className="text-[#8494AB] mt-1">{tool.desc}</div>
+                <div
+                  key={tool.name}
+                  style={{
+                    padding: '14px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-input)',
+                    border: '1px solid var(--border-subtle)',
+                  }}
+                >
+                  <div style={{ fontWeight: 800, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)' }}>{tool.name}</div>
+                  <div style={{ color: 'var(--text-secondary)', marginTop: '4px', lineHeight: 1.4 }}>{tool.desc}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Safety Guardrails */}
-          <div className="terminal-card p-5 space-y-3 font-mono text-xs">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <ShieldCheck size={14} className="text-emerald-400" /> Operational Guardrails & Invariants
+          <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <ShieldCheck size={16} color="var(--groww-green)" /> Operational Guardrails & Invariants
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3 rounded bg-[#0B1020] border border-[#2A3850]">
-                <div className="text-[#8494AB]">LIVE ORDER EXECUTION</div>
-                <div className="text-rose-400 font-bold mt-1">STRICTLY DISABLED</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
+              <div style={{ padding: '14px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ color: 'var(--text-muted)' }}>LIVE ORDER EXECUTION</div>
+                <div style={{ color: 'var(--groww-red)', fontWeight: 800, marginTop: '4px' }}>STRICTLY DISABLED</div>
               </div>
-              <div className="p-3 rounded bg-[#0B1020] border border-[#2A3850]">
-                <div className="text-[#8494AB]">MAX LLM CALLS / RUN</div>
-                <div className="text-white font-bold mt-1">20 CALLS MAX</div>
+              <div style={{ padding: '14px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ color: 'var(--text-muted)' }}>MAX LLM CALLS / RUN</div>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 800, marginTop: '4px' }}>20 CALLS MAX</div>
               </div>
-              <div className="p-3 rounded bg-[#0B1020] border border-[#2A3850]">
-                <div className="text-[#8494AB]">REST TIMEOUT</div>
-                <div className="text-white font-bold mt-1">30.0 SECONDS</div>
+              <div style={{ padding: '14px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ color: 'var(--text-muted)' }}>REST TIMEOUT</div>
+                <div style={{ color: 'var(--text-primary)', fontWeight: 800, marginTop: '4px' }}>30.0 SECONDS</div>
               </div>
             </div>
           </div>
@@ -947,136 +968,152 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
 
       {/* TAB 6: EXISTING EVALUATION SUITE */}
       {activeSubTab === 'evaluation' && (
-        <div className="space-y-6">
-          <div className="terminal-card p-5 space-y-4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div>
-                <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-                  <FlaskConical size={15} className="text-[#22D3EE]" />
-                  Operational Evaluation & Verification Benchmarks
-                </h3>
-                <p className="text-xs text-[#8494AB] mt-0.5">
-                  Pre-configured test dataset across Nifty 50 large caps, mid caps, and distressed regimes.
+        <div className="groww-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '14px' }}>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <FlaskConical size={18} color="var(--groww-green)" />
+                Operational Evaluation & Verification Benchmarks
+              </h3>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                Pre-configured test dataset across Nifty 50 large caps, mid caps, and distressed regimes.
+              </p>
+            </div>
+            <button
+              onClick={handleRunDeterministicSuite}
+              disabled={runningBenchmark}
+              className="btn-groww-primary"
+              style={{ fontSize: '12px', padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+            >
+              <Play size={13} className={runningBenchmark ? 'animate-spin' : ''} />
+              <span>{runningBenchmark ? 'Running Benchmark...' : 'Run Test Suite (12 Cases)'}</span>
+            </button>
+          </div>
+
+          {evalError && (
+            <div style={{ padding: '12px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--groww-red-light)', border: '1px solid var(--groww-red)', color: 'var(--groww-red)', fontSize: '12px', fontFamily: 'var(--font-mono)' }}>
+              {evalError}
+            </div>
+          )}
+
+          {/* Summary Metrics */}
+          {evalSummary && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '14px', fontFamily: 'var(--font-mono)' }}>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total Runs Audited</span>
+                <p style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>{evalSummary.total_runs}</p>
+              </div>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Completed Runs</span>
+                <p style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>{evalSummary.completed_runs}</p>
+              </div>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Schema Valid Rate</span>
+                <p style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+                  {(evalSummary.schema_valid_pct ?? 100).toFixed(1)}%
                 </p>
               </div>
-              <button
-                onClick={handleRunDeterministicSuite}
-                disabled={runningBenchmark}
-                className="btn btn-primary text-xs flex items-center gap-2"
-              >
-                <Play size={13} className={runningBenchmark ? 'animate-spin' : ''} />
-                <span>{runningBenchmark ? 'Running Benchmark...' : 'Run Test Suite (12 Cases)'}</span>
-              </button>
+              <div style={{ padding: '16px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-subtle)' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Mean Latency</span>
+                <p style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '4px' }}>
+                  {(evalSummary.mean_latency_seconds ?? 0).toFixed(2)}s
+                </p>
+              </div>
             </div>
+          )}
 
-            {evalError && (
-              <div className="p-3 rounded bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-mono">
-                {evalError}
+          {/* Experiments List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <h4 style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Experiment Reports</h4>
+            {experiments.length === 0 ? (
+              <div style={{ padding: '24px', textAlign: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>
+                No prior experiment reports logged. Click "Run Test Suite" to execute deterministic verification.
               </div>
-            )}
-
-            {/* Summary Metrics */}
-            {evalSummary && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono">
-                <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850]">
-                  <span className="text-[11px] text-[#8494AB] uppercase">Total Runs Audited</span>
-                  <p className="text-xl font-bold text-white mt-1">{evalSummary.total_runs}</p>
-                </div>
-                <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850]">
-                  <span className="text-[11px] text-[#8494AB] uppercase">Completed Runs</span>
-                  <p className="text-xl font-bold text-white mt-1">{evalSummary.completed_runs}</p>
-                </div>
-                <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850]">
-                  <span className="text-[11px] text-[#8494AB] uppercase">Schema Valid Rate</span>
-                  <p className="text-xl font-bold text-emerald-400 mt-1">
-                    {(evalSummary.schema_valid_pct ?? 100).toFixed(1)}%
-                  </p>
-                </div>
-                <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850]">
-                  <span className="text-[11px] text-[#8494AB] uppercase">Mean Latency</span>
-                  <p className="text-xl font-bold text-[#22D3EE] mt-1">
-                    {(evalSummary.mean_latency_seconds ?? 0).toFixed(2)}s
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Experiments List */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold font-mono text-[#B2C0D4] uppercase">Experiment Reports</h4>
-              {experiments.length === 0 ? (
-                <div className="py-6 text-center text-xs font-mono text-[#8494AB]">
-                  No prior experiment reports logged. Click "Run Test Suite" to execute deterministic verification.
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {experiments.map((exp) => (
-                    <div
-                      key={exp.experiment_id}
-                      className="p-3.5 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center text-xs font-mono hover:border-[#22D3EE]/50 transition-colors"
-                    >
-                      <div>
-                        <div className="font-bold text-[#22D3EE]">{exp.experiment_id}</div>
-                        <div className="text-[11px] text-[#8494AB] mt-0.5">
-                          {exp.total_cases} cases | Pass Rate: {(exp.pass_rate_pct ?? ((exp.passed / (exp.total_cases || 1)) * 100)).toFixed(1)}% | Passed: {exp.passed} | Failed: {exp.failed}
-                        </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {experiments.map((exp) => (
+                  <div
+                    key={exp.experiment_id}
+                    style={{
+                      padding: '14px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: 'var(--bg-input)',
+                      border: '1px solid var(--border-subtle)',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontSize: '12px',
+                      fontFamily: 'var(--font-mono)',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 800, color: 'var(--groww-green)' }}>{exp.experiment_id}</div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                        {exp.total_cases} cases | Pass Rate: {(exp.pass_rate_pct ?? ((exp.passed / (exp.total_cases || 1)) * 100)).toFixed(1)}% | Passed: {exp.passed} | Failed: {exp.failed}
                       </div>
-                      <button
-                        onClick={() => setActiveReportModal(exp)}
-                        className="btn btn-secondary text-[11px] py-1 px-3"
-                      >
-                        Inspect Cases
-                      </button>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                    <button
+                      onClick={() => setActiveReportModal(exp)}
+                      className="btn-groww-secondary"
+                      style={{ fontSize: '11px', padding: '4px 10px' }}
+                    >
+                      Inspect Cases
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Experiment Modal */}
           {activeReportModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-              <div className="terminal-card w-full max-w-3xl max-h-[85vh] flex flex-col p-6 space-y-4">
-                <div className="flex justify-between items-center border-b border-[#2A3850] pb-3">
+            <div style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', backgroundColor: 'rgba(15, 18, 23, 0.75)', backdropFilter: 'blur(4px)' }}>
+              <div className="groww-card" style={{ width: '100%', maxWidth: '750px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', padding: '24px', gap: '16px', backgroundColor: 'var(--bg-surface)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px' }}>
                   <div>
-                    <h3 className="text-sm font-bold font-mono text-white">
+                    <h3 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
                       Experiment Results: {activeReportModal.experiment_id}
                     </h3>
-                    <p className="text-xs text-[#8494AB]">
+                    <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
                       Pass Rate: {(activeReportModal.pass_rate_pct ?? ((activeReportModal.passed / (activeReportModal.total_cases || 1)) * 100)).toFixed(1)}% | Passed: {activeReportModal.passed} / {activeReportModal.total_cases}
                     </p>
                   </div>
                   <button
                     onClick={() => setActiveReportModal(null)}
-                    className="p-1 rounded text-[#8494AB] hover:text-white"
+                    style={{ padding: '6px', borderRadius: 'var(--radius-sm)', color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer' }}
                   >
                     <X size={18} />
                   </button>
                 </div>
 
-                <div className="overflow-y-auto space-y-2 flex-1">
+                <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
                   {(activeReportModal.results || []).map((c, i) => (
                     <div
                       key={i}
-                      className="p-3 rounded bg-[#0B1020] border border-[#2A3850] text-xs font-mono space-y-1"
+                      style={{
+                        padding: '12px',
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: 'var(--bg-input)',
+                        border: '1px solid var(--border-subtle)',
+                        fontSize: '12px',
+                        fontFamily: 'var(--font-mono)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px',
+                      }}
                     >
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-white">{c.symbol} ({c.category})</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontWeight: 800, color: 'var(--text-primary)' }}>{c.symbol} ({c.category})</span>
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                            c.passed
-                              ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
-                              : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'
-                          }`}
+                          className={`pill-badge ${c.passed ? 'pill-badge-green' : 'pill-badge-red'}`}
                         >
                           {c.passed ? 'PASSED' : 'ASSERTION FAILURE'}
                         </span>
                       </div>
-                      <div className="text-[#8494AB]">
-                        Actual: <span className="text-[#22D3EE] font-bold">{c.actual_outcome}</span> | Expected: <span className="text-white font-bold">{c.expected_outcome}</span>
+                      <div style={{ color: 'var(--text-muted)' }}>
+                        Actual: <span style={{ color: 'var(--groww-green)', fontWeight: 700 }}>{c.actual_outcome}</span> | Expected: <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>{c.expected_outcome}</span>
                       </div>
-                      <div className="text-[11px] text-[#B2C0D4]">
+                      <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
                         {c.error || (c.assertion_failures && c.assertion_failures.length > 0 ? c.assertion_failures.join('; ') : 'All test assertions passed')}
                       </div>
                     </div>
@@ -1090,3 +1127,5 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
     </div>
   );
 };
+
+export default OperationsPage;

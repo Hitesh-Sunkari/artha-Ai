@@ -30,15 +30,26 @@ type ResearchSubTab = 'overview' | 'journey' | 'report' | 'evidence' | 'committe
 
 interface ResearchWorkspaceProps {
   initialRunId?: string | null;
+  initialSymbol?: string | null;
   onNavigateToPortfolio?: (ticker?: string, side?: 'BUY' | 'SELL') => void;
 }
 
 export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
   initialRunId,
+  initialSymbol,
   onNavigateToPortfolio,
 }) => {
   const [activeTab, setActiveTab] = useState<ResearchSubTab>(initialRunId ? 'journey' : 'overview');
   const [activeRunId, setActiveRunId] = useState<string | null>(initialRunId || null);
+
+  // Configuration Form State
+  const [symbol, setSymbol] = useState(initialSymbol || 'RELIANCE.NS');
+
+  useEffect(() => {
+    if (initialSymbol) {
+      setSymbol(initialSymbol);
+    }
+  }, [initialSymbol]);
 
   useEffect(() => {
     if (initialRunId && initialRunId !== activeRunId) {
@@ -46,9 +57,6 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
       setActiveTab('journey');
     }
   }, [initialRunId]);
-
-  // Configuration Form State
-  const [symbol, setSymbol] = useState('RELIANCE.NS');
   const [orchestrationPattern, setOrchestrationPattern] = useState<'SEQUENTIAL' | 'PARALLEL' | 'HIERARCHICAL'>('SEQUENTIAL');
   const [horizon, setHorizon] = useState('1Y');
   const [thesisQuestion, setThesisQuestion] = useState('Evaluate valuation, regulatory risks under SEBI LODR, and statutory friction under Finance Act 2024.');

@@ -14,6 +14,7 @@ import {
   ChevronRight,
   CheckCircle2,
   SlidersHorizontal,
+  RefreshCw,
 } from 'lucide-react';
 import type { TabId } from '../components/Sidebar';
 import { getApiBaseUrl } from '../api/client';
@@ -42,11 +43,32 @@ interface MarketIndexQuote {
   timestamp?: string;
 }
 
+interface StockQuote {
+  ticker: string;
+  name: string;
+  sector: string;
+  rawPrice: number;
+  price: string;
+  change: string;
+  chg: string;
+  diffPct: number;
+  positive: boolean;
+  high52w: string;
+  low52w: string;
+  volume: string;
+  color: string;
+  tag: string;
+  lastUpdated: string;
+}
+
 export const CommandCenterPage: React.FC<{
   onNavigate: (tab: TabId, runId?: string) => void;
 }> = ({ onNavigate }) => {
   const [runs, setRuns] = useState<RunSummaryRecord[]>([]);
   const [marketIndices, setMarketIndices] = useState<MarketIndexQuote[]>([]);
+  const [stocks, setStocks] = useState<StockQuote[]>([]);
+  const [priceFlash, setPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
+  const [lastStreamTime, setLastStreamTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
 
@@ -69,108 +91,55 @@ export const CommandCenterPage: React.FC<{
   const unrealizedPnL = positionsMarketValue - totalCostBasis;
   const pnlPct = totalCostBasis > 0 ? (unrealizedPnL / totalCostBasis) * 100 : 0.0;
 
-  // Curated Indian Large Caps with 5-Year Point-in-Time Data
-  const stockUniverse = [
-    {
-      ticker: 'RELIANCE.NS',
-      name: 'Reliance Industries',
-      sector: 'Energy & Retail',
-      price: '₹1,285.50',
-      change: '+10.85',
-      chg: '+0.85%',
-      positive: true,
-      color: '#00D09C',
-      tag: '5Y High Leader',
-    },
-    {
-      ticker: 'TCS.NS',
-      name: 'Tata Consultancy Services',
-      sector: 'IT Services',
-      price: '₹4,120.00',
-      change: '+45.60',
-      chg: '+1.12%',
-      positive: true,
-      color: '#5367FF',
-      tag: 'Top IT Large Cap',
-    },
-    {
-      ticker: 'HDFCBANK.NS',
-      name: 'HDFC Bank Limited',
-      sector: 'Banking & Finance',
-      price: '₹1,682.40',
-      change: '-5.10',
-      chg: '-0.30%',
-      positive: false,
-      color: '#EB5B59',
-      tag: 'Heavyweight',
-    },
-    {
-      ticker: 'INFY.NS',
-      name: 'Infosys Limited',
-      sector: 'IT & Cloud',
-      price: '₹1,850.15',
-      change: '+8.30',
-      chg: '+0.45%',
-      positive: true,
-      color: '#5367FF',
-      tag: 'Cloud Growth',
-    },
-    {
-      ticker: 'TATAMOTORS.NS',
-      name: 'Tata Motors Limited',
-      sector: 'Automotive & EV',
-      price: '₹885.60',
-      change: '+18.20',
-      chg: '+2.10%',
-      positive: true,
-      color: '#00D09C',
-      tag: 'Top EV Pick',
-    },
-    {
-      ticker: 'ICICIBANK.NS',
-      name: 'ICICI Bank Limited',
-      sector: 'Banking & Lending',
-      price: '₹1,240.00',
-      change: '+14.50',
-      chg: '+1.18%',
-      positive: true,
-      color: '#00D09C',
-      tag: 'Credit Leader',
-    },
-    {
-      ticker: 'SBIN.NS',
-      name: 'State Bank of India',
-      sector: 'Public Sector Banking',
-      price: '₹790.00',
-      change: '+6.40',
-      chg: '+0.82%',
-      positive: true,
-      color: '#5367FF',
-      tag: 'PSU Anchor',
-    },
-    {
-      ticker: 'ITC.NS',
-      name: 'ITC Limited',
-      sector: 'FMCG & Hotels',
-      price: '₹485.00',
-      change: '-1.20',
-      chg: '-0.25%',
-      positive: false,
-      color: '#EB5B59',
-      tag: 'High Dividend',
-    },
-  ];
+  // Real-time stock polling function (reads authentic DuckDB Parquet data)
+  const fetchStocks = async () => {
+    try {
+      const res = await fetch(`${API}/market/stocks`);
+      if (res.ok) {
+        const data: StockQuote[] = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setStocks((prevStocks) => {
+            if (prevStocks.length > 0) {
+              const flashes: Record<string, 'up' | 'down'> = {};
+              data.forEach((newStock) => {
+                const oldStock = prevStocks.find((s) => s.ticker === newStock.ticker);
+                if (oldStock && oldStock.rawPrice !== newStock.rawPrice) {
+                  flashes[newStock.ticker] = newStock.rawPrice > oldStock.rawPrice ? 'up' : 'down';
+                }
+              });
+              if (Object.keys(flashes).length > 0) {
+                setPriceFlash(flashes);
+                setTimeout(() => setPriceFlash({}), 1400);
+              }
+            }
+            return data;
+          });
+          if (data[0]?.lastUpdated) {
+            setLastStreamTime(data[0].lastUpdated);
+          }
+        }
+      }
+    } catch {
+      // Keep existing data on error
+    }
+  };
 
-  useEffect(() => {
-    // Fetch live market indices
-    fetch(`${API}/market/indices`)
-      .then((r) => r.json())
-      .then((data: MarketIndexQuote[]) => {
+  const fetchIndices = async () => {
+    try {
+      const res = await fetch(`${API}/market/indices`);
+      if (res.ok) {
+        const data: MarketIndexQuote[] = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setMarketIndices(data);
         }
-      })
-      .catch(() => {});
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    // Initial fetches
+    fetchIndices();
+    fetchStocks();
 
     // Fetch runs with correct symbol mapping
     fetch(`${API}/runs`)
@@ -192,19 +161,35 @@ export const CommandCenterPage: React.FC<{
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
 
-  const completedCount = runs.filter((r) => r.status === 'COMPLETED').length;
-  const activeCount = runs.filter((r) => r.status === 'RUNNING' || r.status === 'PENDING').length;
+    // Polling interval: 3 seconds for dynamic real-time live stock prices
+    const stockTimer = setInterval(fetchStocks, 3000);
+    const indexTimer = setInterval(fetchIndices, 5000);
+
+    return () => {
+      clearInterval(stockTimer);
+      clearInterval(indexTimer);
+    };
+  }, []);
 
   const filterChips = [
     { id: 'all', label: 'All Stocks' },
     { id: 'nifty50', label: 'NIFTY 50' },
     { id: '5y-leaders', label: '5-Year Leaders' },
-    { id: 'banking', label: 'Banking & F&O' },
+    { id: 'banking', label: 'Banking & Lending' },
     { id: 'tech', label: 'Technology' },
     { id: 'statutory', label: 'Finance Act 2024 Drag' },
   ];
+
+  const filteredStocks = stocks.filter((stock) => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'nifty50') return true;
+    if (activeFilter === '5y-leaders') return ['RELIANCE.NS', 'TCS.NS', 'TATAMOTORS.NS'].includes(stock.ticker);
+    if (activeFilter === 'banking') return ['HDFCBANK.NS', 'ICICIBANK.NS', 'SBIN.NS'].includes(stock.ticker);
+    if (activeFilter === 'tech') return ['TCS.NS', 'INFY.NS', 'WIPRO.NS'].includes(stock.ticker);
+    if (activeFilter === 'statutory') return ['RELIANCE.NS', 'HDFCBANK.NS', 'ITC.NS'].includes(stock.ticker);
+    return true;
+  });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
@@ -220,8 +205,9 @@ export const CommandCenterPage: React.FC<{
             </p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span className="pill-badge pill-badge-green">
-              ● NSE/BSE LIVE
+            <span className="pill-badge pill-badge-green" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--groww-green)', display: 'inline-block' }} />
+              <span>● NSE/BSE LIVE</span>
             </span>
           </div>
         </div>
@@ -313,15 +299,30 @@ export const CommandCenterPage: React.FC<{
 
       {/* ── Groww Stocks Grid (Explore Stocks on ArthaAI) ─────────────────── */}
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-              Explore Stocks on ArthaAI
-            </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-              Equities with 5-year point-in-time verified data (~1,260 daily bars) & AI consensus
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+                Explore Stocks on ArthaAI
+              </h2>
+              <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span
+                  style={{
+                    width: '7px',
+                    height: '7px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--groww-green)',
+                    boxShadow: '0 0 6px var(--groww-green)',
+                  }}
+                />
+                <span>LIVE STREAMING (~3s TICK)</span>
+              </span>
+            </div>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+              Original 5-year point-in-time verified data (~1,260 bars) with real-time automatic price updates • {lastStreamTime ? `Last tick: ${lastStreamTime}` : 'Connecting stream...'}
             </p>
           </div>
+
           <button
             onClick={() => onNavigate('research')}
             className="btn-groww-secondary"
@@ -335,12 +336,13 @@ export const CommandCenterPage: React.FC<{
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
             gap: '16px',
           }}
         >
-          {stockUniverse.map((stock) => {
+          {filteredStocks.map((stock) => {
             const initial = stock.name.charAt(0);
+            const flash = priceFlash[stock.ticker];
             return (
               <div
                 key={stock.ticker}
@@ -350,9 +352,12 @@ export const CommandCenterPage: React.FC<{
                   flexDirection: 'column',
                   justifyContent: 'space-between',
                   padding: '20px',
-                  gap: '16px',
+                  gap: '14px',
+                  borderColor: flash === 'up' ? 'var(--groww-green)' : flash === 'down' ? 'var(--groww-red)' : undefined,
+                  boxShadow: flash === 'up' ? '0 0 16px rgba(0, 208, 156, 0.25)' : flash === 'down' ? '0 0 16px rgba(235, 91, 89, 0.25)' : undefined,
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
-                onClick={() => onNavigate('research')}
+                onClick={() => onNavigate('research', stock.ticker)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -369,6 +374,7 @@ export const CommandCenterPage: React.FC<{
                         fontWeight: 800,
                         fontSize: '16px',
                         color: stock.color,
+                        flexShrink: 0,
                       }}
                     >
                       {initial}
@@ -377,7 +383,7 @@ export const CommandCenterPage: React.FC<{
                       <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>
                         {stock.name}
                       </div>
-                      <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
                         {stock.ticker} • {stock.sector}
                       </div>
                     </div>
@@ -397,10 +403,60 @@ export const CommandCenterPage: React.FC<{
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}>
+                {/* 52W High / Low & Volume Strip */}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    padding: '8px 10px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-input)',
+                    fontSize: '10px',
+                    color: 'var(--text-muted)',
+                  }}
+                >
                   <div>
-                    <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                      {stock.price}
+                    <span>52W H: </span>
+                    <strong style={{ color: 'var(--text-primary)' }}>{stock.high52w}</strong>
+                  </div>
+                  <div>
+                    <span>52W L: </span>
+                    <strong style={{ color: 'var(--text-primary)' }}>{stock.low52w}</strong>
+                  </div>
+                  <div>
+                    <span>Vol: </span>
+                    <strong style={{ color: 'var(--text-primary)' }}>{stock.volume}</strong>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingTop: '4px', borderTop: '1px solid var(--border-subtle)' }}>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: '20px',
+                        fontWeight: 800,
+                        color: 'var(--text-primary)',
+                        letterSpacing: '-0.02em',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <span>{stock.price}</span>
+                      {flash && (
+                        <span
+                          style={{
+                            fontSize: '9px',
+                            fontWeight: 800,
+                            color: flash === 'up' ? 'var(--groww-green)' : 'var(--groww-red)',
+                            backgroundColor: flash === 'up' ? 'var(--groww-green-light)' : 'var(--groww-red-light)',
+                            padding: '1px 5px',
+                            borderRadius: 'var(--radius-pill)',
+                          }}
+                        >
+                          {flash === 'up' ? '▲' : '▼'}
+                        </span>
+                      )}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', fontWeight: 600, color: stock.positive ? 'var(--groww-green)' : 'var(--groww-red)' }}>
                       {stock.positive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
@@ -411,7 +467,7 @@ export const CommandCenterPage: React.FC<{
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      onNavigate('research');
+                      onNavigate('research', stock.ticker);
                     }}
                     className="btn-groww-primary"
                     style={{ padding: '6px 14px', fontSize: '12px' }}
@@ -654,3 +710,5 @@ export const CommandCenterPage: React.FC<{
     </div>
   );
 };
+
+export default CommandCenterPage;

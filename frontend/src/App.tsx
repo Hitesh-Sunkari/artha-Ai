@@ -10,6 +10,7 @@ import { CopilotDrawer } from './components/CopilotDrawer';
 export const App: React.FC = () => {
   const [activeWorkspace, setActiveWorkspace] = useState<PrimaryWorkspace>('command-center');
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
+  const [researchSymbol, setResearchSymbol] = useState<string | null>(null);
   const [portfolioHandoff, setPortfolioHandoff] = useState<{
     ticker?: string;
     side?: 'BUY' | 'SELL';
@@ -21,9 +22,13 @@ export const App: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Consolidated navigation normalizer
-  const handleNavigate = (tab: TabId, runId?: string) => {
-    if (runId) {
-      setActiveRunId(runId);
+  const handleNavigate = (tab: TabId, targetId?: string) => {
+    if (targetId) {
+      if (targetId.includes('.NS') || targetId.length <= 12) {
+        setResearchSymbol(targetId);
+      } else {
+        setActiveRunId(targetId);
+      }
     }
 
     if (tab === 'command-center' || tab === 'dashboard') {
@@ -96,6 +101,7 @@ export const App: React.FC = () => {
           {activeWorkspace === 'research' && (
             <ResearchWorkspacePage
               initialRunId={activeRunId}
+              initialSymbol={researchSymbol}
               onNavigateToPortfolio={handleTradeHandoff}
             />
           )}

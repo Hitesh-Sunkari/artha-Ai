@@ -63,7 +63,7 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 
   /* Layout Dimensions */
-  --sidebar-width: 260px;
+  --sidebar-width: 72px;
   --header-height: 64px;
 
   /* Shadows & Radius */
@@ -106,6 +106,82 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
   --shadow-glow: 0 0 20px rgba(0, 208, 156, 0.2);
+}
+
+/* ── Light Mode High-Contrast Overrides ────────────────────────────────────── */
+[data-theme="light"] .text-white {
+  color: #1E222D !important;
+}
+
+[data-theme="light"] .text-\[\#B2C0D4\],
+[data-theme="light"] .text-\[\#8494AB\] {
+  color: #556173 !important;
+}
+
+[data-theme="light"] .text-\[\#22D3EE\] {
+  color: #00A87E !important;
+}
+
+[data-theme="light"] .text-\[\#34D399\] {
+  color: #00A87E !important;
+}
+
+[data-theme="light"] .bg-\[\#0B1020\],
+[data-theme="light"] .bg-\[\#131E32\],
+[data-theme="light"] .bg-\[\#172B43\],
+[data-theme="light"] .bg-\[\#1A2942\] {
+  background-color: #F1F5F9 !important;
+}
+
+[data-theme="light"] .border-\[\#2A3850\],
+[data-theme="light"] .divide-\[\#2A3850\] > * {
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .hover\:bg-\[\#1A2942\]\/50:hover {
+  background-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .terminal-card,
+[data-theme="light"] .groww-card {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] table thead tr {
+  border-bottom-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: #FFFFFF !important;
+  color: #1E222D !important;
+  border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .hover\:bg-card-hover:hover,
+[data-theme="light"] tr.hover\:bg-card-hover:hover {
+  background-color: #F8FAFC !important;
+}
+
+[data-theme="light"] .text-secondary {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-muted {
+  color: #64748B !important;
+}
+
+[data-theme="light"] .segment-tab-bar {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .segment-tab-btn:hover {
+  background-color: #F1F5F9 !important;
+  color: #1E222D !important;
 }
 
 * {

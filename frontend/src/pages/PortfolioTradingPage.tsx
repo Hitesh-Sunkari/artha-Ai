@@ -80,6 +80,35 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
   const [orderPrice, setOrderPrice] = useState<number>(1285.5);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [orderNotification, setOrderNotification] = useState<string | null>(null);
+  const [liveStocks, setLiveStocks] = useState<any[]>([]);
+
+  const fetchLivePrices = async () => {
+    try {
+      const res = await fetch(`${API}/market/stocks`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setLiveStocks(data);
+          const match = data.find((s: any) => s.ticker === orderSymbol);
+          if (match && orderType === 'MARKET') {
+            setOrderPrice(match.rawPrice);
+          }
+          setPositions((prev) =>
+            prev.map((pos) => {
+              const live = data.find((s: any) => s.ticker === pos.symbol);
+              return live ? { ...pos, currentPrice: live.rawPrice } : pos;
+            })
+          );
+        }
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    fetchLivePrices();
+    const interval = setInterval(fetchLivePrices, 3000);
+    return () => clearInterval(interval);
+  }, [orderSymbol, orderType]);
 
   useEffect(() => {
     if (initialSymbol) {
@@ -175,13 +204,16 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
 
   const fmtINR = (n: number) => `₹${n.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
 
-  const popularSymbols = [
-    { sym: 'RELIANCE.NS', price: 1285.50 },
-    { sym: 'TCS.NS', price: 4120.00 },
-    { sym: 'HDFCBANK.NS', price: 1682.40 },
-    { sym: 'INFY.NS', price: 1850.15 },
-    { sym: 'TATAMOTORS.NS', price: 885.60 },
-  ];
+  const popularSymbols =
+    liveStocks.length > 0
+      ? liveStocks.map((s: any) => ({ sym: s.ticker, price: s.rawPrice }))
+      : [
+          { sym: 'RELIANCE.NS', price: 1285.50 },
+          { sym: 'TCS.NS', price: 4120.00 },
+          { sym: 'HDFCBANK.NS', price: 1682.40 },
+          { sym: 'INFY.NS', price: 1850.15 },
+          { sym: 'TATAMOTORS.NS', price: 885.60 },
+        ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
