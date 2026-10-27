@@ -15,9 +15,11 @@ import {
   CheckCircle2,
   SlidersHorizontal,
   RefreshCw,
+  Clock,
 } from 'lucide-react';
 import type { TabId } from '../components/Sidebar';
 import { getApiBaseUrl } from '../api/client';
+import type { MarketSessionState } from '../api/types';
 
 const API = getApiBaseUrl();
 
@@ -44,6 +46,8 @@ interface MarketIndexQuote {
   provenance: string;
   timestamp?: string;
   lastUpdated?: string;
+  frozen?: boolean;
+  marketOpen?: boolean;
 }
 
 interface StockQuote {
@@ -62,6 +66,8 @@ interface StockQuote {
   color: string;
   tag: string;
   lastUpdated: string;
+  frozen?: boolean;
+  marketOpen?: boolean;
 }
 
 export const CommandCenterPage: React.FC<{
@@ -70,6 +76,7 @@ export const CommandCenterPage: React.FC<{
   const [runs, setRuns] = useState<RunSummaryRecord[]>([]);
   const [marketIndices, setMarketIndices] = useState<MarketIndexQuote[]>([]);
   const [stocks, setStocks] = useState<StockQuote[]>([]);
+  const [marketSession, setMarketSession] = useState<MarketSessionState | null>(null);
   const [priceFlash, setPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
   const [indexPriceFlash, setIndexPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
   const [lastStreamTime, setLastStreamTime] = useState<string>('');
@@ -96,15 +103,29 @@ export const CommandCenterPage: React.FC<{
   const unrealizedPnL = positionsMarketValue - totalCostBasis;
   const pnlPct = totalCostBasis > 0 ? (unrealizedPnL / totalCostBasis) * 100 : 0.0;
 
-  // Real-time stock polling function (reads authentic DuckDB Parquet data)
-  const fetchStocks = async () => {
+  const fetchSession = async (): Promise<MarketSessionState | null> => {
     try {
+      const res = await fetch(`${API}/market/session`);
+      if (res.ok) {
+        const data: MarketSessionState = await res.json();
+        setMarketSession(data);
+        return data;
+      }
+    } catch {}
+    return null;
+  };
+
+  // Real-time stock polling function (authentic real quotes, frozen when market closed)
+  const fetchStocks = async (sessionOverride?: MarketSessionState | null) => {
+    try {
+      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSession;
       const res = await fetch(`${API}/market/stocks`);
       if (res.ok) {
         const data: StockQuote[] = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setStocks((prevStocks) => {
-            if (prevStocks.length > 0) {
+            // Only flash ticks if market is active/open
+            if (currentSess?.is_open && prevStocks.length > 0) {
               const flashes: Record<string, 'up' | 'down'> = {};
               data.forEach((newStock) => {
                 const oldStock = prevStocks.find((s) => s.ticker === newStock.ticker);
@@ -129,14 +150,15 @@ export const CommandCenterPage: React.FC<{
     }
   };
 
-  const fetchIndices = async () => {
+  const fetchIndices = async (sessionOverride?: MarketSessionState | null) => {
     try {
+      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSession;
       const res = await fetch(`${API}/market/indices`);
       if (res.ok) {
         const data: MarketIndexQuote[] = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           setMarketIndices((prevIndices) => {
-            if (prevIndices.length > 0) {
+            if (currentSess?.is_open && prevIndices.length > 0) {
               const flashes: Record<string, 'up' | 'down'> = {};
               data.forEach((newIdx) => {
                 const oldIdx = prevIndices.find((i) => i.symbol === newIdx.symbol);
@@ -163,8 +185,10 @@ export const CommandCenterPage: React.FC<{
 
   useEffect(() => {
     // Initial fetches
-    fetchIndices();
-    fetchStocks();
+    fetchSession().then((sess) => {
+      fetchIndices(sess);
+      fetchStocks(sess);
+    });
 
     // Fetch runs with correct symbol mapping
     fetch(`${API}/runs`)
@@ -187,13 +211,28 @@ export const CommandCenterPage: React.FC<{
       })
       .catch(() => setLoading(false));
 
-    // Polling interval: 3 seconds for dynamic real-time live stock and benchmark prices
-    const stockTimer = setInterval(fetchStocks, 3000);
-    const indexTimer = setInterval(fetchIndices, 3000);
+    // Dynamic timer: check session every 15s; poll quotes every 3.5s if open, every 20s if closed
+    const sessionTimer = setInterval(() => {
+      fetchSession().then((sess) => {
+        if (sess?.is_open) {
+          fetchIndices(sess);
+          fetchStocks(sess);
+        }
+      });
+    }, 15000);
+
+    const quotesTimer = setInterval(() => {
+      fetchSession().then((sess) => {
+        if (sess?.is_open) {
+          fetchIndices(sess);
+          fetchStocks(sess);
+        }
+      });
+    }, 3500);
 
     return () => {
-      clearInterval(stockTimer);
-      clearInterval(indexTimer);
+      clearInterval(sessionTimer);
+      clearInterval(quotesTimer);
     };
   }, []);
 
@@ -226,28 +265,49 @@ export const CommandCenterPage: React.FC<{
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Market Benchmarks
               </h2>
-              <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span
-                  style={{
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--groww-green)',
-                    boxShadow: '0 0 6px var(--groww-green)',
-                  }}
-                  className="animate-pulse"
-                />
-                <span>LIVE STREAMING (~3s TICK)</span>
-              </span>
+
+              {marketSession?.is_open ? (
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--groww-green)',
+                      boxShadow: '0 0 6px var(--groww-green)',
+                    }}
+                    className="animate-pulse"
+                  />
+                  <span>LIVE MARKET (09:15 - 16:15 IST)</span>
+                </span>
+              ) : (
+                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--groww-red)',
+                    }}
+                  />
+                  <span>MARKET CLOSED (IST)</span>
+                </span>
+              )}
+
               <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                • {lastIndexStreamTime ? `Last tick: ${lastIndexStreamTime}` : 'Connecting stream...'}
+                • {marketSession?.is_open
+                    ? (lastIndexStreamTime ? `Last tick: ${lastIndexStreamTime}` : 'Connecting stream...')
+                    : `Prices frozen at official session close (04:15 PM IST) • ${marketSession?.next_session || 'Opens tomorrow 09:15 AM IST'}`}
               </span>
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              Real-time index quotes with live market session drift & point-in-time Parquet provenance
+              {marketSession?.is_open
+                ? 'Real-time verified index quotes streaming with official session provenance in IST'
+                : `Trading session closed at 04:15 PM IST. Fluctuations stopped. Official closing quotes displayed. ${marketSession?.next_session || 'Opens tomorrow at 09:15 AM IST.'}`}
             </p>
           </div>
         </div>
+
 
         <div
           style={{
@@ -368,21 +428,38 @@ export const CommandCenterPage: React.FC<{
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Explore Stocks on ArthaAI
               </h2>
-              <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span
-                  style={{
-                    width: '7px',
-                    height: '7px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--groww-green)',
-                    boxShadow: '0 0 6px var(--groww-green)',
-                  }}
-                />
-                <span>LIVE STREAMING (~3s TICK)</span>
-              </span>
+              {marketSession?.is_open ? (
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--groww-green)',
+                      boxShadow: '0 0 6px var(--groww-green)',
+                    }}
+                    className="animate-pulse"
+                  />
+                  <span>LIVE MARKET (09:15 - 16:15 IST)</span>
+                </span>
+              ) : (
+                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--groww-red)',
+                    }}
+                  />
+                  <span>OFFICIAL CLOSE (FROZEN AT 04:15 PM IST)</span>
+                </span>
+              )}
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              Original 5-year point-in-time verified data (~1,260 bars) with real-time automatic price updates • {lastStreamTime ? `Last tick: ${lastStreamTime}` : 'Connecting stream...'}
+              {marketSession?.is_open
+                ? `Original 5-year point-in-time verified data (~1,260 bars) with real-time live market updates • ${lastStreamTime ? `Last tick: ${lastStreamTime}` : 'Connecting stream...'}`
+                : `Market closed at 04:15 PM IST. Stock prices are strictly frozen at official exchange close. ${marketSession?.next_session || 'Opens tomorrow at 09:15 AM IST.'}`}
             </p>
           </div>
 
@@ -416,8 +493,9 @@ export const CommandCenterPage: React.FC<{
                   justifyContent: 'space-between',
                   padding: '20px',
                   gap: '14px',
-                  borderColor: flash === 'up' ? 'var(--groww-green)' : flash === 'down' ? 'var(--groww-red)' : undefined,
-                  boxShadow: flash === 'up' ? '0 0 16px rgba(0, 208, 156, 0.25)' : flash === 'down' ? '0 0 16px rgba(235, 91, 89, 0.25)' : undefined,
+                  minHeight: '215px',
+                  borderColor: marketSession?.is_open && flash === 'up' ? 'var(--groww-green)' : marketSession?.is_open && flash === 'down' ? 'var(--groww-red)' : undefined,
+                  boxShadow: marketSession?.is_open && flash === 'up' ? '0 0 16px rgba(0, 208, 156, 0.25)' : marketSession?.is_open && flash === 'down' ? '0 0 16px rgba(235, 91, 89, 0.25)' : undefined,
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
                 onClick={() => onNavigate('research', stock.ticker)}
@@ -452,6 +530,8 @@ export const CommandCenterPage: React.FC<{
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
+                          lineHeight: '1.25',
+                          height: '19px',
                         }}
                       >
                         {stock.name}
@@ -464,7 +544,9 @@ export const CommandCenterPage: React.FC<{
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
-                          marginTop: '2px',
+                          marginTop: '3px',
+                          lineHeight: '1.25',
+                          height: '15px',
                         }}
                       >
                         {stock.ticker} • {stock.sector}
@@ -482,11 +564,15 @@ export const CommandCenterPage: React.FC<{
                       border: '1px solid var(--border-subtle)',
                       flexShrink: 0,
                       whiteSpace: 'nowrap',
+                      height: '20px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
                     }}
                   >
                     {stock.tag}
                   </span>
                 </div>
+
 
                 {/* 52W High / Low & Volume Strip */}
                 <div

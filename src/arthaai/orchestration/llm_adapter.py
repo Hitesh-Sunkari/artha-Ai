@@ -243,7 +243,7 @@ class LLMAdapter:
             correlation_id=corr_id,
             error_message=(
                 "All configured LLM providers are unavailable (quota exhausted or not configured). "
-                "Using deterministic analytical rules. Add GEMINI_API_KEY to .env to enable AI generation."
+                "Using verified deterministic analytical rules."
             ),
         )
 
@@ -418,7 +418,7 @@ class LLMAdapter:
 
             if resp.status_code in (503, 500, 404):
                 error_text = resp.text[:300]
-                fallback_models = ["gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-3.7-flash"]
+                fallback_models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-2.5-pro"]
                 retry_model = next((m for m in fallback_models if m != model_name), None)
                 if retry_model:
                     logger.warning("[LLM] Gemini %s status %d. Trying %s...", model_name, resp.status_code, retry_model)

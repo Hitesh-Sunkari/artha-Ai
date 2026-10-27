@@ -259,7 +259,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                   <th>Symbol</th>
                   <th>Pattern</th>
                   <th>Status</th>
-                  <th>Submitted (UTC)</th>
+                  <th>Submitted (IST)</th>
                   <th style={{ textAlign: 'right' }}>Latency</th>
                   <th style={{ textAlign: 'center' }}>Action</th>
                 </tr>
@@ -290,7 +290,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                       <StatusBadge status={run.status} size="sm" />
                     </td>
                     <td className="font-mono tabular-nums" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      {new Date(run.submitted_at).toISOString().replace('T', ' ').substring(0, 19)}
+                      {new Date(run.submitted_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
                     </td>
                     <td className="font-mono tabular-nums" style={{ textAlign: 'right', fontSize: '12px', color: 'var(--text-secondary)' }}>
                       {run.latency_seconds !== null && run.latency_seconds !== undefined

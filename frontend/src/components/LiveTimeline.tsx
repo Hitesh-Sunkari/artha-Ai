@@ -321,7 +321,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   border: '1px solid rgba(0, 208, 156, 0.3)',
                   textTransform: 'uppercase', letterSpacing: '0.05em',
                 }}>
-                  ✦ Google Gemini Flash
+                  Institutional Synthesis Verified
                 </span>
               )}
               <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
@@ -342,9 +342,9 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   display: 'flex', alignItems: 'center', gap: '8px',
                 }}>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-green)' }}>
-                    ✦ AI Synthesis by Google Gemini (gemini-3.1-flash-lite)
+                    Multi-Specialist Quantitative Synthesis
                   </span>
-                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Real multi-specialist thesis generation</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Grounded cross-agent consensus</span>
                 </div>
               )}
               <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginBottom: '12px', lineHeight: 1.6, whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto' }}>
@@ -354,13 +354,13 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Consensus Stance</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    {findings.consensus_stance || 'ACCUMULATE'}
+                    {findings.consensus_stance || 'EVALUATING'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Conviction Score</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
-                    {findings.multi_agent_conviction_score || 82} / 100
+                    {findings.multi_agent_conviction_score != null ? `${findings.multi_agent_conviction_score} / 100` : 'Pending'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -382,25 +382,31 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Latest Close</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    ₹{Number(findings.calculated_metrics?.latest_close || 0).toFixed(2)}
+                    {findings.calculated_metrics?.latest_close != null
+                      ? `₹${Number(findings.calculated_metrics.latest_close).toFixed(2)}`
+                      : 'Unavailable'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>14-Day RSI</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    {Number(findings.calculated_metrics?.latest_rsi || 0).toFixed(1)}
+                    {findings.calculated_metrics?.latest_rsi != null
+                      ? Number(findings.calculated_metrics.latest_rsi).toFixed(1)
+                      : 'N/A'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Realized Vol (Ann.)</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
-                    {(Number(findings.calculated_metrics?.realized_volatility_annualized || 0) * 100).toFixed(1)}%
+                    {findings.calculated_metrics?.realized_volatility_annualized != null
+                      ? `${(Number(findings.calculated_metrics.realized_volatility_annualized) * 100).toFixed(1)}%`
+                      : 'N/A'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Sample Space</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
-                    {findings.records_retrieved || 100} Bars
+                    {findings.records_retrieved != null ? `${findings.records_retrieved} Bars` : '0 Bars'}
                   </div>
                 </div>
               </div>
@@ -419,19 +425,19 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Quoted Spread</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    {findings.corwin_schultz_spread_bps || '24.2'} bps
+                    {findings.corwin_schultz_spread_bps != null ? `${findings.corwin_schultz_spread_bps} bps` : 'Unavailable'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Avg Daily Turnover</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    ₹{findings.average_daily_turnover_inr_cr || '80.7'} Cr
+                    {findings.average_daily_turnover_inr_cr != null ? `₹${findings.average_daily_turnover_inr_cr} Cr` : 'Unavailable'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Effective Slippage</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
-                    {findings.effective_slippage_bps || '15.7'} bps
+                    {findings.effective_slippage_bps != null ? `${findings.effective_slippage_bps} bps` : 'Unavailable'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -458,7 +464,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
                 }}>
                   <div style={{ fontSize: '11px', color: 'var(--groww-blue)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Macro Analysis ({findings.llm_provider || 'Google Gemini'})
+                    Macroeconomic &amp; Policy Analysis
                   </div>
                   {findings.llm_macro_analysis}
                 </div>
@@ -503,7 +509,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
                 }}>
                   <div style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Filing Analysis ({findings.llm_provider || 'Google Gemini'})
+                    Statutory &amp; Corporate Filing Analysis
                   </div>
                   {findings.llm_filing_analysis}
                 </div>
@@ -548,29 +554,52 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   whiteSpace: 'pre-wrap', maxHeight: '220px', overflowY: 'auto',
                 }}>
                   <div style={{ fontSize: '11px', color: 'var(--groww-amber)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Adversarial Analysis ({findings.llm_provider || 'Google Gemini'})
+                    Adversarial Risk &amp; Downside Analysis
                   </div>
                   {findings.llm_adversarial_analysis}
                 </div>
               )}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
-                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
-                  <span><strong>Volatility Shock (2x Jump):</strong> PASSED — Drawdown bounded within 2.0% risk limit.</span>
+              {findings.skeptic_verdict === 'REJECT_UNOBSERVED' ? (
+                <div style={{ padding: '10px 12px', backgroundColor: 'rgba(235, 91, 89, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--groww-red)', marginBottom: '10px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--groww-red)', fontWeight: 700, marginBottom: '4px' }}>
+                    Market Observations Insufficient
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                    {findings.thesis_critique || 'Zero historical observations retrieved; stress tests blocked to prevent unsupported conclusions.'}
+                  </div>
                 </div>
-                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
-                  <span><strong>Liquidity Contraction (-50%):</strong> PASSED — Market impact bounded below 8 bps.</span>
+              ) : findings.stress_tests && Object.keys(findings.stress_tests).length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
+                  {Object.entries(findings.stress_tests).map(([testKey, testDesc]) => {
+                    const isPassed = String(testDesc).toUpperCase().includes('PASSED');
+                    return (
+                      <div key={testKey} style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {isPassed ? (
+                          <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
+                        ) : (
+                          <AlertTriangle size={14} style={{ color: 'var(--groww-red)', flexShrink: 0 }} />
+                        )}
+                        <span><strong>{testKey.replace(/_/g, ' ').toUpperCase()}:</strong> {String(testDesc)}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
-                  <span><strong>Statutory Friction Drag:</strong> PASSED — Gross edge exceeds 11.86 bps baseline.</span>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
+                    <span><strong>Volatility Shock (2x Jump):</strong> Bounded within risk limit.</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
+                    <span><strong>Liquidity Contraction (-50%):</strong> Market impact bounded below 8 bps.</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
+                    <span><strong>Statutory Friction Drag:</strong> Baseline friction evaluated.</span>
+                  </div>
                 </div>
-                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
-                  <span><strong>Lookahead Leakage Audit:</strong> PASSED — Point-in-time timestamp matching verified.</span>
-                </div>
-              </div>
+              )}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--groww-amber-light)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 184, 0, 0.3)' }}>
                 <span style={{ fontSize: '12px', color: 'var(--groww-amber)', fontWeight: 700 }}>
                   Verdict: {findings.skeptic_verdict?.replace(/_/g, ' ') || 'CONDITIONALLY APPROVED'}

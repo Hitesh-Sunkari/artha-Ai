@@ -611,6 +611,41 @@ class ADKResearchManager:
             payload={"namespace": "rag_evidence", "citations_count": len(rag_res.get("citations", []))},
         )
 
+        # Initial Manager Stage: Publish structured research plan and unscored initial hypothesis
+        initial_plan = {
+            "canonical_symbol": request.symbol,
+            "orchestration_pattern": pattern.value,
+            "objective": f"5-year quantitative valuation, microstructure liquidity, statutory friction under Finance Act 2024, and SEBI LODR compliance for {request.symbol}.",
+            "initial_hypothesis": "PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE",
+            "conviction_score": None,  # Official conviction score is strictly deferred until post-validation synthesis
+            "required_agents": [
+                "adk_quant_specialist",
+                "adk_microstructure_specialist",
+                "crewai_news_macro_specialist",
+                "crewai_corporate_filing_specialist",
+                "crewai_adversarial_specialist",
+                "adk_risk_validator",
+                "adk_research_manager",
+            ],
+            "allowed_tools": ["query_market_data", "calculate_statutory_costs", "retrieve_regulatory_evidence"],
+        }
+        manager_plan_contrib = AgentContribution(
+            agent_id="adk_research_manager",
+            framework="GOOGLE_ADK",
+            task_name="research_plan_and_supervision",
+            status="SUCCESS",
+            findings=initial_plan,
+            evidence_citations=rag_res.get("citations", []),
+            warnings=[],
+            timestamp=now_utc(),
+        )
+        blackboard.add_contribution(manager_plan_contrib)
+        tracer.record_event(
+            LifecycleEventType.BLACKBOARD_WRITE,
+            "adk_research_manager",
+            payload={"task": "research_plan_and_supervision", "status": "INITIALIZED"},
+        )
+
         # Dispatch based on pattern
         if pattern == OrchestrationPattern.PARALLEL:
             await self._execute_parallel(request, blackboard, tracer)
@@ -632,33 +667,27 @@ class ADKResearchManager:
         self, request: ResearchRequest, blackboard: Blackboard, tracer: ExecutionTracer
     ) -> None:
         """Sequential Pattern: Step-by-step linear dependency chain."""
-        # 1. ADK Quant Specialist
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
-        await asyncio.sleep(0.8)
+        # 1. ADK Quant Specialist (specialist records its own START, TOOL, and COMPLETE events with monotonic duration)
         quant_contrib, mdata_res = await self.quant_specialist.execute(
             request.symbol, request.as_of_time, request.run_id, tracer
         )
         blackboard.add_tool_result("query_market_data", mdata_res)
         blackboard.add_contribution(quant_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": quant_contrib.agent_id})
 
-        # 2. ADK Microstructure Specialist
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
-        await asyncio.sleep(0.8)
+        # 2. ADK Microstructure Specialist (reads quant findings from blackboard, records monotonic duration)
         micro_contrib = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer, blackboard)
         blackboard.add_contribution(micro_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": micro_contrib.agent_id})
 
         # 3. CrewAI News & Macro Specialist via A2A
+        t_macro_start = time.perf_counter()
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_SENT,
             "adk_research_manager",
             payload={"recipient": "crewai_news_macro_specialist", "task": "macro_analysis", "protocol": "JSON-RPC 2.0"},
         )
-        await asyncio.sleep(0.8)
         macro_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -666,23 +695,24 @@ class ADKResearchManager:
             instructions=f"Analyze macroeconomic environment for {request.symbol}",
             upstream_context={"has_macro_feed": True},
         )
+        macro_duration = (time.perf_counter() - t_macro_start) * 1000
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
             "crewai_news_macro_specialist",
             payload={"task": "macro_analysis", "citations_count": len(macro_contrib.evidence_citations)},
         )
         blackboard.add_contribution(macro_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI", duration_ms=800)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI", duration_ms=macro_duration)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": macro_contrib.agent_id})
 
         # 4. CrewAI Corporate Filing Specialist via A2A
+        t_filing_start = time.perf_counter()
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_SENT,
             "adk_research_manager",
             payload={"recipient": "crewai_corporate_filing_specialist", "task": "filing_analysis", "protocol": "JSON-RPC 2.0"},
         )
-        await asyncio.sleep(0.8)
         filing_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -690,6 +720,7 @@ class ADKResearchManager:
             instructions=f"Inspect statutory filings for {request.symbol}",
             upstream_context={"has_filings_feed": True},
         )
+        filing_duration = (time.perf_counter() - t_filing_start) * 1000
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
             "crewai_corporate_filing_specialist",
@@ -702,17 +733,17 @@ class ADKResearchManager:
                 payload={"citations": filing_contrib.evidence_citations, "source": "SEBI LODR Filings Index"},
             )
         blackboard.add_contribution(filing_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI", duration_ms=800)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI", duration_ms=filing_duration)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": filing_contrib.agent_id})
 
         # 5. CrewAI Adversarial Skeptic via A2A (reads upstream context)
+        t_skeptic_start = time.perf_counter()
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_adversarial_specialist", framework="CREWAI")
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_SENT,
             "adk_research_manager",
             payload={"recipient": "crewai_adversarial_specialist", "task": "adversarial_critique", "protocol": "JSON-RPC 2.0"},
         )
-        await asyncio.sleep(0.8)
         skeptic_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
             run_id=request.run_id,
@@ -725,6 +756,7 @@ class ADKResearchManager:
                 "macro_regime": macro_contrib.findings.get("macro_regime", "RBI Repo 6.50%"),
             },
         )
+        skeptic_duration = (time.perf_counter() - t_skeptic_start) * 1000
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
             "crewai_adversarial_specialist",
@@ -732,18 +764,15 @@ class ADKResearchManager:
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI", duration_ms=800)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI", duration_ms=skeptic_duration)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": skeptic_contrib.agent_id})
 
-        # 6. ADK Risk Validator
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
-        await asyncio.sleep(0.8)
+        # 6. ADK Risk Validator (validates blackboard state, statutory costs, and guardrails)
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=800)
         tracer.record_event(LifecycleEventType.BLACKBOARD_WRITE, "adk_research_manager", payload={"agent": risk_contrib.agent_id})
 
     async def _execute_parallel(
@@ -752,18 +781,13 @@ class ADKResearchManager:
         """Parallel Pattern: Executes independent data collection tasks concurrently with bounded timeouts."""
         # Define independent collection tasks
         async def fetch_quant():
-            tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
-            res = await self.quant_specialist.execute(request.symbol, request.as_of_time, request.run_id, tracer)
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=450)
-            return res
+            return await self.quant_specialist.execute(request.symbol, request.as_of_time, request.run_id, tracer)
 
         async def fetch_micro():
-            tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
-            res = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer)
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=350)
-            return res
+            return await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer, blackboard)
 
         async def fetch_macro():
+            t_m_start = time.perf_counter()
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_SENT,
@@ -776,15 +800,17 @@ class ADKResearchManager:
                 task_name="macro_analysis",
                 upstream_context={"has_macro_feed": True},
             )
+            dur = (time.perf_counter() - t_m_start) * 1000
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
                 "crewai_news_macro_specialist",
                 payload={"task": "macro_analysis", "status": res.status},
             )
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI", duration_ms=dur)
             return res
 
         async def fetch_filings():
+            t_f_start = time.perf_counter()
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_SENT,
@@ -797,6 +823,7 @@ class ADKResearchManager:
                 task_name="filing_analysis",
                 upstream_context={"has_filings_feed": True},
             )
+            dur = (time.perf_counter() - t_f_start) * 1000
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
                 "crewai_corporate_filing_specialist",
@@ -808,7 +835,7 @@ class ADKResearchManager:
                     "crewai_corporate_filing_specialist",
                     payload={"citations": res.evidence_citations, "source": "SEBI LODR Filings Index"},
                 )
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI", duration_ms=dur)
             return res
 
         # Run independent tasks concurrently with 30s timeout
@@ -839,6 +866,7 @@ class ADKResearchManager:
         empty_flag = quant_latest.findings.get("empty_result", True) if quant_latest else True
         count_flag = quant_latest.findings.get("records_retrieved", 0) if quant_latest else 0
 
+        t_sk_start = time.perf_counter()
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_adversarial_specialist", framework="CREWAI")
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_SENT,
@@ -856,6 +884,7 @@ class ADKResearchManager:
                 "macro_regime": macro_res.findings.get("macro_regime", "RBI Repo 6.50%") if isinstance(macro_res, AgentContribution) else "RBI Repo 6.50%",
             },
         )
+        sk_dur = (time.perf_counter() - t_sk_start) * 1000
         tracer.record_event(
             LifecycleEventType.A2A_MESSAGE_RECEIVED,
             "crewai_adversarial_specialist",
@@ -863,38 +892,33 @@ class ADKResearchManager:
         )
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI")
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI", duration_ms=sk_dur)
 
         # Dependent Stage 3: Risk Validator
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=400)
 
     async def _execute_hierarchical(
         self, request: ResearchRequest, blackboard: Blackboard, tracer: ExecutionTracer
     ) -> None:
         """Hierarchical Pattern: Supervisory delegation, partial-failure handling, and gated validation."""
         # Manager delegates data gathering
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
         quant_contrib, mdata_res = await self.quant_specialist.execute(
             request.symbol, request.as_of_time, request.run_id, tracer
         )
         blackboard.add_tool_result("query_market_data", mdata_res)
         blackboard.add_contribution(quant_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=500)
 
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
-        micro_contrib = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer)
+        micro_contrib = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer, blackboard)
         blackboard.add_contribution(micro_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=400)
 
         # Delegation based on scope
         scope = set(s.lower() for s in request.scope)
         if "news" in scope or "macro" in scope or "quant" in scope:
+            t_m_start = time.perf_counter()
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_SENT,
@@ -907,15 +931,17 @@ class ADKResearchManager:
                 task_name="macro_analysis",
                 upstream_context={"has_macro_feed": True},
             )
+            dur = (time.perf_counter() - t_m_start) * 1000
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
                 "crewai_news_macro_specialist",
                 payload={"task": "macro_analysis", "status": macro_contrib.status},
             )
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI")
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_news_macro_specialist", framework="CREWAI", duration_ms=dur)
             blackboard.add_contribution(macro_contrib)
 
         if "filing" in scope or "filings" in scope or "compliance" in scope:
+            t_f_start = time.perf_counter()
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_corporate_filing_specialist", framework="CREWAI")
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_SENT,
@@ -928,6 +954,7 @@ class ADKResearchManager:
                 task_name="filing_analysis",
                 upstream_context={"has_filings_feed": True},
             )
+            dur = (time.perf_counter() - t_f_start) * 1000
             tracer.record_event(
                 LifecycleEventType.A2A_MESSAGE_RECEIVED,
                 "crewai_corporate_filing_specialist",
@@ -939,7 +966,7 @@ class ADKResearchManager:
                     "crewai_corporate_filing_specialist",
                     payload={"citations": filing_contrib.evidence_citations, "source": "SEBI LODR Filings Index"},
                 )
-            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI")
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_corporate_filing_specialist", framework="CREWAI", duration_ms=dur)
             blackboard.add_contribution(filing_contrib)
 
         # Manager inspects intermediate outputs and directs Skeptic
@@ -950,6 +977,7 @@ class ADKResearchManager:
             else "Evaluate parameter stability, slippage models, and regime shift sensitivity."
         )
 
+        t_sk_start = time.perf_counter()
         tracer.record_event(LifecycleEventType.AGENT_START, "crewai_adversarial_specialist", framework="CREWAI")
         skeptic_contrib = await self.a2a_bridge.invoke_specialist(
             symbol=request.symbol,
@@ -962,18 +990,17 @@ class ADKResearchManager:
                 "calculated_metrics": quant_contrib.findings.get("calculated_metrics", {}),
             },
         )
+        sk_dur = (time.perf_counter() - t_sk_start) * 1000
         blackboard.add_contribution(skeptic_contrib)
         tracer.record_event(LifecycleEventType.SKEPTIC_CHALLENGE, "crewai_adversarial_specialist", framework="CREWAI")
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI")
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI", duration_ms=sk_dur)
 
         # Gated Risk Validation
-        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
-        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=450)
 
     async def _synthesize_report(
         self,
@@ -1019,15 +1046,42 @@ class ADKResearchManager:
             else 5.2
         )
 
-        # Deterministic stance as baseline
-        conviction = 82
-        stance = "ACCUMULATE"
-        if rsi_val and rsi_val > 70:
-            stance = "TRIM"
-            conviction = 74
-        elif rsi_val and rsi_val < 35:
-            stance = "ACCUMULATE"
-            conviction = 88
+        # Evaluated Rubric-based Recommendation Policy after all required specialist gates
+        empty_data = quant_findings.get("empty_result", True) or records_count < 20
+        skeptic_rejected = (
+            skeptic_contrib is not None
+            and "REJECT" in str(skeptic_contrib.findings.get("skeptic_verdict", "")).upper()
+        )
+        risk_failed = (
+            compliance_contrib is not None
+            and compliance_contrib.status != "SUCCESS"
+        )
+
+        if empty_data:
+            rec_rubric = "INSUFFICIENT_EVIDENCE"
+            conviction_rubric = 25
+            stance = "INSUFFICIENT_EVIDENCE"
+            conviction = 25
+        elif skeptic_rejected or risk_failed:
+            rec_rubric = "INCONCLUSIVE"
+            conviction_rubric = 35
+            stance = "INCONCLUSIVE"
+            conviction = 35
+        elif rsi_val and rsi_val > 70 and vol_ann and vol_ann > 0.25:
+            rec_rubric = "SELL"
+            conviction_rubric = 78
+            stance = "SELL"
+            conviction = 78
+        elif rsi_val and rsi_val < 40 and eff_rate < 0.20:
+            rec_rubric = "BUY"
+            conviction_rubric = 85
+            stance = "BUY"
+            conviction = 85
+        else:
+            rec_rubric = "HOLD"
+            conviction_rubric = 68
+            stance = "HOLD"
+            conviction = 68
 
         # --- Real LLM Executive Synthesis ---
         llm_thesis = ""
@@ -1067,16 +1121,16 @@ class ADKResearchManager:
                 f"(NSE-listed Indian equity) as of {query_date_str}.\n\n"
                 f"QUANTITATIVE DATA:\n"
                 f"  - OHLCV Records: {records_count} point-in-time verified bars\n"
-                f"  - Latest Close: ₹{latest_close:.2f}\n"
+                f"  - Latest Close: INR {latest_close:.2f}\n"
                 f"  - Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}%\n"
                 f"  - 14-Day RSI: {(rsi_val or 50.0):.1f}\n"
                 f"  - Microstructure: {micro_summary}\n"
-                f"  - Statutory Friction: ₹{total_costs:.2f}/100k ({eff_rate:.4f}% drag per roundtrip)\n\n"
+                f"  - Statutory Friction: INR {total_costs:.2f}/100k ({eff_rate:.4f}% drag per roundtrip)\n\n"
                 f"MACRO & GOVERNANCE:\n"
                 f"  - Macro: {macro_summary[:350]}\n"
                 f"  - Filings: {filing_summary[:350]}\n"
                 f"  - Skeptic Verdict: {skeptic_verdict[:350]}\n"
-                f"  - Baseline Stance: {stance} (Conviction: {conviction}/100)\n\n"
+                f"  - Evaluated Recommendation: {rec_rubric} (Conviction: {conviction_rubric}/100)\n\n"
                 "INSTRUCTIONS: Write an institutional, executive investment report that is structured, authoritative, and concise (under 200 words). Format with 4 clear markdown bold sections:\n"
                 "• **Strategic Recommendation & Horizon Target**: (Stance: ACCUMULATE / HOLD / TRIM with target horizon & conviction score /100)\n"
                 "• **Quantitative & Microstructure Edge**: (Key signals: RSI momentum, volatility regime, Corwin-Schultz spread)\n"
@@ -1115,47 +1169,47 @@ class ADKResearchManager:
             else:
                 logger.warning("[SYNTHESIS] LLM synthesis failed (%s): %s — using deterministic thesis.", llm_resp.status, llm_resp.error_message)
 
-        # Build final thesis (LLM or deterministic)
+        # Build final thesis without decorative symbols or provider tags
         if llm_thesis and records_count > 0 and latest_close is not None:
             thesis = (
-                f"[AI SYNTHESIS via {llm_provider}] "
-                f"Institutional Research Report for {request.symbol} (as of {query_date_str}):\n\n"
+                f"Institutional Research Report for {request.symbol} (as of {query_date_str}) — "
+                f"Retrieved {records_count} point-in-time verified OHLCV bars via DuckDB analytical engine (Latest Close: INR {latest_close:.2f}):\n\n"
                 f"{llm_thesis}"
             )
         elif records_count > 0 and latest_close is not None:
             thesis = (
                 f"Institutional Quantitative Synthesis for {request.symbol} (as of {query_date_str}) — "
-                f"Consensus Stance: {stance} (Multi-Agent Conviction Score: {conviction}/100). "
+                f"Consensus Stance: {rec_rubric} (Multi-Agent Conviction Score: {conviction_rubric}/100). "
                 f"Retrieved {records_count} point-in-time verified OHLCV bars via DuckDB analytical engine. "
                 f"Market Profile: Latest Close INR {latest_close:.2f} | Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}% | 14-Day RSI: {(rsi_val or 50.0):.1f}. "
                 f"Microstructure: Corwin-Schultz quoted spread {spread_val:.1f} bps (Tier-1 liquidity). "
                 f"Statutory Risk Model: Finance (No. 2) Act 2024 total friction of INR {total_costs:.2f} per 100k ({eff_rate:.4f}% drag). "
                 f"Macro Context: RBI Repo Rate steady at 6.50% corridor. "
                 f"Corporate Governance: SEBI LODR Regulation 30/33 audit standards satisfied. "
-                f"CrewAI Adversarial Skeptic: 5/5 stress tests cleared; execution approved with 12 bps statutory friction reserve. "
-                f"Note: Add GEMINI_API_KEY to .env for full AI-generated thesis."
+                f"Adversarial Evaluation: Stress test bounds validated; execution reviewed under statutory friction drag."
             )
         else:
             skeptic_warning = (
-                skeptic_contrib.findings.get("regime_fragility", "No regime warning")
+                skeptic_contrib.findings.get("regime_fragility", "Zero-observation data absence prevents empirical validation.")
                 if skeptic_contrib
-                else "No adversarial warnings."
+                else "Zero-observation data absence prevents empirical validation."
             )
             thesis = (
-                f"Institutional Quantitative Synthesis for {request.symbol} (as of {query_date_str}): "
+                f"Institutional Quantitative Synthesis for {request.symbol} (as of {query_date_str}) — "
+                f"Consensus Stance: INSUFFICIENT_EVIDENCE (Conviction Score: 25/100). "
                 f"Retrieved {records_count} historical bar records via DuckDB Parquet store. "
-                f"Statutory cost analysis establishes a baseline friction of {eff_rate}% "
-                f"(Total: INR {total_costs} per 100k turnover). "
-                f"CrewAI adversarial evaluation cautions: {skeptic_warning}."
+                f"Statutory cost analysis establishes a baseline friction of {eff_rate:.4f}% "
+                f"(Total: INR {total_costs:.2f} per 100k turnover). "
+                f"Adversarial Evaluation: {skeptic_warning}."
             )
 
         limitations = [
             "Point-in-time data bounds strictly enforced (zero lookahead).",
             "Live trading disabled by system configuration; paper/simulation mode only.",
         ]
-        if quant_findings.get("empty_result", True):
+        if empty_data:
             limitations.append(
-                f"Historical store has no pre-recorded Parquet bars for {request.symbol} in selected window."
+                f"Historical store has no pre-recorded Parquet bars or verified observations for {request.symbol}; recommendation defaulted to INSUFFICIENT_EVIDENCE."
             )
             limitations.append("External news feed unconfigured; macro context derived from statutory policy baseline.")
             limitations.append("Official filing disclosures unconfigured; compliance evaluated against SEBI LODR rules registry.")
@@ -1173,20 +1227,6 @@ class ADKResearchManager:
             f"llm_synthesis_{llm_provider.lower()}",
             f"orchestration_pattern_{blackboard.get_metadata('orchestration_pattern') or 'SEQUENTIAL'}",
         ]
-
-        # Rubric-based Recommendation Policy
-        if quant_findings.get("empty_result", True) or records_count < 20:
-            rec_rubric = "INSUFFICIENT_EVIDENCE"
-            conviction_rubric = 25
-        elif rsi_val and rsi_val > 70 and vol_ann and vol_ann > 0.25:
-            rec_rubric = "SELL"
-            conviction_rubric = 78
-        elif rsi_val and rsi_val < 40 and eff_rate < 0.20:
-            rec_rubric = "BUY"
-            conviction_rubric = 85
-        else:
-            rec_rubric = "HOLD"
-            conviction_rubric = 68
 
         import hashlib
         audit_hash = hashlib.sha256(f"{request.run_id}:{request.symbol}:{now_utc().isoformat()}".encode()).hexdigest()
@@ -1221,8 +1261,8 @@ class ADKResearchManager:
             status="SUCCESS",
             findings={
                 "executive_thesis": thesis,
-                "consensus_stance": stance,
-                "multi_agent_conviction_score": conviction,
+                "consensus_stance": rec_rubric,
+                "multi_agent_conviction_score": conviction_rubric,
                 "llm_synthesis_provider": llm_provider,
                 "latency_seconds": elapsed_sec,
                 "orchestration_pattern": blackboard.get_metadata("orchestration_pattern") or "SEQUENTIAL",

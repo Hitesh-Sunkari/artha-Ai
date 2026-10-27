@@ -23,6 +23,7 @@ UNETHICAL_PATTERNS = [
     r"\bignore\s+(?:all\s+)?(?:previous\s+)?instructions\b",
     r"\bguaranteed\s+(?:profit|return|money|multibagger)s?\b",
     r"\bfree\s+money\b",
+    r"\b(?:api[_-]?key|secret_key|gemini_api_key|password|bearer\s+token|\.env)\b",
 ]
 
 OUT_OF_DOMAIN_PATTERNS = [
@@ -46,15 +47,15 @@ FINANCIAL_DOMAIN_KEYWORDS = [
 ]
 
 ETHICAL_REFUSAL_MESSAGE = (
-    "🛡️ **Institutional Compliance & Ethical Guardrail Triggered**\n\n"
+    "**Institutional Compliance and Ethical Guardrail Triggered**\n\n"
     "ArthaAI Copilot strictly adheres to SEBI (Prohibition of Insider Trading / Fraudulent Trade Practices) Regulations, "
     "statutory guidelines under Finance Act 2024, and institutional algorithmic safety standards.\n\n"
-    "Requests involving market manipulation, insider trading tips, regulatory evasion, or unethical practices are "
+    "Requests involving market manipulation, insider trading tips, regulatory evasion, credential extraction, or unethical practices are "
     "strictly prohibited and recorded in the audit trail."
 )
 
 OUT_OF_DOMAIN_MESSAGE = (
-    "🏛️ **Domain Scope Boundary Notice**\n\n"
+    "**Domain Scope Boundary Notice**\n\n"
     "ArthaAI Copilot is an institutional quantitative research assistant exclusively calibrated for "
     "**Indian Capital Markets (NSE/BSE)**, equity valuation, technical indicators (RSI, SMA, Volatility), "
     "corporate governance (SEBI LODR 2015), and statutory tax schedules (Finance Act 2024).\n\n"
@@ -72,7 +73,7 @@ def evaluate_copilot_guardrails(message: str) -> Tuple[bool, str | None]:
     if not clean_msg:
         return True, "Please provide a valid question regarding Indian equities or terminal operations."
 
-    # 1. Unethical & Compliance Check
+    # 1. Unethical & Compliance Check (including secret extraction)
     for pattern in UNETHICAL_PATTERNS:
         if re.search(pattern, clean_msg, re.IGNORECASE):
             return True, ETHICAL_REFUSAL_MESSAGE

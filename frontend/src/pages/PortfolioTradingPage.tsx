@@ -77,7 +77,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
   const [productType, setProductType] = useState<'DELIVERY' | 'INTRADAY'>('DELIVERY');
   const [orderType, setOrderType] = useState<'MARKET' | 'LIMIT'>('MARKET');
   const [orderQty, setOrderQty] = useState<number>(50);
-  const [orderPrice, setOrderPrice] = useState<number>(1285.5);
+  const [orderPrice, setOrderPrice] = useState<number>(1196.20);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [orderNotification, setOrderNotification] = useState<string | null>(null);
   const [liveStocks, setLiveStocks] = useState<any[]>([]);
@@ -141,9 +141,13 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
       return;
     }
 
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false }) + ' IST';
+    const istDateStr = now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
+
     const newOrder: PaperOrder = {
       orderId: `GROWW-ORD-${Math.floor(10000 + Math.random() * 90000)}`,
-      timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
+      timestamp: `${istDateStr} ${istTimeStr}`,
       symbol: orderSymbol,
       side: orderSide,
       shares: orderQty,

@@ -198,4 +198,92 @@ REGULATORY_AND_STATUTORY_CHUNKS: list[DocumentChunk] = [
         citation_uri="rag://filings/hdfcbank_q2fy25#FILING-HDFCBANK-Q2FY25",
         source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
     ),
+    DocumentChunk(
+        chunk_id="FILING-ICICIBANK-Q2FY25",
+        doc_id="ICICIBANK-Q2FY25",
+        doc_type="FILING",
+        title="ICICI Bank Ltd: Q2 FY25 Statutory Disclosures on NII, Asset Quality & CAR",
+        symbol="ICICIBANK",
+        effective_date="2024-10-26",
+        content=(
+            "ICICI Bank Limited (NSE: ICICIBANK) Statutory Disclosure under SEBI LODR Regulation 33: "
+            "For Q2 FY25 (quarter ended September 30, 2024), Standalone Profit After Tax grew 14.5% YoY to INR 11,746 crore. "
+            "Net Interest Income (NII) increased 9.5% YoY to INR 20,048 crore with Net Interest Margin (NIM) at 4.27%. "
+            "Gross NPA ratio improved to 1.97% (Net NPA at 0.42%) with Provision Coverage Ratio (PCR) at 78.5%. "
+            "Domestic loan portfolio expanded 15.7% YoY driven by retail and SME advances. "
+            "Capital Adequacy Ratio (CAR) under Basel III stood at 16.66% against regulatory minimum of 11.7%."
+        ),
+        citation_uri="rag://filings/icicibank_q2fy25#FILING-ICICIBANK-Q2FY25",
+        source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
+    ),
+    DocumentChunk(
+        chunk_id="FILING-TATAMOTORS-Q2FY25",
+        doc_id="TATAMOTORS-Q2FY25",
+        doc_type="FILING",
+        title="Tata Motors Ltd: Q2 FY25 Financial Disclosures, JLR EBIT Margin & Demerger",
+        symbol="TATAMOTORS",
+        effective_date="2024-11-08",
+        content=(
+            "Tata Motors Limited (NSE: TATAMOTORS) Statutory Disclosure under SEBI LODR Regulation 33: "
+            "For Q2 FY25 (quarter ended September 30, 2024), Consolidated Revenue from Operations reached INR 101,450 crore. "
+            "JLR (Jaguar Land Rover) revenue stood at GBP 6.5 billion with EBIT margin at 5.1%, with order book exceeding 140,000 units. "
+            "Commercial Vehicle domestic market share stood at 37.8%. Passenger Vehicle business delivered EV penetration of 12.0%. "
+            "Demerger of Commercial Vehicles and Passenger Vehicles into two separate listed entities progressing under NCLT supervision."
+        ),
+        citation_uri="rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25",
+        source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
+    ),
+    DocumentChunk(
+        chunk_id="FILING-SBIN-Q2FY25",
+        doc_id="SBIN-Q2FY25",
+        doc_type="FILING",
+        title="State Bank of India: Q2 FY25 Disclosures on Net Profit, NIM & Asset Quality",
+        symbol="SBIN",
+        effective_date="2024-11-08",
+        content=(
+            "State Bank of India (NSE: SBIN) Statutory Disclosure under SEBI LODR Regulation 33: "
+            "For Q2 FY25 (quarter ended September 30, 2024), Standalone Net Profit rose 28.0% YoY to INR 18,331 crore. "
+            "Net Interest Income (NII) grew 5.4% YoY to INR 41,620 crore with domestic NIM at 3.27%. "
+            "Gross NPA ratio improved by 42 bps YoY to 2.13% with Net NPA at 0.53%. "
+            "Total gross advances expanded 15.0% YoY to INR 39.2 lakh crore, led by SME (up 17.4%) and Retail Personal advances. "
+            "Common Equity Tier 1 (CET-1) ratio stood at 10.45% and total Capital Adequacy Ratio (CAR) at 13.76%."
+        ),
+        citation_uri="rag://filings/sbin_q2fy25#FILING-SBIN-Q2FY25",
+        source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
+    ),
+    DocumentChunk(
+        chunk_id="FILING-ITC-Q2FY25",
+        doc_id="ITC-Q2FY25",
+        doc_type="FILING",
+        title="ITC Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures and Hotels Demerger",
+        symbol="ITC",
+        effective_date="2024-10-24",
+        content=(
+            "ITC Limited (NSE: ITC) Statutory Disclosure under SEBI LODR Regulation 33: "
+            "For Q2 FY25 (quarter ended September 30, 2024), Gross Revenue from operations grew 16.8% YoY to INR 19,328 crore "
+            "with Profit After Tax (PAT) at INR 5,078 crore. Cigarettes segment revenue grew 7.3% YoY. "
+            "Non-Cigarette FMCG segment revenue rose 5.4% YoY. Agri Business revenue surged 47.0% YoY driven by leaf tobacco exports. "
+            "Scheme of Arrangement for demerger of the Hotels Business into ITC Hotels Limited sanctioned by NCLT."
+        ),
+        citation_uri="rag://filings/itc_q2fy25#FILING-ITC-Q2FY25",
+        source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
+    ),
+    DocumentChunk(
+        chunk_id="FILING-WIPRO-Q2FY25",
+        doc_id="WIPRO-Q2FY25",
+        doc_type="FILING",
+        title="Wipro Ltd: Q2 FY25 IT Services Revenue, Margins & 1:1 Bonus Issue",
+        symbol="WIPRO",
+        effective_date="2024-10-17",
+        content=(
+            "Wipro Limited (NSE: WIPRO) Statutory Disclosure under SEBI LODR Regulation 33: "
+            "For Q2 FY25 (quarter ended September 30, 2024), IT Services segment revenue stood at USD 2,660 million, "
+            "reflecting sequential constant currency growth of 0.6%. IT Services operating margin expanded to 16.8% (up 70 bps YoY). "
+            "Large deal bookings reached USD 1.5 billion with total bookings at USD 3.6 billion. "
+            "Board of Directors recommended issuance of 1:1 bonus equity shares to shareholders. "
+            "Operating cash flow reached 132.3% of net income for the quarter."
+        ),
+        citation_uri="rag://filings/wipro_q2fy25#FILING-WIPRO-Q2FY25",
+        source_authority="National Stock Exchange of India (NSE) Corporate Disclosures",
+    ),
 ]

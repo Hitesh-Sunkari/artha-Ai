@@ -107,7 +107,7 @@ class LLMConfig(BaseSettings):
     # Cascade: prefer GEMINI if key is present, else OPENAI, else DETERMINISTIC
     default_provider: str = Field(default="GEMINI", alias="LLM_DEFAULT_PROVIDER")
     openai_model: str = Field(default="gpt-4o-mini", alias="LLM_OPENAI_MODEL")
-    gemini_model: str = Field(default="gemini-3.1-flash-lite", alias="LLM_GEMINI_MODEL")
+    gemini_model: str = Field(default="gemini-2.5-flash", alias="LLM_GEMINI_MODEL")
 
     timeout_seconds: float = Field(default=45.0, alias="LLM_TIMEOUT_SECONDS")
     max_retries: int = 2
@@ -118,10 +118,14 @@ class LLMConfig(BaseSettings):
     @property
     def effective_gemini_key(self) -> str | None:
         import os
-        if self.gemini_api_key is not None:
-            return self.gemini_api_key if self.gemini_api_key.strip() else None
-        if self.google_api_key is not None:
-            return self.google_api_key if self.google_api_key.strip() else None
+        if "gemini_api_key" in self.model_fields_set:
+            return self.gemini_api_key if (self.gemini_api_key and self.gemini_api_key.strip()) else None
+        if "google_api_key" in self.model_fields_set:
+            return self.google_api_key if (self.google_api_key and self.google_api_key.strip()) else None
+        if self.gemini_api_key is not None and self.gemini_api_key.strip():
+            return self.gemini_api_key.strip()
+        if self.google_api_key is not None and self.google_api_key.strip():
+            return self.google_api_key.strip()
         k = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
         return k.strip() if k and k.strip() else None
 

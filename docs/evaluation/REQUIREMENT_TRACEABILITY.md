@@ -30,5 +30,6 @@ This traceability matrix audits the nine core requirements for academic and inst
 - **ADK Coordinator & FastAPI Backend**: `http://127.0.0.1:8000`
 - **A2A JSON-RPC 2.0 CrewAI Specialist Server**: `http://127.0.0.1:8000/rpc` & `/.well-known/agent-card.json`
 - **FastMCP Market Intelligence Tools**: In-process FastMCP server client
-- **Persistent ChromaDB Knowledge Corpus**: `data/chroma_db` (13 verified regulatory & statutory chunks)
+- **Persistent ChromaDB Knowledge Corpus**: `data/chroma_db` (14 verified regulatory & statutory chunks including ICICIBANK, RELIANCE, TCS, INFY, HDFCBANK, TATAMOTORS, SBIN, ITC, WIPRO)
 - **Frontend Workstation**: React 19 + TypeScript + Vite on `http://localhost:5173`
+

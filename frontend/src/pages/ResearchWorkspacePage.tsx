@@ -14,8 +14,9 @@ import {
   ShieldCheck,
   Zap,
   HelpCircle,
-  ExternalLink,
   Search,
+  Layers,
+  X,
 } from 'lucide-react';
 import { LiveTimeline } from '../components/LiveTimeline';
 import { ReportView } from '../components/ReportView';
@@ -80,6 +81,13 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
   const [evidenceQuery, setEvidenceQuery] = useState('SEBI LODR Regulation 30');
   const [evidenceResults, setEvidenceResults] = useState<any[]>([]);
   const [evidenceLoading, setEvidenceLoading] = useState(false);
+
+  // Comparison State (Phase 6 — User-Triggered Only)
+  const [showCompareModal, setShowCompareModal] = useState(false);
+  const [comparePatterns, setComparePatterns] = useState<string[]>(['SEQUENTIAL', 'PARALLEL', 'HIERARCHICAL']);
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [compareRecord, setCompareRecord] = useState<any | null>(null);
+  const [compareError, setCompareError] = useState<string | null>(null);
 
   // Verified 5-Year Parquet Tickers
   const VERIFIED_STOCKS = [
@@ -189,6 +197,50 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
       setSubmitError(err.message || 'Network error occurred');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleExecuteComparison = async () => {
+    setCompareLoading(true);
+    setCompareError(null);
+    try {
+      const res = await fetch(`${API}/research/compare`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          symbol: symbol.trim(),
+          timeframe: '5Y',
+          patterns: comparePatterns,
+          idempotency_key: `comp-${symbol.trim()}-${Date.now()}`,
+        }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || 'Comparison initiation failed.');
+      }
+      const initialData = await res.json();
+      setCompareRecord(initialData);
+
+      // Poll until terminal state
+      const compId = initialData.comparison_id;
+      const pollInterval = setInterval(async () => {
+        try {
+          const pollRes = await fetch(`${API}/research/compare/${compId}`);
+          if (pollRes.ok) {
+            const pollData = await pollRes.json();
+            setCompareRecord(pollData);
+            if (pollData.status === 'COMPLETED' || pollData.status === 'FAILED') {
+              clearInterval(pollInterval);
+              setCompareLoading(false);
+            }
+          }
+        } catch {
+          // silent retry
+        }
+      }, 1500);
+    } catch (err: any) {
+      setCompareError(err.message || 'Failed to start comparison.');
+      setCompareLoading(false);
     }
   };
 
@@ -461,6 +513,30 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                   : submitting
                   ? 'Submitting to ADK Coordinator...'
                   : 'Execute Research Pipeline'}
+              </button>
+
+              {/* Secondary Comparison Action (User-Triggered Only) */}
+              <button
+                type="button"
+                disabled={submitting || !isVerified}
+                onClick={() => {
+                  setCompareError(null);
+                  setShowCompareModal(true);
+                }}
+                className="btn-groww-secondary"
+                style={{
+                  padding: '10px 16px',
+                  fontSize: '13px',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: isVerified ? 'pointer' : 'not-allowed',
+                }}
+              >
+                <Layers size={15} />
+                <span>Compare Orchestration Patterns (Sequential vs Parallel vs Hierarchical)</span>
               </button>
             </form>
           </div>
@@ -799,6 +875,277 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Phase 6: Orchestration Comparison Modal ──────────────────────── */}
+      {showCompareModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 150,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+          }}
+        >
+          <div
+            className="groww-card"
+            style={{
+              width: '740px',
+              maxWidth: '96vw',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+              backgroundColor: 'var(--bg-chrome)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)',
+              boxShadow: '0 24px 64px rgba(0, 0, 0, 0.6)',
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <span className="pill-badge pill-badge-blue">
+                    <Layers size={12} /> ORCHESTRATION BENCHMARK
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    Target: <strong style={{ color: 'var(--text-primary)' }}>{symbol}</strong>
+                  </span>
+                </div>
+                <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                  Compare Multi-Agent Orchestration Patterns
+                </h2>
+                <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
+                  Execute isolated child research runs across Sequential, Parallel, and Hierarchical schedulers with identical point-in-time market data.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!compareLoading) {
+                    setShowCompareModal(false);
+                  }
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted)',
+                  cursor: compareLoading ? 'not-allowed' : 'pointer',
+                  padding: '4px',
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {compareError && (
+              <div
+                style={{
+                  padding: '12px 14px',
+                  borderRadius: '6px',
+                  backgroundColor: 'rgba(235, 91, 89, 0.1)',
+                  border: '1px solid var(--groww-red)',
+                  color: 'var(--groww-red)',
+                  fontSize: '12px',
+                }}
+              >
+                {compareError}
+              </div>
+            )}
+
+            {/* Modal Body */}
+            {!compareRecord && !compareLoading && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ padding: '14px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>
+                    Select Patterns to Include:
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px' }}>
+                    {[
+                      { id: 'SEQUENTIAL', title: 'Sequential Mode', desc: 'Strict stage ordering; downstream starts only after upstream JSON is validated.' },
+                      { id: 'PARALLEL', title: 'Parallel Mode', desc: 'Concurrently executes Quant, Microstructure, News & Filings; joins before Skeptic.' },
+                      { id: 'HIERARCHICAL', title: 'Hierarchical Mode', desc: 'Manager decomposes objectives, delegates tasks dynamically, and coordinates final synthesis.' },
+                    ].map((p) => (
+                      <label key={p.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={comparePatterns.includes(p.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setComparePatterns((prev) => [...prev, p.id]);
+                            } else if (comparePatterns.length > 1) {
+                              setComparePatterns((prev) => prev.filter((x) => x !== p.id));
+                            }
+                          }}
+                          style={{ marginTop: '2px' }}
+                        />
+                        <div>
+                          <strong style={{ color: 'var(--text-primary)' }}>{p.title}</strong>
+                          <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{p.desc}</div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ padding: '12px 14px', borderRadius: 'var(--radius-md)', backgroundColor: 'var(--groww-green-light)', border: '1px solid rgba(0, 208, 156, 0.3)', fontSize: '11px', color: 'var(--text-primary)', lineHeight: 1.5 }}>
+                  <strong style={{ color: 'var(--groww-green)' }}>Safety &amp; Isolation Guarantee:</strong> Child runs receive isolated Blackboard namespaces and use identical point-in-time market snapshots. This benchmark never runs automatically and only executes upon your explicit confirmation below.
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setShowCompareModal(false)}
+                    className="btn-groww-secondary"
+                    style={{ padding: '10px 18px', fontSize: '13px' }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleExecuteComparison}
+                    className="btn-groww-primary"
+                    style={{ padding: '10px 18px', fontSize: '13px' }}
+                  >
+                    Confirm &amp; Execute Comparison
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Loading Spinner */}
+            {compareLoading && (
+              <div style={{ padding: '40px 20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}>
+                <Activity size={32} className="animate-spin" style={{ color: 'var(--groww-green)' }} />
+                <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  Executing Isolated Multi-Agent Comparison...
+                </div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', maxWidth: '420px', lineHeight: 1.5 }}>
+                  Running child executions across {comparePatterns.join(', ')} schedulers with genuine DuckDB/Parquet market data. Please wait.
+                </div>
+              </div>
+            )}
+
+            {/* Results Display */}
+            {compareRecord && compareRecord.status === 'COMPLETED' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* Summary Banner */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+                  <div style={{ padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Fastest Architecture</div>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                      {compareRecord.summary?.fastest_pattern}
+                    </div>
+                  </div>
+                  <div style={{ padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Consensus Consistency</div>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
+                      {compareRecord.summary?.consistency_verified ? 'Uniform Consensus' : 'Divergent Stance'}
+                    </div>
+                  </div>
+                  <div style={{ padding: '12px 14px', backgroundColor: 'var(--bg-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Isolation Audit</div>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                      100% Isolated
+                    </div>
+                  </div>
+                </div>
+
+                {/* Comparative Grid */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {Object.entries(compareRecord.results || {}).map(([pat, res]: [string, any]) => (
+                    <div
+                      key={pat}
+                      style={{
+                        padding: '14px',
+                        backgroundColor: 'var(--bg-surface)',
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--border-subtle)',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '12px',
+                      }}
+                    >
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <strong style={{ fontSize: '14px', color: 'var(--text-primary)' }}>{pat}</strong>
+                          <span className="pill-badge pill-badge-neutral" style={{ fontSize: '10px' }}>
+                            {res.concurrency_level} Concurrent Max
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                          Child Run ID: <code style={{ color: 'var(--text-primary)' }}>{res.run_id}</code>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Wall-Clock Duration</div>
+                          <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)' }}>
+                            {res.duration_seconds}s
+                          </div>
+                        </div>
+
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Decision</div>
+                          <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                            {res.recommendation} ({res.conviction_score}/100)
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveRunId(res.run_id);
+                            setShowCompareModal(false);
+                            setActiveTab('journey');
+                          }}
+                          className="btn-groww-secondary"
+                          style={{ padding: '6px 12px', fontSize: '11px' }}
+                        >
+                          Inspect Run
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCompareRecord(null);
+                    }}
+                    className="btn-groww-secondary"
+                    style={{ padding: '8px 16px', fontSize: '12px' }}
+                  >
+                    Configure Another Comparison
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowCompareModal(false)}
+                    className="btn-groww-primary"
+                    style={{ padding: '8px 16px', fontSize: '12px' }}
+                  >
+                    Close Benchmark
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

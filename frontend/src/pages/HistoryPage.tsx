@@ -165,7 +165,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
                   <th>Symbol</th>
                   <th>Orchestration Pattern</th>
                   <th>Status</th>
-                  <th>Submitted (UTC)</th>
+                  <th>Submitted (IST)</th>
                   <th style={{ textAlign: 'right' }}>Latency</th>
                   <th style={{ textAlign: 'center' }}>Events</th>
                   <th style={{ textAlign: 'center' }}>Report</th>
@@ -198,7 +198,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onOpenRun }) => {
                       <StatusBadge status={r.status} size="sm" />
                     </td>
                     <td className="font-mono tabular-nums" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      {new Date(r.submitted_at).toISOString().replace('T', ' ').substring(0, 19)}
+                      {new Date(r.submitted_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
                     </td>
                     <td className="font-mono tabular-nums" style={{ textAlign: 'right', fontSize: '12px', color: 'var(--text-secondary)' }}>
                       {r.latency_seconds !== null && r.latency_seconds !== undefined

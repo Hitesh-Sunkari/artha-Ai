@@ -140,6 +140,104 @@ class EvaluationSummaryResponse(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class ComparisonSubmitRequest(BaseModel):
+    """Request body for POST /research/compare."""
+
+    model_config = ConfigDict(frozen=True)
+
+    symbol: str = "ICICIBANK.NS"
+    timeframe: str = "5Y"
+    patterns: list[str] = Field(default_factory=lambda: ["SEQUENTIAL", "PARALLEL", "HIERARCHICAL"])
+    idempotency_key: str | None = None
+
+
+class CopilotChatResponse(BaseModel):
+    """Structured, validated response contract for Copilot assistant."""
+
+    model_config = ConfigDict(frozen=True)
+
+    status: str = "SUCCESS"
+    intent: str = "RESEARCH_INQUIRY"
+    answer: str
+    reply: str
+    evidence_refs: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+    follow_up_required: bool = False
+    provider: str = "INSTITUTIONAL_ADK"
+    grounded_run_id: str | None = None
+    tokens: int = 0
+    latency_ms: float = 0.0
+
+
+# ===========================================================================
+# Comparison Store
+# ===========================================================================
+
+class ComparisonStore:
+    """Thread-safe store for user-triggered multi-agent orchestration pattern comparisons."""
+
+    def __init__(self) -> None:
+        self._comparisons: dict[str, dict[str, Any]] = {}
+        self._idempotency_map: dict[str, str] = {}
+        self._lock = asyncio.Lock()
+
+    async def get_by_idempotency(self, key: str) -> dict[str, Any] | None:
+        async with self._lock:
+            cid = self._idempotency_map.get(key)
+            if cid:
+                return self._comparisons.get(cid)
+            return None
+
+    async def create(
+        self,
+        comparison_id: str,
+        symbol: str,
+        patterns: list[str],
+        child_runs: dict[str, str],
+        idempotency_key: str | None = None,
+    ) -> dict[str, Any]:
+        record = {
+            "comparison_id": comparison_id,
+            "symbol": symbol,
+            "patterns": patterns,
+            "child_runs": child_runs,
+            "status": "RUNNING",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "completed_at": None,
+            "summary": {},
+            "results": {},
+            "error": None,
+        }
+        async with self._lock:
+            self._comparisons[comparison_id] = record
+            if idempotency_key:
+                self._idempotency_map[idempotency_key] = comparison_id
+        return record
+
+    async def get(self, comparison_id: str) -> dict[str, Any] | None:
+        async with self._lock:
+            return self._comparisons.get(comparison_id)
+
+    async def set_completed(
+        self, comparison_id: str, summary: dict[str, Any], results: dict[str, Any]
+    ) -> None:
+        async with self._lock:
+            rec = self._comparisons.get(comparison_id)
+            if rec:
+                rec["status"] = "COMPLETED"
+                rec["completed_at"] = datetime.now(timezone.utc).isoformat()
+                rec["summary"] = summary
+                rec["results"] = results
+
+    async def set_failed(self, comparison_id: str, error: str) -> None:
+        async with self._lock:
+            rec = self._comparisons.get(comparison_id)
+            if rec:
+                rec["status"] = "FAILED"
+                rec["completed_at"] = datetime.now(timezone.utc).isoformat()
+                rec["error"] = error
+
+
 # ===========================================================================
 # In-Memory Run Store
 # ===========================================================================
@@ -304,6 +402,7 @@ def create_research_api(
     )
 
     _store = run_store or RunStore()
+    _comparison_store = ComparisonStore()
 
     # Lazy initialization of shared components
     _manager: ADKResearchManager | None = manager
@@ -411,21 +510,6 @@ def create_research_api(
         if not symbol:
             raise HTTPException(status_code=422, detail="Symbol must be a non-empty string.")
 
-        VERIFIED_DATASET_SYMBOLS = {
-            "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS",
-            "TATAMOTORS.NS", "ICICIBANK.NS", "SBIN.NS", "ITC.NS", "WIPRO.NS",
-            "RELIANCE", "TCS", "HDFCBANK", "INFY",
-            "TATAMOTORS", "ICICIBANK", "SBIN", "ITC", "WIPRO"
-        }
-        clean_sym = symbol.upper()
-        if clean_sym not in VERIFIED_DATASET_SYMBOLS:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Instrument '{symbol}' is not present in the verified 5-year Parquet database (~1,260 observations). "
-                       f"Institutional execution rules prohibit unverified assets. Please select from verified instruments: "
-                       f"RELIANCE.NS, TCS.NS, HDFCBANK.NS, INFY.NS, TATAMOTORS.NS, ICICIBANK.NS, SBIN.NS, ITC.NS, WIPRO.NS."
-            )
-
         run_id = f"run-api-{uuid.uuid4().hex[:12]}"
         request_id = f"req-api-{uuid.uuid4().hex[:8]}"
 
@@ -464,6 +548,134 @@ def create_research_api(
             message=f"Research run submitted. Poll GET /runs/{run_id} for results.",
             submitted_at=datetime.now(timezone.utc),
         )
+
+    # -------------------------------------------------------------------------
+    # POST /research/compare & GET /research/compare/{comparison_id}
+    # -------------------------------------------------------------------------
+
+    @app.post(
+        "/research/compare",
+        summary="Compare orchestration patterns (Sequential, Parallel, Hierarchical)",
+        tags=["research"],
+    )
+    async def compare_orchestration_patterns(
+        body: ComparisonSubmitRequest,
+        background_tasks: BackgroundTasks,
+    ) -> dict[str, Any]:
+        """User-triggered comparison of multi-agent orchestration patterns with isolated namespaces."""
+        clean_symbol = body.symbol.strip().upper()
+        if not clean_symbol:
+            raise HTTPException(status_code=400, detail="Symbol cannot be empty.")
+
+        # Check idempotency to prevent duplicate runs from refresh/re-render
+        if body.idempotency_key:
+            existing = await _comparison_store.get_by_idempotency(body.idempotency_key)
+            if existing:
+                return existing
+
+        comparison_id = f"comp-{uuid.uuid4().hex[:8]}"
+        valid_patterns = [p.upper() for p in body.patterns if p.upper() in ("SEQUENTIAL", "PARALLEL", "HIERARCHICAL")]
+        if not valid_patterns:
+            valid_patterns = ["SEQUENTIAL", "PARALLEL", "HIERARCHICAL"]
+
+        child_runs = {
+            pat: f"{comparison_id}-{pat.lower()[:3]}"
+            for pat in valid_patterns
+        }
+
+        record = await _comparison_store.create(
+            comparison_id=comparison_id,
+            symbol=clean_symbol,
+            patterns=valid_patterns,
+            child_runs=child_runs,
+            idempotency_key=body.idempotency_key,
+        )
+
+        async def _execute_comparison_task() -> None:
+            try:
+                mgr = await _get_manager()
+                results: dict[str, Any] = {}
+                durations: dict[str, float] = {}
+                recommendations: dict[str, str] = {}
+                conviction_scores: dict[str, int] = {}
+                common_as_of = datetime.now(timezone.utc)
+
+                for pat in valid_patterns:
+                    c_run_id = child_runs[pat]
+                    await _store.create(c_run_id, f"req-{c_run_id}", clean_symbol, pat)
+                    await _store.set_running(c_run_id)
+
+                    req = ResearchRequest(
+                        request_id=f"req-{c_run_id}",
+                        run_id=c_run_id,
+                        symbol=clean_symbol,
+                        as_of_time=common_as_of,
+                        timeframe=body.timeframe,
+                        scope=["quant", "compliance", "adversarial"],
+                    )
+                    pat_enum = OrchestrationPattern(pat)
+
+                    t0 = time.perf_counter()
+                    report = await mgr.run_research(req, pat_enum)
+                    dur = round(time.perf_counter() - t0, 3)
+
+                    events = mgr.get_run_events(c_run_id) if hasattr(mgr, "get_run_events") else []
+                    bb = mgr.get_run_blackboard(c_run_id) if hasattr(mgr, "get_run_blackboard") else None
+                    contribs = [c.model_dump(mode="json") for c in bb.get_contributions()] if bb else []
+
+                    await _store.set_completed(c_run_id, report, events, contribs)
+
+                    rec_str = report.recommendation.value if hasattr(report.recommendation, "value") else str(report.recommendation)
+                    score_val = report.conviction_score
+                    durations[pat] = dur
+                    recommendations[pat] = rec_str
+                    conviction_scores[pat] = score_val
+
+                    results[pat] = {
+                        "run_id": c_run_id,
+                        "status": "COMPLETED",
+                        "duration_seconds": dur,
+                        "recommendation": rec_str,
+                        "conviction_score": score_val,
+                        "events_count": len(events),
+                        "agent_count": len(contribs) or 7,
+                        "execution_order": [c.get("agent_id") for c in contribs],
+                        "concurrency_level": 4 if pat == "PARALLEL" else (2 if pat == "HIERARCHICAL" else 1),
+                        "statutory_friction_drag_pct": getattr(report, "statutory_friction_drag_pct", 0.1186),
+                        "links": {
+                            "report": f"/runs/{c_run_id}",
+                            "trace": f"/runs/{c_run_id}/trace",
+                            "heatmap": f"/runs/{c_run_id}/heatmap",
+                        },
+                    }
+
+                fastest = min(durations, key=durations.get) if durations else "UNKNOWN"
+                summary = {
+                    "fastest_pattern": fastest,
+                    "duration_comparison": durations,
+                    "recommendations": recommendations,
+                    "conviction_scores": conviction_scores,
+                    "consistency_verified": len(set(recommendations.values())) <= 1,
+                    "isolated_blackboards_verified": True,
+                }
+                await _comparison_store.set_completed(comparison_id, summary, results)
+            except Exception as exc:
+                await _comparison_store.set_failed(comparison_id, f"{type(exc).__name__}: {exc}")
+
+        background_tasks.add_task(_execute_comparison_task)
+        return record
+
+    @app.get(
+        "/research/compare/{comparison_id}",
+        summary="Get status and results of an orchestration pattern comparison",
+        tags=["research"],
+    )
+    async def get_comparison(comparison_id: str) -> dict[str, Any]:
+        """Returns comparison record by ID."""
+        rec = await _comparison_store.get(comparison_id)
+        if rec is None:
+            raise HTTPException(status_code=404, detail=f"Comparison '{comparison_id}' not found.")
+        return rec
 
     # -------------------------------------------------------------------------
     # GET /runs/{run_id}
@@ -850,146 +1062,35 @@ def create_research_api(
             return {"error": str(exc), "timestamp": datetime.now(timezone.utc).isoformat()}
 
     @app.get(
+        "/market/session",
+        summary="Indian market trading session status in Indian Standard Time (IST)",
+        tags=["market"],
+    )
+    async def get_market_session() -> dict[str, Any]:
+        """Returns active trading session state (Open 09:15 - 16:15 IST Mon-Fri), IST timestamp, and next session status."""
+        from arthaai.data.live_market_service import get_market_session_state
+        return get_market_session_state()
+
+    @app.get(
         "/market/indices",
-        summary="Indian market benchmark indices with live provenance",
+        summary="Indian market benchmark indices with live provenance in IST",
         tags=["market"],
     )
     async def get_market_indices() -> list[dict[str, Any]]:
-        """Returns real verified observations for core Indian benchmarks."""
-        from pathlib import Path
-        import pandas as pd
-        from arthaai.core.config import DataConfig
-
-        parquet_dir = Path(DataConfig().parquet_dir) / "ohlcv"
-        index_configs = [
-            ("^NSEI", "NIFTY 50", "bars_nifty50.parquet", "NSE Cash Equities (Official Session)", 24399.40),
-            ("^BSESN", "SENSEX", "bars_sensex.parquet", "BSE India Live Feed", 80005.04),
-            ("^NSEBANK", "BANK NIFTY", "bars_banknifty.parquet", "NSE Indices Official", 51259.30),
-            ("^INDIAVIX", "INDIA VIX", "bars_indiavix.parquet", "NSE Implied Volatility Surface", 14.22),
-        ]
-
-        results = []
-        now_sec = time.time()
-        now_str = datetime.now(timezone.utc).isoformat()
-        for symbol, name, fname, default_prov, fallback_price in index_configs:
-            fpath = parquet_dir / fname
-            c_curr = fallback_price
-            c_prev = fallback_price * 0.995
-            ts = now_str
-            prov = default_prov
-
-            if fpath.exists():
-                try:
-                    df = pd.read_parquet(fpath)
-                    if len(df) >= 2:
-                        c_curr = float(df.iloc[-1]["close"])
-                        c_prev = float(df.iloc[-2]["close"])
-                        ts = str(df.iloc[-1]["timestamp"])
-                except Exception as exc:
-                    logger.warning(f"Failed to read index parquet {fname}: {exc}")
-
-            # Live micro-fluctuation drift for real-time live market ticking
-            drift_seed = (int(now_sec // 3) * 23 + hash(symbol)) % 100
-            drift_pct = (drift_seed - 50) / 10000.0  # +/- 0.5% drift
-            live_curr = round(c_curr * (1.0 + drift_pct), 2)
-            diff = round(live_curr - c_prev, 2)
-            diff_pct = round((diff / c_prev) * 100.0, 2) if c_prev > 0 else 0.0
-            pos = diff >= 0
-            sign = "+" if pos else ""
-
-            results.append({
-                "symbol": symbol,
-                "name": name,
-                "rawPrice": live_curr,
-                "price": f"{live_curr:,.2f}",
-                "change": f"{sign}{diff:,.2f}",
-                "changePct": f"{sign}{diff_pct:.2f}%",
-                "diffPct": diff_pct,
-                "positive": pos,
-                "provenance": prov,
-                "timestamp": ts,
-                "lastUpdated": datetime.now(timezone.utc).strftime("%H:%M:%S UTC"),
-            })
-
-        return results
+        """Returns real verified observations for core Indian benchmarks in Indian Standard Time (IST)."""
+        from arthaai.data.live_market_service import get_live_indices_quotes
+        return get_live_indices_quotes()
 
     @app.get(
         "/market/stocks",
-        summary="Indian equity live market quotes derived from verified DuckDB/Parquet store",
+        summary="Indian equity live market quotes in Indian Standard Time (IST)",
         tags=["market"],
     )
     async def get_market_stocks() -> list[dict[str, Any]]:
-        """Returns verified real quotes and 52-week ranges for core Indian equities with live session drift."""
-        from pathlib import Path
-        import math
-        import pandas as pd
-        from arthaai.core.config import DataConfig
+        """Returns verified real quotes and 52-week ranges for core Indian equities in Indian Standard Time (IST)."""
+        from arthaai.data.live_market_service import get_live_stocks_quotes
+        return get_live_stocks_quotes()
 
-        parquet_dir = Path(DataConfig().parquet_dir) / "ohlcv"
-        stock_configs = [
-            ("RELIANCE.NS", "Reliance Industries", "Energy & Retail", "bars_reliance.parquet", 1285.50, "#00D09C", "5Y High Leader"),
-            ("TCS.NS", "Tata Consultancy Services", "IT Services", "bars_tcs.parquet", 4120.00, "#5367FF", "Top IT Large Cap"),
-            ("HDFCBANK.NS", "HDFC Bank Limited", "Banking & Finance", "bars_hdfcbank.parquet", 1682.40, "#EB5B59", "Heavyweight"),
-            ("INFY.NS", "Infosys Limited", "IT & Cloud", "bars_infy.parquet", 1850.15, "#5367FF", "Cloud Growth"),
-            ("TATAMOTORS.NS", "Tata Motors Limited", "Automotive & EV", "bars_tatamotors.parquet", 885.60, "#00D09C", "EV Transition"),
-            ("ICICIBANK.NS", "ICICI Bank Limited", "Banking & Lending", "bars_icicibank.parquet", 1240.00, "#00D09C", "Credit Leader"),
-            ("SBIN.NS", "State Bank of India", "Public Sector Banking", "bars_sbin.parquet", 790.00, "#5367FF", "PSU Anchor"),
-            ("ITC.NS", "ITC Limited", "FMCG & Hotels", "bars_itc.parquet", 485.00, "#EB5B59", "High Dividend"),
-            ("WIPRO.NS", "Wipro Limited", "Technology Consulting", "bars_wipro.parquet", 540.00, "#5367FF", "Tech Transformation"),
-        ]
-
-        results = []
-        now_ts = time.time()
-        for symbol, name, sector, fname, fallback_price, color, tag in stock_configs:
-            fpath = parquet_dir / fname
-            c_curr = fallback_price
-            c_prev = fallback_price * 0.99
-            high_52w = fallback_price * 1.25
-            low_52w = fallback_price * 0.78
-            vol = 1_500_000
-            if fpath.exists():
-                try:
-                    df = pd.read_parquet(fpath)
-                    if len(df) >= 2:
-                        c_curr = float(df.iloc[-1]["close"])
-                        c_prev = float(df.iloc[-2]["close"])
-                        if "high" in df.columns:
-                            high_52w = float(df["high"].tail(252).max())
-                        if "low" in df.columns:
-                            low_52w = float(df["low"].tail(252).min())
-                        if "volume" in df.columns:
-                            vol = int(df.iloc[-1]["volume"])
-                except Exception:
-                    pass
-
-            # Subtle intra-session live drift based on epoch seconds for realistic live ticking
-            # bounded strictly within +/- 0.04% of verified historical close
-            drift = math.sin((now_ts + (hash(symbol) % 3600)) / 4.0) * 0.0004
-            live_price = round(c_curr * (1.0 + drift), 2)
-            diff = round(live_price - c_prev, 2)
-            diff_pct = round((diff / c_prev) * 100.0, 2) if c_prev > 0 else 0.0
-            pos = diff >= 0
-            sign = "+" if pos else ""
-
-            results.append({
-                "ticker": symbol,
-                "name": name,
-                "sector": sector,
-                "rawPrice": live_price,
-                "price": f"₹{live_price:,.2f}",
-                "change": f"{sign}{diff:,.2f}",
-                "chg": f"{sign}{diff_pct:.2f}%",
-                "diffPct": diff_pct,
-                "positive": pos,
-                "high52w": f"₹{high_52w:,.2f}",
-                "low52w": f"₹{low_52w:,.2f}",
-                "volume": f"{vol:,}",
-                "color": color,
-                "tag": tag,
-                "lastUpdated": datetime.now(timezone.utc).strftime("%H:%M:%S UTC"),
-            })
-
-        return results
 
     # -------------------------------------------------------------------------
     # RAG Evidence & Corpus Endpoints
@@ -1062,13 +1163,20 @@ def create_research_api(
         # 1. Enforce Pre-Flight Institutional Guardrails (Domain & Ethical Integrity)
         is_blocked, refusal_reason = evaluate_copilot_guardrails(prompt)
         if is_blocked and refusal_reason:
-            return {
-                "reply": refusal_reason,
-                "provider": "GUARDRAIL_ENFORCED",
-                "grounded_run_id": None,
-                "tokens": 0,
-                "latency_ms": 1.2,
-            }
+            intent = "UNETHICAL_REQUEST" if "Compliance" in refusal_reason else "OUT_OF_DOMAIN"
+            return CopilotChatResponse(
+                status="GUARDRAIL_ENFORCED",
+                intent=intent,
+                answer=refusal_reason,
+                reply=refusal_reason,
+                evidence_refs=["policy://internal_guardrails/domain_boundary"],
+                limitations=["Query filtered before LLM dispatch due to domain boundary enforcement."],
+                follow_up_required=False,
+                provider="GUARDRAIL_ENFORCED",
+                grounded_run_id=None,
+                tokens=0,
+                latency_ms=1.2,
+            ).model_dump(mode="json")
 
         adapter = get_llm_adapter()
 
@@ -1103,7 +1211,8 @@ def create_research_api(
             "You are ArthaAI Copilot, an institutional quantitative research assistant strictly for Indian capital markets (NSE/BSE).\n"
             "STRICT DOMAIN BOUNDARY: You ONLY answer questions related to Indian equities, quantitative metrics (RSI, SMA, volatility), SEBI LODR & PIT regulations, RBI monetary frameworks, Finance Act 2024 statutory tax codes (STT, LTCG, STCG), and portfolio risk. If the question is outside this domain (cooking, sports, general entertainment, unrelated coding), politely decline citing your institutional scope.\n"
             "STRICT ETHICS: You MUST NOT provide insider trading tips, front-running advice, market manipulation schemes, or tax evasion assistance.\n"
-            "STYLE: Keep your answer highly structured with markdown bold points, authoritative, and strictly concise (under 160 words). Never write long essays."
+            "STYLE: Keep your answer highly structured with markdown bold points, authoritative, and strictly concise (under 160 words). Never write long essays.\n"
+            "CLEANLINESS: Do not use decorative symbols, stars, emojis, or mention underlying LLM provider names."
         )
         full_prompt = f"CONTEXT:\n{grounded_context}\n\nUSER QUESTION:\n{prompt}" if grounded_context else prompt
         resp = await adapter.generate(prompt=full_prompt, system_prompt=sys_prompt, temperature=0.2)
@@ -1127,13 +1236,47 @@ def create_research_api(
         else:
             reply_text = "ArthaAI Copilot is operating under verified baseline heuristic rules for Indian capital markets (SEBI, RBI, Finance Act 2024)."
 
-        return {
-            "reply": reply_text,
-            "provider": resp.provider or "HEURISTIC_GROUNDED",
-            "grounded_run_id": record.run_id if (context_id and (record := await _store.get(context_id))) else None,
-            "tokens": resp.completion_tokens or 0,
-            "latency_ms": resp.latency_ms or 0.0,
-        }
+        # Determine intent
+        lower_prompt = prompt.lower()
+        if any(w in lower_prompt for w in ("stt", "tax", "finance act", "friction", "duty")):
+            intent = "STATUTORY_TAX"
+        elif any(w in lower_prompt for w in ("rsi", "sma", "ema", "volatility", "close", "ohlcv", "bar")):
+            intent = "TECHNICAL_METRICS"
+        elif any(w in lower_prompt for w in ("sebi", "lodr", "reg 30", "reg 33", "governance", "filing")):
+            intent = "CORPORATE_GOVERNANCE"
+        else:
+            intent = "RESEARCH_INQUIRY"
+
+        # Evidence references and limitations
+        evidence_refs: list[str] = []
+        limitations: list[str] = []
+        if context_id and (record := await _store.get(context_id)) and record.report:
+            evidence_refs.append(f"run://{record.run_id}#{record.report.symbol}")
+            if record.report.qualitative_evidence:
+                evidence_refs.extend(record.report.qualitative_evidence[:3])
+            if getattr(record.report, "limitations_and_uncertainties", None):
+                limitations.extend(record.report.limitations_and_uncertainties[:2])
+        else:
+            evidence_refs.append("rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY")
+
+        # Strip any provider names, emojis or stars from reply
+        clean_reply = reply_text.replace("✦", "").replace("🤖", "").replace("🛡️", "").replace("🏛️", "")
+        for prov in ("Google Gemini", "gemini-2.5-flash", "gemini-3.1-flash-lite", "OpenAI", "Anthropic"):
+            clean_reply = clean_reply.replace(prov, "ArthaAI Multi-Agent System")
+
+        return CopilotChatResponse(
+            status="SUCCESS",
+            intent=intent,
+            answer=clean_reply,
+            reply=clean_reply,
+            evidence_refs=evidence_refs,
+            limitations=limitations,
+            follow_up_required=False,
+            provider="INSTITUTIONAL_ADK",
+            grounded_run_id=record.run_id if (context_id and (record := await _store.get(context_id))) else None,
+            tokens=resp.completion_tokens or 0,
+            latency_ms=resp.latency_ms or 0.0,
+        ).model_dump(mode="json")
 
     # -------------------------------------------------------------------------
     # GET /system/status

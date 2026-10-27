@@ -1,6 +1,6 @@
 # ArthaAI — Operational Boundaries, Fallback Cascades & Known Limitations
 
-In compliance with academic evaluation standards and institutional financial engineering ethics, this document transparently records the operational boundaries, fallback cascades, assumptions, and known limitations of the ArthaAI workstation.
+In compliance with academic evaluation standards and institutional financial engineering ethics, this document records the operational boundaries, fallback cascades, assumptions, and known limitations of the ArthaAI workstation.
 
 ---
 
@@ -14,9 +14,9 @@ In compliance with academic evaluation standards and institutional financial eng
 
 ## 2. Market Data & Microstructure Granularity
 
-- **Historical Analytical Granularity**: The automated quantitative pipeline operates on verified daily OHLCV bars spanning 5 full calendar years (~1,260 trading sessions). Intraday sub-second tick feeds require proprietary licensed NSE NOW/NEAT broker interfaces, which are outside the scope of offline academic evaluation.
-- **Parametric Microstructure Modeling**: High-frequency order book depth (Level 2/3 queue queues, bid-ask depth ladder) is estimated parametrically using verified empirical estimators (Corwin-Schultz 2012 High-Low spread, Amihud illiquidity, Kyle's lambda) rather than fabricated tick series.
-- **Benchmark Index Coverage**: Benchmark indices (`NIFTY50`, `SENSEX`, `BANKNIFTY`, `INDIAVIX`) are served via `GET /market/indices` using genuine Parquet analytical stores with real-time provenance tracking.
+- **Historical Analytical Granularity**: The automated quantitative pipeline operates on verified daily OHLCV bars spanning 5 full calendar years (~1,260 trading sessions per equity).
+- **Parametric Microstructure Modeling**: High-frequency order book depth (Level 2/3 queue queues, bid-ask depth ladder) is estimated parametrically using verified empirical estimators (Corwin-Schultz 2012 High-Low spread, Amihud illiquidity) rather than fabricated tick series.
+- **IST Market Clock & Session State**: Market hours operate under IST (`Asia/Kolkata`) 09:15–16:15 Mon–Fri. Outside of these market hours, ticker prices are frozen to the last official exchange settlement close, and the UI displays an active session countdown.
 
 ---
 
@@ -24,27 +24,23 @@ In compliance with academic evaluation standards and institutional financial eng
 
 - **Direct HTTPS REST**: Google Gemini calls use direct HTTPS REST (`https://generativelanguage.googleapis.com/v1beta/models/...`), avoiding heavy SDK/gRPC overhead.
 - **Multi-Provider Cascade**:
-  1. Primary: **Google Gemini** (`gemini-2.5-flash` / `gemini-1.5-flash`)
+  1. Primary: **Google Gemini** (`gemini-2.5-flash`, `gemini-flash-latest`)
   2. Secondary: **OpenAI** (`gpt-4o-mini`)
-  3. Tertiary: **Anthropic** (`claude-3-5-haiku`)
-  4. Quota Exhaustion Fallback: **Deterministic Analytical Heuristics**
-- **Quota & Rate-Limit Backoff**: When provider quotas are exhausted (HTTP 429), the platform safely degrades to deterministic mathematical indicators and grounded report synthesis without crashing.
+  3. Quota Exhaustion Fallback: **Deterministic Analytical Heuristics**
 - **Zero Hallucination Safeguard**: An unavailable or failing LLM call never manufactures artificial citations or fabricated financial figures; findings are marked `MEASURED`, `HEURISTIC_GROUNDED`, or `UNAVAILABLE`.
+- **Clean Interface Invariant**: No model names, stars (`✦`), or emojis are displayed in user-facing reports, timelines, or Copilot responses.
 
 ---
 
 ## 4. Regulatory Knowledge Base Scope
 
-- **ChromaDB Corpus**: Ingests 13 core regulatory chunks covering the *Finance (No. 2) Act 2024*, *SEBI LODR 2015*, *SEBI PIT 2015*, and *RBI Monetary Policy Framework*.
+- **ChromaDB Corpus**: Ingests statutory filing chunks covering the *Finance (No. 2) Act 2024*, *SEBI LODR 2015*, *SEBI PIT 2015*, *RBI Monetary Policy Framework*, and Q2 FY25 statutory company filings for major Indian equities (`ICICIBANK`, `RELIANCE`, `TCS`, `HDFCBANK`, `INFY`, `TATAMOTORS`, `SBIN`, `ITC`, `WIPRO`).
 - **Temporal Validity**: Tax and regulatory citations reflect Indian statutory law as of the Finance Act 2024 enactment date (July 2024 revisions). Future legislative amendments require re-ingestion into the ChromaDB store.
 
 ---
 
-## 5. Frontend Workspaces & Paper Trading Persistence
+## 5. Orchestration Pattern Comparison Guardrails
 
-- **Four Primary Workspaces**:
-  1. **Command Center**: Macro terminal overview, live market indices, active research runs, and paper portfolio summary.
-  2. **Research Workspace**: 5-Year quantitative depth, interactive 90-day SVG chart, 7-agent contribution breakdown, and cryptographic audit hash.
-  3. **Portfolio & Trading**: Paper order execution, realistic Finance Act 2024 friction reserves, zero-mock position tracking, and transaction history.
-  4. **Operations & Observability**: System diagnostics, MCP tool health, A2A endpoint status, and real latency metrics.
-- **State Storage Mechanics**: Paper trading positions, orders, and cash balances (defaulting to ₹10,00,000 INR) are managed in browser `localStorage` (`arthai_paper_cash`, `arthai_paper_positions`, `arthai_paper_orders`) with zero mock fallbacks.
+- **Strictly User-Triggered**: Orchestration pattern comparisons (Sequential vs Parallel vs Hierarchical) never execute automatically; they require explicit user selection and confirmation.
+- **Isolated Blackboard Namespaces**: Child runs receive separate, isolated Blackboard instances (`comp-{id}-seq`, `comp-{id}-par`, `comp-{id}-hie`) to prevent cross-run state pollution.
+- **No Synthetic Speedups**: Wall-clock durations are measured monotonically using `time.perf_counter()`; no artificial delays or fabricated benchmarks are generated.

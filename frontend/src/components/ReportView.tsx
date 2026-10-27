@@ -39,8 +39,8 @@ export const ReportView: React.FC<ReportViewProps> = ({ report, events = [] }) =
   const downloadMarkdown = () => {
     const md = `# ArthaAI Quantitative Research Report: ${report.symbol}
 **Execution Run ID:** \`${report.run_id}\`  
-**Point-In-Time (UTC):** ${report.as_of_time}  
-**Generated At (UTC):** ${report.generated_at}  
+**Point-In-Time (IST):** ${new Date(report.as_of_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST  
+**Generated At (IST):** ${new Date(report.generated_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST  
 
 ---
 
@@ -119,7 +119,7 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
               <span>Run ID: <strong style={{ color: 'var(--text-secondary)' }}>{report.run_id}</strong></span>
               <span>•</span>
-              <span>Point-In-Time: {new Date(report.as_of_time).toUTCString()}</span>
+              <span>Point-In-Time: {new Date(report.as_of_time).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST</span>
             </div>
           </div>
 

@@ -231,7 +231,7 @@ export const NewResearchPage: React.FC<NewResearchPageProps> = ({ onSubmitted })
           <div className="form-group">
             <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Calendar size={14} style={{ color: 'var(--accent-cyan)' }} />
-              <span>Point-In-Time As-Of Cutoff (UTC)</span>
+              <span>Point-In-Time As-Of Cutoff (IST)</span>
             </label>
             <input
               type="datetime-local"

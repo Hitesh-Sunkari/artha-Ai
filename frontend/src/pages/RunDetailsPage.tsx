@@ -145,7 +145,7 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
               Pattern: {runDetails?.orchestration_pattern || 'SEQUENTIAL'} • Submitted:{' '}
               {runDetails?.submitted_at
-                ? new Date(runDetails.submitted_at).toUTCString()
+                ? new Date(runDetails.submitted_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST'
                 : 'Pending'}
             </div>
           </div>

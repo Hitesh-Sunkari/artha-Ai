@@ -598,7 +598,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             </div>
 
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              Computed over 20-trading-day lookback window with 252 annualization factor. Zero future leakage enforced by UTC as-of timestamp cutoff.
+              Computed over 20-trading-day lookback window with 252 annualization factor. Zero future leakage enforced by IST point-in-time cutoff.
             </div>
           </div>
         </div>

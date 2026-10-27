@@ -319,3 +319,16 @@ export interface SystemStatusResponse {
   };
   timestamp: string;
 }
+
+export interface MarketSessionState {
+  is_open: boolean;
+  status: 'OPEN' | 'CLOSED';
+  status_label: string;
+  current_time_ist: string;
+  time_ist: string;
+  date_ist: string;
+  open_time: string;
+  close_time: string;
+  next_session: string;
+  message: string;
+}

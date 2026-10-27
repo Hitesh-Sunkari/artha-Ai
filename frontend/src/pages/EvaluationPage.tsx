@@ -185,7 +185,7 @@ export const EvaluationPage: React.FC = () => {
               <thead>
                 <tr>
                   <th>Experiment ID</th>
-                  <th>Timestamp (UTC)</th>
+                  <th>Timestamp (IST)</th>
                   <th>Cases Executed</th>
                   <th>Passed / Failed</th>
                   <th>Pass Rate</th>
@@ -201,7 +201,7 @@ export const EvaluationPage: React.FC = () => {
                       {exp.experiment_id}
                     </td>
                     <td className="font-mono tabular-nums" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      {new Date(exp.started_at).toISOString().replace('T', ' ').substring(0, 19)}
+                      {new Date(exp.started_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
                     </td>
                     <td className="font-mono tabular-nums" style={{ fontWeight: 600 }}>
                       {exp.total_cases}

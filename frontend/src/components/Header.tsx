@@ -12,7 +12,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { api } from '../api/client';
-import type { ReadinessResponse } from '../api/types';
+import type { ReadinessResponse, MarketSessionState } from '../api/types';
 import type { PrimaryWorkspace } from './Sidebar';
 
 interface HeaderProps {
@@ -29,9 +29,27 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectWorkspace,
 }) => {
   const [readiness, setReadiness] = useState<ReadinessResponse | null>(null);
+  const [marketSession, setMarketSession] = useState<MarketSessionState | null>(null);
+  const [currentIstTime, setCurrentIstTime] = useState<string>('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [searchQuery, setSearchQuery] = useState('');
   const [paperCash, setPaperCash] = useState<number>(1000000);
+
+  useEffect(() => {
+    // Live Indian Standard Time (IST) Clock
+    const updateClock = () => {
+      const now = new Date();
+      setCurrentIstTime(
+        now.toLocaleTimeString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          hour12: false,
+        }) + ' IST'
+      );
+    };
+    updateClock();
+    const clockTimer = setInterval(updateClock, 1000);
+    return () => clearInterval(clockTimer);
+  }, []);
 
   useEffect(() => {
     // Check saved cash balance
@@ -54,23 +72,21 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   useEffect(() => {
-    const checkReadiness = async () => {
+    const checkReadinessAndSession = async () => {
       try {
-        const res = await api.getReadiness();
-        setReadiness(res);
+        const [res, sess] = await Promise.all([
+          api.getReadiness().catch(() => null),
+          api.getMarketSession().catch(() => null),
+        ]);
+        if (res) setReadiness(res);
+        if (sess) setMarketSession(sess);
       } catch {
-        setReadiness({
-          ready: false,
-          mcp_available: false,
-          a2a_available: false,
-          live_trading_blocked: true,
-          timestamp: new Date().toISOString(),
-        });
+        // Keep previous state
       }
     };
 
-    checkReadiness();
-    const interval = setInterval(checkReadiness, 15000);
+    checkReadinessAndSession();
+    const interval = setInterval(checkReadinessAndSession, 12000);
     return () => clearInterval(interval);
   }, []);
 
@@ -100,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Left: Active Workspace Breadcrumb & Market Status */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span
               style={{
                 fontSize: '15px',
@@ -114,32 +130,83 @@ export const Header: React.FC<HeaderProps> = ({
               {activeWorkspace === 'research' && 'Research & AI Studio'}
               {activeWorkspace === 'operations' && 'Terminal & Multi-Agent Ops'}
             </span>
-            <span
-              style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-pill)',
-                backgroundColor: 'var(--groww-green-light)',
-                color: 'var(--groww-green)',
-                border: '1px solid rgba(0, 208, 156, 0.25)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '5px',
-              }}
-            >
+
+            {/* Dynamic Market Session Badge (IST) */}
+            {marketSession?.is_open ? (
               <span
                 style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  backgroundColor: 'var(--groww-green)',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'var(--groww-green-light)',
+                  color: 'var(--groww-green)',
+                  border: '1px solid rgba(0, 208, 156, 0.25)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
                 }}
-                className="animate-pulse"
-              />
-              NSE / BSE LIVE
+                title="NSE / BSE Continuous Trading Session (09:15 - 16:15 IST)"
+              >
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--groww-green)',
+                  }}
+                  className="animate-pulse"
+                />
+                LIVE MARKET (IST) • 09:15 - 16:15
+              </span>
+            ) : (
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'var(--groww-red-light)',
+                  color: 'var(--groww-red)',
+                  border: '1px solid rgba(235, 91, 89, 0.3)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+                title={marketSession?.message || 'Trading session closed at 04:15 PM IST. Prices are frozen at official session close.'}
+              >
+                <span
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--groww-red)',
+                  }}
+                />
+                MARKET CLOSED (IST) • {marketSession?.next_session || 'Opens 09:15 AM IST'}
+              </span>
+            )}
+
+            {/* Live IST Time Pill */}
+            <span
+              style={{
+                fontSize: '11px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 700,
+                color: 'var(--text-secondary)',
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'var(--bg-input)',
+                border: '1px solid var(--border-subtle)',
+                display: 'inline-flex',
+                alignItems: 'center',
+              }}
+              title="Indian Standard Time (Asia/Kolkata, UTC+05:30)"
+            >
+              🕒 {currentIstTime || 'IST'}
             </span>
           </div>
+
           <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500, marginTop: '1px' }}>
             {activeWorkspace === 'command-center' && 'Real-time equity indices, live ticks & 5-year point-in-time verified data'}
             {activeWorkspace === 'portfolio' && 'Simulated execution engine with SLSQP mean-variance optimization'}

@@ -128,4 +128,9 @@ export const api = {
       },
       45000,
     ),
+
+  // Live Market Sessions & Real-Time IST Quotes
+  getMarketSession: () => request<import('./types').MarketSessionState>('/market/session', {}, 5000),
+  getMarketIndices: () => request<any[]>('/market/indices', {}, 5000),
+  getMarketStocks: () => request<any[]>('/market/stocks', {}, 5000),
 };
