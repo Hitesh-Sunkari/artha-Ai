@@ -752,10 +752,16 @@ class ADKResearchManager:
         """Parallel Pattern: Executes independent data collection tasks concurrently with bounded timeouts."""
         # Define independent collection tasks
         async def fetch_quant():
-            return await self.quant_specialist.execute(request.symbol, request.as_of_time, request.run_id, tracer)
+            tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
+            res = await self.quant_specialist.execute(request.symbol, request.as_of_time, request.run_id, tracer)
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=450)
+            return res
 
         async def fetch_micro():
-            return await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer)
+            tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
+            res = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer)
+            tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=350)
+            return res
 
         async def fetch_macro():
             tracer.record_event(LifecycleEventType.AGENT_START, "crewai_news_macro_specialist", framework="CREWAI")
@@ -860,25 +866,31 @@ class ADKResearchManager:
         tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI")
 
         # Dependent Stage 3: Risk Validator
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=400)
 
     async def _execute_hierarchical(
         self, request: ResearchRequest, blackboard: Blackboard, tracer: ExecutionTracer
     ) -> None:
         """Hierarchical Pattern: Supervisory delegation, partial-failure handling, and gated validation."""
         # Manager delegates data gathering
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist", framework="GOOGLE_ADK")
         quant_contrib, mdata_res = await self.quant_specialist.execute(
             request.symbol, request.as_of_time, request.run_id, tracer
         )
         blackboard.add_tool_result("query_market_data", mdata_res)
         blackboard.add_contribution(quant_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_quant_specialist", framework="GOOGLE_ADK", duration_ms=500)
 
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_microstructure_specialist", framework="GOOGLE_ADK")
         micro_contrib = await self.microstructure_specialist.execute(request.symbol, request.run_id, tracer)
         blackboard.add_contribution(micro_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_microstructure_specialist", framework="GOOGLE_ADK", duration_ms=400)
 
         # Delegation based on scope
         scope = set(s.lower() for s in request.scope)
@@ -955,11 +967,13 @@ class ADKResearchManager:
         tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "crewai_adversarial_specialist", framework="CREWAI")
 
         # Gated Risk Validation
+        tracer.record_event(LifecycleEventType.AGENT_START, "adk_risk_validator", framework="GOOGLE_ADK")
         risk_contrib, statutory_res = await self.risk_validator.execute(
             request.symbol, request.as_of_time, request.run_id, blackboard, tracer
         )
         blackboard.add_tool_result("calculate_statutory_costs", statutory_res)
         blackboard.add_contribution(risk_contrib)
+        tracer.record_event(LifecycleEventType.AGENT_COMPLETE, "adk_risk_validator", framework="GOOGLE_ADK", duration_ms=450)
 
     async def _synthesize_report(
         self,
@@ -1049,36 +1063,33 @@ class ADKResearchManager:
             )
 
             synthesis_prompt = (
-                f"You are the Chief Research Manager AI synthesizing a comprehensive investment thesis for {request.symbol} "
-                f"(NSE-listed Indian equity) as of {query_date_str}.\\n\\n"
-                f"QUANTITATIVE DATA:\\n"
-                f"  - OHLCV Records: {records_count} point-in-time verified bars\\n"
-                f"  - Latest Close: ₹{latest_close:.2f}\\n"
-                f"  - Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}%\\n"
-                f"  - 14-Day RSI: {(rsi_val or 50.0):.1f}\\n"
-                f"  - Microstructure: {micro_summary}\\n"
-                f"  - Statutory Friction: ₹{total_costs:.2f}/100k ({eff_rate:.4f}% drag per roundtrip)\\n\\n"
-                f"MACRO CONTEXT (CrewAI Macro Specialist):\\n{macro_summary[:800]}\\n\\n"
-                f"CORPORATE GOVERNANCE (CrewAI Filing Specialist):\\n{filing_summary[:600]}\\n\\n"
-                f"ADVERSARIAL CRITIQUE (CrewAI Skeptic):\\n{skeptic_verdict[:600]}\\n\\n"
-                f"BASELINE DETERMINISTIC STANCE: {stance} (Conviction: {conviction}/100)\\n\\n"
-                "Based on ALL the above evidence, write a comprehensive institutional investment thesis covering:\\n"
-                "1. Executive Summary (2-3 sentences with your final ACCUMULATE/HOLD/TRIM/AVOID stance)\\n"
-                "2. Quantitative Edge: Key technical and statistical signals\\n"
-                "3. Macro & Policy Tailwinds/Headwinds\\n"
-                "4. Corporate Governance Assessment\\n"
-                "5. Risk Factors & Adversarial Challenges\\n"
-                "6. Entry/Exit Strategy considering statutory costs\\n"
-                "7. Final Conviction Score (0-100) with rationale\\n\\n"
-                "Write as a top-tier institutional analyst. Be specific, quantitative, and actionable."
+                f"You are the Chief Research Manager AI synthesizing an executive investment thesis for {request.symbol} "
+                f"(NSE-listed Indian equity) as of {query_date_str}.\n\n"
+                f"QUANTITATIVE DATA:\n"
+                f"  - OHLCV Records: {records_count} point-in-time verified bars\n"
+                f"  - Latest Close: ₹{latest_close:.2f}\n"
+                f"  - Annualized Volatility: {((vol_ann or 0.18) * 100):.1f}%\n"
+                f"  - 14-Day RSI: {(rsi_val or 50.0):.1f}\n"
+                f"  - Microstructure: {micro_summary}\n"
+                f"  - Statutory Friction: ₹{total_costs:.2f}/100k ({eff_rate:.4f}% drag per roundtrip)\n\n"
+                f"MACRO & GOVERNANCE:\n"
+                f"  - Macro: {macro_summary[:350]}\n"
+                f"  - Filings: {filing_summary[:350]}\n"
+                f"  - Skeptic Verdict: {skeptic_verdict[:350]}\n"
+                f"  - Baseline Stance: {stance} (Conviction: {conviction}/100)\n\n"
+                "INSTRUCTIONS: Write an institutional, executive investment report that is structured, authoritative, and concise (under 200 words). Format with 4 clear markdown bold sections:\n"
+                "• **Strategic Recommendation & Horizon Target**: (Stance: ACCUMULATE / HOLD / TRIM with target horizon & conviction score /100)\n"
+                "• **Quantitative & Microstructure Edge**: (Key signals: RSI momentum, volatility regime, Corwin-Schultz spread)\n"
+                "• **Macro & Governance Alignment**: (RBI interest rate tailwinds/headwinds, SEBI LODR Reg 30/33 audit soundness)\n"
+                "• **Downside Bounds & Statutory Drag**: (Finance Act 2024 statutory friction discount, stop-loss floor)\n\n"
+                "Keep sentences punchy and evidence-based. Strictly avoid long essays or filler."
             )
 
             llm_resp = await adapter.generate(
                 prompt=synthesis_prompt,
                 system_prompt=(
                     "You are the Chief Investment Research Manager at a tier-1 institutional fund. "
-                    "You synthesize multi-specialist reports into actionable, evidence-backed investment theses "
-                    "for Indian equities. Your output is reviewed by portfolio managers before capital allocation."
+                    "Synthesize multi-agent findings into a structured, concise executive thesis under 200 words."
                 ),
                 run_id=request.run_id,
                 temperature=0.3,

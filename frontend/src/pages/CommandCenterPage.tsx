@@ -73,6 +73,7 @@ export const CommandCenterPage: React.FC<{
   const [priceFlash, setPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
   const [indexPriceFlash, setIndexPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
   const [lastStreamTime, setLastStreamTime] = useState<string>('');
+  const [lastIndexStreamTime, setLastIndexStreamTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
 
@@ -152,6 +153,9 @@ export const CommandCenterPage: React.FC<{
             }
             return data;
           });
+          if (data[0]?.lastUpdated) {
+            setLastIndexStreamTime(data[0].lastUpdated);
+          }
         }
       }
     } catch {}
@@ -218,7 +222,7 @@ export const CommandCenterPage: React.FC<{
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Market Benchmarks
               </h2>
@@ -234,6 +238,9 @@ export const CommandCenterPage: React.FC<{
                   className="animate-pulse"
                 />
                 <span>LIVE STREAMING (~3s TICK)</span>
+              </span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                • {lastIndexStreamTime ? `Last tick: ${lastIndexStreamTime}` : 'Connecting stream...'}
               </span>
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
@@ -307,7 +314,9 @@ export const CommandCenterPage: React.FC<{
                     <span style={{ color: isPos ? 'var(--groww-green)' : 'var(--groww-red)', fontWeight: 600 }}>
                       {idx.change} pts
                     </span>
-                    <span style={{ color: 'var(--text-muted)' }}>{idx.provenance.split('(')[0]}</span>
+                    <span style={{ color: 'var(--text-muted)' }}>
+                      {idx.provenance.split('(')[0]} • {idx.lastUpdated || lastIndexStreamTime || 'Live'}
+                    </span>
                   </div>
                 </div>
 
@@ -413,8 +422,8 @@ export const CommandCenterPage: React.FC<{
                 }}
                 onClick={() => onNavigate('research', stock.ticker)}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
                     <div
                       style={{
                         width: '42px',
@@ -433,11 +442,31 @@ export const CommandCenterPage: React.FC<{
                     >
                       {initial}
                     </div>
-                    <div>
-                      <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div
+                        title={stock.name}
+                        style={{
+                          fontSize: '15px',
+                          fontWeight: 700,
+                          color: 'var(--text-primary)',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
                         {stock.name}
                       </div>
-                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      <div
+                        title={`${stock.ticker} • ${stock.sector}`}
+                        style={{
+                          fontSize: '11px',
+                          color: 'var(--text-muted)',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          marginTop: '2px',
+                        }}
+                      >
                         {stock.ticker} • {stock.sector}
                       </div>
                     </div>
@@ -451,6 +480,8 @@ export const CommandCenterPage: React.FC<{
                       backgroundColor: 'var(--bg-elevated)',
                       color: 'var(--text-secondary)',
                       border: '1px solid var(--border-subtle)',
+                      flexShrink: 0,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     {stock.tag}

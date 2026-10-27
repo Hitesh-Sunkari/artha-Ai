@@ -284,12 +284,15 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
         )}
       </div>
 
-      {/* Usable Visualizations: Candlestick Price Charts, RSI & Agent Latency Breakdown */}
+      {/* Usable Visualizations: Visual Suggestion Matrix, Candlestick Price Charts, RSI & Agent Latency Breakdown */}
       <FinancialCharts
         symbol={report.symbol}
         bars={qf.historical_bars || []}
         metrics={metrics}
         events={events}
+        recommendation={report.recommendation}
+        convictionScore={report.conviction_score}
+        statutoryBounds={report.statutory_risk_bounds}
       />
 
       {/* Indian Statutory Friction & Transaction Bounds */}

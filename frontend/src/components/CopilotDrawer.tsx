@@ -155,8 +155,8 @@ export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeCont
                 <div style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)' }}>
                   ArthaAI Copilot
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 600 }}>
-                  ● Active Research Assistant
+                <div style={{ fontSize: '10px', color: 'var(--groww-green)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span>●</span> SEBI Compliance &amp; Domain Guardrails Active
                 </div>
               </div>
             </div>

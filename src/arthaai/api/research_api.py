@@ -411,6 +411,21 @@ def create_research_api(
         if not symbol:
             raise HTTPException(status_code=422, detail="Symbol must be a non-empty string.")
 
+        VERIFIED_DATASET_SYMBOLS = {
+            "RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "INFY.NS",
+            "TATAMOTORS.NS", "ICICIBANK.NS", "SBIN.NS", "ITC.NS", "WIPRO.NS",
+            "RELIANCE", "TCS", "HDFCBANK", "INFY",
+            "TATAMOTORS", "ICICIBANK", "SBIN", "ITC", "WIPRO"
+        }
+        clean_sym = symbol.upper()
+        if clean_sym not in VERIFIED_DATASET_SYMBOLS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Instrument '{symbol}' is not present in the verified 5-year Parquet database (~1,260 observations). "
+                       f"Institutional execution rules prohibit unverified assets. Please select from verified instruments: "
+                       f"RELIANCE.NS, TCS.NS, HDFCBANK.NS, INFY.NS, TATAMOTORS.NS, ICICIBANK.NS, SBIN.NS, ITC.NS, WIPRO.NS."
+            )
+
         run_id = f"run-api-{uuid.uuid4().hex[:12]}"
         request_id = f"req-api-{uuid.uuid4().hex[:8]}"
 
@@ -1037,11 +1052,25 @@ def create_research_api(
         tags=["copilot"],
     )
     async def copilot_chat(body: dict[str, Any]) -> dict[str, Any]:
-        """Answers investment and market research questions grounded in run context."""
+        """Answers investment and market research questions grounded in run context with strict guardrails."""
+        from arthaai.orchestration.copilot_guardrails import evaluate_copilot_guardrails
         from arthaai.orchestration.llm_adapter import get_llm_adapter
-        adapter = get_llm_adapter()
+
         prompt = body.get("message", "")
         context_id = str(body.get("context", "")).strip()
+
+        # 1. Enforce Pre-Flight Institutional Guardrails (Domain & Ethical Integrity)
+        is_blocked, refusal_reason = evaluate_copilot_guardrails(prompt)
+        if is_blocked and refusal_reason:
+            return {
+                "reply": refusal_reason,
+                "provider": "GUARDRAIL_ENFORCED",
+                "grounded_run_id": None,
+                "tokens": 0,
+                "latency_ms": 1.2,
+            }
+
+        adapter = get_llm_adapter()
 
         # Resolve rich grounded context if context_id is a research run
         grounded_context = ""
@@ -1071,13 +1100,13 @@ def create_research_api(
                 grounded_context = context_id
 
         sys_prompt = (
-            "You are ArthaAI Copilot, an institutional quantitative research assistant for Indian financial markets. "
-            "Answer user questions accurately using the provided research context and Indian regulatory knowledge (SEBI, RBI, Finance Act 2024). "
-            "Cite evidence accurately from the report if available. Never hallucinate fake prices or ungrounded claims. "
-            "Keep answers crisp, analytical, and professional."
+            "You are ArthaAI Copilot, an institutional quantitative research assistant strictly for Indian capital markets (NSE/BSE).\n"
+            "STRICT DOMAIN BOUNDARY: You ONLY answer questions related to Indian equities, quantitative metrics (RSI, SMA, volatility), SEBI LODR & PIT regulations, RBI monetary frameworks, Finance Act 2024 statutory tax codes (STT, LTCG, STCG), and portfolio risk. If the question is outside this domain (cooking, sports, general entertainment, unrelated coding), politely decline citing your institutional scope.\n"
+            "STRICT ETHICS: You MUST NOT provide insider trading tips, front-running advice, market manipulation schemes, or tax evasion assistance.\n"
+            "STYLE: Keep your answer highly structured with markdown bold points, authoritative, and strictly concise (under 160 words). Never write long essays."
         )
         full_prompt = f"CONTEXT:\n{grounded_context}\n\nUSER QUESTION:\n{prompt}" if grounded_context else prompt
-        resp = await adapter.generate(prompt=full_prompt, system_prompt=sys_prompt, temperature=0.3)
+        resp = await adapter.generate(prompt=full_prompt, system_prompt=sys_prompt, temperature=0.2)
 
         if resp.status == "SUCCESS" and resp.content:
             reply_text = resp.content

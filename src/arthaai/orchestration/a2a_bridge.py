@@ -206,16 +206,13 @@ class CrewAISpecialistExecutor(AgentExecutor):
         # --- Real LLM Call ---
         adapter = get_llm_adapter()
         llm_prompt = (
-            f"Perform a comprehensive macroeconomic analysis for {symbol} (Indian equity market).\n\n"
+            f"Perform a concise macroeconomic analysis for {symbol} (Indian equity market).\n\n"
             f"RAG Context (RBI & Macro Documents):\n{rag_context}\n\n"
-            "Provide:\n"
-            "1. Current monetary policy stance and its impact on equity discount rates\n"
-            "2. Inflation trajectory and RBI forward guidance implications\n"
-            "3. Systemic liquidity conditions (LAF, SDF, MSF operations)\n"
-            "4. Sector-specific macro tailwinds/headwinds for this company\n"
-            "5. FII/DII flow environment and global macro linkages\n"
-            "6. Your overall macro verdict: TAILWIND / NEUTRAL / HEADWIND and conviction (1-10)\n\n"
-            "Be specific, quantitative, and cite RBI policy rates. Format as structured analysis."
+            "INSTRUCTIONS: Output a structured, punchy analysis under 120 words with 3 bullet points:\n"
+            "• **Monetary Policy & Rates**: (RBI repo rate 6.50% & discount rate effect)\n"
+            "• **Inflation & Systemic Liquidity**: (CPI trajectory & LAF liquidity conditions)\n"
+            "• **Macro Verdict**: (TAILWIND / NEUTRAL / HEADWIND with conviction rating /10)\n\n"
+            "Be specific, quantitative, and concise. Avoid long essays."
         )
         llm_resp = await adapter.generate(
             prompt=llm_prompt,
@@ -333,17 +330,14 @@ class CrewAISpecialistExecutor(AgentExecutor):
         from arthaai.orchestration.llm_adapter import get_llm_adapter
         adapter = get_llm_adapter()
         llm_prompt = (
-            f"Perform a comprehensive corporate governance and statutory filing analysis for {clean_symbol} "
+            f"Perform a concise corporate governance and statutory filing analysis for {clean_symbol} "
             f"(NSE/BSE listed Indian equity).\n\n"
             f"RAG Context (SEBI Filings):\n{rag_context}\n\n"
-            "Provide:\n"
-            "1. SEBI LODR Reg 30 compliance: Material event disclosures and timeliness\n"
-            "2. SEBI LODR Reg 33 compliance: Quarterly/Annual financial results quality\n"
-            "3. Audit quality: Auditor opinions, qualifications, emphasis of matter paragraphs\n"
-            "4. Promoter holding stability and pledging risk\n"
-            "5. Related party transactions and governance red flags\n"
-            "6. Overall corporate governance rating: STRONG / ADEQUATE / WEAK and key risks\n\n"
-            "Be specific. Reference actual SEBI regulations by number. Flag any concerns clearly."
+            "INSTRUCTIONS: Output a structured, punchy governance assessment under 120 words with 3 bullet points:\n"
+            "• **SEBI LODR Compliance**: (Reg 30 material disclosures & Reg 33 quarterly results compliance)\n"
+            "• **Audit Quality & Transparency**: (Auditor opinion, qualifications, related-party disclosures)\n"
+            "• **Governance Verdict**: (STRONG / SATISFACTORY / CAUTIONARY with conviction rating /10)\n\n"
+            "Reference specific SEBI LODR regulations. Keep strictly concise and avoid filler."
         )
         llm_resp = await adapter.generate(
             prompt=llm_prompt,
@@ -437,15 +431,11 @@ class CrewAISpecialistExecutor(AgentExecutor):
                 f"  - 14-Day RSI: {rsi}\n"
                 f"  - Macro Context: {macro_regime}\n"
                 f"  - Instructions: {instructions}\n\n"
-                "Challenge this thesis with:\n"
-                "1. Volatility shock test: Can it survive 2x volatility expansion?\n"
-                "2. Liquidity contraction test: Impact of 50% volume dry-up?\n"
-                "3. Statutory cost drag: Does the edge survive STT+GST+Stamp+SEBI fees (~11.86 bps/roundtrip)?\n"
-                "4. Look-ahead leakage audit: Any potential point-in-time violations?\n"
-                "5. SEBI circuit filter risk: Is the price within 10%/20% bounds?\n"
-                "6. Regime fragility: Expiry window effects, liquidity traps?\n"
-                "7. Overall verdict: APPROVED / CONDITIONALLY_APPROVED / REJECTED with conviction (1-10)\n\n"
-                "Be ruthlessly honest. Identify hidden risks. Quantify where possible."
+                "INSTRUCTIONS: Output a razor-sharp adversarial critique under 140 words with 3 bullet points:\n"
+                "• **Volatility & Liquidity Stress**: (Survival under 2x volatility jump and 50% volume dry-up)\n"
+                "• **Statutory Drag & Reg Bounds**: (Friction coverage against 11.86 bps roundtrip costs under Finance Act 2024)\n"
+                "• **Skeptic Verdict**: (APPROVED / CONDITIONALLY_APPROVED / REJECTED with key downside caveat)\n\n"
+                "Be ruthlessly objective, quantitative, and concise."
             )
             llm_resp = await adapter.generate(
                 prompt=llm_prompt,

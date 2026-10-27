@@ -81,8 +81,23 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
   const [evidenceResults, setEvidenceResults] = useState<any[]>([]);
   const [evidenceLoading, setEvidenceLoading] = useState(false);
 
-  // Popular NSE Tickers
-  const tickerPresets = ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'TATAMOTORS.NS', 'ICICIBANK.NS'];
+  // Verified 5-Year Parquet Tickers
+  const VERIFIED_STOCKS = [
+    'RELIANCE.NS',
+    'TCS.NS',
+    'HDFCBANK.NS',
+    'INFY.NS',
+    'TATAMOTORS.NS',
+    'ICICIBANK.NS',
+    'SBIN.NS',
+    'ITC.NS',
+    'WIPRO.NS',
+  ];
+  const tickerPresets = VERIFIED_STOCKS;
+  const cleanSym = symbol.trim().toUpperCase();
+  const isVerified =
+    VERIFIED_STOCKS.includes(cleanSym) ||
+    VERIFIED_STOCKS.map((s) => s.replace('.NS', '')).includes(cleanSym);
 
   // Poll active run
   useEffect(() => {
@@ -135,6 +150,16 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
     e.preventDefault();
     setSubmitting(true);
     setSubmitError(null);
+
+    if (!isVerified) {
+      setSubmitError(
+        `The instrument "${symbol}" is not in our authentic 5-year point-in-time Parquet store. ` +
+        `Institutional safety policy prohibits unverified assets. Please select from: ` +
+        VERIFIED_STOCKS.join(', ')
+      );
+      setSubmitting(false);
+      return;
+    }
 
     try {
       const res = await fetch(`${API}/research`, {
@@ -339,19 +364,51 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                   required
                 />
                 <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick Select:</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Verified Equities:</span>
                   {tickerPresets.map((t) => (
                     <button
                       key={t}
                       type="button"
                       onClick={() => setSymbol(t)}
-                      className={`groww-chip ${symbol === t ? 'active' : ''}`}
+                      className={`groww-chip ${cleanSym === t || cleanSym === t.replace('.NS', '') ? 'active' : ''}`}
                       style={{ padding: '3px 10px', fontSize: '11px' }}
                     >
                       {t}
                     </button>
                   ))}
                 </div>
+
+                {!isVerified && symbol.trim().length > 0 && (
+                  <div
+                    style={{
+                      marginTop: '10px',
+                      padding: '12px 14px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(235, 91, 89, 0.1)',
+                      border: '1px solid var(--groww-red)',
+                      color: 'var(--groww-red)',
+                      fontSize: '12px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '6px',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 }}>
+                      <AlertTriangle size={15} />
+                      <span>Unverified Equity Instrument — Research Execution Locked</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                      <strong>"{symbol}"</strong> is not present in the verified 5-year DuckDB/Parquet store. ArthaAI adheres strictly to point-in-time empirical evidence. Please select one of the verified instruments above to proceed.
+                    </p>
+                  </div>
+                )}
+
+                {isVerified && (
+                  <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--groww-green)' }}>
+                    <CheckCircle2 size={13} />
+                    <span>Verified 5-Year Point-In-Time Dataset (~1,260 bars) active for {cleanSym.endsWith('.NS') ? cleanSym : `${cleanSym}.NS`}</span>
+                  </div>
+                )}
               </div>
 
               {/* Orchestration Pattern */}
@@ -387,12 +444,23 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               {/* Execution Action Button */}
               <button
                 type="submit"
-                disabled={submitting}
-                className="btn-groww-primary"
-                style={{ padding: '12px 20px', fontSize: '14px', marginTop: '8px', width: '100%' }}
+                disabled={submitting || !isVerified}
+                className={isVerified ? 'btn-groww-primary' : 'btn-groww-secondary'}
+                style={{
+                  padding: '12px 20px',
+                  fontSize: '14px',
+                  marginTop: '8px',
+                  width: '100%',
+                  opacity: isVerified ? 1 : 0.6,
+                  cursor: isVerified ? 'pointer' : 'not-allowed',
+                }}
               >
                 <Play size={16} />
-                {submitting ? 'Submitting to ADK Coordinator...' : 'Execute Research Pipeline'}
+                {!isVerified
+                  ? 'Select a Verified Stock to Proceed'
+                  : submitting
+                  ? 'Submitting to ADK Coordinator...'
+                  : 'Execute Research Pipeline'}
               </button>
             </form>
           </div>
