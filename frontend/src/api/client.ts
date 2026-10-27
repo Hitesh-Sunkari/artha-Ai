@@ -24,8 +24,8 @@ export function getApiBaseUrl(): string {
   if (stored) return stored.replace(/\/+$/, '');
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl.replace(/\/+$/, '');
-  // Default to localhost:8000 if running in standalone Vite mode, or relative path if same origin
-  return window.location.port === '5173' ? 'http://127.0.0.1:8000' : '';
+  // Default to localhost:8001 if running in standalone Vite mode, or relative path if same origin
+  return window.location.port === '5173' ? 'http://127.0.0.1:8001' : '';
 }
 
 export function setApiBaseUrl(url: string): void {
