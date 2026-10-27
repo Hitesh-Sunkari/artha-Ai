@@ -22,8 +22,9 @@ import { ReportView } from '../components/ReportView';
 import { EventStream } from '../components/EventStream';
 import type { TabId } from '../components/Sidebar';
 import type { QuantitativeResearchReport, AgentContribution, LifecycleEvent } from '../api/types';
+import { getApiBaseUrl } from '../api/client';
 
-const API = 'http://127.0.0.1:8000';
+const API = getApiBaseUrl();
 
 type ResearchSubTab = 'overview' | 'journey' | 'report' | 'evidence' | 'committee';
 

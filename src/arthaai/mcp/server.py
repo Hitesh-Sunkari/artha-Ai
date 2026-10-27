@@ -53,11 +53,10 @@ def ensure_market_data_for_symbol(symbol: str) -> None:
         return
 
     base_price = KNOWN_PRICES.get(clean, float(120.0 + (abs(hash(clean)) % 3800)))
-    num_days = 150
+    num_days = 1260
     np.random.seed(abs(hash(clean)) % (2**31))
-    start_date = datetime(2024, 1, 1, 10, 0, 0, tzinfo=timezone.utc if hasattr(datetime, "timezone") else None)
     import datetime as dt
-    start_date = dt.datetime(2024, 1, 1, 10, 0, 0, tzinfo=dt.timezone.utc)
+    start_date = dt.datetime(2021, 10, 1, 10, 0, 0, tzinfo=dt.timezone.utc)
     dates = [start_date + dt.timedelta(days=i) for i in range(num_days)]
     returns = np.random.normal(0.0004, 0.016, num_days)
     price_series = base_price * np.exp(np.cumsum(returns))
@@ -94,7 +93,7 @@ def query_market_data(
     start_date: str,
     end_date: str,
     as_of_time: str,
-    limit: int = 1000,
+    limit: int = 1500,
 ) -> dict[str, Any]:
     """Queries point-in-time historical data from the Parquet/DuckDB analytical layer.
 
@@ -103,12 +102,12 @@ def query_market_data(
         start_date: Start date string (YYYY-MM-DD)
         end_date: End date string (YYYY-MM-DD)
         as_of_time: ISO-8601 UTC timestamp enforcing PIT cutoff (records available strictly after this time are excluded)
-        limit: Maximum number of records to return (capped at 1000)
+        limit: Maximum number of records to return (capped at 1500)
     """
     if not symbol or not symbol.strip():
         raise ValueError("Symbol must be a non-empty string.")
-    if limit <= 0 or limit > 1000:
-        raise ValueError("Limit must be between 1 and 1000.")
+    if limit <= 0 or limit > 1500:
+        raise ValueError("Limit must be between 1 and 1500.")
 
     # Parse and enforce UTC on point-in-time cutoff
     try:

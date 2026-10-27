@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Search, FileText, CheckCircle2, ShieldCheck, ExternalLink } from 'lucide-react';
+import { getApiBaseUrl } from '../api/client';
 
-const API = 'http://127.0.0.1:8000';
+const API = getApiBaseUrl();
 
 interface ManifestItem {
   doc_id: string;

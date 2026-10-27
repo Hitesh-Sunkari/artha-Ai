@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Shield, Users, CheckCircle, AlertTriangle, XCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { getApiBaseUrl } from '../api/client';
 
-const API = 'http://127.0.0.1:8000';
+const API = getApiBaseUrl();
 
 interface CommitteeStatement {
   persona_id: string;

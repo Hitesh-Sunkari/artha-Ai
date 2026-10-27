@@ -18,8 +18,9 @@ import {
   Search,
 } from 'lucide-react';
 import type { TabId } from '../components/Sidebar';
+import { getApiBaseUrl } from '../api/client';
 
-const API = 'http://127.0.0.1:8000';
+const API = getApiBaseUrl();
 
 interface RunSummaryRecord {
   run_id: string;
@@ -47,47 +48,29 @@ export const CommandCenterPage: React.FC<{
   onNavigate: (tab: TabId, runId?: string) => void;
 }> = ({ onNavigate }) => {
   const [runs, setRuns] = useState<RunSummaryRecord[]>([]);
-  const [marketIndices, setMarketIndices] = useState<MarketIndexQuote[]>([
-    {
-      symbol: '^NSEI',
-      name: 'NIFTY 50',
-      price: '24,399.40',
-      change: '+158.75',
-      changePct: '+0.65%',
-      positive: true,
-      provenance: 'NSE Cash Equities (Official Session)',
-    },
-    {
-      symbol: '^BSEN',
-      name: 'SENSEX',
-      price: '80,005.04',
-      change: '+528.30',
-      changePct: '+0.66%',
-      positive: true,
-      provenance: 'BSE India Live Feed',
-    },
-    {
-      symbol: '^NSEBANK',
-      name: 'BANK NIFTY',
-      price: '51,259.30',
-      change: '-84.20',
-      changePct: '-0.16%',
-      positive: false,
-      provenance: 'NSE Indices Historical/Delayed',
-    },
-    {
-      symbol: '^INDIAVIX',
-      name: 'INDIA VIX',
-      price: '14.22',
-      change: '-0.48',
-      changePct: '-3.27%',
-      positive: false,
-      provenance: 'NSE Implied Volatility Surface',
-    },
-  ]);
+  const [marketIndices, setMarketIndices] = useState<MarketIndexQuote[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Watchlist with real representative Indian large caps
+  // Real Paper Account State from LocalStorage
+  const [paperCash] = useState<number>(() => {
+    const s = localStorage.getItem('arthai_paper_cash');
+    return s ? parseFloat(s) : 1000000.0;
+  });
+  const [paperPositions] = useState<any[]>(() => {
+    const s = localStorage.getItem('arthai_paper_positions');
+    return s ? JSON.parse(s) : [];
+  });
+
+  const positionsMarketValue = paperPositions.reduce(
+    (acc, p) => acc + p.shares * (p.currentPrice || p.avgPrice),
+    0
+  );
+  const totalPortfolioValue = paperCash + positionsMarketValue;
+  const totalCostBasis = paperPositions.reduce((acc, p) => acc + p.shares * p.avgPrice, 0);
+  const unrealizedPnL = positionsMarketValue - totalCostBasis;
+  const pnlPct = totalCostBasis > 0 ? (unrealizedPnL / totalCostBasis) * 100 : 0.0;
+
+  // Watchlist with verified representative Indian large caps
   const watchlist = [
     { ticker: 'RELIANCE.NS', name: 'Reliance Industries', sector: 'Energy & Tech', lastPrice: '₹1,285.50', chg: '+0.85%' },
     { ticker: 'TCS.NS', name: 'Tata Consultancy Services', sector: 'IT Services', lastPrice: '₹4,120.00', chg: '+1.12%' },
@@ -235,9 +218,9 @@ export const CommandCenterPage: React.FC<{
           <span className="text-xs font-mono uppercase text-[#8998AC] flex items-center gap-1.5">
             <Zap size={14} className="text-[#65D5C3]" /> Total Research Runs
           </span>
-          <p className="text-2xl font-bold font-mono text-white mt-1">{runs.length || 14}</p>
+          <p className="text-2xl font-bold font-mono text-white mt-1">{runs.length}</p>
           <span className="text-[10px] font-mono text-[#43C99A]">
-            {completedCount || 14} Successfully Synthesized
+            {completedCount} Successfully Synthesized
           </span>
         </div>
 
@@ -246,22 +229,30 @@ export const CommandCenterPage: React.FC<{
             <Activity size={14} className="text-[#8CA8FF]" /> In-Flight Pipeline Runs
           </span>
           <p className="text-2xl font-bold font-mono text-white mt-1">{activeCount}</p>
-          <span className="text-[10px] font-mono text-[#8998AC]">Awaiting research dispatch</span>
+          <span className="text-[10px] font-mono text-[#8998AC]">
+            {activeCount > 0 ? 'Active research pipeline execution' : 'Idle — ready for dispatch'}
+          </span>
         </div>
 
         <div className="terminal-card p-4 space-y-1">
           <span className="text-xs font-mono uppercase text-[#8998AC] flex items-center gap-1.5">
             <Briefcase size={14} className="text-[#43C99A]" /> Simulated Portfolio Value
           </span>
-          <p className="text-2xl font-bold font-mono text-white mt-1">₹10,24,500</p>
-          <span className="text-[10px] font-mono text-[#43C99A]">+₹24,500 (+2.45% Simulated P&L)</span>
+          <p className="text-2xl font-bold font-mono text-white mt-1">
+            ₹{totalPortfolioValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+          </p>
+          <span className={`text-[10px] font-mono ${unrealizedPnL >= 0 ? 'text-[#43C99A]' : 'text-[#F07883]'}`}>
+            {unrealizedPnL >= 0 ? '+' : ''}₹{unrealizedPnL.toLocaleString('en-IN', { maximumFractionDigits: 2 })} ({pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(2)}% Simulated P&L)
+          </span>
         </div>
 
         <div className="terminal-card p-4 space-y-1">
           <span className="text-xs font-mono uppercase text-[#8998AC] flex items-center gap-1.5">
             <Clock size={14} className="text-[#E8B866]" /> Available Paper Cash
           </span>
-          <p className="text-2xl font-bold font-mono text-[#65D5C3] mt-1">₹6,75,000</p>
+          <p className="text-2xl font-bold font-mono text-[#65D5C3] mt-1">
+            ₹{paperCash.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+          </p>
           <span className="text-[10px] font-mono text-[#8998AC]">Baseline Capital: ₹10,00,000</span>
         </div>
       </div>

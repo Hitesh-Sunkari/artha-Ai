@@ -170,18 +170,27 @@ ArthaAI integrates a seven-specialist multi-agent intelligence pipeline engineer
 
 ---
 
-## Institutional Research Terminal (Web Interface)
+## Institutional Research Workstation (Four Primary Workspaces)
 
-ArthaAI includes a dark-first institutional research terminal inspired by professional quantitative workstations (Bloomberg Terminal, FactSet):
+ArthaAI includes a dark-first institutional research terminal organized into four primary workspaces:
 
-- **Research Dashboard**: Live session runs, average execution latency, schema validation rate, fleet status, and quick links.
-- **New Research Submission**: Point-in-time analysis form with instrument presets (`RELIANCE`, `TCS`, `INFY`, `HDFCBANK`, `ICICIBANK`, `NIFTY50`), pattern selector, UTC timestamping, and scope options.
-- **Live Execution Monitor**: Real-time multi-agent execution timeline with distinct branch rendering for Parallel and Hierarchical runs, elapsed timer, and live lifecycle event tracing.
-- **Final Research Report (`QuantitativeResearchReport`)**: Pydantic-validated executive thesis, quantitative indicators, itemized Indian statutory transaction cost schedule, citations, provenance, and Markdown/JSON export.
-- **System Topology**: Interactive visual architecture diagram showing ADK, CrewAI, FastMCP, and A2A inter-agent connections.
-- **Evaluation & Benchmarks**: Summary statistics, versioned 44-case evaluation dataset explorer, saved experiment reports, and deterministic statutory test runner.
-- **Execution History & Traces**: Searchable, filterable table of session executions with trace logs and report inspection.
-- **System Status & Settings**: Real-time probes (`/health`, `/ready`), live trading guardrail status, and configurable API base URL.
+1. **Command Center (`/command-center`)**: Live NIFTY 50, SENSEX, BANK NIFTY, and INDIA VIX benchmark quotes with daily point changes and real data provenance; real-time paper portfolio equity and cash balance; recent quantitative research runs and fleet status.
+2. **Research Workspace (`/research`)**: 5-Year quantitative depth (~1,260 trading bars), 200-day & 50-day SMAs, 52-week cycle extremes, 5-year peak-to-trough max drawdown, 90-day interactive SVG candlestick charts, 7-agent execution breakdown, and Pydantic v2 quantitative research reports with SHA-256 state provenance hashes.
+3. **Portfolio & Trading (`/portfolio-trading`)**: Paper trading order execution engine with Indian Finance (No. 2) Act 2024 statutory friction calculation (STT 0.1%, GST 18%, Stamp Duty 0.015%), real-time holdings tracking, zero hardcoded mock positions, and persistent local storage.
+4. **Operations & Observability (`/operations`)**: Real-time system health (`/health`, `/ready`), FastMCP tool latency diagnostics, A2A JSON-RPC 2.0 communication probes, and LLM telemetry.
+
+- **Grounded Copilot Drawer**: Context-aware AI assistant grounded in the active research report thesis, quantitative findings, and Indian regulatory frameworks (SEBI, RBI, Finance Act 2024), featuring graceful heuristic fallback under LLM rate limits.
+
+---
+
+## Evaluation & Academic Verification Documents
+
+Comprehensive verification and audit documentation is available in [`docs/evaluation/`](docs/evaluation/):
+- **[`REAL_DATA_AND_FRESHNESS.md`](docs/evaluation/REAL_DATA_AND_FRESHNESS.md)**: Proof of genuine point-in-time data pipeline, 5-year Parquet coverage (~1,260 bars), live benchmark indices, and zero-fabrication invariants.
+- **[`AGENT_EXECUTION_PROOF.md`](docs/evaluation/AGENT_EXECUTION_PROOF.md)**: Verified execution breakdown of all 7 agents across Google ADK and CrewAI via FastMCP and A2A protocols.
+- **[`END_TO_END_RUN.md`](docs/evaluation/END_TO_END_RUN.md)**: Reproducible end-to-end multi-agent execution walkthrough with exact payload artifacts and curl commands.
+- **[`KNOWN_LIMITATIONS.md`](docs/evaluation/KNOWN_LIMITATIONS.md)**: Transparent operational boundaries, simulation-only constraints, and multi-provider cascade policies.
+- **[`TEST_RESULTS.md`](docs/evaluation/TEST_RESULTS.md)**: 121/121 automated orchestration test results and coverage metrics.
 
 ---
 

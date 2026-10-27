@@ -88,7 +88,9 @@ const fmtINR = (n: number) => {
   return `₹${Math.round(n)}`;
 };
 
-const API = 'http://127.0.0.1:8000';
+import { getApiBaseUrl } from '../api/client';
+
+const API = getApiBaseUrl();
 
 const STEPS = [
   { id: 'profile', label: '1. Profile', icon: Sliders, description: 'Risk Calibration' },

@@ -29,14 +29,14 @@ def test_query_market_data_empty_result_honesty():
         res = await client.call_tool(
             "query_market_data",
             {
-                "symbol": "TCS",
+                "symbol": "NONEXISTENT_TICKER",
                 "start_date": "2024-01-01",
                 "end_date": "2024-01-31",
                 "as_of_time": now_iso,
                 "limit": 100,
             },
         )
-        assert res["symbol"] == "TCS"
+        assert res["symbol"] == "NONEXISTENT_TICKER"
         assert res["empty_result"] is True
         assert res["records_count"] == 0
         assert "No historical records found" in res["message"]
@@ -50,7 +50,7 @@ def test_query_market_data_input_validation():
         query_market_data("", "2024-01-01", "2024-01-31", now_iso)
 
     # Limit exceeded
-    with pytest.raises(ValueError, match="Limit must be between 1 and 1000"):
+    with pytest.raises(ValueError, match="Limit must be between 1 and 1500"):
         query_market_data("INFY", "2024-01-01", "2024-01-31", now_iso, limit=5000)
 
     # Inverted dates

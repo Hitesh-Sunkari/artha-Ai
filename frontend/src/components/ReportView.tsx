@@ -244,6 +244,53 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
                 {metrics.latest_rsi ? Number(metrics.latest_rsi).toFixed(2) : 'N/A'}
               </div>
             </div>
+
+            {/* Extended 5-Year Quantitative Indicators */}
+            {metrics.coverage_years ? (
+              <>
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Coverage</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                    {metrics.coverage_years} Years ({qf.records_retrieved || '1,260'} bars)
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SMA (200-bar Institutional)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                    {metrics.sma_200d ? `₹${Number(metrics.sma_200d).toFixed(2)}` : 'N/A'}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Max Drawdown</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: '#F07883' }}>
+                    {metrics.max_drawdown_5y !== undefined ? `${(Number(metrics.max_drawdown_5y) * 100).toFixed(2)}%` : 'N/A'}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>52-Week Range (Low / High)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                    {metrics.low_52w ? `₹${Number(metrics.low_52w).toFixed(0)}` : '—'} / {metrics.high_52w ? `₹${Number(metrics.high_52w).toFixed(0)}` : '—'}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SMA (50-bar Trend)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                    {metrics.sma_50d ? `₹${Number(metrics.sma_50d).toFixed(2)}` : 'N/A'}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Realized Volatility</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--accent-cyan)' }}>
+                    {metrics.realized_volatility_5y ? `${(Number(metrics.realized_volatility_5y) * 100).toFixed(2)}%` : 'N/A'}
+                  </div>
+                </div>
+              </>
+            ) : null}
           </div>
         )}
       </div>

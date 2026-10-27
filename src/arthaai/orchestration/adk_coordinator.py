@@ -15,9 +15,10 @@ Implements the three orchestration patterns:
 import asyncio
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
+import numpy as np
 from google.adk import Agent
 
 logger = logging.getLogger(__name__)
@@ -81,15 +82,17 @@ class ADKQuantSpecialist:
             tracer.record_event(LifecycleEventType.AGENT_START, "adk_quant_specialist")
             tracer.record_event(LifecycleEventType.TOOL_INVOCATION, "adk_quant_specialist", payload={"tool": "query_market_data"})
 
-        query_date_str = as_of_time.strftime("%Y-%m-%d")
+        as_of_dt = as_of_time if isinstance(as_of_time, datetime) else datetime.fromisoformat(str(as_of_time))
+        start_date_5y = (as_of_dt - timedelta(days=5 * 365 + 2)).strftime("%Y-%m-%d")
+        query_date_str = as_of_dt.strftime("%Y-%m-%d")
         market_data_res = await self.mcp_client.call_tool(
             "query_market_data",
             {
                 "symbol": symbol,
-                "start_date": "2024-01-01",
+                "start_date": start_date_5y,
                 "end_date": query_date_str,
-                "as_of_time": as_of_time.isoformat(),
-                "limit": 100,
+                "as_of_time": as_of_dt.isoformat(),
+                "limit": 1500,
             },
         )
 
@@ -109,9 +112,22 @@ class ADKQuantSpecialist:
                 "calculated_metrics": {
                     "simple_returns": None,
                     "realized_volatility_20d": None,
+                    "realized_volatility_60d": None,
+                    "realized_volatility_252d": None,
+                    "realized_volatility_5y": None,
                     "sma_20d": None,
+                    "sma_50d": None,
+                    "sma_200d": None,
                     "ema_20d": None,
+                    "ema_50d": None,
+                    "ema_200d": None,
                     "rsi_14d": None,
+                    "max_drawdown_5y": None,
+                    "high_52w": None,
+                    "low_52w": None,
+                    "high_5y": None,
+                    "low_5y": None,
+                    "coverage_years": None,
                 },
                 "data_quality_warning": f"Zero historical bars retrieved for {symbol}. No numerical indicators calculated.",
             }
@@ -126,12 +142,42 @@ class ADKQuantSpecialist:
             close_prices = [float(r["close"]) for r in records if "close" in r]
 
             returns = calculate_returns(close_prices, log=False)
-            vol = calculate_realized_volatility(returns, window=min(20, max(2, len(returns))))
-            sma = calculate_sma(close_prices, window=min(20, max(1, len(close_prices))))
-            ema = calculate_ema(close_prices, span=min(20, max(1, len(close_prices))))
-            rsi = calculate_rsi(close_prices, period=min(14, max(1, len(close_prices) - 1)))
+            vol_20d = calculate_realized_volatility(returns, window=min(20, max(2, len(returns))))
+            vol_60d = calculate_realized_volatility(returns, window=min(60, max(2, len(returns))))
+            vol_252d = calculate_realized_volatility(returns, window=min(252, max(2, len(returns))))
+            vol_5y = calculate_realized_volatility(returns, window=len(returns)) if len(returns) >= 2 else None
 
-            # Sample bars for frontend charts (last 60 bars)
+            sma_20d = calculate_sma(close_prices, window=min(20, max(1, len(close_prices))))
+            sma_50d = calculate_sma(close_prices, window=min(50, max(1, len(close_prices)))) if len(close_prices) >= 50 else None
+            sma_200d = calculate_sma(close_prices, window=min(200, max(1, len(close_prices)))) if len(close_prices) >= 200 else None
+
+            ema_20d = calculate_ema(close_prices, span=min(20, max(1, len(close_prices))))
+            ema_50d = calculate_ema(close_prices, span=min(50, max(1, len(close_prices)))) if len(close_prices) >= 50 else None
+            ema_200d = calculate_ema(close_prices, span=min(200, max(1, len(close_prices)))) if len(close_prices) >= 200 else None
+
+            rsi_14d = calculate_rsi(close_prices, period=min(14, max(1, len(close_prices) - 1)))
+
+            # Highs / lows
+            high_prices = [float(r["high"]) for r in records if "high" in r]
+            low_prices = [float(r["low"]) for r in records if "low" in r]
+
+            high_52w = max(high_prices[-252:]) if len(high_prices) >= 20 else (max(high_prices) if high_prices else None)
+            low_52w = min(low_prices[-252:]) if len(low_prices) >= 20 else (min(low_prices) if low_prices else None)
+            high_5y = max(high_prices) if high_prices else None
+            low_5y = min(low_prices) if low_prices else None
+
+            # Max peak-to-trough drawdown over the full series
+            arr = np.array(close_prices)
+            running_max = np.maximum.accumulate(arr)
+            drawdowns = (arr - running_max) / running_max
+            max_drawdown = float(np.min(drawdowns)) if len(drawdowns) > 0 else 0.0
+
+            # 5-Year coverage metrics
+            total_observations = len(close_prices)
+            coverage_years = round(total_observations / 252.0, 2)
+            coverage_pct = min(100.0, round((total_observations / 1260.0) * 100.0, 1))
+
+            # Sample bars for frontend charts (last 90 bars for clean SVG rendering)
             chart_bars = [
                 {
                     "timestamp": str(r.get("timestamp", ""))[:19],
@@ -141,7 +187,7 @@ class ADKQuantSpecialist:
                     "close": float(r["close"]),
                     "volume": int(r.get("volume", 0)),
                 }
-                for r in records[-60:]
+                for r in records[-90:]
                 if "open" in r and "close" in r
             ]
 
@@ -151,14 +197,45 @@ class ADKQuantSpecialist:
                 "finding_category": "MEASURED",
                 "data_source": market_data_res.get("source", "duckdb_parquet"),
                 "historical_bars": chart_bars,
+                "five_year_analysis": {
+                    "total_observations": total_observations,
+                    "coverage_years": coverage_years,
+                    "coverage_pct": coverage_pct,
+                    "high_52w": high_52w,
+                    "low_52w": low_52w,
+                    "high_5y": high_5y,
+                    "low_5y": low_5y,
+                    "max_drawdown_5y": round(max_drawdown, 4),
+                    "realized_volatility_5y": round(vol_5y, 4) if vol_5y else None,
+                    "sma_200d": round(sma_200d[-1], 2) if sma_200d else None,
+                    "sma_50d": round(sma_50d[-1], 2) if sma_50d else None,
+                    "sample_bars": chart_bars,
+                },
                 "recent_returns": [round(ret, 5) for ret in returns[-30:]] if returns else [],
                 "calculated_metrics": {
                     "latest_close": close_prices[-1] if close_prices else None,
                     "sample_return_mean": (sum(returns) / len(returns)) if returns else None,
-                    "realized_volatility_annualized": vol,
-                    "latest_sma": sma[-1] if sma else None,
-                    "latest_ema": ema[-1] if ema else None,
-                    "latest_rsi": rsi,
+                    "realized_volatility_annualized": vol_20d,
+                    "realized_volatility_20d": vol_20d,
+                    "realized_volatility_60d": vol_60d,
+                    "realized_volatility_252d": vol_252d,
+                    "realized_volatility_5y": vol_5y,
+                    "latest_sma": sma_20d[-1] if sma_20d else None,
+                    "sma_20d": sma_20d[-1] if sma_20d else None,
+                    "sma_50d": sma_50d[-1] if sma_50d else None,
+                    "sma_200d": sma_200d[-1] if sma_200d else None,
+                    "latest_ema": ema_20d[-1] if ema_20d else None,
+                    "ema_20d": ema_20d[-1] if ema_20d else None,
+                    "ema_50d": ema_50d[-1] if ema_50d else None,
+                    "ema_200d": ema_200d[-1] if ema_200d else None,
+                    "latest_rsi": rsi_14d,
+                    "rsi_14d": rsi_14d,
+                    "max_drawdown_5y": round(max_drawdown, 4),
+                    "high_52w": high_52w,
+                    "low_52w": low_52w,
+                    "high_5y": high_5y,
+                    "low_5y": low_5y,
+                    "coverage_years": coverage_years,
                 },
             }
             citations = [f"parquet://data/ohlcv/{symbol.lower()}:{len(close_prices)}_bars"]

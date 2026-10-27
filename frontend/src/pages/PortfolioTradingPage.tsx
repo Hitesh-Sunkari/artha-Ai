@@ -18,8 +18,9 @@ import {
   Sliders,
 } from 'lucide-react';
 import { PortfolioPage } from './PortfolioPage';
+import { getApiBaseUrl } from '../api/client';
 
-const API = 'http://127.0.0.1:8000';
+const API = getApiBaseUrl();
 
 type PortfolioSubTab = 'builder' | 'trading' | 'positions';
 
@@ -55,59 +56,19 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<PortfolioSubTab>(initialSymbol ? 'trading' : 'builder');
 
-  // Simulated Account State (Isolated Paper Trading)
-  const [cash, setCash] = useState<number>(675000.0);
-  const [positions, setPositions] = useState<PaperPosition[]>([
-    {
-      symbol: 'RELIANCE.NS',
-      name: 'Reliance Industries Ltd',
-      shares: 100,
-      avgPrice: 1250.0,
-      currentPrice: 1285.5,
-      side: 'BUY',
-    },
-    {
-      symbol: 'TCS.NS',
-      name: 'Tata Consultancy Services',
-      shares: 40,
-      avgPrice: 4050.0,
-      currentPrice: 4120.0,
-      side: 'BUY',
-    },
-    {
-      symbol: 'HDFCBANK.NS',
-      name: 'HDFC Bank Ltd',
-      shares: 60,
-      avgPrice: 1650.0,
-      currentPrice: 1682.4,
-      side: 'BUY',
-    },
-  ]);
-
-  const [orders, setOrders] = useState<PaperOrder[]>([
-    {
-      orderId: 'SIM-ORD-10928',
-      timestamp: '2026-10-26 14:32:10 UTC',
-      symbol: 'RELIANCE.NS',
-      side: 'BUY',
-      shares: 100,
-      price: 1250.0,
-      statutoryCharges: 148.25,
-      totalOutlay: 125148.25,
-      status: 'FILLED',
-    },
-    {
-      orderId: 'SIM-ORD-10929',
-      timestamp: '2026-10-26 15:10:45 UTC',
-      symbol: 'TCS.NS',
-      side: 'BUY',
-      shares: 40,
-      price: 4050.0,
-      statutoryCharges: 192.8,
-      totalOutlay: 162192.8,
-      status: 'FILLED',
-    },
-  ]);
+  // Simulated Account State (Isolated Paper Trading backed by LocalStorage)
+  const [cash, setCash] = useState<number>(() => {
+    const s = localStorage.getItem('arthai_paper_cash');
+    return s ? parseFloat(s) : 1000000.0;
+  });
+  const [positions, setPositions] = useState<PaperPosition[]>(() => {
+    const s = localStorage.getItem('arthai_paper_positions');
+    return s ? JSON.parse(s) : [];
+  });
+  const [orders, setOrders] = useState<PaperOrder[]>(() => {
+    const s = localStorage.getItem('arthai_paper_orders');
+    return s ? JSON.parse(s) : [];
+  });
 
   // Order Form State
   const [orderSymbol, setOrderSymbol] = useState(initialSymbol || 'RELIANCE.NS');
@@ -162,43 +123,49 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
       status: 'FILLED',
     };
 
-    setOrders([newOrder, ...orders]);
+    const updatedOrders = [newOrder, ...orders];
+    setOrders(updatedOrders);
+    localStorage.setItem('arthai_paper_orders', JSON.stringify(updatedOrders));
+
+    let updatedCash = cash;
+    let updatedPositions: PaperPosition[] = [];
 
     if (orderSide === 'BUY') {
-      setCash((c) => c - netOutlay);
-      setPositions((prev) => {
-        const existing = prev.find((p) => p.symbol === orderSymbol);
-        if (existing) {
-          const totalShares = existing.shares + orderQty;
-          const avgPrice =
-            (existing.shares * existing.avgPrice + orderQty * orderPrice) / totalShares;
-          return prev.map((p) =>
-            p.symbol === orderSymbol
-              ? { ...p, shares: totalShares, avgPrice, currentPrice: orderPrice }
-              : p
-          );
-        } else {
-          return [
-            ...prev,
-            {
-              symbol: orderSymbol,
-              name: orderSymbol.replace('.NS', ''),
-              shares: orderQty,
-              avgPrice: orderPrice,
-              currentPrice: orderPrice,
-              side: 'BUY',
-            },
-          ];
-        }
-      });
+      updatedCash = cash - netOutlay;
+      const existing = positions.find((p) => p.symbol === orderSymbol);
+      if (existing) {
+        const totalShares = existing.shares + orderQty;
+        const avgPrice =
+          (existing.shares * existing.avgPrice + orderQty * orderPrice) / totalShares;
+        updatedPositions = positions.map((p) =>
+          p.symbol === orderSymbol
+            ? { ...p, shares: totalShares, avgPrice, currentPrice: orderPrice }
+            : p
+        );
+      } else {
+        updatedPositions = [
+          ...positions,
+          {
+            symbol: orderSymbol,
+            name: orderSymbol.replace('.NS', ''),
+            shares: orderQty,
+            avgPrice: orderPrice,
+            currentPrice: orderPrice,
+            side: 'BUY',
+          },
+        ];
+      }
     } else {
-      setCash((c) => c + netOutlay);
-      setPositions((prev) =>
-        prev
-          .map((p) => (p.symbol === orderSymbol ? { ...p, shares: Math.max(0, p.shares - orderQty) } : p))
-          .filter((p) => p.shares > 0)
-      );
+      updatedCash = cash + netOutlay;
+      updatedPositions = positions
+        .map((p) => (p.symbol === orderSymbol ? { ...p, shares: Math.max(0, p.shares - orderQty) } : p))
+        .filter((p) => p.shares > 0);
     }
+
+    setCash(updatedCash);
+    setPositions(updatedPositions);
+    localStorage.setItem('arthai_paper_cash', updatedCash.toString());
+    localStorage.setItem('arthai_paper_positions', JSON.stringify(updatedPositions));
 
     setShowConfirmModal(false);
     setOrderNotification(`Simulated order ${newOrder.orderId} filled at ₹${orderPrice.toLocaleString()}!`);
@@ -512,29 +479,37 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2A3850]">
-                  {positions.map((pos) => {
-                    const pnl = pos.shares * (pos.currentPrice - pos.avgPrice);
-                    const pnlPct = ((pos.currentPrice - pos.avgPrice) / pos.avgPrice) * 100;
-                    return (
-                      <tr key={pos.symbol} className="hover:bg-[#1C293A]/50">
-                        <td className="py-3 px-3 font-bold text-[#65D5C3]">{pos.symbol}</td>
-                        <td className="py-3 px-3 text-white">{pos.name}</td>
-                        <td className="py-3 px-3 text-right font-bold text-white">{pos.shares}</td>
-                        <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{pos.avgPrice.toFixed(2)}</td>
-                        <td className="py-3 px-3 text-right font-bold text-white">₹{pos.currentPrice.toFixed(2)}</td>
-                        <td className="py-3 px-3 text-right font-bold text-white">
-                          {fmtINR(pos.shares * pos.currentPrice)}
-                        </td>
-                        <td className="py-3 px-3 text-right font-bold">
-                          <span className={pnl >= 0 ? 'text-[#43C99A]' : 'text-[#F07883]'}>
-                            {pnl >= 0 ? '+' : ''}
-                            {fmtINR(pnl)} ({pnlPct >= 0 ? '+' : ''}
-                            {pnlPct.toFixed(1)}%)
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {positions.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="py-8 text-center text-[#8998AC] font-mono">
+                        No active simulated positions. Place a paper order to establish simulated holdings.
+                      </td>
+                    </tr>
+                  ) : (
+                    positions.map((pos) => {
+                      const pnl = pos.shares * (pos.currentPrice - pos.avgPrice);
+                      const pnlPct = ((pos.currentPrice - pos.avgPrice) / pos.avgPrice) * 100;
+                      return (
+                        <tr key={pos.symbol} className="hover:bg-[#1C293A]/50">
+                          <td className="py-3 px-3 font-bold text-[#65D5C3]">{pos.symbol}</td>
+                          <td className="py-3 px-3 text-white">{pos.name}</td>
+                          <td className="py-3 px-3 text-right font-bold text-white">{pos.shares}</td>
+                          <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{pos.avgPrice.toFixed(2)}</td>
+                          <td className="py-3 px-3 text-right font-bold text-white">₹{pos.currentPrice.toFixed(2)}</td>
+                          <td className="py-3 px-3 text-right font-bold text-white">
+                            {fmtINR(pos.shares * pos.currentPrice)}
+                          </td>
+                          <td className="py-3 px-3 text-right font-bold">
+                            <span className={pnl >= 0 ? 'text-[#43C99A]' : 'text-[#F07883]'}>
+                              {pnl >= 0 ? '+' : ''}
+                              {fmtINR(pnl)} ({pnlPct >= 0 ? '+' : ''}
+                              {pnlPct.toFixed(1)}%)
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
@@ -562,29 +537,37 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2A3850]">
-                  {orders.map((ord) => (
-                    <tr key={ord.orderId} className="hover:bg-[#1C293A]/50">
-                      <td className="py-3 px-3 font-bold text-[#65D5C3]">{ord.orderId}</td>
-                      <td className="py-3 px-3 text-[#8998AC]">{ord.timestamp}</td>
-                      <td className="py-3 px-3 font-bold text-white">{ord.symbol}</td>
-                      <td className="py-3 px-3">
-                        <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                            ord.side === 'BUY'
-                              ? 'bg-emerald-500/10 text-[#43C99A] border border-emerald-500/30'
-                              : 'bg-rose-500/10 text-[#F07883] border border-rose-500/30'
-                          }`}
-                        >
-                          {ord.side}
-                        </span>
+                  {orders.length === 0 ? (
+                    <tr>
+                      <td colSpan={9} className="py-8 text-center text-[#8998AC] font-mono">
+                        No simulated orders recorded yet. Submit an order to execute paper trades with statutory drag.
                       </td>
-                      <td className="py-3 px-3 text-right text-white font-bold">{ord.shares}</td>
-                      <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{ord.price.toFixed(2)}</td>
-                      <td className="py-3 px-3 text-right text-[#E8B866]">₹{ord.statutoryCharges.toFixed(2)}</td>
-                      <td className="py-3 px-3 text-right font-bold text-white">{fmtINR(ord.totalOutlay)}</td>
-                      <td className="py-3 px-3 text-right font-bold text-[#43C99A]">{ord.status}</td>
                     </tr>
-                  ))}
+                  ) : (
+                    orders.map((ord) => (
+                      <tr key={ord.orderId} className="hover:bg-[#1C293A]/50">
+                        <td className="py-3 px-3 font-bold text-[#65D5C3]">{ord.orderId}</td>
+                        <td className="py-3 px-3 text-[#8998AC]">{ord.timestamp}</td>
+                        <td className="py-3 px-3 font-bold text-white">{ord.symbol}</td>
+                        <td className="py-3 px-3">
+                          <span
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                              ord.side === 'BUY'
+                                ? 'bg-emerald-500/10 text-[#43C99A] border border-emerald-500/30'
+                                : 'bg-rose-500/10 text-[#F07883] border border-rose-500/30'
+                            }`}
+                          >
+                            {ord.side}
+                          </span>
+                        </td>
+                        <td className="py-3 px-3 text-right text-white font-bold">{ord.shares}</td>
+                        <td className="py-3 px-3 text-right text-[#B4C0D0]">₹{ord.price.toFixed(2)}</td>
+                        <td className="py-3 px-3 text-right text-[#E8B866]">₹{ord.statutoryCharges.toFixed(2)}</td>
+                        <td className="py-3 px-3 text-right font-bold text-white">{fmtINR(ord.totalOutlay)}</td>
+                        <td className="py-3 px-3 text-right font-bold text-[#43C99A]">{ord.status}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

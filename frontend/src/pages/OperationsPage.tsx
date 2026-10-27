@@ -44,6 +44,7 @@ interface TelemetryData {
     total_cost_usd: number;
     quota_exhausted_providers: string[];
     provider_call_counts: Record<string, number>;
+    average_latency_ms?: number;
   };
   fleet?: Array<{ model: string; provider: string; persona: string; status: string }>;
   timestamp?: string;
@@ -99,7 +100,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
     setTelemetryLoading(true);
     setTelemetryError(null);
     try {
-      const res = await fetch('/portfolio/telemetry');
+      const res = await fetch(`${getApiBaseUrl()}/portfolio/telemetry`);
       if (!res.ok) {
         throw new Error(`HTTP error ${res.status}`);
       }
@@ -110,21 +111,17 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
       setTelemetry(data);
     } catch (err: any) {
       setTelemetryError(err.message || 'Failed to reach telemetry endpoint');
-      // Set safe default structure to prevent blank crash
       setTelemetry((prev) => prev || {
-        provider_status: { default_provider: 'GEMINI' },
+        provider_status: { default_provider: 'UNAVAILABLE' },
         metrics: {
-          total_calls: 14,
-          total_prompt_tokens: 38450,
-          total_completion_tokens: 14200,
-          total_cost_usd: 0.00385,
+          total_calls: 0,
+          total_prompt_tokens: 0,
+          total_completion_tokens: 0,
+          total_cost_usd: 0,
           quota_exhausted_providers: [],
-          provider_call_counts: { GEMINI: 14 },
+          provider_call_counts: {},
         },
-        fleet: [
-          { model: 'gemini-1.5-flash', provider: 'Google Gemini', persona: 'Macro & Quantitative Analyst', status: 'ACTIVE' },
-          { model: 'gemini-1.5-pro', provider: 'Google Gemini', persona: 'Growth & Filing Specialist', status: 'ACTIVE' },
-        ],
+        fleet: [],
         timestamp: new Date().toISOString(),
       });
     } finally {
@@ -488,7 +485,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                 <Zap size={14} className="text-[#22D3EE]" /> Total LLM Invocations
               </span>
               <p className="text-2xl font-bold font-mono text-white mt-1">
-                {telemetry?.metrics?.total_calls ?? 14}
+                {telemetry?.metrics?.total_calls ?? 0}
               </p>
               <span className="text-[10px] font-mono text-[#8494AB]">Across all agent runs</span>
             </div>
@@ -499,13 +496,13 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
               </span>
               <p className="text-2xl font-bold font-mono text-white mt-1">
                 {(
-                  (telemetry?.metrics?.total_prompt_tokens ?? 38450) +
-                  (telemetry?.metrics?.total_completion_tokens ?? 14200)
+                  (telemetry?.metrics?.total_prompt_tokens ?? 0) +
+                  (telemetry?.metrics?.total_completion_tokens ?? 0)
                 ).toLocaleString()}
               </p>
               <span className="text-[10px] font-mono text-[#8494AB]">
-                In: {(telemetry?.metrics?.total_prompt_tokens ?? 38450).toLocaleString()} | Out:{' '}
-                {(telemetry?.metrics?.total_completion_tokens ?? 14200).toLocaleString()}
+                In: {(telemetry?.metrics?.total_prompt_tokens ?? 0).toLocaleString()} | Out:{' '}
+                {(telemetry?.metrics?.total_completion_tokens ?? 0).toLocaleString()}
               </span>
             </div>
 
@@ -514,16 +511,18 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                 <DollarSign size={14} className="text-emerald-400" /> Estimated Cost (USD)
               </span>
               <p className="text-2xl font-bold font-mono text-emerald-400 mt-1">
-                ${(telemetry?.metrics?.total_cost_usd ?? 0.00385).toFixed(5)}
+                ${(telemetry?.metrics?.total_cost_usd ?? 0.0).toFixed(5)}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Gemini 1.5 Flash rates</span>
+              <span className="text-[10px] font-mono text-[#8494AB]">Gemini rates</span>
             </div>
 
             <div className="terminal-card p-5 space-y-1">
               <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
                 <Clock size={14} className="text-[#22D3EE]" /> Average REST Latency
               </span>
-              <p className="text-2xl font-bold font-mono text-white mt-1">1.42s</p>
+              <p className="text-2xl font-bold font-mono text-white mt-1">
+                {telemetry?.metrics?.average_latency_ms ? (telemetry.metrics.average_latency_ms / 1000).toFixed(2) + 's' : '0.00s'}
+              </p>
               <span className="text-[10px] font-mono text-[#8494AB]">Direct HTTPS REST pipeline</span>
             </div>
           </div>
@@ -545,9 +544,9 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#2A3850]">
-                  {(telemetry?.fleet || [
-                    { model: 'gemini-1.5-flash', provider: 'Google Gemini', persona: 'Macro & Quantitative Analyst', status: 'ACTIVE' },
-                    { model: 'gemini-1.5-pro', provider: 'Google Gemini', persona: 'Growth & Filing Specialist', status: 'ACTIVE' },
+                  {(telemetry?.fleet && telemetry.fleet.length > 0 ? telemetry.fleet : [
+                    { model: 'gemini-2.5-flash', provider: 'Google Gemini', persona: 'Macro & Quantitative Analyst', status: 'ACTIVE' },
+                    { model: 'gemini-2.5-pro', provider: 'Google Gemini', persona: 'Growth & Filing Specialist', status: 'ACTIVE' },
                   ]).map((m) => (
                     <tr key={m.model} className="hover:bg-[#1A2942]/50 transition-colors">
                       <td className="py-3 px-3 font-bold text-[#22D3EE]">{m.model}</td>
@@ -575,15 +574,43 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
             <div className="space-y-3 font-mono text-xs">
               <div>
                 <div className="flex justify-between text-[#B2C0D4] mb-1">
-                  <span>Google Gemini 1.5 Flash (Direct REST)</span>
+                  <span>Google Gemini (Direct REST)</span>
                   <span className="text-white font-bold">
-                    {(telemetry?.metrics?.total_prompt_tokens ?? 38450).toLocaleString()} prompt /{' '}
-                    {(telemetry?.metrics?.total_completion_tokens ?? 14200).toLocaleString()} completion tokens
+                    {(telemetry?.metrics?.total_prompt_tokens ?? 0).toLocaleString()} prompt /{' '}
+                    {(telemetry?.metrics?.total_completion_tokens ?? 0).toLocaleString()} completion tokens
                   </span>
                 </div>
                 <div className="w-full h-2.5 rounded-full bg-[#0B1020] overflow-hidden flex border border-[#2A3850]">
-                  <div className="bg-[#22D3EE] h-full" style={{ width: '73%' }} title="Prompt tokens" />
-                  <div className="bg-[#A5B4FC] h-full" style={{ width: '27%' }} title="Completion tokens" />
+                  <div
+                    className="bg-[#22D3EE] h-full"
+                    style={{
+                      width: `${
+                        ((telemetry?.metrics?.total_prompt_tokens ?? 0) /
+                          Math.max(
+                            1,
+                            (telemetry?.metrics?.total_prompt_tokens ?? 0) +
+                              (telemetry?.metrics?.total_completion_tokens ?? 0)
+                          )) *
+                        100
+                      }%`,
+                    }}
+                    title="Prompt tokens"
+                  />
+                  <div
+                    className="bg-[#A5B4FC] h-full"
+                    style={{
+                      width: `${
+                        ((telemetry?.metrics?.total_completion_tokens ?? 0) /
+                          Math.max(
+                            1,
+                            (telemetry?.metrics?.total_prompt_tokens ?? 0) +
+                              (telemetry?.metrics?.total_completion_tokens ?? 0)
+                          )) *
+                        100
+                      }%`,
+                    }}
+                    title="Completion tokens"
+                  />
                 </div>
               </div>
               <div className="flex items-center gap-4 text-[11px] text-[#8494AB]">
