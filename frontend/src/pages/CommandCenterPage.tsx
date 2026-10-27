@@ -265,45 +265,14 @@ export const CommandCenterPage: React.FC<{
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Market Benchmarks
               </h2>
-
-              {marketSession?.is_open ? (
-                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--groww-green)',
-                      boxShadow: '0 0 6px var(--groww-green)',
-                    }}
-                    className="animate-pulse"
-                  />
-                  <span>LIVE MARKET (09:15 - 16:15 IST)</span>
-                </span>
-              ) : (
-                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--groww-red)',
-                    }}
-                  />
-                  <span>MARKET CLOSED (IST)</span>
+              {lastIndexStreamTime && (
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  • Last tick: {lastIndexStreamTime}
                 </span>
               )}
-
-              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                • {marketSession?.is_open
-                    ? (lastIndexStreamTime ? `Last tick: ${lastIndexStreamTime}` : 'Connecting stream...')
-                    : `Prices frozen at official session close (04:15 PM IST) • ${marketSession?.next_session || 'Opens tomorrow 09:15 AM IST'}`}
-              </span>
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              {marketSession?.is_open
-                ? 'Real-time verified index quotes streaming with official session provenance in IST'
-                : `Trading session closed at 04:15 PM IST. Fluctuations stopped. Official closing quotes displayed. ${marketSession?.next_session || 'Opens tomorrow at 09:15 AM IST.'}`}
+              Real-time verified index quotes and implied volatility surface for Indian capital markets
             </p>
           </div>
         </div>
@@ -428,38 +397,14 @@ export const CommandCenterPage: React.FC<{
               <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                 Explore Stocks on ArthaAI
               </h2>
-              {marketSession?.is_open ? (
-                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--groww-green)',
-                      boxShadow: '0 0 6px var(--groww-green)',
-                    }}
-                    className="animate-pulse"
-                  />
-                  <span>LIVE MARKET (09:15 - 16:15 IST)</span>
-                </span>
-              ) : (
-                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      backgroundColor: 'var(--groww-red)',
-                    }}
-                  />
-                  <span>OFFICIAL CLOSE (FROZEN AT 04:15 PM IST)</span>
+              {lastStreamTime && (
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  • Last tick: {lastStreamTime}
                 </span>
               )}
             </div>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
-              {marketSession?.is_open
-                ? `Original 5-year point-in-time verified data (~1,260 bars) with real-time live market updates • ${lastStreamTime ? `Last tick: ${lastStreamTime}` : 'Connecting stream...'}`
-                : `Market closed at 04:15 PM IST. Stock prices are strictly frozen at official exchange close. ${marketSession?.next_session || 'Opens tomorrow at 09:15 AM IST.'}`}
+              Original 5-year point-in-time verified data (~1,260 daily bars) with statutory Indian market features
             </p>
           </div>
 
