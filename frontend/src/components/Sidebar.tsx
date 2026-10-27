@@ -77,38 +77,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
   ];
 
   return (
-    <div
+    <aside
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
-        width: '72px',
+        width: isHovered ? '240px' : '72px',
         flexShrink: 0,
         height: '100vh',
-        position: 'relative',
-        zIndex: 50,
+        backgroundColor: 'var(--bg-chrome)',
+        borderRight: '1px solid var(--border-subtle)',
+        boxShadow: isHovered ? '4px 0 24px rgba(0, 0, 0, 0.18)' : 'none',
+        transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease',
+        display: 'flex',
+        flexDirection: 'column',
+        userSelect: 'none',
+        padding: isHovered ? '16px 12px' : '16px 8px',
+        gap: '14px',
+        overflow: 'hidden',
+        zIndex: 40,
       }}
     >
-      <aside
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          width: isHovered ? '240px' : '72px',
-          backgroundColor: 'var(--bg-chrome)',
-          borderRight: '1px solid var(--border-subtle)',
-          boxShadow: isHovered ? '6px 0 28px rgba(0, 0, 0, 0.22)' : 'none',
-          transition: 'width 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100vh',
-          userSelect: 'none',
-          padding: isHovered ? '16px 12px' : '16px 8px',
-          gap: '16px',
-          overflow: 'hidden',
-          zIndex: 50,
-        }}
-      >
         {/* Brand Icon & Title */}
         <div
           style={{
@@ -170,14 +158,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
         <div
           style={{
             padding: '0 8px',
-            height: '14px',
+            height: isHovered ? '16px' : '0px',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.2s ease',
+            transition: 'opacity 0.2s ease, height 0.2s ease',
+            lineHeight: '16px',
           }}
         >
-          <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.08em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
             Workspaces
           </span>
         </div>
@@ -397,7 +386,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
           </div>
         )}
       </aside>
-    </div>
   );
 };
 

@@ -297,34 +297,34 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
         <div
           style={{
             marginTop: '12px',
-            padding: '12px 14px',
-            backgroundColor: 'rgba(15, 23, 42, 0.75)',
-            border: '1px solid var(--border-medium)',
-            borderRadius: '6px',
+            padding: '14px',
+            backgroundColor: 'var(--bg-elevated)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '10px',
+            gap: '12px',
           }}
         >
           {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '6px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--accent-cyan)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--groww-green)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               Specialist Output &amp; Verified Findings
             </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {/* LLM Provider badge */}
               {findings.llm_provider && findings.llm_provider !== 'DETERMINISTIC' && (
                 <span style={{
-                  fontSize: '9px', fontWeight: 800, padding: '2px 7px', borderRadius: '4px',
-                  backgroundColor: findings.llm_provider === 'GEMINI' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(99, 102, 241, 0.15)',
-                  color: findings.llm_provider === 'GEMINI' ? 'var(--accent-emerald)' : '#818cf8',
-                  border: `1px solid ${findings.llm_provider === 'GEMINI' ? 'rgba(16,185,129,0.3)' : 'rgba(99,102,241,0.3)'}`,
+                  fontSize: '9px', fontWeight: 800, padding: '2px 8px', borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'var(--groww-green-light)',
+                  color: 'var(--groww-green)',
+                  border: '1px solid rgba(0, 208, 156, 0.3)',
                   textTransform: 'uppercase', letterSpacing: '0.05em',
                 }}>
-                  {findings.llm_provider === 'GEMINI' ? '✦ Google Gemini Flash' : '✦ GPT-4o-mini'}
+                  ✦ Google Gemini Flash
                 </span>
               )}
-              <span style={{ fontSize: '10px', color: 'var(--accent-emerald)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+              <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
                 ✓ Institutional Response Verified
               </span>
             </div>
@@ -336,36 +336,36 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
               {/* LLM Synthesis Provider badge */}
               {findings.llm_synthesis_provider && findings.llm_synthesis_provider !== 'DETERMINISTIC' && (
                 <div style={{
-                  marginBottom: '8px', padding: '6px 10px', borderRadius: '6px',
-                  backgroundColor: findings.llm_synthesis_provider === 'GEMINI' ? 'rgba(16,185,129,0.1)' : 'rgba(99,102,241,0.1)',
-                  border: `1px solid ${findings.llm_synthesis_provider === 'GEMINI' ? 'rgba(16,185,129,0.25)' : 'rgba(99,102,241,0.25)'}`,
-                  display: 'flex', alignItems: 'center', gap: '6px',
+                  marginBottom: '10px', padding: '8px 12px', borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--groww-green-light)',
+                  border: '1px solid rgba(0, 208, 156, 0.3)',
+                  display: 'flex', alignItems: 'center', gap: '8px',
                 }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: findings.llm_synthesis_provider === 'GEMINI' ? 'var(--accent-emerald)' : '#818cf8' }}>
-                    ✦ AI Synthesis by {findings.llm_synthesis_provider === 'GEMINI' ? 'Google Gemini Flash' : 'GPT-4o-mini'}
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-green)' }}>
+                    ✦ AI Synthesis by Google Gemini (gemini-3.1-flash-lite)
                   </span>
-                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Real LLM multi-specialist synthesis</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Real multi-specialist thesis generation</span>
                 </div>
               )}
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px', lineHeight: 1.5, whiteSpace: 'pre-wrap', maxHeight: '180px', overflowY: 'auto' }}>
+              <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginBottom: '12px', lineHeight: 1.6, whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto' }}>
                 {findings.executive_thesis || 'Supervisory research synthesis formulated multi-agent institutional consensus.'}
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Consensus Stance</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Consensus Stance</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
                     {findings.consensus_stance || 'ACCUMULATE'}
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Conviction Score</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Conviction Score</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
                     {findings.multi_agent_conviction_score || 82} / 100
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Coordinated Fleet</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#818cf8' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Coordinated Fleet</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     7 Specialists
                   </div>
                 </div>
@@ -375,36 +375,36 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'adk_quant_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 Point-in-time quantitative feature engineering via FastMCP analytical engine. Zero lookahead bias verified.
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Latest Close</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Latest Close</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     ₹{Number(findings.calculated_metrics?.latest_close || 0).toFixed(2)}
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>14-Day RSI</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>14-Day RSI</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
                     {Number(findings.calculated_metrics?.latest_rsi || 0).toFixed(1)}
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Realized Vol (Ann.)</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-amber)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Realized Vol (Ann.)</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
                     {(Number(findings.calculated_metrics?.realized_volatility_annualized || 0) * 100).toFixed(1)}%
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Sample Space</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Sample Space</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
                     {findings.records_retrieved || 100} Bars
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)', marginTop: '6px' }}>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '8px' }}>
                 Source: {findings.data_source || 'duckdb_parquet_partitioned'}
               </div>
             </div>
@@ -412,31 +412,31 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'adk_microstructure_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 Orderbook liquidity profile and market impact analysis calculated using Corwin-Schultz (2012) bid-ask estimator.
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Quoted Spread</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Quoted Spread</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
                     {findings.corwin_schultz_spread_bps || '24.2'} bps
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Avg Daily Turnover</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Avg Daily Turnover</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     ₹{findings.average_daily_turnover_inr_cr || '80.7'} Cr
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Effective Slippage</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-amber)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Effective Slippage</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
                     {findings.effective_slippage_bps || '15.7'} bps
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Liquidity Tier</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: '#818cf8' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Liquidity Tier</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
                     {findings.liquidity_tier || 'Tier-1 High Depth'}
                   </div>
                 </div>
@@ -446,44 +446,44 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'crewai_news_macro_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px', lineHeight: 1.5 }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 {findings.headline_summary || 'Reserve Bank of India Monetary Policy Committee operating framework and macro liquidity evaluation.'}
               </div>
               {/* AI-generated macro analysis */}
               {findings.llm_macro_analysis && findings.llm_macro_analysis !== '' && !findings.llm_macro_analysis.startsWith('LLM') && (
                 <div style={{
-                  marginBottom: '10px', padding: '10px 12px', borderRadius: '6px',
-                  backgroundColor: 'rgba(6, 182, 212, 0.05)', border: '1px solid rgba(6,182,212,0.2)',
-                  fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.6,
+                  marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)', border: '1px solid rgba(83, 103, 255, 0.3)',
+                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
                   whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
                 }}>
-                  <div style={{ fontSize: '10px', color: 'var(--accent-cyan)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Macro Analysis ({findings.llm_provider})
+                  <div style={{ fontSize: '11px', color: 'var(--groww-blue)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
+                    ✦ AI Macro Analysis ({findings.llm_provider || 'Google Gemini'})
                   </div>
                   {findings.llm_macro_analysis}
                 </div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Policy Anchor Rate</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Policy Anchor Rate</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
                     RBI Repo 6.50%
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>LAF Corridor</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>LAF Corridor</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     SDF 6.25% - MSF 6.75%
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Target Inflation</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Target Inflation</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
                     4.0% (+/- 2.0%)
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)', marginTop: '6px' }}>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '8px' }}>
                 RAG Citation: rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK
               </div>
             </div>
@@ -491,44 +491,44 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'crewai_corporate_filing_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 SEBI LODR Regulation 30 &amp; 33 compliance verification. Quarterly financial statements audited with clean/unmodified opinion.
               </div>
               {/* AI-generated filing analysis */}
               {findings.llm_filing_analysis && findings.llm_filing_analysis !== '' && !findings.llm_filing_analysis.startsWith('LLM') && (
                 <div style={{
-                  marginBottom: '10px', padding: '10px 12px', borderRadius: '6px',
-                  backgroundColor: 'rgba(16, 185, 129, 0.05)', border: '1px solid rgba(16,185,129,0.2)',
-                  fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.6,
+                  marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)', border: '1px solid rgba(0, 208, 156, 0.3)',
+                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
                   whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
                 }}>
-                  <div style={{ fontSize: '10px', color: 'var(--accent-emerald)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Filing Analysis ({findings.llm_provider})
+                  <div style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
+                    ✦ AI Filing Analysis ({findings.llm_provider || 'Google Gemini'})
                   </div>
                   {findings.llm_filing_analysis}
                 </div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>SEBI LODR Reg 30</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 30</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
                     {findings.compliance_status || 'COMPLIANT (Disclosures)'}
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>SEBI LODR Reg 33</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 33</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     AUDITED (Financials)
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Governance Rating</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Governance Rating</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
                     {findings.governance_rating || 'SATISFACTORY'}
                   </div>
                 </div>
               </div>
-              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)', marginTop: '6px' }}>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '8px' }}>
                 RAG Citation: rag://filings/bse_nse_regulatory_disclosures#SEBI-LODR-COMPLIANCE
               </div>
             </div>
@@ -536,46 +536,46 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'crewai_adversarial_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 Adversarial multi-dimensional stress testing of quantitative assumptions and market liquidity thresholds.
               </div>
               {/* AI-generated adversarial critique */}
               {findings.llm_adversarial_analysis && findings.llm_adversarial_analysis !== '' && !findings.llm_adversarial_analysis.startsWith('LLM') && (
                 <div style={{
-                  marginBottom: '10px', padding: '10px 12px', borderRadius: '6px',
-                  backgroundColor: 'rgba(245, 158, 11, 0.05)', border: '1px solid rgba(245,158,11,0.25)',
-                  fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.6,
+                  marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-card)', border: '1px solid rgba(255, 184, 0, 0.3)',
+                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
                   whiteSpace: 'pre-wrap', maxHeight: '220px', overflowY: 'auto',
                 }}>
-                  <div style={{ fontSize: '10px', color: 'var(--accent-amber)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    ✦ AI Adversarial Analysis ({findings.llm_provider})
+                  <div style={{ fontSize: '11px', color: 'var(--groww-amber)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
+                    ✦ AI Adversarial Analysis ({findings.llm_provider || 'Google Gemini'})
                   </div>
                   {findings.llm_adversarial_analysis}
                 </div>
               )}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '8px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={13} style={{ color: 'var(--accent-emerald)' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
                   <span><strong>Volatility Shock (2x Jump):</strong> PASSED — Drawdown bounded within 2.0% risk limit.</span>
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={13} style={{ color: 'var(--accent-emerald)' }} />
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
                   <span><strong>Liquidity Contraction (-50%):</strong> PASSED — Market impact bounded below 8 bps.</span>
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={13} style={{ color: 'var(--accent-emerald)' }} />
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
                   <span><strong>Statutory Friction Drag:</strong> PASSED — Gross edge exceeds 11.86 bps baseline.</span>
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <CheckCircle2 size={13} style={{ color: 'var(--accent-emerald)' }} />
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle2 size={14} style={{ color: 'var(--groww-green)', flexShrink: 0 }} />
                   <span><strong>Lookahead Leakage Audit:</strong> PASSED — Point-in-time timestamp matching verified.</span>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', backgroundColor: 'rgba(245, 158, 11, 0.1)', borderRadius: '4px', border: '1px solid rgba(245, 158, 11, 0.3)' }}>
-                <span style={{ fontSize: '11px', color: 'var(--accent-amber)', fontWeight: 700 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', backgroundColor: 'var(--groww-amber-light)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(255, 184, 0, 0.3)' }}>
+                <span style={{ fontSize: '12px', color: 'var(--groww-amber)', fontWeight: 700 }}>
                   Verdict: {findings.skeptic_verdict?.replace(/_/g, ' ') || 'CONDITIONALLY APPROVED'}
                 </span>
-                <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--accent-amber)' }}>
+                <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--groww-amber)', fontWeight: 700 }}>
                   Statutory Discount Reserve: -{findings.adversarial_discount_bps || 12.0} bps
                 </span>
               </div>
@@ -584,37 +584,37 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'adk_risk_validator' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
                 Statutory transaction cost friction schedule under Finance (No. 2) Act 2024 and live trading guardrails.
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>STT (Delivery)</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>STT (Delivery)</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     ₹100.00 (0.100%)
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Stamp Duty</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Stamp Duty</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     ₹15.00 (0.015%)
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Exchange & GST</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Exchange & GST</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
                     ₹3.62
                   </div>
                 </div>
-                <div className="terminal-card" style={{ padding: '8px', background: 'var(--bg-subtle)' }}>
-                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Total Friction Drag</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--accent-rose)' }}>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Total Friction Drag</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-red)', marginTop: '2px' }}>
                     ₹118.62 (11.86 bps)
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px' }}>
-                <span className="status-pill status-failed" style={{ fontSize: '10px', padding: '2px 8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
+                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px' }}>
                   LIVE TRADING BLOCKED
                 </span>
                 <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>

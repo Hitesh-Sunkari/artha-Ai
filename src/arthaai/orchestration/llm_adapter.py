@@ -418,7 +418,7 @@ class LLMAdapter:
 
             if resp.status_code in (503, 500, 404):
                 error_text = resp.text[:300]
-                fallback_models = ["gemini-3.5-flash", "gemini-3.7-flash"]
+                fallback_models = ["gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-3.7-flash"]
                 retry_model = next((m for m in fallback_models if m != model_name), None)
                 if retry_model:
                     logger.warning("[LLM] Gemini %s status %d. Trying %s...", model_name, resp.status_code, retry_model)

@@ -35,12 +35,15 @@ interface RunSummaryRecord {
 interface MarketIndexQuote {
   symbol: string;
   name: string;
+  rawPrice?: number;
   price: string;
   change: string;
   changePct: string;
+  diffPct?: number;
   positive: boolean;
   provenance: string;
   timestamp?: string;
+  lastUpdated?: string;
 }
 
 interface StockQuote {
@@ -68,6 +71,7 @@ export const CommandCenterPage: React.FC<{
   const [marketIndices, setMarketIndices] = useState<MarketIndexQuote[]>([]);
   const [stocks, setStocks] = useState<StockQuote[]>([]);
   const [priceFlash, setPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
+  const [indexPriceFlash, setIndexPriceFlash] = useState<Record<string, 'up' | 'down'>>({});
   const [lastStreamTime, setLastStreamTime] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
@@ -130,7 +134,24 @@ export const CommandCenterPage: React.FC<{
       if (res.ok) {
         const data: MarketIndexQuote[] = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          setMarketIndices(data);
+          setMarketIndices((prevIndices) => {
+            if (prevIndices.length > 0) {
+              const flashes: Record<string, 'up' | 'down'> = {};
+              data.forEach((newIdx) => {
+                const oldIdx = prevIndices.find((i) => i.symbol === newIdx.symbol);
+                if (oldIdx && oldIdx.price !== newIdx.price) {
+                  const newP = newIdx.rawPrice ?? parseFloat(newIdx.price.replace(/,/g, ''));
+                  const oldP = oldIdx.rawPrice ?? parseFloat(oldIdx.price.replace(/,/g, ''));
+                  flashes[newIdx.symbol] = newP >= oldP ? 'up' : 'down';
+                }
+              });
+              if (Object.keys(flashes).length > 0) {
+                setIndexPriceFlash(flashes);
+                setTimeout(() => setIndexPriceFlash({}), 1400);
+              }
+            }
+            return data;
+          });
         }
       }
     } catch {}
@@ -162,9 +183,9 @@ export const CommandCenterPage: React.FC<{
       })
       .catch(() => setLoading(false));
 
-    // Polling interval: 3 seconds for dynamic real-time live stock prices
+    // Polling interval: 3 seconds for dynamic real-time live stock and benchmark prices
     const stockTimer = setInterval(fetchStocks, 3000);
-    const indexTimer = setInterval(fetchIndices, 5000);
+    const indexTimer = setInterval(fetchIndices, 3000);
 
     return () => {
       clearInterval(stockTimer);
@@ -195,20 +216,29 @@ export const CommandCenterPage: React.FC<{
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       {/* ── Groww Market Indices Carousel / Strip ───────────────────────────── */}
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
           <div>
-            <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-              Market Benchmarks
-            </h2>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-              Real-time index quotes with daily movement & point-in-time Parquet provenance
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+                Market Benchmarks
+              </h2>
+              <span className="pill-badge pill-badge-green" style={{ fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span
+                  style={{
+                    width: '7px',
+                    height: '7px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--groww-green)',
+                    boxShadow: '0 0 6px var(--groww-green)',
+                  }}
+                  className="animate-pulse"
+                />
+                <span>LIVE STREAMING (~3s TICK)</span>
+              </span>
+            </div>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>
+              Real-time index quotes with live market session drift & point-in-time Parquet provenance
             </p>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span className="pill-badge pill-badge-green" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--groww-green)', display: 'inline-block' }} />
-              <span>● NSE/BSE LIVE</span>
-            </span>
           </div>
         </div>
 
@@ -221,11 +251,20 @@ export const CommandCenterPage: React.FC<{
         >
           {marketIndices.map((idx) => {
             const isPos = idx.positive;
+            const flash = indexPriceFlash[idx.symbol];
             return (
               <div
                 key={idx.symbol}
                 className="groww-card groww-card-interactive"
-                style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px' }}
+                style={{
+                  padding: '18px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  borderColor: flash === 'up' ? 'var(--groww-green)' : flash === 'down' ? 'var(--groww-red)' : undefined,
+                  boxShadow: flash === 'up' ? '0 0 18px rgba(0, 208, 156, 0.35)' : flash === 'down' ? '0 0 18px rgba(235, 91, 89, 0.35)' : undefined,
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
                 onClick={() => onNavigate('research')}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -239,6 +278,10 @@ export const CommandCenterPage: React.FC<{
                   </div>
                   <span
                     className={`pill-badge ${isPos ? 'pill-badge-green' : 'pill-badge-red'}`}
+                    style={{
+                      transition: 'transform 0.2s ease',
+                      transform: flash ? 'scale(1.08)' : 'scale(1)',
+                    }}
                   >
                     {isPos ? <ArrowUpRight size={13} /> : <ArrowDownRight size={13} />}
                     {idx.changePct}
@@ -246,8 +289,19 @@ export const CommandCenterPage: React.FC<{
                 </div>
 
                 <div>
-                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                    {idx.price}
+                  <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>{idx.price}</span>
+                    {flash && (
+                      <span
+                        style={{
+                          fontSize: '12px',
+                          fontWeight: 800,
+                          color: flash === 'up' ? 'var(--groww-green)' : 'var(--groww-red)',
+                        }}
+                      >
+                        {flash === 'up' ? '▲' : '▼'}
+                      </span>
+                    )}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px', fontSize: '11px' }}>
                     <span style={{ color: isPos ? 'var(--groww-green)' : 'var(--groww-red)', fontWeight: 600 }}>

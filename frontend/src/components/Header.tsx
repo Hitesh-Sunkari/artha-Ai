@@ -97,98 +97,56 @@ export const Header: React.FC<HeaderProps> = ({
         backdropFilter: 'blur(12px)',
       }}
     >
-      {/* Left: Groww Brand Logo & Product Tabs */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-        {/* Logo */}
-        <div
-          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
-          onClick={() => onSelectWorkspace && onSelectWorkspace('command-center')}
-        >
-          <div
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #00D09C 0%, #009e75 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 14px rgba(0, 208, 156, 0.4)',
-              color: '#0F1217',
-              fontWeight: 800,
-              fontSize: '18px',
-            }}
-          >
-            <TrendingUp size={22} color="#0F1217" strokeWidth={2.6} />
+      {/* Left: Active Workspace Breadcrumb & Market Status */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span
+              style={{
+                fontSize: '15px',
+                fontWeight: 800,
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              {activeWorkspace === 'command-center' && 'Market Watchlist & Explore'}
+              {activeWorkspace === 'portfolio' && 'Paper Trading Desk'}
+              {activeWorkspace === 'research' && 'Research & AI Studio'}
+              {activeWorkspace === 'operations' && 'Terminal & Multi-Agent Ops'}
+            </span>
+            <span
+              style={{
+                fontSize: '10px',
+                fontWeight: 700,
+                padding: '2px 8px',
+                borderRadius: 'var(--radius-pill)',
+                backgroundColor: 'var(--groww-green-light)',
+                color: 'var(--groww-green)',
+                border: '1px solid rgba(0, 208, 156, 0.25)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+              }}
+            >
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--groww-green)',
+                }}
+                className="animate-pulse"
+              />
+              NSE / BSE LIVE
+            </span>
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span
-                style={{
-                  fontSize: '18px',
-                  fontWeight: 800,
-                  letterSpacing: '-0.02em',
-                  color: 'var(--text-primary)',
-                }}
-              >
-                Artha<span style={{ color: 'var(--groww-green)' }}>AI</span>
-              </span>
-              <span
-                style={{
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  padding: '2px 6px',
-                  borderRadius: '9999px',
-                  backgroundColor: 'var(--groww-green-light)',
-                  color: 'var(--groww-green)',
-                  border: '1px solid rgba(0, 208, 156, 0.3)',
-                }}
-              >
-                PRO
-              </span>
-            </div>
+          <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500, marginTop: '1px' }}>
+            {activeWorkspace === 'command-center' && 'Real-time equity indices, live ticks & 5-year point-in-time verified data'}
+            {activeWorkspace === 'portfolio' && 'Simulated execution engine with SLSQP mean-variance optimization'}
+            {activeWorkspace === 'research' && 'Google ADK + CrewAI 7-specialist multi-agent research fleet'}
+            {activeWorkspace === 'operations' && 'A2A Protocol, FastMCP diagnostics & system telemetry'}
           </div>
         </div>
-
-        {/* Top Product Tabs (Groww Style) */}
-        {onSelectWorkspace && (
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            {navItems.map((item) => {
-              const active = activeWorkspace === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => onSelectWorkspace(item.id)}
-                  style={{
-                    padding: '8px 16px',
-                    borderRadius: 'var(--radius-pill)',
-                    fontSize: '13px',
-                    fontWeight: active ? 700 : 500,
-                    backgroundColor: active ? 'var(--groww-green-light)' : 'transparent',
-                    color: active ? 'var(--groww-green)' : 'var(--text-secondary)',
-                    border: active ? '1px solid rgba(0, 208, 156, 0.3)' : '1px solid transparent',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)';
-                      e.currentTarget.style.color = 'var(--text-primary)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = 'var(--text-secondary)';
-                    }
-                  }}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </nav>
-        )}
       </div>
 
       {/* Center: Groww-Style Search Bar */}
@@ -243,36 +201,8 @@ export const Header: React.FC<HeaderProps> = ({
         </span>
       </div>
 
-      {/* Right: Groww Actions (Live Status, Wallet, Theme, Refresh, Profile) */}
+      {/* Right: Groww Actions (Wallet, Theme, Refresh, Profile) */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        {/* Live Market Status Pill */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '6px 12px',
-            borderRadius: 'var(--radius-pill)',
-            backgroundColor: 'var(--groww-green-light)',
-            border: '1px solid rgba(0, 208, 156, 0.25)',
-            color: 'var(--groww-green)',
-            fontSize: '12px',
-            fontWeight: 700,
-          }}
-          title="National Stock Exchange & BSE live data feed connected"
-        >
-          <div
-            style={{
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--groww-green)',
-              boxShadow: '0 0 8px #00D09C',
-            }}
-            className="animate-pulse"
-          />
-          <span>NSE / BSE LIVE</span>
-        </div>
 
         {/* Paper Wallet Balance Chip */}
         <div

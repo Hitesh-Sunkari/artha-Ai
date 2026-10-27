@@ -107,7 +107,7 @@ class LLMConfig(BaseSettings):
     # Cascade: prefer GEMINI if key is present, else OPENAI, else DETERMINISTIC
     default_provider: str = Field(default="GEMINI", alias="LLM_DEFAULT_PROVIDER")
     openai_model: str = Field(default="gpt-4o-mini", alias="LLM_OPENAI_MODEL")
-    gemini_model: str = Field(default="gemini-3.8-flash", alias="LLM_GEMINI_MODEL")
+    gemini_model: str = Field(default="gemini-3.1-flash-lite", alias="LLM_GEMINI_MODEL")
 
     timeout_seconds: float = Field(default=45.0, alias="LLM_TIMEOUT_SECONDS")
     max_retries: int = 2
