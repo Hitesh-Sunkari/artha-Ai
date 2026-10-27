@@ -201,9 +201,9 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* ── Top Workspace Header with Integrated Sub-Nav ──────────────────── */}
       <div
-        className="terminal-card"
+        className="groww-card"
         style={{
-          padding: '18px 24px',
+          padding: '20px 24px',
           display: 'flex',
           flexDirection: 'column',
           gap: '16px',
@@ -211,22 +211,9 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '3px 8px',
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(34, 211, 238, 0.12)',
-                  color: 'var(--accent-cyan)',
-                  fontSize: '11px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                }}
-              >
-                <BrainCircuit size={13} /> RESEARCH WORKSPACE
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="pill-badge pill-badge-green">
+                <BrainCircuit size={13} /> RESEARCH STUDIO
               </span>
               {activeRunId && (
                 <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
@@ -234,63 +221,36 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                 </span>
               )}
             </div>
-            <h1 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', margin: '4px 0 0 0' }}>
-              Multi-Agent Research Pipeline: {symbol}
+            <h1 style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', margin: '6px 0 0 0' }}>
+              Multi-Agent Quantitative Pipeline: {symbol}
             </h1>
           </div>
 
           {/* Persistent Context Badges */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '5px 12px',
-                borderRadius: '6px',
-                backgroundColor:
-                  runStatus === 'COMPLETED'
-                    ? 'rgba(52, 211, 153, 0.15)'
-                    : runStatus === 'RUNNING'
-                    ? 'rgba(34, 211, 238, 0.15)'
-                    : 'var(--bg-surface)',
-                color:
-                  runStatus === 'COMPLETED'
-                    ? 'var(--accent-emerald)'
-                    : runStatus === 'RUNNING'
-                    ? 'var(--accent-cyan)'
-                    : 'var(--text-muted)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                fontWeight: 700,
-                border: '1px solid var(--border-subtle)',
-              }}
+            <span
+              className={`pill-badge ${
+                runStatus === 'COMPLETED'
+                  ? 'pill-badge-green'
+                  : runStatus === 'RUNNING'
+                  ? 'pill-badge-blue'
+                  : 'pill-badge-neutral'
+              }`}
             >
-              <Activity size={13} /> {runStatus}
-            </div>
+              <Activity size={13} className={runStatus === 'RUNNING' ? 'animate-spin' : ''} />
+              {runStatus}
+            </span>
 
             {report && (
               <span
-                style={{
-                  padding: '5px 12px',
-                  borderRadius: '6px',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '12px',
-                  fontWeight: 800,
-                  backgroundColor:
-                    report.recommendation === 'BUY'
-                      ? 'rgba(52, 211, 153, 0.2)'
-                      : report.recommendation === 'SELL'
-                      ? 'rgba(251, 113, 133, 0.2)'
-                      : 'rgba(251, 191, 36, 0.2)',
-                  color:
-                    report.recommendation === 'BUY'
-                      ? 'var(--accent-emerald)'
-                      : report.recommendation === 'SELL'
-                      ? 'var(--accent-rose)'
-                      : 'var(--accent-amber)',
-                  border: '1px solid var(--border-subtle)',
-                }}
+                className={`pill-badge ${
+                  report.recommendation === 'BUY'
+                    ? 'pill-badge-green'
+                    : report.recommendation === 'SELL'
+                    ? 'pill-badge-red'
+                    : 'pill-badge-amber'
+                }`}
+                style={{ fontSize: '13px', padding: '5px 12px' }}
               >
                 {report.recommendation} ({report.conviction_score}/100)
               </span>
@@ -298,37 +258,37 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
           </div>
         </div>
 
-        {/* ── Sub-Navigation Bar ─────────────────────────────────────────── */}
-        <div className="segment-tab-bar" style={{ alignSelf: 'flex-start' }}>
+        {/* ── Sub-Navigation Bar (Groww Style) ───────────────────────────── */}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignSelf: 'flex-start' }}>
           <button
             onClick={() => setActiveTab('overview')}
-            className={`segment-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
+            className={`groww-chip ${activeTab === 'overview' ? 'active' : ''}`}
           >
-            <Settings size={15} /> Overview & Config
+            <Settings size={15} style={{ marginRight: '6px' }} /> Overview & Config
           </button>
           <button
             onClick={() => setActiveTab('journey')}
-            className={`segment-tab-btn ${activeTab === 'journey' ? 'active' : ''}`}
+            className={`groww-chip ${activeTab === 'journey' ? 'active' : ''}`}
           >
-            <Activity size={15} /> Agent Journey
+            <Activity size={15} style={{ marginRight: '6px' }} /> Agent Journey
           </button>
           <button
             onClick={() => setActiveTab('report')}
-            className={`segment-tab-btn ${activeTab === 'report' ? 'active' : ''}`}
+            className={`groww-chip ${activeTab === 'report' ? 'active' : ''}`}
           >
-            <FileText size={15} /> Final Report & Decision
+            <FileText size={15} style={{ marginRight: '6px' }} /> Final Report & Decision
           </button>
           <button
             onClick={() => setActiveTab('evidence')}
-            className={`segment-tab-btn ${activeTab === 'evidence' ? 'active' : ''}`}
+            className={`groww-chip ${activeTab === 'evidence' ? 'active' : ''}`}
           >
-            <Database size={15} /> Evidence Explorer
+            <Database size={15} style={{ marginRight: '6px' }} /> Evidence Explorer
           </button>
           <button
             onClick={() => setActiveTab('committee')}
-            className={`segment-tab-btn ${activeTab === 'committee' ? 'active' : ''}`}
+            className={`groww-chip ${activeTab === 'committee' ? 'active' : ''}`}
           >
-            <Users size={15} /> Investment Committee
+            <Users size={15} style={{ marginRight: '6px' }} /> Investment Committee
           </button>
         </div>
       </div>
@@ -377,17 +337,8 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                       key={t}
                       type="button"
                       onClick={() => setSymbol(t)}
-                      style={{
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        fontSize: '11px',
-                        fontFamily: 'var(--font-mono)',
-                        border: '1px solid var(--border-subtle)',
-                        backgroundColor: symbol === t ? 'var(--accent-cyan)' : 'var(--bg-surface)',
-                        color: symbol === t ? '#090D16' : 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        fontWeight: symbol === t ? 700 : 500,
-                      }}
+                      className={`groww-chip ${symbol === t ? 'active' : ''}`}
+                      style={{ padding: '3px 10px', fontSize: '11px' }}
                     >
                       {t}
                     </button>
@@ -429,8 +380,8 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               <button
                 type="submit"
                 disabled={submitting}
-                className="btn btn-primary"
-                style={{ padding: '12px 20px', fontSize: '14px', marginTop: '8px' }}
+                className="btn-groww-primary"
+                style={{ padding: '12px 20px', fontSize: '14px', marginTop: '8px', width: '100%' }}
               >
                 <Play size={16} />
                 {submitting ? 'Submitting to ADK Coordinator...' : 'Execute Research Pipeline'}
@@ -536,32 +487,32 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
 
               {/* Direct Paper-Trading Handoff Action Bar */}
               <div
-                className="terminal-card"
+                className="groww-card"
                 style={{
-                  padding: '18px 24px',
+                  padding: '20px 24px',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  backgroundColor: 'rgba(34, 211, 238, 0.05)',
-                  borderColor: 'var(--border-cyan)',
+                  backgroundColor: 'var(--groww-green-light)',
+                  border: '1px solid rgba(0, 208, 156, 0.35)',
                   flexWrap: 'wrap',
                   gap: '14px',
                 }}
               >
                 <div>
-                  <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)' }}>
                     Validate Decision via Simulated Paper Trading
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                    Handoff {symbol} with recommendation <strong>{report.recommendation}</strong> to the Paper Trading Terminal.
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '3px' }}>
+                    Handoff {symbol} with recommendation <strong style={{ color: 'var(--groww-green)' }}>{report.recommendation}</strong> to the Paper Trading Terminal.
                   </div>
                 </div>
 
                 {onNavigateToPortfolio && (
                   <button
                     onClick={() => onNavigateToPortfolio(symbol, report.recommendation === 'SELL' ? 'SELL' : 'BUY')}
-                    className="btn btn-primary"
-                    style={{ padding: '10px 18px', fontSize: '13px' }}
+                    className="btn-groww-primary"
+                    style={{ padding: '10px 22px', fontSize: '13px' }}
                   >
                     Configure Paper Order →
                   </button>
@@ -634,8 +585,8 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               <button
                 onClick={handleSearchEvidence}
                 disabled={evidenceLoading}
-                className="btn btn-primary"
-                style={{ padding: '0 18px' }}
+                className="btn-groww-primary"
+                style={{ padding: '0 20px' }}
               >
                 <Search size={14} /> Search
               </button>
@@ -655,7 +606,7 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--accent-cyan)' }}>{m.title}</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--groww-green)' }}>{m.title}</span>
                       <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                         Relevance: {m.relevance_score ? m.relevance_score.toFixed(4) : 'N/A'}
                       </span>
@@ -701,8 +652,8 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               <button
                 onClick={handleRunCommittee}
                 disabled={committeeLoading}
-                className="btn btn-primary"
-                style={{ padding: '8px 16px', fontSize: '13px' }}
+                className="btn-groww-primary"
+                style={{ padding: '8px 18px', fontSize: '13px' }}
               >
                 <Users size={15} /> {committeeLoading ? 'Deliberating...' : 'Convene Committee Session'}
               </button>

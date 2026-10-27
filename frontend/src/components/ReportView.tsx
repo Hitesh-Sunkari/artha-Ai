@@ -97,51 +97,40 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* Report Header Card */}
-      <div className="terminal-card">
+      <div className="groww-card">
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-              <span style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+              <span style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)' }}>
                 {report.symbol}
               </span>
-              <span
-                style={{
-                  fontSize: '11px',
-                  fontFamily: 'var(--font-mono)',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  backgroundColor: 'rgba(6, 182, 212, 0.15)',
-                  color: 'var(--accent-cyan)',
-                  border: '1px solid rgba(6, 182, 212, 0.3)',
-                  fontWeight: 700,
-                }}
-              >
+              <span className="pill-badge pill-badge-blue">
                 Pydantic v2 Validated
               </span>
               <span
-                className={`status-pill ${
-                  findingCat === 'MEASURED' ? 'status-completed' : 'status-pending'
+                className={`pill-badge ${
+                  findingCat === 'MEASURED' ? 'pill-badge-green' : 'pill-badge-amber'
                 }`}
               >
                 {findingCat}
               </span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-              <span>Run ID: {report.run_id}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+              <span>Run ID: <strong style={{ color: 'var(--text-secondary)' }}>{report.run_id}</strong></span>
               <span>•</span>
               <span>Point-In-Time: {new Date(report.as_of_time).toUTCString()}</span>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button onClick={copyReportJson} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }}>
-              {copied ? <Check size={14} style={{ color: 'var(--accent-emerald)' }} /> : <Copy size={14} />}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button onClick={copyReportJson} className="btn-groww-secondary" style={{ padding: '8px 14px', fontSize: '12px' }}>
+              {copied ? <Check size={14} style={{ color: 'var(--groww-green)' }} /> : <Copy size={14} />}
               <span>{copied ? 'Copied' : 'Copy JSON'}</span>
             </button>
 
-            <button onClick={downloadMarkdown} className="btn btn-primary" style={{ padding: '6px 12px', fontSize: '12px' }}>
+            <button onClick={downloadMarkdown} className="btn-groww-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>
               <Download size={14} />
               <span>Download Markdown</span>
             </button>
@@ -150,14 +139,14 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
       </div>
 
       {/* Executive Thesis */}
-      <div className="terminal-card">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-          <FileText size={16} style={{ color: 'var(--accent-cyan)' }} />
+      <div className="groww-card">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+          <FileText size={18} style={{ color: 'var(--groww-green)' }} />
           <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Executive Synthesis Thesis
           </h4>
         </div>
-        <p style={{ fontSize: '14px', lineHeight: '1.7', color: 'var(--text-primary)', backgroundColor: 'var(--bg-surface)', padding: '16px', borderRadius: '6px', borderLeft: '4px solid var(--accent-cyan)' }}>
+        <p style={{ fontSize: '14px', lineHeight: '1.7', color: 'var(--text-primary)', backgroundColor: 'var(--bg-elevated)', padding: '16px 20px', borderRadius: '10px', borderLeft: '4px solid var(--groww-green)' }}>
           {report.executive_thesis}
         </p>
       </div>
@@ -202,45 +191,45 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
             </div>
           </div>
         ) : (
-          <div className="grid-cols-3" style={{ gap: '12px' }}>
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Latest Close Price</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)' }}>
+          <div className="grid-cols-3" style={{ gap: '14px' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Latest Close Price</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>
                 {metrics.latest_close ? `₹${Number(metrics.latest_close).toFixed(2)}` : 'N/A'}
               </div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Realized Volatility (Ann.)</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '20px', fontWeight: 700, color: 'var(--accent-cyan)' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Realized Volatility (Ann.)</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '22px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '4px' }}>
                 {metrics.realized_volatility_annualized ? `${(Number(metrics.realized_volatility_annualized) * 100).toFixed(2)}%` : 'N/A'}
               </div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Sample Mean Return</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text-primary)' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Sample Mean Return</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '22px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                 {metrics.sample_return_mean ? `${(Number(metrics.sample_return_mean) * 100).toFixed(4)}%` : 'N/A'}
               </div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SMA (20-bar)</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>SMA (20-bar)</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-secondary)', marginTop: '4px' }}>
                 {metrics.latest_sma ? `₹${Number(metrics.latest_sma).toFixed(2)}` : 'N/A'}
               </div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>EMA (20-bar)</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>EMA (20-bar)</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-secondary)', marginTop: '4px' }}>
                 {metrics.latest_ema ? `₹${Number(metrics.latest_ema).toFixed(2)}` : 'N/A'}
               </div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>RSI (14-bar)</div>
-              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+            <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>RSI (14-bar)</div>
+              <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginTop: '4px' }}>
                 {metrics.latest_rsi ? Number(metrics.latest_rsi).toFixed(2) : 'N/A'}
               </div>
             </div>
@@ -248,44 +237,44 @@ ${report.limitations_and_uncertainties?.length ? report.limitations_and_uncertai
             {/* Extended 5-Year Quantitative Indicators */}
             {metrics.coverage_years ? (
               <>
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Coverage</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>5-Year Coverage</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--groww-green)', marginTop: '4px' }}>
                     {metrics.coverage_years} Years ({qf.records_retrieved || '1,260'} bars)
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SMA (200-bar Institutional)</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>SMA (200-bar Institutional)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-secondary)', marginTop: '4px' }}>
                     {metrics.sma_200d ? `₹${Number(metrics.sma_200d).toFixed(2)}` : 'N/A'}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Max Drawdown</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: '#F07883' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>5-Year Max Drawdown</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--groww-red)', marginTop: '4px' }}>
                     {metrics.max_drawdown_5y !== undefined ? `${(Number(metrics.max_drawdown_5y) * 100).toFixed(2)}%` : 'N/A'}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>52-Week Range (Low / High)</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>52-Week Range (Low / High)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', marginTop: '4px' }}>
                     {metrics.low_52w ? `₹${Number(metrics.low_52w).toFixed(0)}` : '—'} / {metrics.high_52w ? `₹${Number(metrics.high_52w).toFixed(0)}` : '—'}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SMA (50-bar Trend)</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>SMA (50-bar Trend)</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-secondary)', marginTop: '4px' }}>
                     {metrics.sma_50d ? `₹${Number(metrics.sma_50d).toFixed(2)}` : 'N/A'}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '14px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>5-Year Realized Volatility</div>
-                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 600, color: 'var(--accent-cyan)' }}>
+                <div style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', padding: '16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>5-Year Realized Volatility</div>
+                  <div className="font-mono tabular-nums" style={{ fontSize: '18px', fontWeight: 700, color: 'var(--groww-blue)', marginTop: '4px' }}>
                     {metrics.realized_volatility_5y ? `${(Number(metrics.realized_volatility_5y) * 100).toFixed(2)}%` : 'N/A'}
                   </div>
                 </div>

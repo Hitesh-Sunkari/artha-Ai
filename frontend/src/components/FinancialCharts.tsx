@@ -91,17 +91,17 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {/* 1. OHLCV Candlestick & Indicator Chart */}
-      <div className="terminal-card">
+      <div className="groww-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <TrendingUp size={16} style={{ color: 'var(--accent-cyan)' }} />
+            <TrendingUp size={16} style={{ color: 'var(--groww-green)' }} />
             <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Historical Price & Moving Average Overlay ({symbol})
             </h4>
           </div>
 
           {hasBars && hoveredBar && (
-            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)', display: 'flex', gap: '12px' }}>
+            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--groww-green)', display: 'flex', gap: '12px' }}>
               <span>D: {hoveredBar.timestamp.slice(0, 10)}</span>
               <span>O: ₹{hoveredBar.open.toFixed(2)}</span>
               <span>H: ₹{hoveredBar.high.toFixed(2)}</span>
@@ -155,7 +155,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
               {bars.map((b, i) => {
                 const x = 50 + i * ((svgWidth - 65) / bars.length);
                 const isBull = b.close >= b.open;
-                const color = isBull ? 'var(--accent-emerald)' : 'var(--accent-rose)';
+                const color = isBull ? 'var(--groww-green)' : 'var(--groww-red)';
 
                 // Price coordinates
                 const highY = 10 + ((maxPrice - b.high) / (maxPrice - minPrice)) * priceHeight;
@@ -214,15 +214,15 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
       {hasBars && metrics && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
           {/* RSI Gauge */}
-          <div className="terminal-card">
+          <div className="groww-card">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Activity size={15} style={{ color: 'var(--accent-indigo)' }} />
+                <Activity size={15} style={{ color: 'var(--groww-blue)' }} />
                 <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
                   Relative Strength Index (RSI 14)
                 </span>
               </div>
-              <span className="font-mono" style={{ fontSize: '15px', fontWeight: 800, color: 'var(--accent-cyan)' }}>
+              <span className="font-mono" style={{ fontSize: '15px', fontWeight: 800, color: 'var(--groww-green)' }}>
                 {metrics.latest_rsi ? Number(metrics.latest_rsi).toFixed(2) : 'N/A'}
               </span>
             </div>
@@ -230,17 +230,17 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             {/* RSI Level Bar */}
             {metrics.latest_rsi !== null && metrics.latest_rsi !== undefined && (
               <div>
-                <div style={{ height: '8px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ height: '8px', backgroundColor: 'var(--bg-elevated)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
                   <div
                     style={{
                       height: '100%',
                       width: `${Math.min(100, Math.max(0, Number(metrics.latest_rsi)))}%`,
                       backgroundColor:
                         Number(metrics.latest_rsi) > 70
-                          ? 'var(--accent-rose)'
+                          ? 'var(--groww-red)'
                           : Number(metrics.latest_rsi) < 30
-                          ? 'var(--accent-cyan)'
-                          : 'var(--accent-emerald)',
+                          ? 'var(--groww-blue)'
+                          : 'var(--groww-green)',
                       borderRadius: '4px',
                       transition: 'width 0.4s ease',
                     }}
@@ -257,15 +257,15 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
           </div>
 
           {/* Realized Volatility Panel */}
-          <div className="terminal-card">
+          <div className="groww-card">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <BarChart2 size={15} style={{ color: 'var(--accent-cyan)' }} />
+                <BarChart2 size={15} style={{ color: 'var(--groww-blue)' }} />
                 <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase' }}>
                   Annualized Realized Volatility
                 </span>
               </div>
-              <span className="font-mono" style={{ fontSize: '15px', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+              <span className="font-mono" style={{ fontSize: '15px', fontWeight: 800, color: 'var(--groww-green)' }}>
                 {metrics.realized_volatility_annualized
                   ? `${(Number(metrics.realized_volatility_annualized) * 100).toFixed(2)}%`
                   : 'N/A'}
@@ -281,9 +281,9 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
 
       {/* 3. Multi-Agent Duration & Latency Breakdown */}
       {agentDurations.length > 0 && (
-        <div className="terminal-card">
+        <div className="groww-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <Clock size={16} style={{ color: 'var(--accent-cyan)' }} />
+            <Clock size={16} style={{ color: 'var(--groww-green)' }} />
             <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Specialist Agent Execution Latency Breakdown
             </h4>

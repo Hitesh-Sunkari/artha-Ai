@@ -242,21 +242,21 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="terminal-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="groww-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#172B43] border border-[#2A3850] text-xs font-mono text-[#22D3EE]">
+          <div className="pill-badge pill-badge-blue">
             <Activity size={14} /> Operations & Fleet Control
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight mt-2">
             Institutional Operations & Telemetry
           </h1>
-          <p className="text-sm text-[#B2C0D4] mt-1 max-w-2xl">
+          <p className="text-sm text-secondary mt-1 max-w-2xl">
             Live telemetry observatory, multi-agent fleet topology, searchable execution audit,
             real-time readiness diagnostics, and deterministic evaluation suite.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="pill-badge pill-badge-green">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             {healthOk ? 'CONTROL PLANE 200 OK' : 'CONTROL PLANE ONLINE'}
           </div>
@@ -266,7 +266,7 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
               fetchRuns();
               fetchDiagnostics();
             }}
-            className="btn btn-secondary text-xs flex items-center gap-1.5"
+            className="btn-groww-secondary text-xs flex items-center gap-1.5"
           >
             <RefreshCw size={13} className={telemetryLoading ? 'animate-spin' : ''} />
             <span>Sync</span>
@@ -304,108 +304,108 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
         <div className="space-y-6">
           {/* Top 4 Cockpit Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Server size={14} className="text-[#22D3EE]" /> System Health
+            <div className="groww-card p-5 space-y-1">
+              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
+                <Server size={14} style={{ color: 'var(--groww-green)' }} /> System Health
               </span>
-              <p className="text-2xl font-bold font-mono text-emerald-400 mt-1">200 OK</p>
-              <span className="text-[10px] font-mono text-[#8494AB]">FastAPI ASGI In-Process</span>
+              <p className="text-2xl font-bold font-mono text-green-500 mt-1">200 OK</p>
+              <span className="text-[10px] font-mono text-muted">FastAPI ASGI In-Process</span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Zap size={14} className="text-[#22D3EE]" /> LLM Invocations
+            <div className="groww-card p-5 space-y-1">
+              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
+                <Zap size={14} style={{ color: 'var(--groww-blue)' }} /> LLM Invocations
               </span>
               <p className="text-2xl font-bold font-mono text-white mt-1">
                 {telemetry?.metrics?.total_calls ?? 14}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Google Gemini REST</span>
+              <span className="text-[10px] font-mono text-muted">Google Gemini REST</span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Clock size={14} className="text-[#22D3EE]" /> Total Audited Runs
+            <div className="groww-card p-5 space-y-1">
+              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
+                <Clock size={14} style={{ color: 'var(--groww-green)' }} /> Total Audited Runs
               </span>
               <p className="text-2xl font-bold font-mono text-white mt-1">
                 {runs.length}
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">Persistent research traces</span>
+              <span className="text-[10px] font-mono text-muted">Persistent research traces</span>
             </div>
 
-            <div className="terminal-card p-5 space-y-1">
-              <span className="text-xs font-mono uppercase text-[#8494AB] flex items-center gap-1.5">
-                <Database size={14} className="text-[#34D399]" /> RAG Corpus Chunks
+            <div className="groww-card p-5 space-y-1">
+              <span className="text-xs font-mono uppercase text-muted flex items-center gap-1.5">
+                <Database size={14} style={{ color: 'var(--groww-green)' }} /> RAG Corpus Chunks
               </span>
-              <p className="text-2xl font-bold font-mono text-[#34D399] mt-1">
+              <p className="text-2xl font-bold font-mono text-green-500 mt-1">
                 25
               </p>
-              <span className="text-[10px] font-mono text-[#8494AB]">ChromaDB Indian Market</span>
+              <span className="text-[10px] font-mono text-muted">ChromaDB Indian Market</span>
             </div>
           </div>
 
           {/* Core Services Status Grid */}
-          <div className="terminal-card p-6 space-y-4">
+          <div className="groww-card p-6 space-y-4">
             <h3 className="text-sm font-bold font-mono text-white flex items-center gap-2">
-              <Activity size={15} className="text-[#22D3EE]" />
+              <Activity size={15} style={{ color: 'var(--groww-green)' }} />
               Core Architecture & Subsystem Operational Matrix
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">FastAPI Control Plane</div>
-                  <div className="text-[11px] text-[#8494AB]">Port 8000 / Direct HTTP</div>
+                  <div className="text-[11px] text-muted">Port 8000 / Direct HTTP</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="pill-badge pill-badge-green">
                   REACHABLE
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">Google Gemini Direct REST</div>
-                  <div className="text-[11px] text-[#8494AB]">HTTPS REST (bypasses gRPC)</div>
+                  <div className="text-[11px] text-muted">HTTPS REST (bypasses gRPC)</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="pill-badge pill-badge-green">
                   ONLINE
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">CrewAI A2A JSON-RPC 2.0</div>
-                  <div className="text-[11px] text-[#8494AB]">Spec-compliant agent messaging</div>
+                  <div className="text-[11px] text-muted">Spec-compliant agent messaging</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="pill-badge pill-badge-green">
                   READY
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">FastMCP Market Server</div>
-                  <div className="text-[11px] text-[#8494AB]">4 NSE/BSE analytical tools</div>
+                  <div className="text-[11px] text-muted">4 NSE/BSE analytical tools</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="pill-badge pill-badge-green">
                   MOUNTED
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">ChromaDB Persistent Store</div>
-                  <div className="text-[11px] text-[#8494AB]">Vector RAG & evidence metadata</div>
+                  <div className="text-[11px] text-muted">Vector RAG & evidence metadata</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/30">
+                <span className="pill-badge pill-badge-green">
                   ACTIVE
                 </span>
               </div>
 
-              <div className="p-4 rounded-lg bg-[#0B1020] border border-[#2A3850] flex justify-between items-center">
+              <div className="p-4 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border-subtle)] flex justify-between items-center">
                 <div>
                   <div className="text-white font-bold">Paper Trading Simulator</div>
-                  <div className="text-[11px] text-[#8494AB]">Finance Act 2024 compliance</div>
+                  <div className="text-[11px] text-muted">Finance Act 2024 compliance</div>
                 </div>
-                <span className="px-2 py-1 rounded bg-cyan-500/10 text-[#22D3EE] font-bold border border-cyan-500/30">
+                <span className="pill-badge pill-badge-blue">
                   SIMULATED ONLY
                 </span>
               </div>
@@ -416,38 +416,38 @@ export const OperationsPage: React.FC<OperationsPageProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button
               onClick={() => setActiveSubTab('telemetry')}
-              className="p-5 rounded-xl bg-[#131E32] border border-[#2A3850] hover:border-[#22D3EE] transition-all text-left group"
+              className="groww-card groww-card-interactive p-5 text-left group"
             >
               <div className="flex items-center justify-between">
-                <Zap size={20} className="text-[#22D3EE]" />
-                <ArrowRight size={16} className="text-[#8494AB] group-hover:text-[#22D3EE] transition-colors" />
+                <Zap size={20} style={{ color: 'var(--groww-green)' }} />
+                <ArrowRight size={16} className="text-muted group-hover:text-green-500 transition-colors" />
               </div>
               <h4 className="text-sm font-bold text-white mt-3">Inspect LLM Telemetry</h4>
-              <p className="text-xs text-[#8494AB] mt-1">
+              <p className="text-xs text-muted mt-1">
                 Token consumption, latency breakdown, and model fleet statuses.
               </p>
             </button>
 
             <button
               onClick={() => setActiveSubTab('topology')}
-              className="p-5 rounded-xl bg-[#131E32] border border-[#2A3850] hover:border-[#22D3EE] transition-all text-left group"
+              className="groww-card groww-card-interactive p-5 text-left group"
             >
               <div className="flex items-center justify-between">
-                <Layers size={20} className="text-[#22D3EE]" />
-                <ArrowRight size={16} className="text-[#8494AB] group-hover:text-[#22D3EE] transition-colors" />
+                <Layers size={20} style={{ color: 'var(--groww-blue)' }} />
+                <ArrowRight size={16} className="text-muted group-hover:text-blue-500 transition-colors" />
               </div>
               <h4 className="text-sm font-bold text-white mt-3">View Agent Topology</h4>
-              <p className="text-xs text-[#8494AB] mt-1">
+              <p className="text-xs text-muted mt-1">
                 Architecture diagram of ADK, CrewAI, Blackboard, and MCP tools.
               </p>
             </button>
 
             <button
               onClick={() => setActiveSubTab('audit')}
-              className="p-5 rounded-xl bg-[#131E32] border border-[#2A3850] hover:border-[#22D3EE] transition-all text-left group"
+              className="groww-card groww-card-interactive p-5 text-left group"
             >
               <div className="flex items-center justify-between">
-                <Clock size={20} className="text-[#22D3EE]" />
+                <Clock size={20} style={{ color: 'var(--groww-green)' }} />
                 <ArrowRight size={16} className="text-[#8494AB] group-hover:text-[#22D3EE] transition-colors" />
               </div>
               <h4 className="text-sm font-bold text-white mt-3">Review Execution Audit</h4>

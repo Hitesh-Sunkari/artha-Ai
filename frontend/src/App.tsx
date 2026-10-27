@@ -80,7 +80,12 @@ export const App: React.FC = () => {
       {/* Main Terminal Frame */}
       <div className="terminal-main">
         {/* Top Control-Plane Header */}
-        <Header onRefresh={handleRefresh} isRefreshing={isRefreshing} />
+        <Header
+          onRefresh={handleRefresh}
+          isRefreshing={isRefreshing}
+          activeWorkspace={activeWorkspace}
+          onSelectWorkspace={(ws) => handleNavigate(ws)}
+        />
 
         {/* Scrollable Primary Workspace Area */}
         <main className="terminal-content" key={refreshKey}>
