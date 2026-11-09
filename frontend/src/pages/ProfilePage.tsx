@@ -19,7 +19,9 @@ import {
   Briefcase,
   ExternalLink,
   Sparkles,
+  LogOut,
 } from 'lucide-react';
+import { setActiveAuthUser, getActiveAuthUser } from '../utils/telemetryReporter';
 import type { TabId } from '../components/Sidebar';
 
 interface ProfilePageProps {
@@ -839,6 +841,50 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           <ExternalLink size={15} />
           <span>Launch Admin Portal ↗</span>
         </a>
+      </div>
+
+      {/* Desk Session Lock & Sign Out */}
+      <div
+        style={{
+          backgroundColor: 'var(--bg-card)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1px solid rgba(239, 68, 68, 0.25)',
+          padding: '20px 24px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '16px',
+        }}
+      >
+        <div>
+          <h3 style={{ fontSize: '15px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+            Active Desk Session Security
+          </h3>
+          <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
+            Signing out locks the quantitative terminal and returns to the mandatory full-page authentication gate.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setActiveAuthUser(null)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '9px 18px',
+            borderRadius: '8px',
+            backgroundColor: 'rgba(239, 68, 68, 0.12)',
+            border: '1px solid rgba(239, 68, 68, 0.35)',
+            color: '#ef4444',
+            fontSize: '13px',
+            fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          <LogOut size={15} />
+          <span>Sign Out of Terminal</span>
+        </button>
       </div>
     </div>
   );

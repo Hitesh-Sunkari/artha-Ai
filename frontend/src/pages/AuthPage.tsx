@@ -210,13 +210,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     <div
       style={{
         minHeight: '100vh',
-        width: '100%',
+        height: '100vh',
+        width: '100vw',
+        overflowY: 'auto',
+        overflowX: 'hidden',
         backgroundColor: palette.bgCanvas,
         backgroundImage: palette.bgGradient,
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        overflowX: 'hidden',
         color: palette.textPrimary,
         transition: 'background-color 0.25s ease, color 0.25s ease',
       }}

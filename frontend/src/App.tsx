@@ -7,9 +7,11 @@ import { PortfolioTradingPage } from './pages/PortfolioTradingPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AuthPage } from './pages/AuthPage';
 import { CopilotDrawer } from './components/CopilotDrawer';
-import { initTelemetryReporter, isUserSuperAdmin } from './utils/telemetryReporter';
+import { initTelemetryReporter, isUserSuperAdmin, getActiveAuthUser } from './utils/telemetryReporter';
+import type { AuthUser } from './api/types';
 
 export const App: React.FC = () => {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => getActiveAuthUser());
   const [activeWorkspace, setActiveWorkspace] = useState<PrimaryWorkspace>('command-center');
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
   const [researchSymbol, setResearchSymbol] = useState<string | null>(null);
@@ -21,9 +23,23 @@ export const App: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
-    // Initialize continuous client telemetry, error capture, and portfolio sync
-    initTelemetryReporter(() => activeWorkspace);
-  }, [activeWorkspace]);
+    const handleAuthChange = () => {
+      setAuthUser(getActiveAuthUser());
+    };
+    window.addEventListener('arthai_auth_changed', handleAuthChange);
+    window.addEventListener('storage', handleAuthChange);
+    return () => {
+      window.removeEventListener('arthai_auth_changed', handleAuthChange);
+      window.removeEventListener('storage', handleAuthChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Initialize continuous client telemetry, error capture, and portfolio sync only when logged in
+    if (authUser) {
+      initTelemetryReporter(() => activeWorkspace);
+    }
+  }, [activeWorkspace, authUser]);
 
   // Consolidated navigation normalizer
   const handleNavigate = (tab: TabId, targetId?: string) => {
@@ -74,6 +90,20 @@ export const App: React.FC = () => {
     setRefreshKey((k) => k + 1);
     setTimeout(() => setIsRefreshing(false), 800);
   };
+
+  // ── MANDATORY FULL-PAGE AUTHENTICATION GATE ────────────────────
+  // Without sign in or sign up, the dashboard will NOT open!
+  // The AuthPage occupies the complete page.
+  if (!authUser) {
+    return (
+      <AuthPage
+        onAuthSuccess={(user) => {
+          setAuthUser(user);
+          setActiveWorkspace('command-center');
+        }}
+      />
+    );
+  }
 
   return (
     <div className="terminal-layout">
