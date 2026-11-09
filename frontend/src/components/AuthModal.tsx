@@ -119,15 +119,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const handleGoogleSignIn = async (overrideEmail?: string, overrideName?: string) => {
     setLoading(true);
     setError(null);
-    const targetEmail = overrideEmail || email.trim() || SUPER_ADMIN_EMAIL;
-    const targetName = overrideName || (targetEmail.includes('hitesh') ? 'Hitesh Sunkari' : 'Institutional Investor');
+    const targetEmail = overrideEmail || email.trim() || 'investor@arthai.in';
+    const targetName = overrideName || name.trim() || 'Institutional Trader';
 
     try {
       const authUser = await api.loginWithGoogle(targetEmail, targetName);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
-          ? 'Super-Admin clearance verified! Switching privileges unlocked.'
+          ? 'Super-Admin clearance verified. Switching privileges unlocked.'
           : 'Signed in successfully via Google.'
       );
       setTimeout(() => {
@@ -434,32 +434,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </svg>
               <span>Continue with Google</span>
             </button>
-
-            {/* Quick Super-Admin Instant Google Auth Pill */}
-            <div
-              onClick={() => handleGoogleSignIn(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari')}
-              style={{
-                padding: '7px 10px',
-                borderRadius: '6px',
-                backgroundColor: palette.superAdminBg,
-                border: `1px dashed ${palette.superAdminBorder}`,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <ShieldCheck size={13} color="#00D09C" />
-                <span style={{ fontSize: '11px', color: '#00D09C', fontWeight: 600 }}>
-                  Super-Admin Access:
-                </span>
-                <span style={{ fontSize: '10.5px', color: palette.superAdminEmail, fontFamily: 'monospace' }}>
-                  {SUPER_ADMIN_EMAIL}
-                </span>
-              </div>
-              <span style={{ fontSize: '10px', color: '#00D09C', fontWeight: 700 }}>Quick Login ⚡</span>
-            </div>
           </div>
 
           {/* Divider */}

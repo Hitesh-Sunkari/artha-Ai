@@ -625,8 +625,8 @@ export const Header: React.FC<HeaderProps> = ({
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 
-        {/* Super-Admin Switching Clearance Button */}
-        {authUser?.is_super_admin ? (
+        {/* Super-Admin Switching Clearance Button — Strictly & Exclusively for Hitesh Sunkari */}
+        {isUserSuperAdmin() && authUser?.email?.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in' ? (
           <button
             onClick={handleSwitchToAdmin}
             style={{
@@ -649,29 +649,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Sparkles size={14} color="var(--groww-green)" />
             <span>Switch to Admin ⚡</span>
           </button>
-        ) : (
-          <button
-            onClick={handleSwitchToAdmin}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '5px 12px',
-              borderRadius: '6px',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
-              border: '1px solid var(--border-subtle)',
-              color: 'var(--text-secondary)',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-            title="Admin Dashboard (Clearance strictly restricted to hitesh.sunkari.23cse@bmu.edu.in)"
-          >
-            <Lock size={13} />
-            <span>Admin</span>
-          </button>
-        )}
+        ) : null}
 
         {/* Refresh Button */}
         {onRefresh && (
@@ -800,7 +778,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                 </div>
 
-                {authUser.is_super_admin && (
+                {isUserSuperAdmin() && authUser.email.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in' && (
                   <button
                     onClick={() => {
                       setIsUserMenuOpen(false);

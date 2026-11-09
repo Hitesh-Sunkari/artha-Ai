@@ -29,7 +29,7 @@ interface ProfilePageProps {
 }
 
 export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
-  const [userName, setUserName] = useState<string>('Hitesh S.');
+  const [userName, setUserName] = useState<string>(() => getActiveAuthUser()?.name || 'Institutional Trader');
   const [deskRole, setDeskRole] = useState<string>('Chief Quantitative Investment Officer');
   const [firmName, setFirmName] = useState<string>('Artha Capital Institutional Research Desk');
   const [paperCash, setPaperCash] = useState<number>(1000000);
