@@ -15,6 +15,7 @@ import {
   User,
 } from 'lucide-react';
 import { api, getApiBaseUrl } from '../api/client';
+import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
 import type { ReadinessResponse, MarketSessionState } from '../api/types';
 import type { PrimaryWorkspace, TabId } from './Sidebar';
 
@@ -129,7 +130,8 @@ export const Header: React.FC<HeaderProps> = ({
         if (savedPos) {
           const parsed = JSON.parse(savedPos);
           if (Array.isArray(parsed)) {
-            const hv = parsed.reduce(
+            const { positions: migrated } = sanitizeAndMigrateHoldings(parsed);
+            const hv = migrated.reduce(
               (acc: number, p: any) => acc + (p.shares || 0) * (p.currentPrice || p.avgPrice || 0),
               0
             );

@@ -20,6 +20,7 @@ import {
 import type { TabId } from '../components/Sidebar';
 import { getApiBaseUrl } from '../api/client';
 import type { MarketSessionState } from '../api/types';
+import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
 
 const API = getApiBaseUrl();
 
@@ -188,7 +189,10 @@ export const CommandCenterPage: React.FC<{
     if (s) {
       try {
         const parsed = JSON.parse(s);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed)) {
+          const { positions } = sanitizeAndMigrateHoldings(parsed);
+          return positions;
+        }
       } catch {}
     }
     return [];
@@ -379,7 +383,10 @@ export const CommandCenterPage: React.FC<{
         const p = localStorage.getItem('arthai_paper_positions');
         if (p) {
           const parsed = JSON.parse(p);
-          if (Array.isArray(parsed)) setPaperPositions(parsed);
+          if (Array.isArray(parsed)) {
+            const { positions } = sanitizeAndMigrateHoldings(parsed);
+            setPaperPositions(positions);
+          }
         }
       } catch {}
     };

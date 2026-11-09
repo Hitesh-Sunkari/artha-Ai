@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { PortfolioPage } from './PortfolioPage';
 import { getApiBaseUrl } from '../api/client';
+import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
 
 const API = getApiBaseUrl();
 
@@ -145,9 +146,10 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
   const [positions, setPositions] = useState<PaperPosition[]>(() => {
     const s = localStorage.getItem('arthai_paper_positions');
     const parsed = s ? JSON.parse(s) : [];
+    const { positions: migrated } = sanitizeAndMigrateHoldings(parsed);
     const sOrders = localStorage.getItem('arthai_paper_orders');
     const parsedOrders = sOrders ? JSON.parse(sOrders) : [];
-    return normalizePositionList(parsed, parsedOrders);
+    return normalizePositionList(migrated, parsedOrders);
   });
 
   // Holding Inspection Modal State
@@ -198,7 +200,10 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
         const sPos = localStorage.getItem('arthai_paper_positions');
         if (sPos) {
           const parsed = JSON.parse(sPos);
-          if (Array.isArray(parsed)) setPositions(normalizePositionList(parsed, parsedOrders));
+          if (Array.isArray(parsed)) {
+            const { positions: migrated } = sanitizeAndMigrateHoldings(parsed);
+            setPositions(normalizePositionList(migrated, parsedOrders));
+          }
         }
       } catch {}
     };
