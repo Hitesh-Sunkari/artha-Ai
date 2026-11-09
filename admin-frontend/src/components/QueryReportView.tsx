@@ -731,3 +731,4 @@ export const QueryReportView: React.FC<QueryReportViewProps> = ({ result, rawRun
     </div>
   );
 };
+

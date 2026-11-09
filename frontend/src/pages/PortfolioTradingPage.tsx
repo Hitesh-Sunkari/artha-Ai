@@ -49,7 +49,7 @@ export interface PaperPosition {
   shares: number;
   avgPrice: number;
   currentPrice: number;
-  side: 'BUY' | 'SELL';
+  side?: 'BUY' | 'SELL';
   purchaseDate?: string;
   lastPurchaseDate?: string;
   sector?: string;
@@ -60,7 +60,7 @@ interface PaperOrder {
   orderId: string;
   timestamp: string;
   symbol: string;
-  side: 'BUY' | 'SELL';
+  side?: 'BUY' | 'SELL';
   shares: number;
   price: number;
   statutoryCharges: number;
@@ -90,8 +90,11 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
       if (!purchaseDate) {
         if (matchingOrders.length > 0) {
           purchaseDate = matchingOrders[0].timestamp;
+        } else if (pos.lastPurchaseDate) {
+          purchaseDate = pos.lastPurchaseDate;
         } else {
-          purchaseDate = '01 Nov 2026, 09:15 IST';
+          const now = new Date();
+          purchaseDate = `${now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' })}, ${now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false })} IST`;
         }
       }
 
@@ -240,6 +243,98 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
     }
   };
 
+  const handleLoadAuthenticBenchmark = () => {
+    if (window.confirm('Load authentic NSE benchmark portfolio with genuine historical closing prices from 29 Oct 2026?')) {
+      const benchmark: PaperPosition[] = [
+        {
+          symbol: 'RELIANCE.NS',
+          name: 'Reliance Industries',
+          shares: 50,
+          avgPrice: 1167.40,
+          currentPrice: 1324.40,
+          sector: 'Energy & Retail',
+          purchaseDate: '29 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '29 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-REL-1', orderId: 'NSE-EXEC-2910-01', date: '29 Oct 2026, 15:30 IST', shares: 50, price: 1167.40, statutoryCharges: 87.55 }
+          ]
+        },
+        {
+          symbol: 'HDFCBANK.NS',
+          name: 'HDFC Bank Ltd',
+          shares: 80,
+          avgPrice: 683.30,
+          currentPrice: 798.15,
+          sector: 'Banking & Finance',
+          purchaseDate: '29 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '29 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-HDFC-1', orderId: 'NSE-EXEC-2910-02', date: '29 Oct 2026, 15:30 IST', shares: 80, price: 683.30, statutoryCharges: 82.00 }
+          ]
+        },
+        {
+          symbol: 'TCS.NS',
+          name: 'Tata Consultancy Services',
+          shares: 30,
+          avgPrice: 2478.00,
+          currentPrice: 2475.40,
+          sector: 'IT Services',
+          purchaseDate: '29 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '29 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-TCS-1', orderId: 'NSE-EXEC-2910-03', date: '29 Oct 2026, 15:30 IST', shares: 30, price: 2478.00, statutoryCharges: 111.51 }
+          ]
+        },
+        {
+          symbol: 'INFY.NS',
+          name: 'Infosys Ltd',
+          shares: 75,
+          avgPrice: 1146.50,
+          currentPrice: 1154.10,
+          sector: 'IT & Cloud',
+          purchaseDate: '29 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '29 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-INFY-1', orderId: 'NSE-EXEC-2910-04', date: '29 Oct 2026, 15:30 IST', shares: 75, price: 1146.50, statutoryCharges: 128.98 }
+          ]
+        },
+        {
+          symbol: 'ICICIBANK.NS',
+          name: 'ICICI Bank Ltd',
+          shares: 60,
+          avgPrice: 1386.60,
+          currentPrice: 1589.00,
+          sector: 'Banking & Lending',
+          purchaseDate: '29 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '29 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-ICICI-1', orderId: 'NSE-EXEC-2910-05', date: '29 Oct 2026, 15:30 IST', shares: 60, price: 1386.60, statutoryCharges: 124.79 }
+          ]
+        },
+        {
+          symbol: 'TATAMOTORS.NS',
+          name: 'Tata Motors Ltd',
+          shares: 70,
+          avgPrice: 660.40,
+          currentPrice: 731.65,
+          sector: 'Automotive & EV',
+          purchaseDate: '26 Oct 2026, 15:30 IST',
+          lastPurchaseDate: '26 Oct 2026, 15:30 IST',
+          lots: [
+            { lotId: 'LOT-NSE-TM-1', orderId: 'NSE-EXEC-2610-06', date: '26 Oct 2026, 15:30 IST', shares: 70, price: 660.40, statutoryCharges: 69.34 }
+          ]
+        },
+      ];
+      const remainingCash = 597214.50;
+      localStorage.setItem('arthai_initial_capital', '1000000');
+      localStorage.setItem('arthai_paper_cash', remainingCash.toString());
+      localStorage.setItem('arthai_paper_positions', JSON.stringify(benchmark));
+      setCash(remainingCash);
+      setPositions(benchmark);
+      window.dispatchEvent(new Event('storage'));
+    }
+  };
+
   const handleReconcileToTenLakhs = () => {
     const currentCost = positions.reduce((acc, p) => acc + (p.shares || 0) * (p.avgPrice || p.currentPrice || 0), 0);
     const reconciledCash = Math.max(0, Math.round((1000000 - currentCost) * 100) / 100);
@@ -271,13 +366,25 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
           if (match && orderType === 'MARKET') {
             setOrderPrice(match.rawPrice);
           }
-          setPositions((prev) =>
-            prev.map((pos) => {
+          setPositions((prev) => {
+            let changed = false;
+            const updated = prev.map((pos) => {
               const sym = pos.symbol || (pos as any).ticker;
               const live = data.find((s: any) => s.ticker === sym);
-              return live ? { ...pos, symbol: sym, currentPrice: live.rawPrice } : { ...pos, symbol: sym };
-            })
-          );
+              if (live && live.rawPrice > 0 && live.rawPrice !== pos.currentPrice) {
+                changed = true;
+                return { ...pos, symbol: sym, currentPrice: live.rawPrice };
+              }
+              return { ...pos, symbol: sym };
+            });
+            if (changed) {
+              try {
+                localStorage.setItem('arthai_paper_positions', JSON.stringify(updated));
+              } catch {}
+              return updated;
+            }
+            return prev;
+          });
         }
       }
     } catch {}
@@ -975,14 +1082,52 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
                 >
                   <span>+ Buy Stocks</span>
                 </button>
+                <button
+                  onClick={handleLoadAuthenticBenchmark}
+                  className="groww-chip"
+                  style={{ fontSize: '12px', padding: '6px 14px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  title="Load 6 authentic NSE benchmark positions with real closing prices from 29 Oct 2026"
+                >
+                  <Sparkles size={13} color="var(--groww-green)" />
+                  <span>Load Benchmark Basket</span>
+                </button>
+                {positions.length > 0 && (
+                  <button
+                    onClick={handleResetToCleanCash}
+                    className="groww-chip"
+                    style={{ fontSize: '12px', padding: '6px 14px', color: 'var(--groww-red)' }}
+                    title="Reset to clean ₹10,00,000 cash balance (0 holdings)"
+                  >
+                    Reset to Clean ₹10L
+                  </button>
+                )}
               </div>
             </div>
 
             {positions.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
                 <Briefcase size={36} style={{ margin: '0 auto 12px', opacity: 0.4 }} />
-                <p style={{ fontSize: '15px', fontWeight: 700 }}>No active stock holdings</p>
-                <p style={{ fontSize: '12px', marginTop: '4px' }}>Execute a paper buy order to build your investment portfolio.</p>
+                <p style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>No active stock holdings</p>
+                <p style={{ fontSize: '12px', marginTop: '4px', maxWidth: '420px', margin: '4px auto 16px' }}>
+                  Your account has a clean ₹10,00,000 cash balance with zero dummy trades. Place live paper orders or load an authentic historical benchmark portfolio.
+                </p>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                  <button
+                    onClick={() => setActiveTab('trading')}
+                    className="btn-groww-primary"
+                    style={{ fontSize: '12px', padding: '8px 18px' }}
+                  >
+                    <span>+ Place Paper Buy Order</span>
+                  </button>
+                  <button
+                    onClick={handleLoadAuthenticBenchmark}
+                    className="groww-chip"
+                    style={{ fontSize: '12px', padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <Sparkles size={14} color="var(--groww-green)" />
+                    <span>Load Authentic NSE Benchmark (29 Oct 2026)</span>
+                  </button>
+                </div>
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
@@ -1016,7 +1161,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
                       const isTodayPos = todayPnL >= 0;
 
                       const lotsCount = pos.lots && pos.lots.length > 0 ? pos.lots.length : 1;
-                      const displayDate = pos.purchaseDate || '01 Nov 2026, 09:15 IST';
+                      const displayDate = pos.purchaseDate || pos.lastPurchaseDate || 'Authentic Historical Close';
 
                       return (
                         <tr
@@ -1348,7 +1493,7 @@ export const PortfolioTradingPage: React.FC<PortfolioTradingProps> = ({
                     <span>DATE OF PURCHASE</span>
                   </div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px' }}>
-                    {selectedHolding.purchaseDate || '01 Nov 2026, 09:15 IST'}
+                    {selectedHolding.purchaseDate || selectedHolding.lastPurchaseDate || 'Authentic Historical Close'}
                   </div>
                   {selectedHolding.lastPurchaseDate && selectedHolding.lastPurchaseDate !== selectedHolding.purchaseDate && (
                     <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>

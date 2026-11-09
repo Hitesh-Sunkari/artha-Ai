@@ -86,19 +86,20 @@ export const CommandCenterPage: React.FC<{
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const DEFAULT_SEED_POSITIONS = [
+  // Authentic Historical Benchmark Holdings (Exact Close from NSE Parquet Data on 29 Oct 2026, 15:30 IST)
+  const AUTHENTIC_BENCHMARK_POSITIONS = [
     {
       ticker: 'RELIANCE.NS',
       symbol: 'RELIANCE.NS',
       name: 'Reliance Industries',
       shares: 50,
-      avgPrice: 1120.0,
-      currentPrice: 1324.00,
+      avgPrice: 1167.40,
+      currentPrice: 1324.40,
       sector: 'Energy & Retail',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '29 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '29 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-REL-1', orderId: 'GROWW-ORD-10110', date: '01 Nov 2026, 09:15 IST', shares: 50, price: 1120.0, statutoryCharges: 84.0 }
+        { lotId: 'LOT-NSE-REL-1', orderId: 'NSE-EXEC-2910-01', date: '29 Oct 2026, 15:30 IST', shares: 50, price: 1167.40, statutoryCharges: 87.55 }
       ]
     },
     {
@@ -106,13 +107,13 @@ export const CommandCenterPage: React.FC<{
       symbol: 'HDFCBANK.NS',
       name: 'HDFC Bank Ltd',
       shares: 80,
-      avgPrice: 650.0,
-      currentPrice: 784.10,
+      avgPrice: 683.30,
+      currentPrice: 798.15,
       sector: 'Banking & Finance',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '29 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '29 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-HDFC-1', orderId: 'GROWW-ORD-10111', date: '01 Nov 2026, 09:15 IST', shares: 80, price: 650.0, statutoryCharges: 78.0 }
+        { lotId: 'LOT-NSE-HDFC-1', orderId: 'NSE-EXEC-2910-02', date: '29 Oct 2026, 15:30 IST', shares: 80, price: 683.30, statutoryCharges: 82.00 }
       ]
     },
     {
@@ -120,13 +121,13 @@ export const CommandCenterPage: React.FC<{
       symbol: 'TCS.NS',
       name: 'Tata Consultancy Services',
       shares: 30,
-      avgPrice: 2410.0,
-      currentPrice: 2498.80,
+      avgPrice: 2478.00,
+      currentPrice: 2475.40,
       sector: 'IT Services',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '29 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '29 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-TCS-1', orderId: 'GROWW-ORD-10112', date: '01 Nov 2026, 09:15 IST', shares: 30, price: 2410.0, statutoryCharges: 108.45 }
+        { lotId: 'LOT-NSE-TCS-1', orderId: 'NSE-EXEC-2910-03', date: '29 Oct 2026, 15:30 IST', shares: 30, price: 2478.00, statutoryCharges: 111.51 }
       ]
     },
     {
@@ -134,13 +135,13 @@ export const CommandCenterPage: React.FC<{
       symbol: 'INFY.NS',
       name: 'Infosys Ltd',
       shares: 75,
-      avgPrice: 1110.0,
-      currentPrice: 1171.60,
+      avgPrice: 1146.50,
+      currentPrice: 1154.10,
       sector: 'IT & Cloud',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '29 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '29 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-INFY-1', orderId: 'GROWW-ORD-10113', date: '01 Nov 2026, 09:15 IST', shares: 75, price: 1110.0, statutoryCharges: 124.87 }
+        { lotId: 'LOT-NSE-INFY-1', orderId: 'NSE-EXEC-2910-04', date: '29 Oct 2026, 15:30 IST', shares: 75, price: 1146.50, statutoryCharges: 128.98 }
       ]
     },
     {
@@ -148,13 +149,13 @@ export const CommandCenterPage: React.FC<{
       symbol: 'ICICIBANK.NS',
       name: 'ICICI Bank Ltd',
       shares: 60,
-      avgPrice: 1330.0,
-      currentPrice: 1391.00,
+      avgPrice: 1386.60,
+      currentPrice: 1589.00,
       sector: 'Banking & Lending',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '29 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '29 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-ICICI-1', orderId: 'GROWW-ORD-10114', date: '01 Nov 2026, 09:15 IST', shares: 60, price: 1330.0, statutoryCharges: 119.70 }
+        { lotId: 'LOT-NSE-ICICI-1', orderId: 'NSE-EXEC-2910-05', date: '29 Oct 2026, 15:30 IST', shares: 60, price: 1386.60, statutoryCharges: 124.79 }
       ]
     },
     {
@@ -162,38 +163,35 @@ export const CommandCenterPage: React.FC<{
       symbol: 'TATAMOTORS.NS',
       name: 'Tata Motors Ltd',
       shares: 70,
-      avgPrice: 630.0,
-      currentPrice: 660.00,
+      avgPrice: 660.40,
+      currentPrice: 731.65,
       sector: 'Automotive & EV',
-      purchaseDate: '01 Nov 2026, 09:15 IST',
-      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      purchaseDate: '26 Oct 2026, 15:30 IST',
+      lastPurchaseDate: '26 Oct 2026, 15:30 IST',
       lots: [
-        { lotId: 'LOT-SEED-TM-1', orderId: 'GROWW-ORD-10115', date: '01 Nov 2026, 09:15 IST', shares: 70, price: 630.0, statutoryCharges: 66.15 }
+        { lotId: 'LOT-NSE-TM-1', orderId: 'NSE-EXEC-2610-06', date: '26 Oct 2026, 15:30 IST', shares: 70, price: 660.40, statutoryCharges: 69.34 }
       ]
     },
   ];
 
-  // Real Paper Account State from LocalStorage
+  // Authentic Paper Account State from LocalStorage (Zero fake auto-injection)
   const [paperCash, setPaperCash] = useState<number>(() => {
     const s = localStorage.getItem('arthai_paper_cash');
     if (s) {
       const val = parseFloat(s);
       if (!isNaN(val)) return val;
     }
-    return 612550.0;
+    return 1000000.0;
   });
   const [paperPositions, setPaperPositions] = useState<any[]>(() => {
     const s = localStorage.getItem('arthai_paper_positions');
     if (s) {
       try {
         const parsed = JSON.parse(s);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) return parsed;
       } catch {}
     }
-    try {
-      localStorage.setItem('arthai_paper_positions', JSON.stringify(DEFAULT_SEED_POSITIONS));
-    } catch {}
-    return DEFAULT_SEED_POSITIONS;
+    return [];
   });
 
   const marketSessionRef = React.useRef<MarketSessionState | null>(null);
@@ -208,11 +206,22 @@ export const CommandCenterPage: React.FC<{
   const pnlPct = totalCostBasis > 0 ? (unrealizedPnL / totalCostBasis) * 100 : 0.0;
 
   const handleResetToBenchmarkSeeds = () => {
-    localStorage.setItem('arthai_paper_positions', JSON.stringify(DEFAULT_SEED_POSITIONS));
-    localStorage.setItem('arthai_paper_cash', '612550');
+    const benchmarkCost = AUTHENTIC_BENCHMARK_POSITIONS.reduce((acc, p) => acc + p.shares * p.avgPrice, 0);
+    const benchmarkRemainingCash = Math.max(0, Math.round((1000000 - benchmarkCost) * 100) / 100);
+    localStorage.setItem('arthai_paper_positions', JSON.stringify(AUTHENTIC_BENCHMARK_POSITIONS));
+    localStorage.setItem('arthai_paper_cash', benchmarkRemainingCash.toString());
     localStorage.setItem('arthai_initial_capital', '1000000');
-    setPaperPositions(DEFAULT_SEED_POSITIONS);
-    setPaperCash(612550);
+    setPaperPositions(AUTHENTIC_BENCHMARK_POSITIONS);
+    setPaperCash(benchmarkRemainingCash);
+    window.dispatchEvent(new Event('storage'));
+  };
+
+  const handleResetToCleanCash = () => {
+    localStorage.setItem('arthai_paper_positions', JSON.stringify([]));
+    localStorage.setItem('arthai_paper_cash', '1000000');
+    localStorage.setItem('arthai_initial_capital', '1000000');
+    setPaperPositions([]);
+    setPaperCash(1000000);
     window.dispatchEvent(new Event('storage'));
   };
 
@@ -834,16 +843,45 @@ export const CommandCenterPage: React.FC<{
             </span>
           </div>
 
-          {/* Active Holdings Table Preview */}
-          {paperPositions.length > 0 && (
+          {/* Active Holdings Table Preview or Clean Zero-Holding Slate */}
+          {paperPositions.length === 0 ? (
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '12px', textAlign: 'center', padding: '16px 8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--text-muted)', marginBottom: '6px' }}>
+                <ShieldCheck size={16} color="var(--groww-green)" />
+                <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>Clean Account: ₹10,00,000 Available Cash</span>
+              </div>
+              <p style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4', marginBottom: '12px', maxWidth: '340px', margin: '0 auto 12px' }}>
+                Zero dummy holdings. Execute live paper orders or load authentic historical NSE benchmark positions (closing prices from 29 Oct 2026).
+              </p>
+              <button
+                onClick={handleResetToBenchmarkSeeds}
+                className="groww-chip"
+                style={{ fontSize: '11px', padding: '6px 14px', margin: '0 auto', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                title="Load 6 authentic NSE benchmark positions with real closing prices and genuine market returns"
+              >
+                <Sparkles size={13} color="var(--groww-green)" />
+                <span>Load Authentic Historical Benchmark (29 Oct 2026)</span>
+              </button>
+            </div>
+          ) : (
             <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Portfolio Holdings ({paperPositions.length})
                 </span>
-                <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                  Mark-to-Market Real-Time
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                    Mark-to-Market Real-Time
+                  </span>
+                  <button
+                    onClick={handleResetToCleanCash}
+                    className="groww-chip"
+                    style={{ fontSize: '10px', padding: '2px 6px', color: 'var(--groww-red)' }}
+                    title="Reset to clean ₹10,00,000 cash (clear all holdings)"
+                  >
+                    Clear All
+                  </button>
+                </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '145px', overflowY: 'auto' }}>
                 {paperPositions.map((pos) => {

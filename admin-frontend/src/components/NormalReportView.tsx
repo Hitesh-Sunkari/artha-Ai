@@ -469,3 +469,4 @@ export const NormalReportView: React.FC<NormalReportViewProps> = ({
     </div>
   );
 };
+
