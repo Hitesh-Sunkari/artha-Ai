@@ -1,143 +1,188 @@
-# ArthaAI Docker Operations & Container Runbook
-**Version:** 1.0.0-PROD  
-**Classification:** DevOps Operations Manual  
+# ArthaAI Production Docker Deployment & DevOps Operations Runbook
+**Version:** 2.0.0-PROD  
+**Classification:** DevOps Engineering & Institutional Deployment Architecture  
+**Author:** ArthaAI DevOps & Quantitative Systems Engineering Team  
 
 ---
 
-## 1. Quick Reference Commands
+## 1. Executive Architectural Research & Recommendation
 
-| Operation | Command |
-|---|---|
-| **Build & Start Compose Stack** | `docker compose up -d --build` |
-| **Stop Stack (Preserve Volumes)** | `docker compose down` |
-| **Stop Stack (Remove Volumes)** | `docker compose down -v` |
-| **View Running Containers** | `docker compose ps` |
-| **Stream Backend Logs** | `docker logs -f arthaai-backend` |
-| **Stream Frontend / Nginx Logs** | `docker logs -f arthaai-frontend` |
-| **Container Resource Stats (RAM/CPU)** | `docker stats --no-stream` |
-| **Execute Shell in Backend** | `docker exec -it arthaai-backend /bin/bash` |
-| **Execute Backend Health Check** | `docker exec arthaai-backend curl -f http://127.0.0.1:8000/health` |
-| **Clean Build Cache** | `docker system prune -f` |
+### Is it Recommended to Dockerize ArthaAI?
+**Yes, strongly recommended.**
+
+ArthaAI is a heterogeneous, multi-tiered algorithmic research framework consisting of:
+1. **Python 3.11/3.12 Backend**: FastAPI, DuckDB (with SIMD columnar vectorized execution), ChromaDB (C++ SQLite and hnswlib bindings), Google ADK, CrewAI, FastMCP, and A2A JSON-RPC 2.0.
+2. **User Web Platform**: React 19, TypeScript, Vite, Chart.js, Lucide Icons.
+3. **Institutional Admin Portal**: Consolidated 3-Console experimental evaluator, real-time network traffic surveillance, user session tracking, and portfolio risk telemetry.
+4. **Persistent Analytical State**: 5-year OHLCV Parquet files, ChromaDB regulatory vector embeddings, multi-agent blackboard deliberation states, user paper-trading portfolios, and the canonical 96-experiment evaluation dataset.
+
+#### Why Dockerization is Essential (Bare Metal vs Containerized):
+| Risk Vector | Bare Metal / Direct Node & Python | Containerized (Docker Compose) |
+|---|---|---|
+| **C++ / SQLite Dependencies** | ChromaDB and DuckDB require exact OS-level C++ compilers (`libsqlite3`, `build-essential`). Different Linux distros or Windows versions break bindings. | **Standardized**: Packaged inside `python:3.12-slim` with validated native C++ dependencies. |
+| **Data Loss on Deployment** | Overwriting files or upgrading servers can accidentally erase historical runs, vector embeddings, or portfolios. | **Zero Data Loss**: State is decoupled into 6 dedicated persistent named Docker volumes that survive rebuilds. |
+| **Microservice Isolation** | Frontend node processes, Vite dev servers, and Python FastAPI fight over ports and system resources. | **Isolated**: Clean container boundaries with bridge network DNS resolution (`http://backend:8000`). |
+| **Memory Leak / OOM Risk** | A single greedy LLM response or large Monte Carlo SIMD simulation can crash the entire host machine. | **Enforced Resource Caps**: Hard cgroup limits (e.g. 1024 MB RAM for backend, 256 MB for frontends). |
+| **Port & Routing Collisions** | Port forwarding conflicts across developer machines and cloud hosts. | **Deterministic Mapping**: Customizable port bindings via `.env` (`BACKEND_PORT`, `USER_PORT`, `ADMIN_PORT`). |
 
 ---
 
-## 2. Image Building Procedures
+## 2. Multi-Container Production Topology (Docker Compose)
 
-### 2.1 Multi-Container Stack (Compose)
+The primary production architecture runs 3 decoupled services over an isolated bridge network (`arthaai-network`):
+
+```
+                        ┌──────────────────────────────────────────────┐
+                        │              Host Machine / VPS              │
+                        └───────┬──────────────────────────────┬───────┘
+                                │                              │
+                        Port 5173                              Port 5174
+                                ▼                              ▼
+                 ┌─────────────────────────────┐┌─────────────────────────────┐
+                 │    arthaai-user-frontend    ││   arthaai-admin-frontend    │
+                 │   (Nginx Alpine Container)  ││  (Nginx Alpine Container)   │
+                 └──────────────┬──────────────┘└──────────────┬──────────────┘
+                                │                              │
+                                └───► Reverse Proxy API Calls ─┘
+                                     (/health, /research, /admin, etc.)
+                                                │
+                                                ▼ Port 8000
+                                 ┌─────────────────────────────┐
+                                 │       arthaai-backend       │
+                                 │ (FastAPI + DuckDB + CrewAI) │
+                                 └──────────────┬──────────────┘
+                                                │
+                        ┌───────────────────────┴───────────────────────┐
+                        ▼                                               ▼
+         ┌──────────────────────────────┐                ┌──────────────────────────────┐
+         │      Persistent Volumes      │                │   Statutory Data Bank & RAG  │
+         │  • arthaai-data-runs         │                │  • arthaai-data-parquet      │
+         │  • arthaai-data-blackboard   │                │  • arthaai-data-chroma       │
+         │  • arthaai-experiments-res   │                │  • arthaai-experiments-data  │
+         └──────────────────────────────┘                └──────────────────────────────┘
+```
+
+---
+
+## 3. Persistent Volume Blueprint: Zero Data Loss Guarantee
+
+To ensure that **nothing is ever lost** after deployment, 6 dedicated Docker named volumes isolate all stateful data away from the disposable application containers:
+
+| Named Volume | In-Container Mount Path | Contents & Criticality | Loss Consequence if Unmounted |
+|---|---|---|---|
+| `arthaai-data-runs` | `/app/data/runs` | User-initiated research reports, execution traces, and query outputs | Historical user inquiries lost on container restart |
+| `arthaai-data-blackboard` | `/app/data/blackboard` | 7-agent sequential/parallel deliberation snapshots | Multi-agent handoff audit trail lost |
+| `arthaai-data-chroma` | `/app/data/chroma_db` | Persistent ChromaDB vector embeddings for RBI circulars & SEBI LODR | Expensive re-embedding needed from raw PDFs |
+| `arthaai-data-parquet` | `/app/data/parquet` | 5-year daily OHLCV bars, financial filings, and macro tables | DuckDB falls back to slow live yfinance queries |
+| `arthaai-experiments-results` | `/app/experiments/results` | Canonical 96-run paired evaluation results (`exp-canon-*.json`) | Scientific benchmark verification metrics lost |
+| `arthaai-experiments-datasets` | `/app/experiments/datasets` | Canonical benchmark scenarios (`Q01`–`Q06`, `S01`–`S06`) | Scenario definitions reset to default |
+
+---
+
+## 4. Quick-Start Deployment Commands
+
+### Step 1: Configure Environment Variables
+Copy `.env.example` to `.env` and provide your Gemini API key:
 ```bash
-# Build both frontend (Nginx) and backend images with buildkit caching
-DOCKER_BUILDKIT=1 docker compose build
+cp .env.example .env
+```
+Ensure `.env` contains:
+```ini
+GEMINI_API_KEY=your_actual_gemini_key_here
+ARTHAAI_ENVIRONMENT=production
+ARTHAAI_LIVE_TRADING_ENABLED=false
+```
 
-# Start services in detached mode
+### Step 2: Build & Start the Multi-Container Stack
+```bash
+# Build all 3 images with BuildKit parallel caching and start in background
+docker compose up -d --build
+```
+
+### Step 3: Verify Container Health
+```bash
+docker compose ps
+```
+All three containers should transition to `(healthy)`:
+- `arthaai-backend`: `http://127.0.0.1:8000`
+- `arthaai-user-frontend`: `http://127.0.0.1:5173`
+- `arthaai-admin-frontend`: `http://127.0.0.1:5174`
+
+---
+
+## 5. Automated Disaster Recovery & Volume Backup
+
+### 5.1 One-Click Backup of All 6 Named Volumes
+To create a complete snapshot of all research runs, vector embeddings, and benchmark evaluations:
+
+**On Linux / macOS:**
+```bash
+chmod +x scripts/backup_docker_volumes.sh
+./scripts/backup_docker_volumes.sh ./backups
+```
+
+**On Windows (PowerShell):**
+```powershell
+.\scripts\backup_docker_volumes.ps1 -BackupDir .\backups
+```
+This produces a single compressed archive (e.g., `backups/arthaai_volumes_backup_20261109_183000.tar.gz`).
+
+### 5.2 One-Click Restore of All Volumes
+If migrating to a brand-new cloud VPS or recovering from an outage:
+
+**On Linux / macOS:**
+```bash
+chmod +x scripts/restore_docker_volumes.sh
+./scripts/restore_docker_volumes.sh ./backups/arthaai_volumes_backup_20261109_183000.tar.gz
 docker compose up -d
 ```
 
-### 2.2 Unified Single-Host Container (Hugging Face / Render / Single VM)
-```bash
-# Build the unified single container containing frontend, admin, and backend
-DOCKER_BUILDKIT=1 docker build -t arthai-unified:latest .
+**On Windows (PowerShell):**
+```powershell
+.\scripts\restore_docker_volumes.ps1 -BackupFile .\backups\arthaai_volumes_backup_20261109_183000.tar.gz
+docker compose up -d
+```
+All 6 volumes will be restored instantly with exact permissions, and the system resumes without missing a single byte.
 
-# Run locally on port 7860
+---
+
+## 6. Single-Container Deployment (Hugging Face Spaces / Render / PaaS)
+
+If deploying to environments that only permit a single container or single exposed port (such as Hugging Face Spaces on Port 7860 or Render Web Service):
+
+The root `Dockerfile` contains a unified multi-stage build that:
+1. Builds the User React SPA (`frontend/dist`).
+2. Builds the Admin React SPA (`admin-frontend/dist`).
+3. Installs Python dependencies and mounts both SPAs inside the FastAPI backend.
+4. Serves:
+   - User SPA at `http://host:7860/`
+   - Admin Portal at `http://host:7860/admin`
+   - Backend API at `http://host:7860/health`, `/research`, `/admin/benchmark/*`
+
+```bash
+# Build unified container
+docker build -t arthaai-unified:latest .
+
+# Run on port 7860
 docker run -d \
-  --name arthai-app \
   -p 7860:7860 \
   -e GEMINI_API_KEY="your-key-here" \
-  -e ARTHAAI_ENVIRONMENT=production \
-  arthai-unified:latest
+  -e PORT=7860 \
+  -v arthaai-data-runs:/app/data/runs \
+  -v arthaai-data-parquet:/app/data/parquet \
+  -v arthaai-experiments-results:/app/experiments/results \
+  --name arthaai-unified \
+  arthaai-unified:latest
 ```
 
 ---
 
-## 3. Persistent Volume Management
+## 7. Cloud Provider Deployment Matrix
 
-ArthaAI uses 4 dedicated named volumes to ensure that research history, ChromaDB vector collections, and DuckDB Parquet data survive container rebuilds:
-
-| Volume Name | Container Path | Stored Data |
+| Platform | Recommended Mode | Configuration Notes |
 |---|---|---|
-| `arthai-runs` | `/app/data/runs` | In-memory research report JSON records and execution traces |
-| `arthai-blackboard` | `/app/data/blackboard` | Versioned blackboard state snapshots across agent deliberations |
-| `arthai-chroma` | `/app/data/chroma_db` | Persistent ChromaDB collection files and lexical vector embeddings |
-| `arthai-parquet` | `/app/data/parquet` | 5-year daily OHLCV bars, financial disclosures, and macro tables |
-
-### Backing Up Volumes to Host
-```bash
-# Create a backup archive of ChromaDB and Parquet datasets
-docker run --rm \
-  -v arthai-chroma:/chroma \
-  -v arthai-parquet:/parquet \
-  -v $(pwd)/backups:/backup \
-  busybox tar -czvf /backup/arthai_data_backup_$(date +%Y%m%d).tar.gz /chroma /parquet
-```
-
-### Restoring Volumes from Host Backup
-```bash
-docker run --rm \
-  -v arthai-chroma:/chroma \
-  -v arthai-parquet:/parquet \
-  -v $(pwd)/backups:/backup \
-  busybox tar -xzvf /backup/arthai_data_backup_20261109.tar.gz -C /
-```
-
----
-
-## 4. Resource Consumption & Limit Enforcement
-
-To guarantee zero-cost stability on 1 GB RAM cloud VMs (e.g., Google Cloud `e2-micro` or Oracle Cloud):
-
-```yaml
-# Enforced in compose.yaml:
-services:
-  backend:
-    deploy:
-      resources:
-        limits:
-          cpus: '1.5'
-          memory: 1024M
-        reservations:
-          cpus: '0.2'
-          memory: 384M
-  frontend:
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
-        reservations:
-          cpus: '0.1'
-          memory: 64M
-```
-
-### Live Resource Verification
-Check actual memory usage across running containers:
-```bash
-docker stats
-```
-*Observed steady-state memory usage:*
-- `arthaai-backend`: **~280 MB - 450 MB RAM**
-- `arthaai-frontend` (Nginx): **~15 MB RAM**
-- Total Stack Footprint: **< 500 MB RAM** (Fits within free 1 GB tier!)
-
----
-
-## 5. Troubleshooting Common Container Issues
-
-### Issue A: Container Exits Immediately with Error
-```bash
-# Inspect container exit logs
-docker logs --tail 50 arthaai-backend
-```
-*Common root causes:*
-- Missing `pyproject.toml` or missing dependencies.
-- `ARTHAAI_LIVE_TRADING_ENABLED=true` (application asserts `false` at boot).
-
-### Issue B: Port Already in Use on Host
-```bash
-# Check what process is listening on port 80
-sudo lsof -i :80
-# Or change host port in .env:
-HOST_PORT=8080 docker compose up -d
-```
-
-### Issue C: DuckDB File Lock Conflict
-If multiple processes attempt to write to the same DuckDB path, DuckDB throws a lock exception. ArthaAI uses `:memory:` database with read-only Parquet views (`read_parquet`), completely eliminating DuckDB lock contentions in container environments.
-
+| **AWS EC2 / DigitalOcean Droplet / Hetzner** | Docker Compose | Run `docker compose up -d`. Map ports 80/443 with Nginx or Caddy for automatic Let's Encrypt SSL. |
+| **Google Cloud Run** | Unified Dockerfile | Deploy as single container. Set `PORT=8080` and allocate 2 GB RAM. Mount Cloud Storage FUSE for persistence. |
+| **Hugging Face Spaces** | Unified Dockerfile | Use `Dockerfile` directly with default port `7860` and unprivileged UID `1000`. |
+| **Render.com** | Docker Compose or Web Service | Use Docker runtime with disk mount attached at `/app/data`. |
+| **Oracle Cloud Free Tier VM** | Docker Compose | Fits within the 1 GB RAM / 4 OCPU ARM Ampere free tier using configured resource caps. |

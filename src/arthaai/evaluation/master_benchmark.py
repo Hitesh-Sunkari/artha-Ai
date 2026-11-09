@@ -551,3 +551,4 @@ class MasterBenchmarkEngine:
 
 # Global singleton benchmark engine
 benchmark_engine = MasterBenchmarkEngine()
+

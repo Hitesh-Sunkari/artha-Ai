@@ -26,3 +26,4 @@ It encompasses 12 empirical scenarios across two institutional workflows:
 ## 4. Point-In-Time Anchor
 - As-of timestamp: `2026-10-29T15:30:00+05:30`
 - Zero lookahead bias strictly enforced across all analytical partitions.
+

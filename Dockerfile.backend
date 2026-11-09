@@ -44,18 +44,20 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     "pandas>=2.2.0" \
     "scipy>=1.13.0" \
     "yfinance>=0.2.40" \
+    "google-genai>=2.30.0" \
     "python-dotenv>=1.0.0"
 
 # Install package in editable or standard mode
 COPY src/ /app/src/
 RUN pip install --no-cache-dir -e /app
 
-# Copy analytical datasets and ChromaDB vector corpus
+# Copy analytical datasets, ChromaDB vector corpus, configs and experimental benchmarks
 COPY data/ /app/data/
 COPY configs/ /app/configs/
+COPY experiments/ /app/experiments/
 
 # Ensure directories exist and permissions are granted to non-root user
-RUN mkdir -p /app/data/runs /app/data/blackboard /app/data/quality /app/data/quarantine && \
+RUN mkdir -p /app/data/runs /app/data/blackboard /app/data/quality /app/data/quarantine /app/experiments/results && \
     chown -R appuser:appuser /app
 
 USER appuser

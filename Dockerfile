@@ -64,22 +64,24 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     "pandas>=2.2.0" \
     "scipy>=1.13.0" \
     "yfinance>=0.2.40" \
+    "google-genai>=2.30.0" \
     "python-dotenv>=1.0.0"
 
 # Copy source code and install
 COPY src/ /app/src/
 RUN pip install --no-cache-dir -e /app
 
-# Copy datasets and configurations
+# Copy datasets, configurations, and benchmarks
 COPY data/ /app/data/
 COPY configs/ /app/configs/
+COPY experiments/ /app/experiments/
 
 # Copy compiled frontend SPAs from build stages
 COPY --from=frontend-builder /build/frontend/dist /app/frontend/dist
 COPY --from=admin-builder /build/admin-frontend/dist /app/admin-frontend/dist
 
 # Ensure state directories exist and assign permissions to unprivileged user
-RUN mkdir -p /app/data/runs /app/data/blackboard /app/data/quality /app/data/quarantine && \
+RUN mkdir -p /app/data/runs /app/data/blackboard /app/data/quality /app/data/quarantine /app/experiments/results && \
     chown -R appuser:appuser /app
 
 USER appuser
