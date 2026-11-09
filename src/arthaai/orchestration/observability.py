@@ -24,12 +24,19 @@ class LifecycleEventType(str, Enum):
     TOOL_INVOCATION = "TOOL_INVOCATION"
     TOOL_COMPLETE = "TOOL_COMPLETE"
     BLACKBOARD_WRITE = "BLACKBOARD_WRITE"
+    BLACKBOARD_READ = "BLACKBOARD_READ"
     SKEPTIC_CHALLENGE = "SKEPTIC_CHALLENGE"
     RISK_VALIDATION = "RISK_VALIDATION"
     A2A_MESSAGE_SENT = "A2A_MESSAGE_SENT"
     A2A_MESSAGE_RECEIVED = "A2A_MESSAGE_RECEIVED"
     RAG_RETRIEVAL = "RAG_RETRIEVAL"
     LLM_INVOCATION = "LLM_INVOCATION"
+    TASK_PLANNED = "TASK_PLANNED"
+    TASK_DISPATCHED = "TASK_DISPATCHED"
+    VALIDATION_SUCCESS = "VALIDATION_SUCCESS"
+    VALIDATION_FAILURE = "VALIDATION_FAILURE"
+    TASK_RETRY = "TASK_RETRY"
+    GATE_DECISION = "GATE_DECISION"
     ERROR = "ERROR"
 
 
@@ -40,6 +47,7 @@ class LifecycleEvent(BaseModel):
 
     event_id: str = Field(..., description="Unique event identifier")
     run_id: str = Field(..., description="Correlated research run ID")
+    execution_id: str | None = Field(default=None, description="Unique agent execution attempt ID")
     event_type: LifecycleEventType = Field(..., description="Lifecycle stage category")
     agent_id: str = Field(..., description="Executing agent or system identifier")
     framework: str = Field(default="SYSTEM", description="Framework origin: GOOGLE_ADK, CREWAI, or SYSTEM")
@@ -72,10 +80,11 @@ class RunAuditSummary(BaseModel):
 class ExecutionTracer:
     """Thread-safe event collector for workflow lifecycle tracing."""
 
-    def __init__(self, run_id: str, pattern: str = "SEQUENTIAL") -> None:
+    def __init__(self, run_id: str = "default-run", pattern: str = "SEQUENTIAL") -> None:
         self.run_id = run_id
         self.pattern = pattern
         self._events: list[LifecycleEvent] = []
+        self._agent_execution_ids: dict[str, str] = {}
 
     def record_event(
         self,
@@ -85,13 +94,22 @@ class ExecutionTracer:
         status: str = "SUCCESS",
         duration_ms: float | None = None,
         payload: dict[str, Any] | None = None,
+        execution_id: str | None = None,
     ) -> LifecycleEvent:
-        """Records a new lifecycle event."""
+        """Records a new lifecycle event with unique execution attempt attribution."""
         import uuid
+
+        if execution_id is None:
+            if event_type == LifecycleEventType.AGENT_START:
+                execution_id = f"exec-{agent_id}-{uuid.uuid4().hex[:6]}"
+                self._agent_execution_ids[agent_id] = execution_id
+            else:
+                execution_id = self._agent_execution_ids.get(agent_id, f"exec-{agent_id}-default")
 
         event = LifecycleEvent(
             event_id=f"evt-{uuid.uuid4().hex[:8]}",
             run_id=self.run_id,
+            execution_id=execution_id,
             event_type=event_type,
             agent_id=agent_id,
             framework=framework,
@@ -106,6 +124,12 @@ class ExecutionTracer:
 
     def get_events(self) -> list[LifecycleEvent]:
         """Returns all recorded events."""
+        return list(self._events)
+
+    def get_trace(self, run_id: str | None = None) -> list[LifecycleEvent]:
+        """Alias for get_events returning the trace of events."""
+        if run_id:
+            return [e for e in self._events if e.run_id == run_id]
         return list(self._events)
 
 

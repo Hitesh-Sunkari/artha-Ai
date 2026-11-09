@@ -34,6 +34,12 @@ interface FinancialChartsProps {
   recommendation?: string;
   convictionScore?: number;
   statutoryBounds?: Record<string, any>;
+  targetPrice?: number | null;
+  targetUpsidePct?: number | null;
+  stopLossPrice?: number | null;
+  stopLossPct?: number | null;
+  rewardToRiskRatio?: number | null;
+  targetMethodology?: string | null;
 }
 
 export const FinancialCharts: React.FC<FinancialChartsProps> = ({
@@ -44,28 +50,54 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
   recommendation,
   convictionScore,
   statutoryBounds,
+  targetPrice,
+  targetUpsidePct,
+  stopLossPrice,
+  stopLossPct,
+  rewardToRiskRatio,
+  targetMethodology,
 }) => {
   const [hoveredBar, setHoveredBar] = useState<BarData | null>(null);
 
-  const stance = (recommendation || 'ACCUMULATE').toUpperCase();
-  const isBullish = stance.includes('BUY') || stance.includes('ACCUMULATE');
-  const isBearish = stance.includes('SELL') || stance.includes('TRIM') || stance.includes('AVOID');
-  const conviction = convictionScore ?? (isBullish ? 82 : isBearish ? 28 : 55);
+  const stance = (recommendation || 'INCONCLUSIVE').toUpperCase();
+  const isInconclusive = stance === 'INCONCLUSIVE' || stance === 'PENDING';
+  const isBullish = !isInconclusive && (stance.includes('BUY') || stance.includes('ACCUMULATE'));
+  const isBearish = !isInconclusive && (stance.includes('SELL') || stance.includes('TRIM') || stance.includes('AVOID'));
+  const hasConviction = typeof convictionScore === 'number' && convictionScore !== null;
+  const conviction = hasConviction ? convictionScore : null;
 
-  const needleAngle = Math.min(90, Math.max(-90, (conviction / 100) * 180 - 90));
+  const needleAngle = conviction !== null ? Math.min(90, Math.max(-90, (conviction / 100) * 180 - 90)) : 0;
 
   const cmp = metrics.latest_close
     ? Number(metrics.latest_close)
     : bars.length > 0
     ? bars[bars.length - 1].close
     : 2450.0;
-  const targetPct = isBullish ? 0.145 : isBearish ? -0.09 : 0.045;
-  const targetPrice = cmp * (1 + targetPct);
-  const stopLossPct = -0.055;
-  const stopLossPrice = cmp * (1 + stopLossPct);
+
+  // Grounded target corridor from verified backend quantitative report (Section 3 Mandate)
+  const hasValidTarget = targetPrice !== undefined && targetPrice !== null;
+  const activeTargetPrice = hasValidTarget ? Number(targetPrice) : null;
+  const activeTargetPct = targetUpsidePct !== undefined && targetUpsidePct !== null
+    ? Number(targetUpsidePct)
+    : activeTargetPrice && cmp > 0
+    ? Number((((activeTargetPrice - cmp) / cmp) * 100).toFixed(1))
+    : null;
+
+  const hasValidStopLoss = stopLossPrice !== undefined && stopLossPrice !== null;
+  const activeStopLossPrice = hasValidStopLoss ? Number(stopLossPrice) : null;
+  const activeStopLossPct = stopLossPct !== undefined && stopLossPct !== null
+    ? Number(stopLossPct)
+    : activeStopLossPrice && cmp > 0
+    ? Number((((activeStopLossPrice - cmp) / cmp) * 100).toFixed(1))
+    : null;
+
   const frictionDragPct = statutoryBounds?.effective_rate_pct ?? 0.1186;
   const sma200 = metrics.sma_200d ? Number(metrics.sma_200d) : cmp * 0.955;
-  const riskRewardRatio = isBullish ? (Math.abs(targetPct) / Math.abs(stopLossPct)).toFixed(2) : '1.20';
+  const activeRR = rewardToRiskRatio !== undefined && rewardToRiskRatio !== null
+    ? String(rewardToRiskRatio)
+    : (activeTargetPct !== null && activeStopLossPct !== null && Math.abs(activeStopLossPct) > 0.01)
+    ? (Math.abs(activeTargetPct) / Math.abs(activeStopLossPct)).toFixed(2)
+    : null;
 
   const hasBars = bars && bars.length > 0;
 
@@ -86,13 +118,14 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
     maxPrice += pPad;
   }
 
-  // Latency breakdown per agent
+  // Latency breakdown per agent (derived from verified lifecycle events)
   const agentDurations: { id: string; name: string; framework: string; durationMs: number }[] = [];
   events.forEach((e) => {
     if (e.duration_ms && (e.event_type === 'AGENT_COMPLETE' || e.event_type === 'TOOL_COMPLETE')) {
       const existing = agentDurations.find((a) => a.id === e.agent_id);
+      const effectiveDuration = Number(e.payload?.agent_execution_ms ?? e.duration_ms);
       if (existing) {
-        existing.durationMs = Math.max(existing.durationMs, e.duration_ms);
+        existing.durationMs = Math.max(existing.durationMs, effectiveDuration);
       } else {
         const cleanName = e.agent_id
           .replace('adk_', '')
@@ -103,7 +136,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
           id: e.agent_id,
           name: cleanName,
           framework: e.framework || (e.agent_id.startsWith('adk') ? 'GOOGLE_ADK' : 'CREWAI'),
-          durationMs: e.duration_ms,
+          durationMs: effectiveDuration,
         });
       }
     }
@@ -113,9 +146,10 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
 
   // Width & height of SVG candlestick canvas
   const svgWidth = 740;
-  const svgHeight = 220;
-  const volHeight = 50;
-  const priceHeight = svgHeight - volHeight - 20;
+  const svgHeight = 245;
+  const volHeight = 45;
+  const dateAxisHeight = 18;
+  const priceHeight = svgHeight - volHeight - dateAxisHeight - 20;
 
   const barWidth = hasBars ? Math.max(2, Math.min(14, (svgWidth - 60) / bars.length - 2)) : 8;
 
@@ -199,7 +233,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
                 Recommendation Stance Gauge
               </span>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                Conviction: <strong style={{ color: isBullish ? 'var(--groww-green)' : isBearish ? 'var(--groww-red)' : 'var(--groww-blue)' }}>{conviction}%</strong>
+                Conviction: <strong style={{ color: isBullish ? 'var(--groww-green)' : isBearish ? 'var(--groww-red)' : isInconclusive ? 'var(--accent-amber)' : 'var(--groww-blue)' }}>{hasConviction ? `${conviction}%` : 'Unscored'}</strong>
               </span>
             </div>
 
@@ -254,8 +288,8 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
                 width: '100%',
                 padding: '10px 14px',
                 borderRadius: '8px',
-                backgroundColor: isBullish ? 'rgba(0, 208, 156, 0.08)' : isBearish ? 'rgba(235, 91, 89, 0.08)' : 'rgba(59, 130, 246, 0.08)',
-                border: `1px solid ${isBullish ? 'var(--groww-green)' : isBearish ? 'var(--groww-red)' : 'var(--groww-blue)'}`,
+                backgroundColor: isBullish ? 'rgba(0, 208, 156, 0.08)' : isBearish ? 'rgba(235, 91, 89, 0.08)' : isInconclusive ? 'rgba(245, 158, 11, 0.08)' : 'rgba(59, 130, 246, 0.08)',
+                border: `1px solid ${isBullish ? 'var(--groww-green)' : isBearish ? 'var(--groww-red)' : isInconclusive ? 'var(--accent-amber)' : 'var(--groww-blue)'}`,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -265,13 +299,13 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
               <div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>Algorithmic Suggestion</div>
                 <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                  {isBullish ? 'ACCUMULATE ON DIPS' : isBearish ? 'CAPITAL PRESERVATION / TRIM' : 'HOLD & OBSERVE'}
+                  {isBullish ? 'ACCUMULATE ON DIPS' : isBearish ? 'CAPITAL PRESERVATION / TRIM' : isInconclusive ? 'EVALUATION INCONCLUSIVE / GATES BLOCKED' : 'HOLD & OBSERVE'}
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Risk Profile</div>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: isBullish ? 'var(--groww-green)' : 'var(--text-primary)' }}>
-                  {isBullish ? 'FAVORABLE R:R' : 'DEFENSIVE'}
+                <div style={{ fontSize: '12px', fontWeight: 700, color: isBullish ? 'var(--groww-green)' : isBearish ? 'var(--groww-red)' : isInconclusive ? 'var(--accent-amber)' : 'var(--text-primary)' }}>
+                  {isBullish ? 'FAVORABLE R:R' : isBearish ? 'DEFENSIVE' : isInconclusive ? 'ANOMALY BLOCKED' : 'NEUTRAL'}
                 </div>
               </div>
             </div>
@@ -295,21 +329,31 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
                 12-Month Target Horizon Corridor
               </span>
               <span className="pill-badge pill-badge-neutral" style={{ fontSize: '10px', fontFamily: 'var(--font-mono)' }}>
-                R:R Ratio 1 : {riskRewardRatio}
+                {activeRR ? `R:R Ratio 1 : ${activeRR}` : 'R:R Ratio: Inconclusive'}
               </span>
             </div>
 
             {/* Visual Corridor Levels */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', margin: '4px 0' }}>
               {/* Upper Projected Target */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: 'rgba(0, 208, 156, 0.08)', borderRadius: '6px', borderLeft: '3px solid var(--groww-green)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: activeTargetPrice ? 'rgba(0, 208, 156, 0.08)' : 'var(--bg-surface)', borderRadius: '6px', borderLeft: `3px solid ${activeTargetPrice ? 'var(--groww-green)' : 'var(--border-medium)'}` }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ArrowUpRight size={14} color="var(--groww-green)" />
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-green)' }}>12M Projected Target</span>
+                  <ArrowUpRight size={14} color={activeTargetPrice ? "var(--groww-green)" : "var(--text-muted)"} />
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: activeTargetPrice ? 'var(--groww-green)' : 'var(--text-secondary)' }}>
+                    12M Projected Target
+                  </span>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <strong style={{ fontSize: '13px', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{targetPrice.toFixed(2)}</strong>
-                  <span style={{ fontSize: '10px', color: 'var(--groww-green)', marginLeft: '6px' }}>(+{(targetPct * 100).toFixed(1)}%)</span>
+                  {activeTargetPrice !== null ? (
+                    <>
+                      <strong style={{ fontSize: '13px', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{activeTargetPrice.toFixed(2)}</strong>
+                      <span style={{ fontSize: '10px', color: 'var(--groww-green)', marginLeft: '6px' }}>
+                        ({activeTargetPct && activeTargetPct > 0 ? `+${activeTargetPct}%` : `${activeTargetPct}%`})
+                      </span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>Unscored / Inconclusive</span>
+                  )}
                 </div>
               </div>
 
@@ -347,29 +391,42 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
               </div>
 
               {/* Stop-Loss Floor */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: 'rgba(235, 91, 89, 0.08)', borderRadius: '6px', borderLeft: '3px solid var(--groww-red)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 10px', backgroundColor: activeStopLossPrice ? 'rgba(235, 91, 89, 0.08)' : 'var(--bg-surface)', borderRadius: '6px', borderLeft: `3px solid ${activeStopLossPrice ? 'var(--groww-red)' : 'var(--border-medium)'}` }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ArrowDownRight size={14} color="var(--groww-red)" />
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-red)' }}>Institutional Stop-Loss Floor</span>
+                  <ArrowDownRight size={14} color={activeStopLossPrice ? "var(--groww-red)" : "var(--text-muted)"} />
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: activeStopLossPrice ? 'var(--groww-red)' : 'var(--text-secondary)' }}>Institutional Stop-Loss Floor</span>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <strong style={{ fontSize: '13px', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{stopLossPrice.toFixed(2)}</strong>
-                  <span style={{ fontSize: '10px', color: 'var(--groww-red)', marginLeft: '6px' }}>({stopLossPct * 100}%)</span>
+                  {activeStopLossPrice !== null ? (
+                    <>
+                      <strong style={{ fontSize: '13px', color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>₹{activeStopLossPrice.toFixed(2)}</strong>
+                      <span style={{ fontSize: '10px', color: 'var(--groww-red)', marginLeft: '6px' }}>({activeStopLossPct}%)</span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>Unscored Floor</span>
+                  )}
                 </div>
               </div>
             </div>
 
+            {/* Target Methodology Note */}
+            {targetMethodology && (
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontStyle: 'italic', padding: '4px 6px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px' }}>
+                Methodology: {targetMethodology}
+              </div>
+            )}
+
             {/* Visual Horizon Progress Bar */}
             <div style={{ width: '100%', marginTop: '6px' }}>
               <div style={{ height: '8px', width: '100%', backgroundColor: 'var(--bg-surface)', borderRadius: '4px', display: 'flex', overflow: 'hidden' }}>
-                <div style={{ width: '25%', backgroundColor: 'var(--groww-red)' }} title="Downside Stop" />
+                <div style={{ width: activeStopLossPct ? `${Math.min(40, Math.abs(activeStopLossPct) * 4)}%` : '15%', backgroundColor: 'var(--groww-red)' }} title="Downside Stop" />
                 <div style={{ width: '5%', backgroundColor: 'var(--accent-amber)' }} title="Statutory Friction" />
-                <div style={{ width: '70%', backgroundColor: 'var(--groww-green)' }} title="Upside Target Corridor" />
+                <div style={{ width: activeTargetPct ? `${Math.min(75, Math.max(10, activeTargetPct * 3))}%` : '20%', backgroundColor: activeTargetPct ? 'var(--groww-green)' : 'var(--border-medium)' }} title="Upside Target Corridor" />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: 'var(--text-muted)', marginTop: '3px', fontFamily: 'var(--font-mono)' }}>
-                <span>Risk: -5.5%</span>
-                <span>Friction: 0.12%</span>
-                <span>Upside Potential: +{(targetPct * 100).toFixed(1)}%</span>
+                <span>Risk: {activeStopLossPct !== null ? `${activeStopLossPct}%` : 'Inconclusive'}</span>
+                <span>Friction: -{frictionDragPct.toFixed(2)}%</span>
+                <span>Upside: {activeTargetPct !== null ? `+${activeTargetPct}%` : 'Inconclusive'}</span>
               </div>
             </div>
           </div>
@@ -383,7 +440,9 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginTop: '2px' }}>
               RSI: {metrics.latest_rsi ? Number(metrics.latest_rsi).toFixed(1) : '52.4'} • Vol: {metrics.realized_volatility_annualized ? `${(Number(metrics.realized_volatility_annualized) * 100).toFixed(1)}%` : '18.2%'}
             </div>
-            <span style={{ fontSize: '10px', color: 'var(--groww-green)', fontWeight: 600 }}>● Stable Volatility Regime</span>
+            <span style={{ fontSize: '10px', color: metrics.latest_rsi && Number(metrics.latest_rsi) < 30 ? 'var(--groww-red)' : 'var(--groww-green)', fontWeight: 600 }}>
+              ● {metrics.latest_rsi && Number(metrics.latest_rsi) < 30 ? 'Severe Momentum Distress' : 'Stable Volatility Regime'}
+            </span>
           </div>
 
           {/* Pillar 2 */}
@@ -392,7 +451,9 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', marginTop: '2px' }}>
               Corwin-Schultz Spread
             </div>
-            <span style={{ fontSize: '10px', color: 'var(--groww-blue)', fontWeight: 600 }}>● 5.2 bps Deep NSE Liquidity</span>
+            <span style={{ fontSize: '10px', color: 'var(--groww-blue)', fontWeight: 600 }}>
+              ● {metrics.corwin_schultz_spread_bps ? `${Number(metrics.corwin_schultz_spread_bps).toFixed(1)} bps (${metrics.liquidity_tier || 'NSE Large Cap'})` : 'Parametric Spread Pending'}
+            </span>
           </div>
 
           {/* Pillar 3 */}
@@ -425,14 +486,29 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             </h4>
           </div>
 
-          {hasBars && hoveredBar && (
-            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--groww-green)', display: 'flex', gap: '12px' }}>
-              <span>D: {hoveredBar.timestamp.slice(0, 10)}</span>
-              <span>O: ₹{hoveredBar.open.toFixed(2)}</span>
-              <span>H: ₹{hoveredBar.high.toFixed(2)}</span>
-              <span>L: ₹{hoveredBar.low.toFixed(2)}</span>
-              <span>C: ₹{hoveredBar.close.toFixed(2)}</span>
-              <span>Vol: {hoveredBar.volume.toLocaleString()}</span>
+          {hasBars && (
+            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span className={`pill-badge ${hoveredBar ? 'pill-badge-blue' : 'pill-badge-neutral'}`} style={{ fontSize: '9px', padding: '1px 6px' }}>
+                {hoveredBar ? 'HOVERED BAR' : 'LATEST TERMINAL'}
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                D: <strong style={{ color: 'var(--text-primary)' }}>{(hoveredBar ?? bars[bars.length - 1]).timestamp.slice(0, 10)}</strong>
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                O: ₹{(hoveredBar ?? bars[bars.length - 1]).open.toFixed(2)}
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                H: ₹{(hoveredBar ?? bars[bars.length - 1]).high.toFixed(2)}
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                L: ₹{(hoveredBar ?? bars[bars.length - 1]).low.toFixed(2)}
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>
+                C: <strong style={{ color: (hoveredBar ?? bars[bars.length - 1]).close >= (hoveredBar ?? bars[bars.length - 1]).open ? 'var(--groww-green)' : 'var(--groww-red)' }}>₹{(hoveredBar ?? bars[bars.length - 1]).close.toFixed(2)}</strong>
+              </span>
+              <span style={{ color: 'var(--text-muted)' }}>
+                Vol: {(hoveredBar ?? bars[bars.length - 1]).volume.toLocaleString()}
+              </span>
             </div>
           )}
         </div>
@@ -461,6 +537,7 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
             <svg
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
               style={{ width: '100%', height: 'auto', display: 'block' }}
+              onMouseLeave={() => setHoveredBar(null)}
             >
               {/* Horizontal Price Grid Lines */}
               {[0, 0.25, 0.5, 0.75, 1.0].map((frac, idx) => {
@@ -475,6 +552,39 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
                   </g>
                 );
               })}
+
+              {/* Latest Close Reference Line */}
+              {bars.length > 0 && (
+                (() => {
+                  const latestClose = bars[bars.length - 1].close;
+                  const latestY = 10 + ((maxPrice - latestClose) / (maxPrice - minPrice)) * priceHeight;
+                  return (
+                    <g>
+                      <line
+                        x1="45"
+                        y1={latestY}
+                        x2={svgWidth - 10}
+                        y2={latestY}
+                        stroke="var(--groww-blue)"
+                        strokeDasharray="4 4"
+                        strokeWidth="1.2"
+                        opacity="0.85"
+                      />
+                      <text
+                        x={svgWidth - 12}
+                        y={latestY - 4}
+                        fill="var(--groww-blue)"
+                        fontSize="8.5"
+                        textAnchor="end"
+                        fontFamily="var(--font-mono)"
+                        fontWeight="700"
+                      >
+                        Terminal Close: ₹{latestClose.toFixed(2)}
+                      </text>
+                    </g>
+                  );
+                })()
+              )}
 
               {/* Candlesticks & Volume Bars */}
               {bars.map((b, i) => {
@@ -492,8 +602,8 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
                 const bodyHeight = Math.max(2, Math.abs(closeY - openY));
 
                 // Volume bar
-                const vBarHeight = Math.max(2, (b.volume / maxVolume) * (volHeight - 10));
-                const vBarY = svgHeight - vBarHeight;
+                const vBarHeight = Math.max(2, (b.volume / maxVolume) * (volHeight - 8));
+                const vBarY = svgHeight - dateAxisHeight - vBarHeight;
 
                 return (
                   <g
@@ -526,10 +636,34 @@ export const FinancialCharts: React.FC<FinancialChartsProps> = ({
               })}
 
               {/* Volume Separator */}
-              <line x1="45" y1={svgHeight - volHeight} x2={svgWidth - 10} y2={svgHeight - volHeight} stroke="rgba(255,255,255,0.12)" />
-              <text x="5" y={svgHeight - volHeight + 12} fill="var(--text-muted)" fontSize="8" fontFamily="var(--font-mono)">
+              <line x1="45" y1={svgHeight - volHeight - dateAxisHeight} x2={svgWidth - 10} y2={svgHeight - volHeight - dateAxisHeight} stroke="rgba(255,255,255,0.12)" />
+              <text x="5" y={svgHeight - volHeight - dateAxisHeight + 11} fill="var(--text-muted)" fontSize="8" fontFamily="var(--font-mono)">
                 VOL
               </text>
+
+              {/* X-Axis Timeline Dates */}
+              {bars.length > 0 && (
+                <g>
+                  {[0, Math.floor(bars.length * 0.25), Math.floor(bars.length * 0.5), Math.floor(bars.length * 0.75), bars.length - 1].map((barIdx) => {
+                    const b = bars[barIdx];
+                    if (!b) return null;
+                    const x = 50 + barIdx * ((svgWidth - 65) / bars.length) + barWidth / 2;
+                    return (
+                      <text
+                        key={barIdx}
+                        x={x}
+                        y={svgHeight - 4}
+                        fill="var(--text-muted)"
+                        fontSize="8"
+                        textAnchor={barIdx === 0 ? 'start' : barIdx === bars.length - 1 ? 'end' : 'middle'}
+                        fontFamily="var(--font-mono)"
+                      >
+                        {b.timestamp.slice(0, 10)}
+                      </text>
+                    );
+                  })}
+                </g>
+              )}
             </svg>
           </div>
         )}

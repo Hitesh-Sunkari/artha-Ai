@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   ShieldCheck,
   Search,
@@ -10,17 +10,56 @@ import {
   Sparkles,
   CheckCircle2,
   TrendingUp,
+  Clock,
+  ArrowRight,
+  User,
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getApiBaseUrl } from '../api/client';
 import type { ReadinessResponse, MarketSessionState } from '../api/types';
-import type { PrimaryWorkspace } from './Sidebar';
+import type { PrimaryWorkspace, TabId } from './Sidebar';
 
 interface HeaderProps {
   onRefresh?: () => void;
   isRefreshing?: boolean;
   activeWorkspace?: PrimaryWorkspace;
-  onSelectWorkspace?: (ws: PrimaryWorkspace) => void;
+  onSelectWorkspace?: (ws: TabId, targetId?: string) => void;
 }
+
+const UNIVERSE_STOCKS = [
+  { symbol: 'RELIANCE.NS', ticker: 'RELIANCE', name: 'Reliance Industries Limited', sector: 'Energy & Infrastructure', price: 1159.10 },
+  { symbol: 'TCS.NS', ticker: 'TCS', name: 'Tata Consultancy Services', sector: 'Technology & IT', price: 2507.70 },
+  { symbol: 'HDFCBANK.NS', ticker: 'HDFCBANK', name: 'HDFC Bank Limited', sector: 'Banking & Financials', price: 684.15 },
+  { symbol: 'INFY.NS', ticker: 'INFY', name: 'Infosys Limited', sector: 'Technology & IT', price: 1162.30 },
+  { symbol: 'ICICIBANK.NS', ticker: 'ICICIBANK', name: 'ICICI Bank Limited', sector: 'Banking & Financials', price: 1393.80 },
+  { symbol: 'SBIN.NS', ticker: 'SBIN', name: 'State Bank of India', sector: 'Banking & Financials', price: 965.75 },
+  { symbol: 'AXISBANK.NS', ticker: 'AXISBANK', name: 'Axis Bank Limited', sector: 'Banking & Financials', price: 1222.80 },
+  { symbol: 'KOTAKBANK.NS', ticker: 'KOTAKBANK', name: 'Kotak Mahindra Bank', sector: 'Banking & Financials', price: 460.70 },
+  { symbol: 'BAJFINANCE.NS', ticker: 'BAJFINANCE', name: 'Bajaj Finance Limited', sector: 'Banking & Financials', price: 940.40 },
+  { symbol: 'WIPRO.NS', ticker: 'WIPRO', name: 'Wipro Limited', sector: 'Technology & IT', price: 193.47 },
+  { symbol: 'HCLTECH.NS', ticker: 'HCLTECH', name: 'HCL Technologies', sector: 'Technology & IT', price: 1422.20 },
+  { symbol: 'ITC.NS', ticker: 'ITC', name: 'ITC Limited', sector: 'Consumer & Retail', price: 264.10 },
+  { symbol: 'HINDUNILVR.NS', ticker: 'HINDUNILVR', name: 'Hindustan Unilever Limited', sector: 'Consumer & Retail', price: 1851.30 },
+  { symbol: 'TITAN.NS', ticker: 'TITAN', name: 'Titan Company Limited', sector: 'Consumer & Retail', price: 4436.40 },
+  { symbol: 'TRENT.NS', ticker: 'TRENT', name: 'Trent Limited', sector: 'Consumer & Retail', price: 3023.30 },
+  { symbol: 'ASIANPAINT.NS', ticker: 'ASIANPAINT', name: 'Asian Paints Limited', sector: 'Consumer & Retail', price: 2305.00 },
+  { symbol: 'LT.NS', ticker: 'LT', name: 'Larsen & Toubro Limited', sector: 'Energy & Infrastructure', price: 3826.90 },
+  { symbol: 'NTPC.NS', ticker: 'NTPC', name: 'NTPC Limited', sector: 'Energy & Infrastructure', price: 311.30 },
+  { symbol: 'POWERGRID.NS', ticker: 'POWERGRID', name: 'Power Grid Corporation', sector: 'Energy & Infrastructure', price: 262.35 },
+  { symbol: 'ONGC.NS', ticker: 'ONGC', name: 'Oil & Natural Gas Corp', sector: 'Energy & Infrastructure', price: 225.34 },
+  { symbol: 'ADANIPORTS.NS', ticker: 'ADANIPORTS', name: 'Adani Ports & SEZ', sector: 'Energy & Infrastructure', price: 1856.10 },
+  { symbol: 'BEL.NS', ticker: 'BEL', name: 'Bharat Electronics Limited', sector: 'Energy & Infrastructure', price: 365.60 },
+  { symbol: 'MARUTI.NS', ticker: 'MARUTI', name: 'Maruti Suzuki India', sector: 'Automotive & Metals', price: 11429.00 },
+  { symbol: 'M&M.NS', ticker: 'M&M', name: 'Mahindra & Mahindra', sector: 'Automotive & Metals', price: 2884.60 },
+  { symbol: 'TATAMOTORS.NS', ticker: 'TATAMOTORS', name: 'Tata Motors Limited', sector: 'Automotive & Metals', price: 659.80 },
+  { symbol: 'TATASTEEL.NS', ticker: 'TATASTEEL', name: 'Tata Steel Limited', sector: 'Automotive & Metals', price: 167.83 },
+  { symbol: 'JSWSTEEL.NS', ticker: 'JSWSTEEL', name: 'JSW Steel Limited', sector: 'Automotive & Metals', price: 1255.60 },
+  { symbol: 'ULTRACEMCO.NS', ticker: 'ULTRACEMCO', name: 'UltraTech Cement Limited', sector: 'Energy & Infrastructure', price: 11092.00 },
+  { symbol: 'SUNPHARMA.NS', ticker: 'SUNPHARMA', name: 'Sun Pharmaceutical', sector: 'Pharma & Healthcare', price: 1794.30 },
+  { symbol: 'CIPLA.NS', ticker: 'CIPLA', name: 'Cipla Limited', sector: 'Pharma & Healthcare', price: 1370.40 },
+  { symbol: 'DRREDDY.NS', ticker: 'DRREDDY', name: "Dr. Reddy's Laboratories", sector: 'Pharma & Healthcare', price: 1349.00 },
+  { symbol: 'SWIGGY.NS', ticker: 'SWIGGY', name: 'Swiggy Limited', sector: 'Consumer & Retail', price: 179.00 },
+  { symbol: 'ZOMATO.NS', ticker: 'ZOMATO', name: 'Zomato Limited', sector: 'Consumer & Retail', price: 341.60 },
+];
 
 export const Header: React.FC<HeaderProps> = ({
   onRefresh,
@@ -33,7 +72,33 @@ export const Header: React.FC<HeaderProps> = ({
   const [currentIstTime, setCurrentIstTime] = useState<string>('');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [paperCash, setPaperCash] = useState<number>(1000000);
+  const [paperHoldingsValue, setPaperHoldingsValue] = useState<number>(0);
+  const [userInitials, setUserInitials] = useState<string>('HS');
+    const searchContainerRef = useRef<HTMLDivElement>(null);
+  const [liveQuotes, setLiveQuotes] = useState<Record<string, { rawPrice: number; price: string; change: string; chg: string; positive: boolean }>>({});
+
+  useEffect(() => {
+    const fetchLiveQuotes = async () => {
+      try {
+        const res = await fetch('/market/stocks');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            const map: Record<string, any> = {};
+            data.forEach((s: any) => {
+              map[s.ticker] = s;
+            });
+            setLiveQuotes(map);
+          }
+        }
+      } catch {}
+    };
+    fetchLiveQuotes();
+    const timer = setInterval(fetchLiveQuotes, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     // Live Indian Standard Time (IST) Clock
@@ -52,9 +117,48 @@ export const Header: React.FC<HeaderProps> = ({
   }, []);
 
   useEffect(() => {
-    // Check saved cash balance
-    const saved = localStorage.getItem('arthai_paper_cash');
-    if (saved) setPaperCash(parseFloat(saved));
+    // Check and synchronize full paper portfolio balance (Cash + Holdings Market Value)
+    const syncPortfolioBalance = () => {
+      try {
+        const saved = localStorage.getItem('arthai_paper_cash');
+        if (saved) {
+          const val = parseFloat(saved);
+          if (!isNaN(val)) setPaperCash(val);
+        }
+        const savedPos = localStorage.getItem('arthai_paper_positions');
+        if (savedPos) {
+          const parsed = JSON.parse(savedPos);
+          if (Array.isArray(parsed)) {
+            const hv = parsed.reduce(
+              (acc: number, p: any) => acc + (p.shares || 0) * (p.currentPrice || p.avgPrice || 0),
+              0
+            );
+            setPaperHoldingsValue(hv);
+          } else {
+            setPaperHoldingsValue(0);
+          }
+        } else {
+          setPaperHoldingsValue(0);
+        }
+      } catch {}
+    };
+
+    syncPortfolioBalance();
+    window.addEventListener('storage', syncPortfolioBalance);
+    window.addEventListener('focus', syncPortfolioBalance);
+    const balanceTimer = setInterval(syncPortfolioBalance, 2500);
+
+    // Check saved user name for avatar initials
+    const savedName = localStorage.getItem('arthai_user_name');
+    if (savedName) {
+      const inits = savedName
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+      if (inits) setUserInitials(inits);
+    }
 
     // Check saved theme
     const savedTheme = localStorage.getItem('arthai_theme') as 'dark' | 'light' | null;
@@ -62,6 +166,12 @@ export const Header: React.FC<HeaderProps> = ({
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
     }
+
+    return () => {
+      window.removeEventListener('storage', syncPortfolioBalance);
+      window.removeEventListener('focus', syncPortfolioBalance);
+      clearInterval(balanceTimer);
+    };
   }, []);
 
   const toggleTheme = () => {
@@ -90,11 +200,74 @@ export const Header: React.FC<HeaderProps> = ({
     return () => clearInterval(interval);
   }, []);
 
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filteredStocks = searchQuery.trim()
+    ? UNIVERSE_STOCKS.filter((s) => {
+        const q = searchQuery.toLowerCase().trim();
+        return (
+          s.ticker.toLowerCase().includes(q) ||
+          s.name.toLowerCase().includes(q) ||
+          s.sector.toLowerCase().includes(q) ||
+          s.symbol.toLowerCase().includes(q)
+        );
+      }).slice(0, 6)
+    : [];
+
+  const handleSearchSubmit = () => {
+    const q = searchQuery.trim().toUpperCase();
+    if (!q) return;
+
+    // Check exact ticker match first
+    const exactTicker = UNIVERSE_STOCKS.find(
+      (s) => s.ticker === q || s.symbol === q || s.symbol === `${q}.NS`
+    );
+    if (exactTicker) {
+      if (onSelectWorkspace) onSelectWorkspace('research', exactTicker.symbol);
+      setIsDropdownOpen(false);
+      return;
+    }
+
+    // Check partial matches from filtered results
+    if (filteredStocks.length > 0) {
+      if (onSelectWorkspace) onSelectWorkspace('research', filteredStocks[0].symbol);
+      setIsDropdownOpen(false);
+      return;
+    }
+
+    // If query looks like a ticker, normalize to NSE ticker
+    if (/^[A-Z0-9&-]+$/.test(q)) {
+      const cleanTicker = q.endsWith('.NS') ? q : `${q}.NS`;
+      if (onSelectWorkspace) onSelectWorkspace('research', cleanTicker);
+      setIsDropdownOpen(false);
+      return;
+    }
+
+    // Default to Explore watchlist
+    if (onSelectWorkspace) onSelectWorkspace('command-center');
+    setIsDropdownOpen(false);
+  };
+
+  const handleSelectStock = (symbol: string) => {
+    if (onSelectWorkspace) onSelectWorkspace('research', symbol);
+    setIsDropdownOpen(false);
+  };
+
   const navItems = [
     { id: 'command-center' as PrimaryWorkspace, label: 'Explore' },
     { id: 'portfolio' as PrimaryWorkspace, label: 'Investments' },
     { id: 'research' as PrimaryWorkspace, label: 'Research & AI' },
-    { id: 'operations' as PrimaryWorkspace, label: 'Terminal' },
+
+    { id: 'profile' as PrimaryWorkspace, label: 'Profile' },
   ];
 
   return (
@@ -107,7 +280,7 @@ export const Header: React.FC<HeaderProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '0 28px',
-        zIndex: 20,
+        zIndex: 50,
         position: 'sticky',
         top: 0,
         backdropFilter: 'blur(12px)',
@@ -117,109 +290,60 @@ export const Header: React.FC<HeaderProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span
-              style={{
-                fontSize: '15px',
-                fontWeight: 800,
-                color: 'var(--text-primary)',
-                letterSpacing: '-0.01em',
-              }}
-            >
-              {activeWorkspace === 'command-center' && 'Market Watchlist & Explore'}
-              {activeWorkspace === 'portfolio' && 'Paper Trading Desk'}
-              {activeWorkspace === 'research' && 'Research & AI Studio'}
-              {activeWorkspace === 'operations' && 'Terminal & Multi-Agent Ops'}
-            </span>
+            {/* Primary Workspace Switcher Tabs */}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {navItems.map((item) => {
+                const isActive = activeWorkspace === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => onSelectWorkspace && onSelectWorkspace(item.id)}
+                    style={{
+                      padding: '6px 14px',
+                      borderRadius: 'var(--radius-pill)',
+                      fontSize: '13px',
+                      fontWeight: isActive ? 700 : 500,
+                      backgroundColor: isActive ? 'var(--bg-surface)' : 'transparent',
+                      color: isActive ? 'var(--groww-green)' : 'var(--text-secondary)',
+                      border: isActive ? '1px solid var(--border-subtle)' : '1px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </nav>
 
-            {/* Dynamic Market Session Badge (IST) */}
-            {marketSession?.is_open ? (
+            <span style={{ color: 'var(--border-subtle)' }}>|</span>
+
+            {/* Live IST Clock */}
+            {currentIstTime && (
               <span
                 style={{
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  padding: '2px 8px',
-                  borderRadius: 'var(--radius-pill)',
-                  backgroundColor: 'var(--groww-green-light)',
-                  color: 'var(--groww-green)',
-                  border: '1px solid rgba(0, 208, 156, 0.25)',
-                  display: 'inline-flex',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: 'var(--text-secondary)',
+                  display: 'flex',
                   alignItems: 'center',
-                  gap: '5px',
+                  gap: '4px',
+                  fontFamily: 'var(--font-mono)',
                 }}
-                title="NSE / BSE Continuous Trading Session (09:15 - 16:15 IST)"
               >
-                <span
-                  style={{
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--groww-green)',
-                  }}
-                  className="animate-pulse"
-                />
-                LIVE MARKET (IST) • 09:15 - 16:15
-              </span>
-            ) : (
-              <span
-                style={{
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  padding: '2px 8px',
-                  borderRadius: 'var(--radius-pill)',
-                  backgroundColor: 'var(--groww-red-light)',
-                  color: 'var(--groww-red)',
-                  border: '1px solid rgba(235, 91, 89, 0.3)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                }}
-                title={marketSession?.message || 'Trading session closed at 04:15 PM IST. Prices are frozen at official session close.'}
-              >
-                <span
-                  style={{
-                    width: '6px',
-                    height: '6px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--groww-red)',
-                  }}
-                />
-                MARKET CLOSED (IST) • {marketSession?.next_session || 'Opens 09:15 AM IST'}
+                <Clock size={12} color="var(--groww-green)" />
+                {currentIstTime}
               </span>
             )}
-
-            {/* Live IST Time Pill */}
-            <span
-              style={{
-                fontSize: '11px',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 700,
-                color: 'var(--text-secondary)',
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'var(--bg-input)',
-                border: '1px solid var(--border-subtle)',
-                display: 'inline-flex',
-                alignItems: 'center',
-              }}
-              title="Indian Standard Time (Asia/Kolkata, UTC+05:30)"
-            >
-              🕒 {currentIstTime || 'IST'}
-            </span>
-          </div>
-
-          <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500, marginTop: '1px' }}>
-            {activeWorkspace === 'command-center' && 'Real-time equity indices, live ticks & 5-year point-in-time verified data'}
-            {activeWorkspace === 'portfolio' && 'Simulated execution engine with SLSQP mean-variance optimization'}
-            {activeWorkspace === 'research' && 'Google ADK + CrewAI 7-specialist multi-agent research fleet'}
-            {activeWorkspace === 'operations' && 'A2A Protocol, FastMCP diagnostics & system telemetry'}
           </div>
         </div>
       </div>
 
-      {/* Center: Groww-Style Search Bar */}
+      {/* Center: Interactive Search Bar with Enter Key Processing */}
       <div
+        ref={searchContainerRef}
         style={{
-          flex: '0 1 420px',
+          flex: '0 1 440px',
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
@@ -236,41 +360,162 @@ export const Header: React.FC<HeaderProps> = ({
         />
         <input
           type="search"
-          placeholder="What are you looking for today? (e.g. RELIANCE, TCS, NIFTY 50)"
+          placeholder="Search 33 Indian equities (e.g. RELIANCE, SWIGGY, TCS)..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={() => {
+            if (searchQuery.trim()) setIsDropdownOpen(true);
+          }}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            if (e.target.value.trim()) setIsDropdownOpen(true);
+            else setIsDropdownOpen(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              handleSearchSubmit();
+            } else if (e.key === 'Escape') {
+              setIsDropdownOpen(false);
+            }
+          }}
           style={{
             width: '100%',
-            padding: '9px 70px 9px 38px',
+            padding: '9px 80px 9px 38px',
             backgroundColor: 'var(--bg-input)',
-            border: '1px solid var(--border-subtle)',
+            border: isDropdownOpen ? '1px solid var(--groww-green)' : '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-pill)',
             fontSize: '13px',
             color: 'var(--text-primary)',
             boxShadow: 'var(--shadow-sm)',
+            outline: 'none',
+            transition: 'border-color 0.2s ease',
           }}
         />
-        <span
+
+        {/* Action Enter Badge */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            handleSearchSubmit();
+          }}
           style={{
             position: 'absolute',
-            right: '12px',
+            right: '8px',
             fontSize: '11px',
-            fontWeight: 600,
-            padding: '2px 7px',
-            borderRadius: '6px',
-            backgroundColor: 'var(--bg-card-hover)',
-            color: 'var(--text-muted)',
-            border: '1px solid var(--border-subtle)',
-            pointerEvents: 'none',
+            fontWeight: 700,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-pill)',
+            backgroundColor: searchQuery.trim() ? 'var(--groww-green)' : 'var(--bg-card-hover)',
+            color: searchQuery.trim() ? '#0F1217' : 'var(--text-muted)',
+            border: searchQuery.trim() ? 'none' : '1px solid var(--border-subtle)',
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '3px',
           }}
+          title="Press Enter or Click to Process Search"
         >
-          Ctrl K
-        </span>
+          <span>Enter</span>
+          <span style={{ fontSize: '12px' }}>↵</span>
+        </button>
+
+        {/* Live Search Results Dropdown */}
+        {isDropdownOpen && filteredStocks.length > 0 && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 8px)',
+              left: 0,
+              right: 0,
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)',
+              boxShadow: '0 12px 32px rgba(0, 0, 0, 0.45)',
+              overflow: 'hidden',
+              zIndex: 100,
+            }}
+          >
+            <div
+              style={{
+                padding: '8px 14px',
+                fontSize: '11px',
+                fontWeight: 600,
+                color: 'var(--text-muted)',
+                backgroundColor: 'var(--bg-card)',
+                borderBottom: '1px solid var(--border-subtle)',
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <span>MATCHING STOCKS (PRESS ENTER TO SELECT)</span>
+              <span>33 UNIVERSE EQUITIES</span>
+            </div>
+            {filteredStocks.map((stock) => (
+              <div
+                key={stock.symbol}
+                onClick={() => handleSelectStock(stock.symbol)}
+                style={{
+                  padding: '10px 14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  borderBottom: '1px solid var(--border-subtle)',
+                  transition: 'background-color 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <strong style={{ fontSize: '13px', color: 'var(--text-primary)' }}>{stock.ticker}</strong>
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        padding: '1px 6px',
+                        borderRadius: '4px',
+                        backgroundColor: 'var(--bg-elevated)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
+                      {stock.sector}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                    {stock.name}
+                  </div>
+                </div>
+
+                {(() => {
+                  const live = liveQuotes[stock.symbol];
+                  const displayPrice = live ? live.price : `₹${stock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+                  const isPos = live ? live.positive : true;
+                  const changeStr = live ? `${live.change} (${live.chg})` : 'Analyze ↵';
+                  return (
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                        {displayPrice}
+                      </div>
+                      <div style={{ fontSize: '11px', color: live ? (isPos ? 'var(--groww-green)' : 'var(--groww-red)') : 'var(--groww-green)', fontWeight: 600 }}>
+                        {changeStr}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Right: Groww Actions (Wallet, Theme, Refresh, Profile) */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-
         {/* Paper Wallet Balance Chip */}
         <div
           style={{
@@ -286,11 +531,11 @@ export const Header: React.FC<HeaderProps> = ({
             fontWeight: 700,
             cursor: 'pointer',
           }}
-          title="Virtual Paper Trading Balance"
+          title={`Simulated Portfolio Net Worth: ₹${(paperCash + paperHoldingsValue).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (Available Cash: ₹${paperCash.toLocaleString('en-IN', { maximumFractionDigits: 0 })}, Invested Holdings: ₹${paperHoldingsValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })})`}
           onClick={() => onSelectWorkspace && onSelectWorkspace('portfolio')}
         >
           <Wallet size={15} color="var(--groww-green)" />
-          <span>₹{paperCash.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          <span>₹{(paperCash + paperHoldingsValue).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </div>
 
         {/* Theme Toggle Button */}
@@ -306,11 +551,38 @@ export const Header: React.FC<HeaderProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            cursor: 'pointer',
           }}
           title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
         >
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
+
+        {/* Standalone Admin Portal Link */}
+        <a
+          href="http://127.0.0.1:5174"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '5px 12px',
+            borderRadius: '6px',
+            backgroundColor: 'rgba(0, 208, 156, 0.1)',
+            border: '1px solid rgba(0, 208, 156, 0.25)',
+            color: 'var(--groww-green)',
+            fontSize: '12px',
+            fontWeight: 700,
+            textDecoration: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.15s ease',
+          }}
+          title="Open Standalone Admin Portal (Fleet, FastMCP, Telemetry & Diagnostics)"
+        >
+          <ShieldCheck size={14} />
+          <span>Admin Portal ↗</span>
+        </a>
 
         {/* Refresh Button */}
         {onRefresh && (
@@ -327,21 +599,24 @@ export const Header: React.FC<HeaderProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              cursor: 'pointer',
             }}
-            title="Refresh Terminal Data"
+            title="Refresh Data"
           >
             <RefreshCw size={15} className={isRefreshing ? 'animate-spin' : ''} />
           </button>
         )}
 
-        {/* User Profile Avatar */}
+        {/* User Profile Avatar with Click Handler to open Profile Page */}
         <div
+          onClick={() => onSelectWorkspace && onSelectWorkspace('profile')}
           style={{
             width: '36px',
             height: '36px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #181D27 0%, #2A3346 100%)',
-            border: '2px solid rgba(0, 208, 156, 0.4)',
+            border: activeWorkspace === 'profile' ? '2px solid var(--groww-green)' : '2px solid rgba(0, 208, 156, 0.4)',
+            boxShadow: activeWorkspace === 'profile' ? '0 0 16px rgba(0, 208, 156, 0.45)' : 'none',
             color: 'var(--groww-green)',
             display: 'flex',
             alignItems: 'center',
@@ -349,12 +624,23 @@ export const Header: React.FC<HeaderProps> = ({
             fontWeight: 800,
             fontSize: '13px',
             cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-          title="Terminal User Profile"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.borderColor = 'var(--groww-green)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.borderColor = activeWorkspace === 'profile' ? 'var(--groww-green)' : 'rgba(0, 208, 156, 0.4)';
+          }}
+          title="Institutional Desk Profile & Settings (Click to Open)"
         >
-          HS
+          {userInitials}
         </div>
       </div>
     </header>
   );
 };
+
+export default Header;

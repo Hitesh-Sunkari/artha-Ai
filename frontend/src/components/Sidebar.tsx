@@ -7,9 +7,10 @@ import {
   Sparkles,
   ShieldCheck,
   TrendingUp,
+  User,
 } from 'lucide-react';
 
-export type PrimaryWorkspace = 'command-center' | 'research' | 'portfolio' | 'operations';
+export type PrimaryWorkspace = 'command-center' | 'research' | 'portfolio' | 'profile';
 
 // For backward compatibility with any internal callers
 export type TabId =
@@ -23,7 +24,8 @@ export type TabId =
   | 'history'
   | 'architecture'
   | 'evaluation'
-  | 'system-status';
+  | 'system-status'
+  | 'profile';
 
 interface SidebarProps {
   activeTab: TabId;
@@ -34,7 +36,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, activeRunId }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Normalize legacy tab IDs to one of the 4 primary workspaces
+  // Normalize legacy tab IDs to one of the 5 primary workspaces
   const normalizedActive: PrimaryWorkspace =
     activeTab === 'command-center' || activeTab === 'dashboard'
       ? 'command-center'
@@ -46,7 +48,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       ? 'research'
       : activeTab === 'portfolio'
       ? 'portfolio'
-      : 'operations';
+      : activeTab === 'profile'
+      ? 'profile'
+      : 'command-center';
 
   const navItems = [
     {
@@ -69,10 +73,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       icon: Briefcase,
     },
     {
-      id: 'operations' as PrimaryWorkspace,
-      label: 'Terminal & Ops',
-      sublabel: 'A2A, FastMCP & Diagnostics',
-      icon: Settings,
+      id: 'profile' as PrimaryWorkspace,
+      label: 'Desk Profile',
+      sublabel: 'Account, SEBI & Tax Codes',
+      icon: User,
     },
   ];
 
@@ -107,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
             cursor: 'pointer',
           }}
           onClick={() => onSelectTab('command-center')}
-          title="ArthaAI Terminal"
+          title="ArthaAI Platform"
         >
           <div
             style={{

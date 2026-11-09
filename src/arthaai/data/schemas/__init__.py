@@ -8,6 +8,14 @@ before reaching these schemas.
 from arthaai.data.schemas.corporate_actions import CorporateAction, CorporateActionType
 from arthaai.data.schemas.derived_order_flow import DerivedOrderFlowRecord
 from arthaai.data.schemas.economic import EconomicEvent, EconomicEventImpact
+from arthaai.data.schemas.financials import (
+    AccountingBasis,
+    AuditStatus,
+    CompanyFinancialResult,
+    DerivedFinancialRatio,
+    FinancialMetricItem,
+    ReportingPeriodType,
+)
 from arthaai.data.schemas.instrument_record import DerivativeContractIdentity, InstrumentRecord
 from arthaai.data.schemas.news import NewsArticle
 from arthaai.data.schemas.ohlcv import BarFrequency, OHLCVBar

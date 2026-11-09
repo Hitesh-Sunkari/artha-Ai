@@ -24,8 +24,8 @@ export function getApiBaseUrl(): string {
   if (stored) return stored.replace(/\/+$/, '');
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl.replace(/\/+$/, '');
-  // Default to localhost:8001 if running in standalone Vite mode, or relative path if same origin
-  return window.location.port === '5173' ? 'http://127.0.0.1:8001' : '';
+  // Default to relative path so requests route seamlessly through Vite proxy or same-origin backend
+  return '';
 }
 
 export function setApiBaseUrl(url: string): void {
@@ -133,4 +133,9 @@ export const api = {
   getMarketSession: () => request<import('./types').MarketSessionState>('/market/session', {}, 5000),
   getMarketIndices: () => request<any[]>('/market/indices', {}, 5000),
   getMarketStocks: () => request<any[]>('/market/stocks', {}, 5000),
+
+  // Financial Data Bank & EOD Ingestion (Phase B)
+  getDataBankCoverage: (symbol?: string) =>
+    request<any>(`/api/v1/data-bank/coverage${symbol ? `?symbol=${encodeURIComponent(symbol)}` : ''}`, {}, 10000),
+  getDataBankHealth: () => request<any>('/api/v1/data-bank/health', {}, 6000),
 };

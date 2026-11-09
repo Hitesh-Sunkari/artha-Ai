@@ -108,7 +108,14 @@ export interface QuantitativeResearchReport {
   conviction_score?: number;
   statutory_friction_drag_pct?: number;
   rag_citations?: string[];
+  target_price?: number | null;
+  target_upside_pct?: number | null;
+  stop_loss_price?: number | null;
+  stop_loss_pct?: number | null;
+  reward_to_risk_ratio?: number | null;
+  target_methodology?: string | null;
   audit_hash?: string | null;
+  agent_contributions?: AgentContribution[];
   generated_at: string;
 }
 

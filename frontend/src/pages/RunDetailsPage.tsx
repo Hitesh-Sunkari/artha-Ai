@@ -526,7 +526,8 @@ export const RunDetailsPage: React.FC<RunDetailsPageProps> = ({ runId, onBack })
                             marginTop: '4px',
                           }}
                         >
-                          ⚠️ {w}
+                          <AlertCircle size={11} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
+                          {w}
                         </div>
                       ))}
                     </div>

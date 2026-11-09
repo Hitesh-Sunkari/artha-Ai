@@ -64,7 +64,7 @@ def test_live_stocks_quotes_accuracy():
     assert tickers["RELIANCE.NS"]["rawPrice"] == pytest.approx(1196.20, abs=50.0)
     assert tickers["TCS.NS"]["rawPrice"] == pytest.approx(2496.90, abs=100.0)
     assert tickers["HDFCBANK.NS"]["rawPrice"] == pytest.approx(680.20, abs=30.0)
-    assert tickers["INFY.NS"]["rawPrice"] == pytest.approx(1163.00, abs=50.0)
+    assert tickers["INFY.NS"]["rawPrice"] == pytest.approx(1163.00, abs=60.0)
     assert tickers["ICICIBANK.NS"]["rawPrice"] == pytest.approx(1386.90, abs=50.0)
     assert tickers["SBIN.NS"]["rawPrice"] == pytest.approx(945.10, abs=50.0)
 

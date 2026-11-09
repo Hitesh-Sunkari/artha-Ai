@@ -253,7 +253,20 @@ class Blackboard:
     def add_contribution(self, contribution: AgentContribution) -> None:
         """Atomically appends a validated agent contribution."""
         with self._lock:
+            # Enforce cross-run and cross-security isolation (Phase 2A Requirement)
+            if contribution.run_id and contribution.run_id != self.run_id:
+                raise ValueError(
+                    f"Cross-run contamination detected: Contribution run_id '{contribution.run_id}' "
+                    f"does not match Blackboard run_id '{self.run_id}'."
+                )
+            if self.request and contribution.symbol and contribution.symbol.upper() != self.request.symbol.upper():
+                raise ValueError(
+                    f"Cross-security contamination detected: Contribution symbol '{contribution.symbol}' "
+                    f"does not match active research request symbol '{self.request.symbol}'."
+                )
+
             self._contributions.append(contribution)
+            artifact_id = f"art-{contribution.agent_id}-v{self.version + 1}"
             # Also record in AGENT_CONTRIBUTIONS namespace
             self._record_entry(
                 namespace=BlackboardNamespace.AGENT_CONTRIBUTIONS,
@@ -266,9 +279,14 @@ class Blackboard:
                 contribution.agent_id,
                 {
                     "agent_id": contribution.agent_id,
+                    "artifact_id": artifact_id,
+                    "version": self.version,
+                    "run_id": self.run_id,
                     "framework": contribution.framework,
                     "task_name": contribution.task_name,
                     "status": contribution.status,
+                    "analytical_verdict": contribution.analytical_verdict,
+                    "validation_outcome": contribution.validation_outcome,
                 },
             )
 
@@ -296,15 +314,69 @@ class Blackboard:
                 results = [c for c in results if c.framework == framework]
             return results
 
-    def get_latest_contribution(self, task_name: str | None = None) -> AgentContribution | None:
-        """Retrieves the most recent contribution, optionally filtered by task name."""
+    def get_latest_contribution(
+        self,
+        task_name: str | None = None,
+        consumer_id: str | None = None,
+        agent_id: str | None = None,
+    ) -> AgentContribution | None:
+        """Retrieves the most recent contribution, optionally filtered by task name, task alias, or agent ID, and records consumer lineage."""
         with self._lock:
             if not self._contributions:
                 return None
-            if task_name is None:
-                return self._contributions[-1]
-            matching = [c for c in self._contributions if c.task_name == task_name]
-            return matching[-1] if matching else None
+            matching = self._contributions
+            if agent_id:
+                matching = [c for c in matching if c.agent_id == agent_id]
+            if task_name:
+                aliases = {task_name}
+                if "macro" in task_name:
+                    aliases.update(["macro_analysis", "news_macro_analysis"])
+                if "filing" in task_name or "corporate" in task_name:
+                    aliases.update(["filing_analysis", "corporate_filing_analysis"])
+                if "quant" in task_name or "market_data" in task_name:
+                    aliases.update(["market_data_and_quant_features", "quant_features"])
+                if "micro" in task_name:
+                    aliases.update(["microstructure_analysis"])
+                if "risk" in task_name or "statutory" in task_name:
+                    aliases.update(["statutory_and_risk_validation"])
+                if "adversarial" in task_name or "skeptic" in task_name:
+                    aliases.update(["adversarial_critique"])
+                matching = [c for c in matching if c.task_name in aliases]
+            if not matching:
+                return None
+            chosen = matching[-1]
+            if consumer_id:
+                full_key = self._make_key(
+                    BlackboardNamespace.AGENT_CONTRIBUTIONS,
+                    f"{chosen.agent_id}::{chosen.task_name}",
+                )
+                entry = self._entries.get(full_key)
+                if entry and consumer_id not in entry.consumers:
+                    self._entries[full_key] = BlackboardEntry(
+                        namespace=entry.namespace,
+                        key=entry.key,
+                        value=entry.value,
+                        version=entry.version,
+                        producer_id=entry.producer_id,
+                        timestamp=entry.timestamp,
+                        consumers=list(entry.consumers) + [consumer_id],
+                        is_immutable=entry.is_immutable,
+                    )
+            return chosen
+
+    def get_lineage(self, task_name: str) -> BlackboardEntry | None:
+        """Returns the BlackboardEntry containing consumer lineage and metadata for task_name."""
+        with self._lock:
+            for entry in self._entries.values():
+                if entry.namespace == BlackboardNamespace.AGENT_CONTRIBUTIONS:
+                    if entry.key.endswith(f"::{task_name}") or task_name in entry.key:
+                        return entry
+            return None
+
+    def get_consumer_lineage(self, task_name: str) -> list[str]:
+        """Returns the list of consumers that have read the contribution for task_name."""
+        entry = self.get_lineage(task_name)
+        return list(entry.consumers) if entry else []
 
     def get_tool_result(self, tool_name: str) -> Any | None:
         """Retrieves cached tool result by name."""
@@ -393,3 +465,7 @@ class Blackboard:
                 "warnings": self.get_all_warnings(),
                 "metadata": dict(self._metadata),
             }
+
+
+# Institutional Blackboard alias for Phase 2 contract consistency
+InstitutionalBlackboard = Blackboard

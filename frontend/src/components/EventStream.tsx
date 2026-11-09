@@ -22,10 +22,30 @@ interface EventStreamProps {
   events: LifecycleEvent[];
 }
 
+const formatISTTime = (isoString: string): string => {
+  try {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return isoString;
+    return (
+      d.toLocaleTimeString('en-IN', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        fractionalSecondDigits: 3,
+        timeZone: 'Asia/Kolkata',
+      }) + ' IST'
+    );
+  } catch {
+    return isoString;
+  }
+};
+
 export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('ALL');
   const [activeModalEvent, setActiveModalEvent] = useState<LifecycleEvent | null>(null);
+  const [modalTab, setModalTab] = useState<'payload' | 'full'>('payload');
   const [copied, setCopied] = useState(false);
 
   const filteredEvents = events.filter((e) => {
@@ -36,6 +56,13 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
 
     const matchesType = selectedType === 'ALL' || e.event_type === selectedType;
     return matchesSearch && matchesType;
+  });
+
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    const tA = new Date(a.timestamp).getTime();
+    const tB = new Date(b.timestamp).getTime();
+    if (tA !== tB) return tA - tB;
+    return (a.event_id || '').localeCompare(b.event_id || '');
   });
 
   const getEventIcon = (type: string) => {
@@ -128,7 +155,7 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
           <table className="terminal-table">
             <thead>
               <tr>
-                <th style={{ width: '140px' }}>Timestamp</th>
+                <th style={{ width: '160px' }}>Timestamp (IST)</th>
                 <th style={{ width: '160px' }}>Event Type</th>
                 <th style={{ width: '180px' }}>Agent / System</th>
                 <th>Status</th>
@@ -137,10 +164,10 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredEvents.map((evt) => (
+              {sortedEvents.map((evt) => (
                 <tr key={evt.event_id}>
                   <td className="font-mono tabular-nums" style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    {new Date(evt.timestamp).toISOString().substring(11, 23)}
+                    {formatISTTime(evt.timestamp)}
                   </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -211,9 +238,9 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
           <div
             className="terminal-card"
             style={{
-              width: '640px',
-              maxWidth: '90vw',
-              maxHeight: '80vh',
+              width: '720px',
+              maxWidth: '92vw',
+              maxHeight: '82vh',
               display: 'flex',
               flexDirection: 'column',
               backgroundColor: 'var(--bg-surface)',
@@ -235,17 +262,52 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
                   {activeModalEvent.event_type}
                 </span>
                 <span style={{ fontSize: '11px', color: 'var(--text-muted)', marginLeft: '10px' }}>
-                  Agent: {activeModalEvent.agent_id}
+                  Agent: <strong>{activeModalEvent.agent_id}</strong>
+                </span>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', marginLeft: '10px' }}>
+                  ({formatISTTime(activeModalEvent.timestamp)})
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', backgroundColor: 'var(--bg-deep)', borderRadius: '4px', padding: '2px' }}>
+                  <button
+                    onClick={() => setModalTab('payload')}
+                    style={{
+                      padding: '3px 8px',
+                      fontSize: '10px',
+                      borderRadius: '3px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      backgroundColor: modalTab === 'payload' ? 'var(--accent-cyan)' : 'transparent',
+                      color: modalTab === 'payload' ? '#000' : 'var(--text-secondary)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Payload
+                  </button>
+                  <button
+                    onClick={() => setModalTab('full')}
+                    style={{
+                      padding: '3px 8px',
+                      fontSize: '10px',
+                      borderRadius: '3px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      backgroundColor: modalTab === 'full' ? 'var(--accent-cyan)' : 'transparent',
+                      color: modalTab === 'full' ? '#000' : 'var(--text-secondary)',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Full Event
+                  </button>
+                </div>
                 <button
                   onClick={copyPayload}
                   className="btn btn-secondary"
                   style={{ padding: '4px 8px', fontSize: '11px' }}
                 >
                   {copied ? <Check size={12} style={{ color: 'var(--accent-emerald)' }} /> : <Copy size={12} />}
-                  <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
                 <button
                   onClick={() => setActiveModalEvent(null)}
@@ -271,7 +333,15 @@ export const EventStream: React.FC<EventStreamProps> = ({ events }) => {
                   wordBreak: 'break-all',
                 }}
               >
-                {JSON.stringify(activeModalEvent, null, 2)}
+                {JSON.stringify(
+                  modalTab === 'payload'
+                    ? activeModalEvent.payload && Object.keys(activeModalEvent.payload).length > 0
+                      ? activeModalEvent.payload
+                      : { status: 'Empty payload or default event notification', raw_event: activeModalEvent }
+                    : activeModalEvent,
+                  null,
+                  2
+                )}
               </pre>
             </div>
           </div>

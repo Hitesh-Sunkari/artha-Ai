@@ -9,19 +9,21 @@ import {
   AlertCircle,
   HelpCircle,
   CheckCircle,
+  Globe,
 } from 'lucide-react';
-import { api, ApiError } from '../api/client';
+import { api, ApiError, getApiBaseUrl } from '../api/client';
 import type { OrchestrationPattern, ResearchRequestBody } from '../api/types';
 
 interface NewResearchPageProps {
   onSubmitted: (runId: string) => void;
 }
 
-const PRESET_SYMBOLS = ['RELIANCE', 'TCS', 'INFY', 'HDFCBANK', 'ICICIBANK', 'NIFTY50'];
+const PRESET_SYMBOLS = ['RELIANCE', 'TCS', 'TATAMOTORS', 'WIPRO', 'ZOMATO', 'SWIGGY', 'TRENT', 'TAC', '500325.BO'];
 
 export const NewResearchPage: React.FC<NewResearchPageProps> = ({ onSubmitted }) => {
   const [symbol, setSymbol] = useState('RELIANCE');
   const [pattern, setPattern] = useState<OrchestrationPattern>('SEQUENTIAL');
+  const [resolutionInfo, setResolutionInfo] = useState<any | null>(null);
   const [asOfDate, setAsOfDate] = useState(() => {
     const d = new Date();
     return d.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
@@ -32,6 +34,26 @@ export const NewResearchPage: React.FC<NewResearchPageProps> = ({ onSubmitted })
   const [scopeAdversarial, setScopeAdversarial] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const s = symbol.trim().toUpperCase();
+    if (!s) {
+      setResolutionInfo(null);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${getApiBaseUrl()}/securities/${encodeURIComponent(s)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setResolutionInfo(data);
+        }
+      } catch {
+        // silent
+      }
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [symbol]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,6 +178,32 @@ export const NewResearchPage: React.FC<NewResearchPageProps> = ({ onSubmitted })
               </button>
             ))}
           </div>
+
+          {/* Dynamic Resolution Status */}
+          {resolutionInfo && (
+            <div style={{ marginTop: '10px' }}>
+              {resolutionInfo.has_local_parquet ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--groww-green)' }}>
+                  <CheckCircle size={13} />
+                  <span>Verified 5-Year Point-In-Time Dataset (~1,260 bars) active for {resolutionInfo.canonical_id} ({resolutionInfo.company_name})</span>
+                </div>
+              ) : resolutionInfo.listing_status === 'DELISTED' ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--accent-rose)' }}>
+                  <AlertCircle size={13} />
+                  <span>DELISTED Equity ({resolutionInfo.canonical_id}) — Quantitative recommendations restricted.</span>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--accent-cyan)' }}>
+                  <Globe size={13} />
+                  <span>
+                    <strong>Dynamic Listed Equity ({resolutionInfo.exchange}):</strong> {resolutionInfo.company_name} ({resolutionInfo.canonical_id})
+                    {resolutionInfo.is_sme && ' [SME Series SM Platform]'}
+                    {resolutionInfo.listing_status === 'SUSPENDED' && ' [Trading Suspended]'}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Orchestration Pattern Selection */}

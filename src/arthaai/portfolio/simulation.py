@@ -34,14 +34,17 @@ class MonteCarloResult(BaseModel):
     horizon_years: int
     expected_return: float
     volatility: float
+    inflation_rate: float = 0.0549
     total_invested: float
     median_final_wealth: float
+    real_median_final_wealth: float
     bearish_final_wealth: float
     bullish_final_wealth: float
     simulated_paths_count: int
     trajectory: list[MonteCarloPoint]
     prob_loss_5y: float
     prob_beat_inflation: float
+    cvar_95: float = 0.0
 
 
 def run_monte_carlo_simulation(
@@ -51,8 +54,9 @@ def run_monte_carlo_simulation(
     expected_return: float = 0.134,
     volatility: float = 0.122,
     num_paths: int = 5_000,
+    inflation_rate: float = 0.0549,
 ) -> MonteCarloResult:
-    """Executes vectorized geometric Brownian motion across num_paths."""
+    """Executes vectorized geometric Brownian motion across num_paths using evidence-based parameters."""
     np.random.seed(42)  # Deterministic seed for reproducible verification
     months = horizon_years * 12
     dt = 1.0 / 12.0  # Monthly timestep
@@ -107,16 +111,25 @@ def run_monte_carlo_simulation(
     final_p50 = float(np.percentile(wealth, 50))
     final_p90 = float(np.percentile(wealth, 90))
 
+    # Real median wealth net of inflation
+    inflation_factor = (1.0 + inflation_rate) ** horizon_years
+    real_median = round(final_p50 / inflation_factor, 2)
+
     # Probability of loss (final wealth < total invested)
     loss_count = np.sum(wealth < total_invested)
     prob_loss = round(float(loss_count / num_paths) * 100, 1)
 
-    # Probability of beating 6% inflation compounding
-    inflation_target = initial_capital * ((1.06) ** horizon_years) + sum(
-        monthly_sip * ((1.06) ** ((months - i) / 12.0)) for i in range(months)
+    # Probability of beating actual MoSPI/RBI inflation compounding
+    monthly_inf = (1.0 + inflation_rate) ** (1.0 / 12.0)
+    inflation_target = initial_capital * inflation_factor + sum(
+        monthly_sip * (monthly_inf ** (months - i)) for i in range(months)
     )
     beat_inflation_count = np.sum(wealth > inflation_target)
     prob_beat_inflation = round(float(beat_inflation_count / num_paths) * 100, 1)
+
+    # Conditional Value at Risk (CVaR 95% / Expected Shortfall of bottom 5% paths)
+    worst_5pct_wealth = wealth[wealth <= np.percentile(wealth, 5)]
+    cvar_95_val = round(float(np.mean(worst_5pct_wealth)), 2) if len(worst_5pct_wealth) > 0 else final_p10
 
     return MonteCarloResult(
         initial_capital=initial_capital,
@@ -124,12 +137,15 @@ def run_monte_carlo_simulation(
         horizon_years=horizon_years,
         expected_return=round(expected_return, 4),
         volatility=round(volatility, 4),
+        inflation_rate=round(inflation_rate, 4),
         total_invested=round(total_invested, 2),
         median_final_wealth=round(final_p50, 2),
+        real_median_final_wealth=real_median,
         bearish_final_wealth=round(final_p10, 2),
         bullish_final_wealth=round(final_p90, 2),
         simulated_paths_count=num_paths,
         trajectory=yearly_trajectory,
         prob_loss_5y=prob_loss,
         prob_beat_inflation=prob_beat_inflation,
+        cvar_95=cvar_95_val,
     )

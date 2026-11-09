@@ -20,6 +20,12 @@ class DuckDBEngine:
         else:
             self.data_root = Path(data_root)
         self.conn = duckdb.connect(db_path)
+        # Free-tier memory optimization: constrain DuckDB buffer pool to 256MB and 2 worker threads
+        try:
+            self.conn.execute("SET max_memory = '256MB';")
+            self.conn.execute("SET threads = 2;")
+        except Exception:
+            pass
         self._register_views()
 
     def _register_views(self) -> None:

@@ -32,6 +32,8 @@ interface RunSummaryRecord {
   recommendation?: 'BUY' | 'HOLD' | 'SELL' | 'INSUFFICIENT_EVIDENCE' | string;
   conviction_score?: number;
   statutory_friction_drag_pct?: number;
+  target_price?: number;
+  target_upside_pct?: number;
 }
 
 interface MarketIndexQuote {
@@ -84,15 +86,117 @@ export const CommandCenterPage: React.FC<{
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
 
+  const DEFAULT_SEED_POSITIONS = [
+    {
+      ticker: 'RELIANCE.NS',
+      symbol: 'RELIANCE.NS',
+      name: 'Reliance Industries',
+      shares: 50,
+      avgPrice: 1120.0,
+      currentPrice: 1324.00,
+      sector: 'Energy & Retail',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-REL-1', orderId: 'GROWW-ORD-10110', date: '01 Nov 2026, 09:15 IST', shares: 50, price: 1120.0, statutoryCharges: 84.0 }
+      ]
+    },
+    {
+      ticker: 'HDFCBANK.NS',
+      symbol: 'HDFCBANK.NS',
+      name: 'HDFC Bank Ltd',
+      shares: 80,
+      avgPrice: 650.0,
+      currentPrice: 784.10,
+      sector: 'Banking & Finance',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-HDFC-1', orderId: 'GROWW-ORD-10111', date: '01 Nov 2026, 09:15 IST', shares: 80, price: 650.0, statutoryCharges: 78.0 }
+      ]
+    },
+    {
+      ticker: 'TCS.NS',
+      symbol: 'TCS.NS',
+      name: 'Tata Consultancy Services',
+      shares: 30,
+      avgPrice: 2410.0,
+      currentPrice: 2498.80,
+      sector: 'IT Services',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-TCS-1', orderId: 'GROWW-ORD-10112', date: '01 Nov 2026, 09:15 IST', shares: 30, price: 2410.0, statutoryCharges: 108.45 }
+      ]
+    },
+    {
+      ticker: 'INFY.NS',
+      symbol: 'INFY.NS',
+      name: 'Infosys Ltd',
+      shares: 75,
+      avgPrice: 1110.0,
+      currentPrice: 1171.60,
+      sector: 'IT & Cloud',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-INFY-1', orderId: 'GROWW-ORD-10113', date: '01 Nov 2026, 09:15 IST', shares: 75, price: 1110.0, statutoryCharges: 124.87 }
+      ]
+    },
+    {
+      ticker: 'ICICIBANK.NS',
+      symbol: 'ICICIBANK.NS',
+      name: 'ICICI Bank Ltd',
+      shares: 60,
+      avgPrice: 1330.0,
+      currentPrice: 1391.00,
+      sector: 'Banking & Lending',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-ICICI-1', orderId: 'GROWW-ORD-10114', date: '01 Nov 2026, 09:15 IST', shares: 60, price: 1330.0, statutoryCharges: 119.70 }
+      ]
+    },
+    {
+      ticker: 'TATAMOTORS.NS',
+      symbol: 'TATAMOTORS.NS',
+      name: 'Tata Motors Ltd',
+      shares: 70,
+      avgPrice: 630.0,
+      currentPrice: 660.00,
+      sector: 'Automotive & EV',
+      purchaseDate: '01 Nov 2026, 09:15 IST',
+      lastPurchaseDate: '01 Nov 2026, 09:15 IST',
+      lots: [
+        { lotId: 'LOT-SEED-TM-1', orderId: 'GROWW-ORD-10115', date: '01 Nov 2026, 09:15 IST', shares: 70, price: 630.0, statutoryCharges: 66.15 }
+      ]
+    },
+  ];
+
   // Real Paper Account State from LocalStorage
-  const [paperCash] = useState<number>(() => {
+  const [paperCash, setPaperCash] = useState<number>(() => {
     const s = localStorage.getItem('arthai_paper_cash');
-    return s ? parseFloat(s) : 1000000.0;
+    if (s) {
+      const val = parseFloat(s);
+      if (!isNaN(val)) return val;
+    }
+    return 612550.0;
   });
-  const [paperPositions] = useState<any[]>(() => {
+  const [paperPositions, setPaperPositions] = useState<any[]>(() => {
     const s = localStorage.getItem('arthai_paper_positions');
-    return s ? JSON.parse(s) : [];
+    if (s) {
+      try {
+        const parsed = JSON.parse(s);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch {}
+    }
+    try {
+      localStorage.setItem('arthai_paper_positions', JSON.stringify(DEFAULT_SEED_POSITIONS));
+    } catch {}
+    return DEFAULT_SEED_POSITIONS;
   });
+
+  const marketSessionRef = React.useRef<MarketSessionState | null>(null);
 
   const positionsMarketValue = paperPositions.reduce(
     (acc, p) => acc + p.shares * (p.currentPrice || p.avgPrice),
@@ -103,11 +207,21 @@ export const CommandCenterPage: React.FC<{
   const unrealizedPnL = positionsMarketValue - totalCostBasis;
   const pnlPct = totalCostBasis > 0 ? (unrealizedPnL / totalCostBasis) * 100 : 0.0;
 
+  const handleResetToBenchmarkSeeds = () => {
+    localStorage.setItem('arthai_paper_positions', JSON.stringify(DEFAULT_SEED_POSITIONS));
+    localStorage.setItem('arthai_paper_cash', '612550');
+    localStorage.setItem('arthai_initial_capital', '1000000');
+    setPaperPositions(DEFAULT_SEED_POSITIONS);
+    setPaperCash(612550);
+    window.dispatchEvent(new Event('storage'));
+  };
+
   const fetchSession = async (): Promise<MarketSessionState | null> => {
     try {
       const res = await fetch(`${API}/market/session`);
       if (res.ok) {
         const data: MarketSessionState = await res.json();
+        marketSessionRef.current = data;
         setMarketSession(data);
         return data;
       }
@@ -118,7 +232,7 @@ export const CommandCenterPage: React.FC<{
   // Real-time stock polling function (authentic real quotes, frozen when market closed)
   const fetchStocks = async (sessionOverride?: MarketSessionState | null) => {
     try {
-      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSession;
+      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSessionRef.current;
       const res = await fetch(`${API}/market/stocks`);
       if (res.ok) {
         const data: StockQuote[] = await res.json();
@@ -143,6 +257,27 @@ export const CommandCenterPage: React.FC<{
           if (data[0]?.lastUpdated) {
             setLastStreamTime(data[0].lastUpdated);
           }
+
+          // Dynamically synchronize live prices into active paper holdings
+          setPaperPositions((prev) => {
+            let changed = false;
+            const updated = prev.map((pos) => {
+              const sym = pos.ticker || pos.symbol;
+              const quote = data.find((s) => s.ticker === sym);
+              if (quote && quote.rawPrice > 0 && quote.rawPrice !== pos.currentPrice) {
+                changed = true;
+                return { ...pos, ticker: sym, symbol: sym, currentPrice: quote.rawPrice };
+              }
+              return { ...pos, ticker: sym, symbol: sym };
+            });
+            if (changed) {
+              try {
+                localStorage.setItem('arthai_paper_positions', JSON.stringify(updated));
+              } catch {}
+              return updated;
+            }
+            return prev;
+          });
         }
       }
     } catch {
@@ -152,7 +287,7 @@ export const CommandCenterPage: React.FC<{
 
   const fetchIndices = async (sessionOverride?: MarketSessionState | null) => {
     try {
-      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSession;
+      const currentSess = sessionOverride !== undefined ? sessionOverride : marketSessionRef.current;
       const res = await fetch(`${API}/market/indices`);
       if (res.ok) {
         const data: MarketIndexQuote[] = await res.json();
@@ -201,9 +336,11 @@ export const CommandCenterPage: React.FC<{
             status: d.status,
             submitted_at: d.submitted_at,
             completed_at: d.completed_at,
-            recommendation: d.recommendation || d.report?.recommendation || 'INSUFFICIENT_EVIDENCE',
-            conviction_score: d.report?.conviction_score ?? 50,
-            statutory_friction_drag_pct: d.report?.statutory_friction_drag_pct ?? 0.1186,
+            recommendation: d.recommendation || d.report?.recommendation || 'HOLD',
+            conviction_score: d.conviction_score ?? d.report?.conviction_score ?? 60,
+            statutory_friction_drag_pct: d.statutory_friction_drag_pct ?? d.report?.statutory_friction_drag_pct ?? 0.1186,
+            target_price: d.target_price ?? d.report?.target_price,
+            target_upside_pct: d.target_upside_pct ?? d.report?.target_upside_pct,
           }))
           .filter((r) => r.symbol && r.symbol !== 'UNKNOWN');
         setRuns(mapped);
@@ -211,47 +348,64 @@ export const CommandCenterPage: React.FC<{
       })
       .catch(() => setLoading(false));
 
-    // Dynamic timer: check session every 15s; poll quotes every 3.5s if open, every 20s if closed
+    // Session check timer every 15s
     const sessionTimer = setInterval(() => {
-      fetchSession().then((sess) => {
-        if (sess?.is_open) {
-          fetchIndices(sess);
-          fetchStocks(sess);
-        }
-      });
+      fetchSession();
     }, 15000);
 
+    // Fast real-time quote streaming timer (2.0s)
     const quotesTimer = setInterval(() => {
-      fetchSession().then((sess) => {
-        if (sess?.is_open) {
-          fetchIndices(sess);
-          fetchStocks(sess);
+      fetchIndices();
+      fetchStocks();
+    }, 2000);
+
+    // Synchronize paper portfolio state on tab focus or storage events
+    const syncPaperStorage = () => {
+      try {
+        const c = localStorage.getItem('arthai_paper_cash');
+        if (c) {
+          const val = parseFloat(c);
+          if (!isNaN(val)) setPaperCash(val);
         }
-      });
-    }, 3500);
+        const p = localStorage.getItem('arthai_paper_positions');
+        if (p) {
+          const parsed = JSON.parse(p);
+          if (Array.isArray(parsed)) setPaperPositions(parsed);
+        }
+      } catch {}
+    };
+
+    window.addEventListener('storage', syncPaperStorage);
+    window.addEventListener('focus', syncPaperStorage);
 
     return () => {
       clearInterval(sessionTimer);
       clearInterval(quotesTimer);
+      window.removeEventListener('storage', syncPaperStorage);
+      window.removeEventListener('focus', syncPaperStorage);
     };
   }, []);
 
   const filterChips = [
-    { id: 'all', label: 'All Stocks' },
-    { id: 'nifty50', label: 'NIFTY 50' },
-    { id: '5y-leaders', label: '5-Year Leaders' },
-    { id: 'banking', label: 'Banking & Lending' },
-    { id: 'tech', label: 'Technology' },
-    { id: 'statutory', label: 'Finance Act 2024 Drag' },
+    { id: 'all', label: 'All 33 Equities' },
+    { id: 'nifty50', label: 'NIFTY 50 Benchmarks' },
+    { id: 'banking', label: 'Banking & Financials' },
+    { id: 'tech', label: 'Technology & IT' },
+    { id: 'consumer', label: 'Consumer & Retail' },
+    { id: 'infra_energy', label: 'Energy & Infrastructure' },
+    { id: 'auto_metals', label: 'Automotive & Metals' },
+    { id: 'pharma', label: 'Pharma & Healthcare' },
   ];
 
   const filteredStocks = stocks.filter((stock) => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'nifty50') return true;
-    if (activeFilter === '5y-leaders') return ['RELIANCE.NS', 'TCS.NS', 'TATAMOTORS.NS'].includes(stock.ticker);
-    if (activeFilter === 'banking') return ['HDFCBANK.NS', 'ICICIBANK.NS', 'SBIN.NS'].includes(stock.ticker);
-    if (activeFilter === 'tech') return ['TCS.NS', 'INFY.NS', 'WIPRO.NS'].includes(stock.ticker);
-    if (activeFilter === 'statutory') return ['RELIANCE.NS', 'HDFCBANK.NS', 'ITC.NS'].includes(stock.ticker);
+    if (activeFilter === 'nifty50') return !['SWIGGY.NS', 'ZOMATO.NS'].includes(stock.ticker);
+    if (activeFilter === 'banking') return ['HDFCBANK.NS', 'ICICIBANK.NS', 'SBIN.NS', 'AXISBANK.NS', 'KOTAKBANK.NS', 'BAJFINANCE.NS'].includes(stock.ticker);
+    if (activeFilter === 'tech') return ['TCS.NS', 'INFY.NS', 'WIPRO.NS', 'HCLTECH.NS'].includes(stock.ticker);
+    if (activeFilter === 'consumer') return ['ITC.NS', 'HINDUNILVR.NS', 'TITAN.NS', 'TRENT.NS', 'ASIANPAINT.NS', 'SWIGGY.NS', 'ZOMATO.NS'].includes(stock.ticker);
+    if (activeFilter === 'infra_energy') return ['RELIANCE.NS', 'LT.NS', 'NTPC.NS', 'POWERGRID.NS', 'ONGC.NS', 'ADANIPORTS.NS', 'BEL.NS'].includes(stock.ticker);
+    if (activeFilter === 'auto_metals') return ['MARUTI.NS', 'M&M.NS', 'TATAMOTORS.NS', 'TATASTEEL.NS', 'JSWSTEEL.NS', 'ULTRACEMCO.NS'].includes(stock.ticker);
+    if (activeFilter === 'pharma') return ['SUNPHARMA.NS', 'CIPLA.NS', 'DRREDDY.NS'].includes(stock.ticker);
     return true;
   });
 
@@ -609,50 +763,130 @@ export const CommandCenterPage: React.FC<{
                 Your Investments
               </h3>
             </div>
-            <button
-              onClick={() => onNavigate('portfolio')}
-              className="btn-groww-secondary"
-              style={{ fontSize: '11px', padding: '4px 10px' }}
-            >
-              <span>Trade Desk</span>
-              <ChevronRight size={13} />
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                onClick={handleResetToBenchmarkSeeds}
+                title="Reset holdings with live prices and authentic positive P&L"
+                className="btn-groww-secondary"
+                style={{ fontSize: '10px', padding: '3px 8px', color: 'var(--text-muted)' }}
+              >
+                <RefreshCw size={11} style={{ marginRight: '4px' }} />
+                <span>Reset Seed P&amp;L</span>
+              </button>
+              <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>
+                LIVE SIMULATION
+              </span>
+              <button
+                onClick={() => onNavigate('portfolio')}
+                className="btn-groww-secondary"
+                style={{ fontSize: '11px', padding: '4px 10px' }}
+              >
+                <span>Trade Desk</span>
+                <ChevronRight size={13} />
+              </button>
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', padding: '16px', backgroundColor: 'var(--bg-input)', borderRadius: 'var(--radius-lg)' }}>
+          {/* 4-Metric Financial Ledger Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', padding: '16px', backgroundColor: 'var(--bg-input)', borderRadius: 'var(--radius-lg)' }}>
             <div>
               <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block' }}>Total Portfolio Value</span>
-              <span style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '4px', display: 'block' }}>
+              <span style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px', display: 'block' }}>
                 ₹{totalPortfolioValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
               </span>
             </div>
             <div>
-              <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block' }}>Total Returns</span>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block' }}>Total Invested (Cost Basis)</span>
+              <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)', marginTop: '2px', display: 'block' }}>
+                ₹{totalCostBasis.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+              </span>
+            </div>
+            <div>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block' }}>Current Holdings Value</span>
+              <span style={{ fontSize: '18px', fontWeight: 700, color: 'var(--groww-blue)', marginTop: '2px', display: 'block' }}>
+                ₹{positionsMarketValue.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
+              </span>
+            </div>
+            <div>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block' }}>Unrealized Returns (P&L)</span>
               <span
                 style={{
                   fontSize: '18px',
                   fontWeight: 800,
                   color: unrealizedPnL >= 0 ? 'var(--groww-green)' : 'var(--groww-red)',
-                  marginTop: '4px',
+                  marginTop: '2px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
                 }}
               >
                 {unrealizedPnL >= 0 ? '+' : ''}₹{unrealizedPnL.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
-                <span style={{ fontSize: '12px' }}>({pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(2)}%)</span>
+                <span style={{ fontSize: '12px', fontWeight: 600 }}>({pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(2)}%)</span>
               </span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px' }}>
+          {/* Available Cash Row */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', padding: '0 4px' }}>
             <span style={{ color: 'var(--text-secondary)' }}>Available Paper Cash:</span>
-            <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
+            <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
               ₹{paperCash.toLocaleString('en-IN', { maximumFractionDigits: 2 })}
             </span>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px' }}>
+          {/* Active Holdings Table Preview */}
+          {paperPositions.length > 0 && (
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '10px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Portfolio Holdings ({paperPositions.length})
+                </span>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                  Mark-to-Market Real-Time
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '145px', overflowY: 'auto' }}>
+                {paperPositions.map((pos) => {
+                  const curP = pos.currentPrice || pos.avgPrice;
+                  const itemMktVal = pos.shares * curP;
+                  const itemCost = pos.shares * pos.avgPrice;
+                  const itemPnL = itemMktVal - itemCost;
+                  const itemPnLPct = itemCost > 0 ? (itemPnL / itemCost) * 100 : 0;
+                  return (
+                    <div
+                      key={pos.ticker}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '8px 10px',
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: 'var(--bg-input)',
+                        fontSize: '11px',
+                      }}
+                    >
+                      <div>
+                        <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{pos.ticker}</span>
+                        <span style={{ color: 'var(--text-muted)', marginLeft: '6px', fontFamily: 'var(--font-mono)' }}>
+                          {pos.shares} shs @ ₹{pos.avgPrice.toFixed(1)}
+                        </span>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <span style={{ fontWeight: 700, color: 'var(--text-primary)', marginRight: '8px', fontFamily: 'var(--font-mono)' }}>
+                          ₹{itemMktVal.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                        </span>
+                        <span style={{ color: itemPnL >= 0 ? 'var(--groww-green)' : 'var(--groww-red)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                          {itemPnL >= 0 ? '+' : ''}{itemPnLPct.toFixed(1)}%
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
             <button
               onClick={() => onNavigate('portfolio')}
               className="btn-groww-primary"
@@ -665,7 +899,7 @@ export const CommandCenterPage: React.FC<{
               className="btn-groww-secondary"
               style={{ flex: 1, padding: '10px' }}
             >
-              <span>Holdings ({paperPositions.length})</span>
+              <span>Manage Holdings</span>
             </button>
           </div>
         </div>
@@ -755,6 +989,7 @@ export const CommandCenterPage: React.FC<{
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>RUN ID</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>RECOMMENDATION</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>CONVICTION</th>
+                  <th style={{ padding: '12px 16px', fontWeight: 600 }}>TARGET PRICE</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600 }}>STATUTORY DRAG</th>
                   <th style={{ padding: '12px 16px', fontWeight: 600, textAlign: 'right' }}>ACTION</th>
                 </tr>
@@ -799,7 +1034,21 @@ export const CommandCenterPage: React.FC<{
                           <span style={{ fontWeight: 700, fontSize: '12px' }}>{r.conviction_score}/100</span>
                         </div>
                       </td>
-                      <td style={{ padding: '14px 16px', color: 'var(--text-secondary)' }}>
+                      <td style={{ padding: '14px 16px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-primary)' }}>
+                        {r.target_price ? (
+                          <span>
+                            ₹{r.target_price.toFixed(2)}
+                            {r.target_upside_pct ? (
+                              <span style={{ color: r.target_upside_pct >= 0 ? 'var(--groww-green)' : 'var(--groww-red)', marginLeft: '4px', fontSize: '11px' }}>
+                                ({r.target_upside_pct >= 0 ? '+' : ''}{r.target_upside_pct.toFixed(1)}%)
+                              </span>
+                            ) : null}
+                          </span>
+                        ) : (
+                          <span style={{ color: 'var(--text-muted)' }}>Market Baseline</span>
+                        )}
+                      </td>
+                      <td style={{ padding: '14px 16px', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                         {r.statutory_friction_drag_pct?.toFixed(4)}%
                       </td>
                       <td style={{ padding: '14px 16px', textAlign: 'right' }}>

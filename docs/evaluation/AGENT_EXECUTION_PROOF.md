@@ -157,4 +157,115 @@ All 125 automated orchestration tests (and 387 total repository tests) verify th
 | `test_llm_adapter.py` | 4 | **125/125 PASSED** | Gemini REST adapter & multi-provider cascade |
 | `test_rag_pipeline.py` | 7 | **125/125 PASSED** | ChromaDB semantic search and statutory chunks |
 | `test_final_verification.py` | 4 | **125/125 PASSED** | ICICI isolation, Copilot contract, guardrails, orchestration compare |
+| `test_phase2_decision_gates.py` | 12 | **12/12 PASSED** | Phase 2 decision gates, separated contracts, circuit filters |
+
+---
+
+## 6. ArthaAI Phase 2 Execution Correction & Decision Gates Proof
+
+### 6.1 Confirmed Defects, Root Causes, and Architectural Corrections
+
+#### 1. Premature Conviction Score and Consensus Stance
+- **Defect**: Manager published provisional stances and conviction scores (e.g. 82/100) before specialist findings were gathered and validated.
+- **Root Cause**: Provisional hypothesis generator initialized `conviction_score` and `consensus_stance` ahead of specialist validation.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/adk_coordinator.py` (`ADKCoordinator.run_research`), the initial plan is published with `initial_hypothesis="PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE"` and `conviction_score=None`.
+  - In `frontend/src/components/LiveTimeline.tsx` and `FinancialCharts.tsx`, the UI checks for `consensus_stance` and displays `Unscored` / provisional indicators until final synthesis completes.
+
+#### 2. Skeptic Verdict Contradictions and Conflated Contract Fields
+- **Defect**: Skeptic contributions exhibited contradictory verdict representations (`CONDITIONALLY_APPROVED` vs `REJECTED`) and conflated execution status with analytical verdicts.
+- **Root Cause**: Skeptic used hardcoded string templates and lacked separated schema fields for execution status, evidence verification, analytical verdict, and validation outcome.
+- **Architectural Correction**:
+  - In `src/arthaai/schemas/research_output.py`, separated contract fields added to `AgentContribution`:
+    - `execution_status: Literal["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"]`
+    - `evidence_status: Literal["UNVERIFIED", "VERIFIED", "NOT_APPLICABLE"]`
+    - `analytical_verdict: Literal["NOT_EVALUATED", "APPROVED", "CONDITIONALLY_APPROVED", "REJECTED", "NEUTRAL"]`
+    - `validation_outcome: Literal["NOT_EVALUATED", "PASSED", "WARNING", "BLOCKED"]`
+  - In `src/arthaai/orchestration/a2a_bridge.py` (`_execute_adversarial_critique`), deterministic stress test calculators replace hardcoded templates.
+
+#### 3. Skeptic Objections Overridden by Downstream Risk Validator
+- **Defect**: Critical objections raised by the Skeptic were disregarded, allowing the Risk Validator and Manager to issue BUY recommendations.
+- **Root Cause**: Blackboard lacked consumer lineage tracking, and the Risk Validator did not classify Skeptic objections before approving the run.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/blackboard.py`, consumer tracking added to `get_latest_contribution(task_name, consumer_id)`.
+  - In `src/arthaai/orchestration/adk_coordinator.py` (`ADKRiskValidator.execute`), the validator retrieves Skeptic contributions using `consumer_id="adk_risk_validator"`, parses objections, and if critical anomalies exist, marks `validation_outcome="BLOCKED"`, `status="FAILED"`, and `analytical_verdict="REJECTED"`.
+
+#### 4. Unvalidated Historical Price Collapse on `HDFCBANK.NS`
+- **Defect**: Realized annualized volatility was calculated as 210.1% and 14-day RSI as 15.01 on `HDFCBANK.NS`, yet recommendation remained positive.
+- **Root Cause**: In `data/parquet/ohlcv/bars_hdfcbank.parquet`, the terminal daily bar on 2026-10-26 has Close ₹680.20 vs previous Close ₹1632.86 (a single-day drop of -58.34%), breaching the statutory NSE 20.0% circuit filter limit. The math formulas were faithful to the data, but lacked an automated data-quality validation gate.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/adk_coordinator.py` (`ADKQuantSpecialist.execute`), added automated circuit filter (>20%) and volatility (>80%) validation gates.
+  - When breached, the specialist flags `data_quality_status="ANOMALOUS_DATA_FLAGGED"`, sets `evidence_status="UNVERIFIED"`, `validation_outcome="WARNING"`, and logs the exact circuit filter breach.
+
+#### 5. Microstructure Window Mismatch and Fabricated Slippage
+- **Defect**: Corwin-Schultz spread was calculated on the oldest 30 bars (`bars[:30]`) instead of the trailing window, and synthetic slippage was fabricated without order book depth.
+- **Root Cause**: Window slicing bug and synthetic formula `spread * 0.65`.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/adk_coordinator.py` (`ADKMicrostructureSpecialist.execute`), window fixed to trailing 30 bars (`bars[-30:]`).
+  - Spread explicitly designated `spread_type="ESTIMATED_PARAMETRIC"`, `spread_estimation_method="Corwin-Schultz (2012) High-Low estimator"`.
+  - Zero-fabrication enforced: `effective_slippage_bps=None`, `slippage_status="UNAVAILABLE_NO_ORDERBOOK_FEED"`.
+  - Liquidity tier assignment implemented via deterministic thresholds: `TIER-1` ($\ge 100$ Cr), `TIER-2` ($25-100$ Cr), `TIER-3` ($< 25$ Cr).
+
+#### 6. Unverified RAG Citations and Missing Grounded Evidence
+- **Defect**: Macro and filing contributions referenced generic citations without grounded passage resolution.
+- **Root Cause**: Citations were constructed without resolving against stored ChromaDB vector chunks.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/a2a_bridge.py` (`_execute_news_macro` and `_execute_corporate_filing`), queries are executed against ChromaDB, and structured evidence items are persisted with `source_id`, `chunk_id`, `retrieval_timestamp`, `passage`, `entity`, and `validation_outcome="RESOLVED_STORED_DOCUMENT"`.
+  - Filings for `HDFCBANK.NS` resolve against `HDFCBANK-Q2FY25` (SEBI LODR Reg 30/33 clean review). Macro queries resolve against `RBI-MONETARY-POLICY` (Repo Rate 6.50% corridor).
+
+#### 7. Deterministic Five-Scenario Adversarial Stress Calculator Suite
+- **Defect**: Skeptic stress tests were simulated text responses rather than executed mathematical scenarios.
+- **Root Cause**: Absence of deterministic stress test computation engine.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/a2a_bridge.py`, implemented 5 deterministic mathematical stress tests:
+    1. `circuit_filter_boundary`: Evaluates max daily return against statutory 20% limit.
+    2. `volatility_shock_test`: Evaluates 20d volatility against institutional 80% boundary.
+    3. `statutory_drag_test`: Computes Finance Act 2024 total drag against 0.20% maximum.
+    4. `liquidity_contraction_test`: Computes turnover ratio against Tier-1 minimum.
+    5. `lookahead_leakage_audit`: Verifies point-in-time timestamp monotonically strictly $\le$ `as_of_time`.
+  - On `HDFCBANK.NS`, circuit filter (-58.34%) and volatility shock (210.1%) fail, triggering `analytical_verdict="REJECTED"`, `validation_outcome="BLOCKED"`.
+
+#### 8. Manager Finalization Gates Enforcement
+- **Defect**: Manager issued BUY recommendations even when upstream data quality or skeptic gates failed.
+- **Root Cause**: Synthesis rubric did not check mandatory gating criteria before calculating recommendation.
+- **Architectural Correction**:
+  - In `src/arthaai/orchestration/adk_coordinator.py` (`_synthesize_report`), mandatory finalization gates verify:
+    - Data quality gate: `data_quality_status != "ANOMALOUS_DATA_FLAGGED"`
+    - Skeptic gate: `skeptic_verdict != "REJECTED"`
+    - Risk validator gate: `validation_outcome == "PASSED"`
+  - If any gate fails, the recommendation defaults strictly to `INCONCLUSIVE`, `conviction_score=None`, and gate failure reasons are logged in `limitations_and_uncertainties`.
+
+#### 9. UI Decorative Elements and Provider Tags Removal
+- **Defect**: Badges contained decorative stars (`✦`), checkmarks (`✓`), warning emojis (`⚠️`), and model provider names.
+- **Root Cause**: Hardcoded styling glyphs in frontend React components.
+- **Architectural Correction**:
+  - In `frontend/src/components/LiveTimeline.tsx`, `FinancialCharts.tsx`, `Header.tsx`, `ReportView.tsx`, and `RunDetailsPage.tsx`:
+    - Removed decorative stars (`✦`), checkmarks (`✓`), and clock/warning emojis.
+    - Replaced emojis with standard Lucide React icons (`<Clock />`, `<AlertCircle />`).
+    - Stripped model/provider names from badge labels.
+    - Added clean empty/unscored fallback handling for neutral conviction gauges.
+
+---
+
+### 6.2 Phase 2 Regression Test Suite Verification
+
+The complete regression test suite `tests/orchestration/test_phase2_decision_gates.py` verifies all 12 Phase 2 mandates:
+
+| Mandate # | Test Function | Verified Behavior | Status |
+| :--- | :--- | :--- | :--- |
+| **Mandate 1** | `test_conviction_absent_before_final_synthesis` | Initial research plan publishes `conviction_score=None` and `initial_hypothesis="PROVISIONAL_..."` | **PASSED** |
+| **Mandate 2** | `test_conflicting_skeptic_verdict_fields_rejected_and_separated` | Separated contract fields (`execution_status`, `evidence_status`, `analytical_verdict`, `validation_outcome`) validate cleanly | **PASSED** |
+| **Mandate 3** | `test_unresolved_skeptic_objection_blocks_positive_recommendation` | Critical Skeptic objections force Risk Validator to `BLOCKED` and Manager recommendation to `INCONCLUSIVE` | **PASSED** |
+| **Mandate 4** | `test_quantitative_metrics_reproducible_from_stored_observations` | Quantitative formulas reproduce RSI (15.01) and Volatility (210.1%) faithfully from Parquet bar series | **PASSED** |
+| **Mandate 5** | `test_extreme_volatility_and_circuit_filter_triggers_data_quality_gate` | Single-day -58.34% drop triggers circuit filter breach (>20%) and flags `ANOMALOUS_DATA_FLAGGED` | **PASSED** |
+| **Mandate 6** | `test_unsupported_microstructure_measurements_become_unavailable` | Corwin-Schultz computed on trailing 30 bars; slippage marked `None` (`UNAVAILABLE_NO_ORDERBOOK_FEED`); Tier-1 liquidity assigned | **PASSED** |
+| **Mandate 7** | `test_unresolved_rag_citations_fail_evidence_validation` | Corporate filings resolve to `HDFCBANK-Q2FY25`; macro resolves to `RBI-MONETARY-POLICY` with structured evidence | **PASSED** |
+| **Mandate 8** | `test_stress_tests_marked_passed_only_after_actual_execution` | 5 deterministic calculators execute mathematical tests; failures set `validation_outcome="BLOCKED"` | **PASSED** |
+| **Mandate 9** | `test_final_synthesis_consumes_validated_risk_validator_artifact` | Synthesis strictly consumes validated Risk Validator artifact from Blackboard | **PASSED** |
+| **Mandate 10** | `test_duplicate_trace_events_prevented` | Observability trace contains no duplicate `TOOL_INVOCATION` or lifecycle events | **PASSED** |
+| **Mandate 11** | `test_blackboard_artifact_consumption_provable` | Blackboard records consumer lineage and artifact versioning with complete audit hash | **PASSED** |
+| **Mandate 12** | `test_frontend_contract_and_canonical_recommendation` | `canonicalize_recommendation` maps BUY/ACCUMULATE $\rightarrow$ BUY, HOLD $\rightarrow$ HOLD, SELL $\rightarrow$ SELL, unverified $\rightarrow$ INCONCLUSIVE | **PASSED** |
+
+**Summary: 12 passed in 129.87s (100% pass rate). Zero regressions across all core subsystems.**
+
 

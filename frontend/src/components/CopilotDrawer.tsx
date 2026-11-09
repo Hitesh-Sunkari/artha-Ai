@@ -10,6 +10,18 @@ interface ChatMessage {
   timestamp: string;
 }
 
+function cleanCopilotText(raw: string): string {
+  if (!raw) return '';
+  return raw
+    .replace(/^#+\s*(.*)$/gm, '\n$1:\n')
+    .replace(/^[\*\-]\s+(.*)$/gm, '• $1')
+    .replace(/\*\*/g, '')
+    .replace(/\*/g, '')
+    .replace(/#/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeContext }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -49,7 +61,7 @@ export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeCont
         ...prev,
         {
           sender: 'assistant',
-          text: data.reply || 'Analysis completed.',
+          text: cleanCopilotText(data.reply || data.answer || 'Analysis completed.'),
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -58,7 +70,7 @@ export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeCont
         ...prev,
         {
           sender: 'assistant',
-          text: 'ArthaAI Copilot is operating under verified baseline heuristic rules for Indian capital markets.',
+          text: cleanCopilotText('ArthaAI Copilot is operating under verified baseline heuristic rules for Indian capital markets.'),
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);

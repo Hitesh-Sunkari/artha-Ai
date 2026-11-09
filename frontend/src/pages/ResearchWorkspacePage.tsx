@@ -17,17 +17,95 @@ import {
   Search,
   Layers,
   X,
+  Globe,
+  Sparkles,
+  TrendingUp,
+  PieChart,
+  BarChart2,
+  ArrowUpRight,
+  Percent,
+  Sliders,
 } from 'lucide-react';
 import { LiveTimeline } from '../components/LiveTimeline';
 import { ReportView } from '../components/ReportView';
 import { EventStream } from '../components/EventStream';
+import { QueryStudioView } from '../components/QueryStudioView';
 import type { TabId } from '../components/Sidebar';
 import type { QuantitativeResearchReport, AgentContribution, LifecycleEvent } from '../api/types';
 import { getApiBaseUrl } from '../api/client';
 
 const API = getApiBaseUrl();
 
-type ResearchSubTab = 'overview' | 'journey' | 'report' | 'evidence' | 'committee';
+type ResearchSubTab = 'overview' | 'query' | 'journey' | 'report' | 'evidence' | 'committee';
+
+interface QueryStockSummary {
+  ticker: string;
+  name: string;
+  sector: string;
+  ltp: number;
+  day_change: number;
+  day_change_perc: number;
+  pe_ratio: number | null;
+  roe_pct: number | null;
+  debt_equity: number | null;
+  expected_return_pct: number;
+  volatility_pct: number;
+  beta: number;
+  max_drawdown_pct: number;
+  order_flow_sentiment: string;
+}
+
+interface QueryTenYearProjection {
+  horizon_years: number;
+  current_price: number;
+  p10_bear_target: number;
+  p50_base_target: number;
+  p90_bull_target: number;
+  base_cagr_pct: number;
+  bull_cagr_pct: number;
+  bear_cagr_pct: number;
+  prob_beat_inflation: number;
+  trajectory_points: Array<{
+    year: number;
+    bear_p10: number;
+    median_p50: number;
+    bull_p90: number;
+  }>;
+  growth_catalysts: string[];
+  downside_risks: string[];
+}
+
+interface QueryMultiStockCombination {
+  tickers: string[];
+  weights: Record<string, number>;
+  combined_expected_return_pct: number;
+  combined_volatility_pct: number;
+  weighted_avg_single_volatility_pct: number;
+  volatility_reduction_pct: number;
+  combined_max_drawdown_pct: number;
+  individual_avg_drawdown_pct: number;
+  drawdown_reduction_pct: number;
+  diversification_ratio: number;
+  correlation_matrix: Record<string, Record<string, number>>;
+  recommendation_rationale: string;
+}
+
+interface QueryResearchResponse {
+  query: string;
+  intent: string;
+  detected_symbols: string[];
+  horizon_years: number;
+  executive_synthesis: string;
+  verdict: string;
+  conviction_score: number;
+  stocks_analyzed: QueryStockSummary[];
+  ten_year_projection?: QueryTenYearProjection | null;
+  multi_stock_combination?: QueryMultiStockCombination | null;
+  regulatory_audit: any;
+  statutory_tax_drag: any;
+  agent_contributions: any[];
+  timestamp: string;
+}
 
 interface ResearchWorkspaceProps {
   initialRunId?: string | null;
@@ -89,8 +167,27 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
   const [compareRecord, setCompareRecord] = useState<any | null>(null);
   const [compareError, setCompareError] = useState<string | null>(null);
 
-  // Verified 5-Year Parquet Tickers
-  const VERIFIED_STOCKS = [
+  // Security Resolution Interface & State
+  interface SecurityResolution {
+    resolved: boolean;
+    canonical_id: string;
+    symbol: string;
+    exchange: string;
+    yahoo_ticker: string;
+    company_name: string;
+    listing_status: string;
+    is_valid_for_research: boolean;
+    has_local_parquet: boolean;
+    is_sme?: boolean;
+    has_derivatives?: boolean;
+    message?: string;
+  }
+
+  const [securityResolution, setSecurityResolution] = useState<SecurityResolution | null>(null);
+  const [resolvingSecurity, setResolvingSecurity] = useState(false);
+
+  // Popular Indian Ticker Presets (Large-Cap, Mid-Cap, SME, Dual-Listed)
+  const POPULAR_PRESETS = [
     'RELIANCE.NS',
     'TCS.NS',
     'HDFCBANK.NS',
@@ -100,12 +197,45 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
     'SBIN.NS',
     'ITC.NS',
     'WIPRO.NS',
+    'ZOMATO.NS',
+    'SWIGGY.NS',
+    'TRENT.NS',
   ];
-  const tickerPresets = VERIFIED_STOCKS;
+  const tickerPresets = POPULAR_PRESETS;
   const cleanSym = symbol.trim().toUpperCase();
-  const isVerified =
-    VERIFIED_STOCKS.includes(cleanSym) ||
-    VERIFIED_STOCKS.map((s) => s.replace('.NS', '')).includes(cleanSym);
+
+  // Dynamic security resolution via Security Master API
+  useEffect(() => {
+    if (!cleanSym) {
+      setSecurityResolution(null);
+      return;
+    }
+    let isCurrent = true;
+    const timer = setTimeout(async () => {
+      setResolvingSecurity(true);
+      try {
+        const res = await fetch(`${API}/securities/${encodeURIComponent(cleanSym)}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (isCurrent) setSecurityResolution(data);
+        }
+      } catch {
+        // silent
+      } finally {
+        if (isCurrent) setResolvingSecurity(false);
+      }
+    }, 200);
+
+    return () => {
+      isCurrent = false;
+      clearTimeout(timer);
+    };
+  }, [cleanSym]);
+
+  const hasLocalParquet = securityResolution?.has_local_parquet ?? false;
+  const isDelisted = securityResolution?.listing_status === 'DELISTED';
+  const isSuspended = securityResolution?.listing_status === 'SUSPENDED';
+  const canExecute = cleanSym.length > 0 && !isDelisted;
 
   // Poll active run
   useEffect(() => {
@@ -159,11 +289,10 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
     setSubmitting(true);
     setSubmitError(null);
 
-    if (!isVerified) {
+    if (isDelisted) {
       setSubmitError(
-        `The instrument "${symbol}" is not in our authentic 5-year point-in-time Parquet store. ` +
-        `Institutional safety policy prohibits unverified assets. Please select from: ` +
-        VERIFIED_STOCKS.join(', ')
+        `Safety Gate: ${securityResolution?.company_name || symbol} is marked DELISTED on exchange registries. ` +
+        `Active quantitative recommendations are restricted for delisted securities.`
       );
       setSubmitting(false);
       return;
@@ -264,6 +393,51 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
     }
   };
 
+  // ── Natural Language Query Studio State & Handler ───────────────────────
+  const [nlQuery, setNlQuery] = useState('how could be the trend of reliance in next 10years');
+  const [nlSelectedSymbols, setNlSelectedSymbols] = useState<string[]>(['RELIANCE.NS']);
+  const [nlSymbolInput, setNlSymbolInput] = useState('');
+  const [nlHorizon, setNlHorizon] = useState<number>(10);
+  const [nlRiskTolerance, setNlRiskTolerance] = useState<number>(5);
+  const [nlLoading, setNlLoading] = useState(false);
+  const [nlError, setNlError] = useState<string | null>(null);
+  const [nlResult, setNlResult] = useState<QueryResearchResponse | null>(null);
+
+  const handleExecuteNlQuery = async (queryText?: string) => {
+    const q = (queryText !== undefined ? queryText : nlQuery).trim();
+    if (!q) return;
+    setNlLoading(true);
+    setNlError(null);
+    try {
+      const res = await fetch(`${API}/research/query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query: q,
+          symbols: nlSelectedSymbols.length > 0 ? nlSelectedSymbols : undefined,
+          horizon_years: nlHorizon,
+          risk_tolerance: nlRiskTolerance,
+          initial_capital: 1000000.0,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      const data: QueryResearchResponse = await res.json();
+      setNlResult(data);
+      if (data.detected_symbols && data.detected_symbols.length > 0) {
+        setNlSelectedSymbols(data.detected_symbols);
+      }
+      if (data.horizon_years) {
+        setNlHorizon(data.horizon_years);
+      }
+    } catch (err: any) {
+      setNlError(err?.message || 'Failed to execute query research.');
+    } finally {
+      setNlLoading(false);
+    }
+  };
+
   const handleSearchEvidence = async () => {
     if (!evidenceQuery.trim()) return;
     setEvidenceLoading(true);
@@ -352,6 +526,13 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
             <Settings size={15} style={{ marginRight: '6px' }} /> Overview & Config
           </button>
           <button
+            onClick={() => setActiveTab('query')}
+            className={`groww-chip ${activeTab === 'query' ? 'active' : ''}`}
+            style={activeTab === 'query' ? { borderColor: 'var(--groww-green)', color: 'var(--groww-green)', fontWeight: 700 } : {}}
+          >
+            <Sparkles size={15} style={{ marginRight: '6px', color: '#a78bfa' }} /> Query Studio (10Y Trend & Multi-Stock)
+          </button>
+          <button
             onClick={() => setActiveTab('journey')}
             className={`groww-chip ${activeTab === 'journey' ? 'active' : ''}`}
           >
@@ -416,7 +597,7 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                   required
                 />
                 <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Verified Equities:</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick Select:</span>
                   {tickerPresets.map((t) => (
                     <button
                       key={t}
@@ -430,35 +611,53 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                   ))}
                 </div>
 
-                {!isVerified && symbol.trim().length > 0 && (
-                  <div
-                    style={{
-                      marginTop: '10px',
-                      padding: '12px 14px',
-                      borderRadius: '8px',
-                      backgroundColor: 'rgba(235, 91, 89, 0.1)',
-                      border: '1px solid var(--groww-red)',
-                      color: 'var(--groww-red)',
-                      fontSize: '12px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '6px',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 }}>
-                      <AlertTriangle size={15} />
-                      <span>Unverified Equity Instrument — Research Execution Locked</span>
-                    </div>
-                    <p style={{ margin: 0, fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      <strong>"{symbol}"</strong> is not present in the verified 5-year DuckDB/Parquet store. ArthaAI adheres strictly to point-in-time empirical evidence. Please select one of the verified instruments above to proceed.
-                    </p>
-                  </div>
-                )}
-
-                {isVerified && (
-                  <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--groww-green)' }}>
-                    <CheckCircle2 size={13} />
-                    <span>Verified 5-Year Point-In-Time Dataset (~1,260 bars) active for {cleanSym.endsWith('.NS') ? cleanSym : `${cleanSym}.NS`}</span>
+                {/* Dynamic Resolution Status Badges */}
+                {cleanSym.length > 0 && securityResolution && (
+                  <div style={{ marginTop: '10px' }}>
+                    {hasLocalParquet ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--groww-green)' }}>
+                        <CheckCircle2 size={13} />
+                        <span>Verified 5-Year Point-In-Time Dataset (~1,260 bars) active for {securityResolution.canonical_id || cleanSym}</span>
+                      </div>
+                    ) : isDelisted ? (
+                      <div
+                        style={{
+                          padding: '10px 14px',
+                          borderRadius: '8px',
+                          backgroundColor: 'rgba(235, 91, 89, 0.1)',
+                          border: '1px solid var(--groww-red)',
+                          color: 'var(--groww-red)',
+                          fontSize: '12px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                        }}
+                      >
+                        <AlertTriangle size={15} />
+                        <span>DELISTED Equity ({securityResolution.canonical_id}) — Actionable quantitative research and recommendations locked.</span>
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: '8px',
+                          backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                          border: '1px solid rgba(56, 189, 248, 0.3)',
+                          color: 'var(--accent-cyan)',
+                          fontSize: '11px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                        }}
+                      >
+                        <Globe size={14} />
+                        <span>
+                          <strong>Dynamic Listed Equity ({securityResolution.exchange}):</strong> {securityResolution.company_name} ({securityResolution.canonical_id}). Multi-source dynamic market ingest and point-in-time quality gates active.
+                          {securityResolution.is_sme && ' [SME Series SM — Illiquidity guardrails active]'}
+                          {isSuspended && ' [Trading Suspended — Historical data only]'}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -496,29 +695,31 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
               {/* Execution Action Button */}
               <button
                 type="submit"
-                disabled={submitting || !isVerified}
-                className={isVerified ? 'btn-groww-primary' : 'btn-groww-secondary'}
+                disabled={submitting || !canExecute}
+                className={canExecute ? 'btn-groww-primary' : 'btn-groww-secondary'}
                 style={{
                   padding: '12px 20px',
                   fontSize: '14px',
                   marginTop: '8px',
                   width: '100%',
-                  opacity: isVerified ? 1 : 0.6,
-                  cursor: isVerified ? 'pointer' : 'not-allowed',
+                  opacity: canExecute ? 1 : 0.6,
+                  cursor: canExecute ? 'pointer' : 'not-allowed',
                 }}
               >
                 <Play size={16} />
-                {!isVerified
-                  ? 'Select a Verified Stock to Proceed'
-                  : submitting
+                {submitting
                   ? 'Submitting to ADK Coordinator...'
+                  : isDelisted
+                  ? 'Research Blocked (Delisted Security)'
+                  : !cleanSym
+                  ? 'Enter Indian Stock Symbol to Proceed'
                   : 'Execute Research Pipeline'}
               </button>
 
               {/* Secondary Comparison Action (User-Triggered Only) */}
               <button
                 type="button"
-                disabled={submitting || !isVerified}
+                disabled={submitting || !canExecute}
                 onClick={() => {
                   setCompareError(null);
                   setShowCompareModal(true);
@@ -532,7 +733,7 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  cursor: isVerified ? 'pointer' : 'not-allowed',
+                  cursor: canExecute ? 'pointer' : 'not-allowed',
                 }}
               >
                 <Layers size={15} />
@@ -608,6 +809,14 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
             )}
           </div>
         </div>
+      )}
+
+      {/* ── View 1.5: Query-Based Quantitative Research Studio ───────────── */}
+      {activeTab === 'query' && (
+        <QueryStudioView
+          onNavigateToPortfolio={onNavigateToPortfolio}
+          defaultSymbol={symbol}
+        />
       )}
 
       {/* ── View 2: Agent Journey & Live Timeline ─────────────────────────── */}
@@ -794,84 +1003,302 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
           <div className="terminal-card" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
               <div>
-                <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <span className="pill-badge pill-badge-blue">
+                    INSTITUTIONAL GOVERNANCE
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    Target: <strong style={{ color: 'var(--text-primary)' }}>{symbol}</strong>
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                   Investment Committee Chamber
                 </h3>
                 <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                  Simulated multi-persona debate featuring Macro, Quant, Adversarial Red-Team, and Chief Investment Officer.
+                  Formal multi-persona deliberation featuring Google ADK &amp; CrewAI agents: Chief Investment Officer, Quantitative Strategist, Macro Director, and Adversarial Red-Team Lead.
                 </p>
               </div>
               <button
                 onClick={handleRunCommittee}
                 disabled={committeeLoading}
                 className="btn-groww-primary"
-                style={{ padding: '8px 18px', fontSize: '13px' }}
+                style={{ padding: '10px 20px', fontSize: '13px' }}
               >
-                <Users size={15} /> {committeeLoading ? 'Deliberating...' : 'Convene Committee Session'}
+                <Users size={16} /> {committeeLoading ? 'Deliberating Council Session...' : 'Convene Committee Session'}
               </button>
             </div>
           </div>
 
           {committeeResult && (
-            <div className="terminal-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                  Session ID: {committeeResult.session_id}
-                </span>
-                <span
-                  style={{
-                    padding: '4px 12px',
-                    borderRadius: '6px',
-                    fontWeight: 800,
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '12px',
-                    backgroundColor:
-                      committeeResult.official_verdict === 'APPROVED'
-                        ? 'rgba(52, 211, 153, 0.2)'
-                        : 'rgba(251, 191, 36, 0.2)',
-                    color:
-                      committeeResult.official_verdict === 'APPROVED'
-                        ? 'var(--accent-emerald)'
-                        : 'var(--accent-amber)',
-                    border: '1px solid var(--border-subtle)',
-                  }}
-                >
-                  Verdict: {committeeResult.official_verdict}
-                </span>
-              </div>
-
-              {/* Debate Transcript */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {committeeResult.transcript?.map((st: any, idx: number) => (
-                  <div
-                    key={idx}
-                    style={{
-                      padding: '14px 16px',
-                      borderRadius: '8px',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                      <span style={{ fontWeight: 700, fontSize: '13px', color: 'var(--text-primary)' }}>
-                        {st.role_title} ({st.member_name})
-                      </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* Executive Resolution Banner */}
+              <div
+                className="groww-card"
+                style={{
+                  padding: '24px',
+                  backgroundColor:
+                    committeeResult.official_verdict === 'APPROVED'
+                      ? 'var(--groww-green-light)'
+                      : committeeResult.official_verdict === 'REJECTED'
+                      ? 'var(--groww-red-light)'
+                      : 'rgba(251, 191, 36, 0.08)',
+                  borderColor:
+                    committeeResult.official_verdict === 'APPROVED'
+                      ? 'var(--groww-green)'
+                      : committeeResult.official_verdict === 'REJECTED'
+                      ? 'var(--groww-red)'
+                      : 'var(--groww-amber)',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                       <span
                         style={{
-                          fontSize: '11px',
-                          fontFamily: 'var(--font-mono)',
-                          fontWeight: 700,
-                          color: st.vote === 'APPROVE' ? 'var(--accent-emerald)' : 'var(--accent-amber)',
+                          padding: '4px 14px',
+                          borderRadius: 'var(--radius-pill)',
+                          fontWeight: 800,
+                          fontSize: '12px',
+                          letterSpacing: '0.05em',
+                          textTransform: 'uppercase',
+                          backgroundColor:
+                            committeeResult.official_verdict === 'APPROVED'
+                              ? 'var(--groww-green)'
+                              : committeeResult.official_verdict === 'REJECTED'
+                              ? 'var(--groww-red)'
+                              : 'var(--groww-amber)',
+                          color: '#0B0F17',
                         }}
                       >
-                        Vote: {st.vote} • Stance: {st.stance}
+                        OFFICIAL VERDICT: {committeeResult.official_verdict}
+                      </span>
+                      <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                        Session: {committeeResult.session_id}
                       </span>
                     </div>
-                    <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.4' }}>
-                      {st.argument}
-                    </p>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '6px' }}>
+                      Deliberated under Chairperson: <strong style={{ color: 'var(--text-primary)' }}>{committeeResult.chairperson || 'Chief Investment Officer'}</strong>
+                    </div>
                   </div>
-                ))}
+
+                  {/* Vote Breakdown Pills */}
+                  {committeeResult.votes_summary && (
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>COUNCIL TALLY:</span>
+                      <span className="pill-badge pill-badge-green" style={{ fontSize: '11px', fontWeight: 700 }}>
+                        {committeeResult.votes_summary.approve ?? 0} Approve
+                      </span>
+                      <span className="pill-badge pill-badge-amber" style={{ fontSize: '11px', fontWeight: 700 }}>
+                        {committeeResult.votes_summary.conditional ?? 0} Conditional
+                      </span>
+                      <span className="pill-badge pill-badge-red" style={{ fontSize: '11px', fontWeight: 700 }}>
+                        {committeeResult.votes_summary.reject ?? 0} Reject
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Consensus Rationale Box */}
+                {committeeResult.consensus_rationale && (
+                  <div
+                    style={{
+                      marginTop: '16px',
+                      padding: '14px 18px',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: 'var(--bg-elevated)',
+                      border: '1px solid var(--border-subtle)',
+                      lineHeight: '1.5',
+                      fontSize: '13px',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    <div style={{ fontSize: '11px', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '6px', letterSpacing: '0.04em' }}>
+                      Executive Council Rationale &amp; Synthesis
+                    </div>
+                    {committeeResult.consensus_rationale}
+                  </div>
+                )}
+              </div>
+
+              {/* Council Debate Transcript (Persona Cards) */}
+              <div>
+                <h4 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '12px' }}>
+                  Deliberating Persona Testimonies &amp; Arguments
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '14px' }}>
+                  {committeeResult.transcript?.map((st: any, idx: number) => {
+                    const isApprove = st.vote === 'APPROVE';
+                    const isReject = st.vote === 'REJECT';
+                    return (
+                      <div
+                        key={idx}
+                        className="groww-card"
+                        style={{
+                          padding: '18px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '12px',
+                          borderLeftWidth: '4px',
+                          borderLeftColor: isApprove ? 'var(--groww-green)' : isReject ? 'var(--groww-red)' : 'var(--groww-amber)',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                              {st.member_name}
+                            </div>
+                            <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                              {st.role_title}
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+                            <div style={{ display: 'flex', gap: '6px' }}>
+                              <span
+                                style={{
+                                  fontSize: '10px',
+                                  padding: '2px 8px',
+                                  borderRadius: 'var(--radius-pill)',
+                                  backgroundColor: 'var(--bg-elevated)',
+                                  color: 'var(--groww-blue)',
+                                  border: '1px solid var(--border-subtle)',
+                                  fontWeight: 700,
+                                }}
+                              >
+                                {st.framework || 'Google ADK'}
+                              </span>
+                              <span
+                                className={`pill-badge ${
+                                  isApprove ? 'pill-badge-green' : isReject ? 'pill-badge-red' : 'pill-badge-amber'
+                                }`}
+                                style={{ fontSize: '10px', fontWeight: 800 }}
+                              >
+                                VOTE: {st.vote}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                              Stance: <strong>{st.stance}</strong>
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Argument Text */}
+                        <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>
+                          {st.argument}
+                        </p>
+
+                        {/* Key Caveat / Condition */}
+                        {st.key_caveat && (
+                          <div
+                            style={{
+                              padding: '8px 12px',
+                              borderRadius: 'var(--radius-md)',
+                              backgroundColor: 'var(--bg-input)',
+                              fontSize: '11px',
+                              color: 'var(--text-muted)',
+                              borderLeft: '2px solid var(--groww-amber)',
+                            }}
+                          >
+                            <strong style={{ color: 'var(--groww-amber)' }}>Mandatory Caveat: </strong>
+                            <span>{st.key_caveat}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Binding Committee Risk Constraints */}
+              {Array.isArray(committeeResult.binding_constraints) && committeeResult.binding_constraints.length > 0 && (
+                <div>
+                  <h4 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '12px' }}>
+                    Binding Committee Risk Constraints &amp; Governance Limits
+                  </h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '12px' }}>
+                    {committeeResult.binding_constraints.map((bc: any) => (
+                      <div
+                        key={bc.id}
+                        style={{
+                          padding: '16px',
+                          borderRadius: 'var(--radius-lg)',
+                          backgroundColor: 'var(--bg-elevated)',
+                          border: '1px solid var(--border-subtle)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '10px',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--groww-green)' }}>
+                            {bc.id}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: '9px',
+                              fontWeight: 800,
+                              fontFamily: 'var(--font-mono)',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                              color: 'var(--groww-blue)',
+                            }}
+                          >
+                            {bc.enforcement_level}
+                          </span>
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                            {bc.category?.replace(/_/g, ' ')}
+                          </div>
+                          <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px', lineHeight: '1.4' }}>
+                            {bc.mandate}
+                          </div>
+                        </div>
+
+                        <div style={{ marginTop: 'auto', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
+                          <span style={{ color: 'var(--text-muted)' }}>Actionable Limit: </span>
+                          <strong style={{ color: 'var(--text-primary)' }}>{bc.actionable_boundary}</strong>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Direct Paper-Trading Handoff Action Bar */}
+              <div
+                className="groww-card"
+                style={{
+                  padding: '20px 24px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: 'var(--bg-input)',
+                  border: '1px solid var(--border-subtle)',
+                  flexWrap: 'wrap',
+                  gap: '14px',
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    Execute Approved Institutional Constraints in Paper Desk
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                    Carry forward {symbol} verdict with binding stop-loss and position sizing controls.
+                  </div>
+                </div>
+
+                {onNavigateToPortfolio && (
+                  <button
+                    onClick={() => onNavigateToPortfolio(symbol, committeeResult.official_verdict === 'REJECTED' ? 'SELL' : 'BUY')}
+                    className="btn-groww-primary"
+                    style={{ padding: '8px 18px', fontSize: '12px' }}
+                  >
+                    <span>Configure Order in Paper Desk →</span>
+                  </button>
+                )}
               </div>
             </div>
           )}

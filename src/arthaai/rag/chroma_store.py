@@ -24,7 +24,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field
 
 from arthaai.core.clock.timezone import now_utc
-from arthaai.rag.documents import REGULATORY_AND_STATUTORY_CHUNKS, DocumentChunk
+from arthaai.rag.documents import REGULATORY_AND_STATUTORY_CHUNKS, DocumentChunk, NAME_TO_SYMBOL_MAP
 
 
 class CuratedSourceManifestItem(BaseModel):
@@ -79,11 +79,11 @@ class DeterministicLexicalEmbeddingFunction(EmbeddingFunction):
             # Tokenize into clean lowercase words and bigrams
             tokens = re.findall(r"\b[a-z0-9_-]{2,}\b", text.lower())
             for i, tok in enumerate(tokens):
-                h1 = abs(hash(tok)) % 384
+                h1 = int(hashlib.md5(tok.encode("utf-8")).hexdigest()[:8], 16) % 384
                 vec[h1] += 1.0
                 if i < len(tokens) - 1:
                     bigram = f"{tok}_{tokens[i+1]}"
-                    h2 = abs(hash(bigram)) % 384
+                    h2 = int(hashlib.md5(bigram.encode("utf-8")).hexdigest()[:8], 16) % 384
                     vec[h2] += 1.5
 
             norm = np.linalg.norm(vec)
@@ -222,23 +222,34 @@ class ChromaRAGStore:
         documents_to_add: list[str] = []
         metadatas_to_add: list[dict[str, Any]] = []
 
-        for chunk in all_chunks:
-            if chunk.chunk_id not in existing_ids:
-                ids_to_add.append(chunk.chunk_id)
-                documents_to_add.append(f"{chunk.title}\n{chunk.content}")
-                metadatas_to_add.append({
-                    "chunk_id": chunk.chunk_id,
-                    "doc_id": chunk.doc_id,
-                    "doc_type": chunk.doc_type,
-                    "title": chunk.title,
-                    "symbol": chunk.symbol or "ALL",
-                    "effective_date": chunk.effective_date,
-                    "citation_uri": chunk.citation_uri,
-                    "source_authority": chunk.source_authority,
-                })
+        unique_chunks: dict[str, DocumentChunk] = {}
+        for c in all_chunks:
+            unique_chunks[c.chunk_id] = c
+
+        for chunk in unique_chunks.values():
+            ids_to_add.append(chunk.chunk_id)
+            documents_to_add.append(f"{chunk.title}\n{chunk.content}")
+            metadatas_to_add.append({
+                "chunk_id": chunk.chunk_id,
+                "doc_id": chunk.doc_id,
+                "doc_type": chunk.doc_type,
+                "title": chunk.title,
+                "symbol": chunk.symbol or "ALL",
+                "effective_date": chunk.effective_date,
+                "citation_uri": chunk.citation_uri,
+                "source_authority": chunk.source_authority,
+                "reporting_period": chunk.reporting_period or "",
+                "basis": chunk.basis or "",
+                "audit_status": chunk.audit_status or "",
+                "unit": chunk.unit or "CRORES",
+                "content_hash": chunk.content_hash or "",
+                "is_restated": "true" if chunk.is_restated else "false",
+                "restatement_date": chunk.restatement_date or "",
+                "superseded_by": chunk.superseded_by or "",
+            })
 
         if ids_to_add:
-            self.collection.add(
+            self.collection.upsert(
                 ids=ids_to_add,
                 documents=documents_to_add,
                 metadatas=metadatas_to_add,
@@ -252,12 +263,20 @@ class ChromaRAGStore:
         as_of_time: datetime | str | None = None,
         limit: int = 5,
     ) -> list[RAGRetrievalMatch]:
-        """Executes point-in-time vector query against persistent ChromaDB with sanitization."""
+        """Executes point-in-time vector and hybrid lexical query against persistent ChromaDB with sanitization."""
         if not query or not query.strip():
             return []
 
         clean_query = self._sanitize_text(query)
         clean_symbol = symbol.strip().upper().replace(".NS", "").replace(".BO", "") if symbol else None
+
+        # Automatically resolve company / ticker from query if symbol was not passed
+        if not clean_symbol and clean_query:
+            q_lower = clean_query.lower()
+            for name, sym in sorted(NAME_TO_SYMBOL_MAP.items(), key=lambda x: -len(x[0])):
+                if re.search(r"\b" + re.escape(name) + r"\b", q_lower):
+                    clean_symbol = sym
+                    break
 
         # Build ChromaDB metadata filters
         where_clauses: list[dict[str, Any]] = []
@@ -270,8 +289,9 @@ class ChromaRAGStore:
         elif len(where_clauses) > 1:
             where_filter = {"$and": where_clauses}
 
-        # Query ChromaDB collection
-        fetch_limit = min(30, max(limit * 3, 10))
+        # Query ChromaDB collection across full available corpus
+        total_in_coll = self.collection.count()
+        fetch_limit = min(150, max(total_in_coll, 10))
         results = self.collection.query(
             query_texts=[clean_query],
             n_results=fetch_limit,
@@ -305,15 +325,78 @@ class ChromaRAGStore:
                 except Exception:
                     pass
 
-            chunk_symbol = str(meta.get("symbol", "ALL"))
-            # Symbol relevance filtering
-            if clean_symbol and chunk_symbol != "ALL" and chunk_symbol != clean_symbol:
-                continue
+                # Revision-aware filtering:
+                is_restated = meta.get("is_restated") in (True, "true", "True")
+                restatement_date_str = str(meta.get("restatement_date", ""))
+                superseded_by = str(meta.get("superseded_by", ""))
 
-            # Calculate normalized relevance score (1.0 - normalized distance)
-            sim_score = round(max(0.0, min(1.0, 1.0 - float(dist) * 0.5)), 4)
+                if is_restated and restatement_date_str:
+                    try:
+                        r_d = date.fromisoformat(restatement_date_str)
+                        if pit_date < r_d:
+                            continue  # Restated filing didn't exist at PIT
+                    except Exception:
+                        pass
+                if superseded_by and restatement_date_str:
+                    try:
+                        r_d = date.fromisoformat(restatement_date_str)
+                        if pit_date >= r_d:
+                            continue  # Original filing was superseded by restatement at PIT
+                    except Exception:
+                        pass
+
+            chunk_symbol = str(meta.get("symbol", "ALL"))
+            chunk_title = str(meta.get("title", ""))
+            title_lower = chunk_title.lower()
+            doc_lower = doc_text.lower()
+
+            # Symbol relevance filtering:
+            # If the user queried for a specific company (clean_symbol is set):
+            # 1. Discard any filing/profile of a DIFFERENT company
+            if clean_symbol and chunk_symbol != "ALL":
+                matches_symbol = (chunk_symbol == clean_symbol)
+                if not matches_symbol:
+                    try:
+                        from arthaai.data.instrument_master.security_master import get_security_master
+                        master = get_security_master()
+                        r_clean = master.resolve(clean_symbol)
+                        r_chunk = master.resolve(chunk_symbol)
+                        if r_clean.resolved and r_chunk.resolved:
+                            matches_symbol = (r_clean.canonical_id == r_chunk.canonical_id)
+                    except Exception:
+                        matches_symbol = False
+                if not matches_symbol:
+                    continue  # Strictly omit corporate filings of other unrelated scrips
+
+            # Calculate normalized vector similarity
+            vector_sim = max(0.0, min(1.0, 1.0 - float(dist) * 0.5))
+
+            # Calculate lexical term overlap
+            stopwords = {"what", "is", "the", "for", "in", "and", "of", "to", "a", "an", "on", "with", "as", "by", "from"}
+            q_tokens = [w for w in re.findall(r"\b[a-z0-9_-]{2,}\b", clean_query.lower()) if w not in stopwords]
+
+            title_matches = sum(1 for tok in q_tokens if tok in title_lower)
+            title_overlap = (title_matches / len(q_tokens)) if q_tokens else 0.0
+            doc_matches = sum(1 for tok in q_tokens if tok in doc_lower)
+            doc_overlap = (doc_matches / len(q_tokens)) if q_tokens else 0.0
+
+            lexical_boost = (title_overlap * 0.40) + (doc_overlap * 0.20)
+
+            # Symbol match boost
+            symbol_boost = 0.0
             if clean_symbol and chunk_symbol == clean_symbol:
-                sim_score = min(1.0, sim_score + 0.15)
+                symbol_boost = 0.50
+            elif clean_symbol and chunk_symbol == "ALL":
+                symbol_boost = 0.10 if any(tok in doc_lower for tok in q_tokens) else 0.0
+
+            # Combined hybrid relevance score
+            sim_score = (vector_sim * 0.30) + symbol_boost + lexical_boost
+
+            # Filter out irrelevant noise: if no symbol matched and zero query tokens appear in title or body, cap score low
+            if not symbol_boost and title_overlap == 0 and doc_overlap == 0:
+                sim_score = min(0.12, sim_score * 0.4)
+
+            sim_score = round(max(0.01, min(1.0, sim_score)), 4)
 
             sanitized_content = self._sanitize_text(doc_text)
             snippet = (
@@ -327,7 +410,7 @@ class ChromaRAGStore:
                     chunk_id=chunk_id,
                     doc_id=str(meta.get("doc_id", "")),
                     doc_type=str(meta.get("doc_type", "STATUTE")),
-                    title=str(meta.get("title", "")),
+                    title=chunk_title,
                     symbol=chunk_symbol if chunk_symbol != "ALL" else None,
                     effective_date=eff_date_str,
                     relevance_score=sim_score,
@@ -368,3 +451,6 @@ def get_chroma_rag_store(db_path: str = "data/chroma_db") -> ChromaRAGStore:
     if _CHROMA_RAG_STORE is None:
         _CHROMA_RAG_STORE = ChromaRAGStore(db_path=db_path)
     return _CHROMA_RAG_STORE
+
+
+get_rag_store = get_chroma_rag_store

@@ -149,3 +149,118 @@ curl -X POST "http://127.0.0.1:8000/copilot/chat" \
      -H "Content-Type: application/json" \
      -d '{"message": "Summarize the 5y metrics", "context": "run-e2e-live-5y-20261027052254"}'
 ```
+
+---
+
+## 7. Phase 2 Verified Execution: HDFCBANK.NS Circuit Filter Breach & Gate Enforcement
+
+This section provides complete proof of the Phase 2 Decision Gates executing over `HDFCBANK.NS` under statutory circuit breach conditions.
+
+### 7.1 Verified Execution Summary for `HDFCBANK.NS`
+
+- **Target Asset**: `HDFCBANK.NS` (HDFC Bank Limited, NSE Cash Equities)
+- **Point-in-Time Cutoff**: `2026-10-26T15:30:00Z`
+- **Orchestration Pattern**: `SEQUENTIAL`
+- **Mandatory Finalization Gates**: **TRIGGERED (EXECUTION BLOCKED FROM POSITIVE STANCE)**
+- **Final Consensus Stance**: `INCONCLUSIVE` (Canonicalized from unverified/anomalous state)
+- **Conviction Score**: `None` (UI displays: **Unscored / Gated**)
+- **Source Data Anomaly**: Terminal daily bar (2026-10-26) Close ₹680.20 vs previous Close ₹1632.86 (**-58.34% single-day collapse**, breaching NSE 20.0% circuit filter)
+- **Realized Volatility (Annualized)**: `210.1%` (Breaches institutional 80% stress threshold)
+- **RSI (14-Day)**: `15.01` (Deep oversold mathematical observation, faithful to underlying series)
+- **Corwin-Schultz Spread**: `10.0 bps` (Parametric estimate computed over trailing 30 daily bars)
+- **Slippage**: `None` (`slippage_status: "UNAVAILABLE_NO_ORDERBOOK_FEED"`, zero-fabrication contract)
+- **Liquidity Tier**: `TIER-1` (Average Daily Turnover: ₹333.27 Crore $\ge$ ₹100 Crore threshold)
+- **Statutory Friction**: `0.1186%` (STT 0.1%, GST 18%, Stamp Duty 0.015% under Finance Act 2024)
+
+---
+
+### 7.2 Step-by-Step Multi-Agent Execution Proof
+
+```
+[Phase 2 Gate Audit: HDFCBANK.NS Execution Lifecycle]
+
+1. Supervisory Research Plan Initialization (adk_research_manager)
+   - Initial plan published to Blackboard (Namespace: AGENT_CONTRIBUTIONS, Version: 1)
+   - Initial Hypothesis: "PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE"
+   - Conviction Score: None (Strictly deferred until post-validation synthesis)
+   - Execution Status: COMPLETED | Evidence Status: NOT_APPLICABLE | Verdict: NOT_EVALUATED
+
+2. 5-Year Market Data & Automated Circuit Filter Gate (adk_quant_specialist)
+   - Ingested 1,260 historical daily bars from DuckDB Parquet store (data/parquet/ohlcv/bars_hdfcbank.parquet)
+   - Detected single-day return of -58.34% on 2026-10-26 (Close ₹680.20 vs ₹1632.86)
+   - Automated Data Quality Gate: FAILED
+     * "Single-day price change of 58.34% breaches NSE 20.0% circuit filter limit."
+     * "Extreme volatility anomaly: 20-day annualized realized volatility of 210.1% exceeds 80% boundary."
+   - Flagged: data_quality_status = "ANOMALOUS_DATA_FLAGGED"
+   - Separated Contract: execution_status = "COMPLETED" | evidence_status = "UNVERIFIED" | validation_outcome = "WARNING"
+   - Downstream Handoffs: ["adk_microstructure_specialist", "crewai_adversarial_specialist"]
+
+3. Microstructure & Trailing Spread Analysis (adk_microstructure_specialist)
+   - Trailing lookback window strictly enforced: bars[-30:] (last 30 daily observations)
+   - Corwin-Schultz (2012) High-Low Spread: 10.0 bps (labeled ESTIMATED_PARAMETRIC)
+   - Slippage Model: effective_slippage_bps = None | slippage_status = "UNAVAILABLE_NO_ORDERBOOK_FEED"
+   - Liquidity Tier: TIER-1 (₹333.27 Cr average daily turnover >= ₹100 Cr threshold)
+   - Separated Contract: execution_status = "COMPLETED" | evidence_status = "VERIFIED" | validation_outcome = "PASSED"
+
+4. Monetary Policy & Macroeconomic Grounding (crewai_news_macro_specialist via A2A)
+   - A2A JSON-RPC 2.0 dispatch to remote specialist endpoint
+   - Retrieved stored ChromaDB chunk: RBI-MONETARY-POLICY (Repo Rate 6.50% corridor, SDF 6.25%)
+   - Structured Evidence persisted: source_id = "RBI-MONETARY-POLICY", validation_outcome = "RESOLVED_STORED_DOCUMENT"
+   - Separated Contract: execution_status = "COMPLETED" | evidence_status = "VERIFIED" | analytical_verdict = "APPROVED"
+
+5. Corporate Governance & Statutory LODR Ingestion (crewai_corporate_filing_specialist via A2A)
+   - Ingested SEBI LODR 2015 Reg 30/33 audit documentation for HDFC Bank Limited (HDFCBANK-Q2FY25)
+   - Structured Evidence persisted: source_id = "HDFCBANK-Q2FY25", validation_outcome = "RESOLVED_STORED_DOCUMENT"
+   - Unqualified limited review audit opinion verified; zero governance qualifications
+   - Separated Contract: execution_status = "COMPLETED" | evidence_status = "VERIFIED" | analytical_verdict = "APPROVED"
+
+6. Deterministic Adversarial Stress Calculator Suite (crewai_adversarial_specialist via A2A)
+   - Deterministic mathematical execution of all 5 stress test scenarios:
+     [1] Circuit Filter Boundary: -58.34% vs 20.00% max  --> FAILED (BREACH DETECTED)
+     [2] Volatility Shock Test:  210.10% vs 80.00% max   --> FAILED (ANOMALY DETECTED)
+     [3] Statutory Friction Drag: 0.1186% vs 0.2000% max  --> PASSED
+     [4] Liquidity Contraction:   333.27 Cr vs 100.00 Cr  --> PASSED (TIER-1)
+     [5] Lookahead Leakage Audit: Monotonic timestamps     --> PASSED (ZERO LEAKAGE)
+   - Stress Summary: 3 Passed, 2 Failed
+   - Critical Objections:
+     * "Single-day price change of -58.34% breaches NSE statutory 20% circuit filter boundary."
+     * "Annualized realized volatility of 210.1% indicates extreme market instability or data corruption."
+   - Separated Contract: analytical_verdict = "REJECTED" | validation_outcome = "BLOCKED"
+
+7. Financial Safety & Statutory Friction Audit (adk_risk_validator)
+   - Consumes Skeptic objection artifacts from Blackboard via consumer_id="adk_risk_validator"
+   - Verified Consumer Lineage: ["adk_risk_validator", "adk_research_manager"]
+   - Classifies Skeptic objections as UNRESOLVED due to circuit breach and volatility anomaly
+   - Asserts safety invariant: live_trading_enabled = False (Paper simulation mode strictly enforced)
+   - Statutory calculations under Finance (No. 2) Act 2024: total drag ₹118.62 per ₹100,000 turnover
+   - Safety Gate Action: validation_outcome = "BLOCKED" | status = "FAILED" | analytical_verdict = "REJECTED"
+
+8. Supervisory Synthesis & Mandatory Finalization Gates (adk_research_manager)
+   - Mandatory finalization gates triggered:
+     * Data quality gate: FAILED (Anomalous data flagged by Quant Specialist)
+     * Adversarial gate: FAILED (Skeptic analytical_verdict = REJECTED)
+     * Risk validator gate: FAILED (Risk validator validation_outcome = BLOCKED)
+   - Gate Override Action:
+     * Final Recommendation: INCONCLUSIVE
+     * Conviction Score: None (Unscored)
+     * Executive Thesis documents all 3 gate failures explicitly
+     * Limitations & Uncertainties record all unresolved objections
+   - SHA-256 Provenance Audit Hash computed over all versioned Blackboard contributions
+   - Complete execution trace persisted to JSON audit record
+```
+
+---
+
+### 7.3 Frontend Verification Proof
+
+In the ArthaAI Command Center web application:
+1. **Live Timeline**:
+   - Initial plan displays provisional status without premature conviction numbers.
+   - Removed all decorative star characters (`✦`), checkmark glyphs (`✓`), and model/provider tags from status badges.
+   - Status badges clearly display separated contract states (`COMPLETED`, `VERIFIED`, `REJECTED`, `BLOCKED`).
+2. **Financial Charts & Metrics**:
+   - Conviction gauge needle rests at neutral center for `Unscored` status.
+   - Candlestick chart plots authentic 90-bar OHLCV sample without synthetic smoothing.
+   - Microstructure panel renders parametric Corwin-Schultz spread (10.0 bps) with explicit `ESTIMATED_PARAMETRIC` tag and displays slippage as `Unavailable (Orderbook feed required)`.
+   - Statutory cost breakdown faithfully applies Finance (No. 2) Act 2024 schedules (STT, Stamp Duty, GST).
+

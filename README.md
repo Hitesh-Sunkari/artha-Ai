@@ -1,3 +1,13 @@
+---
+title: ArthaAI Institutional Multi-Agent Research Platform
+emoji: 📈
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # ArthaAI — Institutional-Grade Quantitative Algorithmic Trading Framework
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)

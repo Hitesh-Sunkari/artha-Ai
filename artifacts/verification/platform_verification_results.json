@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-10-26T18:34:02.308528+00:00",
+  "timestamp": "2026-10-28T04:32:07.759651+00:00",
   "status": "ALL_TESTS_PASSED",
   "results": {
     "health": {
       "status": "ok",
       "service": "arthaai-research-api",
-      "timestamp": "2026-10-26T18:33:24.102960Z"
+      "timestamp": "2026-10-28T04:31:59.442313Z"
     },
     "ready": {
       "ready": true,
       "mcp_available": true,
       "a2a_available": true,
       "live_trading_blocked": true,
-      "timestamp": "2026-10-26T18:33:24.135696Z"
+      "timestamp": "2026-10-28T04:31:59.471430Z"
     },
     "universe_count": 74,
     "optimization": {
@@ -62,31 +62,32 @@
       ]
     },
     "rag": {
-      "indexed_chunks": 13,
-      "top_match_title": "Reliance Industries Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures",
-      "relevance_score": 0.1624
+      "indexed_chunks": 21,
+      "top_match_title": "HDFC Bank Ltd: Q2 FY25 Disclosures on Advances, Deposits, and Asset Quality",
+      "relevance_score": 0.1762
     },
     "copilot": {
-      "reply_preview": "ArthaAI Copilot is operating under baseline heuristic rules...."
+      "reply_preview": "ArthaAI Copilot is operating under verified baseline heuristic rules for Indian capital markets (SEBI, RBI, Finance Act 2024)...."
     }
   },
-  "run_id": "run-api-f3589e9691ce",
+  "run_id": "run-api-e1821866cfae",
   "report_summary": {
     "recommendation": "HOLD",
-    "conviction_score": 68,
-    "statutory_friction_drag_pct": 0.1186,
+    "conviction_score": 20,
+    "statutory_friction_drag_pct": 0.2222,
     "rag_citations": [
-      "parquet://data/ohlcv/reliance.ns:100_bars",
+      "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+      "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+      "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "parquet://data/ohlcv/reliance:1260_bars",
       "academic://corwin_schultz_2012#high_low_spread_estimator",
       "academic://amihud_2002#illiquidity_ratio",
-      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
-      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
-      "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+      "academic://roll_1984#effective_spread",
       "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
-      "Statutory Source: Finance (No. 2) Act 2024",
-      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
-      "rag://nse/surveillance_asm#NSE-ASM-FRAMEWORK-SURVEILLANCE"
+      "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
     ],
-    "audit_hash": "17e4dc392fcbf89f96bc7948ecdb5d8704ba9064ca49665ab34eae33a9c97d78"
+    "audit_hash": "8531d88b5b5873d5496184f2fbf00f615936fa674deb2d7fc7039427f81ccf81"
   }
 }

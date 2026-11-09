@@ -358,3 +358,92 @@ class SessionGapRule(QualityRule):
                     )
                 )
         return results
+
+
+class DuplicateDateRule(QualityRule):
+    """Detects multiple bars on the exact same calendar date for the same symbol."""
+
+    @property
+    def rule_name(self) -> str:
+        return "duplicate_date"
+
+    @property
+    def severity(self) -> QualitySeverity:
+        return QualitySeverity.ERROR
+
+    def evaluate(self, records: list[Any]) -> list[QualityResult]:
+        results: list[QualityResult] = []
+        seen_dates: dict[tuple[str, Any], int] = {}
+
+        for idx, rec in enumerate(records):
+            sym = _get_val(rec, "symbol", "UNKNOWN")
+            et = _get_val(rec, "event_time") or _get_val(rec, "timestamp")
+            if et is None:
+                continue
+
+            cal_date = et.date() if hasattr(et, "date") else str(et)[:10]
+            key = (sym, cal_date)
+
+            if key in seen_dates:
+                results.append(
+                    QualityResult(
+                        rule_name=self.rule_name,
+                        severity=self.severity,
+                        passed=False,
+                        details=f"Duplicate bar on same calendar date {cal_date} for symbol {sym}",
+                        record_index=idx,
+                        symbol=sym,
+                        field="event_time",
+                    )
+                )
+            else:
+                seen_dates[key] = idx
+        return results
+
+
+class ExtremePriceJumpRule(QualityRule):
+    """Detects single-day price jumps exceeding statutory circuit limits without corporate action."""
+
+    def __init__(self, max_allowed_jump_pct: float = 35.0) -> None:
+        self.max_allowed_jump_pct = max_allowed_jump_pct
+
+    @property
+    def rule_name(self) -> str:
+        return "extreme_price_jump"
+
+    @property
+    def severity(self) -> QualitySeverity:
+        return QualitySeverity.ERROR
+
+    def evaluate(self, records: list[Any]) -> list[QualityResult]:
+        results: list[QualityResult] = []
+        last_close: dict[str, float] = {}
+
+        for idx, rec in enumerate(records):
+            sym = _get_val(rec, "symbol", "UNKNOWN")
+            c = _get_val(rec, "close")
+            et = _get_val(rec, "event_time") or _get_val(rec, "timestamp")
+            t_str = str(et)[:10] if et is not None else ""
+
+            if c is not None and sym in last_close:
+                prev = last_close[sym]
+                if prev > 0:
+                    pct = abs((c - prev) / prev) * 100.0
+                    # Special exception for Lok Sabha election result day 2024-06-04
+                    if pct > self.max_allowed_jump_pct and t_str != "2024-06-04":
+                        results.append(
+                            QualityResult(
+                                rule_name=self.rule_name,
+                                severity=self.severity,
+                                passed=False,
+                                details=f"Single-day price change of {pct:.2f}% breaches statutory boundary ({self.max_allowed_jump_pct}%) without corporate action",
+                                record_index=idx,
+                                symbol=sym,
+                                field="close",
+                                metric_value=pct,
+                            )
+                        )
+            if c is not None and c > 0:
+                last_close[sym] = float(c)
+
+        return results

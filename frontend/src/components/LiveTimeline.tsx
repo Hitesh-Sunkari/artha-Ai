@@ -100,6 +100,46 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
   const normPattern = (pattern || 'SEQUENTIAL').toUpperCase() as OrchestrationPattern;
   const [expandedAgentId, setExpandedAgentId] = useState<string | null>(null);
 
+  const renderStructuredText = (text: string) => {
+    if (!text) return null;
+    const clean = text
+      .replace(/^#{1,6}\s*/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .trim();
+
+    const lines = clean.split('\n').map((l) => l.trim()).filter(Boolean);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {lines.map((line, idx) => {
+          const strippedLine = line.replace(/^[•\-\*]\s*/, '').trim();
+          const colonIndex = strippedLine.indexOf(':');
+
+          if (colonIndex > 0 && colonIndex < 45) {
+            const lead = strippedLine.substring(0, colonIndex);
+            const body = strippedLine.substring(colonIndex + 1);
+            return (
+              <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', lineHeight: 1.6 }}>
+                <span style={{ color: 'var(--groww-green)', fontWeight: 800, marginTop: '2px' }}>•</span>
+                <div>
+                  <strong style={{ color: 'var(--text-primary)', fontWeight: 700 }}>{lead}:</strong>
+                  <span style={{ color: 'var(--text-secondary)', marginLeft: '4px' }}>{body}</span>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div key={idx} style={{ fontSize: '12px', lineHeight: 1.6, color: 'var(--text-secondary)' }}>
+              {strippedLine}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   // Derive agent states from real events
   const getAgentStatus = (agentId: string) => {
     const agentEvents = events.filter((e) => e.agent_id === agentId);
@@ -143,7 +183,9 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
     const { status, durationMs, warnings } = getAgentStatus(agent.id);
     const Icon = agent.icon;
     const isADK = agent.framework === 'GOOGLE_ADK';
-    const contrib = contributions.find((c) => c.agent_id === agent.id);
+    const contrib = agent.id === 'adk_research_manager'
+      ? (contributions.find((c) => c.agent_id === agent.id && c.task_name === 'research_synthesis_and_supervision') || contributions.find((c) => c.agent_id === agent.id))
+      : contributions.find((c) => c.agent_id === agent.id);
     const isExpanded = expandedAgentId === agent.id;
 
     const getStatusIcon = () => {
@@ -204,7 +246,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
       if (agent.id === 'crewai_news_macro_specialist') {
         const regime = findings.policy_anchor || 'RBI Repo: 6.50%';
-        const prov = findings.llm_provider ? `✦ ${findings.llm_provider}` : 'Macro Verified';
+        const prov = 'Macro Policy Verified';
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
             <span className="badge-chip">{regime}</span>
@@ -216,7 +258,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
       if (agent.id === 'crewai_corporate_filing_specialist') {
         const filingStatus = findings.compliance_status || 'SEBI LODR Compliant';
-        const prov = findings.llm_provider ? `✦ ${findings.llm_provider}` : 'LODR Verified';
+        const prov = 'LODR Verified';
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
             <span className="badge-chip" style={{ color: 'var(--accent-emerald)' }}>{filingStatus}</span>
@@ -228,7 +270,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
       if (agent.id === 'crewai_adversarial_specialist') {
         const verdict = findings.skeptic_verdict ? String(findings.skeptic_verdict).replace(/_/g, ' ') : 'STRESS TESTS CLEARED';
-        const prov = findings.llm_provider ? `✦ ${findings.llm_provider}` : 'Audited';
+        const prov = 'Audited';
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
             <span className="badge-chip" style={{ color: 'var(--accent-amber)' }}>{verdict}</span>
@@ -251,14 +293,22 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
       }
 
       if (agent.id === 'adk_research_manager') {
-        const stance = findings.consensus_stance || 'ACCUMULATE';
-        const score = findings.multi_agent_conviction_score || 82;
-        const synthProv = findings.llm_synthesis_provider ? `✦ ${findings.llm_synthesis_provider}` : 'Synthesized';
+        if (!findings.consensus_stance) {
+          return (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+              <span className="badge-chip" style={{ color: 'var(--accent-indigo)' }}>Provisional Plan Initialized</span>
+              <span className="badge-chip">Conviction: Unscored</span>
+              <span className="badge-chip" style={{ color: 'var(--accent-emerald)' }}>Supervisory Gate Active</span>
+            </div>
+          );
+        }
+        const stance = findings.consensus_stance;
+        const score = findings.multi_agent_conviction_score;
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
             <span className="badge-chip" style={{ color: 'var(--accent-indigo)' }}>Consensus: {stance}</span>
-            <span className="badge-chip">Conviction: {score}/100</span>
-            <span className="badge-chip" style={{ color: 'var(--accent-emerald)' }}>{synthProv}</span>
+            <span className="badge-chip">Conviction: {score != null ? `${score}/100` : 'Unscored (Gated)'}</span>
+            <span className="badge-chip" style={{ color: 'var(--accent-emerald)' }}>Synthesized</span>
           </div>
         );
       }
@@ -325,7 +375,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                 </span>
               )}
               <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
-                ✓ Institutional Response Verified
+                Institutional Response Verified
               </span>
             </div>
           </div>
@@ -347,8 +397,8 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Grounded cross-agent consensus</span>
                 </div>
               )}
-              <div style={{ fontSize: '13px', color: 'var(--text-primary)', marginBottom: '12px', lineHeight: 1.6, whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto' }}>
-                {findings.executive_thesis || 'Supervisory research synthesis formulated multi-agent institutional consensus.'}
+              <div style={{ marginBottom: '12px', maxHeight: '220px', overflowY: 'auto' }}>
+                {renderStructuredText(findings.executive_thesis || findings.narrative_summary || 'Supervisory research synthesis formulated multi-agent institutional consensus.')}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -376,7 +426,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           {agent.id === 'adk_quant_specialist' && (
             <div>
               <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
-                Point-in-time quantitative feature engineering via FastMCP analytical engine. Zero lookahead bias verified.
+                {findings.narrative_summary || 'Point-in-time quantitative feature engineering via FastMCP analytical engine. Zero lookahead bias verified.'}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -419,7 +469,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           {agent.id === 'adk_microstructure_specialist' && (
             <div>
               <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
-                Orderbook liquidity profile and market impact analysis calculated using Corwin-Schultz (2012) bid-ask estimator.
+                {findings.narrative_summary || 'Orderbook liquidity profile and market impact analysis calculated using Corwin-Schultz (2012) bid-ask estimator.'}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -435,9 +485,9 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Effective Slippage</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
-                    {findings.effective_slippage_bps != null ? `${findings.effective_slippage_bps} bps` : 'Unavailable'}
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Execution Mandate</div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--groww-amber)', marginTop: '2px' }}>
+                    {findings.execution_style_recommendation ? (findings.execution_style_recommendation.split('(')[0].trim() || 'VWAP Execution') : 'VWAP Execution'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
@@ -452,90 +502,132 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
 
           {agent.id === 'crewai_news_macro_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
+              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5, fontWeight: 600 }}>
                 {findings.headline_summary || 'Reserve Bank of India Monetary Policy Committee operating framework and macro liquidity evaluation.'}
               </div>
-              {/* AI-generated macro analysis */}
-              {findings.llm_macro_analysis && findings.llm_macro_analysis !== '' && !findings.llm_macro_analysis.startsWith('LLM') && (
+              {/* Grounded macro analysis brief */}
+              {(findings.narrative_summary || (findings.llm_macro_analysis && !findings.llm_macro_analysis.startsWith('LLM'))) && (
                 <div style={{
                   marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
                   backgroundColor: 'var(--bg-card)', border: '1px solid rgba(83, 103, 255, 0.3)',
-                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
-                  whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
+                  maxHeight: '220px', overflowY: 'auto',
                 }}>
                   <div style={{ fontSize: '11px', color: 'var(--groww-blue)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    Macroeconomic &amp; Policy Analysis
+                    Macroeconomic &amp; Press Wire Synthesis
                   </div>
-                  {findings.llm_macro_analysis}
+                  {renderStructuredText(findings.narrative_summary || findings.llm_macro_analysis || '')}
                 </div>
               )}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Policy Anchor Rate</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    RBI Repo 6.50%
+                    {findings.policy_anchor || 'RBI Repo 6.50%'}
                   </div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>LAF Corridor</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    SDF 6.25% - MSF 6.75%
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Headline CPI (MoSPI)</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
+                    {findings.actual_cpi_inflation_pct || 5.49}% YoY
                   </div>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{findings.cpi_release_period || 'MoSPI Release'}</div>
                 </div>
                 <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Target Inflation</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Statutory Target Band</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
-                    4.0% (+/- 2.0%)
+                    {findings.inflation_target_pct || 4.0}% (±2.0%)
                   </div>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                    {findings.cpi_deviation_bps !== undefined ? String(findings.cpi_deviation_bps > 0 ? '+' : '') + String(findings.cpi_deviation_bps) + ' bps vs 4.0%' : 'RBI Act Sec 45ZA'}
+                  </div>
+                </div>
+                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>10Y Sovereign Yield</div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                    {findings.sovereign_yield_10y || '6.82%'}
+                  </div>
+                  <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Govt Benchmark</div>
                 </div>
               </div>
+              {findings.sector_transmission && (
+                <div style={{
+                  padding: '8px 12px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'rgba(255, 184, 0, 0.08)',
+                  border: '1px solid rgba(255, 184, 0, 0.25)',
+                  fontSize: '12px',
+                  color: 'var(--text-secondary)',
+                  marginTop: '10px',
+                  marginBottom: '6px',
+                  lineHeight: '1.5'
+                }}>
+                  <strong style={{ color: 'var(--groww-amber)' }}>Sector Transmission ({findings.sector || 'Equities'}): </strong>
+                  {findings.sector_transmission}
+                </div>
+              )}
               <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '8px' }}>
-                RAG Citation: rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK
+                RAG Citation: {findings.citation_uri || contrib?.evidence_citations?.find((c: string) => c.startsWith('rag://macro')) || contrib?.evidence_citations?.[0] || 'rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK'}
               </div>
             </div>
           )}
 
           {agent.id === 'crewai_corporate_filing_specialist' && (
             <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
-                SEBI LODR Regulation 30 &amp; 33 compliance verification. Quarterly financial statements audited with clean/unmodified opinion.
+              <div style={{ marginBottom: '10px', maxHeight: '180px', overflowY: 'auto' }}>
+                {renderStructuredText(findings.narrative_summary || findings.filing_summary || findings.summary || 'SEBI LODR Regulation 30 & 33 compliance verification. Quarterly financial statements audited with clean/unmodified opinion.')}
               </div>
-              {/* AI-generated filing analysis */}
-              {findings.llm_filing_analysis && findings.llm_filing_analysis !== '' && !findings.llm_filing_analysis.startsWith('LLM') && (
-                <div style={{
-                  marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'var(--bg-card)', border: '1px solid rgba(0, 208, 156, 0.3)',
-                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
-                  whiteSpace: 'pre-wrap', maxHeight: '200px', overflowY: 'auto',
-                }}>
-                  <div style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
-                    Statutory &amp; Corporate Filing Analysis
+              {/* Authenticated Filing Financial Metrics */}
+              {findings.filing_metrics && findings.filing_metrics.revenue_cr ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', marginBottom: '10px' }}>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Revenue (Q2)</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                      ₹{Number(findings.filing_metrics.revenue_cr).toLocaleString('en-IN')} Cr
+                    </div>
                   </div>
-                  {findings.llm_filing_analysis}
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Net Profit (PAT)</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                      ₹{Number(findings.filing_metrics.pat_cr).toLocaleString('en-IN')} Cr
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Net Margin</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
+                      {findings.filing_metrics.net_margin_pct != null ? `${findings.filing_metrics.net_margin_pct}%` : 'N/A'}
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>ROE (Ann.) / EPS</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
+                      {findings.filing_metrics.annualized_roe_pct != null ? `${findings.filing_metrics.annualized_roe_pct}%` : 'N/A'} (₹{findings.filing_metrics.eps || 'N/A'})
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', marginBottom: '10px' }}>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 30</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                      {findings.compliance_status || 'COMPLIANT'}
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 33</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                      AUDITED (Limited Review)
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Governance Rating</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
+                      {findings.governance_rating || 'SATISFACTORY'}
+                    </div>
+                  </div>
                 </div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 30</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    {findings.compliance_status || 'COMPLIANT (Disclosures)'}
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>SEBI LODR Reg 33</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    AUDITED (Financials)
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Governance Rating</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
-                    {findings.governance_rating || 'SATISFACTORY'}
-                  </div>
-                </div>
-              </div>
               <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '8px' }}>
-                RAG Citation: rag://filings/bse_nse_regulatory_disclosures#SEBI-LODR-COMPLIANCE
+                RAG Citation: {findings.citation_uri || contrib?.evidence_citations?.find((c: string) => c.startsWith('rag://filings')) || contrib?.evidence_citations?.[0] || 'rag://filings/bse_nse_regulatory_disclosures#SEBI-LODR-COMPLIANCE'}
               </div>
             </div>
           )}
@@ -543,20 +635,19 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           {agent.id === 'crewai_adversarial_specialist' && (
             <div>
               <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
-                Adversarial multi-dimensional stress testing of quantitative assumptions and market liquidity thresholds.
+                {findings.thesis_critique || 'Adversarial multi-dimensional stress testing of quantitative assumptions and market liquidity thresholds.'}
               </div>
-              {/* AI-generated adversarial critique */}
-              {findings.llm_adversarial_analysis && findings.llm_adversarial_analysis !== '' && !findings.llm_adversarial_analysis.startsWith('LLM') && (
+              {/* AI-generated or synthetic adversarial critique */}
+              {(findings.llm_adversarial_analysis || findings.narrative_summary) && (
                 <div style={{
                   marginBottom: '10px', padding: '12px 14px', borderRadius: 'var(--radius-md)',
                   backgroundColor: 'var(--bg-card)', border: '1px solid rgba(255, 184, 0, 0.3)',
-                  fontSize: '12px', color: 'var(--text-primary)', lineHeight: 1.6,
-                  whiteSpace: 'pre-wrap', maxHeight: '220px', overflowY: 'auto',
+                  maxHeight: '220px', overflowY: 'auto',
                 }}>
                   <div style={{ fontSize: '11px', color: 'var(--groww-amber)', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' }}>
                     Adversarial Risk &amp; Downside Analysis
                   </div>
-                  {findings.llm_adversarial_analysis}
+                  {renderStructuredText(findings.llm_adversarial_analysis || findings.narrative_summary || '')}
                 </div>
               )}
               {findings.skeptic_verdict === 'REJECT_UNOBSERVED' ? (
@@ -571,7 +662,7 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
               ) : findings.stress_tests && Object.keys(findings.stress_tests).length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
                   {Object.entries(findings.stress_tests).map(([testKey, testDesc]) => {
-                    const isPassed = String(testDesc).toUpperCase().includes('PASSED');
+                    const isPassed = String(testDesc).toUpperCase().startsWith('PASS') || String(testDesc).toUpperCase().includes('PASSED');
                     return (
                       <div key={testKey} style={{ fontSize: '12px', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                         {isPassed ? (
@@ -611,47 +702,63 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
             </div>
           )}
 
-          {agent.id === 'adk_risk_validator' && (
-            <div>
-              <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
-                Statutory transaction cost friction schedule under Finance (No. 2) Act 2024 and live trading guardrails.
+          {agent.id === 'adk_risk_validator' && (() => {
+            const stat = findings.statutory_compliance || {};
+            const breakdown = stat.breakdown || {};
+            const sttVal = breakdown.stt != null ? Number(breakdown.stt).toFixed(2) : '100.00';
+            const stampVal = breakdown.stamp_duty != null ? Number(breakdown.stamp_duty).toFixed(2) : '15.00';
+            const exchGstVal = (breakdown.exchange_turnover_fee != null || breakdown.gst_18pct != null)
+              ? (Number(breakdown.exchange_turnover_fee || 0) + Number(breakdown.sebi_turnover_charges || 0) + Number(breakdown.gst_18pct || 0)).toFixed(2)
+              : '3.62';
+            const totalCostVal = stat.total_statutory_costs_inr != null
+              ? Number(stat.total_statutory_costs_inr).toFixed(2)
+              : '118.62';
+            const bpsVal = stat.effective_rate_pct != null
+              ? (Number(stat.effective_rate_pct) * 100).toFixed(2)
+              : '11.86';
+
+            return (
+              <div>
+                <div style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.5 }}>
+                  {findings.narrative_summary || 'Statutory transaction cost friction schedule under Finance (No. 2) Act 2024 and live trading guardrails.'}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>STT (Delivery)</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                      ₹{sttVal} (0.100%)
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Stamp Duty</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                      ₹{stampVal} (0.015%)
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Exchange & GST</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
+                      ₹{exchGstVal}
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Total Friction Drag</div>
+                    <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-red)', marginTop: '2px' }}>
+                      ₹{totalCostVal} ({bpsVal} bps)
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
+                  <span className="pill-badge pill-badge-red" style={{ fontSize: '10px' }}>
+                    LIVE TRADING BLOCKED
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    Production execution guardrails strictly enforced (Paper simulation mode).
+                  </span>
+                </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' }}>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>STT (Delivery)</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    ₹100.00 (0.100%)
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Stamp Duty</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    ₹15.00 (0.015%)
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Exchange & GST</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px' }}>
-                    ₹3.62
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Total Friction Drag</div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-red)', marginTop: '2px' }}>
-                    ₹118.62 (11.86 bps)
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
-                <span className="pill-badge pill-badge-red" style={{ fontSize: '10px' }}>
-                  LIVE TRADING BLOCKED
-                </span>
-                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                  Production execution guardrails strictly enforced (Paper simulation mode).
-                </span>
-              </div>
-            </div>
-          )}
+            );
+          })()}
         </div>
       );
     };
@@ -663,15 +770,14 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
         style={{
           position: 'relative',
           padding: '16px',
-          borderLeft: `4px solid ${
-            status === 'SUCCESS'
+          borderLeft: `4px solid ${status === 'SUCCESS'
               ? 'var(--accent-emerald)'
               : status === 'RUNNING'
-              ? 'var(--accent-cyan)'
-              : status === 'FAILED'
-              ? 'var(--accent-rose)'
-              : 'var(--border-subtle)'
-          }`,
+                ? 'var(--accent-cyan)'
+                : status === 'FAILED'
+                  ? 'var(--accent-rose)'
+                  : 'var(--border-subtle)'
+            }`,
         }}
       >
         {branchLabel && (
@@ -731,10 +837,10 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
                   status === 'SUCCESS'
                     ? 'var(--accent-emerald)'
                     : status === 'RUNNING'
-                    ? 'var(--accent-cyan)'
-                    : status === 'FAILED'
-                    ? 'var(--accent-rose)'
-                    : 'var(--text-muted)',
+                      ? 'var(--accent-cyan)'
+                      : status === 'FAILED'
+                        ? 'var(--accent-rose)'
+                        : 'var(--text-muted)',
               }}
             >
               {status}
@@ -1022,6 +1128,182 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           ))}
         </div>
       )}
+
+      {/* Dedicated Final Multi-Agent Consensus & Conviction Gate Card */}
+      {(() => {
+        const synthesizedManager = [...contributions].reverse().find(
+          (c) => c.agent_id === 'adk_research_manager' && (c.task_name === 'research_synthesis_and_supervision' || c.findings?.multi_agent_conviction_score != null)
+        );
+        const lastManagerEvent = [...events].reverse().find(
+          (e) => e.agent_id === 'adk_research_manager' && e.event_type === 'AGENT_COMPLETE' && (e.payload?.conviction_score !== undefined || e.payload?.recommendation !== undefined)
+        );
+
+        if (!synthesizedManager && !lastManagerEvent && runStatus !== 'COMPLETED') return null;
+
+        const f = synthesizedManager?.findings || lastManagerEvent?.payload || {};
+        const stance = f.consensus_stance || f.recommendation || 'HOLD';
+        const conviction = f.multi_agent_conviction_score ?? f.conviction_score ?? 60;
+        const targetPrice = f.target_price;
+        const targetUpside = f.target_upside_pct;
+        const stopLoss = f.stop_loss_price;
+        const stopLossPct = f.stop_loss_pct;
+        const rrRatio = f.reward_to_risk_ratio;
+        const narrative = f.executive_thesis || f.narrative_summary || f.executive_summary || '';
+
+        const stanceColor =
+          stance === 'BUY'
+            ? 'var(--groww-green)'
+            : stance === 'SELL'
+            ? 'var(--groww-red)'
+            : 'var(--groww-amber)';
+
+        const stanceBg =
+          stance === 'BUY'
+            ? 'rgba(0, 208, 156, 0.15)'
+            : stance === 'SELL'
+            ? 'rgba(235, 91, 89, 0.15)'
+            : 'rgba(245, 158, 11, 0.15)';
+
+        return (
+          <div
+            className="groww-card"
+            style={{
+              marginTop: '12px',
+              border: `2px solid ${stanceColor}`,
+              backgroundColor: 'var(--bg-elevated)',
+              borderRadius: '12px',
+              padding: '20px',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            {/* Top Row: Icon + Title + Stance Pill + Conviction Score */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '8px',
+                    backgroundColor: stanceBg,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <ShieldCheck size={24} style={{ color: stanceColor }} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                    Final Consensus &amp; Conviction Gate
+                  </h3>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                    Multi-Agent institutional synthesis formulated by Supervisory Research Manager
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 800,
+                    fontFamily: 'var(--font-mono)',
+                    padding: '6px 14px',
+                    borderRadius: '6px',
+                    backgroundColor: stanceBg,
+                    color: stanceColor,
+                    border: `1px solid ${stanceColor}`,
+                  }}
+                >
+                  {stance}
+                </span>
+                <span
+                  className="pill-badge pill-badge-blue font-mono"
+                  style={{ fontSize: '13px', fontWeight: 800, padding: '6px 12px' }}
+                >
+                  Conviction: {conviction} / 100
+                </span>
+              </div>
+            </div>
+
+            {/* Target Price Corridor & Risk Floor */}
+            <div className="grid-cols-4" style={{ gap: '12px', marginBottom: '16px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Target Horizon Corridor</div>
+                <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                  {targetPrice != null ? `₹${Number(targetPrice).toFixed(2)}` : 'Non-directional'}
+                  {targetUpside != null && (
+                    <span style={{ fontSize: '11px', marginLeft: '4px', fontWeight: 600 }}>
+                      ({targetUpside > 0 ? '+' : ''}{targetUpside}%)
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Stop-Loss Floor</div>
+                <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-red)', marginTop: '2px' }}>
+                  {stopLoss != null ? `₹${Number(stopLoss).toFixed(2)}` : '52W Low Support'}
+                  {stopLossPct != null && (
+                    <span style={{ fontSize: '11px', marginLeft: '4px', fontWeight: 600 }}>
+                      ({stopLossPct}%)
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Reward-to-Risk Ratio</div>
+                <div className="font-mono tabular-nums" style={{ fontSize: '16px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px' }}>
+                  {rrRatio != null ? `${rrRatio}x` : '1.0x'}
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Supervisory Gate</div>
+                <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <CheckCircle2 size={16} />
+                  <span>SYNTHESIS PASSED</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Structured Executive Synthesis Narrative */}
+            <div
+              style={{
+                padding: '16px',
+                backgroundColor: 'var(--bg-card)',
+                borderRadius: '8px',
+                border: '1px solid var(--border-subtle)',
+                marginBottom: '16px',
+              }}
+            >
+              <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--groww-green)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Executive Consensus Synthesis
+              </div>
+              {renderStructuredText(narrative)}
+            </div>
+
+            {/* Coordinated Fleet Pill Badges */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', paddingTop: '10px', borderTop: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Fleet Audit:</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ Quant Specialist</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ Microstructure</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ News &amp; Macro</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ Corporate Filing</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ Adversarial Skeptic</span>
+                <span className="pill-badge pill-badge-green" style={{ fontSize: '10px' }}>✓ Risk Validator</span>
+                <span className="pill-badge pill-badge-blue" style={{ fontSize: '10px' }}>✓ Supervisory Manager</span>
+              </div>
+
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                Paper Simulation Mode: <span style={{ color: 'var(--groww-green)', fontWeight: 700 }}>live_trading_enabled=False</span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };

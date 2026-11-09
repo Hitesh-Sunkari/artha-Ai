@@ -69,7 +69,8 @@ class RAGRetriever:
 
         clean_query = self._sanitize_text(query)
         query_tokens = set(self._tokenize(clean_query))
-        symbol_upper = symbol.strip().upper() if symbol else None
+        clean_sym = symbol.upper().replace(".NS", "").replace(".BO", "").strip() if symbol else None
+        symbol_upper = clean_sym
 
         # Parse point-in-time upper bound
         pit_date: date | None = None
@@ -85,7 +86,7 @@ class RAGRetriever:
         # Execute query against persistent ChromaDB collection
         chroma_matches = self.chroma_store.search(
             query=clean_query,
-            symbol=symbol,
+            symbol=clean_sym,
             doc_type=doc_type,
             as_of_time=as_of_time,
             limit=limit,
