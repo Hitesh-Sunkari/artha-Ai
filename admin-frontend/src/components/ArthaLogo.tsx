@@ -1,12 +1,12 @@
-import React, { useId } from 'react';
+import React from 'react';
 
 export interface ArthaLogoProps {
-  /** Size in pixels (width & height of the icon/badge). Defaults to 34. */
+  /** Size in pixels (width & height of the icon/badge). Defaults to 36. */
   size?: number;
   /**
-   * - 'badge': Icon inside an institutional dark glassmorphic rounded squircle with subtle emerald border.
-   * - 'icon': Pure vector mark with transparent background.
-   * - 'full': Mark + "ArthaAI" typography + optional tier pill.
+   * - 'badge': Icon inside an institutional dark glassmorphic squircle with subtle emerald border.
+   * - 'icon': Pure transparent logo image without container.
+   * - 'full': Logo mark + "ArthaAI" typography + optional tier pill.
    */
   variant?: 'badge' | 'icon' | 'full';
   /** Whether to emit a soft ambient emerald/cyan glow */
@@ -23,7 +23,7 @@ export interface ArthaLogoProps {
 }
 
 export const ArthaLogo: React.FC<ArthaLogoProps> = ({
-  size = 34,
+  size = 36,
   variant = 'badge',
   showGlow = false,
   pillText,
@@ -33,82 +33,33 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
   style = {},
   onClick,
 }) => {
-  const rawId = useId();
-  const id = rawId.replace(/:/g, '');
-
-  const p1GradId = `artha-p1-${id}`;
-  const p2GradId = `artha-p2-${id}`;
-  const crossGradId = `artha-cross-${id}`;
-  const glowFilterId = `artha-glow-${id}`;
-
-  const markSvg = (
-    <svg
-      width={variant === 'badge' ? Math.round(size * 0.72) : size}
-      height={variant === 'badge' ? Math.round(size * 0.72) : size}
-      viewBox="0 0 64 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: 'block', flexShrink: 0 }}
-      aria-label="ArthaAI Quantitative Alpha Monogram"
-    >
-      <defs>
-        {/* Left Wing Gradient (Institutional Growth Green) */}
-        <linearGradient id={p1GradId} x1="0" y1="64" x2="32" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00875A" />
-          <stop offset="60%" stopColor="#00D09C" />
-          <stop offset="100%" stopColor="#00F5A0" />
-        </linearGradient>
-
-        {/* Right Wing Gradient (High-Frequency Cyan to Indigo Alpha) */}
-        <linearGradient id={p2GradId} x1="32" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00F5A0" />
-          <stop offset="45%" stopColor="#06B6D4" />
-          <stop offset="100%" stopColor="#4F46E5" />
-        </linearGradient>
-
-        {/* Kinetic Alpha Crossbar (Neural Bridge Vector) */}
-        <linearGradient id={crossGradId} x1="16" y1="40" x2="48" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00D09C" />
-          <stop offset="50%" stopColor="#38BDF8" />
-          <stop offset="100%" stopColor="#818CF8" />
-        </linearGradient>
-
-        {/* High-Precision Glow Filter */}
-        <filter id={glowFilterId} x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-      </defs>
-
-      {/* Left Pillar (Risk Guard & Foundation Wing) */}
-      <path
-        d="M14 51L27.5 12C28.8 8.5 31.2 8 32 8V20L22.5 47L22.5 51H14Z"
-        fill={`url(#${p1GradId})`}
-      />
-
-      {/* Right Pillar (Alpha & Market Outperformance Vector) */}
-      <path
-        d="M32 8C32.8 8 35.2 8.5 36.5 12L50 51H41.5L41.5 47L32 20V8Z"
-        fill={`url(#${p2GradId})`}
-      />
-
-      {/* Kinetic Alpha Chevron (Connecting Neural Bridge) */}
-      <path
-        d="M19 38.5L32 26.5L45 38.5L40.8 43L32 34.5L23.2 43L19 38.5Z"
-        fill={`url(#${crossGradId})`}
-        filter={`url(#${glowFilterId})`}
-      />
-
-      {/* Quantum Core Spark at Apex */}
-      <polygon
-        points="32,9 34.5,12.5 32,16 29.5,12.5"
-        fill="#FFFFFF"
-        opacity={0.96}
-      />
-    </svg>
-  );
-
+  const imgSize = variant === 'badge' ? Math.round(size * 0.76) : size;
   const borderRadius = Math.max(6, Math.round(size * 0.26));
+
+  const glowFilter = showGlow
+    ? 'drop-shadow(0 2px 10px rgba(0, 208, 156, 0.45)) drop-shadow(0 0 4px rgba(6, 182, 212, 0.35))'
+    : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3))';
+
+  const logoImage = (
+    <img
+      src="/logo.png"
+      alt="ArthaAI Quantitative Monogram"
+      width={imgSize}
+      height={imgSize}
+      style={{
+        width: `${imgSize}px`,
+        height: `${imgSize}px`,
+        objectFit: 'contain',
+        display: 'block',
+        flexShrink: 0,
+        filter: glowFilter,
+        userSelect: 'none',
+        pointerEvents: 'none',
+      }}
+      loading="eager"
+      decoding="async"
+    />
+  );
 
   const badgeElement = (
     <div
@@ -125,14 +76,14 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
         justifyContent: 'center',
         flexShrink: 0,
         boxShadow: showGlow
-          ? '0 4px 20px rgba(0, 208, 156, 0.35), 0 0 10px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
-          : '0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+          ? '0 4px 20px rgba(0, 208, 156, 0.35), 0 0 12px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
+          : '0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
         ...style,
       }}
     >
-      {markSvg}
+      {logoImage}
     </div>
   );
 
@@ -150,7 +101,7 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
           ...style,
         }}
       >
-        {markSvg}
+        {logoImage}
       </div>
     );
   }
@@ -243,4 +194,3 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
 };
 
 export default ArthaLogo;
-
