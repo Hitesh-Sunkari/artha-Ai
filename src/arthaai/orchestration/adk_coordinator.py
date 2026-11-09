@@ -486,14 +486,19 @@ class ADKQuantSpecialist:
 
             primary_vol = vol_252d or vol_60d or vol_20d or 0.0
             sma_50_str = f"₹{sma_50_val:.2f}" if sma_50_val is not None else "N/A"
-            sma_200_str = f"₹{sma_200_val:.2f}" if sma_200_val is not None else "N/A"
+            sma_200_str = f"₹{sma_200_val:.2f}" if sma_200_val is not None else "N/A (requires >=200 sessions)"
             rsi_str = f"{rsi_14d:.1f}" if rsi_14d is not None else "N/A"
+            if len(close_prices) < 200:
+                history_clause = f"emerging post-IPO market profile ({len(close_prices)} trading sessions since debut; mature equities model full 5-year/1,236+ sessions)"
+            else:
+                history_clause = f"{coverage_years}-year historical horizon ({len(close_prices)} bars)"
+
             quant_narrative = (
-                f"{symbol} exhibits a {trend_regime.replace('_', ' ').title()} with latest close at ₹{latest_close:.2f} "
+                f"{symbol} exhibits an evaluated {trend_regime.replace('_', ' ').title()} with latest close at ₹{latest_close:.2f} "
                 f"(50D SMA: {sma_50_str}, 200D SMA: {sma_200_str}). "
                 f"14-Day RSI is {rsi_str} ({momentum_regime.replace('_', ' ').lower()}), "
                 f"with annualized realized volatility of {primary_vol * 100:.1f}% ({volatility_regime.replace('_', ' ').lower()}) "
-                f"over a {coverage_years}-year historical horizon ({len(close_prices)} bars, Max Drawdown: {round(max_drawdown * 100, 1)}%)."
+                f"over a {history_clause} (Max Drawdown: {round(max_drawdown * 100, 1)}%)."
             )
 
             findings = {

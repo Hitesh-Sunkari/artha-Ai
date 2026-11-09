@@ -106,7 +106,7 @@ class YahooFinancePipeline:
         start_date: str | date | None = None,
         end_date: str | date | None = None,
         as_of_time: datetime | str | None = None,
-        period: str = "6mo",
+        period: str = "5y",
         force_refresh: bool = False,
     ) -> CanonicalMarketData:
         """Retrieves and validates point-in-time historical market data.
@@ -506,7 +506,7 @@ class YahooFinancePipeline:
         }
 
     def _fetch_from_yahoo_chart_api(
-        self, ticker: str, start_date: str | None = None, end_date: str | None = None, period: str = "2y"
+        self, ticker: str, start_date: str | None = None, end_date: str | None = None, period: str = "5y"
     ) -> pd.DataFrame | None:
         """Directly queries Yahoo Finance v8 chart API with rotating headers, bypassing client-side cookie rate limits."""
         import json
@@ -518,7 +518,7 @@ class YahooFinancePipeline:
             "Accept": "application/json",
         }
 
-        range_param = "2y"
+        range_param = "5y"
         if period and period in ("1mo", "3mo", "6mo", "1y", "2y", "5y", "max"):
             range_param = period
 
