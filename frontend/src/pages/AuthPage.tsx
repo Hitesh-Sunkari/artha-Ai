@@ -401,7 +401,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       >
         {/* Brand Mark with Modern Financial Emblem */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <ArthaLogo size={36} showGlow variant="badge" />
+          <ArthaLogo size={36} showGlow variant="icon" />
           <div>
             <div style={{ fontSize: '17px', fontWeight: 800, letterSpacing: '-0.02em', color: t.textHead, display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>ArthaAI</span>

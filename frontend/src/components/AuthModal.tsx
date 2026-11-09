@@ -298,7 +298,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ArthaLogo size={34} variant="badge" />
+            <ArthaLogo size={34} variant="icon" />
             <div>
               <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: palette.headerTitle }}>
                 ArthaAI Institutional Access

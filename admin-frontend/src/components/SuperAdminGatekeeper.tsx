@@ -66,7 +66,7 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
         }}
       >
         {/* ArthaAI Monogram Brand Emblem */}
-        <ArthaLogo size={64} showGlow variant="badge" style={{ marginBottom: '20px' }} />
+        <ArthaLogo size={64} showGlow variant="icon" style={{ marginBottom: '20px' }} />
 
         <span
           style={{

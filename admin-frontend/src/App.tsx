@@ -635,7 +635,7 @@ export const App: React.FC = () => {
             gap: '12px',
           }}
         >
-          <ArthaLogo size={38} showGlow variant="badge" />
+          <ArthaLogo size={38} showGlow variant="icon" />
 
           <div style={{ overflow: 'hidden' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

@@ -816,7 +816,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <ArthaLogo size={24} variant="badge" />
+              <ArthaLogo size={24} variant="icon" />
               <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
                 ArthaAI Administrative Portal
               </h3>

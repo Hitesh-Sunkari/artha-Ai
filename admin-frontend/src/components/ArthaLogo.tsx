@@ -42,7 +42,7 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
 
   const logoImage = (
     <img
-      src="/logo.png"
+      src="/logo.png?v=2"
       alt="ArthaAI Quantitative Monogram"
       width={imgSize}
       height={imgSize}

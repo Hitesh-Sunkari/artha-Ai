@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
           onClick={() => onSelectTab('command-center')}
           title="ArthaAI Platform"
         >
-          <ArthaLogo size={38} showGlow variant="badge" />
+          <ArthaLogo size={38} showGlow variant="icon" />
           <div
             style={{
               overflow: 'hidden',
