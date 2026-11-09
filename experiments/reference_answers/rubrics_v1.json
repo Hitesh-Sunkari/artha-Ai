@@ -1,0 +1,118 @@
+{
+  "rubrics_version": "1.0.0",
+  "verification_authority": "ARTHAAI_QUANTITATIVE_RESEARCH_COMMITTEE",
+  "statutory_corpus": "SEBI_LODR_2015_AND_FINANCE_ACT_2024",
+  "as_of_snapshot": "2026-10-29T15:30:00+05:30",
+  "reference_scenarios": {
+    "Q01": {
+      "symbol": "RELIANCE.NS",
+      "verification_status": "VERIFIED",
+      "anchor_ltp": 1438.30,
+      "reference_metrics": {
+        "sma_20d": 1349.50,
+        "realized_volatility_20d": 23.4,
+        "corwin_schultz_spread_bps": 8.5,
+        "statutory_delivery_stt_pct": 0.10,
+        "total_roundtrip_friction_bps": 22.22
+      },
+      "mandatory_evidence": [
+        "NSE partitioned Parquet OHLCV daily bars",
+        "Finance Act 2024 LTCG Sec 112 (12.5% rate)",
+        "SEBI (LODR) Regulations 2015"
+      ],
+      "prohibited_hallucinations": [
+        "Fabricated FY27 revenue numbers",
+        "Claims of zero transaction costs",
+        "Omission of statutory STT delivery friction"
+      ]
+    },
+    "Q02": {
+      "symbol": "TATSILV / SILVERBEES",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "rsi_14d": 58.2,
+        "statutory_friction_drag_pct": 0.015,
+        "inflation_beat_probability_pct": 69.6
+      },
+      "mandatory_evidence": [
+        "MCX physical silver correlation",
+        "5,000-path Monte Carlo wealth envelope",
+        "RBI CPI inflation baseline (5.49%)"
+      ],
+      "prohibited_hallucinations": [
+        "Treating physical silver ETF as regular corporate equity",
+        "Applying 20 bps delivery STT to ETF (statutory ETF drag is lower)"
+      ]
+    },
+    "Q03": {
+      "symbol": "TATAMOTORS.NS",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "var_95_1y_pct": -28.4,
+        "cvar_95_pct": -38.2,
+        "max_drawdown_pct": -34.8
+      },
+      "mandatory_evidence": [
+        "Empirical parametric VaR formula",
+        "Adversarial 2x volatility stress test"
+      ],
+      "prohibited_hallucinations": [
+        "Zero downside risk claims",
+        "Omission of cyclical automotive sector Beta"
+      ]
+    },
+    "Q04": {
+      "symbol": "TCS.NS vs INFY.NS",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "tcs_price": 2475.20,
+        "infy_price": 1520.40,
+        "tcs_beta": 0.78,
+        "infy_beta": 1.04
+      },
+      "mandatory_evidence": [
+        "Comparable trailing financial periods",
+        "Relative valuation & margin contrast"
+      ],
+      "prohibited_hallucinations": [
+        "Confusing market caps or trading currencies",
+        "Fabricating Q3 FY26 numbers"
+      ]
+    },
+    "Q05": {
+      "symbol": "SWIGGY.NS",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "net_loss_inr_cr": -625.50,
+        "operating_margin_pct": -17.37,
+        "roe_pct": -27.05
+      },
+      "mandatory_evidence": [
+        "Recent listing date disclosure",
+        "Operating loss and negative margin recognition",
+        "Explicit uncertainty bounds"
+      ],
+      "prohibited_hallucinations": [
+        "Inventing multi-year historical bars prior to listing",
+        "Fabricating positive profit projections"
+      ]
+    },
+    "Q06": {
+      "symbol": "HDFCBANK.NS",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "rbi_repo_rate": 6.50,
+        "cpi_inflation": 5.49,
+        "stt_delivery_each_side": 0.10
+      },
+      "mandatory_evidence": [
+        "RBI MPC policy statement",
+        "Finance Act 2024 STT schedule"
+      ],
+      "prohibited_hallucinations": [
+        "Claiming RBI repo rate cuts that have not occurred",
+        "Ignoring statutory turnover fees"
+      ]
+    }
+  }
+}
