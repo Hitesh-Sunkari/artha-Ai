@@ -69,7 +69,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const t = isDark
     ? {
         bg: '#07090E',
-        sanskritWatermark: 'rgba(255, 255, 255, 0.025)',
         glow1: 'rgba(0, 208, 156, 0.12)',
         glow2: 'rgba(6, 182, 212, 0.10)',
         cardBg: 'rgba(14, 18, 27, 0.90)',
@@ -103,12 +102,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         glassBtn: 'rgba(255, 255, 255, 0.06)',
         glassBtnBorder: 'rgba(255, 255, 255, 0.12)',
         glassBtnText: '#CBD5E1',
-        sanskritBadgeBg: 'rgba(0, 208, 156, 0.10)',
-        sanskritBadgeBorder: 'rgba(0, 208, 156, 0.28)',
+        brandBadgeBg: 'rgba(0, 208, 156, 0.10)',
+        brandBadgeBorder: 'rgba(0, 208, 156, 0.28)',
       }
     : {
         bg: '#F8FAFC',
-        sanskritWatermark: 'rgba(15, 23, 42, 0.03)',
         glow1: 'rgba(0, 208, 156, 0.14)',
         glow2: 'rgba(6, 182, 212, 0.11)',
         cardBg: '#FFFFFF',
@@ -142,8 +140,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         glassBtn: '#FFFFFF',
         glassBtnBorder: '#CBD5E1',
         glassBtnText: '#334155',
-        sanskritBadgeBg: 'rgba(0, 208, 156, 0.10)',
-        sanskritBadgeBorder: 'rgba(0, 208, 156, 0.35)',
+        brandBadgeBg: 'rgba(0, 208, 156, 0.10)',
+        brandBadgeBorder: 'rgba(0, 208, 156, 0.35)',
       };
 
   const handleGoogleSignIn = async () => {
@@ -289,20 +287,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           z-index: 1;
         }
 
-        .sanskrit-watermark-bg {
-          position: absolute;
-          top: 50%;
-          left: 20%;
-          transform: translate(-50%, -50%);
-          font-size: 280px;
-          font-weight: 900;
-          color: ${t.sanskritWatermark};
-          font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', serif;
-          line-height: 1;
-          pointer-events: none;
-          z-index: 2;
-        }
-
         .floating-card-1 {
           animation: gentleFloat1 5.5s ease-in-out infinite;
         }
@@ -322,10 +306,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         }
       `}</style>
 
-      {/* ── Background Moving Orbs & Sanskrit Heritage Watermark ─── */}
+      {/* ── Background Moving Orbs ─────────────────────────────────── */}
       <div className="auth-orb-1" />
       <div className="auth-orb-2" />
-      <div className="sanskrit-watermark-bg">अर्थ</div>
 
       {/* ── Top Floating Minimalist Bar (NO STATIC HEADER) ────────── */}
       <div
@@ -340,7 +323,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           flexShrink: 0,
         }}
       >
-        {/* Brand Mark with Sanskrit Roots */}
+        {/* Brand Mark with Modern Financial Emblem */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div
             style={{
@@ -357,15 +340,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               boxShadow: '0 4px 16px rgba(0, 208, 156, 0.4)',
             }}
           >
-            अ
+            A
           </div>
           <div>
             <div style={{ fontSize: '17px', fontWeight: 800, letterSpacing: '-0.02em', color: t.textHead, display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>ArthaAI</span>
-              <span style={{ fontSize: '13px', color: '#00D09C', fontWeight: 600 }}>अर्थ</span>
+              <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: 'rgba(0, 208, 156, 0.15)', color: '#00D09C', padding: '1px 6px', borderRadius: '4px' }}>
+                PROD
+              </span>
             </div>
             <div style={{ fontSize: '9.5px', fontWeight: 600, color: t.textMuted, letterSpacing: '0.04em' }}>
-              PURUSHARTHA OF QUANTITATIVE WEALTH
+              INSTITUTIONAL QUANTITATIVE TERMINAL
             </div>
           </div>
         </div>
@@ -439,10 +424,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           overflow: 'hidden', /* Enforce Zero Scroll */
         }}
       >
-        {/* ── Left Column: Sanskrit Roots & Quantitative Machinery ── */}
+        {/* ── Left Column: Quantitative Machinery ─────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflow: 'hidden' }}>
           <div>
-            {/* Sanskrit Heritage Emblem Chip */}
+            {/* Quantitative Header Chip */}
             <div
               style={{
                 display: 'inline-flex',
@@ -450,8 +435,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 gap: '8px',
                 padding: '4px 12px',
                 borderRadius: '20px',
-                backgroundColor: t.sanskritBadgeBg,
-                border: `1px solid ${t.sanskritBadgeBorder}`,
+                backgroundColor: t.brandBadgeBg,
+                border: `1px solid ${t.brandBadgeBorder}`,
                 color: '#00D09C',
                 fontSize: '11px',
                 fontWeight: 700,
@@ -460,7 +445,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               }}
             >
               <Compass size={13} color="#00D09C" />
-              <span>अर्थशास्त्र • The Sanskrit Purushartha of Economic Wisdom</span>
+              <span>Multi-Specialist Algorithmic Market Architecture</span>
             </div>
 
             <h1
@@ -473,7 +458,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 color: t.textHead,
               }}
             >
-              Ancient Discipline.{' '}
+              Empirical Precision.{' '}
               <span
                 style={{
                   background: 'linear-gradient(135deg, #00D09C 0%, #06B6D4 100%)',
@@ -486,9 +471,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             </h1>
 
             <p style={{ fontSize: '13px', color: t.textBody, lineHeight: 1.5, margin: 0, maxWidth: '540px' }}>
-              Named after the Sanskrit <em>Artha</em> (अर्थ) — the pursuit of purposeful prosperity and capital mastery.
-              ArthaAI unifies ancient algorithmic discipline with SIMD historical analytics, Point-in-Time order books,
-              and SEBI regulatory risk bounds.
+              ArthaAI delivers institutional quantitative research for Indian financial markets, unifying SIMD historical analytics,
+              Point-in-Time order book resolution, and SEBI regulatory risk bounds across NSE and BSE securities.
             </p>
           </div>
 
@@ -605,13 +589,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             </div>
           </div>
 
-          {/* ── 4 Sanskrit-Codified Institutional Pillars ───────────── */}
+          {/* ── 4 Institutional Quantitative Pillars ────────────────── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
             {[
-              { s: 'अर्थशास्त्र', label: 'Capital Logic', icon: Cpu, col: '#00D09C', desc: '7 Fleet Roles' },
-              { s: 'प्रमाण', label: 'Point-in-Time', icon: BarChart3, col: '#06B6D4', desc: '21 MCP Tools' },
-              { s: 'धैर्य', label: 'Risk Preservation', icon: ShieldCheck, col: '#F59E0B', desc: 'Stress Bounds' },
-              { s: 'शुद्ध लाभ', label: 'Net Alpha', icon: Scale, col: '#8B5CF6', desc: 'Sec 112A Tax' },
+              { code: 'FLEET', label: 'Multi-Agent Fleet', icon: Cpu, col: '#00D09C', desc: '7 Specialist Roles' },
+              { code: 'DATA', label: 'Point-in-Time Data', icon: BarChart3, col: '#06B6D4', desc: '21 FastMCP Tools' },
+              { code: 'RISK', label: 'Stress Bounds', icon: ShieldCheck, col: '#F59E0B', desc: 'Preservation Gating' },
+              { code: 'ALPHA', label: 'Net Alpha Engine', icon: Scale, col: '#8B5CF6', desc: 'Sec 112A Tax Drag' },
             ].map((p, idx) => {
               const Icon = p.icon;
               return (
@@ -629,8 +613,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                     <Icon size={12} color={p.col} />
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#00D09C' }}>
-                      {p.s}
+                    <span style={{ fontSize: '10px', fontWeight: 800, color: p.col, letterSpacing: '0.04em' }}>
+                      {p.code}
                     </span>
                   </div>
                   <div style={{ fontSize: '11px', fontWeight: 700, color: t.textHead, marginTop: '2px' }}>
