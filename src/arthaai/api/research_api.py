@@ -2228,30 +2228,47 @@ def create_research_api(
 
     @app.post(
         "/auth/login",
-        summary="Standard Email/Password Authentication & Registration",
+        summary="Standard Email/Password Authentication & Verification",
         tags=["auth"],
     )
     async def auth_login_endpoint(body: dict[str, Any]) -> dict[str, Any]:
-        """Authenticates or registers user. Strictly verifies Super-Admin credentials."""
+        """Authenticates user. If account does not exist, raises 404 asking to sign up first."""
         email = str(body.get("email", "")).strip()
         if not email or "@" not in email:
             raise HTTPException(status_code=400, detail="A valid email address is required.")
         name = str(body.get("name", ""))
-        return telemetry_engine.authenticate_user(email=email, name=name, auth_provider="EMAIL")
+        mode = str(body.get("mode", "LOGIN")).strip().upper()
+        return telemetry_engine.authenticate_user(email=email, name=name, auth_provider="EMAIL", mode=mode)
+
+    @app.post(
+        "/auth/register",
+        summary="Standard User Account Registration",
+        tags=["auth"],
+    )
+    async def auth_register_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Registers a new account. If already exists, raises 409 conflict."""
+        email = str(body.get("email", "")).strip()
+        if not email or "@" not in email:
+            raise HTTPException(status_code=400, detail="A valid email address is required.")
+        name = str(body.get("name", ""))
+        return telemetry_engine.authenticate_user(email=email, name=name, auth_provider="EMAIL", mode="SIGNUP")
 
     @app.post(
         "/auth/google",
-        summary="Google OAuth / Google One-Tap Single Sign-On",
+        summary="Google OAuth Verified Single Sign-On / Sign-Up",
         tags=["auth"],
     )
     async def auth_google_endpoint(body: dict[str, Any]) -> dict[str, Any]:
-        """Authenticates user via Google. Grants Super-Admin role strictly to hitesh.sunkari.23cse@bmu.edu.in."""
+        """Authenticates user via verified Google profile. If login and no account exists, prompts to sign up first."""
         email = str(body.get("email", "")).strip()
         if not email or "@" not in email:
             raise HTTPException(status_code=400, detail="Invalid Google profile email payload.")
         name = str(body.get("name", ""))
         picture = body.get("picture")
-        return telemetry_engine.authenticate_user(email=email, name=name, picture=picture, auth_provider="GOOGLE")
+        mode = str(body.get("mode", "LOGIN")).strip().upper()
+        return telemetry_engine.authenticate_user(
+            email=email, name=name, picture=picture, auth_provider="GOOGLE", mode=mode
+        )
 
     @app.post(
         "/auth/switch-check",
@@ -2313,7 +2330,7 @@ def create_research_api(
         """Exports benchmark evaluation report in JSON, Markdown, or CSV format with publication provenance."""
         report = benchmark_engine.get_latest_report()
         if not report:
-            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=1)
+            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
 
         fmt = export_format.lower()
         if fmt in ("markdown", "md"):

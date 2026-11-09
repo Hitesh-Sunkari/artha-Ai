@@ -208,16 +208,22 @@ export const api = {
   },
 
   // Super-Admin Authentication & RBAC Verification
-  loginWithEmail: (email: string, password?: string, name?: string) =>
+  loginWithEmail: (email: string, password?: string, name?: string, mode: 'LOGIN' | 'SIGNUP' = 'LOGIN') =>
     request<import('./types').AuthUser>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, name, mode }),
+    }),
+
+  registerWithEmail: (email: string, password?: string, name?: string) =>
+    request<import('./types').AuthUser>('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ email, password, name }),
     }),
 
-  loginWithGoogle: (email: string, name?: string, picture?: string) =>
+  loginWithGoogle: (email: string, name?: string, picture?: string, mode: 'LOGIN' | 'SIGNUP' = 'LOGIN') =>
     request<import('./types').AuthUser>('/auth/google', {
       method: 'POST',
-      body: JSON.stringify({ email, name, picture }),
+      body: JSON.stringify({ email, name, picture, mode }),
     }),
 
   checkSwitchClearance: (email: string) =>

@@ -155,7 +155,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const handleExecuteGoogleOAuth = async (targetEmail: string, targetName: string) => {
     const cleanEmail = targetEmail.trim();
     if (!cleanEmail || !cleanEmail.includes('@')) {
-      setError('Please provide a valid Google account email address.');
+      setError('Please provide a valid Google/Gmail account email address.');
       return;
     }
     setLoading(true);
@@ -164,11 +164,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
     try {
       const cleanName = targetName.trim() || cleanEmail.split('@')[0];
-      const authUser = await api.loginWithGoogle(cleanEmail, cleanName);
+      const authUser = await api.loginWithGoogle(cleanEmail, cleanName, undefined, mode);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
           ? 'Super-Admin clearance verified via Google OAuth. Administrative privileges unlocked.'
+          : mode === 'SIGNUP'
+          ? `Google account registered successfully (${authUser.email}). Welcome to ArthaAI.`
           : `Signed in successfully via Google OAuth (${authUser.email}).`
       );
       setTimeout(() => {
@@ -176,7 +178,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         if (onBack) onBack();
       }, 750);
     } catch (err: any) {
-      setError(err.message || 'Google OAuth authentication failed');
+      const msg = err.message || 'Google OAuth authentication failed';
+      if (msg.toLowerCase().includes('sign up first')) {
+        setError(msg);
+        setMode('SIGNUP');
+        setEmail(cleanEmail);
+        if (targetName) setName(targetName);
+      } else if (msg.toLowerCase().includes('already registered')) {
+        setError(msg);
+        setMode('LOGIN');
+        setEmail(cleanEmail);
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -238,7 +252,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     setError(null);
 
     try {
-      const authUser = await api.loginWithEmail(email.trim(), password, name.trim());
+      const authUser = await api.loginWithEmail(email.trim(), password, name.trim(), mode);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
@@ -252,7 +266,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({
         if (onBack) onBack();
       }, 750);
     } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please verify credentials.');
+      const msg = err.message || 'Authentication failed. Please verify credentials.';
+      if (msg.toLowerCase().includes('sign up first')) {
+        setError(msg);
+        setMode('SIGNUP');
+      } else if (msg.toLowerCase().includes('already registered')) {
+        setError(msg);
+        setMode('LOGIN');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -1204,10 +1227,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               </svg>
               <div>
                 <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#111827' }}>
-                  Sign in with Google
+                  {mode === 'LOGIN' ? 'Sign in with Google' : 'Create Account with Google'}
                 </h3>
                 <p style={{ margin: '4px 0 0', fontSize: '12.5px', color: '#6B7280' }}>
-                  Choose an account to continue to <strong>ArthaAI Terminal</strong>
+                  {mode === 'LOGIN'
+                    ? 'Verify your Gmail account to continue to ArthaAI Terminal. (If no account exists, you will be prompted to sign up first).'
+                    : 'Register your verified Gmail account with ArthaAI Quantitative Workstation.'}
                 </p>
               </div>
             </div>
@@ -1341,7 +1366,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </>
                 ) : (
                   <>
-                    <span>Continue with Google Account</span>
+                    <span>{mode === 'LOGIN' ? 'Verify & Sign In with Google' : 'Register with Google'}</span>
                     <ArrowRight size={15} />
                   </>
                 )}

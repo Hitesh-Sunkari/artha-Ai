@@ -24,7 +24,7 @@ export interface ArthaLogoProps {
 
 export const ArthaLogo: React.FC<ArthaLogoProps> = ({
   size = 36,
-  variant = 'badge',
+  variant = 'icon',
   showGlow = false,
   pillText,
   subtitle,
@@ -33,12 +33,12 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
   style = {},
   onClick,
 }) => {
-  const imgSize = variant === 'badge' ? Math.round(size * 0.76) : size;
+  const imgSize = size;
   const borderRadius = Math.max(6, Math.round(size * 0.26));
 
   const glowFilter = showGlow
     ? 'drop-shadow(0 2px 10px rgba(0, 208, 156, 0.45)) drop-shadow(0 0 4px rgba(6, 182, 212, 0.35))'
-    : 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3))';
+    : 'none';
 
   const logoImage = (
     <img
@@ -55,6 +55,7 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
         filter: glowFilter,
         userSelect: 'none',
         pointerEvents: 'none',
+        background: 'transparent',
       }}
       loading="eager"
       decoding="async"
@@ -68,16 +69,12 @@ export const ArthaLogo: React.FC<ArthaLogoProps> = ({
       style={{
         width: `${size}px`,
         height: `${size}px`,
-        borderRadius: `${borderRadius}px`,
-        background: 'linear-gradient(145deg, #0D1627 0%, #060911 100%)',
-        border: '1px solid rgba(0, 208, 156, 0.3)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        boxShadow: showGlow
-          ? '0 4px 20px rgba(0, 208, 156, 0.35), 0 0 12px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12)'
-          : '0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+        background: 'transparent',
+        border: 'none',
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
         ...style,

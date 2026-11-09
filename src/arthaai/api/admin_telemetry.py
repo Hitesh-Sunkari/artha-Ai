@@ -10,13 +10,16 @@ Manages:
 
 from __future__ import annotations
 
+import json
 import logging
 import time
 import uuid
 from collections import deque
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
+from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -102,8 +105,49 @@ class AdminTelemetryEngine:
         self._errors: deque[ClientErrorRecord] = deque(maxlen=100)
         self._active_broadcast_notices: list[dict[str, Any]] = []
 
+        # Persistent Registered User Accounts Registry
+        self._users_file = Path("data/registered_users.json")
+        self._registered_users: dict[str, dict[str, Any]] = self._load_registered_users()
+
         # Auto-seed super admin initial state for immediate terminal verification
         self._seed_initial_state()
+
+    def _load_registered_users(self) -> dict[str, dict[str, Any]]:
+        """Loads registered users from persistent JSON store on disk."""
+        users: dict[str, dict[str, Any]] = {
+            SUPER_ADMIN_EMAIL.lower(): {
+                "email": SUPER_ADMIN_EMAIL.lower(),
+                "name": "Hitesh Sunkari",
+                "role": "SUPER_ADMIN",
+                "auth_provider": "GOOGLE",
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            },
+            "trader@institution.in": {
+                "email": "trader@institution.in",
+                "name": "Institutional Trader",
+                "role": "USER",
+                "auth_provider": "EMAIL",
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            },
+        }
+        try:
+            if self._users_file.exists():
+                with open(self._users_file, "r", encoding="utf-8") as f:
+                    stored = json.load(f)
+                    if isinstance(stored, dict):
+                        users.update(stored)
+        except Exception as e:
+            logger.warning(f"Failed to load registered users from {self._users_file}: {e}")
+        return users
+
+    def _save_registered_users(self) -> None:
+        """Flushes registered users to persistent disk storage."""
+        try:
+            self._users_file.parent.mkdir(parents=True, exist_ok=True)
+            with open(self._users_file, "w", encoding="utf-8") as f:
+                json.dump(self._registered_users, f, indent=2)
+        except Exception as e:
+            logger.warning(f"Failed to save registered users to {self._users_file}: {e}")
 
     def _seed_initial_state(self) -> None:
         """Seed initial super admin session and baseline metrics so dashboard is immediately active."""
@@ -526,12 +570,49 @@ class AdminTelemetryEngine:
         name: str | None = None,
         picture: str | None = None,
         auth_provider: str = "GOOGLE",
+        mode: str = "LOGIN",
     ) -> dict[str, Any]:
-        """Authenticates user and strictly assigns SUPER_ADMIN only to hitesh.sunkari.23cse@bmu.edu.in."""
+        """Authenticates user and strictly assigns SUPER_ADMIN only to hitesh.sunkari.23cse@bmu.edu.in.
+        
+        Strict Account Verification Policy:
+        - In LOGIN mode: Checks if the user is registered. If no account exists, raises 404 asking to sign up first.
+        - In SIGNUP mode: Checks if user already exists (409) or registers new account to persistent store.
+        """
         clean_email = email.strip().lower()
+        if not clean_email or "@" not in clean_email:
+            raise HTTPException(status_code=400, detail="A valid email address is required.")
+
+        normalized_mode = mode.strip().upper() if mode else "LOGIN"
         is_super = clean_email == SUPER_ADMIN_EMAIL.lower()
         role = "SUPER_ADMIN" if is_super else "USER"
         display_name = name or (clean_email.split("@")[0].replace(".", " ").title())
+
+        # 1. LOGIN Check: Account must exist
+        if normalized_mode == "LOGIN":
+            if clean_email not in self._registered_users and not is_super:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"No account found for this Google email ({clean_email}). Please sign up first.",
+                )
+            existing = self._registered_users.get(clean_email, {})
+            if existing.get("name") and not name:
+                display_name = existing["name"]
+
+        # 2. SIGNUP Check: Account is registered or conflict reported
+        elif normalized_mode == "SIGNUP":
+            if clean_email in self._registered_users and not is_super:
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"An account with this email ({clean_email}) is already registered. Please sign in.",
+                )
+            self._registered_users[clean_email] = {
+                "email": clean_email,
+                "name": display_name,
+                "role": role,
+                "auth_provider": auth_provider,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            }
+            self._save_registered_users()
 
         # Generate lightweight JWT-compatible mock token
         token = f"arthai_{uuid.uuid4().hex}_{int(time.time())}"

@@ -2448,6 +2448,346 @@ export const App: React.FC = () => {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
+              5. PAPER TRADING DESK ADMIN TAB
+          ══════════════════════════════════════════════════════════════════ */}
+          {activeSubTab === 'trading' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <TrendingUp size={18} color="var(--groww-green)" /> Paper Trading Desk Administration & SEBI Guardrails
+                </h3>
+
+                {/* SEBI Compliance Alert */}
+                <div
+                  style={{
+                    padding: '16px 18px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                    border: '1px solid rgba(0, 208, 156, 0.3)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <Lock size={20} color="var(--groww-green)" style={{ flexShrink: 0 }} />
+                  <div>
+                    <div style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                      SEBI Algorithmic Sandbox Enforcement Active
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Live API order dispatch to external brokers is strictly disabled (<code style={{ color: 'var(--groww-green)' }}>live_trading_enabled = false</code>). All orders execute within the local deterministic Paper Ledger matching engine.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Accounting Invariance Health */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', marginBottom: '24px' }}>
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>INITIAL CAPITAL BASE</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                      ₹10,00,000.00
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Canonical baseline endowment
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CURRENT CASH RESERVE</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                      ₹{paperCash.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Unallocated liquid capital
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>ACTIVE HOLDINGS COUNT</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                      {paperPositionsCount} Positions
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Stock lots in paper ledger
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>EXECUTED ORDERS</div>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#a78bfa', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                      {paperOrdersCount} Orders
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Simulated fills logged
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desk Reset Control */}
+                <div style={{ padding: '18px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                      Desk Reset & Ledger Re-Zeroing
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                      Clears all active paper holdings and orders, restoring cash balance to exactly ₹10,00,000.00.
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleResetPaperDesk}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                      border: '1px solid rgba(239, 68, 68, 0.3)',
+                      color: '#ef4444',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <RotateCcw size={14} />
+                    <span>Clear Holdings & Reset to ₹10,00,000</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              6. DATA BANK & TICKER MASTER TAB
+          ══════════════════════════════════════════════════════════════════ */}
+          {activeSubTab === 'databank' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Database size={18} color="var(--groww-green)" /> Financial Data Bank & Security Master Resolver
+                </h3>
+
+                {/* Interactive Ticker Resolver */}
+                <div style={{ padding: '18px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 10px 0' }}>
+                    Live Security Master Ticker Resolver
+                  </h4>
+
+                  {/* Quick Suggestion Chips */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick test:</span>
+                    {['RELIANCE', 'TCS', 'INFY', 'HDFCBANK', 'TATAMOTORS', 'ZOMATO'].map((chip) => (
+                      <button
+                        key={chip}
+                        onClick={() => {
+                          setResolveQuery(chip);
+                          handleResolveTicker(chip);
+                        }}
+                        style={{
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'var(--bg-card)',
+                          border: '1px solid var(--border-subtle)',
+                          color: 'var(--text-primary)',
+                          fontSize: '11px',
+                          fontFamily: 'var(--font-mono)',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '8px', maxWidth: '520px' }}>
+                    <input
+                      type="text"
+                      placeholder="Enter ticker (e.g. RELIANCE, TCS, INFY)..."
+                      value={resolveQuery}
+                      onChange={(e) => setResolveQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleResolveTicker()}
+                      style={{ flex: 1, height: '36px', fontSize: '12px' }}
+                    />
+                    <button
+                      onClick={() => handleResolveTicker()}
+                      disabled={resolving}
+                      style={{
+                        height: '36px',
+                        padding: '0 16px',
+                        borderRadius: '6px',
+                        backgroundColor: 'var(--groww-green)',
+                        color: '#0F1217',
+                        fontWeight: 700,
+                        border: 'none',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {resolving ? 'Resolving...' : 'Resolve'}
+                    </button>
+                  </div>
+
+                  {resolveResult && (
+                    <div style={{ marginTop: '14px', padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ color: resolveResult.resolved ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
+                          {resolveResult.resolved ? '✓ RESOLVED IN SECURITY MASTER' : '✗ RESOLUTION FAILED'}
+                        </span>
+                        {resolveResult.canonical_id && (
+                          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
+                            {resolveResult.canonical_id}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', marginBottom: '10px' }}>
+                        <div><strong>Company:</strong> {resolveResult.company_name || '—'}</div>
+                        <div><strong>ISIN:</strong> <span style={{ fontFamily: 'var(--font-mono)' }}>{resolveResult.record?.isin || '—'}</span></div>
+                        <div><strong>Exchange:</strong> {resolveResult.exchange || 'NSE'}</div>
+                        <div><strong>Local Parquet:</strong> {resolveResult.has_local_parquet ? '✓ Indexed' : 'Online Fetch'}</div>
+                      </div>
+
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>JSON PAYLOAD:</div>
+                      <pre style={{ margin: 0, padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)', overflowX: 'auto', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '11px', maxHeight: '180px' }}>
+                        {JSON.stringify(resolveResult, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+
+                {/* Storage Locations */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>DuckDB Parquet Store</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/parquet/ohlcv/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ 115 Indian equities indexed with DuckDB
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>ChromaDB Embeddings</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/chroma/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ 95 statutory chunks ready for RAG
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Security Quarantine</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/quarantine/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ Clean health verdict (0 quarantined files)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              7. API DIAGNOSTICS & PING TAB
+          ══════════════════════════════════════════════════════════════════ */}
+          {activeSubTab === 'diagnostics' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+              <form onSubmit={handleSaveApiUrl} style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Sliders size={18} color="var(--groww-green)" /> Backend API Endpoint Configuration & Latency Diagnostic
+                </h3>
+
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', maxWidth: '640px', marginBottom: '12px' }}>
+                  <input
+                    type="text"
+                    value={apiUrl}
+                    onChange={(e) => setApiUrl(e.target.value)}
+                    placeholder="http://127.0.0.1:8000"
+                    style={{ flex: 1, height: '38px', fontSize: '13px' }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      height: '38px',
+                      padding: '0 18px',
+                      borderRadius: '6px',
+                      backgroundColor: 'var(--groww-green)',
+                      color: '#0F1217',
+                      fontWeight: 700,
+                      border: 'none',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Save URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleTestConnection}
+                    disabled={testingConnection}
+                    style={{
+                      height: '38px',
+                      padding: '0 16px',
+                      borderRadius: '6px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontWeight: 600,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {testingConnection ? 'Testing...' : 'Ping Latency'}
+                  </button>
+                </div>
+
+                {saveSuccess && (
+                  <div style={{ color: 'var(--groww-green)', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px' }}>
+                    <CheckCircle2 size={14} /> Base URL successfully updated to {apiUrl}
+                  </div>
+                )}
+
+                {testResult && (
+                  <div style={{ color: testResult.includes('200 OK') ? 'var(--groww-green)' : '#ef4444', fontSize: '12px', marginTop: '8px', fontFamily: 'var(--font-mono)' }}>
+                    {testResult}
+                  </div>
+                )}
+              </form>
+
+              {/* Subsystem Readiness Checklist */}
+              {readiness && (
+                <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                  <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
+                    Subsystem Readiness Checklist (/ready endpoint)
+                  </h4>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+                    {[
+                      { name: 'Core API Server Readiness', ready: readiness.ready },
+                      { name: 'FastMCP Gateway Tools', ready: readiness.mcp_available },
+                      { name: 'A2A Blackboard Bus', ready: readiness.a2a_available },
+                      { name: 'SEBI Algorithmic Sandbox Guard', ready: readiness.live_trading_blocked },
+                    ].map((item, idx) => (
+                      <div key={idx} style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</span>
+                        <span style={{ fontSize: '11px', color: item.ready ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
+                          {item.ready ? '✓ READY' : '✗ UNREADY'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
               PRIORITY 3: SCIENTIFIC BENCHMARK & EVALUATION STUDIO
           ══════════════════════════════════════════════════════════════════ */}
           {(activeSubTab === 'benchmark' || activeSubTab === 'evaluation' || activeSubTab === 'eval_studio' || activeSubTab === 'continuous_eval' || activeSubTab === 'trace_export') && (

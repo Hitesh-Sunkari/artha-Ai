@@ -128,11 +128,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     const targetName = overrideName || name.trim() || targetEmail.split('@')[0];
 
     try {
-      const authUser = await api.loginWithGoogle(targetEmail, targetName);
+      const authUser = await api.loginWithGoogle(targetEmail, targetName, undefined, mode);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
           ? 'Super-Admin clearance verified via Google OAuth.'
+          : mode === 'SIGNUP'
+          ? 'Google account registered successfully.'
           : 'Signed in successfully via Google OAuth.'
       );
       setTimeout(() => {
@@ -140,7 +142,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         onClose();
       }, 750);
     } catch (err: any) {
-      setError(err.message || 'Failed to authenticate with Google OAuth');
+      const msg = err.message || 'Failed to authenticate with Google OAuth';
+      if (msg.toLowerCase().includes('sign up first')) {
+        setError(msg);
+        setMode('SIGNUP');
+      } else if (msg.toLowerCase().includes('already registered')) {
+        setError(msg);
+        setMode('LOGIN');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
@@ -156,11 +167,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setError(null);
 
     try {
-      const authUser = await api.loginWithEmail(email.trim(), password, name.trim());
+      const authUser = await api.loginWithEmail(email.trim(), password, name.trim(), mode);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
           ? 'Welcome, Super-Administrator. Switching privileges active.'
+          : mode === 'SIGNUP'
+          ? 'Account registered successfully.'
           : 'Signed in successfully.'
       );
       setTimeout(() => {
@@ -168,7 +181,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         onClose();
       }, 900);
     } catch (err: any) {
-      setError(err.message || 'Authentication failed');
+      const msg = err.message || 'Authentication failed';
+      if (msg.toLowerCase().includes('sign up first')) {
+        setError(msg);
+        setMode('SIGNUP');
+      } else if (msg.toLowerCase().includes('already registered')) {
+        setError(msg);
+        setMode('LOGIN');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
