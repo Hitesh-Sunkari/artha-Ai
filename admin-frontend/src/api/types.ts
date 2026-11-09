@@ -140,6 +140,8 @@ export interface RunDetailsResponse {
   latency_seconds?: number | null;
   report?: QuantitativeResearchReport | null;
   agent_contributions?: AgentContribution[];
+  blackboard_events?: any[];
+  query_research_result?: any;
   error?: string | null;
 }
 
@@ -161,8 +163,11 @@ export interface RunListItem {
   latency_seconds?: number | null;
   has_report: boolean;
   recommendation?: string | null;
+  conviction_score?: number | null;
+  executive_thesis?: string | null;
   events_count: number;
   error?: string | null;
+  query_research_result?: any;
 }
 
 export interface HealthResponse {

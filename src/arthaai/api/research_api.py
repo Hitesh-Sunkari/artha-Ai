@@ -732,6 +732,11 @@ def create_research_api(
 
         if record.status == ResearchRunStatus.COMPLETED and record.report:
             response["report"] = record.report.model_dump(mode="json")
+            if (
+                isinstance(record.report.quantitative_findings, dict)
+                and "query_research_result" in record.report.quantitative_findings
+            ):
+                response["query_research_result"] = record.report.quantitative_findings["query_research_result"]
 
         if record.status == ResearchRunStatus.FAILED:
             response["error"] = record.error
@@ -849,6 +854,11 @@ def create_research_api(
                 "executive_thesis": r.report.executive_thesis if r.report else None,
                 "events_count": len(r.blackboard_events),
                 "error": r.error,
+                "query_research_result": (
+                    r.report.quantitative_findings.get("query_research_result")
+                    if r.report and isinstance(r.report.quantitative_findings, dict)
+                    else None
+                ),
             }
             for r in sorted_records
         ]
@@ -1904,6 +1914,7 @@ def create_research_api(
                     as_of_time=datetime.now(timezone.utc),
                     executive_thesis=result.executive_synthesis,
                     quantitative_findings={
+                        "query_research_result": result.model_dump(),
                         "verdict": result.verdict,
                         "conviction_score": result.conviction_score,
                         "horizon_years": result.horizon_years,

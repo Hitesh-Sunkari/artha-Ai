@@ -41,6 +41,7 @@ import {
   SlidersHorizontal,
   Compass,
   ArrowUpRight,
+  Sparkles,
 } from 'lucide-react';
 import { api, getApiBaseUrl, setApiBaseUrl } from './api/client';
 import type {
@@ -53,6 +54,7 @@ import type {
 } from './api/types';
 import { StatusBadge } from './components/StatusBadge';
 import { ArchitectureDiagram } from './components/ArchitectureDiagram';
+import { RunModalInspector } from './components/RunModalInspector';
 
 interface TelemetryData {
   provider_status?: Record<string, any>;
@@ -74,6 +76,8 @@ export type AdminSubTab =
   | 'overview'
   | 'fleet'
   | 'telemetry'
+  | 'query_audit'
+  | 'normal_audit'
   | 'audit'
   | 'trading'
   | 'databank'
@@ -116,12 +120,15 @@ export const App: React.FC = () => {
   const [telemetryLoading, setTelemetryLoading] = useState(false);
   const [telemetryError, setTelemetryError] = useState<string | null>(null);
 
-  // Runs Audit State
+  // Runs Audit State (Dedicated Query-Based and Normal Multi-Agent Runs)
   const [runs, setRuns] = useState<RunListItem[]>([]);
   const [runsLoading, setRunsLoading] = useState(false);
-  const [runSearch, setRunSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'ALL' | 'COMPLETED' | 'FAILED' | 'IN_PROGRESS'>('ALL');
-  const [patternFilter, setPatternFilter] = useState('ALL');
+  const [querySearch, setQuerySearch] = useState('');
+  const [queryStatusFilter, setQueryStatusFilter] = useState<'ALL' | 'COMPLETED' | 'FAILED' | 'IN_PROGRESS'>('ALL');
+  const [queryHorizonFilter, setQueryHorizonFilter] = useState('ALL');
+  const [normalSearch, setNormalSearch] = useState('');
+  const [normalStatusFilter, setNormalStatusFilter] = useState<'ALL' | 'COMPLETED' | 'FAILED' | 'IN_PROGRESS'>('ALL');
+  const [normalPatternFilter, setNormalPatternFilter] = useState('ALL');
   const [selectedRun, setSelectedRun] = useState<RunListItem | null>(null);
 
   // Evaluation Suite State
@@ -335,17 +342,54 @@ export const App: React.FC = () => {
     handleResolveTicker('RELIANCE');
   }, []);
 
-  const filteredRuns = useMemo(() => {
-    return runs.filter((r) => {
-      if (statusFilter !== 'ALL' && r.status !== statusFilter) return false;
-      if (patternFilter !== 'ALL' && r.orchestration_pattern !== patternFilter) return false;
-      if (runSearch) {
-        const q = runSearch.toLowerCase();
-        return r.run_id.toLowerCase().includes(q) || r.symbol.toLowerCase().includes(q);
+  // Categorize runs into Query-Based Research and Normal Multi-Agent Runs
+  const queryRuns = useMemo(() => {
+    return runs.filter(
+      (r) =>
+        r.orchestration_pattern === 'QUERY_STUDIO' ||
+        r.run_id.startsWith('run-query-')
+    );
+  }, [runs]);
+
+  const normalRuns = useMemo(() => {
+    return runs.filter(
+      (r) =>
+        r.orchestration_pattern !== 'QUERY_STUDIO' &&
+        !r.run_id.startsWith('run-query-')
+    );
+  }, [runs]);
+
+  const filteredQueryRuns = useMemo(() => {
+    return queryRuns.filter((r) => {
+      if (queryStatusFilter !== 'ALL' && r.status !== queryStatusFilter) return false;
+      const qRes = r.query_research_result;
+      const horizonYears = qRes?.horizon_years;
+      if (queryHorizonFilter !== 'ALL') {
+        if (!horizonYears || `${horizonYears}Y` !== queryHorizonFilter) return false;
+      }
+      if (querySearch) {
+        const q = querySearch.toLowerCase();
+        const symMatch = (r.symbol || '').toLowerCase().includes(q);
+        const idMatch = (r.run_id || '').toLowerCase().includes(q);
+        const queryTextMatch = (qRes?.query || '').toLowerCase().includes(q);
+        const thesisMatch = (r.executive_thesis || '').toLowerCase().includes(q);
+        return symMatch || idMatch || queryTextMatch || thesisMatch;
       }
       return true;
     });
-  }, [runs, statusFilter, patternFilter, runSearch]);
+  }, [queryRuns, queryStatusFilter, queryHorizonFilter, querySearch]);
+
+  const filteredNormalRuns = useMemo(() => {
+    return normalRuns.filter((r) => {
+      if (normalStatusFilter !== 'ALL' && r.status !== normalStatusFilter) return false;
+      if (normalPatternFilter !== 'ALL' && r.orchestration_pattern !== normalPatternFilter) return false;
+      if (normalSearch) {
+        const q = normalSearch.toLowerCase();
+        return (r.run_id || '').toLowerCase().includes(q) || (r.symbol || '').toLowerCase().includes(q);
+      }
+      return true;
+    });
+  }, [normalRuns, normalStatusFilter, normalPatternFilter, normalSearch]);
 
   const discoveredTools = useMemo(() => {
     const list = status?.fastmcp_server?.discovered_tools || [
@@ -386,9 +430,10 @@ export const App: React.FC = () => {
       ],
     },
     {
-      group: 'EXECUTION & TRADING',
+      group: 'EXECUTION & AUDIT',
       items: [
-        { id: 'audit' as AdminSubTab, label: 'Research Runs Audit', icon: Clock, count: `${runs.length || 562}` },
+        { id: 'query_audit' as AdminSubTab, label: 'Query Research Audit', icon: Sparkles, count: `${queryRuns.length}` },
+        { id: 'normal_audit' as AdminSubTab, label: 'Normal Runs Audit', icon: Clock, count: `${normalRuns.length}` },
         { id: 'trading' as AdminSubTab, label: 'Paper Trading Desk', icon: TrendingUp, count: `₹${(paperCash / 100000).toFixed(1)}L` },
       ],
     },
@@ -1263,269 +1308,462 @@ export const App: React.FC = () => {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              4. RESEARCH RUNS AUDIT TAB
+              4. RESEARCH RUNS AUDIT TABS (QUERY RUNS & NORMAL RUNS)
           ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'audit' && (
+          {(activeSubTab === 'query_audit' || activeSubTab === 'normal_audit' || activeSubTab === 'audit') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
               <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '18px' }}>
+                {/* Header & Section Switcher */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '20px' }}>
                   <div>
-                    <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Clock size={18} color="var(--groww-green)" /> Research Runs Execution Audit ({filteredRuns.length} of {runs.length})
+                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {activeSubTab === 'normal_audit' ? (
+                        <>
+                          <Clock size={19} color="var(--groww-green)" />
+                          Normal Multi-Agent Pipeline Runs Audit
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles size={19} color="var(--groww-green)" />
+                          Query-Based Research Runs Audit
+                        </>
+                      )}
                     </h3>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                      DuckDB persistent execution trace repository recording full agent deliberation, telemetry, and verdicts.
+                      {activeSubTab === 'normal_audit'
+                        ? `DuckDB execution trace repository for Sequential, Parallel, and Hierarchical Google ADK & CrewAI agent runs (${filteredNormalRuns.length} of ${normalRuns.length}).`
+                        : `Autonomous natural language queries across NSE/BSE equities, multi-stock SLSQP optimization, 10Y Monte Carlo envelopes & statutory audits (${filteredQueryRuns.length} of ${queryRuns.length}).`}
                     </p>
                   </div>
 
-                  <button
-                    onClick={fetchRuns}
-                    disabled={runsLoading}
-                    style={{
-                      padding: '7px 14px',
-                      borderRadius: '8px',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                      color: 'var(--text-primary)',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    <RefreshCw size={13} className={runsLoading ? 'animate-spin' : ''} />
-                    <span>Refresh Runs</span>
-                  </button>
-                </div>
-
-                {/* Filters Row */}
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
-                  <div style={{ position: 'relative', flex: 1, minWidth: '220px' }}>
-                    <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input
-                      type="text"
-                      placeholder="Filter by Run ID or Symbol (e.g. RELIANCE)..."
-                      value={runSearch}
-                      onChange={(e) => setRunSearch(e.target.value)}
-                      style={{ width: '100%', paddingLeft: '32px', height: '36px', fontSize: '12px' }}
-                    />
-                  </div>
-
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value as any)}
-                    style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '140px' }}
-                  >
-                    <option value="ALL">All Statuses</option>
-                    <option value="COMPLETED">Completed</option>
-                    <option value="IN_PROGRESS">In Progress</option>
-                    <option value="FAILED">Failed</option>
-                  </select>
-
-                  <select
-                    value={patternFilter}
-                    onChange={(e) => setPatternFilter(e.target.value)}
-                    style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '160px' }}
-                  >
-                    <option value="ALL">All Patterns</option>
-                    <option value="SEQUENTIAL">Sequential</option>
-                    <option value="PARALLEL">Parallel</option>
-                    <option value="HIERARCHICAL">Hierarchical</option>
-                  </select>
-                </div>
-
-                {/* Runs Table */}
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
-                    <thead>
-                      <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
-                        <th style={{ padding: '10px' }}>Run ID</th>
-                        <th style={{ padding: '10px' }}>Security</th>
-                        <th style={{ padding: '10px' }}>Pattern</th>
-                        <th style={{ padding: '10px' }}>Status</th>
-                        <th style={{ padding: '10px' }}>Submitted At</th>
-                        <th style={{ padding: '10px' }}>Latency</th>
-                        <th style={{ padding: '10px' }}>Recommendation</th>
-                        <th style={{ padding: '10px' }}>Trace Count</th>
-                        <th style={{ padding: '10px', textAlign: 'right' }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredRuns.length === 0 ? (
-                        <tr>
-                          <td colSpan={9} style={{ textAlign: 'center', padding: '36px', color: 'var(--text-muted)' }}>
-                            No execution records found matching your filter criteria.
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredRuns.slice(0, 30).map((r) => (
-                          <tr key={r.run_id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                            <td style={{ padding: '10px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
-                              {r.run_id.slice(0, 20)}...
-                            </td>
-                            <td style={{ padding: '10px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                              {r.symbol}
-                            </td>
-                            <td style={{ padding: '10px' }}>
-                              <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)' }}>
-                                {r.orchestration_pattern}
-                              </span>
-                            </td>
-                            <td style={{ padding: '10px' }}>
-                              <StatusBadge status={r.status} />
-                            </td>
-                            <td style={{ padding: '10px', color: 'var(--text-muted)' }}>
-                              {r.submitted_at ? new Date(r.submitted_at).toLocaleTimeString() : '—'}
-                            </td>
-                            <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
-                              {r.latency_seconds !== undefined && r.latency_seconds !== null ? `${r.latency_seconds.toFixed(2)}s` : '—'}
-                            </td>
-                            <td style={{ padding: '10px', fontWeight: 700, color: r.recommendation === 'BUY' ? 'var(--groww-green)' : r.recommendation === 'SELL' ? 'var(--groww-red)' : 'var(--text-primary)' }}>
-                              {r.recommendation || '—'}
-                            </td>
-                            <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
-                              {r.events_count !== undefined ? `${r.events_count} events` : '—'}
-                            </td>
-                            <td style={{ padding: '10px', textAlign: 'right' }}>
-                              <button
-                                onClick={() => setSelectedRun(r)}
-                                style={{
-                                  padding: '4px 8px',
-                                  borderRadius: '4px',
-                                  backgroundColor: 'var(--bg-surface)',
-                                  border: '1px solid var(--border-subtle)',
-                                  color: 'var(--text-primary)',
-                                  fontSize: '11px',
-                                  fontWeight: 600,
-                                  cursor: 'pointer',
-                                }}
-                              >
-                                View Trace
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-
-                {filteredRuns.length > 30 && (
-                  <div style={{ textAlign: 'center', marginTop: '14px', fontSize: '12px', color: 'var(--text-muted)' }}>
-                    Showing latest 30 runs of {filteredRuns.length} total.
-                  </div>
-                )}
-              </div>
-
-              {/* Run Inspector Modal */}
-              {selectedRun && (
-                <div
-                  style={{
-                    position: 'fixed',
-                    inset: 0,
-                    backgroundColor: 'rgba(0, 0, 0, 0.65)',
-                    backdropFilter: 'blur(6px)',
-                    zIndex: 100,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '20px',
-                  }}
-                  onClick={() => setSelectedRun(null)}
-                >
-                  <div
-                    style={{
-                      width: '100%',
-                      maxWidth: '680px',
-                      backgroundColor: 'var(--bg-card)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '16px',
-                      padding: '24px',
-                      boxShadow: 'var(--shadow-lg)',
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Clock size={18} color="var(--groww-green)" />
-                        <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                          Run Execution Inspector
-                        </h3>
-                      </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                    {/* Top Segmented Button Switcher */}
+                    <div style={{ display: 'flex', backgroundColor: 'var(--bg-surface)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
                       <button
-                        onClick={() => setSelectedRun(null)}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
-                      >
-                        <X size={18} />
-                      </button>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '16px' }}>
-                      <div style={{ padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Run ID</div>
-                        <div style={{ fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
-                          {selectedRun.run_id}
-                        </div>
-                      </div>
-                      <div style={{ padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Target Security</div>
-                        <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                          {selectedRun.symbol}
-                        </div>
-                      </div>
-                      <div style={{ padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Pattern & Latency</div>
-                        <div style={{ fontSize: '12px', fontWeight: 600 }}>
-                          {selectedRun.orchestration_pattern} • {selectedRun.latency_seconds?.toFixed(2) || '—'}s
-                        </div>
-                      </div>
-                      <div style={{ padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Recommendation</div>
-                        <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--groww-green)' }}>
-                          {selectedRun.recommendation || '—'}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '6px' }}>
-                      RAW RUN DATA (DUCKDB TRACE)
-                    </div>
-                    <pre
-                      style={{
-                        padding: '14px',
-                        borderRadius: '8px',
-                        backgroundColor: 'var(--bg-surface)',
-                        border: '1px solid var(--border-subtle)',
-                        fontSize: '11.5px',
-                        fontFamily: 'var(--font-mono)',
-                        maxHeight: '260px',
-                        overflowY: 'auto',
-                        color: 'var(--text-secondary)',
-                      }}
-                    >
-                      {JSON.stringify(selectedRun, null, 2)}
-                    </pre>
-
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                      <button
-                        onClick={() => setSelectedRun(null)}
+                        onClick={() => setActiveSubTab('query_audit')}
                         style={{
-                          padding: '8px 18px',
-                          borderRadius: '6px',
-                          backgroundColor: 'var(--groww-green)',
-                          color: '#0F1217',
+                          padding: '6px 14px',
+                          borderRadius: '7px',
+                          fontSize: '12px',
                           fontWeight: 700,
                           border: 'none',
                           cursor: 'pointer',
+                          backgroundColor: activeSubTab === 'query_audit' || activeSubTab === 'audit' ? 'var(--groww-green)' : 'transparent',
+                          color: activeSubTab === 'query_audit' || activeSubTab === 'audit' ? '#0F1217' : 'var(--text-secondary)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 0.15s ease',
                         }}
                       >
-                        Close Inspector
+                        <Sparkles size={13} />
+                        <span>Query-Based Runs ({queryRuns.length})</span>
+                      </button>
+
+                      <button
+                        onClick={() => setActiveSubTab('normal_audit')}
+                        style={{
+                          padding: '6px 14px',
+                          borderRadius: '7px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          border: 'none',
+                          cursor: 'pointer',
+                          backgroundColor: activeSubTab === 'normal_audit' ? 'var(--groww-green)' : 'transparent',
+                          color: activeSubTab === 'normal_audit' ? '#0F1217' : 'var(--text-secondary)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <Clock size={13} />
+                        <span>Normal Pipeline Runs ({normalRuns.length})</span>
                       </button>
                     </div>
+
+                    <button
+                      onClick={fetchRuns}
+                      disabled={runsLoading}
+                      style={{
+                        padding: '7px 14px',
+                        borderRadius: '8px',
+                        backgroundColor: 'var(--bg-surface)',
+                        border: '1px solid var(--border-subtle)',
+                        color: 'var(--text-primary)',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <RefreshCw size={13} className={runsLoading ? 'animate-spin' : ''} />
+                      <span>Refresh Runs</span>
+                    </button>
                   </div>
                 </div>
+
+                {/* ── Sub-view A: Query-Based Research Runs Table ───────────────── */}
+                {(activeSubTab === 'query_audit' || activeSubTab === 'audit') && (
+                  <>
+                    {/* Filters Row */}
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                      <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+                        <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                          type="text"
+                          placeholder="Filter by Query Prompt, Stock Basket, Run ID, or Executive Thesis..."
+                          value={querySearch}
+                          onChange={(e) => setQuerySearch(e.target.value)}
+                          style={{ width: '100%', paddingLeft: '32px', height: '36px', fontSize: '12px' }}
+                        />
+                      </div>
+
+                      <select
+                        value={queryStatusFilter}
+                        onChange={(e) => setQueryStatusFilter(e.target.value as any)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '140px' }}
+                      >
+                        <option value="ALL">All Statuses</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="FAILED">Failed</option>
+                      </select>
+
+                      <select
+                        value={queryHorizonFilter}
+                        onChange={(e) => setQueryHorizonFilter(e.target.value)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '140px' }}
+                      >
+                        <option value="ALL">All Horizons</option>
+                        <option value="1Y">1 Year</option>
+                        <option value="3Y">3 Years</option>
+                        <option value="5Y">5 Years</option>
+                        <option value="10Y">10 Years</option>
+                      </select>
+                    </div>
+
+                    {/* Query Runs Table */}
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                            <th style={{ padding: '10px' }}>Run ID</th>
+                            <th style={{ padding: '10px' }}>Target Equities / Basket</th>
+                            <th style={{ padding: '10px' }}>Horizon</th>
+                            <th style={{ padding: '10px' }}>Query / Inquiry Resolution</th>
+                            <th style={{ padding: '10px' }}>Verdict</th>
+                            <th style={{ padding: '10px' }}>Conviction</th>
+                            <th style={{ padding: '10px' }}>Status</th>
+                            <th style={{ padding: '10px' }}>Submitted</th>
+                            <th style={{ padding: '10px' }}>Latency</th>
+                            <th style={{ padding: '10px', textAlign: 'right' }}>Complete Output</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredQueryRuns.length === 0 ? (
+                            <tr>
+                              <td colSpan={10} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+                                No query-based research records found matching your filter criteria.
+                              </td>
+                            </tr>
+                          ) : (
+                            filteredQueryRuns.slice(0, 30).map((r) => {
+                              const qRes = r.query_research_result;
+                              const symbolsList = (r.symbol || '')
+                                .split(',')
+                                .map((s) => s.trim())
+                                .filter(Boolean);
+                              const horizon = qRes?.horizon_years || 10;
+                              const queryDisplay = qRes?.query || r.symbol;
+                              const verdict = qRes?.verdict || r.recommendation || 'ACCUMULATE';
+                              const conviction = qRes?.conviction_score ?? r.conviction_score ?? 80;
+
+                              return (
+                                <tr key={r.run_id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                                  <td style={{ padding: '10px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
+                                    {r.run_id.slice(0, 16)}...
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', maxWidth: '240px' }}>
+                                      {symbolsList.slice(0, 3).map((sym, i) => (
+                                        <span
+                                          key={i}
+                                          style={{
+                                            fontSize: '10.5px',
+                                            fontWeight: 700,
+                                            padding: '2px 6px',
+                                            borderRadius: '4px',
+                                            backgroundColor: 'var(--bg-surface)',
+                                            border: '1px solid var(--border-subtle)',
+                                            color: 'var(--text-primary)',
+                                            fontFamily: 'var(--font-mono)',
+                                          }}
+                                        >
+                                          {sym}
+                                        </span>
+                                      ))}
+                                      {symbolsList.length > 3 && (
+                                        <span style={{ fontSize: '10px', color: 'var(--text-muted)', alignSelf: 'center' }}>
+                                          +{symbolsList.length - 3} more
+                                        </span>
+                                      )}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <span style={{ fontSize: '11px', padding: '2px 7px', borderRadius: '4px', backgroundColor: 'rgba(83, 103, 255, 0.12)', color: 'var(--groww-blue)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                                      {horizon}Y
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '10px', maxWidth: '280px' }}>
+                                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '12px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {queryDisplay}
+                                    </div>
+                                    {r.executive_thesis && (
+                                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '2px' }}>
+                                        {r.executive_thesis}
+                                      </div>
+                                    )}
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <span
+                                      style={{
+                                        fontSize: '10.5px',
+                                        fontWeight: 800,
+                                        padding: '3px 8px',
+                                        borderRadius: '4px',
+                                        backgroundColor:
+                                          verdict.includes('BUY') || verdict.includes('ACCUMULATE')
+                                            ? 'rgba(0, 208, 156, 0.12)'
+                                            : verdict.includes('HOLD') || verdict.includes('BALANCED')
+                                            ? 'rgba(245, 158, 11, 0.12)'
+                                            : 'rgba(239, 68, 68, 0.12)',
+                                        color:
+                                          verdict.includes('BUY') || verdict.includes('ACCUMULATE')
+                                            ? 'var(--groww-green)'
+                                            : verdict.includes('HOLD') || verdict.includes('BALANCED')
+                                            ? '#f59e0b'
+                                            : '#ef4444',
+                                        fontFamily: 'var(--font-mono)',
+                                      }}
+                                    >
+                                      {verdict}
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                      <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                                        {conviction}%
+                                      </span>
+                                      <div style={{ width: '40px', height: '4px', borderRadius: '2px', backgroundColor: 'var(--bg-surface)', overflow: 'hidden' }}>
+                                        <div style={{ width: `${Math.min(conviction, 100)}%`, height: '100%', backgroundColor: 'var(--groww-green)' }} />
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <StatusBadge status={r.status} />
+                                  </td>
+                                  <td style={{ padding: '10px', color: 'var(--text-muted)', fontSize: '11px' }}>
+                                    {r.submitted_at ? new Date(r.submitted_at).toLocaleTimeString() : '—'}
+                                  </td>
+                                  <td style={{ padding: '10px', fontFamily: 'var(--font-mono)', fontSize: '11px' }}>
+                                    {r.latency_seconds !== undefined && r.latency_seconds !== null ? `${r.latency_seconds.toFixed(2)}s` : '—'}
+                                  </td>
+                                  <td style={{ padding: '10px', textAlign: 'right' }}>
+                                    <button
+                                      onClick={() => setSelectedRun(r)}
+                                      style={{
+                                        padding: '5px 12px',
+                                        borderRadius: '6px',
+                                        backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                                        border: '1px solid var(--groww-green)',
+                                        color: 'var(--groww-green)',
+                                        fontSize: '11.5px',
+                                        fontWeight: 700,
+                                        cursor: 'pointer',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '5px',
+                                        transition: 'all 0.15s ease',
+                                      }}
+                                      onMouseEnter={(e) => {
+                                        e.currentTarget.style.backgroundColor = 'var(--groww-green)';
+                                        e.currentTarget.style.color = '#0F1217';
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        e.currentTarget.style.backgroundColor = 'rgba(0, 208, 156, 0.1)';
+                                        e.currentTarget.style.color = 'var(--groww-green)';
+                                      }}
+                                    >
+                                      <FileText size={13} />
+                                      <span>View Full Report</span>
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {filteredQueryRuns.length > 30 && (
+                      <div style={{ textAlign: 'center', marginTop: '14px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                        Showing latest 30 query runs of {filteredQueryRuns.length} total.
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* ── Sub-view B: Normal Pipeline Runs Table ─────────────────────── */}
+                {activeSubTab === 'normal_audit' && (
+                  <>
+                    {/* Filters Row */}
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                      <div style={{ position: 'relative', flex: 1, minWidth: '220px' }}>
+                        <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                          type="text"
+                          placeholder="Filter by Run ID or Security Symbol (e.g. RELIANCE.NS)..."
+                          value={normalSearch}
+                          onChange={(e) => setNormalSearch(e.target.value)}
+                          style={{ width: '100%', paddingLeft: '32px', height: '36px', fontSize: '12px' }}
+                        />
+                      </div>
+
+                      <select
+                        value={normalStatusFilter}
+                        onChange={(e) => setNormalStatusFilter(e.target.value as any)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '140px' }}
+                      >
+                        <option value="ALL">All Statuses</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="FAILED">Failed</option>
+                      </select>
+
+                      <select
+                        value={normalPatternFilter}
+                        onChange={(e) => setNormalPatternFilter(e.target.value)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '160px' }}
+                      >
+                        <option value="ALL">All Patterns</option>
+                        <option value="SEQUENTIAL">Sequential</option>
+                        <option value="PARALLEL">Parallel</option>
+                        <option value="HIERARCHICAL">Hierarchical</option>
+                      </select>
+                    </div>
+
+                    {/* Normal Runs Table */}
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                            <th style={{ padding: '10px' }}>Run ID</th>
+                            <th style={{ padding: '10px' }}>Security</th>
+                            <th style={{ padding: '10px' }}>Pattern</th>
+                            <th style={{ padding: '10px' }}>Status</th>
+                            <th style={{ padding: '10px' }}>Submitted At</th>
+                            <th style={{ padding: '10px' }}>Latency</th>
+                            <th style={{ padding: '10px' }}>Recommendation</th>
+                            <th style={{ padding: '10px' }}>Conviction</th>
+                            <th style={{ padding: '10px' }}>Trace Count</th>
+                            <th style={{ padding: '10px', textAlign: 'right' }}>Complete Output</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredNormalRuns.length === 0 ? (
+                            <tr>
+                              <td colSpan={10} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+                                No normal pipeline execution records found matching your filter criteria.
+                              </td>
+                            </tr>
+                          ) : (
+                            filteredNormalRuns.slice(0, 30).map((r) => (
+                              <tr key={r.run_id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                                <td style={{ padding: '10px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
+                                  {r.run_id.slice(0, 20)}...
+                                </td>
+                                <td style={{ padding: '10px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                                  {r.symbol}
+                                </td>
+                                <td style={{ padding: '10px' }}>
+                                  <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)' }}>
+                                    {r.orchestration_pattern}
+                                  </span>
+                                </td>
+                                <td style={{ padding: '10px' }}>
+                                  <StatusBadge status={r.status} />
+                                </td>
+                                <td style={{ padding: '10px', color: 'var(--text-muted)', fontSize: '11px' }}>
+                                  {r.submitted_at ? new Date(r.submitted_at).toLocaleTimeString() : '—'}
+                                </td>
+                                <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
+                                  {r.latency_seconds !== undefined && r.latency_seconds !== null ? `${r.latency_seconds.toFixed(2)}s` : '—'}
+                                </td>
+                                <td style={{ padding: '10px', fontWeight: 800, color: r.recommendation === 'BUY' ? 'var(--groww-green)' : r.recommendation === 'SELL' ? 'var(--groww-red)' : 'var(--text-primary)' }}>
+                                  {r.recommendation || '—'}
+                                </td>
+                                <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
+                                  {r.conviction_score !== undefined && r.conviction_score !== null ? `${r.conviction_score}%` : '—'}
+                                </td>
+                                <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
+                                  {r.events_count !== undefined ? `${r.events_count} events` : '—'}
+                                </td>
+                                <td style={{ padding: '10px', textAlign: 'right' }}>
+                                  <button
+                                    onClick={() => setSelectedRun(r)}
+                                    style={{
+                                      padding: '5px 12px',
+                                      borderRadius: '6px',
+                                      backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                                      border: '1px solid var(--groww-green)',
+                                      color: 'var(--groww-green)',
+                                      fontSize: '11.5px',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '5px',
+                                      transition: 'all 0.15s ease',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.backgroundColor = 'var(--groww-green)';
+                                      e.currentTarget.style.color = '#0F1217';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.backgroundColor = 'rgba(0, 208, 156, 0.1)';
+                                      e.currentTarget.style.color = 'var(--groww-green)';
+                                    }}
+                                  >
+                                    <FileText size={13} />
+                                    <span>View Full Report</span>
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {filteredNormalRuns.length > 30 && (
+                      <div style={{ textAlign: 'center', marginTop: '14px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                        Showing latest 30 runs of {filteredNormalRuns.length} total.
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {/* ── Institutional Report Modal Inspector ────────────────────── */}
+              {selectedRun && (
+                <RunModalInspector
+                  run={selectedRun}
+                  onClose={() => setSelectedRun(null)}
+                />
               )}
             </div>
           )}
