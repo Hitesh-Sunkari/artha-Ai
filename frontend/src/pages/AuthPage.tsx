@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ShieldCheck,
   Mail,
@@ -9,14 +9,15 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
-  ArrowLeft,
-  Sparkles,
+  Sun,
+  Moon,
+  Activity,
+  BarChart3,
   TrendingUp,
   Cpu,
   Layers,
+  Sparkles,
   RefreshCw,
-  Sun,
-  Moon,
 } from 'lucide-react';
 import { api } from '../api/client';
 import { setActiveAuthUser } from '../utils/telemetryReporter';
@@ -31,12 +32,25 @@ interface AuthPageProps {
 
 const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
 
+// Live Institutional Market Universe Stream Ticker
+const LIVE_TICKER_ITEMS = [
+  { sym: 'NIFTY 50', val: '25,044.60', chg: '+0.23%', up: true },
+  { sym: 'SENSEX', val: '81,106.65', chg: '+0.13%', up: true },
+  { sym: 'INDIA VIX', val: '17.42', chg: '-5.48%', up: false },
+  { sym: 'RELIANCE', val: '₹1,159.10', chg: '+0.45%', up: true },
+  { sym: 'TCS', val: '₹2,507.70', chg: '+1.12%', up: true },
+  { sym: 'HDFCBANK', val: '₹684.15', chg: '-0.15%', up: false },
+  { sym: 'INFY', val: '₹1,162.30', chg: '+0.80%', up: true },
+  { sym: 'SWIGGY', val: '₹179.00', chg: '-1.20%', up: false },
+  { sym: 'ZOMATO', val: '₹341.60', chg: '+2.10%', up: true },
+];
+
 export const AuthPage: React.FC<AuthPageProps> = ({
   onAuthSuccess,
   onBack,
   initialMode = 'LOGIN',
 }) => {
-  const { theme, isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   const [mode, setMode] = useState<'LOGIN' | 'SIGNUP'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,94 +62,91 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [liveSecond, setLiveSecond] = useState(0);
 
-  // Dynamic Theme Palette Map
-  const palette = isDark
+  // Live micro-clock tick for animated elements
+  useEffect(() => {
+    const timer = setInterval(() => setLiveSecond((s) => (s + 1) % 60), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Premium Theme Color Tokens
+  const t = isDark
     ? {
-        bgCanvas: '#070A0F',
-        bgGradient: `
-          radial-gradient(circle at 15% 20%, rgba(0, 208, 156, 0.08) 0%, transparent 40%),
-          radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-          linear-gradient(180deg, #070A0F 0%, #0B0E17 100%)
-        `,
-        navBg: 'rgba(7, 10, 15, 0.78)',
-        navBorder: 'rgba(255, 255, 255, 0.08)',
-        navBtnBg: 'rgba(255, 255, 255, 0.05)',
-        navBtnBorder: 'rgba(255, 255, 255, 0.1)',
-        navBtnText: '#94A3B8',
-        cardBg: 'rgba(16, 21, 30, 0.92)',
-        cardBorder: 'rgba(0, 208, 156, 0.25)',
-        cardShadow: '0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 208, 156, 0.12)',
-        heroTitleGrad: 'linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%)',
-        textPrimary: '#FFFFFF',
-        textSecondary: '#94A3B8',
+        bg: '#07090E',
+        glow1: 'rgba(0, 208, 156, 0.12)',
+        glow2: 'rgba(6, 182, 212, 0.10)',
+        glow3: 'rgba(99, 102, 241, 0.08)',
+        cardBg: 'rgba(14, 18, 27, 0.88)',
+        cardBorder: 'rgba(0, 208, 156, 0.22)',
+        cardBorderHover: 'rgba(0, 208, 156, 0.45)',
+        cardShadow: '0 25px 70px rgba(0, 0, 0, 0.8), 0 0 45px rgba(0, 208, 156, 0.12)',
+        textHead: '#FFFFFF',
+        textBody: '#94A3B8',
         textMuted: '#64748B',
-        heroPillarBg: 'rgba(19, 24, 34, 0.65)',
-        heroPillarBorder: 'rgba(255, 255, 255, 0.08)',
-        telemetryBg: 'rgba(255, 255, 255, 0.03)',
-        telemetryBorder: 'rgba(255, 255, 255, 0.06)',
-        telemetryDivider: 'rgba(255, 255, 255, 0.1)',
-        tabBarBg: 'rgba(255, 255, 255, 0.05)',
-        tabBarBorder: 'rgba(255, 255, 255, 0.08)',
-        googleBtnBg: '#FFFFFF',
-        googleBtnBorder: 'transparent',
-        googleBtnText: '#1E293B',
-        googleBtnHover: '#F1F5F9',
-        googleBtnShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-        superAdminBg: 'rgba(0, 208, 156, 0.08)',
-        superAdminBorder: 'rgba(0, 208, 156, 0.35)',
-        superAdminEmail: '#E2E8F0',
-        dividerLine: 'rgba(255, 255, 255, 0.08)',
-        inputBg: 'rgba(255, 255, 255, 0.04)',
-        inputBorder: 'rgba(255, 255, 255, 0.12)',
+        panelBg: 'rgba(18, 24, 36, 0.65)',
+        panelBorder: 'rgba(255, 255, 255, 0.08)',
+        inputBg: 'rgba(8, 12, 19, 0.75)',
+        inputBorder: 'rgba(255, 255, 255, 0.14)',
         inputText: '#FFFFFF',
-        chipDefaultBg: 'rgba(255, 255, 255, 0.02)',
-        chipDefaultBorder: 'rgba(255, 255, 255, 0.1)',
-        chipDefaultText: '#94A3B8',
-        cardFooterBorder: 'rgba(255, 255, 255, 0.06)',
+        switchBg: 'rgba(8, 12, 19, 0.8)',
+        switchBorder: 'rgba(255, 255, 255, 0.1)',
+        switchInactive: '#94A3B8',
+        googleBg: '#FFFFFF',
+        googleText: '#0F172A',
+        googleBorder: 'transparent',
+        pillBg: 'rgba(0, 208, 156, 0.08)',
+        pillBorder: 'rgba(0, 208, 156, 0.35)',
+        pillText: '#CBD5E1',
+        divider: 'rgba(255, 255, 255, 0.08)',
+        tickerBg: 'rgba(10, 14, 22, 0.7)',
+        tickerBorder: 'rgba(255, 255, 255, 0.07)',
+        chipBg: 'rgba(255, 255, 255, 0.03)',
+        chipBorder: 'rgba(255, 255, 255, 0.1)',
+        chipText: '#94A3B8',
+        badgeBg: 'rgba(255, 255, 255, 0.05)',
+        badgeBorder: 'rgba(255, 255, 255, 0.1)',
+        glassBtn: 'rgba(255, 255, 255, 0.06)',
+        glassBtnBorder: 'rgba(255, 255, 255, 0.12)',
+        glassBtnText: '#CBD5E1',
       }
     : {
-        bgCanvas: '#F8FAFC',
-        bgGradient: `
-          radial-gradient(circle at 15% 20%, rgba(0, 208, 156, 0.12) 0%, transparent 45%),
-          radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
-          linear-gradient(180deg, #F8FAFC 0%, #EDF2F7 100%)
-        `,
-        navBg: 'rgba(255, 255, 255, 0.88)',
-        navBorder: '#E2E8F0',
-        navBtnBg: '#FFFFFF',
-        navBtnBorder: '#CBD5E1',
-        navBtnText: '#475569',
+        bg: '#F8FAFC',
+        glow1: 'rgba(0, 208, 156, 0.15)',
+        glow2: 'rgba(6, 182, 212, 0.12)',
+        glow3: 'rgba(99, 102, 241, 0.09)',
         cardBg: '#FFFFFF',
         cardBorder: 'rgba(0, 208, 156, 0.35)',
-        cardShadow: '0 20px 50px rgba(15, 23, 42, 0.09), 0 0 35px rgba(0, 208, 156, 0.09)',
-        heroTitleGrad: 'linear-gradient(180deg, #0F172A 0%, #334155 100%)',
-        textPrimary: '#0F172A',
-        textSecondary: '#475569',
+        cardBorderHover: 'rgba(0, 208, 156, 0.6)',
+        cardShadow: '0 24px 60px rgba(15, 23, 42, 0.08), 0 0 35px rgba(0, 208, 156, 0.09)',
+        textHead: '#0F172A',
+        textBody: '#475569',
         textMuted: '#64748B',
-        heroPillarBg: '#FFFFFF',
-        heroPillarBorder: '#E2E8F0',
-        telemetryBg: '#FFFFFF',
-        telemetryBorder: '#E2E8F0',
-        telemetryDivider: '#E2E8F0',
-        tabBarBg: '#F1F5F9',
-        tabBarBorder: '#E2E8F0',
-        googleBtnBg: '#FFFFFF',
-        googleBtnBorder: '#CBD5E1',
-        googleBtnText: '#0F172A',
-        googleBtnHover: '#F8FAFC',
-        googleBtnShadow: '0 2px 6px rgba(0, 0, 0, 0.06)',
-        superAdminBg: 'rgba(0, 208, 156, 0.08)',
-        superAdminBorder: 'rgba(0, 208, 156, 0.45)',
-        superAdminEmail: '#0F172A',
-        dividerLine: '#E2E8F0',
+        panelBg: '#FFFFFF',
+        panelBorder: '#E2E8F0',
         inputBg: '#F8FAFC',
         inputBorder: '#CBD5E1',
         inputText: '#0F172A',
-        chipDefaultBg: '#F8FAFC',
-        chipDefaultBorder: '#CBD5E1',
-        chipDefaultText: '#475569',
-        cardFooterBorder: '#E2E8F0',
+        switchBg: '#F1F5F9',
+        switchBorder: '#E2E8F0',
+        switchInactive: '#64748B',
+        googleBg: '#FFFFFF',
+        googleText: '#0F172A',
+        googleBorder: '#CBD5E1',
+        pillBg: 'rgba(0, 208, 156, 0.08)',
+        pillBorder: 'rgba(0, 208, 156, 0.45)',
+        pillText: '#0F172A',
+        divider: '#E2E8F0',
+        tickerBg: 'rgba(255, 255, 255, 0.85)',
+        tickerBorder: '#E2E8F0',
+        chipBg: '#F8FAFC',
+        chipBorder: '#CBD5E1',
+        chipText: '#475569',
+        badgeBg: '#F1F5F9',
+        badgeBorder: '#E2E8F0',
+        glassBtn: '#FFFFFF',
+        glassBtnBorder: '#CBD5E1',
+        glassBtnText: '#334155',
       };
 
   const handleGoogleSignIn = async (overrideEmail?: string, overrideName?: string) => {
@@ -150,13 +161,13 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
-          ? 'Super-Admin clearance verified! Bi-directional switching unlocked.'
-          : 'Authenticated successfully via Google.'
+          ? 'Super-Admin clearance verified. Terminal unlocked.'
+          : 'Signed in successfully via Google.'
       );
       setTimeout(() => {
         onAuthSuccess && onAuthSuccess(authUser);
         if (onBack) onBack();
-      }, 1000);
+      }, 850);
     } catch (err: any) {
       setError(err.message || 'Google authentication failed');
     } finally {
@@ -192,9 +203,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       setTimeout(() => {
         onAuthSuccess && onAuthSuccess(authUser);
         if (onBack) onBack();
-      }, 1000);
+      }, 850);
     } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please verify credentials.');
+      setError(err.message || 'Authentication failed. Please check credentials.');
     } finally {
       setLoading(false);
     }
@@ -207,101 +218,211 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        height: '100vh',
-        width: '100vw',
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        backgroundColor: palette.bgCanvas,
-        backgroundImage: palette.bgGradient,
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        color: palette.textPrimary,
-        transition: 'background-color 0.25s ease, color 0.25s ease',
-      }}
-    >
-      {/* ── Top Ambient Navigation Bar ────────────────────────────── */}
-      <nav
+    <div className="auth-fullscreen-container">
+      {/* ── Visual Dynamic Animations & Keyframes ─────────────────── */}
+      <style>{`
+        .auth-fullscreen-container {
+          min-height: 100vh;
+          height: 100vh;
+          width: 100vw;
+          overflow-y: auto;
+          overflow-x: hidden;
+          background-color: ${t.bg};
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Segoe UI', Roboto, sans-serif;
+          box-sizing: border-box;
+          transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes orbDrift1 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          50% { transform: translate(40px, -30px) scale(1.12); }
+        }
+
+        @keyframes orbDrift2 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          50% { transform: translate(-35px, 25px) scale(1.15); }
+        }
+
+        @keyframes floatGentle1 {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+
+        @keyframes floatGentle2 {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(8px); }
+        }
+
+        @keyframes pulseDot {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.6); opacity: 0.4; }
+        }
+
+        @keyframes tickerFlow {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+
+        @keyframes shimmerLine {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+
+        .orb-light-1 {
+          position: absolute;
+          width: 650px;
+          height: 650px;
+          border-radius: 50%;
+          background: radial-gradient(circle, ${t.glow1} 0%, transparent 70%);
+          top: -120px;
+          left: -120px;
+          pointer-events: none;
+          animation: orbDrift1 18s ease-in-out infinite;
+          filter: blur(60px);
+          z-index: 1;
+        }
+
+        .orb-light-2 {
+          position: absolute;
+          width: 700px;
+          height: 700px;
+          border-radius: 50%;
+          background: radial-gradient(circle, ${t.glow2} 0%, transparent 70%);
+          bottom: -150px;
+          right: -100px;
+          pointer-events: none;
+          animation: orbDrift2 22s ease-in-out infinite;
+          filter: blur(70px);
+          z-index: 1;
+        }
+
+        .floating-metric-card-1 {
+          animation: floatGentle1 6s ease-in-out infinite;
+        }
+
+        .floating-metric-card-2 {
+          animation: floatGentle2 7s ease-in-out infinite;
+        }
+
+        .ticker-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: tickerFlow 35s linear infinite;
+        }
+
+        .ticker-marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      {/* ── Background Moving Orbs (Ambient Depth) ────────────────── */}
+      <div className="orb-light-1" />
+      <div className="orb-light-2" />
+
+      {/* ── Top Floating Utility Pill (NO STATIC HEADER BAR) ─────── */}
+      <div
         style={{
-          height: '64px',
-          borderBottom: `1px solid ${palette.navBorder}`,
-          padding: '0 32px',
+          position: 'absolute',
+          top: '24px',
+          left: '28px',
+          right: '28px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          backdropFilter: 'blur(16px)',
-          backgroundColor: palette.navBg,
-          zIndex: 20,
-          transition: 'background-color 0.25s ease, border-color 0.25s ease',
+          zIndex: 30,
+          pointerEvents: 'none',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          {onBack && (
-            <button
-              onClick={onBack}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                backgroundColor: palette.navBtnBg,
-                border: `1px solid ${palette.navBtnBorder}`,
-                color: palette.navBtnText,
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <ArrowLeft size={14} />
-              <span>Back to Terminal</span>
-            </button>
-          )}
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '8px',
-                background: 'linear-gradient(135deg, #00D09C 0%, #06B6D4 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 900,
-                fontSize: '16px',
-                color: '#070A0F',
-                boxShadow: '0 0 16px rgba(0, 208, 156, 0.4)',
-              }}
-            >
-              A
-            </div>
-            <span style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.02em', color: palette.textPrimary }}>
+        {/* Left: Minimal Monogram Brand Mark */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '11px',
+              background: 'linear-gradient(135deg, #00D09C 0%, #06B6D4 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 900,
+              fontSize: '18px',
+              color: '#07090E',
+              boxShadow: '0 4px 18px rgba(0, 208, 156, 0.45)',
+            }}
+          >
+            A
+          </div>
+          <div>
+            <div style={{ fontSize: '17px', fontWeight: 800, letterSpacing: '-0.02em', color: t.textHead, lineHeight: 1.1 }}>
               Artha<span style={{ color: '#00D09C' }}>AI</span>
-            </span>
-            <span
-              style={{
-                fontSize: '10px',
-                padding: '2px 8px',
-                borderRadius: '9999px',
-                backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                color: '#00D09C',
-                fontWeight: 700,
-                border: '1px solid rgba(0, 208, 156, 0.3)',
-              }}
-            >
-              PROD GATEWAY
-            </span>
+            </div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: t.textMuted, letterSpacing: '0.04em' }}>
+              QUANTITATIVE DESK
+            </div>
           </div>
         </div>
 
-        {/* Right Nav Utilities: Theme Toggle & Live Market Clock */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          {/* Dynamic Theme Toggle Pill */}
+        {/* Right: Floating Theme Toggle + Live Market Beacon */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              backgroundColor: t.badgeBg,
+              border: `1px solid ${t.badgeBorder}`,
+              backdropFilter: 'blur(12px)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
+              fontSize: '11px',
+              color: t.textBody,
+              fontWeight: 600,
+              fontFamily: 'monospace',
+            }}
+          >
+            <div style={{ position: 'relative', width: '8px', height: '8px' }}>
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#00D09C',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#00D09C',
+                  animation: 'pulseDot 2s cubic-bezier(0, 0, 0.2, 1) infinite',
+                }}
+              />
+            </div>
+            <span>NSE/BSE LIVE</span>
+          </div>
+
+          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
@@ -309,236 +430,297 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              backgroundColor: palette.navBtnBg,
-              border: `1px solid ${palette.navBtnBorder}`,
-              color: palette.navBtnText,
-              fontSize: '12px',
+              padding: '7px 13px',
+              borderRadius: '20px',
+              backgroundColor: t.glassBtn,
+              border: `1px solid ${t.glassBtnBorder}`,
+              color: t.glassBtnText,
+              fontSize: '11px',
               fontWeight: 600,
               cursor: 'pointer',
+              backdropFilter: 'blur(12px)',
               transition: 'all 0.15s ease',
+              boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.05)',
             }}
           >
-            {isDark ? <Sun size={14} color="#FFB800" /> : <Moon size={14} color="#5367FF" />}
+            {isDark ? <Sun size={13} color="#FFB800" /> : <Moon size={13} color="#5367FF" />}
             <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
           </button>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '11px',
-              color: palette.textMuted,
-              fontFamily: 'monospace',
-            }}
-          >
-            <span
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#00D09C',
-                boxShadow: '0 0 8px #00D09C',
-              }}
-            />
-            <span>NSE / BSE LIVE CLOCK: 16:15 IST</span>
-          </div>
         </div>
-      </nav>
+      </div>
 
-      {/* ── Main Hero & Interactive Auth Split ────────────────────── */}
+      {/* ── Main Full-Screen Split Layout ─────────────────────────── */}
       <div
         style={{
           flex: 1,
           display: 'grid',
-          gridTemplateColumns: 'minmax(340px, 1.1fr) minmax(380px, 1fr)',
-          maxWidth: '1440px',
+          gridTemplateColumns: 'minmax(380px, 1.15fr) minmax(360px, 0.95fr)',
+          maxWidth: '1360px',
           width: '100%',
           margin: '0 auto',
-          padding: '40px 32px',
-          gap: '48px',
+          padding: '100px 32px 32px 32px',
+          gap: '50px',
           alignItems: 'center',
           boxSizing: 'border-box',
           zIndex: 10,
+          position: 'relative',
         }}
       >
-        {/* ── Left Hero Panel: Institutional Capabilities ────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+        {/* ── Left Column: Quantitative Showcase & Moving Visuals ──── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
           <div>
+            {/* Live Quantitative Telemetry Chip */}
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
                 padding: '6px 14px',
-                borderRadius: '9999px',
+                borderRadius: '20px',
                 backgroundColor: 'rgba(0, 208, 156, 0.1)',
-                border: '1px solid rgba(0, 208, 156, 0.28)',
+                border: '1px solid rgba(0, 208, 156, 0.3)',
                 color: '#00D09C',
                 fontSize: '12px',
                 fontWeight: 700,
-                marginBottom: '16px',
+                letterSpacing: '0.02em',
+                marginBottom: '18px',
               }}
             >
-              <Sparkles size={14} />
-              <span>Multi-Agent Algorithmic Research Suite</span>
+              <Activity size={14} className="animate-pulse" />
+              <span>Institutional Algorithmic Order Intelligence</span>
             </div>
 
             <h1
               style={{
-                fontSize: '40px',
+                fontSize: '44px',
                 fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
+                lineHeight: 1.12,
+                letterSpacing: '-0.035em',
                 margin: '0 0 16px 0',
-                background: palette.heroTitleGrad,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: t.textHead,
               }}
             >
-              Institutional Quantitative Intelligence for Indian Markets
+              Indian Capital Markets,{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #00D09C 0%, #06B6D4 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Quantitatively Solved.
+              </span>
             </h1>
 
-            <p style={{ fontSize: '15px', color: palette.textSecondary, lineHeight: 1.6, margin: 0, maxWidth: '540px' }}>
-              Autonomous 7-agent deliberative reasoning across NSE, BSE and MCX. Grounded in DuckDB SIMD Monte Carlo,
-              Finance Act 2024 statutory taxation, and SEBI LODR regulatory enforcement.
+            <p style={{ fontSize: '15px', color: t.textBody, lineHeight: 1.6, margin: 0, maxWidth: '520px' }}>
+              Deliberative multi-specialist quantitative engine grounded in DuckDB SIMD historical analytics,
+              SEBI LODR regulatory enforcement, and Finance Act 2024 statutory friction models.
             </p>
           </div>
 
-          {/* 4 Architectural Pillars */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          {/* ── Interactive Floating Visual Cards (Moving Dynamics) ─── */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            {/* Floating Card 1: NIFTY 50 Live Telemetry */}
             <div
+              className="floating-metric-card-1"
               style={{
-                padding: '16px',
-                borderRadius: '12px',
-                backgroundColor: palette.heroPillarBg,
-                border: `1px solid ${palette.heroPillarBorder}`,
-                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-                backdropFilter: 'blur(8px)',
+                padding: '18px',
+                borderRadius: '16px',
+                backgroundColor: t.panelBg,
+                border: `1px solid ${t.panelBorder}`,
+                backdropFilter: 'blur(16px)',
+                boxShadow: isDark ? '0 12px 30px rgba(0, 0, 0, 0.35)' : '0 10px 24px rgba(15, 23, 42, 0.05)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <Cpu size={18} color="#00D09C" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>7-Agent Fleet</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: t.textMuted, letterSpacing: '0.06em' }}>
+                  BENCHMARK
+                </span>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#00D09C',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                  }}
+                >
+                  +0.23% ▲
+                </span>
               </div>
-              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
-                Google ADK + CrewAI connected via A2A JSON-RPC 2.0 with shared Blackboard consensus.
-              </p>
+
+              <div style={{ fontSize: '20px', fontWeight: 800, color: t.textHead, fontFamily: 'monospace' }}>
+                NIFTY 25,044.60
+              </div>
+
+              {/* Animated Mini Sparkline SVG Wave */}
+              <svg width="100%" height="32" viewBox="0 0 160 32" fill="none">
+                <path
+                  d="M0 24 Q 25 8, 50 18 T 100 12 T 140 6 T 160 14"
+                  stroke="#00D09C"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <circle cx="160" cy="14" r="3.5" fill="#00D09C" />
+              </svg>
+
+              <div style={{ fontSize: '10.5px', color: t.textMuted, display: 'flex', justifyContent: 'space-between' }}>
+                <span>VWAP: 25,012.30</span>
+                <span>VOL: 14.8M</span>
+              </div>
             </div>
 
+            {/* Floating Card 2: Volatility Surface & Drag */}
             <div
+              className="floating-metric-card-2"
               style={{
-                padding: '16px',
-                borderRadius: '12px',
-                backgroundColor: palette.heroPillarBg,
-                border: `1px solid ${palette.heroPillarBorder}`,
-                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-                backdropFilter: 'blur(8px)',
+                padding: '18px',
+                borderRadius: '16px',
+                backgroundColor: t.panelBg,
+                border: `1px solid ${t.panelBorder}`,
+                backdropFilter: 'blur(16px)',
+                boxShadow: isDark ? '0 12px 30px rgba(0, 0, 0, 0.35)' : '0 10px 24px rgba(15, 23, 42, 0.05)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <TrendingUp size={18} color="#06B6D4" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>FastMCP Tools</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: t.textMuted, letterSpacing: '0.06em' }}>
+                  IMPLIED VOLATILITY
+                </span>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#EF4444',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  }}
+                >
+                  -5.48% ▼
+                </span>
               </div>
-              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
-                21 registered financial tools with zero-copy DuckDB Parquet historical bar resolution.
-              </p>
-            </div>
 
-            <div
-              style={{
-                padding: '16px',
-                borderRadius: '12px',
-                backgroundColor: palette.heroPillarBg,
-                border: `1px solid ${palette.heroPillarBorder}`,
-                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <ShieldCheck size={18} color="#F59E0B" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>Statutory Tax Drag</span>
+              <div style={{ fontSize: '20px', fontWeight: 800, color: t.textHead, fontFamily: 'monospace' }}>
+                INDIA VIX 17.42
               </div>
-              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
-                Exact Finance Act 2024 LTCG 12.5% above ₹1.25L and STT 2 bps delivery drag auditing.
-              </p>
-            </div>
 
-            <div
-              style={{
-                padding: '16px',
-                borderRadius: '12px',
-                backgroundColor: palette.heroPillarBg,
-                border: `1px solid ${palette.heroPillarBorder}`,
-                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <Layers size={18} color="#A855F7" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>Super-Admin Gate</span>
+              {/* Animated Inverse Sparkline SVG */}
+              <svg width="100%" height="32" viewBox="0 0 160 32" fill="none">
+                <path
+                  d="M0 8 Q 30 18, 60 10 T 110 22 T 160 16"
+                  stroke="#06B6D4"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  fill="none"
+                />
+                <circle cx="160" cy="16" r="3.5" fill="#06B6D4" />
+              </svg>
+
+              <div style={{ fontSize: '10.5px', color: t.textMuted, display: 'flex', justifyContent: 'space-between' }}>
+                <span>Drag: 22.2 bps</span>
+                <span>PCR: 0.95</span>
               </div>
-              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
-                Seamless switching clearance between User Desk and Institutional Admin Console.
-              </p>
             </div>
           </div>
 
-          {/* Live Market Indicators Strip */}
+          {/* ── 4 Institutional Feature Badges ──────────────────────── */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
+            {[
+              { label: 'Fleet Sync', val: '7 Roles', icon: Cpu, col: '#00D09C' },
+              { label: 'MCP Tools', val: '21 Tools', icon: BarChart3, col: '#06B6D4' },
+              { label: 'LTCG Drag', val: '12.5% Model', icon: ShieldCheck, col: '#F59E0B' },
+              { label: 'Fast Engine', val: 'DuckDB PIT', icon: Layers, col: '#8B5CF6' },
+            ].map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    padding: '12px 10px',
+                    borderRadius: '12px',
+                    backgroundColor: t.panelBg,
+                    border: `1px solid ${t.panelBorder}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <Icon size={13} color={f.col} />
+                    <span style={{ fontSize: '10px', fontWeight: 700, color: t.textMuted, textTransform: 'uppercase' }}>
+                      {f.label}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: t.textHead }}>
+                    {f.val}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ── Live Flowing Ticker Stream (Continuous Visual Motion) ── */}
           <div
             style={{
-              padding: '14px 18px',
-              borderRadius: '10px',
-              backgroundColor: palette.telemetryBg,
-              border: `1px solid ${palette.telemetryBorder}`,
-              boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.04)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              fontFamily: 'monospace',
+              overflow: 'hidden',
+              borderRadius: '12px',
+              backgroundColor: t.tickerBg,
+              border: `1px solid ${t.tickerBorder}`,
+              padding: '10px 0',
+              position: 'relative',
             }}
           >
-            <div>
-              <div style={{ fontSize: '10px', color: palette.textMuted }}>NIFTY 50</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
-                25,044.60 <span style={{ fontSize: '11px', color: '#00D09C' }}>+0.23%</span>
-              </div>
-            </div>
-            <div style={{ height: '24px', width: '1px', backgroundColor: palette.telemetryDivider }} />
-            <div>
-              <div style={{ fontSize: '10px', color: palette.textMuted }}>SENSEX</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
-                81,106.65 <span style={{ fontSize: '11px', color: '#00D09C' }}>+0.13%</span>
-              </div>
-            </div>
-            <div style={{ height: '24px', width: '1px', backgroundColor: palette.telemetryDivider }} />
-            <div>
-              <div style={{ fontSize: '10px', color: palette.textMuted }}>INDIA VIX</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
-                17.42 <span style={{ fontSize: '11px', color: '#EF4444' }}>-5.48%</span>
-              </div>
+            <div className="ticker-marquee-track">
+              {[...LIVE_TICKER_ITEMS, ...LIVE_TICKER_ITEMS].map((item, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '0 16px',
+                    fontSize: '11px',
+                    fontFamily: 'monospace',
+                    whiteSpace: 'nowrap',
+                    borderRight: `1px solid ${t.divider}`,
+                  }}
+                >
+                  <span style={{ fontWeight: 700, color: t.textHead }}>{item.sym}</span>
+                  <span style={{ color: t.textBody }}>{item.val}</span>
+                  <span style={{ fontWeight: 700, color: item.up ? '#00D09C' : '#EF4444' }}>
+                    {item.chg}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* ── Right Column: Luxury Interactive Auth Card ──────────── */}
+        {/* ── Right Column: Luxury Interactive Auth Terminal ──────── */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             style={{
               width: '100%',
-              maxWidth: '480px',
-              backgroundColor: palette.cardBg,
-              borderRadius: '20px',
-              border: `1px solid ${palette.cardBorder}`,
-              boxShadow: palette.cardShadow,
-              backdropFilter: 'blur(20px)',
-              padding: '32px 30px',
+              maxWidth: '460px',
+              backgroundColor: t.cardBg,
+              borderRadius: '24px',
+              border: `1px solid ${t.cardBorder}`,
+              boxShadow: t.cardShadow,
+              backdropFilter: 'blur(24px)',
+              padding: '34px 30px',
               display: 'flex',
               flexDirection: 'column',
               gap: '20px',
               boxSizing: 'border-box',
+              position: 'relative',
               transition: 'all 0.25s ease',
             }}
           >
@@ -548,9 +730,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 padding: '4px',
-                borderRadius: '10px',
-                backgroundColor: palette.tabBarBg,
-                border: `1px solid ${palette.tabBarBorder}`,
+                borderRadius: '12px',
+                backgroundColor: t.switchBg,
+                border: `1px solid ${t.switchBorder}`,
               }}
             >
               <button
@@ -561,14 +743,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }}
                 style={{
                   padding: '9px 16px',
-                  borderRadius: '7px',
+                  borderRadius: '9px',
                   border: 'none',
                   backgroundColor: mode === 'LOGIN' ? '#00D09C' : 'transparent',
-                  color: mode === 'LOGIN' ? '#070A0F' : palette.textSecondary,
+                  color: mode === 'LOGIN' ? '#07090E' : t.switchInactive,
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
+                  boxShadow: mode === 'LOGIN' ? '0 2px 8px rgba(0, 208, 156, 0.3)' : 'none',
                 }}
               >
                 Sign In
@@ -582,27 +765,28 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 }}
                 style={{
                   padding: '9px 16px',
-                  borderRadius: '7px',
+                  borderRadius: '9px',
                   border: 'none',
                   backgroundColor: mode === 'SIGNUP' ? '#00D09C' : 'transparent',
-                  color: mode === 'SIGNUP' ? '#070A0F' : palette.textSecondary,
+                  color: mode === 'SIGNUP' ? '#07090E' : t.switchInactive,
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
+                  boxShadow: mode === 'SIGNUP' ? '0 2px 8px rgba(0, 208, 156, 0.3)' : 'none',
                 }}
               >
                 Create Account
               </button>
             </div>
 
-            {/* Error & Success Messages */}
+            {/* Error Message */}
             {error && (
               <div
                 style={{
-                  padding: '12px 14px',
-                  borderRadius: '8px',
-                  backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                  padding: '11px 14px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
                   border: '1px solid rgba(239, 68, 68, 0.3)',
                   color: '#EF4444',
                   fontSize: '12px',
@@ -611,18 +795,19 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   gap: '8px',
                 }}
               >
-                <AlertCircle size={16} />
+                <AlertCircle size={15} />
                 <span>{error}</span>
               </div>
             )}
 
+            {/* Success Message */}
             {successMsg && (
               <div
                 style={{
-                  padding: '12px 14px',
-                  borderRadius: '8px',
-                  backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                  border: '1px solid rgba(0, 208, 156, 0.3)',
+                  padding: '11px 14px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                  border: '1px solid rgba(0, 208, 156, 0.35)',
                   color: '#00D09C',
                   fontSize: '12px',
                   display: 'flex',
@@ -630,7 +815,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   gap: '8px',
                 }}
               >
-                <CheckCircle2 size={16} />
+                <CheckCircle2 size={15} />
                 <span>{successMsg}</span>
               </div>
             )}
@@ -643,23 +828,21 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 disabled={loading}
                 style={{
                   width: '100%',
-                  padding: '11px 18px',
-                  borderRadius: '10px',
-                  backgroundColor: palette.googleBtnBg,
-                  color: palette.googleBtnText,
-                  border: `1px solid ${palette.googleBtnBorder}`,
-                  fontSize: '13px',
+                  padding: '12px 18px',
+                  borderRadius: '12px',
+                  backgroundColor: t.googleBg,
+                  color: t.googleText,
+                  border: `1px solid ${t.googleBorder}`,
+                  fontSize: '13.5px',
                   fontWeight: 700,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '10px',
-                  boxShadow: palette.googleBtnShadow,
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
                   transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.googleBtnHover)}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = palette.googleBtnBg)}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24">
                   <path
@@ -687,10 +870,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 onClick={handleSelectSuperAdmin}
                 style={{
                   marginTop: '10px',
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  backgroundColor: palette.superAdminBg,
-                  border: `1px dashed ${palette.superAdminBorder}`,
+                  padding: '9px 12px',
+                  borderRadius: '10px',
+                  backgroundColor: t.pillBg,
+                  border: `1px dashed ${t.pillBorder}`,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -699,24 +882,24 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <ShieldCheck size={14} color="#00D09C" />
-                  <span style={{ fontSize: '11px', color: '#00D09C', fontWeight: 600 }}>
-                    Super-Admin Clearance:
+                  <span style={{ fontSize: '11px', color: '#00D09C', fontWeight: 700 }}>
+                    Super-Admin Access:
                   </span>
-                  <span style={{ fontSize: '11px', color: palette.superAdminEmail, fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: '11px', color: t.pillText, fontFamily: 'monospace' }}>
                     {SUPER_ADMIN_EMAIL}
                   </span>
                 </div>
-                <span style={{ fontSize: '10px', color: '#00D09C', fontWeight: 700 }}>Auto-Fill ⚡</span>
+                <span style={{ fontSize: '10.5px', color: '#00D09C', fontWeight: 800 }}>Auto-Fill ⚡</span>
               </div>
             </div>
 
             {/* Divider */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ flex: 1, height: '1px', backgroundColor: palette.dividerLine }} />
-              <span style={{ fontSize: '11px', color: palette.textMuted, textTransform: 'uppercase' }}>
+              <div style={{ flex: 1, height: '1px', backgroundColor: t.divider }} />
+              <span style={{ fontSize: '10.5px', color: t.textMuted, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 or with email
               </span>
-              <div style={{ flex: 1, height: '1px', backgroundColor: palette.dividerLine }} />
+              <div style={{ flex: 1, height: '1px', backgroundColor: t.divider }} />
             </div>
 
             {/* ── Email / Password Form ───────────────────────────── */}
@@ -727,12 +910,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     style={{
                       display: 'block',
                       fontSize: '11px',
-                      fontWeight: 600,
-                      color: palette.textSecondary,
+                      fontWeight: 700,
+                      color: t.textBody,
                       marginBottom: '6px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
                     }}
                   >
-                    FULL NAME / INSTITUTION
+                    Institutional Name / Trader ID
                   </label>
                   <div style={{ position: 'relative' }}>
                     <User
@@ -742,7 +927,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         left: '12px',
                         top: '50%',
                         transform: 'translateY(-50%)',
-                        color: palette.textMuted,
+                        color: t.textMuted,
                       }}
                     />
                     <input
@@ -752,11 +937,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       onChange={(e) => setName(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: '10px 12px 10px 36px',
-                        borderRadius: '8px',
-                        backgroundColor: palette.inputBg,
-                        border: `1px solid ${palette.inputBorder}`,
-                        color: palette.inputText,
+                        padding: '11px 12px 11px 36px',
+                        borderRadius: '10px',
+                        backgroundColor: t.inputBg,
+                        border: `1px solid ${t.inputBorder}`,
+                        color: t.inputText,
                         fontSize: '13px',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -772,12 +957,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   style={{
                     display: 'block',
                     fontSize: '11px',
-                    fontWeight: 600,
-                    color: palette.textSecondary,
+                    fontWeight: 700,
+                    color: t.textBody,
                     marginBottom: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
                   }}
                 >
-                  INSTITUTIONAL EMAIL ADDRESS
+                  Institutional Email Address
                 </label>
                 <div style={{ position: 'relative' }}>
                   <Mail
@@ -787,22 +974,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       left: '12px',
                       top: '50%',
                       transform: 'translateY(-50%)',
-                      color: palette.textMuted,
+                      color: t.textMuted,
                     }}
                   />
                   <input
                     type="email"
                     required
-                    placeholder="user@example.com"
+                    placeholder="trader@arthai.in"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '10px 12px 10px 36px',
-                      borderRadius: '8px',
-                      backgroundColor: palette.inputBg,
-                      border: `1px solid ${palette.inputBorder}`,
-                      color: palette.inputText,
+                      padding: '11px 12px 11px 36px',
+                      borderRadius: '10px',
+                      backgroundColor: t.inputBg,
+                      border: `1px solid ${t.inputBorder}`,
+                      color: t.inputText,
                       fontSize: '13px',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -817,12 +1004,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   style={{
                     display: 'block',
                     fontSize: '11px',
-                    fontWeight: 600,
-                    color: palette.textSecondary,
+                    fontWeight: 700,
+                    color: t.textBody,
                     marginBottom: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
                   }}
                 >
-                  PASSWORD
+                  Password
                 </label>
                 <div style={{ position: 'relative' }}>
                   <Lock
@@ -832,7 +1021,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       left: '12px',
                       top: '50%',
                       transform: 'translateY(-50%)',
-                      color: palette.textMuted,
+                      color: t.textMuted,
                     }}
                   />
                   <input
@@ -843,11 +1032,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     onChange={(e) => setPassword(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '10px 36px 10px 36px',
-                      borderRadius: '8px',
-                      backgroundColor: palette.inputBg,
-                      border: `1px solid ${palette.inputBorder}`,
-                      color: palette.inputText,
+                      padding: '11px 36px 11px 36px',
+                      borderRadius: '10px',
+                      backgroundColor: t.inputBg,
+                      border: `1px solid ${t.inputBorder}`,
+                      color: t.inputText,
                       fontSize: '13px',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -863,7 +1052,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       transform: 'translateY(-50%)',
                       background: 'none',
                       border: 'none',
-                      color: palette.textMuted,
+                      color: t.textMuted,
                       cursor: 'pointer',
                       padding: '4px',
                     }}
@@ -880,12 +1069,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                     style={{
                       display: 'block',
                       fontSize: '11px',
-                      fontWeight: 600,
-                      color: palette.textSecondary,
+                      fontWeight: 700,
+                      color: t.textBody,
                       marginBottom: '6px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
                     }}
                   >
-                    CONFIRM PASSWORD
+                    Confirm Password
                   </label>
                   <div style={{ position: 'relative' }}>
                     <Lock
@@ -895,7 +1086,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         left: '12px',
                         top: '50%',
                         transform: 'translateY(-50%)',
-                        color: palette.textMuted,
+                        color: t.textMuted,
                       }}
                     />
                     <input
@@ -906,11 +1097,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: '10px 12px 10px 36px',
-                        borderRadius: '8px',
-                        backgroundColor: palette.inputBg,
-                        border: `1px solid ${palette.inputBorder}`,
-                        color: palette.inputText,
+                        padding: '11px 12px 11px 36px',
+                        borderRadius: '10px',
+                        backgroundColor: t.inputBg,
+                        border: `1px solid ${t.inputBorder}`,
+                        color: t.inputText,
                         fontSize: '13px',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -928,12 +1119,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       style={{
                         display: 'block',
                         fontSize: '11px',
-                        fontWeight: 600,
-                        color: palette.textSecondary,
+                        fontWeight: 700,
+                        color: t.textBody,
                         marginBottom: '6px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
                       }}
                     >
-                      PRIMARY RESEARCH OBJECTIVE
+                      Mandate Objective
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
                       {[
@@ -946,15 +1139,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                           type="button"
                           onClick={() => setObjective(item.id)}
                           style={{
-                            padding: '6px 8px',
-                            borderRadius: '6px',
+                            padding: '7px 8px',
+                            borderRadius: '8px',
                             border: '1px solid',
-                            borderColor: objective === item.id ? '#00D09C' : palette.chipDefaultBorder,
+                            borderColor: objective === item.id ? '#00D09C' : t.chipBorder,
                             backgroundColor:
-                              objective === item.id ? 'rgba(0, 208, 156, 0.15)' : palette.chipDefaultBg,
-                            color: objective === item.id ? '#00D09C' : palette.chipDefaultText,
+                              objective === item.id ? 'rgba(0, 208, 156, 0.15)' : t.chipBg,
+                            color: objective === item.id ? '#00D09C' : t.chipText,
                             fontSize: '11px',
-                            fontWeight: 600,
+                            fontWeight: 700,
                             cursor: 'pointer',
                           }}
                         >
@@ -969,12 +1162,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       style={{
                         display: 'block',
                         fontSize: '11px',
-                        fontWeight: 600,
-                        color: palette.textSecondary,
+                        fontWeight: 700,
+                        color: t.textBody,
                         marginBottom: '6px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.04em',
                       }}
                     >
-                      INITIAL PAPER DESK CAPITAL
+                      Initial Simulation Capital
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
                       {[100000, 500000, 1000000, 2500000].map((amt) => (
@@ -983,15 +1178,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                           type="button"
                           onClick={() => setStartingCapital(amt)}
                           style={{
-                            padding: '6px 8px',
-                            borderRadius: '6px',
+                            padding: '7px 8px',
+                            borderRadius: '8px',
                             border: '1px solid',
-                            borderColor: startingCapital === amt ? '#00D09C' : palette.chipDefaultBorder,
+                            borderColor: startingCapital === amt ? '#00D09C' : t.chipBorder,
                             backgroundColor:
-                              startingCapital === amt ? 'rgba(0, 208, 156, 0.15)' : palette.chipDefaultBg,
-                            color: startingCapital === amt ? '#00D09C' : palette.chipDefaultText,
+                              startingCapital === amt ? 'rgba(0, 208, 156, 0.15)' : t.chipBg,
+                            color: startingCapital === amt ? '#00D09C' : t.chipText,
                             fontSize: '11px',
-                            fontWeight: 600,
+                            fontWeight: 700,
                             cursor: 'pointer',
                           }}
                         >
@@ -1009,11 +1204,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 disabled={loading}
                 style={{
                   width: '100%',
-                  marginTop: '8px',
-                  padding: '12px 18px',
-                  borderRadius: '10px',
+                  marginTop: '6px',
+                  padding: '13px 18px',
+                  borderRadius: '12px',
                   backgroundColor: '#00D09C',
-                  color: '#070A0F',
+                  color: '#07090E',
                   border: 'none',
                   fontSize: '14px',
                   fontWeight: 800,
@@ -1022,7 +1217,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '8px',
-                  boxShadow: '0 4px 16px rgba(0, 208, 156, 0.35)',
+                  boxShadow: '0 4px 18px rgba(0, 208, 156, 0.4)',
                   transition: 'all 0.15s ease',
                   opacity: loading ? 0.7 : 1,
                 }}
@@ -1030,29 +1225,29 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 {loading ? (
                   <>
                     <RefreshCw size={16} className="animate-spin" />
-                    <span>Verifying Credentials...</span>
+                    <span>Verifying Institutional Clearance...</span>
                   </>
                 ) : (
                   <>
-                    <span>{mode === 'LOGIN' ? 'Sign In to Terminal' : 'Register Institutional Account'}</span>
+                    <span>{mode === 'LOGIN' ? 'Enter Trading Terminal' : 'Initialize Institutional Account'}</span>
                     <ArrowRight size={16} />
                   </>
                 )}
               </button>
             </form>
 
-            {/* Regulatory Footer Notice */}
+            {/* Regulatory Footer */}
             <div
               style={{
                 fontSize: '11px',
-                color: palette.textMuted,
+                color: t.textMuted,
                 textAlign: 'center',
                 lineHeight: 1.5,
-                borderTop: `1px solid ${palette.cardFooterBorder}`,
-                paddingTop: '14px',
+                borderTop: `1px solid ${t.divider}`,
+                paddingTop: '12px',
               }}
             >
-              Strictly non-custodial & non-trading. Point-in-time quantitative research verified under SEBI LODR 2015.
+              Strictly non-custodial quantitative research. Historical simulations audited under SEBI LODR 2015.
             </div>
           </div>
         </div>
