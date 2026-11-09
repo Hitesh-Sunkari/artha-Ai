@@ -2310,13 +2310,14 @@ def create_research_api(
         tags=["benchmark"],
     )
     async def export_benchmark_report_endpoint(export_format: str = "json") -> Any:
-        """Exports benchmark evaluation report in JSON or Markdown format."""
+        """Exports benchmark evaluation report in JSON, Markdown, or CSV format with publication provenance."""
         report = benchmark_engine.get_latest_report()
         if not report:
-            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
+            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=1)
 
-        if export_format.lower() == "markdown" or export_format.lower() == "md":
-            from starlette.responses import PlainTextResponse
+        fmt = export_format.lower()
+        if fmt in ("markdown", "md"):
+            from starlette.responses import Response
             md_content = f"""# ArthaAI Canonical Benchmark Scientific Evaluation Report
 **Experiment ID:** {report.experiment_id}  
 **Dataset Version:** {report.dataset_version}  
@@ -2343,10 +2344,53 @@ def create_research_api(
 - **Cohen's d Effect Size:** {report.statistical_significance.get('cohens_d_effect_size', 0)} ({report.statistical_significance.get('effect_size_interpretation', 'LARGE')})
 - **95% Bootstrap Confidence Interval:** {report.statistical_significance.get('confidence_interval_95_pct', [])}
 - **p-value:** {report.statistical_significance.get('p_value', '< 0.001')} (Statistically Significant: {report.statistical_significance.get('is_statistically_significant', True)})
-"""
-            return PlainTextResponse(md_content, media_type="text/markdown")
 
-        return report.model_dump()
+## 3. Scenario Execution Lineage
+| Scenario ID | Name | System | Repetition | Accuracy | Grounding | Latency (s) | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+"""
+            for ex in report.executions:
+                m = ex.metrics or {}
+                md_content += f"| {ex.scenario_id} | {ex.scenario_name} | {ex.system_type} | {ex.repetition_index} | {m.get('analytical_accuracy', 0)}% | {m.get('evidence_grounding', 0)}% | {round(ex.latency_seconds, 2)}s | {ex.status} |\n"
+
+            return Response(
+                content=md_content,
+                media_type="text/markdown",
+                headers={"Content-Disposition": f"attachment; filename=benchmark_publication_{report.experiment_id}.md"}
+            )
+
+        if fmt == "csv":
+            import csv
+            import io
+            from starlette.responses import Response
+            output = io.StringIO()
+            writer = csv.writer(output)
+            writer.writerow(["scenario_id", "scenario_name", "workflow_type", "repetition", "system_type", "composite_quality", "accuracy", "grounding", "latency_sec", "status"])
+            for ex in report.executions:
+                m = ex.metrics or {}
+                writer.writerow([
+                    ex.scenario_id,
+                    ex.scenario_name,
+                    ex.workflow_type,
+                    ex.repetition_index,
+                    ex.system_type,
+                    m.get("composite_quality_index", 0),
+                    m.get("analytical_accuracy", 0),
+                    m.get("evidence_grounding", 0),
+                    round(ex.latency_seconds, 3),
+                    ex.status
+                ])
+            return Response(
+                content=output.getvalue(),
+                media_type="text/csv",
+                headers={"Content-Disposition": f"attachment; filename=benchmark_dataset_{report.experiment_id}.csv"}
+            )
+
+        from starlette.responses import JSONResponse
+        return JSONResponse(
+            content=report.model_dump(),
+            headers={"Content-Disposition": f"attachment; filename=benchmark_dataset_{report.experiment_id}.json"}
+        )
 
 
     # -------------------------------------------------------------------------

@@ -40,9 +40,26 @@ export const TraceExportView: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleDownload = (format: 'markdown' | 'json' | 'csv') => {
-    const url = `${getApiBaseUrl()}/admin/benchmark/export/${format}`;
-    window.open(url, '_blank');
+  const handleDownload = async (format: 'markdown' | 'json' | 'csv') => {
+    try {
+      const base = getApiBaseUrl() || 'http://127.0.0.1:8000';
+      const url = `${base}/admin/benchmark/export/${format}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const ext = format === 'markdown' ? 'md' : format;
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `arthaai_benchmark_publication_${new Date().toISOString().slice(0, 10)}.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch {
+      const base = getApiBaseUrl() || 'http://127.0.0.1:8000';
+      window.open(`${base}/admin/benchmark/export/${format}`, '_blank');
+    }
   };
 
   const handleCopyLink = (format: 'markdown' | 'json' | 'csv') => {

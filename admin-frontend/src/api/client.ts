@@ -90,7 +90,14 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
     }
 
     // Safely consume response body once as text to prevent stream exhaustion
-    const rawText = await res.text();
+    let rawText = '';
+    if (!res.bodyUsed) {
+      try {
+        rawText = await res.text();
+      } catch {
+        rawText = '';
+      }
+    }
     let parsedJson: any = null;
     if (rawText && rawText.trim()) {
       try {

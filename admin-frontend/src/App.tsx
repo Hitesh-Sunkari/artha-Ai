@@ -91,14 +91,15 @@ interface TelemetryData {
 
 export type AdminSubTab =
   | 'overview'
+  | 'audit'
+  | 'benchmark'
+  | 'fleet'
   | 'traffic'
   | 'users'
   | 'investments'
   | 'rectification'
   | 'query_audit'
   | 'normal_audit'
-  | 'audit'
-  | 'fleet'
   | 'telemetry'
   | 'trading'
   | 'databank'
@@ -111,6 +112,12 @@ export type AdminSubTab =
 export const App: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<AdminSubTab>('overview');
   
+  // Segmented sub-navigation states within each priority console
+  const [overviewSubView, setOverviewSubView] = useState<'matrix' | 'traffic' | 'users' | 'investments' | 'rectification'>('matrix');
+  const [auditFilter, setAuditFilter] = useState<'all' | 'query' | 'normal'>('all');
+  const [benchmarkSubView, setBenchmarkSubView] = useState<'studio' | 'continuous' | 'trace'>('studio');
+  const [fleetSubView, setFleetSubView] = useState<'topology' | 'telemetry' | 'databank' | 'diagnostics'>('topology');
+
   // Theme Controller: Persistent Dark / Light Mode
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('arthaai_admin_theme') as 'dark' | 'light') || 'dark';
@@ -549,45 +556,50 @@ export const App: React.FC = () => {
     return list.filter((t) => t.toLowerCase().includes(fastMcpSearch.toLowerCase()));
   }, [status, fastMcpSearch]);
 
-  // Tab definitions grouped for Sidebar
+  // Master Consoles (Priority Ordered, Zero Bloat)
   const navSections = [
     {
-      group: 'LIVE SURVEILLANCE & RECTIFY',
+      group: 'MASTER SURVEILLANCE & RECTIFY',
       items: [
-        { id: 'traffic' as AdminSubTab, label: 'Network & Traffic', icon: Activity, count: `${trafficData?.rpm ?? 0} RPM` },
-        { id: 'users' as AdminSubTab, label: 'Active Users & Sessions', icon: Users, count: `${usersData.filter((u) => u.status === 'ONLINE').length} Online` },
-        { id: 'investments' as AdminSubTab, label: 'Investments & Portfolios', icon: TrendingUp, count: `₹${((investmentsData?.aggregate_aum ?? 1000000) / 100000).toFixed(1)}L` },
-        { id: 'rectification' as AdminSubTab, label: 'Anomaly Rectification', icon: Wrench, count: `${errorsData.filter((e) => e.status === 'DETECTED').length} Alerts` },
+        {
+          id: 'overview' as AdminSubTab,
+          label: '1. System Observatory',
+          icon: Activity,
+          count: `${usersData.filter((u) => u.status === 'ONLINE').length} Online`,
+        },
       ],
     },
     {
-      group: 'RESEARCH RUNS AUDIT',
+      group: 'INTELLIGENCE AUDIT',
       items: [
-        { id: 'query_audit' as AdminSubTab, label: 'Query Research Audit', icon: Sparkles, count: `${queryRuns.length}` },
-        { id: 'normal_audit' as AdminSubTab, label: 'Normal Runs Audit', icon: Clock, count: `${normalRuns.length}` },
+        {
+          id: 'audit' as AdminSubTab,
+          label: '2. Research Runs Audit',
+          icon: Clock,
+          count: `${runs.length} Runs`,
+        },
       ],
     },
     {
-      group: 'OBSERVABILITY & FLEET',
+      group: 'SCIENTIFIC EVALUATION',
       items: [
-        { id: 'overview' as AdminSubTab, label: 'System Overview', icon: Activity, count: healthOk ? 'Live' : 'Off' },
-        { id: 'fleet' as AdminSubTab, label: 'Agent Fleet & FastMCP', icon: Layers, count: `${status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools` },
-        { id: 'telemetry' as AdminSubTab, label: 'LLM Telemetry & Quotas', icon: Zap, count: `$${(telemetry?.metrics?.total_cost_usd || 0).toFixed(4)}` },
+        {
+          id: 'benchmark' as AdminSubTab,
+          label: '3. Benchmark & Eval Studio',
+          icon: FlaskConical,
+          count: '12 Scenarios',
+        },
       ],
     },
     {
-      group: 'EXPERIMENTAL BENCHMARK & EVAL',
+      group: 'CORE INFRASTRUCTURE',
       items: [
-        { id: 'eval_studio' as AdminSubTab, label: 'Benchmark Studio', icon: FlaskConical, count: '96 Runs' },
-        { id: 'continuous_eval' as AdminSubTab, label: 'Continuous In-Flight Eval', icon: ShieldCheck, count: 'Live Stream' },
-        { id: 'trace_export' as AdminSubTab, label: 'Trace Lineage & Export', icon: FileCheck2, count: 'Reports' },
-      ],
-    },
-    {
-      group: 'DATA & SYSTEM READY',
-      items: [
-        { id: 'databank' as AdminSubTab, label: 'Data Bank & Master', icon: Database, count: '115 Eq' },
-        { id: 'diagnostics' as AdminSubTab, label: 'API Diagnostics & Ping', icon: Sliders, count: pingLatency ? `${pingLatency}ms` : undefined },
+        {
+          id: 'fleet' as AdminSubTab,
+          label: '4. Fleet & Subsystems',
+          icon: Layers,
+          count: `${status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools`,
+        },
       ],
     },
   ];
@@ -824,21 +836,22 @@ export const App: React.FC = () => {
             <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Control Plane</span>
             <ChevronRight size={14} color="var(--text-muted)" />
             <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
-              {activeSubTab === 'traffic' && 'Network & Traffic Surveillance'}
-              {activeSubTab === 'users' && 'Active Users & Sessions Surveillance'}
-              {activeSubTab === 'investments' && 'Investments & Portfolio Surveillance'}
-              {activeSubTab === 'rectification' && 'Anomaly Detection & One-Click Rectification'}
-              {activeSubTab === 'query_audit' && 'Query-Based Research Runs Audit'}
-              {activeSubTab === 'normal_audit' && 'Multi-Agent Pipeline Runs Audit'}
-              {activeSubTab === 'overview' && 'System Overview & Matrix'}
-              {activeSubTab === 'fleet' && 'Multi-Agent Fleet & FastMCP Gateway'}
-              {activeSubTab === 'telemetry' && 'LLM Inference Telemetry & Quotas'}
-              {activeSubTab === 'databank' && 'Data Bank & Security Master Resolver'}
-              {activeSubTab === 'diagnostics' && 'API Diagnostics & Subsystem Readiness'}
-              {activeSubTab === 'evaluation' && 'Golden Benchmark Suite & Grounding Audit'}
-              {activeSubTab === 'eval_studio' && 'Experimental Benchmark Studio & Scientific Evaluator'}
-              {activeSubTab === 'continuous_eval' && 'Continuous In-Flight Evaluation & Live Rectification Center'}
-              {activeSubTab === 'trace_export' && 'Experiment Trace Lineage & Scientific Export Hub'}
+              {activeSubTab === 'overview' && 'Priority 1: System Observatory & Surveillance'}
+              {activeSubTab === 'audit' && 'Priority 2: Research Runs Audit & Multi-Agent Traces'}
+              {activeSubTab === 'benchmark' && 'Priority 3: Scientific Benchmark & Evaluation Studio'}
+              {activeSubTab === 'fleet' && 'Priority 4: Fleet, FastMCP Tools & Core Infrastructure'}
+              {activeSubTab === 'traffic' && 'Priority 1: Network & Traffic Surveillance'}
+              {activeSubTab === 'users' && 'Priority 1: Active Users & Sessions Surveillance'}
+              {activeSubTab === 'investments' && 'Priority 1: Investments & Portfolio Surveillance'}
+              {activeSubTab === 'rectification' && 'Priority 1: Anomaly Rectification'}
+              {activeSubTab === 'query_audit' && 'Priority 2: Query-Based Research Runs Audit'}
+              {activeSubTab === 'normal_audit' && 'Priority 2: Normal Pipeline Runs Audit'}
+              {activeSubTab === 'eval_studio' && 'Priority 3: Benchmark Studio'}
+              {activeSubTab === 'continuous_eval' && 'Priority 3: Continuous In-Flight Eval'}
+              {activeSubTab === 'trace_export' && 'Priority 3: Trace Lineage & Export'}
+              {activeSubTab === 'telemetry' && 'Priority 4: LLM Telemetry & Quotas'}
+              {activeSubTab === 'databank' && 'Priority 4: Financial Data Bank'}
+              {activeSubTab === 'diagnostics' && 'Priority 4: API Diagnostics & Ping'}
             </span>
           </div>
 
@@ -991,45 +1004,166 @@ export const App: React.FC = () => {
           }}
         >
           {/* ══════════════════════════════════════════════════════════════════
-              1. SYSTEM OVERVIEW & MATRIX TAB
+              PRIORITY 1: SYSTEM OBSERVATORY & SURVEILLANCE CONSOLE
           ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'traffic' && (
-            <TrafficSurveillanceView
-              data={trafficData}
-              loading={trafficLoading}
-              onRefresh={fetchTraffic}
-            />
-          )}
-
-          {activeSubTab === 'users' && (
-            <UsersSurveillanceView
-              users={usersData}
-              loading={usersLoading}
-              onRefresh={fetchUsers}
-            />
-          )}
-
-          {activeSubTab === 'investments' && (
-            <InvestmentsSurveillanceView
-              data={investmentsData}
-              loading={investmentsLoading}
-              onRefresh={fetchInvestments}
-              onResetUserDesk={handleResetPaperDesk}
-            />
-          )}
-
-          {activeSubTab === 'rectification' && (
-            <RectificationCenterView
-              errors={errorsData}
-              loading={errorsLoading}
-              onRefresh={fetchErrors}
-              onExecuteRectify={handleExecuteRectify}
-            />
-          )}
-
-          {activeSubTab === 'overview' && (
+          {(activeSubTab === 'overview' || activeSubTab === 'traffic' || activeSubTab === 'users' || activeSubTab === 'investments' || activeSubTab === 'rectification') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              {/* Stat Cards Grid */}
+              {/* Segmented Sub-Navigation Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: 'var(--bg-card)',
+                  padding: '6px 10px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-subtle)',
+                  overflowX: 'auto',
+                }}
+              >
+                <button
+                  onClick={() => setOverviewSubView('matrix')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: overviewSubView === 'matrix' ? 'var(--groww-green)' : 'transparent',
+                    color: overviewSubView === 'matrix' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Activity size={14} />
+                  <span>System Matrix & Memory</span>
+                </button>
+
+                <button
+                  onClick={() => setOverviewSubView('traffic')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: overviewSubView === 'traffic' ? 'var(--groww-green)' : 'transparent',
+                    color: overviewSubView === 'traffic' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Activity size={14} />
+                  <span>Live Traffic ({trafficData?.rpm ?? 0} RPM)</span>
+                </button>
+
+                <button
+                  onClick={() => setOverviewSubView('users')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: overviewSubView === 'users' ? 'var(--groww-green)' : 'transparent',
+                    color: overviewSubView === 'users' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Users size={14} />
+                  <span>Active Users ({usersData.filter((u) => u.status === 'ONLINE').length} Online)</span>
+                </button>
+
+                <button
+                  onClick={() => setOverviewSubView('investments')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: overviewSubView === 'investments' ? 'var(--groww-green)' : 'transparent',
+                    color: overviewSubView === 'investments' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <TrendingUp size={14} />
+                  <span>Investments & AUM (₹{((investmentsData?.aggregate_aum ?? 1000000) / 100000).toFixed(1)}L)</span>
+                </button>
+
+                <button
+                  onClick={() => setOverviewSubView('rectification')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: overviewSubView === 'rectification' ? 'var(--groww-green)' : 'transparent',
+                    color: overviewSubView === 'rectification' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Wrench size={14} />
+                  <span>Anomaly Rectification ({errorsData.filter((e) => e.status === 'DETECTED').length} Alerts)</span>
+                </button>
+              </div>
+
+              {overviewSubView === 'traffic' && (
+                <TrafficSurveillanceView
+                  data={trafficData}
+                  loading={trafficLoading}
+                  onRefresh={fetchTraffic}
+                />
+              )}
+
+              {overviewSubView === 'users' && (
+                <UsersSurveillanceView
+                  users={usersData}
+                  loading={usersLoading}
+                  onRefresh={fetchUsers}
+                />
+              )}
+
+              {overviewSubView === 'investments' && (
+                <InvestmentsSurveillanceView
+                  data={investmentsData}
+                  loading={investmentsLoading}
+                  onRefresh={fetchInvestments}
+                  onResetUserDesk={handleResetPaperDesk}
+                />
+              )}
+
+              {overviewSubView === 'rectification' && (
+                <RectificationCenterView
+                  errors={errorsData}
+                  loading={errorsLoading}
+                  onRefresh={fetchErrors}
+                  onExecuteRectify={handleExecuteRectify}
+                />
+              )}
+
+              {overviewSubView === 'matrix' && (
+                <>
+                  {/* Stat Cards Grid */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
                 <div style={{ padding: '18px', borderRadius: '12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1242,15 +1376,117 @@ export const App: React.FC = () => {
                   </div>
                 </div>
               </div>
+              </>
+              )}
             </div>
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              2. AGENT FLEET & FASTMCP TAB
+              PRIORITY 4: CORE INFRASTRUCTURE & FLEET CONSOLE
           ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'fleet' && (
+          {(activeSubTab === 'fleet' || activeSubTab === 'telemetry' || activeSubTab === 'databank' || activeSubTab === 'diagnostics') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              {/* Google ADK Orchestration Fleet */}
+              {/* Segmented Sub-Navigation Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: 'var(--bg-card)',
+                  padding: '6px 10px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-subtle)',
+                  overflowX: 'auto',
+                }}
+              >
+                <button
+                  onClick={() => setFleetSubView('topology')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: fleetSubView === 'topology' ? 'var(--groww-green)' : 'transparent',
+                    color: fleetSubView === 'topology' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Layers size={14} />
+                  <span>Agent Fleet & FastMCP Tools ({status?.fastmcp_server?.discovered_tools?.length ?? 21})</span>
+                </button>
+
+                <button
+                  onClick={() => setFleetSubView('telemetry')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: fleetSubView === 'telemetry' ? 'var(--groww-green)' : 'transparent',
+                    color: fleetSubView === 'telemetry' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Zap size={14} />
+                  <span>LLM Telemetry & Quotas</span>
+                </button>
+
+                <button
+                  onClick={() => setFleetSubView('databank')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: fleetSubView === 'databank' ? 'var(--groww-green)' : 'transparent',
+                    color: fleetSubView === 'databank' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Database size={14} />
+                  <span>Financial Data Bank (115 Equities)</span>
+                </button>
+
+                <button
+                  onClick={() => setFleetSubView('diagnostics')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: fleetSubView === 'diagnostics' ? 'var(--groww-green)' : 'transparent',
+                    color: fleetSubView === 'diagnostics' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Sliders size={14} />
+                  <span>API Diagnostics & Ping</span>
+                </button>
+              </div>
+
+              {fleetSubView === 'topology' && (
+                <>
+                  {/* Google ADK Orchestration Fleet */}
               <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                   <div>
@@ -1392,14 +1628,10 @@ export const App: React.FC = () => {
                 </h4>
                 <ArchitectureDiagram />
               </div>
-            </div>
+            </>
           )}
 
-          {/* ══════════════════════════════════════════════════════════════════
-              3. LLM TELEMETRY & QUOTAS TAB
-          ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'telemetry' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
+          {fleetSubView === 'telemetry' && (
               <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
                   <div>
@@ -1539,20 +1771,232 @@ export const App: React.FC = () => {
                   </table>
                 </div>
               </div>
+            )}
+
+            {fleetSubView === 'databank' && (
+              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Database size={18} color="var(--groww-green)" /> Financial Data Bank & Security Master Resolver
+                </h3>
+
+                {/* Interactive Ticker Resolver */}
+                <div style={{ padding: '18px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 10px 0' }}>
+                    Live Security Master Ticker Resolver
+                  </h4>
+
+                  {/* Quick Suggestion Chips */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick test:</span>
+                    {['RELIANCE', 'TCS', 'INFY', 'HDFCBANK', 'TATAMOTORS', 'ZOMATO'].map((chip) => (
+                      <button
+                        key={chip}
+                        onClick={() => {
+                          setResolveQuery(chip);
+                          handleResolveTicker(chip);
+                        }}
+                        style={{
+                          padding: '3px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'var(--bg-card)',
+                          border: '1px solid var(--border-subtle)',
+                          color: 'var(--text-primary)',
+                          fontSize: '11px',
+                          fontFamily: 'var(--font-mono)',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '8px', maxWidth: '520px' }}>
+                    <input
+                      type="text"
+                      placeholder="Enter ticker (e.g. RELIANCE, TCS, INFY)..."
+                      value={resolveQuery}
+                      onChange={(e) => setResolveQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleResolveTicker()}
+                      style={{ flex: 1, height: '36px', fontSize: '12px' }}
+                    />
+                    <button
+                      onClick={() => handleResolveTicker()}
+                      disabled={resolving}
+                      style={{
+                        height: '36px',
+                        padding: '0 16px',
+                        borderRadius: '6px',
+                        backgroundColor: 'var(--groww-green)',
+                        color: '#0F1217',
+                        fontWeight: 700,
+                        border: 'none',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {resolving ? 'Resolving...' : 'Resolve'}
+                    </button>
+                  </div>
+
+                  {resolveResult && (
+                    <div style={{ marginTop: '14px', padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ color: resolveResult.resolved ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
+                          {resolveResult.resolved ? '✓ RESOLVED IN SECURITY MASTER' : '✗ RESOLUTION FAILED'}
+                        </span>
+                        {resolveResult.canonical_id && (
+                          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
+                            {resolveResult.canonical_id}
+                          </span>
+                        )}
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', marginBottom: '10px' }}>
+                        <div><strong>Company:</strong> {resolveResult.company_name || '—'}</div>
+                        <div><strong>ISIN:</strong> <span style={{ fontFamily: 'var(--font-mono)' }}>{resolveResult.record?.isin || '—'}</span></div>
+                        <div><strong>Exchange:</strong> {resolveResult.exchange || 'NSE'}</div>
+                        <div><strong>Local Parquet:</strong> {resolveResult.has_local_parquet ? '✓ Indexed' : 'Online Fetch'}</div>
+                      </div>
+
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>JSON PAYLOAD:</div>
+                      <pre style={{ margin: 0, padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)', overflowX: 'auto', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '11px', maxHeight: '180px' }}>
+                        {JSON.stringify(resolveResult, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+
+                {/* Storage Locations */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>DuckDB Parquet Store</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/parquet/ohlcv/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ 115 Indian equities indexed with DuckDB
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>ChromaDB Embeddings</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/chroma/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ 95 statutory chunks ready for RAG
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Security Quarantine</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/quarantine/</code>
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
+                      ✓ Clean health verdict (0 quarantined files)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {fleetSubView === 'diagnostics' && (
+              <form onSubmit={handleSaveApiUrl} style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Sliders size={18} color="var(--groww-green)" /> Backend API Endpoint Configuration & Latency Diagnostic
+                </h3>
+
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', maxWidth: '640px', marginBottom: '12px' }}>
+                  <input
+                    type="text"
+                    value={apiUrl}
+                    onChange={(e) => setApiUrl(e.target.value)}
+                    placeholder="http://127.0.0.1:8000"
+                    style={{ flex: 1, height: '38px', fontSize: '13px' }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      height: '38px',
+                      padding: '0 16px',
+                      borderRadius: '6px',
+                      backgroundColor: 'var(--groww-green)',
+                      color: '#0F1217',
+                      fontWeight: 700,
+                      border: 'none',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {saveSuccess ? 'Saved ✓' : 'Save Endpoint'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleTestConnection}
+                    disabled={testingConnection}
+                    style={{
+                      height: '38px',
+                      padding: '0 16px',
+                      borderRadius: '6px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontWeight: 600,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {testingConnection ? 'Testing...' : 'Ping Test'}
+                  </button>
+                </div>
+
+                {testResult && (
+                  <div style={{ fontSize: '12px', padding: '10px 14px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: testResult.includes('200 OK') ? 'var(--groww-green)' : '#ef4444', fontFamily: 'var(--font-mono)', display: 'inline-block' }}>
+                    {testResult}
+                  </div>
+                )}
+
+                {readiness && (
+                  <div style={{ marginTop: '20px' }}>
+                    <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
+                      Subsystem Readiness Checklist (/ready endpoint)
+                    </h4>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
+                      {[
+                        { name: 'Core API Server Readiness', ready: readiness.ready },
+                        { name: 'FastMCP Gateway Tools', ready: readiness.mcp_available },
+                        { name: 'A2A Blackboard Bus', ready: readiness.a2a_available },
+                        { name: 'SEBI Algorithmic Sandbox Guard', ready: readiness.live_trading_blocked },
+                      ].map((item, idx) => (
+                        <div key={idx} style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</span>
+                          <span style={{ fontSize: '11px', color: item.ready ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
+                            {item.ready ? '✓ READY' : '✗ UNREADY'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </form>
+            )}
             </div>
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              4. RESEARCH RUNS AUDIT TABS (QUERY RUNS & NORMAL RUNS)
+              PRIORITY 2: RESEARCH RUNS AUDIT CONSOLE
           ══════════════════════════════════════════════════════════════════ */}
-          {(activeSubTab === 'query_audit' || activeSubTab === 'normal_audit' || activeSubTab === 'audit') && (
+          {(activeSubTab === 'audit' || activeSubTab === 'query_audit' || activeSubTab === 'normal_audit') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
               <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                 {/* Header & Section Switcher */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '20px' }}>
                   <div>
                     <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {activeSubTab === 'normal_audit' ? (
+                      {auditFilter === 'normal' ? (
                         <>
                           <Clock size={19} color="var(--groww-green)" />
                           Normal Multi-Agent Pipeline Runs Audit
@@ -1565,7 +2009,7 @@ export const App: React.FC = () => {
                       )}
                     </h3>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                      {activeSubTab === 'normal_audit'
+                      {auditFilter === 'normal'
                         ? `DuckDB execution trace repository for Sequential, Parallel, and Hierarchical Google ADK & CrewAI agent runs (${filteredNormalRuns.length} of ${normalRuns.length}).`
                         : `Autonomous natural language queries across NSE/BSE equities, multi-stock SLSQP optimization, 10Y Monte Carlo envelopes & statutory audits (${filteredQueryRuns.length} of ${queryRuns.length}).`}
                     </p>
@@ -1575,7 +2019,7 @@ export const App: React.FC = () => {
                     {/* Top Segmented Button Switcher */}
                     <div style={{ display: 'flex', backgroundColor: 'var(--bg-surface)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
                       <button
-                        onClick={() => setActiveSubTab('query_audit')}
+                        onClick={() => setAuditFilter('query')}
                         style={{
                           padding: '6px 14px',
                           borderRadius: '7px',
@@ -1583,8 +2027,8 @@ export const App: React.FC = () => {
                           fontWeight: 700,
                           border: 'none',
                           cursor: 'pointer',
-                          backgroundColor: activeSubTab === 'query_audit' || activeSubTab === 'audit' ? 'var(--groww-green)' : 'transparent',
-                          color: activeSubTab === 'query_audit' || activeSubTab === 'audit' ? '#0F1217' : 'var(--text-secondary)',
+                          backgroundColor: auditFilter === 'query' ? 'var(--groww-green)' : 'transparent',
+                          color: auditFilter === 'query' ? '#0F1217' : 'var(--text-secondary)',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -1596,7 +2040,7 @@ export const App: React.FC = () => {
                       </button>
 
                       <button
-                        onClick={() => setActiveSubTab('normal_audit')}
+                        onClick={() => setAuditFilter('normal')}
                         style={{
                           padding: '6px 14px',
                           borderRadius: '7px',
@@ -1604,8 +2048,8 @@ export const App: React.FC = () => {
                           fontWeight: 700,
                           border: 'none',
                           cursor: 'pointer',
-                          backgroundColor: activeSubTab === 'normal_audit' ? 'var(--groww-green)' : 'transparent',
-                          color: activeSubTab === 'normal_audit' ? '#0F1217' : 'var(--text-secondary)',
+                          backgroundColor: auditFilter === 'normal' ? 'var(--groww-green)' : 'transparent',
+                          color: auditFilter === 'normal' ? '#0F1217' : 'var(--text-secondary)',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -1641,7 +2085,7 @@ export const App: React.FC = () => {
                 </div>
 
                 {/* ── Sub-view A: Query-Based Research Runs Table ───────────────── */}
-                {(activeSubTab === 'query_audit' || activeSubTab === 'audit') && (
+                {auditFilter === 'query' && (
                   <>
                     {/* Filters Row */}
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
@@ -1853,7 +2297,7 @@ export const App: React.FC = () => {
                 )}
 
                 {/* ── Sub-view B: Normal Pipeline Runs Table ─────────────────────── */}
-                {activeSubTab === 'normal_audit' && (
+                {auditFilter === 'normal' && (
                   <>
                     {/* Filters Row */}
                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
@@ -2004,361 +2448,98 @@ export const App: React.FC = () => {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              5. PAPER TRADING DESK ADMIN TAB
+              PRIORITY 3: SCIENTIFIC BENCHMARK & EVALUATION STUDIO
           ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'trading' && (
+          {(activeSubTab === 'benchmark' || activeSubTab === 'evaluation' || activeSubTab === 'eval_studio' || activeSubTab === 'continuous_eval' || activeSubTab === 'trace_export') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <TrendingUp size={18} color="var(--groww-green)" /> Paper Trading Desk Administration & SEBI Guardrails
-                </h3>
-
-                {/* SEBI Compliance Alert */}
-                <div
+              {/* Segmented Sub-Navigation Bar */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: 'var(--bg-card)',
+                  padding: '6px 10px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-subtle)',
+                  overflowX: 'auto',
+                }}
+              >
+                <button
+                  onClick={() => setBenchmarkSubView('studio')}
                   style={{
-                    padding: '16px 18px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(0, 208, 156, 0.1)',
-                    border: '1px solid rgba(0, 208, 156, 0.3)',
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: benchmarkSubView === 'studio' ? 'var(--groww-green)' : 'transparent',
+                    color: benchmarkSubView === 'studio' ? '#0F1217' : 'var(--text-secondary)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
-                    marginBottom: '20px',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  <Lock size={20} color="var(--groww-green)" style={{ flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                      SEBI Algorithmic Sandbox Enforcement Active
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Live API order dispatch to external brokers is strictly disabled (<code style={{ color: 'var(--groww-green)' }}>live_trading_enabled = false</code>). All orders execute within the local deterministic Paper Ledger matching engine.
-                    </div>
-                  </div>
-                </div>
+                  <FlaskConical size={14} />
+                  <span>12-Scenario Benchmark Studio</span>
+                </button>
 
-                {/* Accounting Invariance Health */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', marginBottom: '24px' }}>
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>INITIAL CAPITAL BASE</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      ₹10,00,000.00
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Canonical baseline endowment
-                    </div>
-                  </div>
+                <button
+                  onClick={() => setBenchmarkSubView('continuous')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: benchmarkSubView === 'continuous' ? 'var(--groww-green)' : 'transparent',
+                    color: benchmarkSubView === 'continuous' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <ShieldCheck size={14} />
+                  <span>Continuous In-Flight Eval</span>
+                </button>
 
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>CURRENT CASH RESERVE</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      ₹{paperCash.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Unallocated liquid capital
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>ACTIVE HOLDINGS COUNT</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {paperPositionsCount} Positions
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Stock lots in paper ledger
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>EXECUTED ORDERS</div>
-                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#a78bfa', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {paperOrdersCount} Orders
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Simulated fills logged
-                    </div>
-                  </div>
-                </div>
-
-                {/* Desk Reset Control */}
-                <div style={{ padding: '18px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
-                  <div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                      Desk Reset & Ledger Re-Zeroing
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Clears all active paper holdings and orders, restoring cash balance to exactly ₹10,00,000.00.
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={handleResetPaperDesk}
-                    style={{
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                      border: '1px solid rgba(239, 68, 68, 0.3)',
-                      color: '#ef4444',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    <RotateCcw size={14} />
-                    <span>Clear Holdings & Reset to ₹10,00,000</span>
-                  </button>
-                </div>
+                <button
+                  onClick={() => setBenchmarkSubView('trace')}
+                  style={{
+                    padding: '7px 14px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: benchmarkSubView === 'trace' ? 'var(--groww-green)' : 'transparent',
+                    color: benchmarkSubView === 'trace' ? '#0F1217' : 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <FileCheck2 size={14} />
+                  <span>Publication Exports & Trace Lineage</span>
+                </button>
               </div>
-            </div>
-          )}
 
-          {/* ══════════════════════════════════════════════════════════════════
-              6. DATA BANK & TICKER MASTER TAB
-          ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'databank' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Database size={18} color="var(--groww-green)" /> Financial Data Bank & Security Master Resolver
-                </h3>
-
-                {/* Interactive Ticker Resolver */}
-                <div style={{ padding: '18px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', marginBottom: '20px' }}>
-                  <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 10px 0' }}>
-                    Live Security Master Ticker Resolver
-                  </h4>
-
-                  {/* Quick Suggestion Chips */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
-                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Quick test:</span>
-                    {['RELIANCE', 'TCS', 'INFY', 'HDFCBANK', 'TATAMOTORS', 'ZOMATO'].map((chip) => (
-                      <button
-                        key={chip}
-                        onClick={() => {
-                          setResolveQuery(chip);
-                          handleResolveTicker(chip);
-                        }}
-                        style={{
-                          padding: '3px 8px',
-                          borderRadius: '4px',
-                          backgroundColor: 'var(--bg-card)',
-                          border: '1px solid var(--border-subtle)',
-                          color: 'var(--text-primary)',
-                          fontSize: '11px',
-                          fontFamily: 'var(--font-mono)',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {chip}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '8px', maxWidth: '520px' }}>
-                    <input
-                      type="text"
-                      placeholder="Enter ticker (e.g. RELIANCE, TCS, INFY)..."
-                      value={resolveQuery}
-                      onChange={(e) => setResolveQuery(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleResolveTicker()}
-                      style={{ flex: 1, height: '36px', fontSize: '12px' }}
-                    />
-                    <button
-                      onClick={() => handleResolveTicker()}
-                      disabled={resolving}
-                      style={{
-                        height: '36px',
-                        padding: '0 16px',
-                        borderRadius: '6px',
-                        backgroundColor: 'var(--groww-green)',
-                        color: '#0F1217',
-                        fontWeight: 700,
-                        border: 'none',
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {resolving ? 'Resolving...' : 'Resolve'}
-                    </button>
-                  </div>
-
-                  {resolveResult && (
-                    <div style={{ marginTop: '14px', padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', fontSize: '12px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                        <span style={{ color: resolveResult.resolved ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
-                          {resolveResult.resolved ? '✓ RESOLVED IN SECURITY MASTER' : '✗ RESOLUTION FAILED'}
-                        </span>
-                        {resolveResult.canonical_id && (
-                          <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
-                            {resolveResult.canonical_id}
-                          </span>
-                        )}
-                      </div>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', marginBottom: '10px' }}>
-                        <div><strong>Company:</strong> {resolveResult.company_name || '—'}</div>
-                        <div><strong>ISIN:</strong> <span style={{ fontFamily: 'var(--font-mono)' }}>{resolveResult.record?.isin || '—'}</span></div>
-                        <div><strong>Exchange:</strong> {resolveResult.exchange || 'NSE'}</div>
-                        <div><strong>Local Parquet:</strong> {resolveResult.has_local_parquet ? '✓ Indexed' : 'Online Fetch'}</div>
-                      </div>
-
-                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>JSON PAYLOAD:</div>
-                      <pre style={{ margin: 0, padding: '10px', borderRadius: '6px', backgroundColor: 'var(--bg-surface)', overflowX: 'auto', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '11px', maxHeight: '180px' }}>
-                        {JSON.stringify(resolveResult, null, 2)}
-                      </pre>
-                    </div>
-                  )}
-                </div>
-
-                {/* Storage Locations */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>DuckDB Parquet Store</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/parquet/ohlcv/</code>
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
-                      ✓ 115 Indian equities indexed with DuckDB
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>ChromaDB Embeddings</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/chroma/</code>
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
-                      ✓ 95 statutory chunks ready for RAG
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Security Quarantine</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                      Directory: <code style={{ color: 'var(--accent-cyan)' }}>data/quarantine/</code>
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--groww-green)', marginTop: '6px', fontWeight: 600 }}>
-                      ✓ Clean health verdict (0 quarantined files)
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              7. API DIAGNOSTICS & PING TAB
-          ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'diagnostics' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              <form onSubmit={handleSaveApiUrl} style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Sliders size={18} color="var(--groww-green)" /> Backend API Endpoint Configuration & Latency Diagnostic
-                </h3>
-
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', maxWidth: '640px', marginBottom: '12px' }}>
-                  <input
-                    type="text"
-                    value={apiUrl}
-                    onChange={(e) => setApiUrl(e.target.value)}
-                    placeholder="http://127.0.0.1:8000"
-                    style={{ flex: 1, height: '38px', fontSize: '13px' }}
-                  />
-                  <button
-                    type="submit"
-                    style={{
-                      height: '38px',
-                      padding: '0 18px',
-                      borderRadius: '6px',
-                      backgroundColor: 'var(--groww-green)',
-                      color: '#0F1217',
-                      fontWeight: 700,
-                      border: 'none',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Save URL
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleTestConnection}
-                    disabled={testingConnection}
-                    style={{
-                      height: '38px',
-                      padding: '0 16px',
-                      borderRadius: '6px',
-                      backgroundColor: 'var(--bg-surface)',
-                      border: '1px solid var(--border-subtle)',
-                      color: 'var(--text-primary)',
-                      fontWeight: 600,
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {testingConnection ? 'Testing...' : 'Ping Latency'}
-                  </button>
-                </div>
-
-                {saveSuccess && (
-                  <div style={{ color: 'var(--groww-green)', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px' }}>
-                    <CheckCircle2 size={14} /> Base URL successfully updated to {apiUrl}
-                  </div>
-                )}
-
-                {testResult && (
-                  <div style={{ color: testResult.includes('200 OK') ? 'var(--groww-green)' : '#ef4444', fontSize: '12px', marginTop: '8px', fontFamily: 'var(--font-mono)' }}>
-                    {testResult}
-                  </div>
-                )}
-              </form>
-
-              {/* Subsystem Readiness Checklist */}
-              {readiness && (
-                <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                  <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 14px 0' }}>
-                    Subsystem Readiness Checklist (/ready endpoint)
-                  </h4>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px' }}>
-                    {[
-                      { name: 'Core API Server Readiness', ready: readiness.ready },
-                      { name: 'FastMCP Gateway Tools', ready: readiness.mcp_available },
-                      { name: 'A2A Blackboard Bus', ready: readiness.a2a_available },
-                      { name: 'SEBI Algorithmic Sandbox Guard', ready: readiness.live_trading_blocked },
-                    ].map((item, idx) => (
-                      <div key={idx} style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{item.name}</span>
-                        <span style={{ fontSize: '11px', color: item.ready ? 'var(--groww-green)' : '#ef4444', fontWeight: 700 }}>
-                          {item.ready ? '✓ READY' : '✗ UNREADY'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              {benchmarkSubView === 'studio' && (
+                <BenchmarkStudioView
+                  onNavigateToContinuous={() => setBenchmarkSubView('continuous')}
+                  onNavigateToTrace={() => setBenchmarkSubView('trace')}
+                />
               )}
+
+              {benchmarkSubView === 'continuous' && <ContinuousEvalView />}
+
+              {benchmarkSubView === 'trace' && <TraceExportView />}
             </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════
-              8. CONSOLIDATED 3-CONSOLE EVALUATION & BENCHMARKING SUITE
-          ══════════════════════════════════════════════════════════════════ */}
-          {(activeSubTab === 'evaluation' || activeSubTab === 'eval_studio') && (
-            <BenchmarkStudioView
-              onNavigateToContinuous={() => setActiveSubTab('continuous_eval')}
-              onNavigateToTrace={() => setActiveSubTab('trace_export')}
-            />
-          )}
-
-          {activeSubTab === 'continuous_eval' && (
-            <ContinuousEvalView />
-          )}
-
-          {activeSubTab === 'trace_export' && (
-            <TraceExportView />
           )}
 
         </main>

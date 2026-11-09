@@ -797,52 +797,54 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         )}
       </div>
 
-      {/* Standalone Admin Portal Card */}
-      <div
-        style={{
-          backgroundColor: 'var(--bg-card)',
-          borderRadius: 'var(--radius-xl)',
-          border: '1px solid rgba(0, 208, 156, 0.3)',
-          background: 'radial-gradient(ellipse at 90% 0%, rgba(0, 208, 156, 0.08) 0%, var(--bg-card) 70%)',
-          padding: '24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}
-      >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ArthaLogo size={24} variant="badge" />
-            <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-              ArthaAI Administrative Portal
-            </h3>
-          </div>
-          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '6px 0 0 0', maxWidth: '600px' }}>
-            Open the dedicated administrative observatory to monitor FastMCP tool availability, multi-agent fleet topology, token burn, and SEBI compliance.
-          </p>
-        </div>
-
-        <a
-          href="http://127.0.0.1:5174"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-groww-primary"
+      {/* Standalone Admin Portal Card - Strictly Restricted to Super-Admin Hitesh */}
+      {getActiveAuthUser()?.email.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in' && (
+        <div
           style={{
-            display: 'inline-flex',
+            backgroundColor: 'var(--bg-card)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1px solid rgba(0, 208, 156, 0.3)',
+            background: 'radial-gradient(ellipse at 90% 0%, rgba(0, 208, 156, 0.08) 0%, var(--bg-card) 70%)',
+            padding: '24px',
+            display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '8px',
-            padding: '10px 20px',
-            fontSize: '13px',
-            fontWeight: 700,
-            textDecoration: 'none',
+            flexWrap: 'wrap',
+            gap: '16px',
           }}
         >
-          <ExternalLink size={15} />
-          <span>Launch Admin Portal ↗</span>
-        </a>
-      </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <ArthaLogo size={24} variant="badge" />
+              <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                ArthaAI Administrative Portal
+              </h3>
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: '6px 0 0 0', maxWidth: '600px' }}>
+              Super-Admin observatory for multi-agent fleet topology, continuous benchmarks, DuckDB data store, and SEBI compliance.
+            </p>
+          </div>
+
+          <a
+            href="http://127.0.0.1:5174"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-groww-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 20px',
+              fontSize: '13px',
+              fontWeight: 700,
+              textDecoration: 'none',
+            }}
+          >
+            <ExternalLink size={15} />
+            <span>Launch Admin Portal ↗</span>
+          </a>
+        </div>
+      )}
 
       {/* Desk Session Lock & Sign Out */}
       <div

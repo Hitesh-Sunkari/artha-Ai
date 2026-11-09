@@ -72,7 +72,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [isGoogleOAuthOpen, setIsGoogleOAuthOpen] = useState(false);
   const [customGoogleEmail, setCustomGoogleEmail] = useState('');
   const [customGoogleName, setCustomGoogleName] = useState('');
-  const [isCustomGoogleAccount, setIsCustomGoogleAccount] = useState(false);
 
   // Dynamic High-Fidelity Color System
   const t = isDark
@@ -1213,191 +1212,141 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               </div>
             </div>
 
-            {/* Account List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
-              
-              {/* Account 1: Hitesh Sunkari (Super-Admin Verified) */}
-              <div
-                onClick={() => handleExecuteGoogleOAuth(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari')}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 14px',
-                  borderRadius: '12px',
-                  border: '1px solid #E5E7EB',
-                  backgroundColor: '#F9FAFB',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F3F4F6')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
-              >
-                <div
+            {/* Google OAuth Identity Entry */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleExecuteGoogleOAuth(customGoogleEmail, customGoogleName);
+              }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '6px' }}
+            >
+              <div>
+                <label
                   style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    backgroundColor: '#1A73E8',
-                    color: '#FFFFFF',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: 'block',
+                    fontSize: '11px',
                     fontWeight: 700,
-                    fontSize: '14px',
-                    flexShrink: 0,
+                    color: '#374151',
+                    marginBottom: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
                   }}
                 >
-                  HS
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '13.5px', fontWeight: 600, color: '#111827', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>Hitesh Sunkari</span>
-                    <span
-                      style={{
-                        fontSize: '9.5px',
-                        fontWeight: 700,
-                        backgroundColor: 'rgba(0, 208, 156, 0.15)',
-                        color: '#00875A',
-                        padding: '1px 6px',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      Super-Admin
-                    </span>
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#6B7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {SUPER_ADMIN_EMAIL}
-                  </div>
+                  Google Account Email
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <Mail
+                    size={16}
+                    style={{
+                      position: 'absolute',
+                      left: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: '#9CA3AF',
+                    }}
+                  />
+                  <input
+                    type="email"
+                    required
+                    autoFocus
+                    placeholder="name@gmail.com or institutional Google email"
+                    value={customGoogleEmail}
+                    onChange={(e) => setCustomGoogleEmail(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px 10px 38px',
+                      borderRadius: '10px',
+                      border: '1px solid #D1D5DB',
+                      backgroundColor: '#FFFFFF',
+                      color: '#111827',
+                      fontSize: '13px',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                    }}
+                  />
                 </div>
               </div>
 
-              {/* Option 2: Use another Google account */}
-              {!isCustomGoogleAccount ? (
-                <div
-                  onClick={() => setIsCustomGoogleAccount(true)}
+              <div>
+                <label
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '12px 14px',
-                    borderRadius: '12px',
-                    border: '1px dashed #D1D5DB',
-                    backgroundColor: '#FFFFFF',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F9FAFB')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
-                >
-                  <div
-                    style={{
-                      width: '38px',
-                      height: '38px',
-                      borderRadius: '50%',
-                      backgroundColor: '#F3F4F6',
-                      color: '#4B5563',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <UserPlus size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#374151' }}>
-                      Use another Google account
-                    </div>
-                    <div style={{ fontSize: '11px', color: '#6B7280' }}>
-                      Sign in with an institutional or personal Google account
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div
-                  style={{
-                    padding: '14px',
-                    borderRadius: '12px',
-                    border: '1px solid #D1D5DB',
-                    backgroundColor: '#F9FAFB',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '10px',
+                    display: 'block',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: '#374151',
+                    marginBottom: '6px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
                   }}
                 >
-                  <div style={{ fontSize: '12.5px', fontWeight: 600, color: '#374151' }}>
-                    Enter Google Account Details
-                  </div>
-                  <input
-                    type="email"
-                    placeholder="google.trader@institution.in"
-                    value={customGoogleEmail}
-                    onChange={(e) => setCustomGoogleEmail(e.target.value)}
-                    autoFocus
+                  Display Name (Optional)
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <User
+                    size={16}
                     style={{
-                      width: '100%',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      border: '1px solid #D1D5DB',
-                      fontSize: '12.5px',
-                      outline: 'none',
-                      boxSizing: 'border-box',
+                      position: 'absolute',
+                      left: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: '#9CA3AF',
                     }}
                   />
                   <input
                     type="text"
-                    placeholder="Full Name (optional)"
+                    placeholder="Full Name as registered with Google"
                     value={customGoogleName}
                     onChange={(e) => setCustomGoogleName(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
+                      padding: '10px 14px 10px 38px',
+                      borderRadius: '10px',
                       border: '1px solid #D1D5DB',
-                      fontSize: '12.5px',
+                      backgroundColor: '#FFFFFF',
+                      color: '#111827',
+                      fontSize: '13px',
                       outline: 'none',
                       boxSizing: 'border-box',
                     }}
                   />
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '2px' }}>
-                    <button
-                      type="button"
-                      onClick={() => handleExecuteGoogleOAuth(customGoogleEmail, customGoogleName)}
-                      style={{
-                        flex: 1,
-                        padding: '9px 12px',
-                        borderRadius: '8px',
-                        backgroundColor: '#1A73E8',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Sign In with this Google Account
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsCustomGoogleAccount(false)}
-                      style={{
-                        padding: '9px 12px',
-                        borderRadius: '8px',
-                        backgroundColor: '#E5E7EB',
-                        color: '#374151',
-                        border: 'none',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Back
-                    </button>
-                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  marginTop: '4px',
+                  padding: '11px 16px',
+                  borderRadius: '10px',
+                  backgroundColor: '#1A73E8',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: '0 4px 12px rgba(26, 115, 232, 0.3)',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {loading ? (
+                  <>
+                    <RefreshCw size={15} className="animate-spin" />
+                    <span>Authorizing with Google...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Continue with Google Account</span>
+                    <ArrowRight size={15} />
+                  </>
+                )}
+              </button>
+            </form>
 
             {/* Disclaimer */}
             <div style={{ fontSize: '11px', color: '#6B7280', lineHeight: 1.45, borderTop: '1px solid #F3F4F6', paddingTop: '12px' }}>

@@ -161,8 +161,16 @@ export interface RunListItem {
   latency_seconds?: number | null;
   has_report: boolean;
   recommendation?: string | null;
+  conviction_score?: number | null;
+  executive_thesis?: string | null;
+  target_price?: number | null;
+  stop_loss_price?: number | null;
+  target_upside_pct?: number | null;
+  reward_to_risk_ratio?: number | null;
+  statutory_friction_drag_pct?: number | null;
   events_count: number;
   error?: string | null;
+  query_research_result?: any;
 }
 
 export interface HealthResponse {
