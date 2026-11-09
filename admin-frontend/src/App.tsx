@@ -42,6 +42,7 @@ import {
   Compass,
   ArrowUpRight,
   Sparkles,
+  LogOut,
 } from 'lucide-react';
 import { api, getApiBaseUrl, setApiBaseUrl } from './api/client';
 import type {
@@ -221,6 +222,58 @@ export const App: React.FC = () => {
   const [paperOrdersCount, setPaperOrdersCount] = useState<number>(0);
   const [paperPositionsCount, setPaperPositionsCount] = useState<number>(0);
   const [resetSuccess, setResetSuccess] = useState(false);
+
+  // Super-Admin User Dropdown State
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Helper for Breadcrumb navigation titles & priority tags
+  const getSubTabInfo = (tab: string): { priority: string; title: string } => {
+    switch (tab) {
+      case 'overview':
+        return { priority: 'P1', title: 'System Observatory & Surveillance' };
+      case 'traffic':
+        return { priority: 'P1', title: 'Network & Traffic Surveillance' };
+      case 'users':
+        return { priority: 'P1', title: 'Active Users & Sessions' };
+      case 'investments':
+        return { priority: 'P1', title: 'Investments & Portfolio Surveillance' };
+      case 'rectification':
+        return { priority: 'P1', title: 'Anomaly Rectification Center' };
+      case 'audit':
+      case 'query_audit':
+        return { priority: 'P2', title: 'Query Research Runs Audit' };
+      case 'normal_audit':
+        return { priority: 'P2', title: 'Normal Pipeline Runs Audit' };
+      case 'benchmark':
+      case 'eval_studio':
+        return { priority: 'P3', title: 'Scientific Benchmark Studio' };
+      case 'continuous_eval':
+        return { priority: 'P3', title: 'Continuous In-Flight Eval' };
+      case 'trace_export':
+        return { priority: 'P3', title: 'Trace Lineage & Audit Export' };
+      case 'fleet':
+        return { priority: 'P4', title: 'Fleet, FastMCP Tools & Core Gateway' };
+      case 'telemetry':
+        return { priority: 'P4', title: 'LLM Telemetry & Token Quotas' };
+      case 'databank':
+        return { priority: 'P4', title: 'Financial Data Bank' };
+      case 'diagnostics':
+        return { priority: 'P4', title: 'API Diagnostics & Health Probe' };
+      default:
+        return { priority: 'P1', title: 'Control Plane Observatory' };
+    }
+  };
 
   // Real-time IST Clock & Calendar
   useEffect(() => {
@@ -826,168 +879,331 @@ export const App: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 28px',
+            padding: '0 24px',
             flexShrink: 0,
             zIndex: 30,
+            whiteSpace: 'nowrap',
+            gap: '16px',
           }}
         >
           {/* Breadcrumb Path */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
-            <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Control Plane</span>
-            <ChevronRight size={14} color="var(--text-muted)" />
-            <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
-              {activeSubTab === 'overview' && 'Priority 1: System Observatory & Surveillance'}
-              {activeSubTab === 'audit' && 'Priority 2: Research Runs Audit & Multi-Agent Traces'}
-              {activeSubTab === 'benchmark' && 'Priority 3: Scientific Benchmark & Evaluation Studio'}
-              {activeSubTab === 'fleet' && 'Priority 4: Fleet, FastMCP Tools & Core Infrastructure'}
-              {activeSubTab === 'traffic' && 'Priority 1: Network & Traffic Surveillance'}
-              {activeSubTab === 'users' && 'Priority 1: Active Users & Sessions Surveillance'}
-              {activeSubTab === 'investments' && 'Priority 1: Investments & Portfolio Surveillance'}
-              {activeSubTab === 'rectification' && 'Priority 1: Anomaly Rectification'}
-              {activeSubTab === 'query_audit' && 'Priority 2: Query-Based Research Runs Audit'}
-              {activeSubTab === 'normal_audit' && 'Priority 2: Normal Pipeline Runs Audit'}
-              {activeSubTab === 'eval_studio' && 'Priority 3: Benchmark Studio'}
-              {activeSubTab === 'continuous_eval' && 'Priority 3: Continuous In-Flight Eval'}
-              {activeSubTab === 'trace_export' && 'Priority 3: Trace Lineage & Export'}
-              {activeSubTab === 'telemetry' && 'Priority 4: LLM Telemetry & Quotas'}
-              {activeSubTab === 'databank' && 'Priority 4: Financial Data Bank'}
-              {activeSubTab === 'diagnostics' && 'Priority 4: API Diagnostics & Ping'}
-            </span>
-          </div>
-
-          {/* Header Controls (Clock, Theme, Sync, Direct Link) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {/* Switch to User Platform Button */}
-            <a
-              href="http://127.0.0.1:5173"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '7px',
-                padding: '7px 14px',
-                borderRadius: '8px',
-                background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.18) 0%, rgba(83, 103, 255, 0.18) 100%)',
-                border: '1px solid rgba(0, 208, 156, 0.45)',
-                color: 'var(--groww-green)',
-                fontSize: '12px',
-                fontWeight: 800,
-                textDecoration: 'none',
-                boxShadow: '0 0 14px rgba(0, 208, 156, 0.2)',
-                transition: 'all 0.15s ease',
-              }}
-              title="Switch directly to User Trading Desk & Query Studio"
-            >
-              <Sparkles size={14} color="var(--groww-green)" />
-              <span>Switch to User App 🚀</span>
-            </a>
-
-            {/* Super Admin Badge */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '4px 12px 4px 6px',
-                borderRadius: '9999px',
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid rgba(0, 208, 156, 0.35)',
-              }}
-              title={`Authorized Super-Administrator: ${SUPER_ADMIN_EMAIL}`}
-            >
+          {(() => {
+            const { priority, title } = getSubTabInfo(activeSubTab);
+            return (
               <div
                 style={{
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #00D09C 0%, #5367FF 100%)',
-                  color: '#0F1217',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 900,
-                  fontSize: '11px',
+                  gap: '8px',
+                  fontSize: '13px',
+                  whiteSpace: 'nowrap',
+                  minWidth: 0,
+                  overflow: 'hidden',
                 }}
               >
-                HS
+                <span style={{ color: 'var(--text-muted)', fontWeight: 500, whiteSpace: 'nowrap' }}>Control Plane</span>
+                <ChevronRight size={14} color="var(--text-muted)" style={{ opacity: 0.6, flexShrink: 0 }} />
+                <span
+                  style={{
+                    fontSize: '10px',
+                    fontWeight: 800,
+                    padding: '2px 7px',
+                    borderRadius: 'var(--radius-pill, 9999px)',
+                    backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                    color: 'var(--groww-green)',
+                    letterSpacing: '0.04em',
+                    fontFamily: 'var(--font-mono)',
+                    flexShrink: 0,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {priority}
+                </span>
+                <span
+                  style={{
+                    color: 'var(--text-primary)',
+                    fontWeight: 700,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {title}
+                </span>
               </div>
-              <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--groww-green)', letterSpacing: '0.04em' }}>
-                SUPER ADMIN
-              </span>
-            </div>
+            );
+          })()}
 
-            {/* IST Time */}
-            <div
+          {/* Header Controls (User App, Clock, Theme, Sync, Super-Admin Profile) */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            {/* Switch to User App Button */}
+            <a
+              href="http://127.0.0.1:5173"
+              target="_blank"
+              rel="noreferrer"
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border-subtle)',
-                fontSize: '11.5px',
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-mono)',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-pill, 9999px)',
+                backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                border: '1px solid rgba(0, 208, 156, 0.35)',
+                color: 'var(--groww-green)',
+                fontSize: '12px',
+                fontWeight: 700,
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.15s ease',
               }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 208, 156, 0.18)';
+                e.currentTarget.style.borderColor = 'var(--groww-green)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(0, 208, 156, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(0, 208, 156, 0.35)';
+              }}
+              title="Open User Trading Desk in a new tab"
             >
-              <Clock size={13} color="var(--groww-green)" />
-              <span>{currentDate} • {currentTime}</span>
-            </div>
+              <Sparkles size={13} color="var(--groww-green)" />
+              <span>User App</span>
+              <ArrowUpRight size={13} color="var(--groww-green)" />
+            </a>
 
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
+            {/* Live IST Time */}
+            <div
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
                 padding: '6px 12px',
-                borderRadius: '6px',
+                borderRadius: 'var(--radius-pill, 9999px)',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
                 fontSize: '12px',
                 fontWeight: 600,
+                color: 'var(--text-secondary)',
+                fontFamily: 'var(--font-mono)',
+                whiteSpace: 'nowrap',
+              }}
+              title={`${currentDate} • Indian Standard Time`}
+            >
+              <Clock size={13} color="var(--groww-green)" />
+              <span>{currentTime}</span>
+            </div>
+
+            {/* Theme Toggle Button (Icon circle) */}
+            <button
+              onClick={toggleTheme}
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-secondary)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                flexShrink: 0,
               }}
               title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 208, 156, 0.5)';
+                e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.color = 'var(--text-secondary)';
+              }}
             >
-              {theme === 'dark' ? (
-                <>
-                  <Sun size={14} color="#f59e0b" />
-                  <span>Light Mode</span>
-                </>
-              ) : (
-                <>
-                  <Moon size={14} color="var(--groww-blue)" />
-                  <span>Dark Mode</span>
-                </>
-              )}
+              {theme === 'dark' ? <Sun size={16} color="#f59e0b" /> : <Moon size={16} color="var(--groww-blue)" />}
             </button>
 
-            {/* Global Sync Button */}
+            {/* Global Sync Button (Icon circle) */}
             <button
               onClick={handleSyncAll}
               disabled={isRefreshing}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: '6px',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
-                color: 'var(--text-primary)',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
+                color: 'var(--text-secondary)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: isRefreshing ? 'wait' : 'pointer',
+                transition: 'all 0.15s ease',
+                flexShrink: 0,
               }}
               title="Synchronize all telemetry, readiness, and runs"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 208, 156, 0.5)';
+                e.currentTarget.style.color = 'var(--text-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.color = 'var(--text-secondary)';
+              }}
             >
-              <RefreshCw size={13} className={isRefreshing ? 'animate-spin' : ''} color="var(--groww-green)" />
-              <span>{isRefreshing ? 'Syncing...' : 'Sync All'}</span>
+              <RefreshCw size={15} className={isRefreshing ? 'animate-spin' : ''} color="var(--groww-green)" />
             </button>
+
+            {/* Super Admin Profile Pill & Dropdown */}
+            <div style={{ position: 'relative' }} ref={userMenuRef}>
+              <div
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '4px 12px 4px 5px',
+                  borderRadius: 'var(--radius-pill, 9999px)',
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid rgba(0, 208, 156, 0.4)',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Super-Admin Account Options"
+              >
+                <div
+                  style={{
+                    width: '26px',
+                    height: '26px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #00D09C 0%, #5367FF 100%)',
+                    color: '#0F1217',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 900,
+                    fontSize: '11px',
+                  }}
+                >
+                  HS
+                </div>
+                <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--groww-green)', letterSpacing: '0.04em' }}>
+                  SUPER ADMIN
+                </span>
+                <ChevronDown
+                  size={12}
+                  color="var(--text-muted)"
+                  style={{
+                    transform: isUserMenuOpen ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.15s ease',
+                  }}
+                />
+              </div>
+
+              {/* Dropdown Card */}
+              {isUserMenuOpen && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 'calc(100% + 8px)',
+                    right: 0,
+                    width: '260px',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '12px',
+                    boxShadow: '0 12px 36px rgba(0, 0, 0, 0.55)',
+                    padding: '14px',
+                    zIndex: 100,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                  }}
+                >
+                  <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '10px' }}>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      Hitesh Sunkari
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '11px',
+                        color: 'var(--text-muted)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        marginTop: '2px',
+                      }}
+                      title={SUPER_ADMIN_EMAIL}
+                    >
+                      {SUPER_ADMIN_EMAIL}
+                    </div>
+                    <div
+                      style={{
+                        display: 'inline-block',
+                        marginTop: '8px',
+                        fontSize: '9.5px',
+                        fontWeight: 800,
+                        color: 'var(--groww-green)',
+                        backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      SEBI PIT &amp; LODR L4 CLEARANCE
+                    </div>
+                  </div>
+
+                  <a
+                    href="http://127.0.0.1:5173"
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      backgroundColor: 'var(--bg-card)',
+                      color: 'var(--text-primary)',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      transition: 'background-color 0.15s ease',
+                    }}
+                  >
+                    <span>Open User Desk</span>
+                    <ArrowUpRight size={14} color="var(--groww-green)" />
+                  </a>
+
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('arthai_admin_user');
+                      setAuthUser(null);
+                      setIsUserMenuOpen(false);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(239, 68, 68, 0.08)',
+                      border: '1px solid rgba(239, 68, 68, 0.25)',
+                      color: '#EF4444',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      transition: 'background-color 0.15s ease',
+                    }}
+                  >
+                    <span>Lock Session / Sign Out</span>
+                    <LogOut size={13} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
