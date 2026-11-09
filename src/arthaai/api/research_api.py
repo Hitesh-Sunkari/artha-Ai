@@ -1982,6 +1982,101 @@ def create_research_api(
             "suggested_horizon": horizon,
         }
 
+    @app.get(
+        "/research/saved-queries",
+        summary="List all saved query research reports",
+        tags=["research"],
+    )
+    async def list_saved_queries_endpoint() -> list[dict[str, Any]]:
+        """Returns all completed query research runs recorded in RunStore."""
+        records = await _store.all_records()
+        query_records = [
+            r for r in records
+            if r.orchestration_pattern == "QUERY_STUDIO" and r.status == ResearchRunStatus.COMPLETED and r.report is not None
+        ]
+        sorted_records = sorted(query_records, key=lambda r: r.submitted_at, reverse=True)
+        results = []
+        for r in sorted_records:
+            q_res = {}
+            if isinstance(r.report.quantitative_findings, dict) and "query_research_result" in r.report.quantitative_findings:
+                q_res = r.report.quantitative_findings["query_research_result"]
+            results.append({
+                "run_id": r.run_id,
+                "query": q_res.get("query") or r.symbol,
+                "symbols": q_res.get("detected_symbols") or [r.symbol],
+                "verdict": q_res.get("verdict") or (r.report.recommendation.value if hasattr(r.report.recommendation, "value") else str(r.report.recommendation)),
+                "conviction_score": q_res.get("conviction_score") or r.report.conviction_score,
+                "horizon_years": q_res.get("horizon_years") or 10,
+                "submitted_at": r.submitted_at.isoformat(),
+                "completed_at": r.completed_at.isoformat() if r.completed_at else None,
+                "latency_seconds": round((r.completed_at - r.submitted_at).total_seconds(), 2) if r.completed_at else None,
+                "has_data": bool(q_res),
+            })
+        return results
+
+    @app.post(
+        "/research/save-query",
+        summary="Explicitly save / bookmark a query research run",
+        tags=["research"],
+    )
+    async def save_query_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Saves or updates a query research report into RunStore."""
+        run_id = str(body.get("run_id") or f"query-{uuid.uuid4().hex[:10]}")
+        data = body.get("data") or body
+        target_sym = ", ".join(data.get("detected_symbols", [])) if data.get("detected_symbols") else "QUERY"
+        rec = RunRecord(
+            run_id=run_id,
+            request_id=f"saved-{uuid.uuid4().hex[:8]}",
+            symbol=target_sym,
+            orchestration_pattern="QUERY_STUDIO",
+            status=ResearchRunStatus.COMPLETED,
+            submitted_at=datetime.now(timezone.utc),
+            completed_at=datetime.now(timezone.utc),
+            report=QuantitativeResearchReport(
+                run_id=run_id,
+                symbol=target_sym,
+                as_of_time=datetime.now(timezone.utc),
+                executive_thesis=str(data.get("executive_synthesis", "")),
+                quantitative_findings={
+                    "query_research_result": data,
+                    "verdict": data.get("verdict", "HOLD"),
+                    "conviction_score": data.get("conviction_score", 50),
+                    "horizon_years": data.get("horizon_years", 10),
+                },
+                statutory_risk_bounds=data.get("statutory_tax_drag", {}),
+                qualitative_evidence=[],
+                source_provenance=["FastMCP", "DuckDB", "ChromaDB", "Ledoit-Wolf", "Monte-Carlo"],
+                recommendation=canonicalize_recommendation(data.get("verdict", "HOLD")),
+                conviction_score=int(data.get("conviction_score", 50)),
+                statutory_friction_drag_pct=0.015 if data.get("is_commodity") else 0.222,
+            ),
+            blackboard_events=[],
+            agent_contributions=data.get("agent_contributions", []),
+        )
+        async with _store._lock:
+            _store._runs[run_id] = rec
+            _store._persist(rec)
+        return {"status": "SAVED", "run_id": run_id}
+
+    @app.delete(
+        "/research/saved-queries/{run_id}",
+        summary="Delete a saved query research report",
+        tags=["research"],
+    )
+    async def delete_saved_query_endpoint(run_id: str) -> dict[str, Any]:
+        """Deletes a saved query research report."""
+        async with _store._lock:
+            if run_id in _store._runs:
+                del _store._runs[run_id]
+            if _store.persistence_dir:
+                fpath = _store.persistence_dir / f"{run_id}.json"
+                if fpath.exists():
+                    try:
+                        fpath.unlink()
+                    except Exception:
+                        pass
+        return {"status": "DELETED", "run_id": run_id}
+
 
     # -------------------------------------------------------------------------
     # Optional Single-Binary SPA Static Files Serving

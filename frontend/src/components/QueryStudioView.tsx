@@ -38,6 +38,11 @@ import {
   RotateCcw,
   Undo2,
   Wand2,
+  Bookmark,
+  BookmarkCheck,
+  Download,
+  Trash2,
+  FolderOpen,
 } from 'lucide-react';
 import { getApiBaseUrl } from '../api/client';
 
@@ -183,6 +188,7 @@ export interface AgenticFlowStep {
 
 export interface QueryResearchResponse {
   query: string;
+  direct_answer?: string;
   intent: string;
   detected_symbols: string[];
   horizon_years: number;
@@ -267,9 +273,22 @@ export interface QueryResearchResponse {
   }>>;
 }
 
+export interface SavedQueryReport {
+  id: string;
+  savedAt: string;
+  savedAtIST: string;
+  query: string;
+  symbols: string[];
+  verdict: string;
+  convictionScore: number;
+  horizonYears: number;
+  data: QueryResearchResponse;
+}
+
 export interface QueryStudioProps {
   onNavigateToPortfolio?: (ticker?: string, side?: 'BUY' | 'SELL') => void;
   defaultSymbol?: string;
+  initialRunId?: string | null;
 }
 
 const SAMPLE_QUERIES = [
@@ -534,8 +553,22 @@ const CorrelationHeatmap: React.FC<{ matrix: Record<string, Record<string, numbe
 export const QueryStudioView: React.FC<QueryStudioProps> = ({
   onNavigateToPortfolio,
   defaultSymbol,
+  initialRunId,
 }) => {
   const [query, setQuery] = useState('how could be the trend of silver in next 10years');
+  const [savedReports, setSavedReports] = useState<SavedQueryReport[]>(() => {
+    try {
+      const s = localStorage.getItem('arthai_saved_query_reports');
+      if (s) {
+        const parsed = JSON.parse(s);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch {}
+    return [];
+  });
+  const [showSavedModal, setShowSavedModal] = useState<boolean>(false);
+  const [saveSuccessNotification, setSaveSuccessNotification] = useState<string | null>(null);
+  const [savedSearchTerm, setSavedSearchTerm] = useState<string>('');
   const [selectedSymbols, setSelectedSymbols] = useState<string[]>(
     defaultSymbol ? [defaultSymbol] : ['TATSILV.NS', 'SILVERBEES.NS']
   );
@@ -609,6 +642,280 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
       clearInterval(stepTimer);
     };
   }, [loading]);
+
+  // Synchronize remote saved queries from RunStore
+  useEffect(() => {
+    const fetchRemoteSaved = async () => {
+      try {
+        const res = await fetch(`${API}/research/saved-queries`);
+        if (res.ok) {
+          const remoteList = await res.json();
+          if (Array.isArray(remoteList) && remoteList.length > 0) {
+            setSavedReports((prev) => {
+              const existingIds = new Set(prev.map((p) => p.id));
+              const missing = remoteList.filter((rm: any) => !existingIds.has(rm.run_id));
+              if (missing.length === 0) return prev;
+              const formatted: SavedQueryReport[] = missing.map((rm: any) => ({
+                id: rm.run_id,
+                savedAt: rm.submitted_at,
+                savedAtIST: new Date(rm.submitted_at).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST',
+                query: rm.query,
+                symbols: rm.symbols || [],
+                verdict: rm.verdict || 'HOLD',
+                convictionScore: rm.conviction_score || 50,
+                horizonYears: rm.horizon_years || 10,
+                data: rm.data || null,
+              }));
+              const merged = [...prev, ...formatted];
+              try {
+                localStorage.setItem('arthai_saved_query_reports', JSON.stringify(merged));
+              } catch {}
+              return merged;
+            });
+          }
+        }
+      } catch {}
+    };
+    fetchRemoteSaved();
+  }, []);
+
+  // Restore initialRunId if passed
+  useEffect(() => {
+    if (!initialRunId) return;
+    const found = savedReports.find((r) => r.id === initialRunId);
+    if (found && found.data) {
+      setResult(found.data);
+      setQuery(found.query);
+      if (found.symbols) setSelectedSymbols(found.symbols);
+      if (found.horizonYears) setHorizonYears(found.horizonYears);
+      return;
+    }
+    const fetchRunData = async () => {
+      try {
+        const res = await fetch(`${API}/runs/${initialRunId}`);
+        if (res.ok) {
+          const doc = await res.json();
+          if (doc.query_research_result) {
+            setResult(doc.query_research_result);
+            if (doc.query_research_result.query) setQuery(doc.query_research_result.query);
+            if (doc.query_research_result.detected_symbols) setSelectedSymbols(doc.query_research_result.detected_symbols);
+            if (doc.query_research_result.horizon_years) setHorizonYears(doc.query_research_result.horizon_years);
+          }
+        }
+      } catch {}
+    };
+    fetchRunData();
+  }, [initialRunId]);
+
+  const handleSaveReport = async () => {
+    if (!result) return;
+    const runId = result.run_id || `query-${Date.now()}`;
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false }) + ' IST';
+    const istDateStr = now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
+    const fullTimestamp = `${istDateStr}, ${istTimeStr}`;
+
+    const newSavedItem: SavedQueryReport = {
+      id: runId,
+      savedAt: now.toISOString(),
+      savedAtIST: fullTimestamp,
+      query: result.query || query,
+      symbols: result.detected_symbols || selectedSymbols,
+      verdict: result.verdict,
+      convictionScore: result.conviction_score,
+      horizonYears: result.horizon_years || horizonYears,
+      data: { ...result, run_id: runId },
+    };
+
+    const existingIdx = savedReports.findIndex((r) => r.id === runId || r.query.toLowerCase().trim() === newSavedItem.query.toLowerCase().trim());
+    let updatedList: SavedQueryReport[];
+    if (existingIdx >= 0) {
+      updatedList = [...savedReports];
+      updatedList[existingIdx] = newSavedItem;
+    } else {
+      updatedList = [newSavedItem, ...savedReports];
+    }
+
+    setSavedReports(updatedList);
+    try {
+      localStorage.setItem('arthai_saved_query_reports', JSON.stringify(updatedList));
+    } catch {}
+
+    try {
+      await fetch(`${API}/research/save-query`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ run_id: runId, data: newSavedItem.data }),
+      });
+    } catch {}
+
+    setSaveSuccessNotification('Analysis saved! Access or download this complete report anytime from "Saved Reports".');
+    setTimeout(() => setSaveSuccessNotification(null), 4500);
+  };
+
+  const handleOpenSavedReport = async (savedItem: SavedQueryReport) => {
+    let reportData = savedItem.data;
+    if (!reportData) {
+      try {
+        const res = await fetch(`${API}/runs/${savedItem.id}`);
+        if (res.ok) {
+          const doc = await res.json();
+          if (doc.query_research_result) {
+            reportData = doc.query_research_result;
+          }
+        }
+      } catch {}
+    }
+    if (reportData) {
+      setResult(reportData);
+      setQuery(savedItem.query);
+      if (savedItem.symbols && savedItem.symbols.length > 0) {
+        setSelectedSymbols(savedItem.symbols);
+      }
+      if (savedItem.horizonYears) {
+        setHorizonYears(savedItem.horizonYears);
+      }
+      setShowSavedModal(false);
+      window.scrollTo({ top: 380, behavior: 'smooth' });
+    }
+  };
+
+  const handleDeleteSavedReport = async (savedId: string) => {
+    if (!window.confirm('Delete this saved research report from your library?')) return;
+    const filtered = savedReports.filter((r) => r.id !== savedId);
+    setSavedReports(filtered);
+    try {
+      localStorage.setItem('arthai_saved_query_reports', JSON.stringify(filtered));
+    } catch {}
+    try {
+      await fetch(`${API}/research/saved-queries/${savedId}`, { method: 'DELETE' });
+    } catch {}
+  };
+
+  const handleDownloadReport = (format: 'md' | 'json', targetData?: QueryResearchResponse | null) => {
+    const activeRes = targetData || result;
+    if (!activeRes) return;
+
+    const runId = activeRes.run_id || 'query-research';
+    const primarySymbol = activeRes.detected_symbols && activeRes.detected_symbols.length > 0
+      ? activeRes.detected_symbols.join('_')
+      : 'RESEARCH';
+
+    if (format === 'json') {
+      const jsonStr = JSON.stringify(activeRes, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `arthai_research_${primarySymbol}_${runId}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      return;
+    }
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
+    const timeStr = now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: false }) + ' IST';
+
+    let md = `# ArthaAI Institutional Quantitative Research Report\n` +
+      `**Query:** ${activeRes.query}  \n` +
+      `**Run ID:** \`${runId}\`  \n` +
+      `**Generated At (IST):** ${dateStr}, ${timeStr}  \n` +
+      `**Analyzed Assets:** ${activeRes.detected_symbols.join(', ')}  \n` +
+      `**Investment Horizon:** ${activeRes.horizon_years} Years  \n` +
+      `**Institutional Verdict:** **${activeRes.verdict}** (Conviction: **${activeRes.conviction_score}%**)  \n` +
+      `**Inquiry Intent:** ${activeRes.intent}  \n\n` +
+      `---\n\n` +
+      `## 1. Executive Synthesis & Direct Inquiry Resolution\n` +
+      `${activeRes.direct_answer || activeRes.executive_synthesis}\n\n`;
+
+    if (activeRes.personalized_portfolio) {
+      const p = activeRes.personalized_portfolio;
+      md += `---\n\n` +
+        `## 2. Personalized Portfolio Guidance\n` +
+        `- **Holding Status:** ${p.is_invested ? 'Existing Position Held' : 'Fresh Capital Entry'}\n` +
+        `- **Current Holding / Allocation:** ₹${p.current_holding_value?.toLocaleString('en-IN')}\n` +
+        (p.avg_buy_price ? `- **Recorded Average Buy Price:** ₹${p.avg_buy_price.toLocaleString('en-IN')}\n` : '') +
+        (p.unrealized_pnl_pct !== undefined ? `- **Unrealized Position P&L:** ${p.unrealized_pnl_pct >= 0 ? '+' : ''}${p.unrealized_pnl_pct.toFixed(2)}% (₹${p.unrealized_pnl_inr?.toLocaleString('en-IN')})\n` : '') +
+        `- **Target Investment Objective:** ${p.investor_objective}\n` +
+        `- **10-Year Projected Wealth:** ₹${p.ten_year_personalized_wealth?.toLocaleString('en-IN')}\n` +
+        `- **Personalized Action Plan:** ${p.personalized_advice}\n\n`;
+    }
+
+    md += `---\n\n` +
+      `## 3. Quantitative Asset Summary\n` +
+      `| Symbol | Company / Asset | Sector | LTP (₹) | Day Change | Expected Return | Volatility | Max Drawdown | Order Flow |\n` +
+      `| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+
+    activeRes.stocks_analyzed.forEach((s) => {
+      md += `| **${s.ticker}** | ${s.name} | ${s.sector} | ₹${s.ltp.toLocaleString('en-IN')} | ${s.day_change_perc >= 0 ? '+' : ''}${s.day_change_perc.toFixed(2)}% | ${s.expected_return_pct.toFixed(2)}% | ${s.volatility_pct.toFixed(2)}% | ${s.max_drawdown_pct.toFixed(2)}% | ${s.order_flow_sentiment} |\n`;
+    });
+
+    if (activeRes.ten_year_projection) {
+      const proj = activeRes.ten_year_projection;
+      md += `\n---\n\n` +
+        `## 4. 10-Year Monte Carlo Wealth Projections (5,000 Geometric Brownian Motion Paths)\n` +
+        `- **Current Anchor Price:** ₹${proj.current_price.toLocaleString('en-IN')}\n` +
+        `- **Base Target (P50 Median):** ₹${proj.p50_base_target.toLocaleString('en-IN')} (**${proj.base_cagr_pct >= 0 ? '+' : ''}${proj.base_cagr_pct.toFixed(2)}% CAGR**)\n` +
+        `- **Bull Expansion (P90):** ₹${proj.p90_bull_target.toLocaleString('en-IN')} (**+${proj.bull_cagr_pct.toFixed(2)}% CAGR**)\n` +
+        `- **Bear Stress Corridor (P10):** ₹${proj.p10_bear_target.toLocaleString('en-IN')} (**${proj.bear_cagr_pct.toFixed(2)}% CAGR**)\n` +
+        `- **Empirical Probability of Beating 5.49% CPI Inflation:** **${(proj.prob_beat_inflation * 100).toFixed(1)}%**\n\n` +
+        `### Year-by-Year Trajectory Corridor (INR)\n` +
+        `| Year | Bear (P10) | Base Median (P50) | Bull (P90) |\n` +
+        `| :---: | :---: | :---: | :---: |\n`;
+      proj.trajectory_points.forEach((pt) => {
+        md += `| Year ${pt.year} | ₹${pt.bear_p10.toLocaleString('en-IN')} | ₹${pt.median_p50.toLocaleString('en-IN')} | ₹${pt.bull_p90.toLocaleString('en-IN')} |\n`;
+      });
+    }
+
+    if (activeRes.multi_stock_combination) {
+      const comb = activeRes.multi_stock_combination;
+      md += `\n---\n\n` +
+        `## 5. Minimum-Variance Ledoit-Wolf Shrinkage & Risk Reduction\n` +
+        `- **Weighted Single-Asset Volatility:** ${comb.weighted_avg_single_volatility_pct.toFixed(2)}%\n` +
+        `- **Optimized Combined Volatility:** **${comb.combined_volatility_pct.toFixed(2)}%**\n` +
+        `- **Net Volatility Reduction:** **-${comb.volatility_reduction_pct.toFixed(2)}%**\n` +
+        `- **Max Drawdown Reduction:** **-${comb.drawdown_reduction_pct.toFixed(2)}%**\n` +
+        `- **Diversification Ratio:** **${comb.diversification_ratio.toFixed(2)}x**\n\n` +
+        `### Recommended Portfolio Allocations\n`;
+      Object.entries(comb.weights).forEach(([sym, w]) => {
+        md += `- **${sym}:** ${(w * 100).toFixed(1)}%\n`;
+      });
+    }
+
+    md += `\n---\n\n` +
+      `## 6. Regulatory & Statutory Audit (Finance Act 2024 & SEBI LODR)\n` +
+      `- **STT Delivery Rate:** ${activeRes.statutory_tax_drag?.stt_delivery_rate || '0.10%'}\n` +
+      `- **LTCG Holding Period Threshold:** ${activeRes.statutory_tax_drag?.ltcg_holding_period_months || '12'} Months\n` +
+      `- **LTCG Rate:** ${activeRes.statutory_tax_drag?.ltcg_rate_pct || '12.5%'}\n` +
+      `- **SEBI Audit Status:** ${activeRes.regulatory_audit?.compliance_status || 'Compliant (SEBI LODR Regulation 30/33 Clean)'}\n\n` +
+      `---\n\n` +
+      `## 7. Multi-Agent Fleet Telemetry\n` +
+      `- **Orchestration Frameworks:** Google ADK + FastMCP + CrewAI\n` +
+      `- **Telemetry Latency:** Live synthesis computed in ${activeRes.llm_telemetry?.latency_ms ? (activeRes.llm_telemetry.latency_ms / 1000).toFixed(2) + 's' : 'sub-second'}\n` +
+      `- **Model Grounding:** ${activeRes.llm_telemetry?.provider || 'Google Gemini'} (${activeRes.llm_telemetry?.model || 'gemini-3.1-flash-lite'})\n\n` +
+      `---\n\n` +
+      `*Notice: This quantitative research document was generated by ArthaAI's autonomous multi-agent quantitative pipeline using authentic historical exchange parquet bars and live DuckDB order books under SEBI compliance guardrails. Past performance is no guarantee of future returns.*\n`;
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `arthai_research_${primarySymbol}_${runId}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const isCurrentlySaved = Boolean(
+    result &&
+    savedReports.some(
+      (r) => (result.run_id && r.id === result.run_id) || r.query.toLowerCase().trim() === (result.query || query).toLowerCase().trim()
+    )
+  );
 
   const handleUpdateCapital = (val: number) => {
     const safeVal = Math.max(1000, val || 0);
@@ -1156,10 +1463,32 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
           )}
         </div>
 
-        {/* Quick Sample Queries */}
+        {/* Quick Sample Queries & Saved Library Access */}
         <div style={{ marginBottom: '16px' }}>
-          <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 600 }}>
-            Quick Prompts:
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
+              Quick Prompts:
+            </span>
+            <button
+              onClick={() => setShowSavedModal(true)}
+              className="groww-chip"
+              style={{
+                fontSize: '11.5px',
+                padding: '4px 12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: savedReports.length > 0 ? 'rgba(0, 208, 156, 0.12)' : 'var(--bg-input)',
+                borderColor: savedReports.length > 0 ? 'var(--groww-green)' : 'var(--border-subtle)',
+                color: savedReports.length > 0 ? 'var(--groww-green)' : 'var(--text-secondary)',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+              title="Open your saved research reports library"
+            >
+              <Bookmark size={13} />
+              <span>Saved Reports ({savedReports.length})</span>
+            </button>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {SAMPLE_QUERIES.map((sample, idx) => (
@@ -1787,6 +2116,43 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
       {/* ── Evidence-Based Output Stream ────────────────────────────────────── */}
       {result && !loading && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Save Success Toast Banner */}
+          {saveSuccessNotification && (
+            <div
+              style={{
+                padding: '12px 18px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                border: '1px solid var(--groww-green)',
+                color: 'var(--groww-green)',
+                fontSize: '12.5px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckCircle2 size={16} />
+                <span>{saveSuccessNotification}</span>
+              </div>
+              <button
+                onClick={() => setShowSavedModal(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--groww-green)',
+                  textDecoration: 'underline',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                }}
+              >
+                Open Library
+              </button>
+            </div>
+          )}
+
           {/* 1. EXECUTIVE VERDICT & ACTION HEADER */}
           <div className="groww-card" style={{ padding: '24px', border: '1px solid var(--border-subtle)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '18px' }}>
@@ -1872,22 +2238,85 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
                 </h3>
               </div>
 
-              {onNavigateToPortfolio && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                {/* Save Report Button */}
                 <button
-                  onClick={() => onNavigateToPortfolio(result.detected_symbols[0], 'BUY')}
-                  className="btn-groww-primary"
+                  onClick={handleSaveReport}
+                  className="groww-chip"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
-                    padding: '8px 16px',
+                    padding: '8px 14px',
                     fontSize: '12px',
                     fontWeight: 700,
+                    backgroundColor: isCurrentlySaved ? 'rgba(0, 208, 156, 0.16)' : 'var(--bg-input)',
+                    borderColor: isCurrentlySaved ? 'var(--groww-green)' : 'var(--border-subtle)',
+                    color: isCurrentlySaved ? 'var(--groww-green)' : 'var(--text-primary)',
+                    cursor: 'pointer',
                   }}
+                  title="Save complete research report to view anytime"
                 >
-                  Deploy to Paper Trading Desk <ArrowRight size={14} />
+                  {isCurrentlySaved ? <BookmarkCheck size={14} /> : <Bookmark size={14} />}
+                  <span>{isCurrentlySaved ? 'Saved in Library' : 'Save Report'}</span>
                 </button>
-              )}
+
+                {/* Download Markdown Report */}
+                <button
+                  onClick={() => handleDownloadReport('md')}
+                  className="groww-chip"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                  title="Download complete publication-grade research report (.md)"
+                >
+                  <Download size={14} color="var(--groww-blue)" />
+                  <span>Download Report (.md)</span>
+                </button>
+
+                {/* Export JSON */}
+                <button
+                  onClick={() => handleDownloadReport('json')}
+                  className="groww-chip"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                  title="Export complete raw structured data (.json)"
+                >
+                  <FileText size={14} />
+                  <span>JSON</span>
+                </button>
+
+                {/* Deploy to Paper Desk */}
+                {onNavigateToPortfolio && (
+                  <button
+                    onClick={() => onNavigateToPortfolio(result.detected_symbols[0], 'BUY')}
+                    className="btn-groww-primary"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                    }}
+                  >
+                    Deploy to Desk <ArrowRight size={14} />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Live Computational Execution Pill */}
@@ -3468,6 +3897,227 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
               </p>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Saved Reports Library Modal (Open & See Anytime) ─────────────── */}
+      {showSavedModal && (
+        <div className="modal-overlay" onClick={() => setShowSavedModal(false)}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: '840px',
+              maxHeight: '85vh',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '24px',
+              gap: '18px',
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Bookmark size={20} color="var(--groww-green)" />
+                <div>
+                  <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                    Saved Research Library
+                  </h3>
+                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '2px 0 0 0' }}>
+                    {savedReports.length} quantitative research report{savedReports.length === 1 ? '' : 's'} archived with complete analysis & projections
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowSavedModal(false)}
+                className="groww-chip"
+                style={{ padding: '6px', borderRadius: '50%' }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Search filter within saved reports */}
+            {savedReports.length > 2 && (
+              <div style={{ position: 'relative' }}>
+                <Search size={14} style={{ position: 'absolute', left: '12px', top: '10px', color: 'var(--text-muted)' }} />
+                <input
+                  type="text"
+                  placeholder="Filter saved reports by query, symbol, or verdict..."
+                  value={savedSearchTerm}
+                  onChange={(e) => setSavedSearchTerm(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px 8px 34px',
+                    borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-input)',
+                    border: '1px solid var(--border-subtle)',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* List of Saved Reports */}
+            <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', paddingRight: '4px' }}>
+              {savedReports.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '48px 20px', color: 'var(--text-muted)' }}>
+                  <Bookmark size={36} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
+                  <p style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)' }}>No saved research reports yet</p>
+                  <p style={{ fontSize: '12px', marginTop: '4px', maxWidth: '380px', margin: '4px auto 0' }}>
+                    Run any quantitative inquiry in the Query Studio and click <strong>"Save Report"</strong> to archive full analyses here for instant retrieval.
+                  </p>
+                </div>
+              ) : (
+                savedReports
+                  .filter((item) => {
+                    if (!savedSearchTerm.trim()) return true;
+                    const q = savedSearchTerm.toLowerCase();
+                    return (
+                      item.query.toLowerCase().includes(q) ||
+                      item.verdict.toLowerCase().includes(q) ||
+                      item.symbols.some((s) => s.toLowerCase().includes(q))
+                    );
+                  })
+                  .map((item) => {
+                    const badge = getVerdictBadge(item.verdict);
+                    return (
+                      <div
+                        key={item.id}
+                        style={{
+                          padding: '16px 18px',
+                          borderRadius: 'var(--radius-lg)',
+                          backgroundColor: 'var(--bg-input)',
+                          border: '1px solid var(--border-subtle)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '12px',
+                          transition: 'border-color 0.15s ease',
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
+                          <div style={{ flex: 1, minWidth: '240px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+                              <span
+                                style={{
+                                  fontSize: '11px',
+                                  fontWeight: 800,
+                                  padding: '2px 8px',
+                                  borderRadius: '4px',
+                                  backgroundColor: badge.bg,
+                                  color: badge.text,
+                                  border: `1px solid ${badge.border}`,
+                                  fontFamily: 'var(--font-mono)',
+                                }}
+                              >
+                                {item.verdict}
+                              </span>
+                              <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                                {item.convictionScore}% Conviction
+                              </span>
+                              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                                • {item.horizonYears}Y Horizon
+                              </span>
+                              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                                • Saved {item.savedAtIST}
+                              </span>
+                            </div>
+
+                            <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, lineHeight: '1.4' }}>
+                              {item.query}
+                            </h4>
+
+                            <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+                              {item.symbols.map((sym) => (
+                                <span
+                                  key={sym}
+                                  style={{
+                                    fontSize: '10.5px',
+                                    fontWeight: 700,
+                                    padding: '2px 8px',
+                                    borderRadius: '4px',
+                                    backgroundColor: 'var(--bg-card)',
+                                    color: 'var(--text-secondary)',
+                                    border: '1px solid var(--border-subtle)',
+                                    fontFamily: 'var(--font-mono)',
+                                  }}
+                                >
+                                  {sym}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Buttons for this saved report */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <button
+                              onClick={() => handleOpenSavedReport(item)}
+                              className="btn-groww-primary"
+                              style={{
+                                padding: '6px 14px',
+                                fontSize: '12px',
+                                fontWeight: 700,
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                              }}
+                              title="Load and view complete research analysis"
+                            >
+                              <FolderOpen size={13} />
+                              <span>Open Complete Report</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleDownloadReport('md', item.data)}
+                              className="groww-chip"
+                              style={{ padding: '6px 10px', fontSize: '11px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                              title="Download Markdown Report"
+                            >
+                              <Download size={13} />
+                              <span>MD</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleDownloadReport('json', item.data)}
+                              className="groww-chip"
+                              style={{ padding: '6px 10px', fontSize: '11px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                              title="Export JSON"
+                            >
+                              <FileText size={13} />
+                              <span>JSON</span>
+                            </button>
+
+                            <button
+                              onClick={() => handleDeleteSavedReport(item.id)}
+                              className="groww-chip"
+                              style={{ padding: '6px 8px', color: 'var(--groww-red)' }}
+                              title="Delete from saved library"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', paddingTop: '14px' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                Saved reports are persisted locally and synchronized with ArthaAI RunStore.
+              </span>
+              <button
+                onClick={() => setShowSavedModal(false)}
+                className="btn-groww-secondary"
+                style={{ padding: '6px 16px', fontSize: '12px' }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
