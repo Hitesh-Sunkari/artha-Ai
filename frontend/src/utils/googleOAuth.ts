@@ -175,8 +175,13 @@ export async function launchOfficialGoogleOAuth(options: {
       },
       error_callback: (nonOAuthErr: any) => {
         console.error('Google OAuth init error:', nonOAuthErr);
-        const msg = nonOAuthErr?.message || 'Google OAuth failed to initialize. Please check your Google Cloud Client ID.';
-        onError(msg);
+        const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+        const raw = nonOAuthErr?.message || '';
+        if (raw.toLowerCase().includes('origin') || raw.toLowerCase().includes('invalid_client')) {
+          onError(`Google OAuth Origin Error: '${origin}' is not added to 'Authorized JavaScript origins' in your Google Cloud Console OAuth Client settings.`);
+        } else {
+          onError(raw || 'Google OAuth failed to initialize. Please check your Google Cloud Client ID.');
+        }
       },
     });
 
@@ -186,3 +191,4 @@ export async function launchOfficialGoogleOAuth(options: {
     onError(err?.message || 'Failed to trigger Google OAuth popup.');
   }
 }
+

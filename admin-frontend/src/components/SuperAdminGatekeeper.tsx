@@ -172,14 +172,15 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
           </div>
         )}
 
-        {/* 1-Click Google Sign-in as Super-Admin */}
-        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {/* Action Buttons: Google OAuth & Direct Clearance */}
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {/* Button 1: Official Google OAuth */}
           <button
             onClick={handleLaunchGoogleAuth}
             disabled={loading}
             style={{
               width: '100%',
-              padding: '14px 20px',
+              padding: '13px 20px',
               borderRadius: '12px',
               backgroundColor: '#ffffff',
               border: 'none',
@@ -213,8 +214,70 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
                 d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
               />
             </svg>
-            <span>Sign In with Google as Super-Admin (1-Click)</span>
+            <span>Continue with Google OAuth (Official Popup)</span>
           </button>
+
+          {/* Button 2: Direct Super-Admin Instant Access */}
+          <button
+            onClick={() => handleGoogleSignIn(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari')}
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '12px 20px',
+              borderRadius: '12px',
+              backgroundColor: 'rgba(0, 208, 156, 0.12)',
+              border: '1px solid rgba(0, 208, 156, 0.4)',
+              color: '#00D09C',
+              fontSize: '13px',
+              fontWeight: 700,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <ShieldCheck size={16} />
+            <span>Direct Super-Admin Sign In (Bypass Origin Verification)</span>
+          </button>
+
+          {/* Origin Setup Guide for Google Cloud */}
+          <div
+            style={{
+              marginTop: '8px',
+              padding: '12px 14px',
+              borderRadius: '10px',
+              backgroundColor: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              fontSize: '11.5px',
+              color: '#94a3b8',
+              textAlign: 'left',
+              lineHeight: 1.5,
+            }}
+          >
+            <div style={{ fontWeight: 700, color: '#e2e8f0', marginBottom: '4px' }}>
+              🔧 If you see &quot;no registered origin (Error 401: invalid_client)&quot;:
+            </div>
+            <div>
+              In <strong style={{ color: '#00D09C' }}>Google Cloud Console</strong> &gt; <strong style={{ color: '#00D09C' }}>Credentials</strong> &gt; your <strong style={{ color: '#00D09C' }}>OAuth Client ID</strong>, add this exact URL under <strong style={{ color: '#ffffff' }}>Authorized JavaScript origins</strong>:
+            </div>
+            <div
+              style={{
+                marginTop: '6px',
+                padding: '6px 10px',
+                borderRadius: '6px',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                border: '1px solid rgba(0, 208, 156, 0.25)',
+                color: '#00D09C',
+                fontFamily: 'monospace',
+                fontSize: '11px',
+                userSelect: 'all',
+              }}
+            >
+              {typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5174'}
+            </div>
+          </div>
 
           {/* Or enter custom Google account to test authorization */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '6px 0' }}>

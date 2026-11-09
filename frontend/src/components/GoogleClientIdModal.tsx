@@ -216,11 +216,32 @@ export const GoogleClientIdModal: React.FC<GoogleClientIdModalProps> = ({
           <div>
             <strong>Persistent Setting:</strong> You can also set <code style={{ color: '#00D09C' }}>VITE_GOOGLE_CLIENT_ID=your_client_id</code> directly in your root <code style={{ color: '#00D09C' }}>.env</code> file.
           </div>
-          <div style={{ marginTop: '6px' }}>
-            Authorized JavaScript Origins: <code style={{ color: '#00D09C' }}>http://localhost:5173</code> and <code style={{ color: '#00D09C' }}>http://127.0.0.1:5173</code>
+          <div
+            style={{
+              marginTop: '12px',
+              padding: '10px 12px',
+              borderRadius: '8px',
+              backgroundColor: isDark ? 'rgba(0, 208, 156, 0.06)' : '#F0FDF4',
+              border: isDark ? '1px solid rgba(0, 208, 156, 0.25)' : '1px solid #BBF7D0',
+              fontSize: '11.5px',
+              color: isDark ? '#CBD5E1' : '#166534',
+              lineHeight: 1.5,
+            }}
+          >
+            <div style={{ fontWeight: 700, marginBottom: '4px' }}>
+              ⚠️ To prevent &quot;no registered origin (Error 401: invalid_client)&quot;:
+            </div>
+            <div>In Google Cloud Console &gt; OAuth Client ID, add these under <strong>Authorized JavaScript origins</strong>:</div>
+            <div style={{ marginTop: '6px', fontFamily: 'monospace', color: isDark ? '#00D09C' : '#059669', fontWeight: 600, userSelect: 'all' }}>
+              http://localhost:5173<br />
+              http://127.0.0.1:5173<br />
+              http://localhost:5174<br />
+              http://127.0.0.1:5174
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
