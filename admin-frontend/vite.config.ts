@@ -22,6 +22,8 @@ export default defineConfig({
       '/securities': 'http://127.0.0.1:8000',
       '/api': 'http://127.0.0.1:8000',
       '/data': 'http://127.0.0.1:8000',
+      '/auth': 'http://127.0.0.1:8000',
+      '/telemetry': 'http://127.0.0.1:8000',
     },
   },
 });

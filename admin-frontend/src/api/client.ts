@@ -52,13 +52,13 @@ export class ApiError extends Error {
 
 async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 12000): Promise<T> {
   const baseUrl = getApiBaseUrl();
-  const fullUrl = `${baseUrl}${path}`;
+  let fullUrl = `${baseUrl}${path}`;
 
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    const res = await fetch(fullUrl, {
+    let res = await fetch(fullUrl, {
       ...options,
       signal: controller.signal,
       headers: {
@@ -68,18 +68,47 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
       },
     });
 
-    if (!res.ok) {
-      let detail = '';
+    // If direct relative route returned 404 and baseUrl is empty, fallback directly to 8000 backend
+    if (res.status === 404 && !baseUrl) {
       try {
-        const errJson = await res.json();
-        detail = errJson.detail || errJson.message || JSON.stringify(errJson);
+        const fallbackRes = await fetch(`http://127.0.0.1:8000${path}`, {
+          ...options,
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            ...(options.headers || {}),
+          },
+        });
+        if (fallbackRes.ok || fallbackRes.status < 500) {
+          res = fallbackRes;
+          fullUrl = `http://127.0.0.1:8000${path}`;
+        }
       } catch {
-        detail = await res.text();
+        // Keep initial response
       }
-      throw new ApiError(detail || `HTTP ${res.status}: ${res.statusText}`, res.status, detail);
     }
 
-    return (await res.json()) as T;
+    // Safely consume response body once as text to prevent stream exhaustion
+    const rawText = await res.text();
+    let parsedJson: any = null;
+    if (rawText && rawText.trim()) {
+      try {
+        parsedJson = JSON.parse(rawText);
+      } catch {
+        // Raw text was not JSON
+      }
+    }
+
+    if (!res.ok) {
+      const detail =
+        parsedJson?.detail ||
+        parsedJson?.message ||
+        (rawText && rawText.length < 300 ? rawText : `HTTP ${res.status}: ${res.statusText}`);
+      throw new ApiError(detail, res.status, parsedJson || detail);
+    }
+
+    return (parsedJson !== null ? parsedJson : {}) as T;
   } catch (err: any) {
     if (err.name === 'AbortError') {
       throw new ApiError(`Request timeout after ${timeoutMs}ms to ${fullUrl}`, 408);
@@ -87,7 +116,7 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
     if (err instanceof ApiError) {
       throw err;
     }
-    throw new ApiError(`Network connection failure: ${err.message || 'Cannot reach API backend.'}`, 0, err);
+    throw new ApiError(err.message || 'Cannot reach API backend.', 0, err);
   } finally {
     clearTimeout(id);
   }
