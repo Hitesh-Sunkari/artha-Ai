@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ArthaLogo } from './ArthaLogo';
-import { GoogleAccountChooser } from './GoogleAccountChooser';
+import { GoogleClientIdModal } from './GoogleClientIdModal';
+import { getResolvedGoogleClientId, launchOfficialGoogleOAuth } from '../utils/googleOAuth';
 import {
   ShieldCheck,
   Mail,
@@ -43,9 +44,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [isGoogleOAuthOpen, setIsGoogleOAuthOpen] = useState(false);
-  const [customGoogleEmail, setCustomGoogleEmail] = useState('');
-  const [customGoogleName, setCustomGoogleName] = useState('');
+  // Google OAuth Flow State
+  const [isClientIdModalOpen, setIsClientIdModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -121,45 +121,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         policyStrong: '#334155',
       };
 
-  const handleOpenGoogleOAuth = () => {
-    setError(null);
-    const clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID;
-    const google = (window as any).google;
-
-    if (clientId && google?.accounts?.oauth2) {
-      try {
-        const tokenClient = google.accounts.oauth2.initTokenClient({
-          client_id: clientId,
-          scope: 'email profile openid',
-          callback: async (resp: any) => {
-            if (resp && resp.access_token) {
-              setLoading(true);
-              try {
-                const userinfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                  headers: { Authorization: `Bearer ${resp.access_token}` },
-                });
-                const profile = await userinfoRes.json();
-                if (profile?.email) {
-                  await handleExecuteGoogleOAuth(profile.email, profile.name || profile.email.split('@')[0]);
-                  return;
-                }
-              } catch (e) {
-                console.warn('Google userinfo fetch fallback', e);
-              }
-            }
-          },
-        });
-        tokenClient.requestAccessToken();
-        return;
-      } catch (err) {
-        console.warn('Google OAuth GIS popup error, opening verified selector', err);
-      }
-    }
-
-    setIsGoogleOAuthOpen(true);
-  };
-
-  const handleExecuteGoogleOAuth = async (targetEmail: string, targetName?: string) => {
+  const handleExecuteGoogleOAuth = async (targetEmail: string, targetName?: string, picture?: string) => {
     const cleanEmail = targetEmail.trim();
     if (!cleanEmail || !cleanEmail.includes('@')) {
       setError('Please provide a valid Google/Gmail account email address.');
@@ -167,11 +129,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
     setLoading(true);
     setError(null);
-    setIsGoogleOAuthOpen(false);
+    setIsClientIdModalOpen(false);
 
     try {
       const cleanName = (targetName || '').trim() || cleanEmail.split('@')[0];
-      const authUser = await api.loginWithGoogle(cleanEmail, cleanName, undefined, mode);
+      const authUser = await api.loginWithGoogle(cleanEmail, cleanName, picture, mode);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
@@ -201,6 +163,34 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const triggerGooglePopup = async (resolvedId: string) => {
+    setError(null);
+    await launchOfficialGoogleOAuth({
+      clientId: resolvedId,
+      onProfile: (profile) => {
+        handleExecuteGoogleOAuth(profile.email, profile.name, profile.picture);
+      },
+      onError: (errMsg) => {
+        setError(errMsg);
+      },
+      onLoading: (isLoading) => {
+        setLoading(isLoading);
+      },
+    });
+  };
+
+  const handleOpenGoogleOAuth = async () => {
+    setError(null);
+    const resolvedId = await getResolvedGoogleClientId();
+    if (!resolvedId) {
+      // Prompt user to configure Google OAuth Client ID
+      setIsClientIdModalOpen(true);
+      return;
+    }
+
+    await triggerGooglePopup(resolvedId);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -655,14 +645,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
       </div>
 
-      {/* Official Google OAuth Account Chooser Dialog */}
-      <GoogleAccountChooser
-        isOpen={isGoogleOAuthOpen}
-        onClose={() => setIsGoogleOAuthOpen(false)}
-        mode={mode}
-        loading={loading}
-        onSelectAccount={async (selectedEmail, selectedName) => {
-          await handleExecuteGoogleOAuth(selectedEmail, selectedName);
+      {/* Google OAuth 2.0 Client ID Configuration Dialog (if unconfigured) */}
+      <GoogleClientIdModal
+        isOpen={isClientIdModalOpen}
+        onClose={() => setIsClientIdModalOpen(false)}
+        onConfigured={(configuredId) => {
+          triggerGooglePopup(configuredId);
         }}
       />
     </div>,

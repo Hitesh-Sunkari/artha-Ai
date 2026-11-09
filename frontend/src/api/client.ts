@@ -172,6 +172,9 @@ export const api = {
       body: JSON.stringify({ email, name, picture, mode }),
     }),
 
+  getGoogleOAuthConfig: () =>
+    request<{ client_id: string }>('/auth/google/config', {}, 3000),
+
   getGoogleAccounts: () =>
     request<Array<{ email: string; name: string; role: string; is_super_admin: boolean; auth_provider: string }>>(
       '/auth/google/accounts',

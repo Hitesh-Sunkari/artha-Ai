@@ -29,6 +29,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
@@ -2252,6 +2255,21 @@ def create_research_api(
             raise HTTPException(status_code=400, detail="A valid email address is required.")
         name = str(body.get("name", ""))
         return telemetry_engine.authenticate_user(email=email, name=name, auth_provider="EMAIL", mode="SIGNUP")
+
+    @app.get(
+        "/auth/google/config",
+        summary="Google OAuth Client ID Configuration",
+        tags=["auth"],
+    )
+    async def auth_google_config_endpoint() -> dict[str, Any]:
+        """Returns the configured Google OAuth 2.0 Web Client ID."""
+        client_id = (
+            os.getenv("VITE_GOOGLE_CLIENT_ID")
+            or os.getenv("GOOGLE_CLIENT_ID")
+            or os.getenv("GOOGLE_OAUTH_CLIENT_ID")
+            or ""
+        ).strip()
+        return {"client_id": client_id}
 
     @app.post(
         "/auth/google",

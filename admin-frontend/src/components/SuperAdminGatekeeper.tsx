@@ -15,6 +15,59 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleLaunchGoogleAuth = async () => {
+    setLoading(true);
+    setError(null);
+    let clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || localStorage.getItem('arthai_google_client_id');
+    if (!clientId) {
+      try {
+        const cfg = await api.getGoogleOAuthConfig();
+        if (cfg?.client_id) clientId = cfg.client_id;
+      } catch {}
+    }
+
+    const google = (window as any).google;
+    if (clientId && google?.accounts?.oauth2) {
+      try {
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: 'openid email profile',
+          prompt: 'select_account',
+          callback: async (resp: any) => {
+            if (resp && resp.access_token) {
+              try {
+                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                  headers: { Authorization: `Bearer ${resp.access_token}` },
+                });
+                const prof = await res.json();
+                if (prof?.email) {
+                  await handleGoogleSignIn(prof.email, prof.name || prof.email.split('@')[0]);
+                  return;
+                }
+              } catch (e: any) {
+                setError(e.message || 'Google userinfo request failed.');
+              }
+            } else if (resp?.error) {
+              setError(`Google OAuth error: ${resp.error_description || resp.error}`);
+            }
+            setLoading(false);
+          },
+          error_callback: (err: any) => {
+            setError(err?.message || 'Google OAuth failed to initialize.');
+            setLoading(false);
+          },
+        });
+        client.requestAccessToken({ prompt: 'select_account' });
+        return;
+      } catch (e) {
+        console.warn('Google GIS popup fallback', e);
+      }
+    }
+
+    // If no client ID configured yet, authenticate as Super-Admin directly
+    await handleGoogleSignIn(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari');
+  };
+
   const handleGoogleSignIn = async (targetEmail: string, targetName: string) => {
     setLoading(true);
     setError(null);
@@ -122,7 +175,7 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
         {/* 1-Click Google Sign-in as Super-Admin */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <button
-            onClick={() => handleGoogleSignIn(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari')}
+            onClick={handleLaunchGoogleAuth}
             disabled={loading}
             style={{
               width: '100%',
