@@ -22,12 +22,12 @@ Write-Host " Archive Name: $archiveName" -ForegroundColor Yellow
 Write-Host "==========================================================" -ForegroundColor Cyan
 
 docker run --rm `
-  -v arthaai-data-runs:/source/runs:ro `
-  -v arthaai-data-blackboard:/source/blackboard:ro `
-  -v arthaai-data-chroma:/source/chroma_db:ro `
-  -v arthaai-data-parquet:/source/parquet:ro `
-  -v arthaai-experiments-results:/source/experiments_results:ro `
-  -v arthaai-experiments-datasets:/source/experiments_datasets:ro `
+  -v arthai-runs:/source/runs:ro `
+  -v arthai-blackboard:/source/blackboard:ro `
+  -v arthai-chroma:/source/chroma_db:ro `
+  -v arthai-parquet:/source/parquet:ro `
+  -v arthai-experiments-results:/source/experiments_results:ro `
+  -v arthai-experiments-datasets:/source/experiments_datasets:ro `
   -v "${targetDir}:/backup" `
   alpine:latest `
   tar -czf "/backup/${archiveName}" -C /source .

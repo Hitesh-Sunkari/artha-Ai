@@ -163,28 +163,38 @@ flowchart TD
 
 ## 5. Architectural Trade-Off Analysis & Selection
 
-### Architecture 2: Unified Container on Hugging Face Spaces (WINNER — ZERO SETUP / ZERO CC)
-- **Strengths:** 
-  - Complete stack runs from a single unified `Dockerfile`.
-  - Zero payment card requirement eliminates risk of accidental cloud billing.
-  - Generous 16 GB RAM eliminates all memory constraint concerns (peak usage is only 365 MB).
-  - Outbound connections to Gemini API, DuckDB queries, and FastMCP tool executions execute without firewall restrictions.
-- **Implementation Strategy:**
-  - Build frontend static artifacts in Stage 1 and Stage 2 of Dockerfile.
-  - Serve both client SPA (`/`) and admin SPA (`/admin`) natively via FastAPI `StaticFiles`.
-  - Bake Parquet datasets and ChromaDB vector corpus directly into the image.
-
-### Architecture 1: Docker Compose on Oracle Cloud Always Free (WINNER — DEDICATED VM)
+### Architecture 1: Docker Compose on Oracle Cloud Always Free (RANK 1 — BEST DEDICATED VM)
 - **Strengths:**
-  - 100% continuous 24/7/365 execution with static IPv4 address.
-  - Dedicated Nginx reverse proxy with gzip compression and strict TLS termination.
-  - 200 GB persistent block storage with zero sleeping.
-- **Trade-off:** Requires credit card for initial identity check during OCI signup.
+  - 100% continuous 24/7/365 execution with static IPv4 address and automated HTTPS.
+  - Generous 24 GB RAM and 4 ARM Ampere A1 cores (tested 100% ARM64 native wheel compatibility).
+  - Dedicated Nginx reverse proxies with gzip compression, security headers, and strict TLS termination.
+  - 200 GB persistent block storage preserving all 6 named volumes (`arthai-runs`, `arthai-blackboard`, `arthai-chroma`, `arthai-parquet`, `arthai-experiments-*`).
+  - Zero sleeping, zero cold-starts, zero request timeout limits.
+- **Trade-off:** Requires credit card for initial identity check during OCI signup ($1 temporary authorization hold).
+
+### Architecture 2: Decoupled Hybrid (Vercel / Cloudflare Edge + Oracle / GCP Backend) (RANK 2 — BEST HYBRID)
+- **Strengths:**
+  - Client Frontend (`http://localhost:5173` equivalent) and Admin Portal (`http://localhost:5174` equivalent) deployed to global Edge CDN via Vercel or Cloudflare Pages.
+  - Instant edge delivery, automated Let's Encrypt TLS, infinite static scaling.
+  - Backend API hosted on Oracle Cloud VM or Google Cloud `e2-micro` VM running the FastMCP, DuckDB, ChromaDB, and CrewAI engine.
+- **Trade-off:** Cross-origin CORS configuration required between Edge domain and Backend API host.
+
+### Architecture 3: Google Cloud Platform Always Free VM (RANK 3 — BEST ZERO-CARD ALTERNATIVE IF OCI CAPACITY FULL)
+- **Strengths:**
+  - 1 `e2-micro` instance (1 GB RAM + 30 GB persistent disk) in US regions (`us-central1`, `us-west1`, `us-east1`).
+  - With a 2 GB Linux swap file (`/swapfile`), comfortably accommodates ArthaAI's 365 MB peak memory footprint.
+  - Runs the exact same `docker-compose.yml` multi-container stack.
+
+### Architecture 4: Container Platform / Hugging Face Spaces / Render
+- **Evaluation:**
+  - Hugging Face Spaces provides 16 GB RAM for CPU Basic, but recent Docker Space policy updates may require credit card verification or have 48-hour idle sleep cycles.
+  - Render free tier is capped at 512 MB RAM (leaving only ~147 MB headroom above ArthaAI's 365 MB peak) and spins down after 15 minutes of inactivity.
 
 ---
 
 ## 6. Implementation & Operational Recommendations
 
-1. **Primary Immediate Deployment:** Deploy to **Hugging Face Spaces** using the root `Dockerfile` (Port 7860). This provides an instant live public HTTPS URL with zero financial risk.
-2. **Dedicated Always-On Option:** Deploy to **Oracle Cloud Always Free** using `compose.yaml` for production setups requiring a dedicated Linux VM with no sleep intervals.
-3. **Keep-Alive Configuration:** For Hugging Face Spaces, set up a free monitor at [uptimerobot.com](https://uptimerobot.com/) targeting `https://<your-space>.hf.space/health` every 15 minutes to prevent idle sleep.
+1. **Primary Recommended Architecture:** Deploy **Docker Compose on Oracle Cloud Always Free** (`compose.yaml` / `docker-compose.yml`). This provides a permanent, zero-cost 24/7/365 dedicated server with 24 GB RAM, 200 GB persistent storage, and zero cold starts.
+2. **Alternative Dedicated VM:** If Oracle Cloud ARM capacity is temporarily full in your home region, deploy to **Google Cloud Platform `e2-micro` Always Free VM** with 2 GB swap.
+3. **Alternative Hybrid Architecture:** Deploy React Frontends to **Vercel** / **Cloudflare Pages** and point `VITE_API_URL` to your backend VM.
+4. **ARM64 Native Verification:** All 15 required C++/Python packages (`numpy`, `scipy`, `pandas`, `duckdb`, `pyarrow`, `chromadb`, etc.) have verified native `aarch64` wheels for Python 3.12, ensuring 100% native execution speed without emulation.

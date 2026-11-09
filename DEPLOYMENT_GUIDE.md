@@ -10,21 +10,29 @@
 This guide details step-by-step instructions to deploy **ArthaAI** on genuinely free cloud infrastructure without hidden charges, trial-credit cliffs, or simulated agents.
 
 ### Selected Free Cloud Platforms
-1. **Option A: Hugging Face Spaces (Zero-Setup, Free Container Service)**
-   - **Specs:** 2 vCPU, 16 GB RAM, 50 GB disk, public HTTPS URL.
-   - **Cost:** Permanent ₹0/month.
-   - **Credit Card:** **Not required**.
-   - **Deployment Mechanism:** Direct Git push of the unified `Dockerfile`.
-2. **Option B: Oracle Cloud Always Free (Dedicated Linux VM)**
-   - **Specs:** 4 ARM Ampere vCPUs, 24 GB RAM, 200 GB permanent disk, static IPv4.
-   - **Cost:** Permanent ₹0/month.
-   - **Credit Card:** Required for signup verification only.
-   - **Deployment Mechanism:** Docker Compose (`compose.yaml`).
-3. **Option C: Google Cloud Always Free `e2-micro` (1 GB RAM VM)**
-   - **Specs:** 1 `e2-micro` instance, 1 GB RAM, 30 GB disk (us-central1, us-west1, us-east1).
-   - **Cost:** Permanent ₹0/month.
-   - **Credit Card:** Required for GCP account.
-   - **Deployment Mechanism:** Docker container with 2 GB Linux swap file.
+1. **Option 1: Oracle Cloud Always Free (Dedicated Linux ARM64 VM) [RECOMMENDED]**
+   - **Specs:** 4 ARM Ampere vCPUs, 24 GB RAM, 200 GB permanent block storage, static public IPv4.
+   - **Cost:** Permanent ₹0.00/month indefinitely.
+   - **Credit Card:** Required for signup verification only ($1 temporary fraud-prevention hold).
+   - **Deployment Mechanism:** Multi-container Docker Compose (`compose.yaml` / `docker-compose.yml`).
+   - **Zero Sleep:** Runs 24/7/365 with zero cold starts, zero timeouts, and full persistent volume storage.
+
+2. **Option 2: Decoupled Hybrid (Vercel / Cloudflare Edge + Oracle / GCP Backend)**
+   - **Specs:** Frontends hosted on global edge CDN with automated Let's Encrypt HTTPS; backend hosted on free cloud VM.
+   - **Cost:** Permanent ₹0.00/month.
+   - **Credit Card:** Not required for Vercel/Cloudflare.
+   - **Deployment Mechanism:** Git push to Vercel/Cloudflare Pages with `VITE_API_URL` pointing to backend VM.
+
+3. **Option 3: Google Cloud Always Free `e2-micro` (1 GB RAM VM with 2 GB Swap)**
+   - **Specs:** 1 `e2-micro` instance, 1 GB RAM, 30 GB standard persistent disk (US regions `us-central1`, `us-west1`, `us-east1`).
+   - **Cost:** Permanent ₹0.00/month within free tier usage limits.
+   - **Credit Card:** Required for GCP account activation.
+   - **Deployment Mechanism:** Docker Compose stack with a configured 2 GB Linux swap file.
+
+4. **Option 4: Single Container on Hugging Face Spaces / Render (PaaS)**
+   - **Specs:** Unified single container running on Port 7860/8000.
+   - **Cost:** Permanent ₹0.00/month.
+   - **Deployment Mechanism:** Root `Dockerfile` multi-stage build.
 
 ---
 

@@ -22,20 +22,20 @@ Write-Host " Restoring ArthaAI Persistent Volumes from:" -ForegroundColor Green
 Write-Host " Archive: $fullBackupPath" -ForegroundColor Yellow
 Write-Host "==========================================================" -ForegroundColor Cyan
 
-docker volume create arthaai-data-runs | Out-Null
-docker volume create arthaai-data-blackboard | Out-Null
-docker volume create arthaai-data-chroma | Out-Null
-docker volume create arthaai-data-parquet | Out-Null
-docker volume create arthaai-experiments-results | Out-Null
-docker volume create arthaai-experiments-datasets | Out-Null
+docker volume create arthai-runs | Out-Null
+docker volume create arthai-blackboard | Out-Null
+docker volume create arthai-chroma | Out-Null
+docker volume create arthai-parquet | Out-Null
+docker volume create arthai-experiments-results | Out-Null
+docker volume create arthai-experiments-datasets | Out-Null
 
 docker run --rm `
-  -v arthaai-data-runs:/dest/runs `
-  -v arthaai-data-blackboard:/dest/blackboard `
-  -v arthaai-data-chroma:/dest/chroma_db `
-  -v arthaai-data-parquet:/dest/parquet `
-  -v arthaai-experiments-results:/dest/experiments_results `
-  -v arthaai-experiments-datasets:/dest/experiments_datasets `
+  -v arthai-runs:/dest/runs `
+  -v arthai-blackboard:/dest/blackboard `
+  -v arthai-chroma:/dest/chroma_db `
+  -v arthai-parquet:/dest/parquet `
+  -v arthai-experiments-results:/dest/experiments_results `
+  -v arthai-experiments-datasets:/dest/experiments_datasets `
   -v "${backupDir}:/backup" `
   alpine:latest `
   tar -xzf "/backup/${archiveName}" -C /dest

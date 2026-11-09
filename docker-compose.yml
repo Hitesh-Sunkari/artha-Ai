@@ -31,12 +31,12 @@ services:
       - LLM_GEMINI_MODEL=${LLM_GEMINI_MODEL:-gemini-3.1-flash-lite}
       - ARTHAAI_ALLOWED_ORIGINS=*
     volumes:
-      - arthaai-data-runs:/app/data/runs
-      - arthaai-data-blackboard:/app/data/blackboard
-      - arthaai-data-chroma:/app/data/chroma_db
-      - arthaai-data-parquet:/app/data/parquet
-      - arthaai-experiments-results:/app/experiments/results
-      - arthaai-experiments-datasets:/app/experiments/datasets
+      - arthai-runs:/app/data/runs
+      - arthai-blackboard:/app/data/blackboard
+      - arthai-chroma:/app/data/chroma_db
+      - arthai-parquet:/app/data/parquet
+      - arthai-experiments-results:/app/experiments/results
+      - arthai-experiments-datasets:/app/experiments/datasets
     deploy:
       resources:
         limits:
@@ -116,15 +116,15 @@ networks:
     driver: bridge
 
 volumes:
-  arthaai-data-runs:
-    name: arthaai-data-runs
-  arthaai-data-blackboard:
-    name: arthaai-data-blackboard
-  arthaai-data-chroma:
-    name: arthaai-data-chroma
-  arthaai-data-parquet:
-    name: arthaai-data-parquet
-  arthaai-experiments-results:
-    name: arthaai-experiments-results
-  arthaai-experiments-datasets:
-    name: arthaai-experiments-datasets
+  arthai-runs:
+    name: arthai-runs
+  arthai-blackboard:
+    name: arthai-blackboard
+  arthai-chroma:
+    name: arthai-chroma
+  arthai-parquet:
+    name: arthai-parquet
+  arthai-experiments-results:
+    name: arthai-experiments-results
+  arthai-experiments-datasets:
+    name: arthai-experiments-datasets

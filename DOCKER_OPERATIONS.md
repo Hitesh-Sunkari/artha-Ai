@@ -56,9 +56,9 @@ The primary production architecture runs 3 decoupled services over an isolated b
                         ▼                                               ▼
          ┌──────────────────────────────┐                ┌──────────────────────────────┐
          │      Persistent Volumes      │                │   Statutory Data Bank & RAG  │
-         │  • arthaai-data-runs         │                │  • arthaai-data-parquet      │
-         │  • arthaai-data-blackboard   │                │  • arthaai-data-chroma       │
-         │  • arthaai-experiments-res   │                │  • arthaai-experiments-data  │
+         │  • arthai-runs               │                │  • arthai-parquet            │
+         │  • arthai-blackboard         │                │  • arthai-chroma             │
+         │  • arthai-experiments-res    │                │  • arthai-experiments-data   │
          └──────────────────────────────┘                └──────────────────────────────┘
 ```
 
@@ -70,12 +70,12 @@ To ensure that **nothing is ever lost** after deployment, 6 dedicated Docker nam
 
 | Named Volume | In-Container Mount Path | Contents & Criticality | Loss Consequence if Unmounted |
 |---|---|---|---|
-| `arthaai-data-runs` | `/app/data/runs` | User-initiated research reports, execution traces, and query outputs | Historical user inquiries lost on container restart |
-| `arthaai-data-blackboard` | `/app/data/blackboard` | 7-agent sequential/parallel deliberation snapshots | Multi-agent handoff audit trail lost |
-| `arthaai-data-chroma` | `/app/data/chroma_db` | Persistent ChromaDB vector embeddings for RBI circulars & SEBI LODR | Expensive re-embedding needed from raw PDFs |
-| `arthaai-data-parquet` | `/app/data/parquet` | 5-year daily OHLCV bars, financial filings, and macro tables | DuckDB falls back to slow live yfinance queries |
-| `arthaai-experiments-results` | `/app/experiments/results` | Canonical 96-run paired evaluation results (`exp-canon-*.json`) | Scientific benchmark verification metrics lost |
-| `arthaai-experiments-datasets` | `/app/experiments/datasets` | Canonical benchmark scenarios (`Q01`–`Q06`, `S01`–`S06`) | Scenario definitions reset to default |
+| `arthai-runs` | `/app/data/runs` | User-initiated research reports, execution traces, and query outputs | Historical user inquiries lost on container restart |
+| `arthai-blackboard` | `/app/data/blackboard` | 7-agent sequential/parallel deliberation snapshots | Multi-agent handoff audit trail lost |
+| `arthai-chroma` | `/app/data/chroma_db` | Persistent ChromaDB vector embeddings for RBI circulars & SEBI LODR | Expensive re-embedding needed from raw PDFs |
+| `arthai-parquet` | `/app/data/parquet` | 5-year daily OHLCV bars, financial filings, and macro tables | DuckDB falls back to slow live yfinance queries |
+| `arthai-experiments-results` | `/app/experiments/results` | Canonical 96-run paired evaluation results (`exp-canon-*.json`) | Scientific benchmark verification metrics lost |
+| `arthai-experiments-datasets` | `/app/experiments/datasets` | Canonical benchmark scenarios (`Q01`–`Q06`, `S01`–`S06`) | Scenario definitions reset to default |
 
 ---
 
@@ -168,9 +168,9 @@ docker run -d \
   -p 7860:7860 \
   -e GEMINI_API_KEY="your-key-here" \
   -e PORT=7860 \
-  -v arthaai-data-runs:/app/data/runs \
-  -v arthaai-data-parquet:/app/data/parquet \
-  -v arthaai-experiments-results:/app/experiments/results \
+  -v arthai-runs:/app/data/runs \
+  -v arthai-parquet:/app/data/parquet \
+  -v arthai-experiments-results:/app/experiments/results \
   --name arthaai-unified \
   arthaai-unified:latest
 ```

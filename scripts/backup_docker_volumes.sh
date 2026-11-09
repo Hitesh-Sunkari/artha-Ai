@@ -19,12 +19,12 @@ echo " Target Archive: ${BACKUP_FILE}"
 echo "=========================================================="
 
 docker run --rm \
-  -v arthaai-data-runs:/source/runs:ro \
-  -v arthaai-data-blackboard:/source/blackboard:ro \
-  -v arthaai-data-chroma:/source/chroma_db:ro \
-  -v arthaai-data-parquet:/source/parquet:ro \
-  -v arthaai-experiments-results:/source/experiments_results:ro \
-  -v arthaai-experiments-datasets:/source/experiments_datasets:ro \
+  -v arthai-runs:/source/runs:ro \
+  -v arthai-blackboard:/source/blackboard:ro \
+  -v arthai-chroma:/source/chroma_db:ro \
+  -v arthai-parquet:/source/parquet:ro \
+  -v arthai-experiments-results:/source/experiments_results:ro \
+  -v arthai-experiments-datasets:/source/experiments_datasets:ro \
   -v "$(pwd)/${BACKUP_DIR}:/backup" \
   alpine:latest \
   tar -czf "/backup/arthaai_volumes_backup_${TIMESTAMP}.tar.gz" -C /source .

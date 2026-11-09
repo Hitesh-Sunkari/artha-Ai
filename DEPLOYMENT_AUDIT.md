@@ -159,6 +159,9 @@ flowchart TD
 | 5 | DuckDB Memory Bounds | Default DuckDB connection used unconstrained RAM allocation. In a 512MB-1GB container, complex queries could trigger an OOM kill. | Set explicit memory cap: `PRAGMA max_memory='256MB'` and `PRAGMA threads=2`. |
 | 6 | Uvicorn Worker Bounds | Default reload mode runs multiple processes. | Single production worker configured with `--workers 1` and `--limit-concurrency 10` for minimal memory footprint. |
 | 7 | Static File Serving | SPA routing was enabled only for `frontend/dist`. The `admin-frontend/dist` was not mounted. | Mounted `/admin` and `/admin-assets` to serve the admin portal from the unified web layer. |
+| 8 | Reverse Proxy Routing | `frontend/nginx.conf` omitted `/admin` and `/auth` routes, causing administrative and authentication API calls to fall back to `index.html`. | Updated location regex in both `frontend/nginx.conf` and `admin-frontend/nginx.conf` to proxy `/admin` and `/auth`. |
+| 9 | Benchmark Dataset Ingestion | `Dockerfile.backend` only copied `data/` and `configs/`, omitting `experiments/`. | Added `COPY experiments/ /app/experiments/` to ensure all 12 canonical benchmark scenarios and 96-run evaluations are accessible in containers. |
+| 10 | State Persistence Topology | Only 4 persistent volumes existed; benchmark evaluations risked data loss on container reset. | Added `arthai-experiments-results` and `arthai-experiments-datasets` to `compose.yaml` and `docker-compose.yml` with automated 1-click backup/restore scripts. |
 
 ---
 
