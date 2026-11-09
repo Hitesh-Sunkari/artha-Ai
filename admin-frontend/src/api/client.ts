@@ -204,6 +204,13 @@ export const api = {
       body: JSON.stringify({ email, name, picture, mode }),
     }),
 
+  getGoogleAccounts: () =>
+    request<Array<{ email: string; name: string; role: string; is_super_admin: boolean; auth_provider: string }>>(
+      '/auth/google/accounts',
+      {},
+      4000
+    ),
+
   checkSwitchClearance: (email: string) =>
     request<import('./types').SwitchClearanceResponse>('/auth/switch-check', {
       method: 'POST',

@@ -2270,6 +2270,15 @@ def create_research_api(
             email=email, name=name, picture=picture, auth_provider="GOOGLE", mode=mode
         )
 
+    @app.get(
+        "/auth/google/accounts",
+        summary="List Registered Accounts for Google Account Chooser",
+        tags=["auth"],
+    )
+    async def list_google_accounts_endpoint() -> list[dict[str, Any]]:
+        """Returns registered accounts list for Google OAuth account selection dialog."""
+        return telemetry_engine.get_registered_accounts()
+
     @app.post(
         "/auth/switch-check",
         summary="Verify Administrative Switching Clearance",

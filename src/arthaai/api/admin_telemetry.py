@@ -645,6 +645,22 @@ class AdminTelemetryEngine:
             "auth_provider": auth_provider,
         }
 
+    def get_registered_accounts(self) -> list[dict[str, Any]]:
+        """Returns list of registered accounts for Google account selector."""
+        accounts = []
+        for email, u in self._registered_users.items():
+            is_super = email.lower() == SUPER_ADMIN_EMAIL.lower()
+            accounts.append({
+                "email": u.get("email", email),
+                "name": u.get("name", email.split("@")[0].title()),
+                "role": "SUPER_ADMIN" if is_super else u.get("role", "USER"),
+                "is_super_admin": is_super,
+                "auth_provider": u.get("auth_provider", "GOOGLE"),
+            })
+        # Sort super admin first
+        accounts.sort(key=lambda x: (not x["is_super_admin"], x["email"]))
+        return accounts
+
     def verify_switch_clearance(self, email: str) -> dict[str, Any]:
         """Strictly validates if user has clearance to switch between Admin & User."""
         clean_email = email.strip().lower()
