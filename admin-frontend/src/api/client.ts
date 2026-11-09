@@ -52,13 +52,13 @@ export class ApiError extends Error {
 
 async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 12000): Promise<T> {
   const baseUrl = getApiBaseUrl();
-  let fullUrl = `${baseUrl}${path}`;
+  const fullUrl = `${baseUrl}${path}`;
 
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    let res = await fetch(fullUrl, {
+    const res = await fetch(fullUrl, {
       ...options,
       signal: controller.signal,
       headers: {
@@ -68,36 +68,14 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
       },
     });
 
-    // If direct relative route returned 404 and baseUrl is empty, fallback directly to 8000 backend
-    if (res.status === 404 && !baseUrl) {
-      try {
-        const fallbackRes = await fetch(`http://127.0.0.1:8000${path}`, {
-          ...options,
-          signal: controller.signal,
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            ...(options.headers || {}),
-          },
-        });
-        if (fallbackRes.ok || fallbackRes.status < 500) {
-          res = fallbackRes;
-          fullUrl = `http://127.0.0.1:8000${path}`;
-        }
-      } catch {
-        // Keep initial response
-      }
+    // Safely consume response text exactly once
+    let rawText = '';
+    try {
+      rawText = await res.text();
+    } catch {
+      rawText = '';
     }
 
-    // Safely consume response body once as text to prevent stream exhaustion
-    let rawText = '';
-    if (!res.bodyUsed) {
-      try {
-        rawText = await res.text();
-      } catch {
-        rawText = '';
-      }
-    }
     let parsedJson: any = null;
     if (rawText && rawText.trim()) {
       try {

@@ -89,9 +89,10 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
           gap: '16px',
           padding: '24px 28px',
           borderRadius: 'var(--radius-xl)',
-          background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.12) 0%, rgba(24, 29, 39, 0.95) 100%)',
-          border: '1px solid rgba(0, 208, 156, 0.3)',
-          boxShadow: 'var(--shadow-md)',
+          backgroundColor: 'var(--bg-card)',
+          backgroundImage: 'linear-gradient(135deg, rgba(0, 208, 156, 0.09) 0%, rgba(83, 103, 255, 0.05) 50%, var(--bg-card) 100%)',
+          border: '1px solid var(--border-subtle)',
+          boxShadow: 'var(--shadow-sm)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -101,14 +102,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
               height: '72px',
               borderRadius: '50%',
               background: 'linear-gradient(135deg, #00D09C 0%, #5367FF 100%)',
-              color: '#0F1217',
+              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '26px',
               fontWeight: 900,
               boxShadow: '0 8px 24px rgba(0, 208, 156, 0.35)',
-              border: '3px solid #141822',
+              border: '2px solid rgba(0, 208, 156, 0.45)',
             }}
           >
             {userName
@@ -131,8 +132,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
                   gap: '6px',
                   padding: '4px 10px',
                   borderRadius: 'var(--radius-pill)',
-                  backgroundColor: 'var(--groww-green-light)',
-                  border: '1px solid rgba(0, 208, 156, 0.3)',
+                  backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                  border: '1px solid rgba(0, 208, 156, 0.35)',
                   color: 'var(--groww-green)',
                   fontSize: '11px',
                   fontWeight: 700,
@@ -145,7 +146,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
             <p style={{ margin: '4px 0 0', fontSize: '14px', color: 'var(--text-secondary)' }}>
               {deskRole} • <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{firmName}</span>
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '8px', fontSize: '12px', color: 'var(--text-secondary)' }}>
               <span>Desk ID: <strong style={{ color: 'var(--text-primary)' }}>ARTH-IN-2024-88419</strong></span>
               <span>•</span>
               <span>Colocation: <strong style={{ color: 'var(--groww-green)' }}>NSE BKC Sub-Millisecond Mock</strong></span>
