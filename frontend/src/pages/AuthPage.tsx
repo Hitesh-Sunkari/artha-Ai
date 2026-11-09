@@ -14,14 +14,13 @@ import {
   TrendingUp,
   Cpu,
   Layers,
-  Check,
   RefreshCw,
-  ExternalLink,
-  ChevronRight,
-  Zap,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { api } from '../api/client';
 import { setActiveAuthUser } from '../utils/telemetryReporter';
+import { useTheme } from '../utils/useTheme';
 import type { AuthUser } from '../api/types';
 
 interface AuthPageProps {
@@ -37,6 +36,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   onBack,
   initialMode = 'LOGIN',
 }) => {
+  const { theme, isDark, toggleTheme } = useTheme();
   const [mode, setMode] = useState<'LOGIN' | 'SIGNUP'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,11 +49,101 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // Dynamic Theme Palette Map
+  const palette = isDark
+    ? {
+        bgCanvas: '#070A0F',
+        bgGradient: `
+          radial-gradient(circle at 15% 20%, rgba(0, 208, 156, 0.08) 0%, transparent 40%),
+          radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+          linear-gradient(180deg, #070A0F 0%, #0B0E17 100%)
+        `,
+        navBg: 'rgba(7, 10, 15, 0.78)',
+        navBorder: 'rgba(255, 255, 255, 0.08)',
+        navBtnBg: 'rgba(255, 255, 255, 0.05)',
+        navBtnBorder: 'rgba(255, 255, 255, 0.1)',
+        navBtnText: '#94A3B8',
+        cardBg: 'rgba(16, 21, 30, 0.92)',
+        cardBorder: 'rgba(0, 208, 156, 0.25)',
+        cardShadow: '0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 208, 156, 0.12)',
+        heroTitleGrad: 'linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%)',
+        textPrimary: '#FFFFFF',
+        textSecondary: '#94A3B8',
+        textMuted: '#64748B',
+        heroPillarBg: 'rgba(19, 24, 34, 0.65)',
+        heroPillarBorder: 'rgba(255, 255, 255, 0.08)',
+        telemetryBg: 'rgba(255, 255, 255, 0.03)',
+        telemetryBorder: 'rgba(255, 255, 255, 0.06)',
+        telemetryDivider: 'rgba(255, 255, 255, 0.1)',
+        tabBarBg: 'rgba(255, 255, 255, 0.05)',
+        tabBarBorder: 'rgba(255, 255, 255, 0.08)',
+        googleBtnBg: '#FFFFFF',
+        googleBtnBorder: 'transparent',
+        googleBtnText: '#1E293B',
+        googleBtnHover: '#F1F5F9',
+        googleBtnShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+        superAdminBg: 'rgba(0, 208, 156, 0.08)',
+        superAdminBorder: 'rgba(0, 208, 156, 0.35)',
+        superAdminEmail: '#E2E8F0',
+        dividerLine: 'rgba(255, 255, 255, 0.08)',
+        inputBg: 'rgba(255, 255, 255, 0.04)',
+        inputBorder: 'rgba(255, 255, 255, 0.12)',
+        inputText: '#FFFFFF',
+        chipDefaultBg: 'rgba(255, 255, 255, 0.02)',
+        chipDefaultBorder: 'rgba(255, 255, 255, 0.1)',
+        chipDefaultText: '#94A3B8',
+        cardFooterBorder: 'rgba(255, 255, 255, 0.06)',
+      }
+    : {
+        bgCanvas: '#F8FAFC',
+        bgGradient: `
+          radial-gradient(circle at 15% 20%, rgba(0, 208, 156, 0.12) 0%, transparent 45%),
+          radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.09) 0%, transparent 45%),
+          linear-gradient(180deg, #F8FAFC 0%, #EDF2F7 100%)
+        `,
+        navBg: 'rgba(255, 255, 255, 0.88)',
+        navBorder: '#E2E8F0',
+        navBtnBg: '#FFFFFF',
+        navBtnBorder: '#CBD5E1',
+        navBtnText: '#475569',
+        cardBg: '#FFFFFF',
+        cardBorder: 'rgba(0, 208, 156, 0.35)',
+        cardShadow: '0 20px 50px rgba(15, 23, 42, 0.09), 0 0 35px rgba(0, 208, 156, 0.09)',
+        heroTitleGrad: 'linear-gradient(180deg, #0F172A 0%, #334155 100%)',
+        textPrimary: '#0F172A',
+        textSecondary: '#475569',
+        textMuted: '#64748B',
+        heroPillarBg: '#FFFFFF',
+        heroPillarBorder: '#E2E8F0',
+        telemetryBg: '#FFFFFF',
+        telemetryBorder: '#E2E8F0',
+        telemetryDivider: '#E2E8F0',
+        tabBarBg: '#F1F5F9',
+        tabBarBorder: '#E2E8F0',
+        googleBtnBg: '#FFFFFF',
+        googleBtnBorder: '#CBD5E1',
+        googleBtnText: '#0F172A',
+        googleBtnHover: '#F8FAFC',
+        googleBtnShadow: '0 2px 6px rgba(0, 0, 0, 0.06)',
+        superAdminBg: 'rgba(0, 208, 156, 0.08)',
+        superAdminBorder: 'rgba(0, 208, 156, 0.45)',
+        superAdminEmail: '#0F172A',
+        dividerLine: '#E2E8F0',
+        inputBg: '#F8FAFC',
+        inputBorder: '#CBD5E1',
+        inputText: '#0F172A',
+        chipDefaultBg: '#F8FAFC',
+        chipDefaultBorder: '#CBD5E1',
+        chipDefaultText: '#475569',
+        cardFooterBorder: '#E2E8F0',
+      };
+
   const handleGoogleSignIn = async (overrideEmail?: string, overrideName?: string) => {
     setLoading(true);
     setError(null);
     const targetEmail = overrideEmail || email.trim() || SUPER_ADMIN_EMAIL;
-    const targetName = overrideName || (targetEmail.includes('hitesh') ? 'Hitesh Sunkari' : name.trim() || 'Institutional Trader');
+    const targetName =
+      overrideName || (targetEmail.includes('hitesh') ? 'Hitesh Sunkari' : name.trim() || 'Institutional Trader');
 
     try {
       const authUser = await api.loginWithGoogle(targetEmail, targetName);
@@ -121,31 +211,29 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       style={{
         minHeight: '100vh',
         width: '100%',
-        backgroundColor: '#070A0F',
-        backgroundImage: `
-          radial-gradient(circle at 15% 20%, rgba(0, 208, 156, 0.08) 0%, transparent 40%),
-          radial-gradient(circle at 85% 75%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-          linear-gradient(180deg, #070A0F 0%, #0B0E17 100%)
-        `,
+        backgroundColor: palette.bgCanvas,
+        backgroundImage: palette.bgGradient,
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
         overflowX: 'hidden',
-        color: '#FFFFFF',
+        color: palette.textPrimary,
+        transition: 'background-color 0.25s ease, color 0.25s ease',
       }}
     >
       {/* ── Top Ambient Navigation Bar ────────────────────────────── */}
       <nav
         style={{
           height: '64px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
+          borderBottom: `1px solid ${palette.navBorder}`,
           padding: '0 32px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           backdropFilter: 'blur(16px)',
-          backgroundColor: 'rgba(7, 10, 15, 0.7)',
+          backgroundColor: palette.navBg,
           zIndex: 20,
+          transition: 'background-color 0.25s ease, border-color 0.25s ease',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
@@ -158,16 +246,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 gap: '6px',
                 padding: '6px 12px',
                 borderRadius: '8px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                color: '#94A3B8',
+                backgroundColor: palette.navBtnBg,
+                border: `1px solid ${palette.navBtnBorder}`,
+                color: palette.navBtnText,
                 fontSize: '12px',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = '#94A3B8')}
             >
               <ArrowLeft size={14} />
               <span>Back to Terminal</span>
@@ -187,12 +273,12 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 fontWeight: 900,
                 fontSize: '16px',
                 color: '#070A0F',
-                boxShadow: '0 0 20px rgba(0, 208, 156, 0.4)',
+                boxShadow: '0 0 16px rgba(0, 208, 156, 0.4)',
               }}
             >
               A
             </div>
-            <span style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.02em', color: '#FFFFFF' }}>
+            <span style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '-0.02em', color: palette.textPrimary }}>
               Artha<span style={{ color: '#00D09C' }}>AI</span>
             </span>
             <span
@@ -203,7 +289,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 backgroundColor: 'rgba(0, 208, 156, 0.12)',
                 color: '#00D09C',
                 fontWeight: 700,
-                border: '1px solid rgba(0, 208, 156, 0.25)',
+                border: '1px solid rgba(0, 208, 156, 0.3)',
               }}
             >
               PROD GATEWAY
@@ -211,19 +297,50 @@ export const AuthPage: React.FC<AuthPageProps> = ({
           </div>
         </div>
 
-        {/* Right Nav Utilities */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Right Nav Utilities: Theme Toggle & Live Market Clock */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          {/* Dynamic Theme Toggle Pill */}
+          <button
+            onClick={toggleTheme}
+            title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              borderRadius: '8px',
+              backgroundColor: palette.navBtnBg,
+              border: `1px solid ${palette.navBtnBorder}`,
+              color: palette.navBtnText,
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {isDark ? <Sun size={14} color="#FFB800" /> : <Moon size={14} color="#5367FF" />}
+            <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
               fontSize: '11px',
-              color: '#94A3B8',
+              color: palette.textMuted,
               fontFamily: 'monospace',
             }}
           >
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00D09C', boxShadow: '0 0 8px #00D09C' }} />
+            <span
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#00D09C',
+                boxShadow: '0 0 8px #00D09C',
+              }}
+            />
             <span>NSE / BSE LIVE CLOCK: 16:15 IST</span>
           </div>
         </div>
@@ -256,7 +373,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 padding: '6px 14px',
                 borderRadius: '9999px',
                 backgroundColor: 'rgba(0, 208, 156, 0.1)',
-                border: '1px solid rgba(0, 208, 156, 0.25)',
+                border: '1px solid rgba(0, 208, 156, 0.28)',
                 color: '#00D09C',
                 fontSize: '12px',
                 fontWeight: 700,
@@ -274,7 +391,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 lineHeight: 1.15,
                 letterSpacing: '-0.03em',
                 margin: '0 0 16px 0',
-                background: 'linear-gradient(180deg, #FFFFFF 0%, #CBD5E1 100%)',
+                background: palette.heroTitleGrad,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
@@ -282,7 +399,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               Institutional Quantitative Intelligence for Indian Markets
             </h1>
 
-            <p style={{ fontSize: '15px', color: '#94A3B8', lineHeight: 1.6, margin: 0, maxWidth: '540px' }}>
+            <p style={{ fontSize: '15px', color: palette.textSecondary, lineHeight: 1.6, margin: 0, maxWidth: '540px' }}>
               Autonomous 7-agent deliberative reasoning across NSE, BSE and MCX. Grounded in DuckDB SIMD Monte Carlo,
               Finance Act 2024 statutory taxation, and SEBI LODR regulatory enforcement.
             </p>
@@ -294,16 +411,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               style={{
                 padding: '16px',
                 borderRadius: '12px',
-                backgroundColor: 'rgba(19, 24, 34, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: palette.heroPillarBg,
+                border: `1px solid ${palette.heroPillarBorder}`,
+                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <Cpu size={18} color="#00D09C" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>7-Agent Fleet</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>7-Agent Fleet</span>
               </div>
-              <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
                 Google ADK + CrewAI connected via A2A JSON-RPC 2.0 with shared Blackboard consensus.
               </p>
             </div>
@@ -312,16 +430,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               style={{
                 padding: '16px',
                 borderRadius: '12px',
-                backgroundColor: 'rgba(19, 24, 34, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: palette.heroPillarBg,
+                border: `1px solid ${palette.heroPillarBorder}`,
+                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <TrendingUp size={18} color="#06B6D4" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>FastMCP Tools</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>FastMCP Tools</span>
               </div>
-              <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
                 21 registered financial tools with zero-copy DuckDB Parquet historical bar resolution.
               </p>
             </div>
@@ -330,16 +449,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               style={{
                 padding: '16px',
                 borderRadius: '12px',
-                backgroundColor: 'rgba(19, 24, 34, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: palette.heroPillarBg,
+                border: `1px solid ${palette.heroPillarBorder}`,
+                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <ShieldCheck size={18} color="#F59E0B" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>Statutory Tax Drag</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>Statutory Tax Drag</span>
               </div>
-              <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
                 Exact Finance Act 2024 LTCG 12.5% above ₹1.25L and STT 2 bps delivery drag auditing.
               </p>
             </div>
@@ -348,16 +468,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               style={{
                 padding: '16px',
                 borderRadius: '12px',
-                backgroundColor: 'rgba(19, 24, 34, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: palette.heroPillarBg,
+                border: `1px solid ${palette.heroPillarBorder}`,
+                boxShadow: isDark ? 'none' : '0 2px 10px rgba(0, 0, 0, 0.03)',
                 backdropFilter: 'blur(8px)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                 <Layers size={18} color="#A855F7" />
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>Super-Admin Gate</span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>Super-Admin Gate</span>
               </div>
-              <p style={{ fontSize: '11px', color: '#94A3B8', margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: '11px', color: palette.textSecondary, margin: 0, lineHeight: 1.4 }}>
                 Seamless switching clearance between User Desk and Institutional Admin Console.
               </p>
             </div>
@@ -368,8 +489,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             style={{
               padding: '14px 18px',
               borderRadius: '10px',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
+              backgroundColor: palette.telemetryBg,
+              border: `1px solid ${palette.telemetryBorder}`,
+              boxShadow: isDark ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.04)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -377,22 +499,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             }}
           >
             <div>
-              <div style={{ fontSize: '10px', color: '#64748B' }}>NIFTY 50</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
+              <div style={{ fontSize: '10px', color: palette.textMuted }}>NIFTY 50</div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
                 25,044.60 <span style={{ fontSize: '11px', color: '#00D09C' }}>+0.23%</span>
               </div>
             </div>
-            <div style={{ height: '24px', width: '1px', backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
+            <div style={{ height: '24px', width: '1px', backgroundColor: palette.telemetryDivider }} />
             <div>
-              <div style={{ fontSize: '10px', color: '#64748B' }}>SENSEX</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
+              <div style={{ fontSize: '10px', color: palette.textMuted }}>SENSEX</div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
                 81,106.65 <span style={{ fontSize: '11px', color: '#00D09C' }}>+0.13%</span>
               </div>
             </div>
-            <div style={{ height: '24px', width: '1px', backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
+            <div style={{ height: '24px', width: '1px', backgroundColor: palette.telemetryDivider }} />
             <div>
-              <div style={{ fontSize: '10px', color: '#64748B' }}>INDIA VIX</div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
+              <div style={{ fontSize: '10px', color: palette.textMuted }}>INDIA VIX</div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: palette.textPrimary }}>
                 17.42 <span style={{ fontSize: '11px', color: '#EF4444' }}>-5.48%</span>
               </div>
             </div>
@@ -405,16 +527,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             style={{
               width: '100%',
               maxWidth: '480px',
-              backgroundColor: 'rgba(16, 21, 30, 0.88)',
+              backgroundColor: palette.cardBg,
               borderRadius: '20px',
-              border: '1px solid rgba(0, 208, 156, 0.25)',
-              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 208, 156, 0.12)',
+              border: `1px solid ${palette.cardBorder}`,
+              boxShadow: palette.cardShadow,
               backdropFilter: 'blur(20px)',
               padding: '32px 30px',
               display: 'flex',
               flexDirection: 'column',
               gap: '20px',
               boxSizing: 'border-box',
+              transition: 'all 0.25s ease',
             }}
           >
             {/* Mode Switcher Segmented Tabs */}
@@ -424,8 +547,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 gridTemplateColumns: '1fr 1fr',
                 padding: '4px',
                 borderRadius: '10px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backgroundColor: palette.tabBarBg,
+                border: `1px solid ${palette.tabBarBorder}`,
               }}
             >
               <button
@@ -439,7 +562,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   borderRadius: '7px',
                   border: 'none',
                   backgroundColor: mode === 'LOGIN' ? '#00D09C' : 'transparent',
-                  color: mode === 'LOGIN' ? '#070A0F' : '#94A3B8',
+                  color: mode === 'LOGIN' ? '#070A0F' : palette.textSecondary,
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -460,7 +583,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   borderRadius: '7px',
                   border: 'none',
                   backgroundColor: mode === 'SIGNUP' ? '#00D09C' : 'transparent',
-                  color: mode === 'SIGNUP' ? '#070A0F' : '#94A3B8',
+                  color: mode === 'SIGNUP' ? '#070A0F' : palette.textSecondary,
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -520,9 +643,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   width: '100%',
                   padding: '11px 18px',
                   borderRadius: '10px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#1E293B',
-                  border: 'none',
+                  backgroundColor: palette.googleBtnBg,
+                  color: palette.googleBtnText,
+                  border: `1px solid ${palette.googleBtnBorder}`,
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -530,11 +653,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '10px',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                  boxShadow: palette.googleBtnShadow,
                   transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#F1F5F9')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#FFFFFF')}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = palette.googleBtnHover)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = palette.googleBtnBg)}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24">
                   <path
@@ -564,8 +687,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   marginTop: '10px',
                   padding: '8px 12px',
                   borderRadius: '8px',
-                  backgroundColor: 'rgba(0, 208, 156, 0.08)',
-                  border: '1px dashed rgba(0, 208, 156, 0.35)',
+                  backgroundColor: palette.superAdminBg,
+                  border: `1px dashed ${palette.superAdminBorder}`,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -577,7 +700,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   <span style={{ fontSize: '11px', color: '#00D09C', fontWeight: 600 }}>
                     Super-Admin Clearance:
                   </span>
-                  <span style={{ fontSize: '11px', color: '#E2E8F0', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: '11px', color: palette.superAdminEmail, fontFamily: 'monospace' }}>
                     {SUPER_ADMIN_EMAIL}
                   </span>
                 </div>
@@ -587,22 +710,39 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
             {/* Divider */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
-              <span style={{ fontSize: '11px', color: '#64748B', textTransform: 'uppercase' }}>
+              <div style={{ flex: 1, height: '1px', backgroundColor: palette.dividerLine }} />
+              <span style={{ fontSize: '11px', color: palette.textMuted, textTransform: 'uppercase' }}>
                 or with email
               </span>
-              <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+              <div style={{ flex: 1, height: '1px', backgroundColor: palette.dividerLine }} />
             </div>
 
             {/* ── Email / Password Form ───────────────────────────── */}
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {mode === 'SIGNUP' && (
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: palette.textSecondary,
+                      marginBottom: '6px',
+                    }}
+                  >
                     FULL NAME / INSTITUTION
                   </label>
                   <div style={{ position: 'relative' }}>
-                    <User size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
+                    <User
+                      size={15}
+                      style={{
+                        position: 'absolute',
+                        left: '12px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: palette.textMuted,
+                      }}
+                    />
                     <input
                       type="text"
                       placeholder="e.g. Hitesh Sunkari"
@@ -612,9 +752,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         width: '100%',
                         padding: '10px 12px 10px 36px',
                         borderRadius: '8px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.12)',
-                        color: '#FFFFFF',
+                        backgroundColor: palette.inputBg,
+                        border: `1px solid ${palette.inputBorder}`,
+                        color: palette.inputText,
                         fontSize: '13px',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -626,11 +766,28 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
               {/* Email Address */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: palette.textSecondary,
+                    marginBottom: '6px',
+                  }}
+                >
                   INSTITUTIONAL EMAIL ADDRESS
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
+                  <Mail
+                    size={15}
+                    style={{
+                      position: 'absolute',
+                      left: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: palette.textMuted,
+                    }}
+                  />
                   <input
                     type="email"
                     required
@@ -641,9 +798,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       width: '100%',
                       padding: '10px 12px 10px 36px',
                       borderRadius: '8px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      color: '#FFFFFF',
+                      backgroundColor: palette.inputBg,
+                      border: `1px solid ${palette.inputBorder}`,
+                      color: palette.inputText,
                       fontSize: '13px',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -654,11 +811,28 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
               {/* Password */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    color: palette.textSecondary,
+                    marginBottom: '6px',
+                  }}
+                >
                   PASSWORD
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
+                  <Lock
+                    size={15}
+                    style={{
+                      position: 'absolute',
+                      left: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: palette.textMuted,
+                    }}
+                  />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
@@ -669,9 +843,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       width: '100%',
                       padding: '10px 36px 10px 36px',
                       borderRadius: '8px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      color: '#FFFFFF',
+                      backgroundColor: palette.inputBg,
+                      border: `1px solid ${palette.inputBorder}`,
+                      color: palette.inputText,
                       fontSize: '13px',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -687,7 +861,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                       transform: 'translateY(-50%)',
                       background: 'none',
                       border: 'none',
-                      color: '#64748B',
+                      color: palette.textMuted,
                       cursor: 'pointer',
                       padding: '4px',
                     }}
@@ -700,11 +874,28 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               {/* Confirm Password (Signup) */}
               {mode === 'SIGNUP' && (
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      color: palette.textSecondary,
+                      marginBottom: '6px',
+                    }}
+                  >
                     CONFIRM PASSWORD
                   </label>
                   <div style={{ position: 'relative' }}>
-                    <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
+                    <Lock
+                      size={15}
+                      style={{
+                        position: 'absolute',
+                        left: '12px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: palette.textMuted,
+                      }}
+                    />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       required
@@ -715,9 +906,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                         width: '100%',
                         padding: '10px 12px 10px 36px',
                         borderRadius: '8px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.12)',
-                        color: '#FFFFFF',
+                        backgroundColor: palette.inputBg,
+                        border: `1px solid ${palette.inputBorder}`,
+                        color: palette.inputText,
                         fontSize: '13px',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -731,7 +922,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               {mode === 'SIGNUP' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                    <label
+                      style={{
+                        display: 'block',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        color: palette.textSecondary,
+                        marginBottom: '6px',
+                      }}
+                    >
                       PRIMARY RESEARCH OBJECTIVE
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
@@ -748,9 +947,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                             padding: '6px 8px',
                             borderRadius: '6px',
                             border: '1px solid',
-                            borderColor: objective === item.id ? '#00D09C' : 'rgba(255, 255, 255, 0.1)',
-                            backgroundColor: objective === item.id ? 'rgba(0, 208, 156, 0.15)' : 'rgba(255, 255, 255, 0.02)',
-                            color: objective === item.id ? '#00D09C' : '#94A3B8',
+                            borderColor: objective === item.id ? '#00D09C' : palette.chipDefaultBorder,
+                            backgroundColor:
+                              objective === item.id ? 'rgba(0, 208, 156, 0.15)' : palette.chipDefaultBg,
+                            color: objective === item.id ? '#00D09C' : palette.chipDefaultText,
                             fontSize: '11px',
                             fontWeight: 600,
                             cursor: 'pointer',
@@ -763,7 +963,15 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', marginBottom: '6px' }}>
+                    <label
+                      style={{
+                        display: 'block',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        color: palette.textSecondary,
+                        marginBottom: '6px',
+                      }}
+                    >
                       INITIAL PAPER DESK CAPITAL
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
@@ -776,9 +984,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                             padding: '6px 8px',
                             borderRadius: '6px',
                             border: '1px solid',
-                            borderColor: startingCapital === amt ? '#00D09C' : 'rgba(255, 255, 255, 0.1)',
-                            backgroundColor: startingCapital === amt ? 'rgba(0, 208, 156, 0.15)' : 'rgba(255, 255, 255, 0.02)',
-                            color: startingCapital === amt ? '#00D09C' : '#94A3B8',
+                            borderColor: startingCapital === amt ? '#00D09C' : palette.chipDefaultBorder,
+                            backgroundColor:
+                              startingCapital === amt ? 'rgba(0, 208, 156, 0.15)' : palette.chipDefaultBg,
+                            color: startingCapital === amt ? '#00D09C' : palette.chipDefaultText,
                             fontSize: '11px',
                             fontWeight: 600,
                             cursor: 'pointer',
@@ -834,10 +1043,10 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             <div
               style={{
                 fontSize: '11px',
-                color: '#64748B',
+                color: palette.textMuted,
                 textAlign: 'center',
                 lineHeight: 1.5,
-                borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                borderTop: `1px solid ${palette.cardFooterBorder}`,
                 paddingTop: '14px',
               }}
             >
@@ -849,3 +1058,5 @@ export const AuthPage: React.FC<AuthPageProps> = ({
     </div>
   );
 };
+
+export default AuthPage;

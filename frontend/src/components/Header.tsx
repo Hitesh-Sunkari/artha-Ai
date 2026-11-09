@@ -20,6 +20,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { getActiveAuthUser, setActiveAuthUser, isUserSuperAdmin } from '../utils/telemetryReporter';
+import { getActiveTheme } from '../utils/useTheme';
 import { AuthModal } from './AuthModal';
 import { api, getApiBaseUrl } from '../api/client';
 import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
@@ -78,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [readiness, setReadiness] = useState<ReadinessResponse | null>(null);
   const [marketSession, setMarketSession] = useState<MarketSessionState | null>(null);
   const [currentIstTime, setCurrentIstTime] = useState<string>('');
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => getActiveTheme());
   const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [paperCash, setPaperCash] = useState<number>(1000000);
@@ -220,16 +221,21 @@ export const Header: React.FC<HeaderProps> = ({
       if (inits) setUserInitials(inits);
     }
 
-    // Check saved theme
-    const savedTheme = localStorage.getItem('arthai_theme') as 'dark' | 'light' | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
+    // Check saved theme or default
+    const active = getActiveTheme();
+    setTheme(active);
+    document.documentElement.setAttribute('data-theme', active);
+
+    const handleThemeExternal = (e: any) => {
+      const t = e?.detail || getActiveTheme();
+      setTheme(t);
+    };
+    window.addEventListener('arthai_theme_changed', handleThemeExternal);
 
     return () => {
       window.removeEventListener('storage', syncPortfolioBalance);
       window.removeEventListener('focus', syncPortfolioBalance);
+      window.removeEventListener('arthai_theme_changed', handleThemeExternal);
       clearInterval(balanceTimer);
     };
   }, []);
@@ -239,6 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
     setTheme(next);
     localStorage.setItem('arthai_theme', next);
     document.documentElement.setAttribute('data-theme', next);
+    window.dispatchEvent(new CustomEvent('arthai_theme_changed', { detail: next }));
   };
 
   useEffect(() => {
