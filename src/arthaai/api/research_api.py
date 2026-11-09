@@ -29,9 +29,11 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
+
+from arthaai.api.admin_telemetry import telemetry_engine, SUPER_ADMIN_EMAIL
 
 from arthaai.core.config import AppConfig
 from arthaai.mcp.server import get_mcp_client
@@ -424,6 +426,39 @@ def create_research_api(
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @app.middleware("http")
+    async def traffic_telemetry_middleware(request: Request, call_next):
+        start = time.perf_counter()
+        client_ip = request.client.host if request.client else "127.0.0.1"
+        try:
+            response = await call_next(request)
+            elapsed_ms = (time.perf_counter() - start) * 1000.0
+            telemetry_engine.record_request(
+                method=request.method,
+                path=request.url.path,
+                status_code=response.status_code,
+                latency_ms=elapsed_ms,
+                client_ip=client_ip,
+            )
+            return response
+        except Exception as exc:
+            elapsed_ms = (time.perf_counter() - start) * 1000.0
+            telemetry_engine.record_request(
+                method=request.method,
+                path=request.url.path,
+                status_code=500,
+                latency_ms=elapsed_ms,
+                client_ip=client_ip,
+            )
+            telemetry_engine.record_error(
+                user_email="system@arthai.in",
+                source="BACKEND_API",
+                error_type=type(exc).__name__,
+                message=str(exc),
+                component=request.url.path,
+            )
+            raise exc
 
     _store = run_store or RunStore()
     _comparison_store = ComparisonStore()
@@ -2076,6 +2111,156 @@ def create_research_api(
                     except Exception:
                         pass
         return {"status": "DELETED", "run_id": run_id}
+
+    # -------------------------------------------------------------------------
+    # Admin Surveillance, Real-Time Monitoring & Telemetry Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/admin/traffic",
+        summary="Live Traffic and Network Telemetry Surveillance",
+        tags=["admin"],
+    )
+    async def get_admin_traffic_endpoint() -> dict[str, Any]:
+        """Returns real-time RPM, latency distribution, status codes, and request logs."""
+        return telemetry_engine.get_traffic_metrics()
+
+    @app.get(
+        "/admin/users",
+        summary="Active Users and Sessions Surveillance",
+        tags=["admin"],
+    )
+    async def get_admin_users_endpoint() -> list[dict[str, Any]]:
+        """Returns real-time active user sessions, page presence, and desk activity."""
+        return telemetry_engine.get_users_summary()
+
+    @app.post(
+        "/telemetry/user-heartbeat",
+        summary="Client Session Heartbeat and Activity Reporter",
+        tags=["telemetry"],
+    )
+    async def post_user_heartbeat_endpoint(request: Request, body: dict[str, Any]) -> dict[str, Any]:
+        """Ingests client heartbeat from user frontends to monitor real-time activity."""
+        client_ip = request.client.host if request.client else "127.0.0.1"
+        user_agent = request.headers.get("user-agent", "Unknown-Browser")
+        return telemetry_engine.record_heartbeat(
+            session_id=str(body.get("session_id") or "sess-default"),
+            user_email=str(body.get("user_email") or "anonymous@arthai.in"),
+            user_name=str(body.get("user_name") or "Investor"),
+            current_page=str(body.get("current_page") or "/"),
+            current_tab=str(body.get("current_tab") or "query_studio"),
+            client_ip=client_ip,
+            user_agent=user_agent,
+            paper_cash=float(body.get("paper_cash") or 1000000.0),
+            paper_positions_count=int(body.get("paper_positions_count") or 0),
+            paper_aum=float(body.get("paper_aum") or 1000000.0),
+            queries_executed=int(body.get("queries_executed") or 0),
+        )
+
+    @app.post(
+        "/telemetry/sync-portfolio",
+        summary="Sync User Paper Desk Holdings to Admin Surveillance",
+        tags=["telemetry"],
+    )
+    async def sync_portfolio_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Receives live portfolio holdings from user desk for real-time aggregate surveillance."""
+        user_email = str(body.get("user_email") or "anonymous@arthai.in")
+        cash = float(body.get("cash") or 1000000.0)
+        positions = body.get("positions") or []
+        orders = body.get("orders") or []
+        return telemetry_engine.sync_portfolio(
+            user_email=user_email,
+            cash=cash,
+            positions=positions,
+            orders=orders,
+        )
+
+    @app.get(
+        "/admin/investments",
+        summary="Real-time Aggregate Investments and Portfolio Surveillance",
+        tags=["admin"],
+    )
+    async def get_admin_investments_endpoint() -> dict[str, Any]:
+        """Returns aggregate AUM, asset allocation, holdings breakdown, and recent orders."""
+        return telemetry_engine.get_investments_surveillance()
+
+    @app.post(
+        "/telemetry/report-error",
+        summary="Client-Side Exception and Anomaly Reporter",
+        tags=["telemetry"],
+    )
+    async def report_client_error_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Automatically catches and logs frontend errors for admin surveillance & rectification."""
+        return telemetry_engine.record_error(
+            user_email=str(body.get("user_email") or "anonymous@arthai.in"),
+            source=str(body.get("source") or "USER_FRONTEND"),
+            error_type=str(body.get("error_type") or "ClientRuntimeError"),
+            message=str(body.get("message") or "Unknown error"),
+            stack=body.get("stack"),
+            component=body.get("component"),
+        )
+
+    @app.get(
+        "/admin/errors",
+        summary="List Detected Client and System Errors",
+        tags=["admin"],
+    )
+    async def get_admin_errors_endpoint() -> list[dict[str, Any]]:
+        """Returns detected client and backend errors for monitoring."""
+        return telemetry_engine.get_errors_summary()
+
+    @app.post(
+        "/admin/rectify",
+        summary="Execute Administrative Rectification Operation",
+        tags=["admin"],
+    )
+    async def rectify_action_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Executes one-click administrative intervention to rectify client or platform state."""
+        action = str(body.get("action", ""))
+        target_id = body.get("target_id")
+        details = body.get("details") or {}
+        return telemetry_engine.rectify_action(action=action, target_id=target_id, details=details)
+
+    # -------------------------------------------------------------------------
+    # Authentication & Role Authorization Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.post(
+        "/auth/login",
+        summary="Standard Email/Password Authentication & Registration",
+        tags=["auth"],
+    )
+    async def auth_login_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Authenticates or registers user. Strictly verifies Super-Admin credentials."""
+        email = str(body.get("email", "")).strip()
+        if not email or "@" not in email:
+            raise HTTPException(status_code=400, detail="A valid email address is required.")
+        name = str(body.get("name", ""))
+        return telemetry_engine.authenticate_user(email=email, name=name, auth_provider="EMAIL")
+
+    @app.post(
+        "/auth/google",
+        summary="Google OAuth / Google One-Tap Single Sign-On",
+        tags=["auth"],
+    )
+    async def auth_google_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Authenticates user via Google. Grants Super-Admin role strictly to hitesh.sunkari.23cse@bmu.edu.in."""
+        email = str(body.get("email", "")).strip()
+        if not email or "@" not in email:
+            raise HTTPException(status_code=400, detail="Invalid Google profile email payload.")
+        name = str(body.get("name", ""))
+        picture = body.get("picture")
+        return telemetry_engine.authenticate_user(email=email, name=name, picture=picture, auth_provider="GOOGLE")
+
+    @app.post(
+        "/auth/switch-check",
+        summary="Verify Administrative Switching Clearance",
+        tags=["auth"],
+    )
+    async def auth_switch_check_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Strictly validates whether user email has clearance to access or switch to Admin Dashboard."""
+        email = str(body.get("email", "")).strip()
+        return telemetry_engine.verify_switch_clearance(email=email)
 
 
     # -------------------------------------------------------------------------

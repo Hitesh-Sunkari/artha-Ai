@@ -344,3 +344,113 @@ export interface MarketSessionState {
   next_session: string;
   message: string;
 }
+
+export interface AuthUser {
+  token: string;
+  email: string;
+  name: string;
+  picture?: string | null;
+  role: 'SUPER_ADMIN' | 'USER';
+  is_super_admin: boolean;
+  can_switch_to_admin: boolean;
+  can_switch_to_user: boolean;
+  auth_provider: 'GOOGLE' | 'EMAIL';
+}
+
+export interface SwitchClearanceResponse {
+  allowed: boolean;
+  is_super_admin: boolean;
+  email: string;
+  message: string;
+}
+
+export interface TrafficTelemetry {
+  total_requests: number;
+  rpm: number;
+  avg_latency_ms: number;
+  p95_latency_ms: number;
+  status_counts: {
+    status_2xx: number;
+    status_4xx: number;
+    status_5xx: number;
+  };
+  top_endpoints: Array<{ endpoint: string; hits: number }>;
+  recent_requests: Array<{
+    id: string;
+    timestamp: string;
+    method: string;
+    path: string;
+    status_code: number;
+    latency_ms: number;
+    client_ip: string;
+  }>;
+}
+
+export interface UserSession {
+  session_id: string;
+  user_email: string;
+  user_name: string;
+  role: string;
+  is_super_admin: boolean;
+  current_page: string;
+  current_tab: string;
+  client_ip: string;
+  user_agent: string;
+  started_at: string;
+  last_heartbeat: string;
+  last_heartbeat_ts: number;
+  queries_executed: number;
+  paper_cash: number;
+  paper_positions_count: number;
+  paper_aum: number;
+  status: 'ONLINE' | 'IDLE' | 'OFFLINE';
+  idle_seconds?: number;
+}
+
+export interface HoldingSummary {
+  symbol: string;
+  shares: number;
+  avg_price: number;
+  current_price: number;
+  invested_amount: number;
+  current_value: number;
+  unrealized_pnl: number;
+  pnl_pct: number;
+  weight_pct: number;
+}
+
+export interface InvestmentsSurveillance {
+  total_users_tracked: number;
+  aggregate_aum: number;
+  total_cash_available: number;
+  total_equity_invested: number;
+  total_cost_basis: number;
+  overall_unrealized_pnl: number;
+  overall_pnl_pct: number;
+  holdings_breakdown: HoldingSummary[];
+  recent_orders: Array<{
+    orderId: string;
+    symbol: string;
+    action: string;
+    shares: number;
+    price: number;
+    status: string;
+    timestamp: string;
+    user_email?: string;
+  }>;
+}
+
+export interface ClientErrorReport {
+  id: string;
+  timestamp: string;
+  user_email: string;
+  source: string;
+  error_type: string;
+  message: string;
+  stack?: string | null;
+  component?: string | null;
+  status: 'DETECTED' | 'RECTIFIED' | 'INVESTIGATING';
+  rectification_action?: string | null;
+  rectified_at?: string | null;
+}
+

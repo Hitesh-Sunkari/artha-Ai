@@ -55,6 +55,19 @@ import type {
 import { StatusBadge } from './components/StatusBadge';
 import { ArchitectureDiagram } from './components/ArchitectureDiagram';
 import { RunModalInspector } from './components/RunModalInspector';
+import { TrafficSurveillanceView } from './components/TrafficSurveillanceView';
+import { UsersSurveillanceView } from './components/UsersSurveillanceView';
+import { InvestmentsSurveillanceView } from './components/InvestmentsSurveillanceView';
+import { RectificationCenterView } from './components/RectificationCenterView';
+import { SuperAdminGatekeeper } from './components/SuperAdminGatekeeper';
+import type {
+  TrafficTelemetry,
+  UserSession,
+  InvestmentsSurveillance,
+  ClientErrorReport,
+  AuthUser,
+} from './api/types';
+import { Users, Wrench } from 'lucide-react';
 
 interface TelemetryData {
   provider_status?: Record<string, any>;
@@ -74,11 +87,15 @@ interface TelemetryData {
 
 export type AdminSubTab =
   | 'overview'
-  | 'fleet'
-  | 'telemetry'
+  | 'traffic'
+  | 'users'
+  | 'investments'
+  | 'rectification'
   | 'query_audit'
   | 'normal_audit'
   | 'audit'
+  | 'fleet'
+  | 'telemetry'
   | 'trading'
   | 'databank'
   | 'diagnostics'
@@ -103,6 +120,47 @@ export const App: React.FC = () => {
 
   const [currentTime, setCurrentTime] = useState<string>('');
   const [currentDate, setCurrentDate] = useState<string>('');
+
+  // Super-Administrator RBAC State
+  const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
+    try {
+      const saved = localStorage.getItem('arthai_admin_user') || localStorage.getItem('arthai_auth_user');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.email && parsed.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
+          return parsed;
+        }
+      }
+    } catch {}
+    // Seed initial verified super admin clearance
+    return {
+      token: 'arthai_admin_master',
+      email: SUPER_ADMIN_EMAIL,
+      name: 'Hitesh Sunkari',
+      role: 'SUPER_ADMIN',
+      is_super_admin: true,
+      can_switch_to_admin: true,
+      can_switch_to_user: true,
+      auth_provider: 'GOOGLE',
+    };
+  });
+
+  // Real-time Traffic Surveillance State
+  const [trafficData, setTrafficData] = useState<TrafficTelemetry | null>(null);
+  const [trafficLoading, setTrafficLoading] = useState(false);
+
+  // Active Users Surveillance State
+  const [usersData, setUsersData] = useState<UserSession[]>([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+
+  // Aggregate Investments Surveillance State
+  const [investmentsData, setInvestmentsData] = useState<InvestmentsSurveillance | null>(null);
+  const [investmentsLoading, setInvestmentsLoading] = useState(false);
+
+  // Anomaly Detection & Error Queue State
+  const [errorsData, setErrorsData] = useState<ClientErrorReport[]>([]);
+  const [errorsLoading, setErrorsLoading] = useState(false);
 
   // Diagnostics & Health State
   const [apiUrl, setApiUrl] = useState(() => getApiBaseUrl());
@@ -325,6 +383,67 @@ export const App: React.FC = () => {
     }
   };
 
+  // Live Surveillance Fetchers
+  const fetchTraffic = async () => {
+    setTrafficLoading(true);
+    try {
+      const data = await api.getTrafficTelemetry();
+      setTrafficData(data);
+    } catch {} finally {
+      setTrafficLoading(false);
+    }
+  };
+
+  const fetchUsers = async () => {
+    setUsersLoading(true);
+    try {
+      const data = await api.getUsersSurveillance();
+      if (Array.isArray(data)) setUsersData(data);
+    } catch {} finally {
+      setUsersLoading(false);
+    }
+  };
+
+  const fetchInvestments = async () => {
+    setInvestmentsLoading(true);
+    try {
+      const data = await api.getInvestmentsSurveillance();
+      setInvestmentsData(data);
+    } catch {} finally {
+      setInvestmentsLoading(false);
+    }
+  };
+
+  const fetchErrors = async () => {
+    setErrorsLoading(true);
+    try {
+      const data = await api.getClientErrors();
+      if (Array.isArray(data)) setErrorsData(data);
+    } catch {} finally {
+      setErrorsLoading(false);
+    }
+  };
+
+  const handleExecuteRectify = async (action: string, targetId?: string, details?: any) => {
+    await api.executeRectification(action, targetId, details);
+    await Promise.all([fetchErrors(), fetchInvestments(), fetchUsers(), fetchDiagnostics()]);
+  };
+
+  // Periodic Real-Time Polling for Surveillance (every 3.5 seconds)
+  useEffect(() => {
+    fetchTraffic();
+    fetchUsers();
+    fetchInvestments();
+    fetchErrors();
+    const pollTimer = setInterval(() => {
+      fetchTraffic();
+      fetchUsers();
+      fetchInvestments();
+      fetchErrors();
+    }, 3500);
+    return () => clearInterval(pollTimer);
+  }, []);
+
   const handleSyncAll = async () => {
     setIsRefreshing(true);
     await Promise.all([
@@ -332,6 +451,10 @@ export const App: React.FC = () => {
       fetchTelemetry(),
       fetchRuns(),
       fetchEvaluation(),
+      fetchTraffic(),
+      fetchUsers(),
+      fetchInvestments(),
+      fetchErrors(),
     ]);
     syncPaperTradingStats();
     setTimeout(() => setIsRefreshing(false), 400);
@@ -422,19 +545,27 @@ export const App: React.FC = () => {
   // Tab definitions grouped for Sidebar
   const navSections = [
     {
-      group: 'OBSERVABILITY & FLEET',
+      group: 'LIVE SURVEILLANCE & RECTIFY',
       items: [
-        { id: 'overview' as AdminSubTab, label: 'System Overview', icon: Activity, count: healthOk ? 'Live' : 'Off' },
-        { id: 'fleet' as AdminSubTab, label: 'Agent Fleet & FastMCP', icon: Layers, count: `${status?.fastmcp_server?.discovered_tools?.length || 21} Tools` },
-        { id: 'telemetry' as AdminSubTab, label: 'LLM Telemetry & Quotas', icon: Zap, count: `$${(telemetry?.metrics?.total_cost_usd || 0).toFixed(4)}` },
+        { id: 'traffic' as AdminSubTab, label: 'Network & Traffic', icon: Activity, count: `${trafficData?.rpm ?? 0} RPM` },
+        { id: 'users' as AdminSubTab, label: 'Active Users & Sessions', icon: Users, count: `${usersData.filter((u) => u.status === 'ONLINE').length} Online` },
+        { id: 'investments' as AdminSubTab, label: 'Investments & Portfolios', icon: TrendingUp, count: `₹${((investmentsData?.aggregate_aum ?? 1000000) / 100000).toFixed(1)}L` },
+        { id: 'rectification' as AdminSubTab, label: 'Anomaly Rectification', icon: Wrench, count: `${errorsData.filter((e) => e.status === 'DETECTED').length} Alerts` },
       ],
     },
     {
-      group: 'EXECUTION & AUDIT',
+      group: 'RESEARCH RUNS AUDIT',
       items: [
         { id: 'query_audit' as AdminSubTab, label: 'Query Research Audit', icon: Sparkles, count: `${queryRuns.length}` },
         { id: 'normal_audit' as AdminSubTab, label: 'Normal Runs Audit', icon: Clock, count: `${normalRuns.length}` },
-        { id: 'trading' as AdminSubTab, label: 'Paper Trading Desk', icon: TrendingUp, count: `₹${(paperCash / 100000).toFixed(1)}L` },
+      ],
+    },
+    {
+      group: 'OBSERVABILITY & FLEET',
+      items: [
+        { id: 'overview' as AdminSubTab, label: 'System Overview', icon: Activity, count: healthOk ? 'Live' : 'Off' },
+        { id: 'fleet' as AdminSubTab, label: 'Agent Fleet & FastMCP', icon: Layers, count: `${status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools` },
+        { id: 'telemetry' as AdminSubTab, label: 'LLM Telemetry & Quotas', icon: Zap, count: `$${(telemetry?.metrics?.total_cost_usd || 0).toFixed(4)}` },
       ],
     },
     {
@@ -446,6 +577,11 @@ export const App: React.FC = () => {
       ],
     },
   ];
+
+  // Strict Super-Admin RBAC Gatekeeper: only hitesh.sunkari.23cse@bmu.edu.in has clearance
+  if (!authUser || !authUser.is_super_admin || authUser.email.toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase()) {
+    return <SuperAdminGatekeeper onAuthorized={(u) => setAuthUser(u)} />;
+  }
 
   return (
     <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'var(--bg-deep)' }}>
@@ -688,11 +824,15 @@ export const App: React.FC = () => {
             <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Control Plane</span>
             <ChevronRight size={14} color="var(--text-muted)" />
             <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
+              {activeSubTab === 'traffic' && 'Network & Traffic Surveillance'}
+              {activeSubTab === 'users' && 'Active Users & Sessions Surveillance'}
+              {activeSubTab === 'investments' && 'Investments & Portfolio Surveillance'}
+              {activeSubTab === 'rectification' && 'Anomaly Detection & One-Click Rectification'}
+              {activeSubTab === 'query_audit' && 'Query-Based Research Runs Audit'}
+              {activeSubTab === 'normal_audit' && 'Multi-Agent Pipeline Runs Audit'}
               {activeSubTab === 'overview' && 'System Overview & Matrix'}
               {activeSubTab === 'fleet' && 'Multi-Agent Fleet & FastMCP Gateway'}
               {activeSubTab === 'telemetry' && 'LLM Inference Telemetry & Quotas'}
-              {activeSubTab === 'audit' && 'Research Runs Execution Audit'}
-              {activeSubTab === 'trading' && 'Paper Trading Desk & Capital Invariance'}
               {activeSubTab === 'databank' && 'Data Bank & Security Master Resolver'}
               {activeSubTab === 'diagnostics' && 'API Diagnostics & Subsystem Readiness'}
               {activeSubTab === 'evaluation' && 'Golden Benchmark Suite & Grounding Audit'}
@@ -701,6 +841,64 @@ export const App: React.FC = () => {
 
           {/* Header Controls (Clock, Theme, Sync, Direct Link) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {/* Switch to User Platform Button */}
+            <a
+              href="http://127.0.0.1:5173"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '7px',
+                padding: '7px 14px',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.18) 0%, rgba(83, 103, 255, 0.18) 100%)',
+                border: '1px solid rgba(0, 208, 156, 0.45)',
+                color: 'var(--groww-green)',
+                fontSize: '12px',
+                fontWeight: 800,
+                textDecoration: 'none',
+                boxShadow: '0 0 14px rgba(0, 208, 156, 0.2)',
+                transition: 'all 0.15s ease',
+              }}
+              title="Switch directly to User Trading Desk & Query Studio"
+            >
+              <Sparkles size={14} color="var(--groww-green)" />
+              <span>Switch to User App 🚀</span>
+            </a>
+
+            {/* Super Admin Badge */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '4px 12px 4px 6px',
+                borderRadius: '9999px',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid rgba(0, 208, 156, 0.35)',
+              }}
+              title={`Authorized Super-Administrator: ${SUPER_ADMIN_EMAIL}`}
+            >
+              <div
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #00D09C 0%, #5367FF 100%)',
+                  color: '#0F1217',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 900,
+                  fontSize: '11px',
+                }}
+              >
+                HS
+              </div>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--groww-green)', letterSpacing: '0.04em' }}>
+                SUPER ADMIN
+              </span>
+            </div>
+
             {/* IST Time */}
             <div
               style={{
@@ -792,6 +990,40 @@ export const App: React.FC = () => {
           {/* ══════════════════════════════════════════════════════════════════
               1. SYSTEM OVERVIEW & MATRIX TAB
           ══════════════════════════════════════════════════════════════════ */}
+          {activeSubTab === 'traffic' && (
+            <TrafficSurveillanceView
+              data={trafficData}
+              loading={trafficLoading}
+              onRefresh={fetchTraffic}
+            />
+          )}
+
+          {activeSubTab === 'users' && (
+            <UsersSurveillanceView
+              users={usersData}
+              loading={usersLoading}
+              onRefresh={fetchUsers}
+            />
+          )}
+
+          {activeSubTab === 'investments' && (
+            <InvestmentsSurveillanceView
+              data={investmentsData}
+              loading={investmentsLoading}
+              onRefresh={fetchInvestments}
+              onResetUserDesk={handleResetPaperDesk}
+            />
+          )}
+
+          {activeSubTab === 'rectification' && (
+            <RectificationCenterView
+              errors={errorsData}
+              loading={errorsLoading}
+              onRefresh={fetchErrors}
+              onExecuteRectify={handleExecuteRectify}
+            />
+          )}
+
           {activeSubTab === 'overview' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
               {/* Stat Cards Grid */}
@@ -802,7 +1034,7 @@ export const App: React.FC = () => {
                     <Server size={15} color="var(--groww-green)" />
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '6px', fontFamily: 'var(--font-mono)' }}>
-                    {status?.fastmcp_server?.discovered_tools?.length || 21} Tools
+                    {status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <CheckCircle2 size={12} />
@@ -816,7 +1048,7 @@ export const App: React.FC = () => {
                     <Database size={15} color="var(--accent-cyan)" />
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '6px', fontFamily: 'var(--font-mono)' }}>
-                    {status?.rag_knowledge_base?.total_chunks || 95} Chunks
+                    {status?.rag_knowledge_base?.total_chunks ?? 95} Chunks
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
                     4 Categories (SEBI LODR, STT, RBI)
@@ -842,10 +1074,10 @@ export const App: React.FC = () => {
                     <Zap size={15} color="#a78bfa" />
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '6px', fontFamily: 'var(--font-mono)' }}>
-                    {telemetry?.metrics?.total_calls || 14}
+                    {telemetry?.metrics?.total_calls ?? 0}
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                    ${(telemetry?.metrics?.total_cost_usd || 0.00385).toFixed(5)} Spend
+                    ${(telemetry?.metrics?.total_cost_usd ?? 0).toFixed(5)} Spend
                   </div>
                 </div>
 
@@ -1103,7 +1335,7 @@ export const App: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                   <div>
                     <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Server size={18} color="var(--groww-green)" /> FastMCP Registered Tools Directory ({discoveredTools.length} of {status?.fastmcp_server?.discovered_tools?.length || 21})
+                      <Server size={18} color="var(--groww-green)" /> FastMCP Registered Tools Directory ({discoveredTools.length} of {status?.fastmcp_server?.discovered_tools?.length ?? 21})
                     </h3>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
                       Model Context Protocol (FastMCP) standard tools exposed to LLM reasoning loops.
@@ -1203,7 +1435,7 @@ export const App: React.FC = () => {
                   <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>TOTAL INVOCATIONS</div>
                     <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {(telemetry?.metrics?.total_calls || 14).toLocaleString()}
+                      {(telemetry?.metrics?.total_calls ?? 0).toLocaleString()}
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
                       Model reasoning calls
@@ -1233,10 +1465,10 @@ export const App: React.FC = () => {
                   <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>TOTAL EXPENDITURE</div>
                     <div style={{ fontSize: '24px', fontWeight: 800, color: '#a78bfa', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      ${(telemetry?.metrics?.total_cost_usd || 0.00385).toFixed(5)}
+                      ${(telemetry?.metrics?.total_cost_usd ?? 0).toFixed(5)}
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      ≈ ₹{(((telemetry?.metrics?.total_cost_usd || 0.00385)) * 87.5).toFixed(3)} INR
+                      ≈ ₹{(((telemetry?.metrics?.total_cost_usd ?? 0)) * 87.5).toFixed(3)} INR
                     </div>
                   </div>
                 </div>

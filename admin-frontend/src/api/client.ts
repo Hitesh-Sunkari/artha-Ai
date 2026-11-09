@@ -138,4 +138,35 @@ export const api = {
   getDataBankCoverage: (symbol?: string) =>
     request<any>(`/api/v1/data-bank/coverage${symbol ? `?symbol=${encodeURIComponent(symbol)}` : ''}`, {}, 10000),
   getDataBankHealth: () => request<any>('/api/v1/data-bank/health', {}, 6000),
+
+  // Real-Time Surveillance & Administrative Control
+  getTrafficTelemetry: () => request<import('./types').TrafficTelemetry>('/admin/traffic', {}, 5000),
+  getUsersSurveillance: () => request<import('./types').UserSession[]>('/admin/users', {}, 5000),
+  getInvestmentsSurveillance: () => request<import('./types').InvestmentsSurveillance>('/admin/investments', {}, 5000),
+  getClientErrors: () => request<import('./types').ClientErrorReport[]>('/admin/errors', {}, 5000),
+
+  executeRectification: (action: string, target_id?: string, details?: any) =>
+    request<any>('/admin/rectify', {
+      method: 'POST',
+      body: JSON.stringify({ action, target_id, details }),
+    }, 8000),
+
+  // Super-Admin Authentication & RBAC Verification
+  loginWithEmail: (email: string, password?: string, name?: string) =>
+    request<import('./types').AuthUser>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, name }),
+    }),
+
+  loginWithGoogle: (email: string, name?: string, picture?: string) =>
+    request<import('./types').AuthUser>('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ email, name, picture }),
+    }),
+
+  checkSwitchClearance: (email: string) =>
+    request<import('./types').SwitchClearanceResponse>('/auth/switch-check', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
 };

@@ -138,4 +138,42 @@ export const api = {
   getDataBankCoverage: (symbol?: string) =>
     request<any>(`/api/v1/data-bank/coverage${symbol ? `?symbol=${encodeURIComponent(symbol)}` : ''}`, {}, 10000),
   getDataBankHealth: () => request<any>('/api/v1/data-bank/health', {}, 6000),
+
+  // Authentication & Super-Admin Clearance
+  loginWithEmail: (email: string, password?: string, name?: string) =>
+    request<import('./types').AuthUser>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, name }),
+    }),
+
+  loginWithGoogle: (email: string, name?: string, picture?: string) =>
+    request<import('./types').AuthUser>('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ email, name, picture }),
+    }),
+
+  checkSwitchClearance: (email: string) =>
+    request<import('./types').SwitchClearanceResponse>('/auth/switch-check', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
+
+  // Telemetry & Error Reporting
+  sendHeartbeat: (payload: import('./types').UserHeartbeatPayload) =>
+    request<{ status: string }>('/telemetry/user-heartbeat', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }, 4000),
+
+  syncPortfolioToAdmin: (payload: { user_email: string; cash: number; positions: any[]; orders: any[] }) =>
+    request<{ status: string }>('/telemetry/sync-portfolio', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }, 4000),
+
+  reportClientError: (payload: import('./types').ClientErrorPayload) =>
+    request<{ status: string }>('/telemetry/report-error', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }, 4000),
 };

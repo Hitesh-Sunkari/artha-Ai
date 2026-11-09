@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Sidebar, type PrimaryWorkspace, type TabId } from './components/Sidebar';
 import { CommandCenterPage } from './pages/CommandCenterPage';
@@ -6,6 +6,7 @@ import { ResearchWorkspacePage } from './pages/ResearchWorkspacePage';
 import { PortfolioTradingPage } from './pages/PortfolioTradingPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { CopilotDrawer } from './components/CopilotDrawer';
+import { initTelemetryReporter, isUserSuperAdmin } from './utils/telemetryReporter';
 
 export const App: React.FC = () => {
   const [activeWorkspace, setActiveWorkspace] = useState<PrimaryWorkspace>('command-center');
@@ -17,6 +18,11 @@ export const App: React.FC = () => {
   } | null>(null);
   const [refreshKey, setRefreshKey] = useState<number>(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    // Initialize continuous client telemetry, error capture, and portfolio sync
+    initTelemetryReporter(() => activeWorkspace);
+  }, [activeWorkspace]);
 
   // Consolidated navigation normalizer
   const handleNavigate = (tab: TabId, targetId?: string) => {

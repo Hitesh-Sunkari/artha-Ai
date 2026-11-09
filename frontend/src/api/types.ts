@@ -339,3 +339,43 @@ export interface MarketSessionState {
   next_session: string;
   message: string;
 }
+
+export interface AuthUser {
+  token: string;
+  email: string;
+  name: string;
+  picture?: string | null;
+  role: 'SUPER_ADMIN' | 'USER';
+  is_super_admin: boolean;
+  can_switch_to_admin: boolean;
+  can_switch_to_user: boolean;
+  auth_provider: 'GOOGLE' | 'EMAIL';
+}
+
+export interface SwitchClearanceResponse {
+  allowed: boolean;
+  is_super_admin: boolean;
+  email: string;
+  message: string;
+}
+
+export interface UserHeartbeatPayload {
+  session_id: string;
+  user_email: string;
+  user_name: string;
+  current_page: string;
+  current_tab: string;
+  paper_cash: number;
+  paper_positions_count: number;
+  paper_aum: number;
+  queries_executed?: number;
+}
+
+export interface ClientErrorPayload {
+  user_email: string;
+  source: 'USER_FRONTEND' | 'ADMIN_FRONTEND';
+  error_type: string;
+  message: string;
+  stack?: string;
+  component?: string;
+}

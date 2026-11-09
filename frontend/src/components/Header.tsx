@@ -13,10 +13,17 @@ import {
   Clock,
   ArrowRight,
   User,
+  LogOut,
+  ChevronDown,
+  Lock,
+  X,
+  AlertTriangle,
 } from 'lucide-react';
+import { getActiveAuthUser, setActiveAuthUser, isUserSuperAdmin } from '../utils/telemetryReporter';
+import { AuthModal } from './AuthModal';
 import { api, getApiBaseUrl } from '../api/client';
 import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
-import type { ReadinessResponse, MarketSessionState } from '../api/types';
+import type { ReadinessResponse, MarketSessionState, AuthUser } from '../api/types';
 import type { PrimaryWorkspace, TabId } from './Sidebar';
 
 interface HeaderProps {
@@ -79,6 +86,57 @@ export const Header: React.FC<HeaderProps> = ({
   const [userInitials, setUserInitials] = useState<string>('HS');
     const searchContainerRef = useRef<HTMLDivElement>(null);
   const [liveQuotes, setLiveQuotes] = useState<Record<string, { rawPrice: number; price: string; change: string; chg: string; positive: boolean }>>({});
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => getActiveAuthUser());
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [switchNotice, setSwitchNotice] = useState<string | null>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      const u = getActiveAuthUser();
+      setAuthUser(u);
+      if (u) {
+        const inits = u.name
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .slice(0, 2)
+          .toUpperCase();
+        if (inits) setUserInitials(inits);
+      }
+    };
+    handleAuthChange();
+    window.addEventListener('arthai_auth_changed', handleAuthChange);
+    return () => window.removeEventListener('arthai_auth_changed', handleAuthChange);
+  }, []);
+
+  const handleSwitchToAdmin = async () => {
+    const user = getActiveAuthUser();
+    if (!user) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+    try {
+      const clearance = await api.checkSwitchClearance(user.email);
+      if (clearance.allowed && clearance.is_super_admin) {
+        window.open('http://127.0.0.1:5174', '_blank');
+      } else {
+        setSwitchNotice(clearance.message);
+      }
+    } catch {
+      if (user.email.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in') {
+        window.open('http://127.0.0.1:5174', '_blank');
+      } else {
+        setSwitchNotice('ACCESS DENIED: Administrative switching clearance is restricted exclusively to hitesh.sunkari.23cse@bmu.edu.in.');
+      }
+    }
+  };
+
+  const handleSignOut = () => {
+    setActiveAuthUser(null);
+    setIsUserMenuOpen(false);
+  };
 
   useEffect(() => {
     const fetchLiveQuotes = async () => {
@@ -560,31 +618,53 @@ export const Header: React.FC<HeaderProps> = ({
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 
-        {/* Standalone Admin Portal Link */}
-        <a
-          href="http://127.0.0.1:5174"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '5px 12px',
-            borderRadius: '6px',
-            backgroundColor: 'rgba(0, 208, 156, 0.1)',
-            border: '1px solid rgba(0, 208, 156, 0.25)',
-            color: 'var(--groww-green)',
-            fontSize: '12px',
-            fontWeight: 700,
-            textDecoration: 'none',
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-          title="Open Standalone Admin Portal (Fleet, FastMCP, Telemetry & Diagnostics)"
-        >
-          <ShieldCheck size={14} />
-          <span>Admin Portal ↗</span>
-        </a>
+        {/* Super-Admin Switching Clearance Button */}
+        {authUser?.is_super_admin ? (
+          <button
+            onClick={handleSwitchToAdmin}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.2) 0%, rgba(83, 103, 255, 0.2) 100%)',
+              border: '1px solid rgba(0, 208, 156, 0.5)',
+              color: 'var(--groww-green)',
+              fontSize: '12px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              boxShadow: '0 0 14px rgba(0, 208, 156, 0.25)',
+              transition: 'all 0.15s ease',
+            }}
+            title="Super-Admin Authorized: Switch directly to Admin Telemetry Dashboard"
+          >
+            <Sparkles size={14} color="var(--groww-green)" />
+            <span>Switch to Admin ⚡</span>
+          </button>
+        ) : (
+          <button
+            onClick={handleSwitchToAdmin}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '5px 12px',
+              borderRadius: '6px',
+              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-secondary)',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+            title="Admin Dashboard (Clearance strictly restricted to hitesh.sunkari.23cse@bmu.edu.in)"
+          >
+            <Lock size={13} />
+            <span>Admin</span>
+          </button>
+        )}
 
         {/* Refresh Button */}
         {onRefresh && (
@@ -609,37 +689,287 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         )}
 
-        {/* User Profile Avatar with Click Handler to open Profile Page */}
-        <div
-          onClick={() => onSelectWorkspace && onSelectWorkspace('profile')}
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #181D27 0%, #2A3346 100%)',
-            border: activeWorkspace === 'profile' ? '2px solid var(--groww-green)' : '2px solid rgba(0, 208, 156, 0.4)',
-            boxShadow: activeWorkspace === 'profile' ? '0 0 16px rgba(0, 208, 156, 0.45)' : 'none',
-            color: 'var(--groww-green)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '13px',
-            cursor: 'pointer',
-            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.borderColor = 'var(--groww-green)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.borderColor = activeWorkspace === 'profile' ? 'var(--groww-green)' : 'rgba(0, 208, 156, 0.4)';
-          }}
-          title="Institutional Desk Profile & Settings (Click to Open)"
-        >
-          {userInitials}
-        </div>
+        {/* User Authentication & Profile Dropdown */}
+        {authUser ? (
+          <div style={{ position: 'relative' }} ref={userMenuRef}>
+            <div
+              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '4px 10px 4px 4px',
+                borderRadius: 'var(--radius-pill)',
+                backgroundColor: 'var(--bg-surface)',
+                border: authUser.is_super_admin ? '1px solid rgba(0, 208, 156, 0.4)' : '1px solid var(--border-subtle)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <div
+                style={{
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '50%',
+                  background: authUser.is_super_admin
+                    ? 'linear-gradient(135deg, #00D09C 0%, #5367FF 100%)'
+                    : 'linear-gradient(135deg, #181D27 0%, #2A3346 100%)',
+                  color: authUser.is_super_admin ? '#0F1217' : 'var(--groww-green)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 800,
+                  fontSize: '12px',
+                }}
+              >
+                {userInitials}
+              </div>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {authUser.name.split(' ')[0]}
+              </span>
+              <ChevronDown size={14} color="var(--text-secondary)" />
+            </div>
+
+            {/* Dropdown Menu */}
+            {isUserMenuOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '42px',
+                  right: 0,
+                  width: '260px',
+                  backgroundColor: 'var(--bg-card)',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-subtle)',
+                  boxShadow: '0 16px 36px rgba(0, 0, 0, 0.4)',
+                  padding: '12px',
+                  zIndex: 1000,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                <div style={{ paddingBottom: '8px', borderBottom: '1px solid var(--border-subtle)' }}>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>
+                    {authUser.name}
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)', wordBreak: 'break-all' }}>
+                    {authUser.email}
+                  </div>
+                  <div style={{ marginTop: '6px' }}>
+                    {authUser.is_super_admin ? (
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: 800,
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'rgba(0, 208, 156, 0.15)',
+                          color: 'var(--groww-green)',
+                          border: '1px solid rgba(0, 208, 156, 0.3)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                        }}
+                      >
+                        <ShieldCheck size={11} />
+                        SUPER-ADMINISTRATOR
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          fontSize: '10px',
+                          fontWeight: 600,
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'var(--bg-surface)',
+                          color: 'var(--text-secondary)',
+                          border: '1px solid var(--border-subtle)',
+                        }}
+                      >
+                        INSTITUTIONAL INVESTOR
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {authUser.is_super_admin && (
+                  <button
+                    onClick={() => {
+                      setIsUserMenuOpen(false);
+                      handleSwitchToAdmin();
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(0, 208, 156, 0.08)',
+                      border: '1px solid rgba(0, 208, 156, 0.3)',
+                      color: 'var(--groww-green)',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <Sparkles size={14} />
+                    <span>Open Admin Dashboard</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    onSelectWorkspace && onSelectWorkspace('profile');
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <User size={14} color="var(--text-secondary)" />
+                  <span>Desk Profile & Settings</span>
+                </button>
+
+                <button
+                  onClick={handleSignOut}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: '#ef4444',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    borderTop: '1px solid var(--border-subtle)',
+                  }}
+                >
+                  <LogOut size={14} />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsAuthModalOpen(true)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              borderRadius: '8px',
+              backgroundColor: 'var(--groww-green)',
+              border: 'none',
+              color: '#0F1217',
+              fontSize: '12px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 2px 10px rgba(0, 208, 156, 0.3)',
+            }}
+          >
+            <User size={14} />
+            <span>Sign In / Google</span>
+          </button>
+        )}
+
+        {/* Auth Modal */}
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onAuthSuccess={(u) => setAuthUser(u)}
+        />
+
+        {/* Security Switch Denial Alert Dialog */}
+        {switchNotice && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              zIndex: 999999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px',
+            }}
+          >
+            <div
+              style={{
+                width: '100%',
+                maxWidth: '440px',
+                backgroundColor: 'var(--bg-card, #131722)',
+                borderRadius: '16px',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                padding: '24px',
+                boxShadow: '0 20px 48px rgba(0, 0, 0, 0.6)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#ef4444', marginBottom: '12px' }}>
+                <AlertTriangle size={22} />
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>Clearance Restriction</h3>
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5, margin: '0 0 20px 0' }}>
+                {switchNotice}
+              </p>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                <button
+                  onClick={() => {
+                    setSwitchNotice(null);
+                    setIsAuthModalOpen(true);
+                  }}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(0, 208, 156, 0.15)',
+                    border: '1px solid rgba(0, 208, 156, 0.3)',
+                    color: 'var(--groww-green)',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Sign In as Super-Admin
+                </button>
+                <button
+                  onClick={() => setSwitchNotice(null)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-subtle)',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
