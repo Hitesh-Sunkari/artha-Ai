@@ -66,7 +66,8 @@ export const App: React.FC = () => {
     } else if (tab === 'profile') {
       setActiveWorkspace('profile');
     } else if (tab === 'auth') {
-      setActiveWorkspace('auth');
+      // User is already authenticated; keep on command-center
+      setActiveWorkspace('command-center');
     } else {
       // Direct link to standalone Admin Portal website
       window.open('http://127.0.0.1:5174', '_blank');
@@ -147,13 +148,6 @@ export const App: React.FC = () => {
 
           {activeWorkspace === 'profile' && (
             <ProfilePage onNavigate={handleNavigate} />
-          )}
-
-          {activeWorkspace === 'auth' && (
-            <AuthPage
-              onAuthSuccess={() => setActiveWorkspace('command-center')}
-              onBack={() => setActiveWorkspace('command-center')}
-            />
           )}
         </main>
       </div>

@@ -82,12 +82,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       sublabel: 'Account, SEBI & Tax Codes',
       icon: User,
     },
-    {
-      id: 'auth' as PrimaryWorkspace,
-      label: 'Access / Sign In',
-      sublabel: 'Dedicated Auth & Google',
-      icon: ShieldCheck,
-    },
   ];
 
   return (

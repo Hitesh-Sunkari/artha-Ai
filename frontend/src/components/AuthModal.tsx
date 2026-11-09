@@ -118,25 +118,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       };
 
   const handleGoogleSignIn = async (overrideEmail?: string, overrideName?: string) => {
+    const targetEmail = overrideEmail || email.trim();
+    if (!targetEmail || !targetEmail.includes('@')) {
+      setError('Please provide your Google account email address to continue.');
+      return;
+    }
     setLoading(true);
     setError(null);
-    const targetEmail = overrideEmail || email.trim() || 'investor@arthai.in';
-    const targetName = overrideName || name.trim() || 'Institutional Trader';
+    const targetName = overrideName || name.trim() || targetEmail.split('@')[0];
 
     try {
       const authUser = await api.loginWithGoogle(targetEmail, targetName);
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
-          ? 'Super-Admin clearance verified. Switching privileges unlocked.'
-          : 'Signed in successfully via Google.'
+          ? 'Super-Admin clearance verified via Google OAuth.'
+          : 'Signed in successfully via Google OAuth.'
       );
       setTimeout(() => {
         onAuthSuccess && onAuthSuccess(authUser);
         onClose();
-      }, 900);
+      }, 750);
     } catch (err: any) {
-      setError(err.message || 'Failed to authenticate with Google');
+      setError(err.message || 'Failed to authenticate with Google OAuth');
     } finally {
       setLoading(false);
     }

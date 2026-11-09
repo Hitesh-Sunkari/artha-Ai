@@ -625,32 +625,6 @@ export const Header: React.FC<HeaderProps> = ({
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 
-        {/* Super-Admin Switching Clearance Button — Strictly & Exclusively for Hitesh Sunkari */}
-        {isUserSuperAdmin() && authUser?.email?.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in' ? (
-          <button
-            onClick={handleSwitchToAdmin}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.2) 0%, rgba(83, 103, 255, 0.2) 100%)',
-              border: '1px solid rgba(0, 208, 156, 0.5)',
-              color: 'var(--groww-green)',
-              fontSize: '12px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              boxShadow: '0 0 14px rgba(0, 208, 156, 0.25)',
-              transition: 'all 0.15s ease',
-            }}
-            title="Super-Admin Authorized: Switch directly to Admin Telemetry Dashboard"
-          >
-            <Sparkles size={14} color="var(--groww-green)" />
-            <span>Switch to Admin ⚡</span>
-          </button>
-        ) : null}
-
         {/* Refresh Button */}
         {onRefresh && (
           <button
@@ -826,30 +800,6 @@ export const Header: React.FC<HeaderProps> = ({
                 >
                   <User size={14} color="var(--text-secondary)" />
                   <span>Desk Profile & Settings</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsUserMenuOpen(false);
-                    onSelectWorkspace && onSelectWorkspace('auth');
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: '8px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: 'var(--text-primary)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <ShieldCheck size={14} color="var(--groww-green)" />
-                  <span>Account & Clearance Portal</span>
                 </button>
 
                 <button
