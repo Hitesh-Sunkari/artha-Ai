@@ -94,14 +94,22 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   };
 
   const filteredScenarios = scenarios.filter((sc) => {
+    const cat = (sc.workflow_type || sc.category || '').toLowerCase();
+    const title = (sc.name || sc.title || sc.scenario_id || '').toLowerCase();
+    const query = (sc.question || sc.query_text || '').toLowerCase();
+    const assets: string[] = sc.target_symbols || sc.target_assets || [];
+    const search = searchQuery.toLowerCase().trim();
+
     const matchesCat =
       filterCategory === 'ALL' ||
-      (filterCategory === 'QUERY' && sc.category.toLowerCase().includes('query')) ||
-      (filterCategory === 'SINGLE' && sc.category.toLowerCase().includes('single'));
+      (filterCategory === 'QUERY' && cat.includes('query')) ||
+      (filterCategory === 'SINGLE' && (cat.includes('single') || cat.includes('stock') || cat.includes('select')));
     const matchesSearch =
-      sc.scenario_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sc.target_assets.some((a) => a.toLowerCase().includes(searchQuery.toLowerCase()));
+      !search ||
+      sc.scenario_id.toLowerCase().includes(search) ||
+      title.includes(search) ||
+      query.includes(search) ||
+      assets.some((a) => a.toLowerCase().includes(search));
     return matchesCat && matchesSearch;
   });
 
@@ -121,7 +129,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
   const getCoordinates = (value: number, index: number) => {
     const angle = (Math.PI * 2 / totalAxes) * index - Math.PI / 2;
-    const r = (value / 100) * radius;
+    const r = ((Number(value) || 0) / 100) * radius;
     return {
       x: center + r * Math.cos(angle),
       y: center + r * Math.sin(angle),
@@ -142,12 +150,16 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
     })
     .join(' ');
 
-  const selectedExecutions = report?.executions.filter(
+  const selectedExecutions = (report?.executions || []).filter(
     (e) => selectedScenario && e.scenario_id === selectedScenario.scenario_id
-  ) || [];
+  );
 
-  const arthaaiExec = selectedExecutions.find((e) => e.system_type === 'ARTHAAI_FLEET');
-  const baselineExec = selectedExecutions.find((e) => e.system_type === 'SINGLE_AGENT_BASELINE');
+  const arthaaiExec = selectedExecutions.find(
+    (e) => e.system_type === 'ARTHAAI_FLEET' || e.system_type === 'ARTHAAI_MULTI_AGENT'
+  );
+  const baselineExec = selectedExecutions.find(
+    (e) => e.system_type === 'SINGLE_AGENT_BASELINE'
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
@@ -478,13 +490,13 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{pt.dimension}</div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
                   <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)' }}>
-                    {pt.ArthaAI.toFixed(1)}
+                    {(Number(pt.ArthaAI) || 0).toFixed(1)}
                   </span>
                   <span style={{ fontSize: '11px', color: '#F59E0B', fontFamily: 'var(--font-mono)' }}>
-                    {pt.Baseline.toFixed(1)}
+                    {(Number(pt.Baseline) || 0).toFixed(1)}
                   </span>
                   <span style={{ fontSize: '10px', fontWeight: 600, color: 'var(--groww-green)' }}>
-                    +{(pt.ArthaAI - pt.Baseline).toFixed(1)}
+                    +{((Number(pt.ArthaAI) || 0) - (Number(pt.Baseline) || 0)).toFixed(1)}
                   </span>
                 </div>
               </div>
@@ -733,7 +745,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                       >
                         {sc.scenario_id}
                       </span>
-                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{sc.category}</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{sc.workflow_type || sc.category}</span>
                     </div>
 
                     <span
@@ -751,17 +763,17 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   </div>
 
                   <h4 style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 6px 0', lineHeight: 1.4 }}>
-                    {sc.title}
+                    {sc.name || sc.title}
                   </h4>
 
                   <p style={{ fontSize: '11px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    "{sc.query_text}"
+                    "{sc.question || sc.query_text}"
                   </p>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)' }}>
                   <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                    {sc.target_assets.map((asset) => (
+                    {(sc.target_symbols || sc.target_assets || []).map((asset) => (
                       <span
                         key={asset}
                         style={{
@@ -841,15 +853,15 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   >
                     {selectedScenario.scenario_id}
                   </span>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{selectedScenario.category}</span>
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{selectedScenario.workflow_type || selectedScenario.category}</span>
                   <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>•</span>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Horizon: {selectedScenario.horizon}</span>
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Horizon: {selectedScenario.horizon || '5Y Market Cutoff'}</span>
                 </div>
                 <h3 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                  {selectedScenario.title}
+                  {selectedScenario.name || selectedScenario.title}
                 </h3>
                 <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0', fontStyle: 'italic' }}>
-                  "{selectedScenario.query_text}"
+                  "{selectedScenario.question || selectedScenario.query_text}"
                 </p>
               </div>
 
@@ -889,7 +901,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   <CheckCircle2 size={14} color="var(--groww-green)" /> Required Subtask Verification
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '11px' }}>
-                  {selectedScenario.required_subtasks.map((task, i) => (
+                  {(selectedScenario.required_subtasks || []).map((task, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
                       <Check size={13} color="var(--groww-green)" />
                       <span>{task}</span>
@@ -932,27 +944,27 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                       backgroundColor: 'rgba(0, 208, 156, 0.12)',
                     }}
                   >
-                    Quality: {arthaaiExec?.composite_quality_index?.toFixed(1) || '95.2'} / 100
+                    Quality: {(arthaaiExec?.metrics?.composite_quality_score ?? arthaaiExec?.composite_quality_index ?? 95.2).toFixed(1)} / 100
                   </span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Accuracy</div>
-                    <div style={{ fontWeight: 700, color: 'var(--groww-green)' }}>{arthaaiExec?.accuracy_score?.toFixed(1) || '85.0'}%</div>
+                    <div style={{ fontWeight: 700, color: 'var(--groww-green)' }}>{(arthaaiExec?.metrics?.analytical_accuracy ?? arthaaiExec?.accuracy_score ?? 85.0).toFixed(1)}%</div>
                   </div>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Grounding</div>
-                    <div style={{ fontWeight: 700, color: 'var(--groww-green)' }}>{arthaaiExec?.grounding_score?.toFixed(1) || '100.0'}%</div>
+                    <div style={{ fontWeight: 700, color: 'var(--groww-green)' }}>{(arthaaiExec?.metrics?.evidence_grounding ?? arthaaiExec?.grounding_score ?? 100.0).toFixed(1)}%</div>
                   </div>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Latency</div>
-                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{arthaaiExec?.latency_sec?.toFixed(2) || '4.52'}s</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{(arthaaiExec?.latency_seconds ?? arthaaiExec?.latency_sec ?? 4.52).toFixed(2)}s</div>
                   </div>
                 </div>
 
                 <div style={{ padding: '12px', borderRadius: '8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.5, maxHeight: '200px', overflowY: 'auto' }}>
-                  {arthaaiExec?.findings_text ||
+                  {arthaaiExec?.output || arthaaiExec?.findings_text ||
                     'Synthesized multi-specialist quantitative analysis with verified FastMCP citations. Statutory STT applied at 2 bps, 12.5% LTCG net forecast evaluated. Covariance matrix conditioned via Ledoit-Wolf shrinkage with zero lookahead bias.'}
                 </div>
               </div>
@@ -987,27 +999,27 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                       backgroundColor: 'rgba(245, 158, 11, 0.12)',
                     }}
                   >
-                    Quality: {baselineExec?.composite_quality_index?.toFixed(1) || '76.8'} / 100
+                    Quality: {(baselineExec?.metrics?.composite_quality_score ?? baselineExec?.composite_quality_index ?? 76.8).toFixed(1)} / 100
                   </span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', fontSize: '11px', fontFamily: 'var(--font-mono)' }}>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Accuracy</div>
-                    <div style={{ fontWeight: 700, color: '#F59E0B' }}>{baselineExec?.accuracy_score?.toFixed(1) || '70.0'}%</div>
+                    <div style={{ fontWeight: 700, color: '#F59E0B' }}>{(baselineExec?.metrics?.analytical_accuracy ?? baselineExec?.accuracy_score ?? 70.0).toFixed(1)}%</div>
                   </div>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Grounding</div>
-                    <div style={{ fontWeight: 700, color: '#F59E0B' }}>{baselineExec?.grounding_score?.toFixed(1) || '70.0'}%</div>
+                    <div style={{ fontWeight: 700, color: '#F59E0B' }}>{(baselineExec?.metrics?.evidence_grounding ?? baselineExec?.grounding_score ?? 70.0).toFixed(1)}%</div>
                   </div>
                   <div style={{ padding: '6px', backgroundColor: 'var(--bg-surface)', borderRadius: '6px' }}>
                     <div style={{ color: 'var(--text-muted)' }}>Latency</div>
-                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{baselineExec?.latency_sec?.toFixed(2) || '2.40'}s</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{(baselineExec?.latency_seconds ?? baselineExec?.latency_sec ?? 2.40).toFixed(2)}s</div>
                   </div>
                 </div>
 
                 <div style={{ padding: '12px', borderRadius: '8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: 1.5, maxHeight: '200px', overflowY: 'auto' }}>
-                  {baselineExec?.findings_text ||
+                  {baselineExec?.output || baselineExec?.findings_text ||
                     'Single LLM invocation provided generic summary. Lacks cross-agent adversarial challenge, DuckDB historical bar verification, and precise Finance Act 2024 STT drag calculations. Grounding score penalized for uncited numerical claims.'}
                 </div>
               </div>

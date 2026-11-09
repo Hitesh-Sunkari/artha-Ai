@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArthaLogo } from '../components/ArthaLogo';
 import {
   User,
   ShieldCheck,
@@ -812,8 +813,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate }) => {
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <ShieldCheck size={18} color="var(--groww-green)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <ArthaLogo size={24} variant="badge" />
             <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
               ArthaAI Administrative Portal
             </h3>

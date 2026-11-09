@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArthaLogo } from './ArthaLogo';
 import { ShieldCheck, Lock, AlertTriangle, ArrowRight, Sparkles, ExternalLink } from 'lucide-react';
 import { api } from '../api/client';
 import type { AuthUser } from '../api/types';
@@ -64,24 +65,8 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
           boxSizing: 'border-box',
         }}
       >
-        {/* Shield Icon */}
-        <div
-          style={{
-            width: '64px',
-            height: '64px',
-            borderRadius: '16px',
-            background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.2) 0%, rgba(83, 103, 255, 0.2) 100%)',
-            border: '2px solid rgba(0, 208, 156, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--groww-green, #00D09C)',
-            boxShadow: '0 8px 24px rgba(0, 208, 156, 0.25)',
-            marginBottom: '20px',
-          }}
-        >
-          <ShieldCheck size={36} />
-        </div>
+        {/* ArthaAI Monogram Brand Emblem */}
+        <ArthaLogo size={64} showGlow variant="badge" style={{ marginBottom: '20px' }} />
 
         <span
           style={{

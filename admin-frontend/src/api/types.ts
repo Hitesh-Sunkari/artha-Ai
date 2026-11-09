@@ -458,11 +458,15 @@ export interface ClientErrorReport {
 
 export interface BenchmarkScenario {
   scenario_id: string;
-  title: string;
-  category: 'Query-Based' | 'Single-Asset Deep Dive' | string;
-  query_text: string;
-  target_assets: string[];
-  horizon: string;
+  title?: string;
+  name?: string;
+  category?: 'Query-Based' | 'Single-Asset Deep Dive' | string;
+  workflow_type?: string;
+  query_text?: string;
+  question?: string;
+  target_assets?: string[];
+  target_symbols?: string[];
+  horizon?: string;
   difficulty: 'STANDARD' | 'HARD' | 'CHALLENGE' | string;
   required_subtasks: string[];
   numerical_invariants: {
@@ -488,13 +492,21 @@ export interface BenchmarkSystemSummary {
 
 export interface BenchmarkPairedComparison {
   scenario_id: string;
+  scenario_name?: string;
   repetition_index: number;
   arthai_composite: number;
   baseline_composite: number;
-  delta: number;
-  arthai_latency_sec: number;
-  baseline_latency_sec: number;
-  delta_latency_sec: number;
+  delta?: number;
+  delta_composite?: number;
+  arthai_latency_sec?: number;
+  arthai_latency?: number;
+  baseline_latency_sec?: number;
+  baseline_latency?: number;
+  delta_latency_sec?: number;
+  arthai_accuracy?: number;
+  baseline_accuracy?: number;
+  arthai_grounding?: number;
+  baseline_grounding?: number;
 }
 
 export interface BenchmarkStatisticalSignificance {
@@ -518,29 +530,46 @@ export interface BenchmarkRadarPoint {
 }
 
 export interface BenchmarkExecution {
-  run_id: string;
+  run_id?: string;
+  execution_id?: string;
   scenario_id: string;
-  system_type: 'ARTHAAI_FLEET' | 'SINGLE_AGENT_BASELINE';
+  scenario_name?: string;
+  workflow_type?: string;
+  system_type: 'ARTHAAI_FLEET' | 'ARTHAAI_MULTI_AGENT' | 'SINGLE_AGENT_BASELINE' | string;
   repetition_index: number;
   status: string;
   started_at: string;
   completed_at: string;
-  latency_sec: number;
-  recommendation: string;
-  conviction_score: number;
-  accuracy_score: number;
-  grounding_score: number;
-  completion_score: number;
-  consistency_score: number;
-  reliability_score: number;
-  traceability_score: number;
-  composite_quality_index: number;
+  latency_sec?: number;
+  latency_seconds?: number;
+  recommendation?: string;
+  conviction_score?: number;
+  accuracy_score?: number;
+  grounding_score?: number;
+  completion_score?: number;
+  consistency_score?: number;
+  reliability_score?: number;
+  traceability_score?: number;
+  composite_quality_index?: number;
   findings_text?: string;
+  output?: string;
+  metrics?: {
+    composite_quality_score?: number;
+    analytical_accuracy?: number;
+    evidence_grounding?: number;
+    task_completion?: number;
+    consistency_stability?: number;
+    statistical_reliability?: number;
+    audit_traceability?: number;
+    [key: string]: any;
+  };
   subtasks_completed?: string[];
   invariants_checked?: Record<string, boolean>;
   tools_called_count?: number;
+  tool_calls_count?: number;
   failed_tool_calls_count?: number;
   agent_handshake_events?: number;
+  blackboard_events_count?: number;
 }
 
 export interface BenchmarkReport {

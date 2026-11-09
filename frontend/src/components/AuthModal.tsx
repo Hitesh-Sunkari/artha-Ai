@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { ArthaLogo } from './ArthaLogo';
 import {
   ShieldCheck,
   Mail,
@@ -226,20 +227,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(0, 208, 156, 0.15)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#00D09C',
-              }}
-            >
-              <ShieldCheck size={18} />
-            </div>
+            <ArthaLogo size={34} variant="badge" />
             <div>
               <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: palette.headerTitle }}>
                 ArthaAI Institutional Access

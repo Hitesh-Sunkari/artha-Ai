@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArthaLogo } from './ArthaLogo';
 import {
   Compass,
   LineChart,
@@ -122,21 +123,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
           onClick={() => onSelectTab('command-center')}
           title="ArthaAI Platform"
         >
-          <div
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #00D09C 0%, #009E77 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(0, 208, 156, 0.3)',
-              flexShrink: 0,
-            }}
-          >
-            <TrendingUp size={20} color="#0B1020" strokeWidth={2.8} />
-          </div>
+          <ArthaLogo size={38} showGlow variant="badge" />
           <div
             style={{
               overflow: 'hidden',

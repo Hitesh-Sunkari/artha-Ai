@@ -477,54 +477,61 @@ export const TraceExportView: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {report?.paired_comparisons?.slice(0, 24).map((p, i) => (
-                <tr
-                  key={i}
-                  style={{
-                    borderBottom: '1px solid var(--border-subtle)',
-                    transition: 'background-color 0.15s ease',
-                  }}
-                >
-                  <td style={{ padding: '10px 14px', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                    {p.scenario_id}
-                  </td>
+              {report?.paired_comparisons?.slice(0, 24).map((p, i) => {
+                const deltaVal = p.delta_composite ?? p.delta ?? 0;
+                const arthaScore = p.arthai_composite ?? 0;
+                const baseScore = p.baseline_composite ?? 0;
+                const arthaLat = p.arthai_latency ?? p.arthai_latency_sec ?? 0;
+                const baseLat = p.baseline_latency ?? p.baseline_latency_sec ?? 0;
+                return (
+                  <tr
+                    key={i}
+                    style={{
+                      borderBottom: '1px solid var(--border-subtle)',
+                      transition: 'background-color 0.15s ease',
+                    }}
+                  >
+                    <td style={{ padding: '10px 14px', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
+                      {p.scenario_id}
+                    </td>
 
-                  <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                    Rep #{p.repetition_index}
-                  </td>
+                    <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                      Rep #{p.repetition_index}
+                    </td>
 
-                  <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--groww-green)' }}>
-                    {p.arthai_composite.toFixed(1)} / 100
-                  </td>
+                    <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--groww-green)' }}>
+                      {typeof arthaScore === 'number' ? arthaScore.toFixed(1) : arthaScore} / 100
+                    </td>
 
-                  <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#F59E0B' }}>
-                    {p.baseline_composite.toFixed(1)} / 100
-                  </td>
+                    <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#F59E0B' }}>
+                      {typeof baseScore === 'number' ? baseScore.toFixed(1) : baseScore} / 100
+                    </td>
 
-                  <td style={{ padding: '10px 14px' }}>
-                    <span
-                      style={{
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                        color: 'var(--groww-green)',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
-                      }}
-                    >
-                      +{p.delta.toFixed(2)} pts
-                    </span>
-                  </td>
+                    <td style={{ padding: '10px 14px' }}>
+                      <span
+                        style={{
+                          padding: '2px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                          color: 'var(--groww-green)',
+                          fontWeight: 700,
+                          fontFamily: 'var(--font-mono)',
+                        }}
+                      >
+                        +{typeof deltaVal === 'number' ? deltaVal.toFixed(2) : deltaVal} pts
+                      </span>
+                    </td>
 
-                  <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                    {p.arthai_latency_sec.toFixed(2)}s
-                  </td>
+                    <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                      {typeof arthaLat === 'number' ? arthaLat.toFixed(2) : arthaLat}s
+                    </td>
 
-                  <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
-                    {p.baseline_latency_sec.toFixed(2)}s
-                  </td>
-                </tr>
-              ))}
+                    <td style={{ padding: '10px 14px', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>
+                      {typeof baseLat === 'number' ? baseLat.toFixed(2) : baseLat}s
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

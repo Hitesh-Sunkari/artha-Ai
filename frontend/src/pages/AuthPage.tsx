@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ArthaLogo } from '../components/ArthaLogo';
 import {
   ShieldCheck,
   Mail,
@@ -325,23 +326,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       >
         {/* Brand Mark with Modern Financial Emblem */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #00D09C 0%, #06B6D4 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 900,
-              fontSize: '18px',
-              color: '#07090E',
-              boxShadow: '0 4px 16px rgba(0, 208, 156, 0.4)',
-            }}
-          >
-            A
-          </div>
+          <ArthaLogo size={36} showGlow variant="badge" />
           <div>
             <div style={{ fontSize: '17px', fontWeight: 800, letterSpacing: '-0.02em', color: t.textHead, display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>ArthaAI</span>

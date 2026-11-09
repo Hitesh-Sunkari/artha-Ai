@@ -52,6 +52,7 @@ import type {
   EvaluationDatasetResponse,
   ExperimentReport,
 } from './api/types';
+import { ArthaLogo } from './components/ArthaLogo';
 import { StatusBadge } from './components/StatusBadge';
 import { ArchitectureDiagram } from './components/ArchitectureDiagram';
 import { RunModalInspector } from './components/RunModalInspector';
@@ -622,26 +623,12 @@ export const App: React.FC = () => {
             gap: '12px',
           }}
         >
-          <div
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              background: 'linear-gradient(135deg, #00D09C 0%, #009E77 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 2px 10px rgba(0, 208, 156, 0.35)',
-              flexShrink: 0,
-            }}
-          >
-            <ShieldCheck size={22} color="#0B1020" strokeWidth={2.6} />
-          </div>
+          <ArthaLogo size={38} showGlow variant="badge" />
 
           <div style={{ overflow: 'hidden' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                ArthaAI
+                Artha<span style={{ color: 'var(--groww-green)' }}>AI</span>
               </span>
               <span
                 style={{
