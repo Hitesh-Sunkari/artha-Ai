@@ -844,6 +844,30 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
 
                 <button
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    onSelectWorkspace && onSelectWorkspace('auth');
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'var(--text-primary)',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <ShieldCheck size={14} color="var(--groww-green)" />
+                  <span>Account & Clearance Portal</span>
+                </button>
+
+                <button
                   onClick={handleSignOut}
                   style={{
                     width: '100%',
@@ -868,26 +892,48 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
         ) : (
-          <button
-            onClick={() => setIsAuthModalOpen(true)}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              backgroundColor: 'var(--groww-green)',
-              border: 'none',
-              color: '#0F1217',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 2px 10px rgba(0, 208, 156, 0.3)',
-            }}
-          >
-            <User size={14} />
-            <span>Sign In / Google</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={() => onSelectWorkspace && onSelectWorkspace('auth')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(0, 208, 156, 0.08)',
+                border: '1px solid rgba(0, 208, 156, 0.28)',
+                color: 'var(--groww-green)',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+              }}
+              title="Open full dedicated Sign In / Sign Up page"
+            >
+              <Sparkles size={13} />
+              <span>Dedicated Auth Page</span>
+            </button>
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: '8px',
+                backgroundColor: 'var(--groww-green)',
+                border: 'none',
+                color: '#0F1217',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 2px 10px rgba(0, 208, 156, 0.3)',
+              }}
+            >
+              <User size={14} />
+              <span>Sign In / Google</span>
+            </button>
+          </div>
         )}
 
         {/* Auth Modal */}
@@ -895,6 +941,10 @@ export const Header: React.FC<HeaderProps> = ({
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
           onAuthSuccess={(u) => setAuthUser(u)}
+          onOpenFullPage={() => {
+            setIsAuthModalOpen(false);
+            onSelectWorkspace && onSelectWorkspace('auth');
+          }}
         />
 
         {/* Security Switch Denial Alert Dialog */}

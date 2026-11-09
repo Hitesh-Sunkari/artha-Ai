@@ -10,7 +10,7 @@ import {
   User,
 } from 'lucide-react';
 
-export type PrimaryWorkspace = 'command-center' | 'research' | 'portfolio' | 'profile';
+export type PrimaryWorkspace = 'command-center' | 'research' | 'portfolio' | 'profile' | 'auth';
 
 // For backward compatibility with any internal callers
 export type TabId =
@@ -25,7 +25,8 @@ export type TabId =
   | 'architecture'
   | 'evaluation'
   | 'system-status'
-  | 'profile';
+  | 'profile'
+  | 'auth';
 
 interface SidebarProps {
   activeTab: TabId;
@@ -50,6 +51,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       ? 'portfolio'
       : activeTab === 'profile'
       ? 'profile'
+      : activeTab === 'auth'
+      ? 'auth'
       : 'command-center';
 
   const navItems = [
@@ -77,6 +80,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
       label: 'Desk Profile',
       sublabel: 'Account, SEBI & Tax Codes',
       icon: User,
+    },
+    {
+      id: 'auth' as PrimaryWorkspace,
+      label: 'Access / Sign In',
+      sublabel: 'Dedicated Auth & Google',
+      icon: ShieldCheck,
     },
   ];
 

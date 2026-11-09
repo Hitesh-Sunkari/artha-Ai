@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Mail, Lock, User, CheckCircle2, AlertCircle, X, ExternalLink, Sparkles } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import {
+  ShieldCheck,
+  Mail,
+  Lock,
+  User,
+  CheckCircle2,
+  AlertCircle,
+  X,
+  ExternalLink,
+  Sparkles,
+  Maximize2,
+  Eye,
+  EyeOff,
+} from 'lucide-react';
 import { api } from '../api/client';
 import { setActiveAuthUser } from '../utils/telemetryReporter';
 import type { AuthUser } from '../api/types';
@@ -8,13 +22,22 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAuthSuccess?: (user: AuthUser) => void;
+  onOpenFullPage?: () => void;
 }
 
-export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess }) => {
+const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
+
+export const AuthModal: React.FC<AuthModalProps> = ({
+  isOpen,
+  onClose,
+  onAuthSuccess,
+  onOpenFullPage,
+}) => {
   const [mode, setMode] = useState<'LOGIN' | 'SIGNUP'>('LOGIN');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -24,7 +47,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
   const handleGoogleSignIn = async (overrideEmail?: string, overrideName?: string) => {
     setLoading(true);
     setError(null);
-    const targetEmail = overrideEmail || email.trim() || 'hitesh.sunkari.23cse@bmu.edu.in';
+    const targetEmail = overrideEmail || email.trim() || SUPER_ADMIN_EMAIL;
     const targetName = overrideName || (targetEmail.includes('hitesh') ? 'Hitesh Sunkari' : 'Institutional Investor');
 
     try {
@@ -32,13 +55,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
       setActiveAuthUser(authUser);
       setSuccessMsg(
         authUser.is_super_admin
-          ? 'Super-Admin clearance verified! Full administrative and switching rights granted.'
+          ? 'Super-Admin clearance verified! Switching privileges unlocked.'
           : 'Signed in successfully via Google.'
       );
       setTimeout(() => {
         onAuthSuccess && onAuthSuccess(authUser);
         onClose();
-      }, 1000);
+      }, 900);
     } catch (err: any) {
       setError(err.message || 'Failed to authenticate with Google');
     } finally {
@@ -66,7 +89,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
       setTimeout(() => {
         onAuthSuccess && onAuthSuccess(authUser);
         onClose();
-      }, 1000);
+      }, 900);
     } catch (err: any) {
       setError(err.message || 'Authentication failed');
     } finally {
@@ -74,7 +97,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
     }
   };
 
-  return (
+  return createPortal(
     <div
       style={{
         position: 'fixed',
@@ -82,85 +105,178 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        backdropFilter: 'blur(8px)',
-        zIndex: 99999,
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        backdropFilter: 'blur(12px)',
+        zIndex: 9999999,
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: '20px',
+        padding: '40px 16px',
+        overflowY: 'auto',
+        boxSizing: 'border-box',
       }}
+      onClick={onClose}
     >
       <div
         style={{
+          margin: 'auto',
           width: '100%',
-          maxWidth: '460px',
-          backgroundColor: 'var(--bg-card, #131722)',
-          borderRadius: '16px',
-          border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.1))',
-          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.6)',
-          overflow: 'hidden',
+          maxWidth: '480px',
+          maxHeight: 'min(92vh, 760px)',
+          overflowY: 'auto',
+          backgroundColor: '#111520',
+          borderRadius: '18px',
+          border: '1px solid rgba(0, 208, 156, 0.25)',
+          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 208, 156, 0.12)',
           display: 'flex',
           flexDirection: 'column',
-          animation: 'fadeIn 0.2s ease-out',
+          boxSizing: 'border-box',
+          position: 'relative',
         }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Header */}
+        {/* Modal Header (Sticky so title and close button are permanently visible) */}
         <div
           style={{
-            padding: '20px 24px',
-            borderBottom: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.08))',
+            position: 'sticky',
+            top: 0,
+            zIndex: 30,
+            padding: '18px 24px',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            background: 'linear-gradient(135deg, rgba(0, 208, 156, 0.08) 0%, transparent 100%)',
+            backgroundColor: '#111520',
+            backgroundImage: 'linear-gradient(135deg, rgba(0, 208, 156, 0.12) 0%, transparent 100%)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '32px',
-                height: '32px',
+                width: '34px',
+                height: '34px',
                 borderRadius: '8px',
                 backgroundColor: 'rgba(0, 208, 156, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'var(--groww-green, #00D09C)',
+                color: '#00D09C',
               }}
             >
               <ShieldCheck size={18} />
             </div>
             <div>
-              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: 'var(--text-primary, #fff)' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#FFFFFF' }}>
                 ArthaAI Institutional Access
               </h3>
-              <p style={{ margin: '2px 0 0', fontSize: '11px', color: 'var(--text-secondary, #94a3b8)' }}>
-                Multi-Agent Quantitative Terminal & Control
+              <p style={{ margin: '2px 0 0', fontSize: '11px', color: '#94A3B8' }}>
+                Multi-Agent Quantitative Terminal
               </p>
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--text-secondary, #94a3b8)',
-              cursor: 'pointer',
-              padding: '6px',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <X size={18} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {onOpenFullPage && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenFullPage();
+                }}
+                title="Open Dedicated Full Page"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#94A3B8',
+                  cursor: 'pointer',
+                  padding: '5px 9px',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                }}
+              >
+                <Maximize2 size={12} />
+                <span>Full Page</span>
+              </button>
+            )}
+
+            <button
+              onClick={onClose}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#94A3B8',
+                cursor: 'pointer',
+                padding: '6px',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
         {/* Modal Body */}
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Segmented Mode Switcher */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              padding: '3px',
+              borderRadius: '8px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setMode('LOGIN');
+                setError(null);
+              }}
+              style={{
+                padding: '7px 12px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: mode === 'LOGIN' ? '#00D09C' : 'transparent',
+                color: mode === 'LOGIN' ? '#070A0F' : '#94A3B8',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMode('SIGNUP');
+                setError(null);
+              }}
+              style={{
+                padding: '7px 12px',
+                borderRadius: '6px',
+                border: 'none',
+                backgroundColor: mode === 'SIGNUP' ? '#00D09C' : 'transparent',
+                color: mode === 'SIGNUP' ? '#070A0F' : '#94A3B8',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              Register Account
+            </button>
+          </div>
+
           {error && (
             <div
               style={{
@@ -168,7 +284,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
                 borderRadius: '8px',
                 backgroundColor: 'rgba(239, 68, 68, 0.12)',
                 border: '1px solid rgba(239, 68, 68, 0.3)',
-                color: '#ef4444',
+                color: '#EF4444',
                 fontSize: '12px',
                 display: 'flex',
                 alignItems: 'center',
@@ -187,7 +303,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
                 borderRadius: '8px',
                 backgroundColor: 'rgba(0, 208, 156, 0.12)',
                 border: '1px solid rgba(0, 208, 156, 0.3)',
-                color: 'var(--groww-green, #00D09C)',
+                color: '#00D09C',
                 fontSize: '12px',
                 display: 'flex',
                 alignItems: 'center',
@@ -200,25 +316,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
           )}
 
           {/* Google One-Click SSO */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <button
               onClick={() => handleGoogleSignIn()}
               disabled={loading}
               style={{
                 width: '100%',
-                padding: '12px 16px',
-                borderRadius: '10px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
-                color: '#1e293b',
-                fontSize: '14px',
-                fontWeight: 600,
+                padding: '10px 16px',
+                borderRadius: '8px',
+                backgroundColor: '#FFFFFF',
+                border: 'none',
+                color: '#1E293B',
+                fontSize: '13px',
+                fontWeight: 700,
                 cursor: loading ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '12px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                gap: '10px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.15s ease',
               }}
             >
@@ -245,104 +361,63 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
 
             {/* Quick Super-Admin Instant Google Auth Pill */}
             <div
-              onClick={() => handleGoogleSignIn('hitesh.sunkari.23cse@bmu.edu.in', 'Hitesh Sunkari')}
+              onClick={() => handleGoogleSignIn(SUPER_ADMIN_EMAIL, 'Hitesh Sunkari')}
               style={{
-                padding: '8px 12px',
-                borderRadius: '8px',
+                padding: '7px 10px',
+                borderRadius: '6px',
                 backgroundColor: 'rgba(0, 208, 156, 0.08)',
-                border: '1px dashed rgba(0, 208, 156, 0.4)',
+                border: '1px dashed rgba(0, 208, 156, 0.3)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                transition: 'all 0.15s ease',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Sparkles size={14} color="var(--groww-green, #00D09C)" />
-                <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--groww-green, #00D09C)' }}>
-                  Sign In as Super-Admin (hitesh.sunkari.23cse@bmu.edu.in)
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <ShieldCheck size={13} color="#00D09C" />
+                <span style={{ fontSize: '11px', color: '#00D09C', fontWeight: 600 }}>
+                  Super-Admin Access:
+                </span>
+                <span style={{ fontSize: '10.5px', color: '#CBD5E1', fontFamily: 'monospace' }}>
+                  {SUPER_ADMIN_EMAIL}
                 </span>
               </div>
-              <span style={{ fontSize: '10px', color: 'var(--text-secondary, #94a3b8)' }}>1-Click Clearance</span>
+              <span style={{ fontSize: '10px', color: '#00D09C', fontWeight: 700 }}>Quick Login ⚡</span>
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '4px 0' }}>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-subtle, rgba(255, 255, 255, 0.08))' }} />
-            <span style={{ fontSize: '11px', color: 'var(--text-muted, #64748b)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Or use institutional email
+          {/* Divider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+            <span style={{ fontSize: '10px', color: '#64748B', textTransform: 'uppercase' }}>
+              or email
             </span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-subtle, rgba(255, 255, 255, 0.08))' }} />
-          </div>
-
-          {/* Mode Switch Tabs */}
-          <div
-            style={{
-              display: 'flex',
-              backgroundColor: 'var(--bg-surface, #1e222d)',
-              padding: '3px',
-              borderRadius: '8px',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => setMode('LOGIN')}
-              style={{
-                flex: 1,
-                padding: '8px',
-                borderRadius: '6px',
-                border: 'none',
-                backgroundColor: mode === 'LOGIN' ? 'var(--bg-card, #131722)' : 'transparent',
-                color: mode === 'LOGIN' ? 'var(--text-primary, #fff)' : 'var(--text-secondary, #94a3b8)',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('SIGNUP')}
-              style={{
-                flex: 1,
-                padding: '8px',
-                borderRadius: '6px',
-                border: 'none',
-                backgroundColor: mode === 'SIGNUP' ? 'var(--bg-card, #131722)' : 'transparent',
-                color: mode === 'SIGNUP' ? 'var(--text-primary, #fff)' : 'var(--text-secondary, #94a3b8)',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Register Account
-            </button>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {mode === 'SIGNUP' && (
               <div>
-                <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-secondary, #94a3b8)', display: 'block', marginBottom: '6px' }}>
-                  Full Name / Desk Title
+                <label style={{ display: 'block', fontSize: '11px', color: '#94A3B8', marginBottom: '4px', fontWeight: 600 }}>
+                  FULL NAME
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <User size={15} style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted, #64748b)' }} />
+                  <User size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
                   <input
                     type="text"
+                    placeholder="Institutional Trader Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Hitesh Sunkari"
                     style={{
                       width: '100%',
-                      padding: '10px 12px 10px 36px',
+                      padding: '9px 12px 9px 32px',
                       borderRadius: '8px',
-                      backgroundColor: 'var(--bg-surface, #1e222d)',
-                      border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.1))',
-                      color: 'var(--text-primary, #fff)',
-                      fontSize: '13px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#FFFFFF',
+                      fontSize: '12px',
+                      outline: 'none',
                       boxSizing: 'border-box',
                     }}
                   />
@@ -351,25 +426,26 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
             )}
 
             <div>
-              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-secondary, #94a3b8)', display: 'block', marginBottom: '6px' }}>
-                Email Address
+              <label style={{ display: 'block', fontSize: '11px', color: '#94A3B8', marginBottom: '4px', fontWeight: 600 }}>
+                EMAIL ADDRESS
               </label>
               <div style={{ position: 'relative' }}>
-                <Mail size={15} style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted, #64748b)' }} />
+                <Mail size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
                 <input
                   type="email"
                   required
+                  placeholder="user@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="user@example.com"
                   style={{
                     width: '100%',
-                    padding: '10px 12px 10px 36px',
+                    padding: '9px 12px 9px 32px',
                     borderRadius: '8px',
-                    backgroundColor: 'var(--bg-surface, #1e222d)',
-                    border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.1))',
-                    color: 'var(--text-primary, #fff)',
-                    fontSize: '13px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    color: '#FFFFFF',
+                    fontSize: '12px',
+                    outline: 'none',
                     boxSizing: 'border-box',
                   }}
                 />
@@ -377,28 +453,46 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
             </div>
 
             <div>
-              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-secondary, #94a3b8)', display: 'block', marginBottom: '6px' }}>
-                Password
+              <label style={{ display: 'block', fontSize: '11px', color: '#94A3B8', marginBottom: '4px', fontWeight: 600 }}>
+                PASSWORD
               </label>
               <div style={{ position: 'relative' }}>
-                <Lock size={15} style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted, #64748b)' }} />
+                <Lock size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748B' }} />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
+                  placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
                   style={{
                     width: '100%',
-                    padding: '10px 12px 10px 36px',
+                    padding: '9px 32px 9px 32px',
                     borderRadius: '8px',
-                    backgroundColor: 'var(--bg-surface, #1e222d)',
-                    border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.1))',
-                    color: 'var(--text-primary, #fff)',
-                    fontSize: '13px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    color: '#FFFFFF',
+                    fontSize: '12px',
+                    outline: 'none',
                     boxSizing: 'border-box',
                   }}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    color: '#64748B',
+                    cursor: 'pointer',
+                    padding: '2px',
+                  }}
+                >
+                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                </button>
               </div>
             </div>
 
@@ -406,13 +500,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
               type="submit"
               disabled={loading}
               style={{
-                marginTop: '6px',
+                marginTop: '4px',
                 width: '100%',
-                padding: '12px',
+                padding: '11px',
                 borderRadius: '8px',
-                backgroundColor: 'var(--groww-green, #00D09C)',
+                backgroundColor: '#00D09C',
                 border: 'none',
-                color: '#0F1217',
+                color: '#070A0F',
                 fontSize: '13px',
                 fontWeight: 700,
                 cursor: loading ? 'not-allowed' : 'pointer',
@@ -436,20 +530,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
           {/* Super Admin Notice */}
           <div
             style={{
-              padding: '10px 12px',
+              padding: '9px 12px',
               borderRadius: '8px',
               backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid var(--border-subtle, rgba(255, 255, 255, 0.06))',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
               fontSize: '11px',
-              color: 'var(--text-muted, #64748b)',
+              color: '#64748B',
               lineHeight: 1.5,
             }}
           >
-            <strong style={{ color: 'var(--text-secondary, #94a3b8)' }}>Super-Admin Access Policy:</strong> Switching between User and Admin Dashboards is strictly protected and verified for <code>hitesh.sunkari.23cse@bmu.edu.in</code>.
+            <strong style={{ color: '#94A3B8' }}>Super-Admin Access Policy:</strong> Switching between User and Admin Dashboards is strictly protected and verified for <code>{SUPER_ADMIN_EMAIL}</code>.
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
-

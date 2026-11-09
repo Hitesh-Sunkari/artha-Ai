@@ -5,6 +5,7 @@ import { CommandCenterPage } from './pages/CommandCenterPage';
 import { ResearchWorkspacePage } from './pages/ResearchWorkspacePage';
 import { PortfolioTradingPage } from './pages/PortfolioTradingPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { AuthPage } from './pages/AuthPage';
 import { CopilotDrawer } from './components/CopilotDrawer';
 import { initTelemetryReporter, isUserSuperAdmin } from './utils/telemetryReporter';
 
@@ -48,6 +49,8 @@ export const App: React.FC = () => {
       setActiveWorkspace('portfolio');
     } else if (tab === 'profile') {
       setActiveWorkspace('profile');
+    } else if (tab === 'auth') {
+      setActiveWorkspace('auth');
     } else {
       // Direct link to standalone Admin Portal website
       window.open('http://127.0.0.1:5174', '_blank');
@@ -114,6 +117,13 @@ export const App: React.FC = () => {
 
           {activeWorkspace === 'profile' && (
             <ProfilePage onNavigate={handleNavigate} />
+          )}
+
+          {activeWorkspace === 'auth' && (
+            <AuthPage
+              onAuthSuccess={() => setActiveWorkspace('command-center')}
+              onBack={() => setActiveWorkspace('command-center')}
+            />
           )}
         </main>
       </div>
