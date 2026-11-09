@@ -454,3 +454,111 @@ export interface ClientErrorReport {
   rectified_at?: string | null;
 }
 
+// ── Master Canonical Benchmark & Continuous Evaluation Types ─────────
+
+export interface BenchmarkScenario {
+  scenario_id: string;
+  title: string;
+  category: 'Query-Based' | 'Single-Asset Deep Dive' | string;
+  query_text: string;
+  target_assets: string[];
+  horizon: string;
+  difficulty: 'STANDARD' | 'HARD' | 'CHALLENGE' | string;
+  required_subtasks: string[];
+  numerical_invariants: {
+    as_of_date?: string;
+    close_price_tolerance_pct?: number;
+    statutory_stt_rate_bps?: number;
+    expected_primary_stance?: string;
+    [key: string]: any;
+  };
+}
+
+export interface BenchmarkSystemSummary {
+  total_runs: number;
+  mean_composite: number;
+  mean_accuracy: number;
+  mean_grounding: number;
+  mean_completion: number;
+  mean_consistency: number;
+  mean_reliability: number;
+  mean_traceability: number;
+  mean_latency_sec: number;
+}
+
+export interface BenchmarkPairedComparison {
+  scenario_id: string;
+  repetition_index: number;
+  arthai_composite: number;
+  baseline_composite: number;
+  delta: number;
+  arthai_latency_sec: number;
+  baseline_latency_sec: number;
+  delta_latency_sec: number;
+}
+
+export interface BenchmarkStatisticalSignificance {
+  sample_pairs_n: number;
+  mean_quality_delta: number;
+  std_dev_delta: number;
+  std_error: number;
+  cohens_d_effect_size: number;
+  effect_size_interpretation: string;
+  confidence_interval_95_pct: [number, number];
+  t_statistic: number;
+  p_value: string;
+  is_statistically_significant: boolean;
+  null_hypothesis_rejected: boolean;
+}
+
+export interface BenchmarkRadarPoint {
+  dimension: string;
+  ArthaAI: number;
+  Baseline: number;
+}
+
+export interface BenchmarkExecution {
+  run_id: string;
+  scenario_id: string;
+  system_type: 'ARTHAAI_FLEET' | 'SINGLE_AGENT_BASELINE';
+  repetition_index: number;
+  status: string;
+  started_at: string;
+  completed_at: string;
+  latency_sec: number;
+  recommendation: string;
+  conviction_score: number;
+  accuracy_score: number;
+  grounding_score: number;
+  completion_score: number;
+  consistency_score: number;
+  reliability_score: number;
+  traceability_score: number;
+  composite_quality_index: number;
+  findings_text?: string;
+  subtasks_completed?: string[];
+  invariants_checked?: Record<string, boolean>;
+  tools_called_count?: number;
+  failed_tool_calls_count?: number;
+  agent_handshake_events?: number;
+}
+
+export interface BenchmarkReport {
+  experiment_id: string;
+  name: string;
+  dataset_version: string;
+  status: string;
+  started_at: string;
+  completed_at: string;
+  total_scheduled: number;
+  completed_count: number;
+  failed_count: number;
+  arthai_summary: BenchmarkSystemSummary;
+  baseline_summary: BenchmarkSystemSummary;
+  paired_comparisons: BenchmarkPairedComparison[];
+  statistical_significance: BenchmarkStatisticalSignificance;
+  radar_data: BenchmarkRadarPoint[];
+  executions: BenchmarkExecution[];
+}
+
+

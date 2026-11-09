@@ -353,3 +353,4 @@ export const InvestmentsSurveillanceView: React.FC<InvestmentsSurveillanceViewPr
     </div>
   );
 };
+

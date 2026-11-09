@@ -151,6 +151,26 @@ export const api = {
       body: JSON.stringify({ action, target_id, details }),
     }, 8000),
 
+  // Master Canonical Benchmark & Continuous Evaluation Suite
+  getBenchmarkScenarios: () => request<import('./types').BenchmarkScenario[]>('/admin/benchmark/scenarios', {}, 6000),
+
+  getBenchmarkReport: () => request<import('./types').BenchmarkReport>('/admin/benchmark/report', {}, 10000),
+
+  runMasterBenchmark: (maxRepetitions = 4, scenarioIds?: string[]) =>
+    request<import('./types').BenchmarkReport>(
+      '/admin/benchmark/run',
+      {
+        method: 'POST',
+        body: JSON.stringify({ max_repetitions: maxRepetitions, scenario_ids: scenarioIds }),
+      },
+      180000,
+    ),
+
+  getBenchmarkExportUrl: (format: 'markdown' | 'json' | 'csv') => {
+    const baseUrl = getApiBaseUrl();
+    return `${baseUrl}/admin/benchmark/export/${format}`;
+  },
+
   // Super-Admin Authentication & RBAC Verification
   loginWithEmail: (email: string, password?: string, name?: string) =>
     request<import('./types').AuthUser>('/auth/login', {

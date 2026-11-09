@@ -584,3 +584,4 @@ class AdminTelemetryEngine:
 
 # Global singleton instance
 telemetry_engine = AdminTelemetryEngine()
+

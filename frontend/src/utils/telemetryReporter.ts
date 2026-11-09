@@ -145,3 +145,4 @@ export function initTelemetryReporter(getCurrentTab?: () => string): void {
     sendTelemetryCycle();
   });
 }
+

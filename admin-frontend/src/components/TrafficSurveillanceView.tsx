@@ -328,3 +328,4 @@ export const TrafficSurveillanceView: React.FC<TrafficSurveillanceViewProps> = (
     </div>
   );
 };
+

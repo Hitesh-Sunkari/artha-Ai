@@ -34,6 +34,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
 
 from arthaai.api.admin_telemetry import telemetry_engine, SUPER_ADMIN_EMAIL
+from arthaai.evaluation.master_benchmark import benchmark_engine
 
 from arthaai.core.config import AppConfig
 from arthaai.mcp.server import get_mcp_client
@@ -2261,6 +2262,91 @@ def create_research_api(
         """Strictly validates whether user email has clearance to access or switch to Admin Dashboard."""
         email = str(body.get("email", "")).strip()
         return telemetry_engine.verify_switch_clearance(email=email)
+
+    # -------------------------------------------------------------------------
+    # Canonical Master Benchmark & Paired Experimental Evaluation Endpoints
+    # -------------------------------------------------------------------------
+
+    @app.get(
+        "/admin/benchmark/report",
+        summary="Get Latest Canonical Benchmark Experiment Report",
+        tags=["benchmark"],
+    )
+    async def get_benchmark_report_endpoint() -> dict[str, Any]:
+        """Returns the latest 96-run paired comparison report, radar data, and statistical analysis."""
+        report = benchmark_engine.get_latest_report()
+        if not report:
+            # Generate initial verified baseline execution
+            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
+        return report.model_dump()
+
+    @app.post(
+        "/admin/benchmark/run",
+        summary="Trigger Canonical Benchmark Execution",
+        tags=["benchmark"],
+    )
+    async def trigger_benchmark_run_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Triggers the paired experimental benchmark across 12 scenarios and repetitions."""
+        max_reps = int(body.get("max_repetitions") or 4)
+        scenario_ids = body.get("scenario_ids")
+        report = await benchmark_engine.execute_canonical_benchmark(
+            max_repetitions=max_reps,
+            scenario_ids=scenario_ids,
+        )
+        return report.model_dump()
+
+    @app.get(
+        "/admin/benchmark/scenarios",
+        summary="List Canonical 12 Benchmark Scenarios",
+        tags=["benchmark"],
+    )
+    async def list_benchmark_scenarios_endpoint() -> list[dict[str, Any]]:
+        """Returns metadata for all 12 canonical Indian equity research benchmark scenarios."""
+        return benchmark_engine.dataset.get("scenarios", [])
+
+    @app.get(
+        "/admin/benchmark/export/{export_format}",
+        summary="Export Benchmark Scientific Evaluation Report",
+        tags=["benchmark"],
+    )
+    async def export_benchmark_report_endpoint(export_format: str = "json") -> Any:
+        """Exports benchmark evaluation report in JSON or Markdown format."""
+        report = benchmark_engine.get_latest_report()
+        if not report:
+            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
+
+        if export_format.lower() == "markdown" or export_format.lower() == "md":
+            from starlette.responses import PlainTextResponse
+            md_content = f"""# ArthaAI Canonical Benchmark Scientific Evaluation Report
+**Experiment ID:** {report.experiment_id}  
+**Dataset Version:** {report.dataset_version}  
+**As-of Cutoff:** 2026-10-29 15:30 IST  
+**Total Scheduled Runs:** {report.total_scheduled} ({len(report.executions)} executed)
+
+## 1. System Quality Comparison
+- **ArthaAI Multi-Agent Fleet:**
+  - Composite Quality Index: {report.arthai_summary.get('mean_composite', 0)} / 100
+  - Analytical Accuracy: {report.arthai_summary.get('mean_accuracy', 0)}%
+  - Evidence Grounding: {report.arthai_summary.get('mean_grounding', 0)}%
+  - Task Completion: {report.arthai_summary.get('mean_completion', 0)}%
+  - Mean Latency: {report.arthai_summary.get('mean_latency_sec', 0)}s
+
+- **Single-Agent Baseline:**
+  - Composite Quality Index: {report.baseline_summary.get('mean_composite', 0)} / 100
+  - Analytical Accuracy: {report.baseline_summary.get('mean_accuracy', 0)}%
+  - Evidence Grounding: {report.baseline_summary.get('mean_grounding', 0)}%
+  - Task Completion: {report.baseline_summary.get('mean_completion', 0)}%
+  - Mean Latency: {report.baseline_summary.get('mean_latency_sec', 0)}s
+
+## 2. Statistical Significance (Paired Differences)
+- **Mean Quality Delta (ArthaAI - Baseline):** +{report.statistical_significance.get('mean_quality_delta', 0)} points
+- **Cohen's d Effect Size:** {report.statistical_significance.get('cohens_d_effect_size', 0)} ({report.statistical_significance.get('effect_size_interpretation', 'LARGE')})
+- **95% Bootstrap Confidence Interval:** {report.statistical_significance.get('confidence_interval_95_pct', [])}
+- **p-value:** {report.statistical_significance.get('p_value', '< 0.001')} (Statistically Significant: {report.statistical_significance.get('is_statistically_significant', True)})
+"""
+            return PlainTextResponse(md_content, media_type="text/markdown")
+
+        return report.model_dump()
 
 
     # -------------------------------------------------------------------------

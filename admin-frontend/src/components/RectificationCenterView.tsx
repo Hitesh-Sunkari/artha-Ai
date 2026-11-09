@@ -390,3 +390,4 @@ export const RectificationCenterView: React.FC<RectificationCenterViewProps> = (
     </div>
   );
 };
+

@@ -60,6 +60,9 @@ import { UsersSurveillanceView } from './components/UsersSurveillanceView';
 import { InvestmentsSurveillanceView } from './components/InvestmentsSurveillanceView';
 import { RectificationCenterView } from './components/RectificationCenterView';
 import { SuperAdminGatekeeper } from './components/SuperAdminGatekeeper';
+import { BenchmarkStudioView } from './components/BenchmarkStudioView';
+import { ContinuousEvalView } from './components/ContinuousEvalView';
+import { TraceExportView } from './components/TraceExportView';
 import type {
   TrafficTelemetry,
   UserSession,
@@ -99,7 +102,10 @@ export type AdminSubTab =
   | 'trading'
   | 'databank'
   | 'diagnostics'
-  | 'evaluation';
+  | 'evaluation'
+  | 'eval_studio'
+  | 'continuous_eval'
+  | 'trace_export';
 
 export const App: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<AdminSubTab>('overview');
@@ -569,10 +575,17 @@ export const App: React.FC = () => {
       ],
     },
     {
-      group: 'DATA & BENCHMARK',
+      group: 'EXPERIMENTAL BENCHMARK & EVAL',
+      items: [
+        { id: 'eval_studio' as AdminSubTab, label: 'Benchmark Studio', icon: FlaskConical, count: '96 Runs' },
+        { id: 'continuous_eval' as AdminSubTab, label: 'Continuous In-Flight Eval', icon: ShieldCheck, count: 'Live Stream' },
+        { id: 'trace_export' as AdminSubTab, label: 'Trace Lineage & Export', icon: FileCheck2, count: 'Reports' },
+      ],
+    },
+    {
+      group: 'DATA & SYSTEM READY',
       items: [
         { id: 'databank' as AdminSubTab, label: 'Data Bank & Master', icon: Database, count: '115 Eq' },
-        { id: 'evaluation' as AdminSubTab, label: 'Golden Benchmark', icon: FlaskConical, count: '44 Cases' },
         { id: 'diagnostics' as AdminSubTab, label: 'API Diagnostics & Ping', icon: Sliders, count: pingLatency ? `${pingLatency}ms` : undefined },
       ],
     },
@@ -836,6 +849,9 @@ export const App: React.FC = () => {
               {activeSubTab === 'databank' && 'Data Bank & Security Master Resolver'}
               {activeSubTab === 'diagnostics' && 'API Diagnostics & Subsystem Readiness'}
               {activeSubTab === 'evaluation' && 'Golden Benchmark Suite & Grounding Audit'}
+              {activeSubTab === 'eval_studio' && 'Experimental Benchmark Studio & Scientific Evaluator'}
+              {activeSubTab === 'continuous_eval' && 'Continuous In-Flight Evaluation & Live Rectification Center'}
+              {activeSubTab === 'trace_export' && 'Experiment Trace Lineage & Scientific Export Hub'}
             </span>
           </div>
 
@@ -2341,156 +2357,23 @@ export const App: React.FC = () => {
           )}
 
           {/* ══════════════════════════════════════════════════════════════════
-              8. GOLDEN BENCHMARK SUITE TAB
+              8. CONSOLIDATED 3-CONSOLE EVALUATION & BENCHMARKING SUITE
           ══════════════════════════════════════════════════════════════════ */}
-          {activeSubTab === 'evaluation' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              <div style={{ padding: '24px', borderRadius: '14px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '18px' }}>
-                  <div>
-                    <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FlaskConical size={18} color="var(--groww-green)" /> Golden Dataset Benchmark & Grounding Suite
-                    </h3>
-                    <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                      Automated 44-case verification harness measuring statutory tax drag, lookahead bias prevention, and schema integrity.
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={handleRunBenchmark}
-                    disabled={runningBenchmark}
-                    style={{
-                      padding: '8px 18px',
-                      borderRadius: '8px',
-                      backgroundColor: 'var(--groww-green)',
-                      color: '#0F1217',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      border: 'none',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    {runningBenchmark ? (
-                      <>
-                        <RefreshCw size={13} className="animate-spin" />
-                        <span>Running Benchmark...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play size={13} />
-                        <span>Run Golden Benchmark</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {benchmarkNotification && (
-                  <div
-                    style={{
-                      padding: '10px 14px',
-                      borderRadius: '8px',
-                      backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                      border: '1px solid rgba(0, 208, 156, 0.3)',
-                      color: 'var(--groww-green)',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      marginBottom: '16px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                    }}
-                  >
-                    <CheckCircle2 size={16} />
-                    <span>{benchmarkNotification}</span>
-                  </div>
-                )}
-
-                {/* Summary Metrics */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px', marginBottom: '24px' }}>
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>BENCHMARK CASES</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {status?.evaluation_engine?.total_cases || 44} Cases
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      12 Statutory, 10 Adversarial, 10 Zero-Data
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>SCHEMA VALIDITY</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {(evalSummary?.schema_valid_pct ?? 100.0).toFixed(1)}%
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Deterministic Pydantic models
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>UNSUPPORTED CLAIM RATE</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--groww-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {(evalSummary?.unsupported_claim_rate_pct ?? 0.0).toFixed(1)}%
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      Zero hallucination / RAG grounded
-                    </div>
-                  </div>
-
-                  <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>MEAN RESEARCH LATENCY</div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      {(evalSummary?.mean_latency_seconds ?? 5.34).toFixed(2)}s
-                    </div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                      P95: {(evalSummary?.p95_latency_seconds ?? 34.54).toFixed(1)}s
-                    </div>
-                  </div>
-                </div>
-
-                {/* Benchmark Case Suite Breakdown */}
-                <h4 style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 12px 0' }}>
-                  Statutory & Forensic Benchmark Coverage Matrix
-                </h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px' }}>
-                  <div style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Finance Act 2024 STT & Tax Corridor</div>
-                    <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600 }}>12 Statutory Test Scenarios</div>
-                    <p style={{ fontSize: '11.5px', color: 'var(--text-secondary)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
-                      Verifies LTCG 12.5% taxation above ₹1.25L exemption threshold, STCG 20%, and STT friction drag calculations.
-                    </p>
-                  </div>
-
-                  <div style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>SEBI LODR Reg 30 & 33 Governance</div>
-                    <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600 }}>12 Disclosure Test Scenarios</div>
-                    <p style={{ fontSize: '11.5px', color: 'var(--text-secondary)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
-                      Tests auditor qualifications, related party transactions, and prompt injection quarantine isolation.
-                    </p>
-                  </div>
-
-                  <div style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Adversarial Overfitting & Regime Shifts</div>
-                    <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600 }}>10 Adversarial Skeptic Scenarios</div>
-                    <p style={{ fontSize: '11.5px', color: 'var(--text-secondary)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
-                      Challenges LLM recommendations against historical market drawdown shocks (2020 Covid, 2008 GFC).
-                    </p>
-                  </div>
-
-                  <div style={{ padding: '14px', borderRadius: '8px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>Zero-Data & Lookahead Bias Guards</div>
-                    <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600 }}>10 Boundary Test Scenarios</div>
-                    <p style={{ fontSize: '11.5px', color: 'var(--text-secondary)', margin: '6px 0 0 0', lineHeight: 1.4 }}>
-                      Enforces UTC point-in-time boundaries; rejects ungrounded future price claims deterministically.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {(activeSubTab === 'evaluation' || activeSubTab === 'eval_studio') && (
+            <BenchmarkStudioView
+              onNavigateToContinuous={() => setActiveSubTab('continuous_eval')}
+              onNavigateToTrace={() => setActiveSubTab('trace_export')}
+            />
           )}
+
+          {activeSubTab === 'continuous_eval' && (
+            <ContinuousEvalView />
+          )}
+
+          {activeSubTab === 'trace_export' && (
+            <TraceExportView />
+          )}
+
         </main>
       </div>
     </div>

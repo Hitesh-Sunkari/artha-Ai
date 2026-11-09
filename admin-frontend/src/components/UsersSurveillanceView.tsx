@@ -365,3 +365,4 @@ export const UsersSurveillanceView: React.FC<UsersSurveillanceViewProps> = ({
     </div>
   );
 };
+
