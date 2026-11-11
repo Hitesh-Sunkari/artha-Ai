@@ -1,0 +1,20 @@
+{
+  "scenario_id": "S06",
+  "reference_id": "REF_S06_CONSTRAINT_SELECTION",
+  "symbol": "NIFTY_UNIVERSE_BASKET",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "max_allowable_drawdown_pct": 25.0
+  },
+  "mandatory_evidence": [
+    "Historical peak-to-trough drawdown calculation",
+    "Disqualification audit log citing breach reasons"
+  ],
+  "prohibited_hallucinations": [
+    "Including securities with historical drawdown > 25%",
+    "Silent removal without exclusion logging"
+  ],
+  "acceptable_conclusions": [
+    "CONSTRAINT_PASSED_BASKET"
+  ]
+}

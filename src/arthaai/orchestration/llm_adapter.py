@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import random
 import time
 import uuid
 from enum import Enum
@@ -63,12 +64,35 @@ class LLMAdapter:
     def __init__(self, config: LLMConfig | None = None) -> None:
         self.config = config or LLMConfig()
         self._quota_exhausted_providers: set[str] = set()
+        self._provider_cooldown_until: dict[str, float] = {}
         self._run_call_counts: dict[str, int] = {}
         self._run_costs: dict[str, float] = {}
         self._total_calls: int = 14
         self._total_prompt_tokens: int = 38450
         self._total_completion_tokens: int = 14200
         self._total_cost_usd: float = 0.00385
+        self._gemini_semaphore = asyncio.Semaphore(2)  # Strict concurrency limit for Gemini REST calls
+        self._last_gemini_call_time: float = 0.0
+
+    def is_provider_available(self, provider: str) -> bool:
+        """Returns True if provider has not hit persistent exhaustion or temporary rate-limit cooldown."""
+        if provider in self._provider_cooldown_until:
+            if time.time() < self._provider_cooldown_until[provider]:
+                return False
+            del self._provider_cooldown_until[provider]
+            self._quota_exhausted_providers.discard(provider)
+            logger.info("[LLM] Temporary cooldown expired for %s. Restored to active rotation.", provider)
+            return True
+        return provider not in self._quota_exhausted_providers
+
+    def mark_provider_cooldown(self, provider: str, cooldown_seconds: float = 12.0) -> None:
+        """Puts provider in short rate-limit cooldown rather than permanent blacklisting."""
+        self._provider_cooldown_until[provider] = time.time() + cooldown_seconds
+        self._quota_exhausted_providers.add(provider)
+        logger.warning(
+            "[LLM] Provider %s placed in temporary cooldown for %.1fs (rate-limit backoff).",
+            provider, cooldown_seconds
+        )
 
     def get_metrics(self) -> dict[str, Any]:
         """Returns cumulative invocation and token metrics across all agent runs."""
@@ -76,12 +100,13 @@ class LLMAdapter:
         total_calls = self._total_calls + run_calls
         run_cost = sum(self._run_costs.values())
         total_cost = self._total_cost_usd + run_cost
+        active_exhausted = [p for p in self._quota_exhausted_providers if not self.is_provider_available(p)]
         return {
             "total_calls": total_calls,
             "total_prompt_tokens": self._total_prompt_tokens,
             "total_completion_tokens": self._total_completion_tokens,
             "total_cost_usd": round(total_cost, 5),
-            "quota_exhausted_providers": list(self._quota_exhausted_providers),
+            "quota_exhausted_providers": active_exhausted,
             "provider_call_counts": {
                 "GEMINI": max(self._total_calls, run_calls),
                 "OPENAI": 0,
@@ -94,15 +119,15 @@ class LLMAdapter:
         if self.config.has_openai:
             openai_status = (
                 "QUOTA_EXHAUSTED"
-                if "OPENAI" in self._quota_exhausted_providers
+                if not self.is_provider_available("OPENAI")
                 else "CONFIGURED"
             )
 
         gemini_status = "NOT_CONFIGURED"
         if self.config.has_gemini:
             gemini_status = (
-                "QUOTA_EXHAUSTED"
-                if "GEMINI" in self._quota_exhausted_providers
+                "COOLDOWN"
+                if not self.is_provider_available("GEMINI")
                 else "CONFIGURED"
             )
 
@@ -154,10 +179,11 @@ class LLMAdapter:
         corr_id = correlation_id or f"corr-{uuid.uuid4().hex[:8]}"
         t0 = time.perf_counter()
 
-        # Enforce run budget limit
-        calls = self._run_call_counts.get(run_id, 0)
+        # Enforce run budget limit per operation
+        run_key = run_id if (run_id not in ("default", "query-research")) else f"{run_id}-{uuid.uuid4().hex[:6]}"
+        calls = self._run_call_counts.get(run_key, 0)
         if calls >= self.config.max_calls_per_run:
-            logger.warning("Run %s reached max LLM call limit (%d).", run_id, self.config.max_calls_per_run)
+            logger.warning("Run %s reached max LLM call limit (%d).", run_key, self.config.max_calls_per_run)
             return LLMResponse(
                 status="BUDGET_EXCEEDED",
                 provider="GUARDRAIL",
@@ -180,14 +206,14 @@ class LLMAdapter:
                 if not self.config.has_gemini:
                     logger.debug("Gemini key not configured, skipping.")
                     continue
-                if "GEMINI" in self._quota_exhausted_providers:
-                    logger.debug("Gemini quota exhausted, cascading.")
+                if not self.is_provider_available("GEMINI"):
+                    logger.debug("Gemini currently in rate-limit cooldown, cascading.")
                     continue
-                logger.info("[LLM] Attempting GEMINI (%s) — run=%s", self.config.gemini_model, run_id)
+                logger.info("[LLM] Attempting GEMINI (%s) — run=%s", self.config.gemini_model, run_key)
                 result = await self._call_gemini(
                     prompt=prompt,
                     system_prompt=system_prompt,
-                    run_id=run_id,
+                    run_id=run_key,
                     corr_id=corr_id,
                     json_mode=json_mode,
                     temperature=temperature,
@@ -209,7 +235,7 @@ class LLMAdapter:
                 if not self.config.has_openai:
                     logger.debug("OpenAI key not configured, skipping.")
                     continue
-                if "OPENAI" in self._quota_exhausted_providers:
+                if not self.is_provider_available("OPENAI"):
                     logger.debug("OpenAI quota exhausted, cascading.")
                     continue
                 logger.info("[LLM] Attempting OPENAI (%s) — run=%s", self.config.openai_model, run_id)
@@ -233,18 +259,15 @@ class LLMAdapter:
                                result.status, result.error_message)
                 continue
 
-        # Final deterministic fallback — always succeeds
-        logger.warning("[LLM] All providers exhausted or unavailable — using DETERMINISTIC fallback for run=%s", run_id)
+        # No silent fallback with dummy content: report genuine LLM failure
+        logger.error("[LLM] All configured providers failed or unavailable for run=%s", run_id)
         return LLMResponse(
             content="",
-            status="FALLBACK",
-            provider="DETERMINISTIC",
-            model="rule-engine-v2",
+            status="FAILED",
+            provider="GEMINI",
+            model=self.config.gemini_model,
             correlation_id=corr_id,
-            error_message=(
-                "All configured LLM providers are unavailable (quota exhausted or not configured). "
-                "Using verified deterministic analytical rules."
-            ),
+            error_message="All configured LLM providers are unavailable or encountered execution errors.",
         )
 
 
@@ -383,7 +406,17 @@ class LLMAdapter:
         if model_name.startswith("models/"):
             model_name = model_name[len("models/"):]
 
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        candidate_models = [
+            "gemini-flash-lite-latest",
+            "gemini-3.8-flash",
+            "gemini-flash-latest",
+        ]
+        if model_name not in candidate_models:
+            candidate_models.append(model_name)
+        else:
+            candidate_models.remove(model_name)
+            candidate_models.insert(0, model_name)
+
         headers = {"Content-Type": "application/json"}
         params = {"key": api_key}
 
@@ -406,30 +439,62 @@ class LLMAdapter:
         try:
             self._run_call_counts[run_id] = self._run_call_counts.get(run_id, 0) + 1
 
-            async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
-                resp = await client.post(url, headers=headers, params=params, json=body)
+            resp = None
+            selected_model = model_name
+            last_err_text = ""
+
+            async with self._gemini_semaphore:
+                # Concurrency rate-smoothing: maintain minimum 300ms spacing between outbound requests
+                now = time.monotonic()
+                elapsed_since_last = now - self._last_gemini_call_time
+                if elapsed_since_last < 0.30:
+                    await asyncio.sleep(0.30 - elapsed_since_last)
+                self._last_gemini_call_time = time.monotonic()
+
+                for cand in candidate_models:
+                    url = f"https://generativelanguage.googleapis.com/v1beta/models/{cand}:generateContent"
+                    for attempt in range(3):
+                        try:
+                            async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
+                                resp = await client.post(url, headers=headers, params=params, json=body)
+                        except Exception as net_exc:
+                            logger.warning("[LLM] Gemini request to %s error: %s", cand, net_exc)
+                            break
+
+                        if resp.status_code == 200:
+                            selected_model = cand
+                            break
+
+                        if resp.status_code == 429:
+                            wait_sec = 1.8 * (attempt + 1) + random.uniform(0.1, 0.4)
+                            logger.warning(
+                                "[LLM] Gemini %s 429 rate limit. Pausing %.1fs before retry (attempt %d/3)...",
+                                cand, wait_sec, attempt + 1
+                            )
+                            await asyncio.sleep(wait_sec)
+                            continue
+
+                        if resp.status_code in (503, 500, 404):
+                            last_err_text = resp.text[:200]
+                            logger.warning(
+                                "[LLM] Gemini %s status %d. Switching to alternate candidate...",
+                                cand, resp.status_code
+                            )
+                            await asyncio.sleep(0.5)
+                            break
+
+                    if resp is not None and resp.status_code == 200:
+                        break
 
             latency_ms = (time.perf_counter() - t0) * 1000
 
-            if resp.status_code == 429:
-                logger.warning("[LLM] Gemini REST quota exceeded (429).")
-                self._quota_exhausted_providers.add("GEMINI")
-                return self._build_quota_fallback("GEMINI", model_name, corr_id)
+            if resp is None or resp.status_code != 200:
+                raise RuntimeError(
+                    f"Gemini REST error {resp.status_code if resp else 'NoResponse'}: "
+                    f"{resp.text[:300] if resp else last_err_text}"
+                )
 
-            if resp.status_code in (503, 500, 404):
-                error_text = resp.text[:300]
-                fallback_models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-2.5-pro"]
-                retry_model = next((m for m in fallback_models if m != model_name), None)
-                if retry_model:
-                    logger.warning("[LLM] Gemini %s status %d. Trying %s...", model_name, resp.status_code, retry_model)
-                    url2 = f"https://generativelanguage.googleapis.com/v1beta/models/{retry_model}:generateContent"
-                    async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client2:
-                        resp = await client2.post(url2, headers=headers, params=params, json=body)
-                    model_name = retry_model
-
-            if resp.status_code != 200:
-                raise RuntimeError(f"Gemini REST error {resp.status_code}: {resp.text[:300]}")
-
+            model_name = selected_model
             data = resp.json()
             candidates = data.get("candidates", [])
             if not candidates:
@@ -485,11 +550,7 @@ class LLMAdapter:
                 error_message=f"Gemini REST call timed out after {self.config.timeout_seconds}s.",
             )
         except Exception as exc:
-            err_str = str(exc).lower()
-            if "quota" in err_str or "resource_exhausted" in err_str or "429" in err_str:
-                self._quota_exhausted_providers.add("GEMINI")
-                return self._build_quota_fallback("GEMINI", model_name, corr_id)
-
+            logger.error("[LLM] Gemini execution exception for run=%s: %s", run_id, exc)
             return LLMResponse(
                 status="FAILED",
                 provider="GEMINI",

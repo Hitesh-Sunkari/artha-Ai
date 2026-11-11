@@ -1,0 +1,23 @@
+{
+  "scenario_id": "S04",
+  "reference_id": "REF_S04_AUTO_PAIR_MC",
+  "symbol": "TATAMOTORS.NS vs MARUTI.NS",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "monte_carlo_paths": 5000,
+    "horizon_years": 5
+  },
+  "mandatory_evidence": [
+    "Geometric Brownian motion SIMD paths",
+    "Terminal quantile distribution (5th, 50th, 95th)"
+  ],
+  "prohibited_hallucinations": [
+    "Simulating fewer than 5,000 paths without declaration",
+    "Negative terminal prices under lognormal distribution"
+  ],
+  "acceptable_conclusions": [
+    "ALLOCATION_SOLVED",
+    "TATAMOTORS_PREFERRED",
+    "MARUTI_PREFERRED"
+  ]
+}

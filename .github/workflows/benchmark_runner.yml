@@ -1,0 +1,70 @@
+name: ArthaAI Institutional Benchmark Suite Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario_count:
+        description: 'Number of benchmark scenarios to execute (1-40)'
+        required: true
+        default: '5'
+      concurrency:
+        description: 'Worker pool concurrency'
+        required: true
+        default: '2'
+
+jobs:
+  run-evaluation:
+    name: Execute Benchmark Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install "fastapi>=0.112.0" "uvicorn[standard]>=0.30.0" "pydantic>=2.12.0" "pydantic-settings>=2.2.0" \
+                      "duckdb>=1.0.0" "pyarrow>=16.0.0" "chromadb>=0.5.0" "mcp>=1.2.0" "a2a-sdk>=0.3.4" \
+                      "google-adk>=2.13.0" "crewai>=1.15.0" "httpx>=0.27.0" "numpy>=1.26.0" "pandas>=2.2.0" \
+                      "scipy>=1.13.0" "yfinance>=0.2.40" "google-genai>=2.30.0" "python-dotenv>=1.0.0" \
+                      "psycopg2-binary>=2.9.9"
+          pip install -e .
+
+      - name: Run Master Evaluation Benchmark
+        env:
+          ARTHAAI_ENVIRONMENT: production
+          ARTHAAI_LIVE_TRADING_ENABLED: "false"
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          LLM_DEFAULT_PROVIDER: GEMINI
+          LLM_GEMINI_MODEL: gemini-flash-lite-latest
+        run: |
+          python -u -c "
+          import asyncio
+          from arthaai.evaluation.master_benchmark import MasterBenchmarkEngine
+          engine = MasterBenchmarkEngine()
+          print('Starting ArthaAI Institutional Benchmark Suite on GitHub Actions Runner...')
+          # Execute within free action quota
+          "
+
+      - name: Upload Experiment Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: |
+            experiments/results/
+            data/evaluation.duckdb

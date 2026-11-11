@@ -1,0 +1,21 @@
+{
+  "scenario_id": "S05",
+  "reference_id": "REF_S05_CROSS_ASSET_RANKING",
+  "symbol": "TATAMOTORS, INFY, RELIANCE, SILVERBEES",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "equity_tax_drag_bps": 22.22,
+    "commodity_tax_drag_bps": 1.5
+  },
+  "mandatory_evidence": [
+    "Asset class distinction between Equity and Commodity ETF",
+    "Statutory STT divergence documentation"
+  ],
+  "prohibited_hallucinations": [
+    "Applying identical statutory friction across different asset classes",
+    "Arbitrary ranking without composite scores"
+  ],
+  "acceptable_conclusions": [
+    "CROSS_ASSET_RANKED"
+  ]
+}

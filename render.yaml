@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: arthaai-backend
+    runtime: docker
+    dockerfilePath: Dockerfile.backend
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: ARTHAAI_ENVIRONMENT
+        value: production
+      - key: ARTHAAI_LIVE_TRADING_ENABLED
+        value: "false"
+      - key: LLM_DEFAULT_PROVIDER
+        value: GEMINI
+      - key: LLM_GEMINI_MODEL
+        value: gemini-flash-lite-latest
+      - key: LLM_TIMEOUT_SECONDS
+        value: "45"
+      - key: LLM_MAX_CALLS_PER_RUN
+        value: "50"
+      - key: ARTHAAI_ALLOWED_ORIGINS
+        value: "*"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false

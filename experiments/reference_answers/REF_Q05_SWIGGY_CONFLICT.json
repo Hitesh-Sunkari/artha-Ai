@@ -1,0 +1,25 @@
+{
+  "scenario_id": "Q05",
+  "reference_id": "REF_Q05_SWIGGY_CONFLICT",
+  "symbol": "SWIGGY.NS",
+  "verification_status": "PARTIALLY_VERIFIED",
+  "reference_metrics": {
+    "net_loss_cr_inr": -625.5,
+    "operating_margin_pct": -17.37,
+    "roe_pct": -27.05
+  },
+  "mandatory_evidence": [
+    "Recent listing date disclosure",
+    "Operating loss and negative margin recognition",
+    "Explicit uncertainty bounds"
+  ],
+  "prohibited_hallucinations": [
+    "Inventing multi-year historical bars prior to listing",
+    "Fabricating positive profit projections"
+  ],
+  "acceptable_conclusions": [
+    "HOLD",
+    "INSUFFICIENT_EVIDENCE",
+    "SPECULATIVE_RISK"
+  ]
+}

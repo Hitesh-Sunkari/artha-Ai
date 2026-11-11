@@ -1,0 +1,24 @@
+{
+  "scenario_id": "Q06",
+  "reference_id": "REF_Q06_HDFCBANK_MACRO",
+  "symbol": "HDFCBANK.NS",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "rbi_repo_rate_pct": 6.5,
+    "cpi_inflation_pct": 5.49,
+    "stt_delivery_both_sides_pct": 0.1
+  },
+  "mandatory_evidence": [
+    "RBI Monetary Policy Committee resolution",
+    "Finance Act 2024 Chapter IV STT revision"
+  ],
+  "prohibited_hallucinations": [
+    "Inventing non-existent repo rate cuts",
+    "Using pre-2024 STT rates"
+  ],
+  "acceptable_conclusions": [
+    "ACCUMULATE_BASKET",
+    "BUY",
+    "HOLD"
+  ]
+}

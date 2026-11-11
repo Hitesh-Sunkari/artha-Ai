@@ -1,0 +1,23 @@
+{
+  "scenario_id": "S03",
+  "reference_id": "REF_S03_CONSERVATIVE_BASKET",
+  "symbol": "RELIANCE, TCS, HDFCBANK, ITC",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "min_vol_reduction_pct": 15.0,
+    "sum_of_weights": 1.0,
+    "max_single_weight": 0.35
+  },
+  "mandatory_evidence": [
+    "Ledoit-Wolf covariance shrinkage matrix",
+    "SLSQP constrained quadratic solver convergence log"
+  ],
+  "prohibited_hallucinations": [
+    "Weights summing to non-1.0 value",
+    "Negative weights without shorting permission"
+  ],
+  "acceptable_conclusions": [
+    "MINIMUM_VARIANCE_BASKET",
+    "OPTIMIZED_PORTFOLIO"
+  ]
+}

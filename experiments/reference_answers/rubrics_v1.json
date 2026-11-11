@@ -5,12 +5,15 @@
   "as_of_snapshot": "2026-10-29T15:30:00+05:30",
   "reference_scenarios": {
     "Q01": {
+      "scenario_id": "Q01",
+      "reference_id": "REF_Q01_RELIANCE_5Y",
       "symbol": "RELIANCE.NS",
       "verification_status": "VERIFIED",
       "anchor_ltp": 1438.30,
       "reference_metrics": {
-        "sma_20d": 1349.50,
-        "realized_volatility_20d": 23.4,
+        "anchor_close_inr": 1438.30,
+        "sma_20d_inr": 1349.50,
+        "realized_volatility_annualized_pct": 23.4,
         "corwin_schultz_spread_bps": 8.5,
         "statutory_delivery_stt_pct": 0.10,
         "total_roundtrip_friction_bps": 22.22
@@ -24,9 +27,12 @@
         "Fabricated FY27 revenue numbers",
         "Claims of zero transaction costs",
         "Omission of statutory STT delivery friction"
-      ]
+      ],
+      "acceptable_conclusions": ["BUY", "ACCUMULATE_BASKET", "HOLD"]
     },
     "Q02": {
+      "scenario_id": "Q02",
+      "reference_id": "REF_Q02_SILVER_MOMENTUM",
       "symbol": "TATSILV / SILVERBEES",
       "verification_status": "VERIFIED",
       "reference_metrics": {
@@ -42,13 +48,16 @@
       "prohibited_hallucinations": [
         "Treating physical silver ETF as regular corporate equity",
         "Applying 20 bps delivery STT to ETF (statutory ETF drag is lower)"
-      ]
+      ],
+      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"]
     },
     "Q03": {
+      "scenario_id": "Q03",
+      "reference_id": "REF_Q03_TATAMOTORS_RISK",
       "symbol": "TATAMOTORS.NS",
       "verification_status": "VERIFIED",
       "reference_metrics": {
-        "var_95_1y_pct": -28.4,
+        "var_95_pct": -28.4,
         "cvar_95_pct": -38.2,
         "max_drawdown_pct": -34.8
       },
@@ -59,14 +68,17 @@
       "prohibited_hallucinations": [
         "Zero downside risk claims",
         "Omission of cyclical automotive sector Beta"
-      ]
+      ],
+      "acceptable_conclusions": ["HOLD", "ACCUMULATE_BASKET", "HEDGE_RECOMMENDED"]
     },
     "Q04": {
+      "scenario_id": "Q04",
+      "reference_id": "REF_Q04_TCS_INFY_PAIR",
       "symbol": "TCS.NS vs INFY.NS",
       "verification_status": "VERIFIED",
       "reference_metrics": {
-        "tcs_price": 2475.20,
-        "infy_price": 1520.40,
+        "tcs_ltp_inr": 2475.20,
+        "infy_ltp_inr": 1520.40,
         "tcs_beta": 0.78,
         "infy_beta": 1.04
       },
@@ -77,13 +89,16 @@
       "prohibited_hallucinations": [
         "Confusing market caps or trading currencies",
         "Fabricating Q3 FY26 numbers"
-      ]
+      ],
+      "acceptable_conclusions": ["TCS_OUTPERFORM", "INFY_OUTPERFORM", "BALANCED_PAIR"]
     },
     "Q05": {
+      "scenario_id": "Q05",
+      "reference_id": "REF_Q05_SWIGGY_CONFLICT",
       "symbol": "SWIGGY.NS",
-      "verification_status": "VERIFIED",
+      "verification_status": "PARTIALLY_VERIFIED",
       "reference_metrics": {
-        "net_loss_inr_cr": -625.50,
+        "net_loss_cr_inr": -625.50,
         "operating_margin_pct": -17.37,
         "roe_pct": -27.05
       },
@@ -95,25 +110,143 @@
       "prohibited_hallucinations": [
         "Inventing multi-year historical bars prior to listing",
         "Fabricating positive profit projections"
-      ]
+      ],
+      "acceptable_conclusions": ["HOLD", "INSUFFICIENT_EVIDENCE", "SPECULATIVE_RISK"]
     },
     "Q06": {
+      "scenario_id": "Q06",
+      "reference_id": "REF_Q06_HDFCBANK_MACRO",
       "symbol": "HDFCBANK.NS",
       "verification_status": "VERIFIED",
       "reference_metrics": {
-        "rbi_repo_rate": 6.50,
-        "cpi_inflation": 5.49,
-        "stt_delivery_each_side": 0.10
+        "rbi_repo_rate_pct": 6.50,
+        "cpi_inflation_pct": 5.49,
+        "stt_delivery_both_sides_pct": 0.10
       },
       "mandatory_evidence": [
-        "RBI MPC policy statement",
-        "Finance Act 2024 STT schedule"
+        "RBI Monetary Policy Committee resolution",
+        "Finance Act 2024 Chapter IV STT revision"
       ],
       "prohibited_hallucinations": [
-        "Claiming RBI repo rate cuts that have not occurred",
-        "Ignoring statutory turnover fees"
-      ]
+        "Inventing non-existent repo rate cuts",
+        "Using pre-2024 STT rates"
+      ],
+      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"]
+    },
+    "S01": {
+      "scenario_id": "S01",
+      "reference_id": "REF_S01_GROWTH_SCREEN",
+      "symbol": "NIFTY_50_UNIVERSE",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "min_roe_threshold": 18.0,
+        "min_operating_margin": 15.0
+      },
+      "mandatory_evidence": [
+        "DuckDB fundamentals query log",
+        "Disqualification justification log for excluded candidates"
+      ],
+      "prohibited_hallucinations": [
+        "Including companies failing ROE threshold",
+        "Empty screening results without justification"
+      ],
+      "acceptable_conclusions": ["RANKED_LIST_GENERATED", "BASKET_PRODUCED"]
+    },
+    "S02": {
+      "scenario_id": "S02",
+      "reference_id": "REF_S02_MOMENTUM_LIQUIDITY",
+      "symbol": "NIFTY_100_LIQUID",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "max_effective_spread_bps": 15.0,
+        "rsi_lower_bound": 55.0,
+        "rsi_upper_bound": 70.0
+      },
+      "mandatory_evidence": [
+        "Corwin-Schultz (2012) high-low spread estimator output",
+        "14-day Wilder's RSI filter"
+      ],
+      "prohibited_hallucinations": [
+        "Selecting illiquid securities with spread > 15 bps",
+        "RSI calculation ignoring zero-division bounds"
+      ],
+      "acceptable_conclusions": ["RANKED_LIST_GENERATED"]
+    },
+    "S03": {
+      "scenario_id": "S03",
+      "reference_id": "REF_S03_CONSERVATIVE_BASKET",
+      "symbol": "RELIANCE, TCS, HDFCBANK, ITC",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "min_vol_reduction_pct": 15.0,
+        "sum_of_weights": 1.0,
+        "max_single_weight": 0.35
+      },
+      "mandatory_evidence": [
+        "Ledoit-Wolf covariance shrinkage matrix",
+        "SLSQP constrained quadratic solver convergence log"
+      ],
+      "prohibited_hallucinations": [
+        "Weights summing to non-1.0 value",
+        "Negative weights without shorting permission"
+      ],
+      "acceptable_conclusions": ["MINIMUM_VARIANCE_BASKET", "OPTIMIZED_PORTFOLIO"]
+    },
+    "S04": {
+      "scenario_id": "S04",
+      "reference_id": "REF_S04_AUTO_PAIR_MC",
+      "symbol": "TATAMOTORS.NS vs MARUTI.NS",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "monte_carlo_paths": 5000,
+        "horizon_years": 5
+      },
+      "mandatory_evidence": [
+        "Geometric Brownian motion SIMD paths",
+        "Terminal quantile distribution (5th, 50th, 95th)"
+      ],
+      "prohibited_hallucinations": [
+        "Simulating fewer than 5,000 paths without declaration",
+        "Negative terminal prices under lognormal distribution"
+      ],
+      "acceptable_conclusions": ["ALLOCATION_SOLVED", "TATAMOTORS_PREFERRED", "MARUTI_PREFERRED"]
+    },
+    "S05": {
+      "scenario_id": "S05",
+      "reference_id": "REF_S05_CROSS_ASSET_RANKING",
+      "symbol": "TATAMOTORS, INFY, RELIANCE, SILVERBEES",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "equity_tax_drag_bps": 22.22,
+        "commodity_tax_drag_bps": 1.5
+      },
+      "mandatory_evidence": [
+        "Asset class distinction between Equity and Commodity ETF",
+        "Statutory STT divergence documentation"
+      ],
+      "prohibited_hallucinations": [
+        "Applying identical statutory friction across different asset classes",
+        "Arbitrary ranking without composite scores"
+      ],
+      "acceptable_conclusions": ["CROSS_ASSET_RANKED"]
+    },
+    "S06": {
+      "scenario_id": "S06",
+      "reference_id": "REF_S06_CONSTRAINT_SELECTION",
+      "symbol": "NIFTY_UNIVERSE_BASKET",
+      "verification_status": "VERIFIED",
+      "reference_metrics": {
+        "max_allowable_drawdown_pct": 25.0
+      },
+      "mandatory_evidence": [
+        "Historical peak-to-trough drawdown calculation",
+        "Disqualification audit log citing breach reasons"
+      ],
+      "prohibited_hallucinations": [
+        "Including securities with historical drawdown > 25%",
+        "Silent removal without exclusion logging"
+      ],
+      "acceptable_conclusions": ["CONSTRAINT_PASSED_BASKET"]
     }
   }
 }
-

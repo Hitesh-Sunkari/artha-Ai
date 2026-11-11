@@ -1,0 +1,30 @@
+{
+  "scenario_id": "Q01",
+  "reference_id": "REF_Q01_RELIANCE_5Y",
+  "symbol": "RELIANCE.NS",
+  "verification_status": "VERIFIED",
+  "anchor_ltp": 1438.3,
+  "reference_metrics": {
+    "anchor_close_inr": 1438.3,
+    "sma_20d_inr": 1349.5,
+    "realized_volatility_annualized_pct": 23.4,
+    "corwin_schultz_spread_bps": 8.5,
+    "statutory_delivery_stt_pct": 0.1,
+    "total_roundtrip_friction_bps": 22.22
+  },
+  "mandatory_evidence": [
+    "NSE partitioned Parquet OHLCV daily bars",
+    "Finance Act 2024 LTCG Sec 112 (12.5% rate)",
+    "SEBI (LODR) Regulations 2015"
+  ],
+  "prohibited_hallucinations": [
+    "Fabricated FY27 revenue numbers",
+    "Claims of zero transaction costs",
+    "Omission of statutory STT delivery friction"
+  ],
+  "acceptable_conclusions": [
+    "BUY",
+    "ACCUMULATE_BASKET",
+    "HOLD"
+  ]
+}

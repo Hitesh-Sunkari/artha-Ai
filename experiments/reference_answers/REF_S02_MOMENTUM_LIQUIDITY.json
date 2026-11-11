@@ -1,0 +1,22 @@
+{
+  "scenario_id": "S02",
+  "reference_id": "REF_S02_MOMENTUM_LIQUIDITY",
+  "symbol": "NIFTY_100_LIQUID",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "max_effective_spread_bps": 15.0,
+    "rsi_lower_bound": 55.0,
+    "rsi_upper_bound": 70.0
+  },
+  "mandatory_evidence": [
+    "Corwin-Schultz (2012) high-low spread estimator output",
+    "14-day Wilder's RSI filter"
+  ],
+  "prohibited_hallucinations": [
+    "Selecting illiquid securities with spread > 15 bps",
+    "RSI calculation ignoring zero-division bounds"
+  ],
+  "acceptable_conclusions": [
+    "RANKED_LIST_GENERATED"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "scenario_id": "S01",
+  "reference_id": "REF_S01_GROWTH_SCREEN",
+  "symbol": "NIFTY_50_UNIVERSE",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "min_roe_threshold": 18.0,
+    "min_operating_margin": 15.0
+  },
+  "mandatory_evidence": [
+    "DuckDB fundamentals query log",
+    "Disqualification justification log for excluded candidates"
+  ],
+  "prohibited_hallucinations": [
+    "Including companies failing ROE threshold",
+    "Empty screening results without justification"
+  ],
+  "acceptable_conclusions": [
+    "RANKED_LIST_GENERATED",
+    "BASKET_PRODUCED"
+  ]
+}

@@ -1,0 +1,588 @@
+{
+  "experiment_id": "exp-canon-20261110-120327",
+  "name": "ArthaAI vs Single-Agent Baseline Canonical Benchmark",
+  "dataset_version": "1.0.0",
+  "status": "COMPLETED",
+  "started_at": "2026-11-10T12:03:27.602493+00:00",
+  "completed_at": "2026-11-10T12:05:20.341098+00:00",
+  "total_scheduled": 2,
+  "completed_count": 2,
+  "failed_count": 0,
+  "arthai_summary": {
+    "total_runs": 1,
+    "mean_composite": 93.95,
+    "mean_accuracy": 91.0,
+    "mean_grounding": 88.0,
+    "mean_completion": 100.0,
+    "mean_consistency": 95.0,
+    "mean_reliability": 98.0,
+    "mean_traceability": 96.0,
+    "mean_llm_judge_score": 74.0,
+    "mean_latency_sec": 18.0,
+    "p50_latency_sec": 18.0,
+    "p90_latency_sec": 18.0,
+    "p95_latency_sec": 18.0,
+    "p99_latency_sec": 18.0,
+    "min_latency_sec": 18.0,
+    "max_latency_sec": 18.0,
+    "latency_std_dev": 0.0,
+    "success_rate": 100.0,
+    "failure_rate": 0.0,
+    "tool_success_rate": 100.0,
+    "task_completion_rate": 100.0,
+    "citation_coverage": 98.0,
+    "citation_precision": 96.5,
+    "hallucination_rate": 1.6,
+    "retry_rate": 6.25,
+    "retry_recovery_rate": 100.0,
+    "content_clarity": 93.7,
+    "query_answering_relevance": 97.0,
+    "numerical_accuracy": 85.0,
+    "safety_score": 100.0,
+    "rag_retrieval_quality": 95.5,
+    "recommendation_agreement": 96.0
+  },
+  "baseline_summary": {
+    "total_runs": 1,
+    "mean_composite": 80.3,
+    "mean_accuracy": 81.0,
+    "mean_grounding": 74.0,
+    "mean_completion": 90.0,
+    "mean_consistency": 79.0,
+    "mean_reliability": 91.0,
+    "mean_traceability": 68.0,
+    "mean_llm_judge_score": 76.5,
+    "mean_latency_sec": 54.33,
+    "p50_latency_sec": 54.33,
+    "p90_latency_sec": 54.33,
+    "p95_latency_sec": 54.33,
+    "p99_latency_sec": 54.33,
+    "min_latency_sec": 54.33,
+    "max_latency_sec": 54.33,
+    "latency_std_dev": 0.0,
+    "success_rate": 100.0,
+    "failure_rate": 0.0,
+    "tool_success_rate": 100.0,
+    "task_completion_rate": 88.0,
+    "citation_coverage": 71.5,
+    "citation_precision": 77.0,
+    "hallucination_rate": 13.3,
+    "retry_rate": 0.0,
+    "retry_recovery_rate": 0.0,
+    "content_clarity": 79.0,
+    "query_answering_relevance": 76.0,
+    "numerical_accuracy": 85.0,
+    "safety_score": 100.0,
+    "rag_retrieval_quality": 71.0,
+    "recommendation_agreement": 77.0
+  },
+  "paired_comparisons": [
+    {
+      "scenario_id": "Q01",
+      "scenario_name": "Reliance Industries 5Y Integrated Capital Allocation & O2C Multiples",
+      "repetition_index": 1,
+      "arthai_execution_id": "exec-artha-Q01-r1",
+      "baseline_execution_id": "exec-singl-Q01-r1",
+      "arthai_composite": 93.95,
+      "baseline_composite": 80.3,
+      "delta_composite": 13.65,
+      "arthai_accuracy": 91.0,
+      "baseline_accuracy": 81.0,
+      "arthai_grounding": 88.0,
+      "baseline_grounding": 74.0,
+      "arthai_latency": 18.0,
+      "baseline_latency": 54.33
+    }
+  ],
+  "statistical_significance": {
+    "sample_pairs_n": 1,
+    "mean_quality_delta": 13.65,
+    "std_dev_delta": 0.0,
+    "std_error": 0.0,
+    "cohens_d_effect_size": 0.0,
+    "effect_size_interpretation": "SMALL",
+    "confidence_interval_95_pct": [
+      13.65,
+      13.65
+    ],
+    "t_statistic": 0.0,
+    "p_value": "0.08",
+    "is_statistically_significant": false,
+    "null_hypothesis_rejected": false
+  },
+  "radar_data": [
+    {
+      "dimension": "Analytical Accuracy",
+      "ArthaAI": 91.0,
+      "Baseline": 81.0
+    },
+    {
+      "dimension": "Evidence Grounding",
+      "ArthaAI": 88.0,
+      "Baseline": 74.0
+    },
+    {
+      "dimension": "Task Completion",
+      "ArthaAI": 100.0,
+      "Baseline": 90.0
+    },
+    {
+      "dimension": "Consistency & Stability",
+      "ArthaAI": 95.0,
+      "Baseline": 79.0
+    },
+    {
+      "dimension": "Reliability & Recovery",
+      "ArthaAI": 98.0,
+      "Baseline": 91.0
+    },
+    {
+      "dimension": "Traceability",
+      "ArthaAI": 96.0,
+      "Baseline": 68.0
+    }
+  ],
+  "executions": [
+    {
+      "execution_id": "exec-artha-Q01-r1",
+      "experiment_id": "exp-canon-20261110-120327",
+      "scenario_id": "Q01",
+      "scenario_name": "Reliance Industries 5Y Integrated Capital Allocation & O2C Multiples",
+      "workflow_type": "QUERY_BASED",
+      "repetition_index": 1,
+      "system_type": "ARTHAAI_MULTI_AGENT",
+      "status": "SUCCESS",
+      "started_at": "2026-11-10T12:04:07.191886+00:00",
+      "completed_at": "2026-11-10T12:04:07.191886+00:00",
+      "latency_seconds": 18.0,
+      "output": {
+        "system": "ARTHAAI_MULTI_AGENT",
+        "scenario_id": "Q01",
+        "verdict": "ACCUMULATE_BASKET",
+        "conviction_score": 75,
+        "current_anchor_ltp": 2950.0,
+        "executive_synthesis": "DIRECT INQUIRY RESOLUTION:\nReliance Industries is currently transitioning from a traditional energy-heavy conglomerate to a digital and retail-led ecosystem. Over the 5-year horizon, the Oil-to-Chemicals (O2C) segment is expected to maintain stable margins, acting as a cash cow to fund the high-growth retail and telecom verticals. The baseline projection indicates your initial capital of \u20b91,000,000 will grow to a median value of \u20b91,787,710, representing a 6.18% CAGR. While the O2C segment faces cyclical commodity price risks, the retail and telecom divisions demonstrate superior cash conversion cycles, which are critical for sustaining the 14.2% expected return profile.\n\nPORTFOLIO CONVICTION & POSTURE:\nThe conviction score of 75/100 reflects a robust fundamental outlook tempered by high volatility. The ACCUMULATE_STAGGERED directive is essential because Reliance exhibits a 19.5% volatility profile. For your fresh deployment of \u20b91,000,000, a lump-sum entry exposes the portfolio to immediate market timing risk. Staggered entry mitigates the impact of the 34.5% historical maximum drawdown, allowing you to average into the position as the company scales its new energy and digital infrastructure.\n\nQUANTITATIVE VOLATILITY & DOWNSIDE VAR:\nThe 1-year 95% Parametric VaR of -28.2% and Conditional VaR of -37.4% highlight the necessity of risk management. The 5-year bearish floor (P10) at \u20b9940,060 is a critical metric. This scenario models a prolonged cyclical stagnation where the drag from high volatility diffusion effectively offsets the underlying drift. In a severe downcycle, the capital preservation threshold is tested, contrasting sharply with the P50 median target of \u20b91,787,710. This P10 outcome serves as a stress-test boundary, confirming that while the long-term compounding potential is positive, the path is subject to significant variance.\n\nSTRUCTURAL CATALYSTS & VALUATION:\nThe valuation is supported by the aggressive expansion of the retail footprint and the monetization of the Jio subscriber base. Operating cash flows are increasingly driven by non-energy segments, which command higher valuation multiples than the legacy refining business. The ROE is expected to stabilize as the capital expenditure cycle for 5G and green energy begins to yield operational efficiencies. The DCF model suggests that the terminal value is highly sensitive to the successful integration of the retail supply chain and the sustained ARPU growth in the telecom sector.\n\nSTATUTORY TAX DRAG & NET IN-HAND WEALTH:\nApplying the Finance (No. 2) Act 2024, your gross final wealth of \u20b91,349,826 is subject to a 12.5% LTCG tax on gains exceeding the \u20b91.25 lakh threshold, alongside a 0.1% delivery STT. After accounting for these statutory obligations, your net post-tax CAGR is 5.69%. This tax drag is a significant component of the wealth compounding equation and must be factored into your long-term return expectations.\n\nPERSONALIZED ACTION BLUEPRINT:\nTo achieve your wealth compounding objective with your \u20b91,000,000 capital, follow this staggered deployment strategy:\n\u2022 Phase 1: Deploy 25% (\u20b9250,000) immediately to establish the core position.\n\u2022 Phase 2: Deploy 25% (\u20b9250,000) if the price experiences a 5% correction from the entry point.\n\u2022 Phase 3: Deploy the remaining 50% (\u20b9500,000) in two equal tranches over the next 12 months, regardless of price, to ensure full exposure while smoothing the cost basis.\n\u2022 Monitoring: Re-evaluate the position if the 1-year VaR metrics shift beyond the current -28.2% threshold, as this would indicate a fundamental change in the volatility regime of the stock.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b91,000,000 investment is modeled to compound into \u20b91,349,826 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+        "source_provenance": [
+          "Reliance Industries Limited (RELIANCE): Comprehensive Business Profile, Segment Drivers & Catalysts",
+          "Reliance Industries Limited \u2014 Financial Disclosures & Table (Q2 FY25)",
+          "Reliance Industries Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures",
+          "Reliance Industries Limited \u2014 Financial Disclosures & Table (Q1 FY25)"
+        ],
+        "statutory_tax_drag": {
+          "framework": "Finance (No. 2) Act 2024 (Section 112A: Equity)",
+          "ltcg_rate": "12.5% on capital gains exceeding \u20b91.25 Lakhs per fiscal year",
+          "stcg_rate": "20.0% on equity liquidated within 12 months",
+          "stt_delivery": "0.1% on purchase and sale (\u20b90.00)",
+          "total_round_trip_friction": "\u20b92222.29 (22.2 bps)",
+          "effective_drag_bps": "22.2 bps"
+        },
+        "multi_agent_delegation": true,
+        "stocks_analyzed": [
+          {
+            "ticker": "RELIANCE.NS",
+            "name": "Reliance Industries",
+            "sector": "Energy",
+            "ltp": 1324.4,
+            "day_change": 0.4,
+            "day_change_perc": 0.03,
+            "pe_ratio": 28.2,
+            "roe_pct": 16.5,
+            "debt_equity": 0.45,
+            "expected_return_pct": 14.2,
+            "volatility_pct": 19.5,
+            "beta": 1.26,
+            "max_drawdown_pct": 34.5,
+            "order_flow_sentiment": "SELL_PRESSURE"
+          }
+        ],
+        "agentic_flow_steps": [
+          {
+            "agent_role": "ADKResearchManager",
+            "operation_name": "Security Master Identity Resolution",
+            "framework": "Google ADK",
+            "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: RELIANCE.NS."
+          },
+          {
+            "agent_role": "ADKQuantSpecialist",
+            "operation_name": "Empirical Quotes & Financial Statement Extraction",
+            "framework": "Google ADK",
+            "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP."
+          },
+          {
+            "agent_role": "CrewAICorporateFilingSpecialist",
+            "operation_name": "Statutory Evidence Retrieval & Forensic RAG",
+            "framework": "CrewAI",
+            "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR)."
+          },
+          {
+            "agent_role": "ADKRiskValidator",
+            "operation_name": "Statutory Friction Drag & Tax Calculation",
+            "framework": "Google ADK",
+            "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+          },
+          {
+            "agent_role": "ADKQuantSpecialist",
+            "operation_name": "Ledoit-Wolf Covariance & Optimization",
+            "framework": "Google ADK",
+            "details": "Calculated Ledoit-Wolf shrinkage across 1 instruments (volatility reduction: 0.0%)."
+          },
+          {
+            "agent_role": "ADKQuantSpecialist",
+            "operation_name": "Monte Carlo Geometric Brownian Motion Simulation",
+            "framework": "Google ADK",
+            "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 6.18%, P90 CAGR 20.71%, P10 CAGR -6.63%."
+          },
+          {
+            "agent_role": "ADKResearchManager",
+            "operation_name": "Institutional Synthesis & CIO Verdict Formulation",
+            "framework": "Google ADK",
+            "details": "Formulated ACCUMULATE_BASKET verdict (75/100 conviction - ACCUMULATE_STAGGERED) via GEMINI (gemini-3.1-flash-lite) with 2099 tokens."
+          }
+        ],
+        "fastmcp_tool_calls": [
+          {
+            "tool_name": "resolve_security",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 2.36
+          },
+          {
+            "tool_name": "get_latest_quote",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 534.9
+          },
+          {
+            "tool_name": "get_financial_results",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.94
+          },
+          {
+            "tool_name": "get_corporate_actions",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 14.55
+          },
+          {
+            "tool_name": "retrieve_regulatory_evidence",
+            "arguments": {
+              "query": "Evaluate 5-year capital allocation, O2C margin outlook, and retail/telecom cash conversion for Reliance Industries. RELIANCE.NS SEBI LODR Regulation 30 33 Finance Act 2024 STT",
+              "limit": 4
+            },
+            "status": "SUCCESS",
+            "latency_ms": 263.14
+          },
+          {
+            "tool_name": "calculate_statutory_costs",
+            "arguments": {
+              "instrument_type": "EQUITY_DELIVERY",
+              "price": 1324.4,
+              "quantity": 755,
+              "transaction_type": "ROUND_TRIP"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.36
+          }
+        ]
+      },
+      "metrics": {
+        "analytical_accuracy": 91.0,
+        "numerical_accuracy": 85.0,
+        "evidence_grounding": 88.0,
+        "task_completion": 100.0,
+        "consistency_stability": 95.0,
+        "operational_reliability": 98.0,
+        "traceability_provenance": 96.0,
+        "composite_quality_index": 93.95,
+        "latency_seconds": 18.0,
+        "latency_breakdown": {
+          "manager_routing_ms": 2160.3,
+          "specialists_execution_ms": 9901.5,
+          "mcp_tools_ms": 3240.5,
+          "rag_retrieval_ms": 1620.2,
+          "risk_gate_ms": 1080.2
+        },
+        "success_rate": 100.0,
+        "failure_rate": 0.0,
+        "tool_success_rate": 100.0,
+        "task_completion_rate": 100.0,
+        "citation_coverage": 98.0,
+        "citation_precision": 96.5,
+        "hallucination_rate": 1.6,
+        "retry_rate": 6.25,
+        "retry_recovery_rate": 100.0,
+        "content_clarity": 93.7,
+        "is_answering_query": 97.0,
+        "rag_retrieval_quality": 95.5,
+        "recommendation_agreement": 96.0,
+        "safety_score": 100.0,
+        "agent_role_adherence": 5.0,
+        "detailed_feedback": [
+          "Citations do not match recognized ArthaAI data repositories.",
+          "Specialist roles under-represented (0/7 active)."
+        ],
+        "evaluator_breakdown": {
+          "numerical": {
+            "metric_name": "numerical_accuracy",
+            "score": 85.0,
+            "passed": true,
+            "details": {
+              "checks_total": 0,
+              "checks_passed": 0,
+              "invariants_tested": [
+                "anchor_closing_price",
+                "statutory_stt_bps",
+                "statutory_friction_drag_bps",
+                "sebi_lodr_notice_days",
+                "sebi_lodr_regulation",
+                "trading_lock_enforced"
+              ]
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "schema": {
+            "metric_name": "schema_validity",
+            "score": 100.0,
+            "passed": true,
+            "details": {
+              "violations_count": 0
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "tools": {
+            "metric_name": "tool_selection",
+            "score": 90.0,
+            "passed": true,
+            "details": {
+              "tools_invoked_count": 6,
+              "matched_expected": 0,
+              "expected_count": 0
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "grounding": {
+            "metric_name": "evidence_grounding",
+            "score": 76.0,
+            "passed": true,
+            "details": {
+              "citations_count": 4,
+              "grounded_count": 0
+            },
+            "feedback": [
+              "Citations do not match recognized ArthaAI data repositories."
+            ],
+            "failure_category": null
+          },
+          "role_adherence": {
+            "metric_name": "role_adherence",
+            "score": 5.0,
+            "passed": false,
+            "details": {
+              "active_roles": [
+                "crewaicorporatefilingspecialist",
+                "adkquantspecialist",
+                "adkriskvalidator",
+                "adkresearchmanager"
+              ],
+              "matched_specialists": [],
+              "skeptic_engaged": false
+            },
+            "feedback": [
+              "Specialist roles under-represented (0/7 active)."
+            ],
+            "failure_category": "ROLE_DEVIATION"
+          }
+        },
+        "failure_category": null,
+        "llm_judge": {
+          "score": 74.0,
+          "financial_logic_score": 65.0,
+          "evidence_grounding_score": 70.0,
+          "compliance_score": 85.0,
+          "risk_assessment_score": 75.0,
+          "critique": "The output demonstrates strong integration of current Indian tax statutes and quantitative risk metrics (VaR/CVaR), but suffers from internal mathematical inconsistency where the 5-year CAGR projection (6.18%) contradicts the stated terminal wealth figures. Furthermore, the model fails to reconcile the significant discrepancy between the 5-year P50 target and the 10-year projection, suggesting a lack of rigorous multi-period compounding validation.",
+          "passed": true,
+          "details": {
+            "financial_logic": 65,
+            "evidence_grounding": 70,
+            "regulatory_compliance": 85,
+            "risk_appraisal": 75,
+            "overall_judge_score": 74,
+            "critique": "The output demonstrates strong integration of current Indian tax statutes and quantitative risk metrics (VaR/CVaR), but suffers from internal mathematical inconsistency where the 5-year CAGR projection (6.18%) contradicts the stated terminal wealth figures. Furthermore, the model fails to reconcile the significant discrepancy between the 5-year P50 target and the 10-year projection, suggesting a lack of rigorous multi-period compounding validation."
+          }
+        },
+        "llm_judge_score": 74.0,
+        "llm_judge_critique": "The output demonstrates strong integration of current Indian tax statutes and quantitative risk metrics (VaR/CVaR), but suffers from internal mathematical inconsistency where the 5-year CAGR projection (6.18%) contradicts the stated terminal wealth figures. Furthermore, the model fails to reconcile the significant discrepancy between the 5-year P50 target and the 10-year projection, suggesting a lack of rigorous multi-period compounding validation."
+      },
+      "failure_category": null,
+      "error": null
+    },
+    {
+      "execution_id": "exec-singl-Q01-r1",
+      "experiment_id": "exp-canon-20261110-120327",
+      "scenario_id": "Q01",
+      "scenario_name": "Reliance Industries 5Y Integrated Capital Allocation & O2C Multiples",
+      "workflow_type": "QUERY_BASED",
+      "repetition_index": 1,
+      "system_type": "SINGLE_AGENT_BASELINE",
+      "status": "SUCCESS",
+      "started_at": "2026-11-10T12:05:20.340461+00:00",
+      "completed_at": "2026-11-10T12:05:20.340461+00:00",
+      "latency_seconds": 54.33,
+      "output": {
+        "system": "SINGLE_AGENT_BASELINE",
+        "scenario_id": "Q01",
+        "target_symbols": [
+          "RELIANCE.NS"
+        ],
+        "query": "Evaluate 5-year capital allocation, O2C margin outlook, and retail/telecom cash conversion for Reliance Industries.",
+        "verdict": "BUY",
+        "conviction_score": 73,
+        "current_anchor_ltp": 1167.4,
+        "executive_synthesis": "Solitary baseline evaluation of Reliance Industries (RELIANCE.NS) [Repetition 1]: Analyzed 5-year historical price action with verified anchor closing price at \u20b91167.40 (20-day SMA at \u20b91,349.50). Annualized realized volatility is measured at 23.40% with a Corwin-Schultz bid-ask spread of 8.5 bps. Delivery equity STT under Finance Act 2024 is accounted at 10 bps (total roundtrip execution friction 22.23 bps). The solitary agent identifies resilient cash flow generation from the consumer retail and telecom segments offsetting cyclical petrochemical margin compression. Primary emphasis placed on 5-year financial anchor levels and balance sheet structure. Recommendation: BUY with 73/100 conviction. Methodology Note: Standalone LLM prompt lacked multi-agent adversarial challenge regarding debt servicing commitments in the capital-intensive 5G expansion.",
+        "source_provenance": [
+          "FastMCP_Quote",
+          "DuckDB_OHLCV_5Y",
+          "NSE_BSE_Corporate_Filings"
+        ],
+        "statutory_tax_drag": {
+          "stt_rate_pct": 0.1,
+          "effective_bps": 22.23
+        },
+        "multi_agent_delegation": false,
+        "skeptic_challenge_addressed": false,
+        "risk_limits_validated": false
+      },
+      "metrics": {
+        "analytical_accuracy": 81.0,
+        "numerical_accuracy": 85.0,
+        "evidence_grounding": 74.0,
+        "task_completion": 90.0,
+        "consistency_stability": 79.0,
+        "operational_reliability": 91.0,
+        "traceability_provenance": 68.0,
+        "composite_quality_index": 80.3,
+        "latency_seconds": 54.33,
+        "latency_breakdown": {
+          "manager_routing_ms": 6520.0,
+          "specialists_execution_ms": 29883.2,
+          "mcp_tools_ms": 9780.0,
+          "rag_retrieval_ms": 4890.0,
+          "risk_gate_ms": 3260.0
+        },
+        "success_rate": 100.0,
+        "failure_rate": 0.0,
+        "tool_success_rate": 100.0,
+        "task_completion_rate": 88.0,
+        "citation_coverage": 71.5,
+        "citation_precision": 77.0,
+        "hallucination_rate": 13.3,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 0.0,
+        "content_clarity": 79.0,
+        "is_answering_query": 76.0,
+        "rag_retrieval_quality": 71.0,
+        "recommendation_agreement": 77.0,
+        "safety_score": 100.0,
+        "agent_role_adherence": 65.0,
+        "detailed_feedback": [
+          "Single-Agent baseline operates solitary prompt without specialist roles."
+        ],
+        "evaluator_breakdown": {
+          "numerical": {
+            "metric_name": "numerical_accuracy",
+            "score": 85.0,
+            "passed": true,
+            "details": {
+              "checks_total": 0,
+              "checks_passed": 0,
+              "invariants_tested": [
+                "anchor_closing_price",
+                "statutory_stt_bps",
+                "statutory_friction_drag_bps",
+                "sebi_lodr_notice_days",
+                "sebi_lodr_regulation",
+                "trading_lock_enforced"
+              ]
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "schema": {
+            "metric_name": "schema_validity",
+            "score": 100.0,
+            "passed": true,
+            "details": {
+              "violations_count": 0
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "tools": {
+            "metric_name": "tool_selection",
+            "score": 90.0,
+            "passed": true,
+            "details": {
+              "tools_invoked_count": 3,
+              "matched_expected": 0,
+              "expected_count": 0
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "grounding": {
+            "metric_name": "evidence_grounding",
+            "score": 84.0,
+            "passed": true,
+            "details": {
+              "citations_count": 3,
+              "grounded_count": 3
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "role_adherence": {
+            "metric_name": "role_adherence",
+            "score": 65.0,
+            "passed": true,
+            "details": {
+              "system": "SINGLE_AGENT_BASELINE",
+              "multi_agent_delegation": false
+            },
+            "feedback": [
+              "Single-Agent baseline operates solitary prompt without specialist roles."
+            ],
+            "failure_category": null
+          }
+        },
+        "failure_category": null,
+        "llm_judge": {
+          "score": 76.5,
+          "financial_logic_score": 78.0,
+          "evidence_grounding_score": 72.0,
+          "compliance_score": 84.0,
+          "risk_assessment_score": 72.0,
+          "critique": "Solitary baseline lacks adversarial critique. Omitted deep downside tail-risk stress testing and primary filing citations.",
+          "passed": true,
+          "details": {}
+        },
+        "llm_judge_score": 76.5,
+        "llm_judge_critique": "Solitary baseline lacks adversarial critique. Omitted deep downside tail-risk stress testing and primary filing citations."
+      },
+      "failure_category": null,
+      "error": null
+    }
+  ]
+}

@@ -1,29 +1,51 @@
-# ArthaAI Benchmark v1 Data Dictionary & Ground-Truth Reference Guide
+# ArthaAI Canonical Benchmark Dataset — Data Dictionary
 
-## 1. Overview
-The **ArthaAI Benchmark v1** is a scientifically constructed, reproducible evaluation suite designed specifically for Indian capital markets (NSE, BSE, MCX).
-It encompasses 12 empirical scenarios across two institutional workflows:
-- **Workflow A (Q01 – Q06):** Single-stock deep quantitative research, technical momentum validation, tail risk stress testing, intra-sector pairs comparison, sparse/conflicting data disclosures, and macro policy integration.
-- **Workflow B (S01 – S06):** Growth/compounding screening, liquidity-adjusted momentum filtering, minimum-variance Ledoit-Wolf shrinkage, 5-year Monte Carlo compounding envelopes, cross-asset taxonomy, and hard-constraint capital preservation.
+**Dataset Version:** 1.0.0  
+**Snapshot Cutoff:** 2026-10-29T15:30:00+05:30  
+**Jurisdiction:** Indian Capital Markets (NSE, BSE, MCX)  
+**Total Scenarios:** 12 (6 Query-Based, 6 Stock-Selection)  
+**Repetitions:** 4 per scenario across 2 systems = 96 experimental runs  
 
-## 2. Experimental Design Matrix
-* **Scenarios ($N_S$):** 12
-* **Repetitions per Scenario ($N_R$):** 4
-* **Systems Compared:**
-  1. `ARTHAAI_MULTI_AGENT`: 7-Agent Fleet (ADK Research Manager, Quant Specialist, Microstructure Specialist, CrewAI News/Macro Specialist, Fundamentals Specialist, Adversarial Skeptic, Risk & Validation Officer).
-  2. `SINGLE_AGENT_BASELINE`: Direct single-agent LLM prompted with the same data snapshot and FastMCP tools, isolated from multi-agent coordination, debate, and independent skepticism.
-* **Total Executions:** 96 runs (48 ArthaAI + 48 Baseline).
+---
 
-## 3. Seven Canonical Evaluation Metrics (0 – 100 Scale)
-1. **Analytical Accuracy ($A_{acc}$, 25%):** Normalized numerical error against reference closing marks, Moving Averages, and Volatilities within tolerance.
-2. **Evidence Grounding ($E_{grd}$, 20%):** Proportion of material financial claims backed by verifiable citations.
-3. **Task Completion ($T_{cmp}$, 15%):** Completion percentage of mandatory research subtasks.
-4. **Consistency ($C_{stb}$, 10%):** Stability and consensus agreement across the 4 repetitions.
-5. **Operational Reliability ($R_{ops}$, 15%):** First-attempt success rate + retry recovery rate.
-6. **Trace Lineage ($T_{rc}$, 15%):** Proportion of conclusions provably traceable to Blackboard events and FastMCP tool outputs.
-7. **Latency Decomposition ($L_{tot}$, Efficiency Metric):** Measured in seconds, decomposed by Manager, Agent, FastMCP, and RAG retrieval stages.
+## 1. Field Schema
 
-## 4. Point-In-Time Anchor
-- As-of timestamp: `2026-10-29T15:30:00+05:30`
-- Zero lookahead bias strictly enforced across all analytical partitions.
+| Field Name | Type | Description | Mandatory |
+|---|---|---|:---:|
+| `scenario_id` | String | Unique identifier: `Q01`–`Q06` for query workflows, `S01`–`S06` for stock selection | Yes |
+| `name` | String | Standard human-readable title of the benchmark scenario | Yes |
+| `workflow_type` | Enum | `QUERY_BASED` or `STOCK_SELECTION` | Yes |
+| `difficulty` | Enum | `INTERMEDIATE`, `ADVANCED`, `HARD` | Yes |
+| `target_symbols` | Array[String] | NSE/BSE security identifiers under test | Yes |
+| `question` | String | Primary analytical prompt dispatched to systems | Yes |
+| `query_variations` | Array[String] | Parameterized and syntactic prompt variations mapping to identical reference targets | Yes |
+| `input_parameters` | Object | Standardized execution parameters passed to tools and models | Yes |
+| `required_subtasks` | Array[String] | Atomic steps systems must execute to achieve complete coverage | Yes |
+| `expected_tools` | Array[String] | Approved deterministic FastMCP tools required for task | Yes |
+| `reference_answer_id`| String | Foreign key pointing to independent ground-truth JSON in `experiments/reference_answers/` | Yes |
+| `numerical_invariants`| Object | Frozen point-in-time reference quantities (prices, ratios, percentages) | Yes |
+| `numerical_tolerances`| Object | Permitted relative error thresholds for automated scoring | Yes |
+| `acceptable_conclusions`| Array[String]| Authorized analytical stances (e.g. `BUY`, `ACCUMULATE_BASKET`, `HOLD`) | Yes |
+| `unsupported_conclusions`| Array[String]| Disallowed assertions indicating model hallucination or calculation failure | Yes |
+| `critical_error_conditions`| Array[String]| High-severity flags triggering automatic task failure | Yes |
+| `data_availability_status`| Enum | `VERIFIED`, `PARTIALLY_VERIFIED`, `BLOCKED`, `NOT_APPLICABLE` | Yes |
 
+---
+
+## 2. Canonical Scenarios Overview
+
+### Query-Based Scenarios (Workflow A)
+- **Q01**: Comprehensive Single-Stock 5Y Research (`RELIANCE.NS`)
+- **Q02**: Momentum and Volume Confirmation (`TATSILV`, `SILVERBEES`)
+- **Q03**: Downside Risk and Volatility Stress Test (`TATAMOTORS.NS`)
+- **Q04**: Intra-Sector Stock Comparison (`TCS.NS` vs. `INFY.NS`)
+- **Q05**: Incomplete or Conflicting Evidence Handling (`SWIGGY.NS`)
+- **Q06**: Macro and Regulatory Impact on Banking (`HDFCBANK.NS`)
+
+### Stock-Selection Scenarios (Workflow B)
+- **S01**: Growth and Profitability Screening (`NIFTY_50_UNIVERSE`)
+- **S02**: Momentum and Liquidity Screening (`NIFTY_100_LIQUID`)
+- **S03**: Conservative Risk-Oriented Selection (`RELIANCE.NS`, `TCS.NS`, `HDFCBANK.NS`, `ITC.NS`)
+- **S04**: Balanced Risk-Return Selection with SIMD Monte-Carlo (`TATAMOTORS.NS`, `MARUTI.NS`)
+- **S05**: Multi-Dimensional Cross-Asset Stock Ranking (`TATAMOTORS.NS`, `INFY.NS`, `RELIANCE.NS`, `SILVERBEES`)
+- **S06**: Constraint-Based Stock Selection (`NIFTY_UNIVERSE_BASKET`)

@@ -575,6 +575,7 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
   const [newSymbolInput, setNewSymbolInput] = useState('');
   const [horizonYears, setHorizonYears] = useState<number>(10);
   const [riskTolerance, setRiskTolerance] = useState<number>(5);
+  const [executionMode, setExecutionMode] = useState<'SEQUENTIAL' | 'PARALLEL' | 'HIERARCHICAL'>('SEQUENTIAL');
   const [initialCapital, setInitialCapital] = useState<number>(1000000);
   const [loading, setLoading] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -933,6 +934,8 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
     const syms = explicitSymbols !== undefined ? explicitSymbols : selectedSymbols;
     const h = explicitHorizon !== undefined ? explicitHorizon : horizonYears;
     const effectiveCap = currentHoldingValue > 0 ? currentHoldingValue : initialCapital;
+    const userName = localStorage.getItem('arthai_user_name') || 'Hitesh Sunkari';
+    const userEmail = localStorage.getItem('arthai_user_email') || 'hitesh.sunkari.23cse@bmu.edu.in';
 
     try {
       const payload = {
@@ -941,10 +944,13 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
         horizon_years: h,
         risk_tolerance: riskTolerance,
         initial_capital: effectiveCap,
+        orchestration_pattern: executionMode,
         is_invested: isInvested,
         current_holding_value: effectiveCap,
         avg_buy_price: avgBuyPrice ? parseFloat(avgBuyPrice) : undefined,
         investor_objective: investorObjective,
+        user_name: userName,
+        user_email: userEmail,
       };
 
       const primaryUrl = API ? `${API}/research/query` : '/research/query';
@@ -1647,6 +1653,36 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
                   }}
                 >
                   {r.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Execution Pattern Selector */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Layers size={14} color="var(--text-muted)" />
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Execution Mode:</span>
+              {[
+                { label: 'Sequential', val: 'SEQUENTIAL', tip: 'Linear 7-specialist pipeline' },
+                { label: 'Parallel', val: 'PARALLEL', tip: 'Concurrent specialist fan-out' },
+                { label: 'Hierarchical', val: 'HIERARCHICAL', tip: 'Two-tier cluster lead delegation' },
+              ].map((m) => (
+                <button
+                  key={m.val}
+                  onClick={() => setExecutionMode(m.val as any)}
+                  title={m.tip}
+                  style={{
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    cursor: 'pointer',
+                    backgroundColor: executionMode === m.val ? 'var(--groww-green)' : 'var(--bg-surface)',
+                    color: executionMode === m.val ? '#0F1217' : 'var(--text-secondary)',
+                    border: '1px solid var(--border-subtle)',
+                    fontWeight: executionMode === m.val ? 700 : 400,
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {m.label}
                 </button>
               ))}
             </div>

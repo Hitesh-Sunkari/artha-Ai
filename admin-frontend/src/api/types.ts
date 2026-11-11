@@ -465,8 +465,12 @@ export interface BenchmarkScenario {
   scenario_id: string;
   title?: string;
   name?: string;
+  sector?: string;
+  persona?: 'HEDGE_FUND_ALPHA' | 'FORENSIC_AUDITOR' | 'QUANT_STAT_ARB' | 'RETAIL_WEALTH_BUILDER' | 'ADVERSARIAL_SKEPTIC' | string;
   category?: 'Query-Based' | 'Single-Asset Deep Dive' | string;
   workflow_type?: string;
+  execution_type?: string;
+  orchestration_pattern?: string;
   query_text?: string;
   question?: string;
   target_assets?: string[];
@@ -493,6 +497,22 @@ export interface BenchmarkSystemSummary {
   mean_reliability: number;
   mean_traceability: number;
   mean_latency_sec: number;
+  success_rate?: number;
+  failure_rate?: number;
+  tool_success_rate?: number;
+  task_completion_rate?: number;
+  citation_coverage?: number;
+  citation_precision?: number;
+  hallucination_rate?: number;
+  retry_rate?: number;
+  retry_recovery_rate?: number;
+  content_clarity?: number;
+  query_answering_relevance?: number;
+  numerical_accuracy?: number;
+  safety_score?: number;
+  rag_retrieval_quality?: number;
+  recommendation_agreement?: number;
+  [key: string]: any;
 }
 
 export interface BenchmarkPairedComparison {
@@ -557,7 +577,12 @@ export interface BenchmarkExecution {
   traceability_score?: number;
   composite_quality_index?: number;
   findings_text?: string;
-  output?: string;
+  output?: any;
+  llm_judge_score?: number;
+  llm_judge_critique?: string;
+  agentic_flow_steps?: any[];
+  fastmcp_tool_calls?: any[];
+  retrieved_evidence?: any[];
   metrics?: {
     composite_quality_score?: number;
     analytical_accuracy?: number;
@@ -593,6 +618,13 @@ export interface BenchmarkReport {
   statistical_significance: BenchmarkStatisticalSignificance;
   radar_data: BenchmarkRadarPoint[];
   executions: BenchmarkExecution[];
+  boxplots?: Record<string, Record<string, any>>;
+  latency_percentiles?: Record<string, any>;
+  rag_evaluation?: Record<string, any>;
+  run_estimates?: any[];
+  persona_variance?: any[];
+  system_summaries?: Record<string, any>;
+  scenarios_count?: number;
 }
 
 

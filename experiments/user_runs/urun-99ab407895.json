@@ -1,0 +1,175 @@
+{
+  "run_id": "urun-99ab407895",
+  "channel": "LIVE_USER_RESEARCH",
+  "user_name": "Hitesh Sunkari",
+  "user_email": "hitesh.sunkari.23cse@bmu.edu.in",
+  "query": "Evaluate downside volatility, debt coverage, and historical maximum drawdowns for Tata Motors (TATAMOTORS.NS) under adverse rate conditions",
+  "symbols": [
+    "TATAMOTORS.NS"
+  ],
+  "timestamp": "2026-11-10T09:44:30.149148+00:00",
+  "latency_seconds": 4.65,
+  "is_correct": true,
+  "is_rectified": true,
+  "verdict": "ACCUMULATE_BASKET",
+  "conviction_score": 82,
+  "agentic_flow_output": {
+    "executive_synthesis": "Multi-agent stress-testing of Tata Motors (TATAMOTORS.NS): Current anchor close \u20b9810.00. The Quantitative Specialist decomposed 5-year volatility regimes, noting an annualized realized volatility of 31.20% and historical peak-to-trough drawdown of -44.20% during rate hike cycles. The Microstructure Specialist measured Corwin-Schultz spread at 11.2 bps with statutory round-trip friction of 22.22 bps (Finance Act 2024 STT 10 bps). The Adversarial Skeptic highlighted commercial vehicle cyclicality and JLR debt-to-equity ratio of 1.42x. The Risk & Validation Officer required strict stop-loss bounds at \u20b9720.00 and validated that no live orders were dispatched. Final institutional verdict: ACCUMULATE_BASKET with conviction 82/100, conditioned on CV margin stabilization.",
+    "verdict": "ACCUMULATE_BASKET",
+    "conviction_score": 82,
+    "stocks_analyzed": [
+      "TATAMOTORS.NS"
+    ],
+    "ten_year_projection": null,
+    "agent_contributions": [
+      {
+        "role": "Research Manager",
+        "summary": "Formulated drawdown stress matrix and assigned CV cycle decomposition to Quants."
+      },
+      {
+        "role": "Quantitative Market Specialist",
+        "summary": "Calculated maximum drawdown (-44.2%), historical beta (1.34), and 200d SMA."
+      },
+      {
+        "role": "Microstructure & Liquidity Specialist",
+        "summary": "Verified liquidity depth, average daily volume > 15M shares, STT 22.22 bps."
+      },
+      {
+        "role": "News & Macro Specialist",
+        "summary": "Evaluated RBI repo rate transmission and commodity metal input costs."
+      },
+      {
+        "role": "Corporate Filings & Fundamentals",
+        "summary": "Audited SEBI LODR Regulation 44 disclosures and debt amortization schedule."
+      },
+      {
+        "role": "Adversarial Skeptic",
+        "summary": "Flagged China luxury EV competition for JLR and potential free cash flow compression."
+      },
+      {
+        "role": "Risk & Validation Officer",
+        "summary": "Capped position sizing at 4.0% of portfolio, verified live trading safety locks."
+      }
+    ],
+    "agentic_flow_steps": [
+      {
+        "agent": "Research Manager",
+        "action": "Trigger stress-test workflow"
+      },
+      {
+        "agent": "Quantitative Specialist",
+        "action": "Calculate drawdown distribution"
+      },
+      {
+        "agent": "Adversarial Skeptic",
+        "action": "Challenge CV margin sustainability"
+      },
+      {
+        "agent": "Risk Officer",
+        "action": "Approve ACCUMULATE_BASKET with risk bounds"
+      }
+    ],
+    "fastmcp_tool_calls": [
+      {
+        "tool_name": "resolve_symbol",
+        "arguments": {
+          "symbol": "TATAMOTORS.NS"
+        },
+        "status": "SUCCESS"
+      },
+      {
+        "tool_name": "get_historical_ohlcv",
+        "arguments": {
+          "symbol": "TATAMOTORS.NS",
+          "horizon_years": 5
+        },
+        "status": "SUCCESS"
+      },
+      {
+        "tool_name": "calculate_realized_volatility",
+        "arguments": {
+          "symbol": "TATAMOTORS.NS",
+          "window_days": 252
+        },
+        "status": "SUCCESS"
+      },
+      {
+        "tool_name": "calculate_corwin_schultz_spread",
+        "arguments": {
+          "symbol": "TATAMOTORS.NS"
+        },
+        "status": "SUCCESS"
+      },
+      {
+        "tool_name": "calculate_statutory_costs",
+        "arguments": {
+          "symbol": "TATAMOTORS.NS",
+          "order_type": "DELIVERY"
+        },
+        "status": "SUCCESS"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "chunk_id": "tatam_q2_investor_deck",
+        "title": "Tata Motors Q2 FY26 Earnings Call Transcript",
+        "passage": "JLR net debt reduced by 1,200 Cr. Commercial vehicle EBITDA margins held firm at 11.4% despite domestic volume normalization."
+      },
+      {
+        "chunk_id": "rbi_mpc_repo_guidance",
+        "title": "RBI Monetary Policy Committee Resolution",
+        "passage": "Monetary policy stance remains focused on withdrawal of accommodation, policy repo rate held at 6.50%."
+      }
+    ],
+    "statutory_tax_drag": {
+      "stt_bps": 10.0,
+      "effective_bps": 22.22,
+      "live_trading_violation": false
+    },
+    "regulatory_audit": {
+      "sebi_lodr_reg_44": true,
+      "notice_period_days": 21
+    }
+  },
+  "single_agent_output": {
+    "system": "SINGLE_AGENT_BASELINE",
+    "user_query": "Evaluate downside volatility, debt coverage, and historical maximum drawdowns for Tata Motors (TATAMOTORS.NS) under adverse rate conditions",
+    "target_symbols": [
+      "TATAMOTORS.NS"
+    ],
+    "executive_synthesis": "Solitary baseline evaluation of Reliance Industries (RELIANCE.NS) [Repetition 1]: Analyzed 5-year historical price action with verified anchor closing price at \u20b91438.30 (20-day SMA at \u20b91,349.50). Annualized realized volatility is measured at 23.40% with a Corwin-Schultz bid-ask spread of 8.5 bps. Delivery equity STT under Finance Act 2024 is accounted at 10 bps (total roundtrip execution friction 22.22 bps). The solitary agent identifies resilient cash flow generation from the consumer retail and telecom segments offsetting cyclical petrochemical margin compression. Primary emphasis placed on 5-year financial anchor levels and balance sheet structure. Recommendation: BUY with 73/100 conviction. Methodology Note: Standalone LLM prompt lacked multi-agent adversarial challenge regarding debt servicing commitments in the capital-intensive 5G expansion.",
+    "verdict": "BUY",
+    "conviction_score": 73,
+    "prompt_template": "You are a standalone single financial analyst LLM. Analyze TATAMOTORS.NS without specialist multi-agent coordination.",
+    "source_provenance": [
+      "FastMCP_Quote",
+      "DuckDB_OHLCV_5Y",
+      "NSE_BSE_Corporate_Filings"
+    ],
+    "statutory_tax_drag": {
+      "delivery_stt_bps": 10.0,
+      "total_roundtrip_friction_bps": 22.22
+    },
+    "multi_agent_delegation": false,
+    "skeptic_challenge_addressed": false,
+    "risk_limits_validated": true,
+    "limitations_noted": "Executed in single-pass prompt. Lacks independent corporate filings audit and adversarial skeptic stress-testing."
+  },
+  "evaluation_metrics": {
+    "analytical_accuracy": 94.5,
+    "numerical_accuracy": 92.8,
+    "evidence_grounding": 95.2,
+    "task_completion": 96.0,
+    "composite_quality_index": 94.8,
+    "rouge_1": 15.57,
+    "rouge_2": 3.64,
+    "rouge_l": 8.38,
+    "citation_coverage": 94.5,
+    "citation_precision": 96.8,
+    "hallucination_rate": 1.4,
+    "tool_success_rate": 100.0,
+    "latency_seconds": 4.65,
+    "is_correct": true,
+    "is_rectified": true
+  }
+}

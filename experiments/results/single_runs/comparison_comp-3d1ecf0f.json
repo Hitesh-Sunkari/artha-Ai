@@ -1,0 +1,917 @@
+{
+  "comparison_id": "comp-3d1ecf0f",
+  "timestamp": "2026-11-10T14:01:19.130381+00:00",
+  "query": "Evaluate Tata Motors EV margin cannibalization",
+  "target_symbols": [
+    "TATAMOTORS.NS"
+  ],
+  "primary_symbol": "TATAMOTORS.NS",
+  "total_elapsed_seconds": 127.36,
+  "storyline_summary": "On the inquiry 'Evaluate Tata Motors EV margin cannibalization', ArthaAI Sequential Fleet achieved the highest institutional score (81.05/100) with 15.0% hallucination and 85.0% completeness. In contrast, Single-Agent Solitary Prompt registered 42.95/100 with 45.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+  "winner": {
+    "architecture": "ARTHAAI_SEQUENTIAL",
+    "label": "ArthaAI Sequential Fleet",
+    "quality": 81.05
+  },
+  "radar_data": [
+    {
+      "dimension": "Completeness",
+      "ARTHAAI_SEQUENTIAL": 85.0,
+      "REACT_AGENT": 15.0,
+      "SINGLE_AGENT": 65.0
+    },
+    {
+      "dimension": "Accuracy",
+      "ARTHAAI_SEQUENTIAL": 82.0,
+      "REACT_AGENT": 40.0,
+      "SINGLE_AGENT": 70.0
+    },
+    {
+      "dimension": "Evidence Grounding",
+      "ARTHAAI_SEQUENTIAL": 78.0,
+      "REACT_AGENT": 50.0,
+      "SINGLE_AGENT": 0.0
+    },
+    {
+      "dimension": "Regulatory Compliance",
+      "ARTHAAI_SEQUENTIAL": 90.0,
+      "REACT_AGENT": 90.0,
+      "SINGLE_AGENT": 0.0
+    },
+    {
+      "dimension": "Citation Precision",
+      "ARTHAAI_SEQUENTIAL": 68.0,
+      "REACT_AGENT": 88.0,
+      "SINGLE_AGENT": 68.0
+    },
+    {
+      "dimension": "Hallucination Inversion",
+      "ARTHAAI_SEQUENTIAL": 85.0,
+      "REACT_AGENT": 100.0,
+      "SINGLE_AGENT": 55.0
+    }
+  ],
+  "bar_chart_data": [
+    {
+      "architecture": "ArthaAI Sequential Fleet",
+      "quality": 81.05,
+      "accuracy": 82.0,
+      "completeness": 85.0,
+      "latency_sec": 25.6,
+      "cost_usd": 0.00085
+    },
+    {
+      "architecture": "ReAct Single Agent",
+      "quality": 58.95,
+      "accuracy": 40.0,
+      "completeness": 15.0,
+      "latency_sec": 19.97,
+      "cost_usd": 0.00017
+    },
+    {
+      "architecture": "Single-Agent Solitary Prompt",
+      "quality": 42.95,
+      "accuracy": 70.0,
+      "completeness": 65.0,
+      "latency_sec": 53.04,
+      "cost_usd": 0.00026
+    }
+  ],
+  "results": {
+    "ARTHAAI_SEQUENTIAL": {
+      "architecture": "ARTHAAI_SEQUENTIAL",
+      "label": "ArthaAI Sequential Fleet",
+      "status": "SUCCESS",
+      "latency_seconds": 25.6,
+      "executive_synthesis": "DIRECT INQUIRY RESOLUTION:\nEvaluating Tata Motors and its electric vehicle margin cannibalization requires analyzing the trade-off between near-term margin dilution from early-stage EV scaling and long-term volume dominance in the zero-emission segment. As legacy internal combustion engine margins absorb upfront R&D, tooling, and localization costs for architectures like the Acti.ev platform, the consolidated gross margin profile faces temporary compression. However, unit economics are projected to normalize as battery pack costs decline structurally below key dollar-per-kilowatt-hour thresholds and platform sharing accelerates. Over the 5-year investment horizon, deploying the \u20b91,000,000 capital base into TATAMOTORS.NS at the last traded price of \u20b9731.65 positions the portfolio to capture a baseline median (P50) terminal valuation of \u20b91,410.00 per share, delivering an annualized compound annual growth rate of 14.02% and translating to a gross final wealth accumulation of \u20b91,927,150.96.\n\nPORTFOLIO CONVICTION & POSTURE:\nThe quantitative asset allocation engine assigns a deterministic verdict of STRONG_BUY with a conviction score of 88 out of 100, categorized as STRONG_ACCUMULATE. This high conviction score is driven by strong domestic passenger electric vehicle market share leadership, aggressive cost optimization in the commercial vehicle segment, and improving free cash flow conversion despite cyclical automotive headwinds. For an investor executing a fresh capital deployment of \u20b91,000,000, this posture dictates active accumulation rather than passive waiting, utilizing current volatility to build the full position size systematically across the designated horizon.\n\nQUANTITATIVE VOLATILITY & DOWNSIDE VAR:\nQuantitative risk metrics highlight the inherent cyclicality of the automotive sector, characterized by a volatility parameter of 28.5% and a historical maximum drawdown ceiling of 46.0%. Parametric risk modeling projects a 1-year 95% Value at Risk (VaR) of -29.7% and a 95% Conditional Value at Risk (CVaR) of -41.5%, indicating the depth of potential drawdowns under stressed market conditions. The 5-Year Bearish Floor (P10) models a terminal price of \u20b9620.11, representing a compound annual return of -3.25%. This severe downcycle scenario reflects high volatility diffusion drag and prolonged macroeconomic stagnation offsetting expected structural drift, contrasting sharply with the baseline median P50 target of \u20b91,410.00 and the bullish P90 ceiling projection of \u20b93,199.21 (34.32% CAGR). Despite these downside boundaries, the empirical probability of beating the 5.49% inflation rate stands at a robust 72.9%.\n\nSTRUCTURAL CATALYSTS & VALUATION:\nThe fundamental thesis rests on three core pillars: operating cash flow expansion, return on equity enhancement, and multi-powertrain optionality. Tata Motors benefits from a de-risked passenger electric vehicle strategy where dedicated architectures reduce battery weight and improve cabin efficiency, driving higher customer retention and pricing power. Commercial vehicle margins are supported by favorable fleet replacement cycles, softening commodity input costs, and pricing discipline. As operating leverage materializes from scaled electric vehicle production, return on equity is projected to expand significantly, supporting a re-rating of the equity multiple closer to global electric vehicle and premium OEM peers.\n\nSTATUTORY TAX DRAG & NET IN-HAND WEALTH:\nFactoring in regulatory mandates under the Finance (No. 2) Act 2024, the statutory tax framework applies a 12.5% Long-Term Capital Gains tax on earnings exceeding \u20b91.25 Lakhs, alongside a 0.1% delivery-stage Securities Transaction Tax. Applied to the initial capital base of \u20b91,000,000, these statutory deductions yield a net post-tax compound annual growth rate of 12.76%. This taxation efficiency preserves a substantial portion of the nominal gross final wealth, ensuring the net in-hand purchasing power target aligns directly with the investor's core mandate of wealth compounding.\n\nPERSONALIZED ACTION BLUEPRINT:\nTo fulfill the stated objective of wealth compounding using the fresh capital allocation of \u20b91,000,000, execute the following phased deployment blueprint:\n\u2022 Phase One Initial Tranche: Deploy 30% of the \u20b91,000,000 capital base (\u20b9300,000) immediately at the prevailing market price of \u20b9731.65 to establish a foundational equity stake in TATAMOTORS.NS.\n\u2022 Phase Two Tactical Tranche: Stagger the remaining 70% of the capital (\u20b9700,000) across three equal tranches over the subsequent six months, utilizing any macroeconomic pullbacks or sector-specific volatility dips toward the lower quartile of the historical drawdown band to lower the average cost basis.\n\u2022 Risk Management and Monitoring: Maintain a strict 5-year investment horizon to allow the structural transition toward electric vehicles to outpace near-term margin cannibalization cycles, periodically rebalancing the portfolio if asset class allocations deviate from target thresholds.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b91,000,000 investment is modeled to compound into \u20b91,927,151 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+      "agentic_flow_steps": [
+        {
+          "agent": "ADKResearchManager",
+          "action": "Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: TATAMOTORS.NS."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Empirical Quotes & Financial Statement Extraction",
+          "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP."
+        },
+        {
+          "agent": "CrewAICorporateFilingSpecialist",
+          "action": "Statutory Evidence Retrieval & Forensic RAG",
+          "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR)."
+        },
+        {
+          "agent": "ADKRiskValidator",
+          "action": "Statutory Friction Drag & Tax Calculation",
+          "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Monte Carlo Geometric Brownian Motion Simulation",
+          "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 14.02%, P90 CAGR 34.32%, P10 CAGR -3.25%."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Institutional Synthesis & CIO Verdict Formulation",
+          "details": "Formulated STRONG_BUY verdict (88/100 conviction - STRONG_ACCUMULATE) via GEMINI (gemini-flash-lite-latest) with 2205 tokens."
+        }
+      ],
+      "fastmcp_tool_calls": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 1.82
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 427.43
+        },
+        {
+          "tool": "get_financial_results",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 403.0
+        },
+        {
+          "tool": "get_corporate_actions",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 31.81
+        },
+        {
+          "tool": "retrieve_regulatory_evidence",
+          "arguments": {
+            "query": "Evaluate Tata Motors EV margin cannibalization TATAMOTORS.NS SEBI LODR Regulation 30 33 Finance Act 2024 STT",
+            "limit": 4
+          },
+          "status": "SUCCESS",
+          "latency_ms": 1526.67
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 731.65,
+            "quantity": 1366,
+            "transaction_type": "ROUND_TRIP"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.35
+        }
+      ],
+      "retrieved_evidence": [
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FILING-TATAMOTORS-FY25-Q2' doc_type='FILING' title='Tata Motors Limited \u2014 Financial Disclosures & Table (Q2 FY25)' citation_uri='rag://filings/tatamotors_fy25_q2#FILING-TATAMOTORS-FY25-Q2' relevance_score=0.767 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-TATAMOTORS-FY25-Q2\" authority=\"National Stock Exchange of India (NSE) / BSE Corporate Filings\">\\nTata Motors Limited \u2014 Financial Disclosures & Table (Q2 FY25)\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"TATAMOTORS\" period=\"Q2 FY25\" filing_date=\"2024-11-08\" content_hash=\"37527166ea80f19f\" is_restated=\"False\"\\'\\nSEBI LODR Regulation 33 Financial Statement Table for TATAMOTORS (Q2 FY25):\\nScope: CONSOLIDATED Results in INR CRORES. Status: UNAUDITED_LIMITED_REVIEW.\\n### Tata Motors Limited \u2014 Unaudited Consolidated Financial Results (Q2 FY25)\\n**Entity**: TATAMOTORS | **Basis**: CONSOLIDATED | **Unit**: INR CRORES | **Audit**: UNAUDITED_LIMITED_REVIEW\\n**Auditor Qualification**: Unmodified Limited Review / Clean\\n\\n| Financial Line Item | Q2 FY25 (Stated) | Notes |\\n| --- | --- | --- |\\n| Revenue from Operations | 101,450.00 | - |\\n| Operating Profit (EBITDA) | 11,600.00 | - |\\n| Net Profit after Tax (PAT) | 3,343.00 | - |\\n| Basic EPS (INR) | 9.10 | - |\\n| Total Borrowings (Debt) | 56,000.00 | - |\\n| Net Worth / Shareholders\\' Equity | 96,500.00 | - |\\n| Total Assets | 342,000.00 | - |\\n| Total Liabilities | 245,500.00 | - |\\n\\n**Statutory Notes &amp; Qualifications:**\\n- Official quarterly filing under SEBI LODR Regulation 33 for quarter ended 2024-09-30.\\n- Statutory limited review conducted by registered statutory auditors; clean unmodified opinion issued.\\n- JLR revenue stood at GBP 6.5B; net debt reduced to GBP 1.2B. Domestic EV market share held at 65%.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='PROFILE-TATAMOTORS-OVERVIEW' doc_type='COMPANY_PROFILE' title='Tata Motors Limited (TATAMOTORS): Comprehensive Business Profile, Segment Drivers & Catalysts' citation_uri='rag://profiles/tatamotors#PROFILE-TATAMOTORS-OVERVIEW' relevance_score=0.742 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"PROFILE-TATAMOTORS-OVERVIEW\" authority=\"NSE / BSE Corporate Disclosures & Statutory Profiles\">\\nTata Motors Limited (TATAMOTORS): Comprehensive Business Profile, Segment Drivers & Catalysts\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"TATAMOTORS\" profile_type=\"CORPORATE_PROFILE\" effective_date=\"2024-11-08\" content_hash=\"182c6decf3cc88af\"\\'\\nCompany Profile: Tata Motors Limited (NSE/BSE: TATAMOTORS)\\nBusiness Overview: Tata Motors is a USD 44 billion global automotive manufacturer. Currently executing a formal demerger into two separately listed entities: 1. Commercial Vehicles (CVs); 2. Passenger Vehicles (PVs, domestic EVs, and luxury Jaguar Land Rover).\\nCore Operating Segments: 1. Jaguar Land Rover (JLR): Range Rover, Defender, Discovery; 2. Tata Commercial Vehicles: Medium, heavy, light commercial trucks and buses; 3. Tata Passenger Vehicles: Nexon, Punch, Harrier, Tiago; 4. Electric Vehicles (Tata Passenger Electric Mobility): Market share 65%+.\\nKey Financial Highlights: Quarterly revenue at INR 1,01,450 Cr, EBITDA at INR 11,600 Cr, and PAT at INR 3,343 Cr. JLR free cash flow stood positive at GBP 2.3 billion in FY24, reducing net auto debt to near-zero levels.\\nRegulatory &amp; Tax Considerations: NCLT demerger approval timelines; UK &amp; EU zero-emission vehicle (ZEV) mandates; Indian FAME/PLI electric vehicle subsidy audits.\\nStrategic Capex &amp; Growth Catalysts: Formal demerger unlocking pure-play value for CV and PV businesses; launch of JLR electric Range Rover and Tata Curvv EV.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='TATAMOTORS-JLR-FREE-CASH-FLOW' doc_type='FILING' title='Tata Motors Limited: Jaguar Land Rover Financials & Debt Reduction' citation_uri='rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW' relevance_score=0.647 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"TATAMOTORS-JLR-FREE-CASH-FLOW\" authority=\"Securities and Exchange Board of India (SEBI)\">\\nTata Motors Limited: Jaguar Land Rover Financials & Debt Reduction\\nTata Motors FY24 Full-Year Financial Results: Consolidated revenue grew 26.6% YoY to Rs 437,928 Cr. Free cash flow in JLR reached record \u00a32.3 billion, reducing net debt to \u00a3700 million with target to become net auto debt-free by FY25. Commercial vehicle EBITDA margins expanded to 10.6% on pricing discipline.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='TATAMOTORS-FY24-Q4-DEMERGER' doc_type='FILING' title='Tata Motors Limited: Demerger of Commercial & Passenger Vehicles Businesses' citation_uri='rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER' relevance_score=0.638 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"TATAMOTORS-FY24-Q4-DEMERGER\" authority=\"BSE/NSE Corporate Disclosures (Tata Motors)\">\\nTata Motors Limited: Demerger of Commercial & Passenger Vehicles Businesses\\nTata Motors Limited Investor Update: The Board of Directors approved the demerger of Tata Motors into two separate listed entities: (1) The Commercial Vehicles business and its related investments; (2) The Passenger Vehicles businesses including PV, EV, JLR and related investments. JLR continues to deliver record cash flow and order book exceeding 140,000 units. Domestic EV market share stands at ~72% supported by Tiago.ev and Nexon.ev.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        }
+      ],
+      "anchor_price": 1438.3,
+      "statutory_drag_bps": 22.22,
+      "metrics": {
+        "composite_quality_index": 81.05,
+        "analytical_accuracy": 82.0,
+        "evidence_grounding": 78.0,
+        "task_completion_rate": 85.0,
+        "citation_coverage": 45.0,
+        "citation_precision": 68.0,
+        "hallucination_rate": 15.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 90.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 0.0,
+        "latency_seconds": 25.6,
+        "prompt_tokens": 1202,
+        "completion_tokens": 647,
+        "total_tokens": 1849,
+        "cost_usd": 0.00085,
+        "llm_judge_score": 84.0,
+        "llm_judge_critique": "The automated research provides a thorough quantitative breakdown of Tata Motors' EV margin cannibalization and incorporates precise Indian statutory taxation under the Finance Act 2024. However, it lacks granular detail on specific segment-level EBITDA margins and relies on long-term terminal price projections that require tighter grounding in near-term cash flow realities.",
+        "evaluator_formulas": {
+          "tool_success_rate": {
+            "formula": "successful_tool_calls / total_tool_calls * 100",
+            "successful_tool_calls": 6,
+            "total_tool_calls": 6,
+            "value": 100.0
+          },
+          "task_completion_rate": {
+            "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
+            "value": 85.0
+          },
+          "citation_coverage": {
+            "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
+            "value": 45.0
+          },
+          "citation_precision": {
+            "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
+            "value": 68.0
+          },
+          "hallucination_rate": {
+            "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
+            "value": 15.0
+          },
+          "retry_recovery_rate": {
+            "formula": "recovered_initial_failures / initial_failures * 100",
+            "value": 0.0
+          }
+        },
+        "audit_areas": {
+          "analytical_accuracy": {
+            "accuracy": 82.0,
+            "mae_bps": 7.56,
+            "rmse_bps": 3.19,
+            "f1_score": 90.1
+          },
+          "evidence_grounding": {
+            "faithfulness": 81.2,
+            "citation_precision": 98.5,
+            "citation_recall": 84.66
+          },
+          "task_completion": {
+            "task_success_rate": 85.0,
+            "completion_rate": 85.0
+          },
+          "consistency": {
+            "recommendation_agreement": 96.5,
+            "std_deviation": 2.1,
+            "coefficient_of_variation": 0.026
+          },
+          "latency": {
+            "mean": 25.6,
+            "median": 24.06,
+            "p50": 24.06,
+            "p95": 31.23,
+            "p99": 35.33
+          },
+          "reliability": {
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 4.5,
+            "recovery_rate": 100.0
+          },
+          "agent_coordination": {
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 6.2
+          },
+          "tool_utilization": {
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
+            "calls_per_task": 6
+          },
+          "rag_retrieval": {
+            "precision_at_k": 0.94,
+            "recall_at_k": 0.92,
+            "mrr": 1.0,
+            "ndcg_at_k": 0.96
+          },
+          "traceability": {
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 81.3
+          },
+          "risk_validation": {
+            "risk_detection_rate": 98.2,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 1.8
+          },
+          "resource_efficiency": {
+            "tokens_per_task": 1850,
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 3
+          },
+          "output_quality": {
+            "schema_validity": 100.0,
+            "completeness_score": 85.0,
+            "contradiction_rate": 6.8
+          }
+        }
+      },
+      "judge": {
+        "completeness": 85.0,
+        "analytical_accuracy": 82.0,
+        "evidence_grounding": 78.0,
+        "regulatory_compliance": 90.0,
+        "hallucination_rate": 15.0,
+        "overall_judge_score": 84.0,
+        "critique": "The automated research provides a thorough quantitative breakdown of Tata Motors' EV margin cannibalization and incorporates precise Indian statutory taxation under the Finance Act 2024. However, it lacks granular detail on specific segment-level EBITDA margins and relies on long-term terminal price projections that require tighter grounding in near-term cash flow realities."
+      },
+      "audit_areas": {
+        "analytical_accuracy": {
+          "accuracy": 82.0,
+          "mae_bps": 7.56,
+          "rmse_bps": 3.19,
+          "f1_score": 90.1
+        },
+        "evidence_grounding": {
+          "faithfulness": 81.2,
+          "citation_precision": 98.5,
+          "citation_recall": 84.66
+        },
+        "task_completion": {
+          "task_success_rate": 85.0,
+          "completion_rate": 85.0
+        },
+        "consistency": {
+          "recommendation_agreement": 96.5,
+          "std_deviation": 2.1,
+          "coefficient_of_variation": 0.026
+        },
+        "latency": {
+          "mean": 25.6,
+          "median": 24.06,
+          "p50": 24.06,
+          "p95": 31.23,
+          "p99": 35.33
+        },
+        "reliability": {
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 4.5,
+          "recovery_rate": 100.0
+        },
+        "agent_coordination": {
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 6.2
+        },
+        "tool_utilization": {
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
+          "calls_per_task": 6
+        },
+        "rag_retrieval": {
+          "precision_at_k": 0.94,
+          "recall_at_k": 0.92,
+          "mrr": 1.0,
+          "ndcg_at_k": 0.96
+        },
+        "traceability": {
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 81.3
+        },
+        "risk_validation": {
+          "risk_detection_rate": 98.2,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 1.8
+        },
+        "resource_efficiency": {
+          "tokens_per_task": 1850,
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 3
+        },
+        "output_quality": {
+          "schema_validity": 100.0,
+          "completeness_score": 85.0,
+          "contradiction_rate": 6.8
+        }
+      }
+    },
+    "REACT_AGENT": {
+      "architecture": "REACT_AGENT",
+      "label": "ReAct Single Agent",
+      "status": "SUCCESS",
+      "latency_seconds": 19.97,
+      "executive_synthesis": "### Financial Analysis: Tata Motors EV Margin Cannibalization\n\nBased strictly on the available tool observations (Security Master canonical resolution for Tata Motors Limited, NSE ISIN INE155A01022, Consumer Cyclical sector; anchor closing quote of \u20b9660.40; and Finance Act 2024 statutory friction metrics including a round-trip drag of 22.23 bps and delivery STT of \u20b966.04), empirical data regarding internal electric vehicle (EV) margin cannibalization against internal combustion engine (ICE) portfolios\u2014such as segment-wise EBITDA margins, battery cost pass-through rates, and platform transition expenditures\u2014was **not retrieved** via tool execution. \n\nConsequently, any analytical assessment of EV cannibalization risk remains unquantified by the empirical trace provided. However, accounting for the baseline equity pricing of \u20b9660.40 and standard Indian capital market transaction frictions (22.23 bps round-trip drag), any execution strategy in this security must factor in statutory costs alongside fundamental sector dynamics.\n\n### Investment Recommendation / Stance\n* **Stance:** HOLD\n* **Conviction Score:** 45/100\n\n*(Note: The conviction score is constrained to a neutral/moderate level due to the absence of granular, tool-verified EV unit economics and margin data in the empirical trace.)*\n\n### ReAct Process Limitations & Omissions\nTo maintain strict adherence to empirical grounding, it must be explicitly stated that this single-agent ReAct process omitted several crucial institutional workflows:\n1. **Multi-Agent Debate:** Absence of specialized cross-functional agent critique (e.g., bull/bear debate on EV adoption curves versus legacy ICE cash flows).\n2. **Corporate Governance & Regulatory Audit:** Omission of an independent audit regarding related-party transactions, capital allocation, and compliance under SEBI (Listing Obligations and Disclosure Requirements) Regulations, specifically Regulation 44 (Voting results and material subsidiary disclosures).\n3. **Adversarial Stress Testing:** Lack of macroeconomic and commodity stress testing (e.g., lithium-ion cell price volatility, raw material inflation, and competitive intensity from domestic and global EV entrants).\n4. **Granular Fundamental Retrieval:** Omission of live financial statement tool calls extracting segment-level (JLR vs. Tata Passenger Electric Mobility / Commercial Vehicles) operating margins and capital expenditure schedules.",
+      "react_trace": [
+        {
+          "thought": "I need to resolve the official identity, sector, and ISIN for symbol 'TATAMOTORS.NS'.",
+          "action": "resolve_security(symbol='TATAMOTORS.NS')",
+          "observation": "Canonical security resolved: Tata Motors Limited (NSE), ISIN INE155A01022, Sector Consumer Cyclical."
+        },
+        {
+          "thought": "I should retrieve the latest primary market quote and OHLCV close for 'TATAMOTORS.NS'.",
+          "action": "get_latest_quote(symbol='TATAMOTORS.NS')",
+          "observation": "Anchor closing quote retrieved: \u20b9660.40 (INR), data quality: PASSED."
+        },
+        {
+          "thought": "I must compute mandatory Indian statutory execution friction under the Finance Act 2024 schedule.",
+          "action": "calculate_statutory_costs(instrument_type='EQUITY_DELIVERY', price=660.4, quantity=100)",
+          "observation": "Finance Act 2024 statutory friction computed: round-trip drag 22.23 bps, delivery STT \u20b966.04."
+        },
+        {
+          "thought": "All essential empirical tools executed. Synthesizing comprehensive financial response to user query.",
+          "action": "finish()",
+          "observation": "Research synthesized."
+        }
+      ],
+      "fastmcp_tool_calls": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "latency_ms": 1.4,
+          "status": "SUCCESS",
+          "result": {
+            "query_symbol": "TATAMOTORS.NS",
+            "resolved": true,
+            "canonical_id": "NSE:TATAMOTORS",
+            "symbol": "TATAMOTORS",
+            "exchange": "NSE",
+            "yahoo_ticker": "TATAMOTORS.NS",
+            "name": "Tata Motors Limited",
+            "isin": "INE155A01022",
+            "sector": "Consumer Cyclical",
+            "aliases": [
+              "TATA MOTORS",
+              "TELCO"
+            ],
+            "listing_status": "ACTIVE",
+            "is_valid_for_research": true
+          }
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "TATAMOTORS.NS"
+          },
+          "latency_ms": 112.2,
+          "status": "SUCCESS",
+          "result": {
+            "symbol": "TATAMOTORS",
+            "latest_close": 660.4,
+            "observation_timestamp": "2026-10-26T10:00:00+00:00",
+            "retrieval_timestamp": "2026-11-10T13:59:43.798846+00:00",
+            "currency": "INR",
+            "data_mode": "HISTORICAL_CACHED",
+            "source": "yfinance_cached_parquet",
+            "quality_status": "PASSED"
+          }
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 660.4,
+            "quantity": 100
+          },
+          "latency_ms": 0.3,
+          "status": "SUCCESS",
+          "result": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "transaction_type": "BUY",
+            "price": 660.4,
+            "quantity": 100,
+            "turnover": 66040.0,
+            "as_of_date": "2026-11-10",
+            "breakdown": {
+              "securities_transaction_tax": 66.04,
+              "stt": 66.04,
+              "exchange_turnover_fee": 1.96,
+              "sebi_turnover_charges": 0.07,
+              "stamp_duty": 9.91,
+              "goods_and_services_tax_18pct": 0.37,
+              "gst_18pct": 0.37
+            },
+            "total_statutory_costs": 78.35,
+            "effective_rate_pct": 0.1186,
+            "round_trip_costs_inr": 146.79,
+            "round_trip_rate_pct": 0.2223,
+            "one_way_buy_costs_inr": 78.35,
+            "one_way_sell_costs_inr": 68.44,
+            "cost_nature": "STATUTORY_EXECUTION_FRICTION",
+            "trading_edge_disclaimer": "Statutory costs represent mandatory friction drag; they do not constitute a demonstrated trading edge or positive alpha.",
+            "statutory_provenance": {
+              "stt_source": "Finance (No. 2) Act 2024 (effective Oct 1, 2024)",
+              "stamp_duty_source": "Indian Stamp (Collection of Stamp-Duty) Rules (on BUY leg only)",
+              "sebi_fee_source": "SEBI (Payment of Fees) Regulations (INR 10 per crore)",
+              "exchange_fee_source": "NSE Cash Market Transaction Charges (0.00297%)",
+              "gst_rate": "18.0% CGST/SGST on Exchange and SEBI fees"
+            }
+          }
+        }
+      ],
+      "retrieved_evidence": [],
+      "anchor_price": 660.4,
+      "statutory_drag_bps": 22.23,
+      "metrics": {
+        "composite_quality_index": 58.95,
+        "analytical_accuracy": 40.0,
+        "evidence_grounding": 50.0,
+        "task_completion_rate": 15.0,
+        "citation_coverage": 85.0,
+        "citation_precision": 88.0,
+        "hallucination_rate": 0.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 90.0,
+        "retry_rate": 12.0,
+        "retry_recovery_rate": 85.0,
+        "latency_seconds": 19.97,
+        "prompt_tokens": 291,
+        "completion_tokens": 494,
+        "total_tokens": 785,
+        "cost_usd": 0.00017,
+        "llm_judge_score": 39.0,
+        "llm_judge_critique": "The automated output correctly identifies the absence of empirical EV margin data and avoids hallucinations, demonstrating strong regulatory awareness of Indian market statutory costs. However, it completely fails to evaluate the core user query regarding EV margin cannibalization due to unaugmented tool retrieval limitations and lack of fundamental financial statement analysis.",
+        "evaluator_formulas": {
+          "tool_success_rate": {
+            "formula": "successful_tool_calls / total_tool_calls * 100",
+            "successful_tool_calls": 3,
+            "total_tool_calls": 3,
+            "value": 100.0
+          },
+          "task_completion_rate": {
+            "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
+            "value": 15.0
+          },
+          "citation_coverage": {
+            "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
+            "value": 85.0
+          },
+          "citation_precision": {
+            "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
+            "value": 88.0
+          },
+          "hallucination_rate": {
+            "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
+            "value": 0.0
+          },
+          "retry_recovery_rate": {
+            "formula": "recovered_initial_failures / initial_failures * 100",
+            "value": 85.0
+          }
+        },
+        "audit_areas": {
+          "analytical_accuracy": {
+            "accuracy": 40.0,
+            "mae_bps": 25.2,
+            "rmse_bps": 5.83,
+            "f1_score": 86.5
+          },
+          "evidence_grounding": {
+            "faithfulness": 100.0,
+            "citation_precision": 88.0,
+            "citation_recall": 86.7
+          },
+          "task_completion": {
+            "task_success_rate": 15.0,
+            "completion_rate": 15.0
+          },
+          "consistency": {
+            "recommendation_agreement": 82.0,
+            "std_deviation": 6.4,
+            "coefficient_of_variation": 0.16
+          },
+          "latency": {
+            "mean": 19.97,
+            "median": 18.77,
+            "p50": 18.77,
+            "p95": 24.36,
+            "p99": 27.56
+          },
+          "reliability": {
+            "success_rate": 92.0,
+            "failure_rate": 8.0,
+            "retry_rate": 12.0,
+            "recovery_rate": 85.0
+          },
+          "agent_coordination": {
+            "handoff_success_rate": 0.0,
+            "coordination_overhead_pct": 0.0
+          },
+          "tool_utilization": {
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
+            "calls_per_task": 3
+          },
+          "rag_retrieval": {
+            "precision_at_k": 0.62,
+            "recall_at_k": 0.58,
+            "mrr": 0.65,
+            "ndcg_at_k": 0.7
+          },
+          "traceability": {
+            "trace_completeness": 80.0,
+            "evidence_link_coverage": 83.3
+          },
+          "risk_validation": {
+            "risk_detection_rate": 82.5,
+            "false_positive_rate": 4.8,
+            "false_negative_rate": 17.5
+          },
+          "resource_efficiency": {
+            "tokens_per_task": 1240,
+            "cost_per_task": 0.00054,
+            "api_calls_per_task": 4
+          },
+          "output_quality": {
+            "schema_validity": 100.0,
+            "completeness_score": 15.0,
+            "contradiction_rate": 0.0
+          }
+        }
+      },
+      "judge": {
+        "completeness": 15.0,
+        "analytical_accuracy": 40.0,
+        "evidence_grounding": 50.0,
+        "regulatory_compliance": 90.0,
+        "hallucination_rate": 0.0,
+        "overall_judge_score": 39.0,
+        "critique": "The automated output correctly identifies the absence of empirical EV margin data and avoids hallucinations, demonstrating strong regulatory awareness of Indian market statutory costs. However, it completely fails to evaluate the core user query regarding EV margin cannibalization due to unaugmented tool retrieval limitations and lack of fundamental financial statement analysis."
+      },
+      "audit_areas": {
+        "analytical_accuracy": {
+          "accuracy": 40.0,
+          "mae_bps": 25.2,
+          "rmse_bps": 5.83,
+          "f1_score": 86.5
+        },
+        "evidence_grounding": {
+          "faithfulness": 100.0,
+          "citation_precision": 88.0,
+          "citation_recall": 86.7
+        },
+        "task_completion": {
+          "task_success_rate": 15.0,
+          "completion_rate": 15.0
+        },
+        "consistency": {
+          "recommendation_agreement": 82.0,
+          "std_deviation": 6.4,
+          "coefficient_of_variation": 0.16
+        },
+        "latency": {
+          "mean": 19.97,
+          "median": 18.77,
+          "p50": 18.77,
+          "p95": 24.36,
+          "p99": 27.56
+        },
+        "reliability": {
+          "success_rate": 92.0,
+          "failure_rate": 8.0,
+          "retry_rate": 12.0,
+          "recovery_rate": 85.0
+        },
+        "agent_coordination": {
+          "handoff_success_rate": 0.0,
+          "coordination_overhead_pct": 0.0
+        },
+        "tool_utilization": {
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
+          "calls_per_task": 3
+        },
+        "rag_retrieval": {
+          "precision_at_k": 0.62,
+          "recall_at_k": 0.58,
+          "mrr": 0.65,
+          "ndcg_at_k": 0.7
+        },
+        "traceability": {
+          "trace_completeness": 80.0,
+          "evidence_link_coverage": 83.3
+        },
+        "risk_validation": {
+          "risk_detection_rate": 82.5,
+          "false_positive_rate": 4.8,
+          "false_negative_rate": 17.5
+        },
+        "resource_efficiency": {
+          "tokens_per_task": 1240,
+          "cost_per_task": 0.00054,
+          "api_calls_per_task": 4
+        },
+        "output_quality": {
+          "schema_validity": 100.0,
+          "completeness_score": 15.0,
+          "contradiction_rate": 0.0
+        }
+      }
+    },
+    "SINGLE_AGENT": {
+      "architecture": "SINGLE_AGENT",
+      "label": "Single-Agent Solitary Prompt",
+      "status": "SUCCESS",
+      "latency_seconds": 53.04,
+      "executive_synthesis": "**Disclaimer:** *The following analysis is generated purely from internal knowledge as a solitary financial analyst, utilizing zero tool augmentation, no real-time market data access, and no subagent support.*\n\n---\n\n### **1. Investment Verdict & Conviction**\n\n* **Verdict:** ACCUMULATE  \n* **Conviction Score:** 72 / 100  \n\n---\n\n### **2. Thesis: Evaluating Tata Motors\u2019 EV Margin Cannibalization**\n\n#### **Context & The Cannibalization Dilemma**\nTata Motors, through its passenger vehicle subsidiary and its dominant EV arm (Tata Passenger Electric Mobility - TPEM), has executed a first-mover advantage in the Indian electric vehicle market. However, as the company transitions from internal combustion engine (ICE) vehicles to EVs, it faces the classic innovator's dilemma: **margin cannibalization**. \n\nThe core financial tension lies in the structural divergence between ICE and EV unit economics. While Tata\u2019s ICE portfolio (led by models like the Nexon, Punch, and Harrier) currently generates mature, stabilizing EBITDA margins, its EV portfolio operates on compressed or temporarily negative margins due to high battery costs, localized supply chain constraints, and aggressive pricing strategies designed to capture early market share.\n\n#### **Key Pillars of the Thesis**\n\n1. **The Short-Term Margin Squeeze (The Cannibalization Cost):**\n   * **Gross Margin Disparity:** Battery packs remain the single largest cost component of an EV, constituting roughly 40-50% of the vehicle\u2019s total cost. As Tata shifts buyers from high-margin ICE variants to nascent EVs (e.g., Nexon.ev vs. ICE Nexon), it temporarily trades a high-margin cash cow for a lower-margin, capital-intensive asset.\n   * **CAPEX and R&D Drag:** Heavy investments in dedicated EV architectures (Gen 2/Sigma platforms) and software integration weigh heavily on return on capital employed (ROCE) and free cash flow (FCF) in the near term.\n\n2. **The Strategic Mitigation (Why the Cannibalization is Justified):**\n   * **Regulatory Tailwinds & Compliance:** India\u2019s Corporate Average Fuel Economy (CAFE) norms and tightening emission standards mean that failing to scale EVs early would result in heavy regulatory penalties. Cannibalizing ICE sales internally is far cheaper than losing market share externally to pure-play EV entrants or aggressive traditional rivals like Mahindra & Mahindra and global players.\n   * **Platform Transition & Cost Parity:** Tata\u2019s strategy of leveraging \"born-electric\" architectures and localized battery cell manufacturing (via the broader Tata Group ecosystem, including Gigafactory investments) is projected to structurally lower EV production costs. As battery pack prices trend downward toward the sub-$100/kWh threshold, the gross margin gap between ICE and EVs will narrow significantly over a 3-to-5-year horizon.\n\n3. **JLR Resilience as a Hedging Mechanism:**\n   * It is critical to view Tata Motors on a consolidated basis. Jaguar Land Rover (JLR) continues to drive robust free cash flows and profitability through its luxury margin mix (Range Rover, Defender). This provides a resilient financial cushion, absorbing the domestic EV transition costs and shielding the parent company from acute balance-sheet stress during the peak cannibalization phase.\n\n4. **Valuation & Risk-Reward Asymmetry:**\n   * The market has largely priced in the near-term margin volatility and competitive pressures in the domestic EV space. However, it often undervalues the long-term compounding effect of ecosystem dominance (charging infrastructure, financing arms, and brand equity) that Tata is building. \n\n#### **Conclusion**\nTata Motors is intentionally eating its own lunch in the ICE segment to avoid starving in the future EV era. While margin cannibalization is an undeniable near-term drag on profitability, it is a necessary, strategically managed friction. For institutional investors with a multi-year horizon, the current phase represents an attractive entry point to accumulate shares ahead of structural EV cost parity and margin inflection.",
+      "react_trace": [],
+      "fastmcp_tool_calls": [],
+      "retrieved_evidence": [],
+      "anchor_price": 1000.0,
+      "statutory_drag_bps": 22.22,
+      "metrics": {
+        "composite_quality_index": 42.95,
+        "analytical_accuracy": 70.0,
+        "evidence_grounding": 0.0,
+        "task_completion_rate": 65.0,
+        "citation_coverage": 40.0,
+        "citation_precision": 68.0,
+        "hallucination_rate": 45.0,
+        "tool_success_rate": 0.0,
+        "regulatory_compliance": 0.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 0.0,
+        "latency_seconds": 53.04,
+        "prompt_tokens": 126,
+        "completion_tokens": 835,
+        "total_tokens": 961,
+        "cost_usd": 0.00026,
+        "llm_judge_score": 36.0,
+        "llm_judge_critique": "The output provides a sound conceptual framework regarding the innovator's dilemma and margin cannibalization for Tata Motors' EV transition, but completely fails on evidence grounding due to zero tool usage and unaugmented synthesis. Furthermore, it completely omits mandatory Indian regulatory compliance factors such as SEBI LODR disclosures and taxation/capital gains rules under the Finance Act.",
+        "evaluator_formulas": {
+          "tool_success_rate": {
+            "formula": "successful_tool_calls / total_tool_calls * 100",
+            "successful_tool_calls": 0,
+            "total_tool_calls": 0,
+            "value": 0.0
+          },
+          "task_completion_rate": {
+            "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
+            "value": 65.0
+          },
+          "citation_coverage": {
+            "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
+            "value": 40.0
+          },
+          "citation_precision": {
+            "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
+            "value": 68.0
+          },
+          "hallucination_rate": {
+            "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
+            "value": 45.0
+          },
+          "retry_recovery_rate": {
+            "formula": "recovered_initial_failures / initial_failures * 100",
+            "value": 0.0
+          }
+        },
+        "audit_areas": {
+          "analytical_accuracy": {
+            "accuracy": 70.0,
+            "mae_bps": 12.6,
+            "rmse_bps": 4.12,
+            "f1_score": 50.4
+          },
+          "evidence_grounding": {
+            "faithfulness": 43.8,
+            "citation_precision": 68.0,
+            "citation_recall": 40.8
+          },
+          "task_completion": {
+            "task_success_rate": 65.0,
+            "completion_rate": 65.0
+          },
+          "consistency": {
+            "recommendation_agreement": 64.0,
+            "std_deviation": 13.8,
+            "coefficient_of_variation": 0.197
+          },
+          "latency": {
+            "mean": 53.04,
+            "median": 49.86,
+            "p50": 49.86,
+            "p95": 64.71,
+            "p99": 73.2
+          },
+          "reliability": {
+            "success_rate": 78.0,
+            "failure_rate": 22.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 0.0
+          },
+          "agent_coordination": {
+            "handoff_success_rate": 0.0,
+            "coordination_overhead_pct": 0.0
+          },
+          "tool_utilization": {
+            "tool_success_rate": 0.0,
+            "tool_error_rate": 0.0,
+            "calls_per_task": 0
+          },
+          "rag_retrieval": {
+            "precision_at_k": 0.24,
+            "recall_at_k": 0.18,
+            "mrr": 0.32,
+            "ndcg_at_k": 0.38
+          },
+          "traceability": {
+            "trace_completeness": 20.0,
+            "evidence_link_coverage": 39.2
+          },
+          "risk_validation": {
+            "risk_detection_rate": 45.0,
+            "false_positive_rate": 4.8,
+            "false_negative_rate": 55.0
+          },
+          "resource_efficiency": {
+            "tokens_per_task": 450,
+            "cost_per_task": 0.00015,
+            "api_calls_per_task": 1
+          },
+          "output_quality": {
+            "schema_validity": 100.0,
+            "completeness_score": 65.0,
+            "contradiction_rate": 20.2
+          }
+        }
+      },
+      "judge": {
+        "completeness": 65.0,
+        "analytical_accuracy": 70.0,
+        "evidence_grounding": 0.0,
+        "regulatory_compliance": 0.0,
+        "hallucination_rate": 45.0,
+        "overall_judge_score": 36.0,
+        "critique": "The output provides a sound conceptual framework regarding the innovator's dilemma and margin cannibalization for Tata Motors' EV transition, but completely fails on evidence grounding due to zero tool usage and unaugmented synthesis. Furthermore, it completely omits mandatory Indian regulatory compliance factors such as SEBI LODR disclosures and taxation/capital gains rules under the Finance Act."
+      },
+      "audit_areas": {
+        "analytical_accuracy": {
+          "accuracy": 70.0,
+          "mae_bps": 12.6,
+          "rmse_bps": 4.12,
+          "f1_score": 50.4
+        },
+        "evidence_grounding": {
+          "faithfulness": 43.8,
+          "citation_precision": 68.0,
+          "citation_recall": 40.8
+        },
+        "task_completion": {
+          "task_success_rate": 65.0,
+          "completion_rate": 65.0
+        },
+        "consistency": {
+          "recommendation_agreement": 64.0,
+          "std_deviation": 13.8,
+          "coefficient_of_variation": 0.197
+        },
+        "latency": {
+          "mean": 53.04,
+          "median": 49.86,
+          "p50": 49.86,
+          "p95": 64.71,
+          "p99": 73.2
+        },
+        "reliability": {
+          "success_rate": 78.0,
+          "failure_rate": 22.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 0.0
+        },
+        "agent_coordination": {
+          "handoff_success_rate": 0.0,
+          "coordination_overhead_pct": 0.0
+        },
+        "tool_utilization": {
+          "tool_success_rate": 0.0,
+          "tool_error_rate": 0.0,
+          "calls_per_task": 0
+        },
+        "rag_retrieval": {
+          "precision_at_k": 0.24,
+          "recall_at_k": 0.18,
+          "mrr": 0.32,
+          "ndcg_at_k": 0.38
+        },
+        "traceability": {
+          "trace_completeness": 20.0,
+          "evidence_link_coverage": 39.2
+        },
+        "risk_validation": {
+          "risk_detection_rate": 45.0,
+          "false_positive_rate": 4.8,
+          "false_negative_rate": 55.0
+        },
+        "resource_efficiency": {
+          "tokens_per_task": 450,
+          "cost_per_task": 0.00015,
+          "api_calls_per_task": 1
+        },
+        "output_quality": {
+          "schema_validity": 100.0,
+          "completeness_score": 65.0,
+          "contradiction_rate": 20.2
+        }
+      }
+    }
+  },
+  "winning_score": 81.05,
+  "run_type": "SINGLE"
+}

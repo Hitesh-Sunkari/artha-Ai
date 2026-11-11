@@ -1,0 +1,25 @@
+{
+  "scenario_id": "Q02",
+  "reference_id": "REF_Q02_SILVER_MOMENTUM",
+  "symbol": "TATSILV / SILVERBEES",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "rsi_14d": 58.2,
+    "statutory_friction_drag_pct": 0.015,
+    "inflation_beat_probability_pct": 69.6
+  },
+  "mandatory_evidence": [
+    "MCX physical silver correlation",
+    "5,000-path Monte Carlo wealth envelope",
+    "RBI CPI inflation baseline (5.49%)"
+  ],
+  "prohibited_hallucinations": [
+    "Treating physical silver ETF as regular corporate equity",
+    "Applying 20 bps delivery STT to ETF (statutory ETF drag is lower)"
+  ],
+  "acceptable_conclusions": [
+    "ACCUMULATE_BASKET",
+    "BUY",
+    "HOLD"
+  ]
+}

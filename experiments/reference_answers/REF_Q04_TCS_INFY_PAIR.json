@@ -1,0 +1,25 @@
+{
+  "scenario_id": "Q04",
+  "reference_id": "REF_Q04_TCS_INFY_PAIR",
+  "symbol": "TCS.NS vs INFY.NS",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "tcs_ltp_inr": 2475.2,
+    "infy_ltp_inr": 1520.4,
+    "tcs_beta": 0.78,
+    "infy_beta": 1.04
+  },
+  "mandatory_evidence": [
+    "Comparable trailing financial periods",
+    "Relative valuation & margin contrast"
+  ],
+  "prohibited_hallucinations": [
+    "Confusing market caps or trading currencies",
+    "Fabricating Q3 FY26 numbers"
+  ],
+  "acceptable_conclusions": [
+    "TCS_OUTPERFORM",
+    "INFY_OUTPERFORM",
+    "BALANCED_PAIR"
+  ]
+}

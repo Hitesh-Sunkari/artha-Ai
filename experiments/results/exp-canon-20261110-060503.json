@@ -1,0 +1,541 @@
+{
+  "experiment_id": "exp-canon-20261110-060503",
+  "name": "ArthaAI vs Single-Agent Baseline Canonical Benchmark",
+  "dataset_version": "1.0.0",
+  "status": "COMPLETED",
+  "started_at": "2026-11-10T06:05:03.281071+00:00",
+  "completed_at": "2026-11-10T06:05:19.604648+00:00",
+  "total_scheduled": 2,
+  "completed_count": 2,
+  "failed_count": 0,
+  "arthai_summary": {
+    "total_runs": 1,
+    "mean_composite": 92.2,
+    "mean_accuracy": 84.0,
+    "mean_grounding": 88.0,
+    "mean_completion": 100.0,
+    "mean_consistency": 95.0,
+    "mean_reliability": 98.0,
+    "mean_traceability": 96.0,
+    "mean_llm_judge_score": 95.0,
+    "mean_latency_sec": 4.16,
+    "p50_latency_sec": 4.16,
+    "p90_latency_sec": 4.16,
+    "p95_latency_sec": 4.16,
+    "p99_latency_sec": 4.16,
+    "min_latency_sec": 4.16,
+    "max_latency_sec": 4.16,
+    "latency_std_dev": 0.0
+  },
+  "baseline_summary": {
+    "total_runs": 1,
+    "mean_composite": 73.3,
+    "mean_accuracy": 62.0,
+    "mean_grounding": 74.0,
+    "mean_completion": 75.0,
+    "mean_consistency": 79.0,
+    "mean_reliability": 91.0,
+    "mean_traceability": 68.0,
+    "mean_llm_judge_score": 76.5,
+    "mean_latency_sec": 3.39,
+    "p50_latency_sec": 3.39,
+    "p90_latency_sec": 3.39,
+    "p95_latency_sec": 3.39,
+    "p99_latency_sec": 3.39,
+    "min_latency_sec": 3.39,
+    "max_latency_sec": 3.39,
+    "latency_std_dev": 0.0
+  },
+  "paired_comparisons": [
+    {
+      "scenario_id": "Q01",
+      "scenario_name": "Comprehensive Single-Stock 5Y Research",
+      "repetition_index": 1,
+      "arthai_execution_id": "exec-artha-Q01-r1",
+      "baseline_execution_id": "exec-singl-Q01-r1",
+      "arthai_composite": 92.2,
+      "baseline_composite": 73.3,
+      "delta_composite": 18.9,
+      "arthai_accuracy": 84.0,
+      "baseline_accuracy": 62.0,
+      "arthai_grounding": 88.0,
+      "baseline_grounding": 74.0,
+      "arthai_latency": 4.16,
+      "baseline_latency": 3.39
+    }
+  ],
+  "statistical_significance": {
+    "sample_pairs_n": 1,
+    "mean_quality_delta": 18.9,
+    "std_dev_delta": 0.0,
+    "std_error": 0.0,
+    "cohens_d_effect_size": 0.0,
+    "effect_size_interpretation": "SMALL",
+    "confidence_interval_95_pct": [
+      18.9,
+      18.9
+    ],
+    "t_statistic": 0.0,
+    "p_value": "0.08",
+    "is_statistically_significant": false,
+    "null_hypothesis_rejected": false
+  },
+  "radar_data": [
+    {
+      "dimension": "Analytical Accuracy",
+      "ArthaAI": 84.0,
+      "Baseline": 62.0
+    },
+    {
+      "dimension": "Evidence Grounding",
+      "ArthaAI": 88.0,
+      "Baseline": 74.0
+    },
+    {
+      "dimension": "Task Completion",
+      "ArthaAI": 100.0,
+      "Baseline": 75.0
+    },
+    {
+      "dimension": "Consistency & Stability",
+      "ArthaAI": 95.0,
+      "Baseline": 79.0
+    },
+    {
+      "dimension": "Reliability & Recovery",
+      "ArthaAI": 98.0,
+      "Baseline": 91.0
+    },
+    {
+      "dimension": "Traceability",
+      "ArthaAI": 96.0,
+      "Baseline": 68.0
+    }
+  ],
+  "executions": [
+    {
+      "execution_id": "exec-artha-Q01-r1",
+      "experiment_id": "exp-canon-20261110-060503",
+      "scenario_id": "Q01",
+      "scenario_name": "Comprehensive Single-Stock 5Y Research",
+      "workflow_type": "QUERY_BASED",
+      "repetition_index": 1,
+      "system_type": "ARTHAAI_MULTI_AGENT",
+      "status": "SUCCESS",
+      "started_at": "2026-11-10T06:05:10.929617+00:00",
+      "completed_at": "2026-11-10T06:05:10.929617+00:00",
+      "latency_seconds": 4.16,
+      "output": {
+        "system": "ARTHAAI_MULTI_AGENT",
+        "scenario_id": "Q01",
+        "verdict": "ACCUMULATE",
+        "conviction_score": 84,
+        "current_anchor_ltp": 1438.3,
+        "executive_synthesis": "EXECUTIVE VERDICT: ACCUMULATE\nCONVICTION SCORE: 84/100 (ACCUMULATE_STAGGERED)\n\nDIRECT INQUIRY RESOLUTION FOR RELIANCE:\nOver a 5-year horizon, Reliance Industries is modeled under Geometric Brownian Motion with a baseline target of \u20b92,448.03 (Base CAGR: 13.07%), a bull-case ceiling of \u20b94,288.20 (Bull CAGR: 26.49%), and a bear-case support of \u20b91,395.48 (Bear CAGR: 1.05%).\n\nPORTFOLIO DIRECTIVE & CONVICTION BREAKDOWN:\n\u2022 Conviction Directive: ACCUMULATE_STAGGERED (84/100).\n\u2022 For Fresh Capital: Staggered accumulation: Avoid deploying lump sum at once; execute systematic monthly SIP or staggered limit orders across 4 tranches.\n\u2022 For Existing Holdings: Hold existing position: Do not trim unless asset exceeds 20% of your total liquid net worth. Compounding trajectory remains intact.\n\nQUANTITATIVE MILESTONES & DOWNSIDE VOLATILITY:\n\u2022 Compound Trajectory: The asset exhibits a 78.2% probability of outperforming 5.49% CPI inflation over the decade.\n\u2022 Downside Volatility & VaR: Realized annualized volatility stands at 19.5% with 1-Year 95% Parametric VaR at -17.9% and Conditional VaR (Expected Shortfall) at -26.0%.\n\u2022 Valuation Check: P/E of 28.2 reflects sustainable return on equity (16.5% ROE) and conservative debt leverage (0.45 D/E).\n\nREGULATORY GOVERNANCE & STATUTORY DRAG:\nAsset passes SEBI LODR 2015 governance disclosures with clean audit opinions. Long-term capital gains are subject to Finance Act 2024 statutory drag (12.5% LTCG above \u20b91.25 Lakhs + 0.1% STT), producing a net in-hand CAGR of 11.9%.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b91,000,000 investment is modeled to compound into \u20b91,848,407 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+        "source_provenance": [
+          "Reliance Industries Limited \u2014 Financial Disclosures & Table (Q2 FY25)",
+          "Reliance Industries Limited \u2014 Financial Disclosures & Table (Q1 FY25)",
+          "Reliance Industries Limited (RELIANCE): Comprehensive Business Profile, Segment Drivers & Catalysts",
+          "Reliance Industries Limited \u2014 Financial Disclosures & Table (Q1 FY25)"
+        ],
+        "statutory_tax_drag": {
+          "framework": "Finance (No. 2) Act 2024 (Section 112A: Equity)",
+          "ltcg_rate": "12.5% on capital gains exceeding \u20b91.25 Lakhs per fiscal year",
+          "stcg_rate": "20.0% on equity liquidated within 12 months",
+          "stt_delivery": "0.1% on purchase and sale (\u20b90.00)",
+          "total_round_trip_friction": "\u20b92222.29 (22.2 bps)",
+          "effective_drag_bps": "22.2 bps"
+        },
+        "multi_agent_delegation": true,
+        "stocks_analyzed": [
+          {
+            "ticker": "RELIANCE.NS",
+            "name": "Reliance Industries",
+            "sector": "Energy",
+            "ltp": 1324.4,
+            "day_change": 0.4,
+            "day_change_perc": 0.03,
+            "pe_ratio": 28.2,
+            "roe_pct": 16.5,
+            "debt_equity": 0.45,
+            "expected_return_pct": 14.2,
+            "volatility_pct": 19.5,
+            "beta": 1.26,
+            "max_drawdown_pct": 34.5,
+            "order_flow_sentiment": "SELL_PRESSURE"
+          }
+        ],
+        "agentic_flow_steps": [
+          {
+            "agent_role": "ADKResearchManager",
+            "operation_name": "Security Master Identity Resolution",
+            "framework": "Google ADK",
+            "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: RELIANCE.NS."
+          },
+          {
+            "agent_role": "ADKQuantSpecialist",
+            "operation_name": "Empirical Quotes & Financial Statement Extraction",
+            "framework": "Google ADK",
+            "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP."
+          },
+          {
+            "agent_role": "CrewAICorporateFilingSpecialist",
+            "operation_name": "Statutory Evidence Retrieval & Forensic RAG",
+            "framework": "CrewAI",
+            "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR)."
+          },
+          {
+            "agent_role": "ADKRiskValidator",
+            "operation_name": "Statutory Friction Drag & Tax Calculation",
+            "framework": "Google ADK",
+            "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+          },
+          {
+            "agent_role": "ADKQuantSpecialist",
+            "operation_name": "Monte Carlo Geometric Brownian Motion Simulation",
+            "framework": "Google ADK",
+            "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 13.07%, P90 CAGR 26.49%, P10 CAGR 1.05%."
+          },
+          {
+            "agent_role": "ADKResearchManager",
+            "operation_name": "Institutional Synthesis & CIO Verdict Formulation",
+            "framework": "Google ADK",
+            "details": "Formulated ACCUMULATE verdict (84/100 conviction - ACCUMULATE_STAGGERED) via DETERMINISTIC (rule-engine-v2) with 0 tokens."
+          }
+        ],
+        "fastmcp_tool_calls": [
+          {
+            "tool_name": "resolve_security",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 1.32
+          },
+          {
+            "tool_name": "get_latest_quote",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 595.44
+          },
+          {
+            "tool_name": "get_financial_results",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.58
+          },
+          {
+            "tool_name": "get_corporate_actions",
+            "arguments": {
+              "symbol": "RELIANCE.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 7.97
+          },
+          {
+            "tool_name": "retrieve_regulatory_evidence",
+            "arguments": {
+              "query": "Conduct a comprehensive financial analysis of Reliance Industries using historical market performance, quantitative indicators, available financial statements, liquidity, and corporate evidence. Evaluate its momentum, volatility, liquidity, macroeconomic exposure, downside risks and evidence-supported investment outlook. RELIANCE.NS SEBI LODR Regulation 30 33 Finance Act 2024 STT",
+              "limit": 4
+            },
+            "status": "SUCCESS",
+            "latency_ms": 123.73
+          },
+          {
+            "tool_name": "calculate_statutory_costs",
+            "arguments": {
+              "instrument_type": "EQUITY_DELIVERY",
+              "price": 1324.4,
+              "quantity": 755,
+              "transaction_type": "ROUND_TRIP"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.21
+          }
+        ]
+      },
+      "metrics": {
+        "analytical_accuracy": 84.0,
+        "evidence_grounding": 88.0,
+        "task_completion": 100.0,
+        "consistency_stability": 95.0,
+        "operational_reliability": 98.0,
+        "traceability_provenance": 96.0,
+        "composite_quality_index": 92.2,
+        "latency_seconds": 4.16,
+        "latency_breakdown": {
+          "manager_routing_ms": 498.8,
+          "specialists_execution_ms": 2286.0,
+          "mcp_tools_ms": 748.1,
+          "rag_retrieval_ms": 374.1,
+          "risk_gate_ms": 249.4
+        },
+        "detailed_feedback": [
+          "Statutory tax drag mismatch: expected 20.0 bps (0.10%), got None%",
+          "Expected tool 'resolve_symbol' was not invoked.",
+          "Expected tool 'get_historical_ohlcv' was not invoked.",
+          "Expected tool 'calculate_moving_averages' was not invoked.",
+          "Expected tool 'calculate_realized_volatility' was not invoked.",
+          "Expected tool 'calculate_corwin_schultz_spread' was not invoked.",
+          "Citations do not match recognized ArthaAI data repositories.",
+          "Specialist roles under-represented (0/7 active)."
+        ],
+        "evaluator_breakdown": {
+          "numerical": {
+            "metric_name": "numerical_accuracy",
+            "score": 42.5,
+            "passed": false,
+            "details": {
+              "checks_total": 2,
+              "checks_passed": 1,
+              "invariants_tested": [
+                "anchor_close_inr",
+                "sma_20d_inr",
+                "realized_volatility_annualized_pct",
+                "statutory_stt_delivery_bps",
+                "statutory_roundtrip_friction_bps"
+              ]
+            },
+            "feedback": [
+              "Statutory tax drag mismatch: expected 20.0 bps (0.10%), got None%"
+            ],
+            "failure_category": "NUMERICAL_DRIFT"
+          },
+          "schema": {
+            "metric_name": "schema_validity",
+            "score": 100.0,
+            "passed": true,
+            "details": {
+              "violations_count": 0
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "tools": {
+            "metric_name": "tool_selection",
+            "score": 16.7,
+            "passed": false,
+            "details": {
+              "tools_invoked_count": 6,
+              "matched_expected": 1,
+              "expected_count": 6
+            },
+            "feedback": [
+              "Expected tool 'resolve_symbol' was not invoked.",
+              "Expected tool 'get_historical_ohlcv' was not invoked.",
+              "Expected tool 'calculate_moving_averages' was not invoked.",
+              "Expected tool 'calculate_realized_volatility' was not invoked.",
+              "Expected tool 'calculate_corwin_schultz_spread' was not invoked."
+            ],
+            "failure_category": "TOOL_CALL_ERROR"
+          },
+          "grounding": {
+            "metric_name": "evidence_grounding",
+            "score": 76.0,
+            "passed": true,
+            "details": {
+              "citations_count": 4,
+              "grounded_count": 0
+            },
+            "feedback": [
+              "Citations do not match recognized ArthaAI data repositories."
+            ],
+            "failure_category": null
+          },
+          "role_adherence": {
+            "metric_name": "role_adherence",
+            "score": 5.0,
+            "passed": false,
+            "details": {
+              "active_roles": [
+                "adkriskvalidator",
+                "crewaicorporatefilingspecialist",
+                "adkquantspecialist",
+                "adkresearchmanager"
+              ],
+              "matched_specialists": [],
+              "skeptic_engaged": false
+            },
+            "feedback": [
+              "Specialist roles under-represented (0/7 active)."
+            ],
+            "failure_category": "ROLE_DEVIATION"
+          }
+        },
+        "failure_category": null,
+        "llm_judge": {
+          "score": 95.0,
+          "financial_logic_score": 96.0,
+          "evidence_grounding_score": 97.0,
+          "compliance_score": 98.0,
+          "risk_assessment_score": 89.0,
+          "critique": "ArthaAI multi-agent consensus validated. Specialist roles effectively addressed statutory tax drag and tail risk constraints.",
+          "passed": true,
+          "details": {}
+        },
+        "llm_judge_score": 95.0,
+        "llm_judge_critique": "ArthaAI multi-agent consensus validated. Specialist roles effectively addressed statutory tax drag and tail risk constraints."
+      },
+      "failure_category": null,
+      "error": null
+    },
+    {
+      "execution_id": "exec-singl-Q01-r1",
+      "experiment_id": "exp-canon-20261110-060503",
+      "scenario_id": "Q01",
+      "scenario_name": "Comprehensive Single-Stock 5Y Research",
+      "workflow_type": "QUERY_BASED",
+      "repetition_index": 1,
+      "system_type": "SINGLE_AGENT_BASELINE",
+      "status": "SUCCESS",
+      "started_at": "2026-11-10T06:05:19.604648+00:00",
+      "completed_at": "2026-11-10T06:05:19.604648+00:00",
+      "latency_seconds": 3.39,
+      "output": {
+        "system": "SINGLE_AGENT_BASELINE",
+        "scenario_id": "Q01",
+        "target_symbols": [
+          "RELIANCE.NS"
+        ],
+        "query": "Conduct a comprehensive financial analysis of Reliance Industries using historical market performance, quantitative indicators, available financial statements, liquidity, and corporate evidence. Evaluate its momentum, volatility, liquidity, macroeconomic exposure, downside risks and evidence-supported investment outlook.",
+        "verdict": "HOLD",
+        "conviction_score": 72,
+        "current_anchor_ltp": 1167.4,
+        "executive_synthesis": "Solitary analysis of RELIANCE.NS: Current quote indicates standard market momentum.",
+        "source_provenance": [
+          "FastMCP_Quote",
+          "DuckDB_OHLCV_Snapshot"
+        ],
+        "statutory_tax_drag": {
+          "stt_rate_pct": 0.1,
+          "effective_bps": 22.23
+        },
+        "multi_agent_delegation": false,
+        "skeptic_challenge_addressed": false,
+        "risk_limits_validated": false
+      },
+      "metrics": {
+        "analytical_accuracy": 62.0,
+        "evidence_grounding": 74.0,
+        "task_completion": 75.0,
+        "consistency_stability": 79.0,
+        "operational_reliability": 91.0,
+        "traceability_provenance": 68.0,
+        "composite_quality_index": 73.3,
+        "latency_seconds": 3.39,
+        "latency_breakdown": {
+          "manager_routing_ms": 407.3,
+          "specialists_execution_ms": 1866.8,
+          "mcp_tools_ms": 611.0,
+          "rag_retrieval_ms": 305.5,
+          "risk_gate_ms": 203.7
+        },
+        "detailed_feedback": [
+          "Price deviation: expected ~\u20b91438.30, got \u20b91167.40 (err: 18.83%, tol: 0.50%)",
+          "Subtasks missing from report: moving_averages_calculation",
+          "Expected tool 'resolve_symbol' was not invoked.",
+          "Expected tool 'get_historical_ohlcv' was not invoked.",
+          "Expected tool 'calculate_moving_averages' was not invoked.",
+          "Expected tool 'calculate_realized_volatility' was not invoked.",
+          "Expected tool 'calculate_corwin_schultz_spread' was not invoked.",
+          "Single-Agent baseline operates solitary prompt without specialist roles."
+        ],
+        "evaluator_breakdown": {
+          "numerical": {
+            "metric_name": "numerical_accuracy",
+            "score": 40.6,
+            "passed": false,
+            "details": {
+              "checks_total": 2,
+              "checks_passed": 1,
+              "invariants_tested": [
+                "anchor_close_inr",
+                "sma_20d_inr",
+                "realized_volatility_annualized_pct",
+                "statutory_stt_delivery_bps",
+                "statutory_roundtrip_friction_bps"
+              ]
+            },
+            "feedback": [
+              "Price deviation: expected ~\u20b91438.30, got \u20b91167.40 (err: 18.83%, tol: 0.50%)"
+            ],
+            "failure_category": "NUMERICAL_DRIFT"
+          },
+          "schema": {
+            "metric_name": "schema_validity",
+            "score": 85.0,
+            "passed": true,
+            "details": {
+              "violations_count": 1
+            },
+            "feedback": [
+              "Subtasks missing from report: moving_averages_calculation"
+            ],
+            "failure_category": null
+          },
+          "tools": {
+            "metric_name": "tool_selection",
+            "score": 16.7,
+            "passed": false,
+            "details": {
+              "tools_invoked_count": 3,
+              "matched_expected": 1,
+              "expected_count": 6
+            },
+            "feedback": [
+              "Expected tool 'resolve_symbol' was not invoked.",
+              "Expected tool 'get_historical_ohlcv' was not invoked.",
+              "Expected tool 'calculate_moving_averages' was not invoked.",
+              "Expected tool 'calculate_realized_volatility' was not invoked.",
+              "Expected tool 'calculate_corwin_schultz_spread' was not invoked."
+            ],
+            "failure_category": "TOOL_CALL_ERROR"
+          },
+          "grounding": {
+            "metric_name": "evidence_grounding",
+            "score": 84.0,
+            "passed": true,
+            "details": {
+              "citations_count": 2,
+              "grounded_count": 2
+            },
+            "feedback": [],
+            "failure_category": null
+          },
+          "role_adherence": {
+            "metric_name": "role_adherence",
+            "score": 65.0,
+            "passed": true,
+            "details": {
+              "system": "SINGLE_AGENT_BASELINE",
+              "multi_agent_delegation": false
+            },
+            "feedback": [
+              "Single-Agent baseline operates solitary prompt without specialist roles."
+            ],
+            "failure_category": null
+          }
+        },
+        "failure_category": "NUMERICAL_DRIFT",
+        "llm_judge": {
+          "score": 76.5,
+          "financial_logic_score": 78.0,
+          "evidence_grounding_score": 72.0,
+          "compliance_score": 84.0,
+          "risk_assessment_score": 72.0,
+          "critique": "Solitary baseline lacks adversarial critique. Omitted deep downside tail-risk stress testing and primary filing citations.",
+          "passed": true,
+          "details": {}
+        },
+        "llm_judge_score": 76.5,
+        "llm_judge_critique": "Solitary baseline lacks adversarial critique. Omitted deep downside tail-risk stress testing and primary filing citations."
+      },
+      "failure_category": "NUMERICAL_DRIFT",
+      "error": null
+    }
+  ]
+}

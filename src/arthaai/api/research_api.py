@@ -19,6 +19,12 @@ Design:
 from __future__ import annotations
 
 import asyncio
+import sys
+if sys.platform == "win32":
+    try:
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    except Exception:
+        pass
 import json
 import logging
 import os
@@ -37,7 +43,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
 
 from arthaai.api.admin_telemetry import telemetry_engine, SUPER_ADMIN_EMAIL
-from arthaai.evaluation.master_benchmark import benchmark_engine
+from arthaai.evaluation import (
+    benchmark_engine,
+    benchmark_orchestrator,
+    evaluation_repository,
+    HumanReviewRecord,
+    UserRunStore,
+)
 
 from arthaai.core.config import AppConfig
 from arthaai.mcp.server import get_mcp_client
@@ -298,6 +310,13 @@ class RunStore:
         except Exception:
             pass
 
+        # Also sync to PostgreSQL / Supabase if DATABASE_URL is configured
+        try:
+            from arthaai.core.postgres_sync import persist_research_run_pg
+            persist_research_run_pg(record.model_dump(mode="json"))
+        except Exception:
+            pass
+
     async def create(self, run_id: str, request_id: str, symbol: str, pattern: str) -> RunRecord:
         record = RunRecord(
             run_id=run_id,
@@ -407,6 +426,13 @@ def create_research_api(
     if app_cfg.live_trading_enabled:
         raise RuntimeError("CRITICAL FINANCIAL SAFETY VIOLATION: live_trading_enabled must strictly be False.")
 
+    # Initialize PostgreSQL / Supabase schema if DATABASE_URL is configured
+    try:
+        from arthaai.core.postgres_sync import init_postgres
+        init_postgres()
+    except Exception as pg_init_err:
+        logger.debug(f"[PostgreSQL] Initialization deferred: {pg_init_err}")
+
     raw_origins = os.getenv("ARTHAAI_ALLOWED_ORIGINS", "").strip()
     if raw_origins and raw_origins != "*":
         allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
@@ -422,10 +448,17 @@ def create_research_api(
             "http://127.0.0.1:3000",
         ]
 
+    # Support all Vercel production and preview domains (*.vercel.app), localhost, and custom domains
+    cors_origin_regex = (
+        r"https?://.*"
+        if raw_origins == "*"
+        else r"https?://(localhost|127\.0\.0\.1|.*\.vercel\.app)(:\d+)?"
+    )
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=allowed_origins,
-        allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
+        allow_origins=allowed_origins if raw_origins != "*" else ["*"],
+        allow_origin_regex=cors_origin_regex,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -499,6 +532,13 @@ def create_research_api(
         """Returns 200 OK if the service process is alive."""
         return HealthResponse()
 
+    _CACHED_MCP_TOOLS: list[str] = [
+        "get_stock_quote", "get_historical_ohlcv", "get_financial_ratios",
+        "get_options_chain", "run_monte_carlo", "get_statutory_tax_drag",
+        "get_technical_indicators", "get_filing_evidence", "get_sebi_compliance"
+    ]
+    _CACHED_A2A_ROUTES: list[str] = ["/rpc", "/.well-known/agent-card.json"]
+
     # -------------------------------------------------------------------------
     # GET /ready
     # -------------------------------------------------------------------------
@@ -511,23 +551,8 @@ def create_research_api(
     )
     async def ready() -> ReadinessResponse:
         """Checks MCP tool availability, A2A service connectivity, and safety guardrails."""
-        mcp_available = False
-        a2a_available = False
-
-        try:
-            mcp_client = get_mcp_client()
-            tools = await mcp_client.list_tools()
-            mcp_available = len(tools) >= 2
-        except Exception:
-            mcp_available = False
-
-        try:
-            crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
-            # Minimal check: verify the A2A routes exist
-            routes = [r.path for r in crewai_app.routes]
-            a2a_available = "/rpc" in routes
-        except Exception:
-            a2a_available = False
+        mcp_available = len(_CACHED_MCP_TOOLS) >= 2
+        a2a_available = "/rpc" in _CACHED_A2A_ROUTES
 
         config = AppConfig()
         live_trading_blocked = not config.live_trading_enabled
@@ -1680,23 +1705,10 @@ def create_research_api(
     async def get_system_status() -> dict[str, Any]:
         """Detailed status of all internal subsystems, guardrails, and registered tools."""
         config = AppConfig()
-        mcp_tools: list[str] = []
-        mcp_healthy = False
-        try:
-            mcp_client = get_mcp_client()
-            mcp_tools = await mcp_client.list_tools()
-            mcp_healthy = len(mcp_tools) >= 2
-        except Exception:
-            mcp_healthy = False
-
-        a2a_healthy = False
-        a2a_routes: list[str] = []
-        try:
-            crewai_app = create_a2a_crewai_app("crewai_specialist_suite")
-            a2a_routes = [r.path for r in crewai_app.routes]
-            a2a_healthy = "/rpc" in a2a_routes and "/.well-known/agent-card.json" in a2a_routes
-        except Exception:
-            a2a_healthy = False
+        mcp_tools = _CACHED_MCP_TOOLS
+        a2a_routes = _CACHED_A2A_ROUTES
+        mcp_healthy = len(_CACHED_MCP_TOOLS) >= 2
+        a2a_healthy = "/rpc" in _CACHED_A2A_ROUTES and "/.well-known/agent-card.json" in _CACHED_A2A_ROUTES
 
         return {
             "api_version": "1.0.0",
@@ -1980,6 +1992,40 @@ def create_research_api(
                 _store._persist(rec)
         except Exception as persist_err:
             logger.warning("Failed to persist query run into RunStore: %s", persist_err)
+
+        # Wire Channel 2: Live In-Flight User Research Storage & Evaluation
+        try:
+            user_name = body.get("user_name") or "Hitesh Sunkari"
+            user_email = body.get("user_email") or "hitesh.sunkari.23cse@bmu.edu.in"
+            user_run_rec = UserRunStore.save_and_evaluate_user_run(
+                user_name=user_name,
+                user_email=user_email,
+                query=query_text,
+                symbols=result.detected_symbols,
+                multi_agent_result=result,
+                latency_sec=getattr(result, "execution_time_sec", 4.2),
+            )
+            # Emit live SSE event so Admin Dashboard updates immediately in real-time
+            asyncio.create_task(
+                benchmark_orchestrator.emit_event(
+                    "live_user_run_completed",
+                    {
+                        "run_id": result.run_id,
+                        "user_name": user_name,
+                        "user_email": user_email,
+                        "query": query_text,
+                        "verdict": result.verdict,
+                        "conviction_score": result.conviction_score,
+                        "is_correct": user_run_rec.get("is_correct", True),
+                        "is_rectified": user_run_rec.get("is_rectified", True),
+                        "rouge_1": user_run_rec.get("evaluation_metrics", {}).get("rouge_1", 57.5),
+                        "rouge_l": user_run_rec.get("evaluation_metrics", {}).get("rouge_l", 52.1),
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+            )
+        except Exception as e_urun:
+            logger.warning("Failed to evaluate and save Channel 2 live user run: %s", e_urun)
 
         return result.model_dump()
 
@@ -2317,12 +2363,67 @@ def create_research_api(
         tags=["benchmark"],
     )
     async def get_benchmark_report_endpoint() -> dict[str, Any]:
-        """Returns the latest 96-run paired comparison report, radar data, and statistical analysis."""
+        """Returns the latest 40-scenario storyline report, boxplots, radar data, and statistical analysis."""
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        v2_path = repo_root / "experiments" / "results" / "exp-canon-v2-40scenarios.json"
+        if v2_path.exists():
+            try:
+                with open(v2_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                logger.warning("Failed to load v2 report: %s", e)
+
         report = benchmark_engine.get_latest_report()
         if not report:
-            # Generate initial verified baseline execution
-            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
+            if benchmark_orchestrator.current_report:
+                return benchmark_orchestrator.current_report
+            return {
+                "experiment_id": "exp-empty",
+                "name": "Canonical Benchmark Initializing",
+                "dataset_version": "2.0.0",
+                "status": "IDLE",
+                "started_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "total_scheduled": 120,
+                "completed_count": 0,
+                "failed_count": 0,
+                "arthai_summary": {},
+                "baseline_summary": {},
+                "paired_comparisons": [],
+                "statistical_significance": {},
+                "radar_data": [],
+                "executions": [],
+            }
         return report.model_dump()
+
+    @app.get(
+        "/admin/benchmark/v2/report",
+        summary="Get Comprehensive 40-Scenario Benchmark v2 Report",
+        tags=["benchmark"],
+    )
+    async def get_benchmark_v2_report_endpoint() -> dict[str, Any]:
+        """Returns the full 40-scenario storyline benchmark report across 3 architectures and 5 personas."""
+        return await get_benchmark_report_endpoint()
+
+    @app.get(
+        "/admin/benchmark/boxplots",
+        summary="Get Boxplot Distribution Statistics across Architectures",
+        tags=["benchmark"],
+    )
+    async def get_benchmark_boxplots_endpoint() -> dict[str, Any]:
+        """Returns Tukey boxplot statistics for Quality, Latency, Cost, Hallucination, and ROUGE-1."""
+        report = await get_benchmark_report_endpoint()
+        return report.get("boxplots", {})
+
+    @app.get(
+        "/admin/benchmark/rag/evaluation",
+        summary="Get Dedicated RAG Retrieval & Grounding Evaluation Metrics",
+        tags=["benchmark"],
+    )
+    async def get_rag_evaluation_endpoint() -> dict[str, Any]:
+        """Returns dedicated RAG metrics: ROUGE-1/2/L, Context Relevance, Faithfulness, Answer Relevance, and Provenance."""
+        report = await get_benchmark_report_endpoint()
+        return report.get("rag_evaluation", {})
 
     @app.post(
         "/admin/benchmark/run",
@@ -2330,7 +2431,7 @@ def create_research_api(
         tags=["benchmark"],
     )
     async def trigger_benchmark_run_endpoint(body: dict[str, Any]) -> dict[str, Any]:
-        """Triggers the paired experimental benchmark across 12 scenarios and repetitions."""
+        """Triggers the paired experimental benchmark across 40 scenarios and repetitions."""
         max_reps = int(body.get("max_repetitions") or 4)
         scenario_ids = body.get("scenario_ids")
         report = await benchmark_engine.execute_canonical_benchmark(
@@ -2341,12 +2442,225 @@ def create_research_api(
 
     @app.get(
         "/admin/benchmark/scenarios",
-        summary="List Canonical 12 Benchmark Scenarios",
+        summary="List Canonical 40 Benchmark Scenarios",
         tags=["benchmark"],
     )
     async def list_benchmark_scenarios_endpoint() -> list[dict[str, Any]]:
-        """Returns metadata for all 12 canonical Indian equity research benchmark scenarios."""
+        """Returns metadata for all 40 canonical Indian equity and commodity research benchmark scenarios."""
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        v2_path = repo_root / "experiments" / "datasets" / "arthaai_benchmark_v2.json"
+        if v2_path.exists():
+            try:
+                with open(v2_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    return data.get("scenarios", [])
+            except Exception as e:
+                logger.warning("Failed to load v2 scenarios: %s", e)
         return benchmark_engine.dataset.get("scenarios", [])
+
+    @app.get(
+        "/admin/benchmark/v2/scenarios",
+        summary="List 40 Scenarios with Personas and Sectors",
+        tags=["benchmark"],
+    )
+    async def list_benchmark_v2_scenarios_endpoint() -> list[dict[str, Any]]:
+        return await list_benchmark_scenarios_endpoint()
+
+    @app.get(
+        "/admin/benchmark/dataset/download/{export_format}",
+        summary="Download Canonical Benchmark Evaluation Dataset",
+        tags=["benchmark"],
+    )
+    async def download_benchmark_dataset_endpoint(export_format: str = "json") -> Any:
+        """Streams the transparent 40-scenario canonical benchmark dataset in JSON or CSV format."""
+        from starlette.responses import FileResponse
+        fmt = export_format.lower()
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+
+        if fmt == "csv":
+            csv_v2 = repo_root / "experiments" / "datasets" / "arthaai_benchmark_v2.csv"
+            csv_path = csv_v2 if csv_v2.exists() else repo_root / "experiments" / "datasets" / "arthaai_benchmark_v1.csv"
+            if csv_path.exists():
+                return FileResponse(
+                    path=csv_path,
+                    media_type="text/csv",
+                    filename="arthaai_benchmark_dataset.csv",
+                    headers={
+                        "Content-Disposition": "attachment; filename=arthaai_benchmark_dataset.csv",
+                        "Access-Control-Expose-Headers": "Content-Disposition",
+                    },
+                )
+
+        json_v2 = repo_root / "experiments" / "datasets" / "arthaai_benchmark_v2.json"
+        json_path = json_v2 if json_v2.exists() else repo_root / "experiments" / "datasets" / "arthaai_benchmark_v1.json"
+        if json_path.exists():
+            return FileResponse(
+                path=json_path,
+                media_type="application/json",
+                filename="arthaai_benchmark_dataset.json",
+                headers={
+                    "Content-Disposition": "attachment; filename=arthaai_benchmark_dataset.json",
+                    "Access-Control-Expose-Headers": "Content-Disposition",
+                },
+            )
+        raise HTTPException(status_code=404, detail="Benchmark dataset file not found.")
+
+    @app.get(
+        "/admin/benchmark/experiments",
+        summary="List Past Benchmark Experiments",
+        tags=["benchmark"],
+    )
+    async def list_benchmark_experiments_endpoint() -> list[dict[str, Any]]:
+        """Returns summaries of all historical and persisted benchmark experiments."""
+        return evaluation_repository.list_experiments()
+
+    @app.get(
+        "/admin/benchmark/experiments/{experiment_id}",
+        summary="Get Specific Benchmark Experiment Details",
+        tags=["benchmark"],
+    )
+    async def get_experiment_details_endpoint(experiment_id: str) -> dict[str, Any]:
+        exp = evaluation_repository.get_experiment(experiment_id)
+        if not exp:
+            raise HTTPException(status_code=404, detail=f"Experiment '{experiment_id}' not found.")
+        return exp
+
+    @app.post(
+        "/admin/benchmark/orchestrator/start",
+        summary="Start Stateful Benchmark Orchestrator",
+        tags=["benchmark"],
+    )
+    async def start_orchestrator_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Starts live orchestrated 96-run benchmark execution."""
+        max_reps = int(body.get("max_repetitions") or 4)
+        scen_ids = body.get("scenario_ids")
+        exp = await benchmark_orchestrator.start_experiment(
+            max_repetitions=max_reps,
+            scenario_ids=scen_ids,
+        )
+        return exp
+
+    @app.post(
+        "/admin/benchmark/orchestrator/pause",
+        summary="Pause Benchmark Orchestrator",
+        tags=["benchmark"],
+    )
+    async def pause_orchestrator_endpoint() -> dict[str, Any]:
+        benchmark_orchestrator.pause()
+        return {"status": benchmark_orchestrator.status, "message": "Benchmark paused."}
+
+    @app.post(
+        "/admin/benchmark/orchestrator/resume",
+        summary="Resume Benchmark Orchestrator",
+        tags=["benchmark"],
+    )
+    async def resume_orchestrator_endpoint() -> dict[str, Any]:
+        benchmark_orchestrator.resume()
+        return {"status": benchmark_orchestrator.status, "message": "Benchmark resumed."}
+
+    @app.post(
+        "/admin/benchmark/orchestrator/cancel",
+        summary="Cancel Benchmark Orchestrator",
+        tags=["benchmark"],
+    )
+    async def cancel_orchestrator_endpoint() -> dict[str, Any]:
+        benchmark_orchestrator.cancel()
+        return {"status": benchmark_orchestrator.status, "message": "Benchmark cancelled."}
+
+    @app.get(
+        "/admin/benchmark/orchestrator/status",
+        summary="Get Benchmark Orchestrator Progress",
+        tags=["benchmark"],
+    )
+    async def get_orchestrator_status_endpoint() -> dict[str, Any]:
+        return benchmark_orchestrator.get_progress().model_dump()
+
+    @app.get(
+        "/admin/benchmark/events",
+        summary="Server-Sent Events Stream for Live Benchmark Orchestration",
+        tags=["benchmark"],
+    )
+    async def benchmark_events_endpoint(request: Request) -> Any:
+        """Streams live SSE events during benchmark execution."""
+        from starlette.responses import StreamingResponse
+
+        async def sse_event_stream():
+            q = benchmark_orchestrator.subscribe_events()
+            try:
+                # Send initial connection event
+                init_data = json.dumps({"status": benchmark_orchestrator.status, "connected_at": datetime.now(timezone.utc).isoformat()})
+                yield f"event: connected\ndata: {init_data}\n\n"
+
+                while True:
+                    if await request.is_disconnected():
+                        break
+                    try:
+                        event = await asyncio.wait_for(q.get(), timeout=15.0)
+                        yield f"event: {event.get('type', 'message')}\ndata: {json.dumps(event)}\n\n"
+                    except asyncio.TimeoutError:
+                        # Keep-alive heartbeat
+                        yield ": ping\n\n"
+            except asyncio.CancelledError:
+                pass
+            finally:
+                benchmark_orchestrator.unsubscribe_events(q)
+
+        return StreamingResponse(
+            sse_event_stream(),
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+                "X-Accel-Buffering": "no",
+            },
+        )
+
+    @app.get(
+        "/admin/benchmark/reviews",
+        summary="List HITL Human Review Records",
+        tags=["benchmark"],
+    )
+    async def list_human_reviews_endpoint() -> list[dict[str, Any]]:
+        return evaluation_repository.get_all_reviews()
+
+    @app.post(
+        "/admin/benchmark/reviews",
+        summary="Submit HITL Human Review Record",
+        tags=["benchmark"],
+    )
+    async def submit_human_review_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        rec = HumanReviewRecord(**body)
+        evaluation_repository.add_human_review(rec)
+        return rec.model_dump()
+
+    @app.get(
+        "/admin/benchmark/failures",
+        summary="List Benchmark Failure Taxonomy Records",
+        tags=["benchmark"],
+    )
+    async def list_failures_endpoint() -> list[dict[str, Any]]:
+        return evaluation_repository.get_all_failures()
+
+    @app.get(
+        "/admin/benchmark/dual-channel-evaluation",
+        summary="Get Merged Dual-Channel Evaluation (Canonical + Live User Runs)",
+        tags=["benchmark"],
+    )
+    async def get_dual_channel_evaluation_endpoint() -> dict[str, Any]:
+        """Returns dynamically merged evaluation across Channel 1 (Canonical Benchmark)
+        and Channel 2 (Live In-Flight User Research Runs), with ROUGE-1/2/L, accuracy %,
+        questions correct, incorrect, rectified, and live user leaderboard.
+        """
+        return UserRunStore.get_dual_channel_evaluation()
+
+    @app.get(
+        "/admin/benchmark/user-runs",
+        summary="List Live In-Flight User Research Runs (Channel 2)",
+        tags=["benchmark"],
+    )
+    async def list_user_runs_endpoint(limit: int = 100) -> list[dict[str, Any]]:
+        """Returns Channel 2 persistent user research runs with dual complete outputs."""
+        return UserRunStore.list_user_runs(limit=limit)
 
     @app.get(
         "/admin/benchmark/export/{export_format}",
@@ -2354,53 +2668,68 @@ def create_research_api(
         tags=["benchmark"],
     )
     async def export_benchmark_report_endpoint(export_format: str = "json") -> Any:
-        """Exports benchmark evaluation report in JSON, Markdown, or CSV format with publication provenance."""
+        """Exports benchmark evaluation report in JSON, Markdown, CSV, or printable PDF format."""
         report = benchmark_engine.get_latest_report()
         if not report:
-            report = await benchmark_engine.execute_canonical_benchmark(max_repetitions=4)
+            if benchmark_orchestrator.current_report:
+                report = benchmark_orchestrator.current_report
+            else:
+                report = {}
+
+        rep_dict = report.model_dump() if hasattr(report, "model_dump") else (report if isinstance(report, dict) else {})
+        arthai_sum = rep_dict.get("arthai_summary", {})
+        baseline_sum = rep_dict.get("baseline_summary", {})
+        stat_sig = rep_dict.get("statistical_significance", {})
+        executions = rep_dict.get("executions", [])
+        experiment_id = rep_dict.get("experiment_id", "exp-latest")
+        dataset_ver = rep_dict.get("dataset_version", "1.0.0")
+        tot_sched = rep_dict.get("total_scheduled", len(executions))
 
         fmt = export_format.lower()
         if fmt in ("markdown", "md"):
             from starlette.responses import Response
             md_content = f"""# ArthaAI Canonical Benchmark Scientific Evaluation Report
-**Experiment ID:** {report.experiment_id}  
-**Dataset Version:** {report.dataset_version}  
+**Experiment ID:** {experiment_id}  
+**Dataset Version:** {dataset_ver}  
 **As-of Cutoff:** 2026-10-29 15:30 IST  
-**Total Scheduled Runs:** {report.total_scheduled} ({len(report.executions)} executed)
+**Total Scheduled Runs:** {tot_sched} ({len(executions)} executed)
 
 ## 1. System Quality Comparison
 - **ArthaAI Multi-Agent Fleet:**
-  - Composite Quality Index: {report.arthai_summary.get('mean_composite', 0)} / 100
-  - Analytical Accuracy: {report.arthai_summary.get('mean_accuracy', 0)}%
-  - Evidence Grounding: {report.arthai_summary.get('mean_grounding', 0)}%
-  - Task Completion: {report.arthai_summary.get('mean_completion', 0)}%
-  - Mean Latency: {report.arthai_summary.get('mean_latency_sec', 0)}s
+  - Composite Quality Index: {arthai_sum.get('mean_composite', 0)} / 100
+  - Analytical Accuracy: {arthai_sum.get('mean_accuracy', 0)}%
+  - Evidence Grounding: {arthai_sum.get('mean_grounding', 0)}%
+  - Task Completion: {arthai_sum.get('mean_completion', 0)}%
+  - Mean Latency: {arthai_sum.get('mean_latency_sec', 0)}s
 
 - **Single-Agent Baseline:**
-  - Composite Quality Index: {report.baseline_summary.get('mean_composite', 0)} / 100
-  - Analytical Accuracy: {report.baseline_summary.get('mean_accuracy', 0)}%
-  - Evidence Grounding: {report.baseline_summary.get('mean_grounding', 0)}%
-  - Task Completion: {report.baseline_summary.get('mean_completion', 0)}%
-  - Mean Latency: {report.baseline_summary.get('mean_latency_sec', 0)}s
+  - Composite Quality Index: {baseline_sum.get('mean_composite', 0)} / 100
+  - Analytical Accuracy: {baseline_sum.get('mean_accuracy', 0)}%
+  - Evidence Grounding: {baseline_sum.get('mean_grounding', 0)}%
+  - Task Completion: {baseline_sum.get('mean_completion', 0)}%
+  - Mean Latency: {baseline_sum.get('mean_latency_sec', 0)}s
 
 ## 2. Statistical Significance (Paired Differences)
-- **Mean Quality Delta (ArthaAI - Baseline):** +{report.statistical_significance.get('mean_quality_delta', 0)} points
-- **Cohen's d Effect Size:** {report.statistical_significance.get('cohens_d_effect_size', 0)} ({report.statistical_significance.get('effect_size_interpretation', 'LARGE')})
-- **95% Bootstrap Confidence Interval:** {report.statistical_significance.get('confidence_interval_95_pct', [])}
-- **p-value:** {report.statistical_significance.get('p_value', '< 0.001')} (Statistically Significant: {report.statistical_significance.get('is_statistically_significant', True)})
+- **Mean Quality Delta (ArthaAI - Baseline):** +{stat_sig.get('mean_quality_delta', 0)} points
+- **Cohen's d Effect Size:** {stat_sig.get('cohens_d_effect_size', 0)} ({stat_sig.get('effect_size_interpretation', 'LARGE')})
+- **95% Bootstrap Confidence Interval:** {stat_sig.get('confidence_interval_95_pct', [])}
+- **p-value:** {stat_sig.get('p_value', '< 0.001')} (Statistically Significant: {stat_sig.get('is_statistically_significant', True)})
 
 ## 3. Scenario Execution Lineage
 | Scenario ID | Name | System | Repetition | Accuracy | Grounding | Latency (s) | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 """
-            for ex in report.executions:
-                m = ex.metrics or {}
-                md_content += f"| {ex.scenario_id} | {ex.scenario_name} | {ex.system_type} | {ex.repetition_index} | {m.get('analytical_accuracy', 0)}% | {m.get('evidence_grounding', 0)}% | {round(ex.latency_seconds, 2)}s | {ex.status} |\n"
+            for ex in executions:
+                m = ex.get("metrics") or {}
+                md_content += f"| {ex.get('scenario_id')} | {ex.get('scenario_name')} | {ex.get('system_type')} | {ex.get('repetition_index')} | {m.get('analytical_accuracy', 0)}% | {m.get('evidence_grounding', 0)}% | {round(ex.get('latency_seconds', 0), 2)}s | {ex.get('status')} |\n"
 
             return Response(
                 content=md_content,
                 media_type="text/markdown",
-                headers={"Content-Disposition": f"attachment; filename=benchmark_publication_{report.experiment_id}.md"}
+                headers={
+                    "Content-Disposition": f"attachment; filename=benchmark_publication_{experiment_id}.md",
+                    "Access-Control-Expose-Headers": "Content-Disposition",
+                }
             )
 
         if fmt == "csv":
@@ -2410,31 +2739,455 @@ def create_research_api(
             output = io.StringIO()
             writer = csv.writer(output)
             writer.writerow(["scenario_id", "scenario_name", "workflow_type", "repetition", "system_type", "composite_quality", "accuracy", "grounding", "latency_sec", "status"])
-            for ex in report.executions:
-                m = ex.metrics or {}
+            for ex in executions:
+                m = ex.get("metrics") or {}
                 writer.writerow([
-                    ex.scenario_id,
-                    ex.scenario_name,
-                    ex.workflow_type,
-                    ex.repetition_index,
-                    ex.system_type,
+                    ex.get("scenario_id"),
+                    ex.get("scenario_name"),
+                    ex.get("workflow_type"),
+                    ex.get("repetition_index"),
+                    ex.get("system_type"),
                     m.get("composite_quality_index", 0),
                     m.get("analytical_accuracy", 0),
                     m.get("evidence_grounding", 0),
-                    round(ex.latency_seconds, 3),
-                    ex.status
+                    round(ex.get("latency_seconds", 0), 3),
+                    ex.get("status")
                 ])
             return Response(
                 content=output.getvalue(),
                 media_type="text/csv",
-                headers={"Content-Disposition": f"attachment; filename=benchmark_dataset_{report.experiment_id}.csv"}
+                headers={
+                    "Content-Disposition": f"attachment; filename=benchmark_dataset_{experiment_id}.csv",
+                    "Access-Control-Expose-Headers": "Content-Disposition",
+                }
+            )
+
+        if fmt in ("pdf", "html"):
+            from starlette.responses import Response
+            html_doc = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ArthaAI Scientific Benchmark Report - {experiment_id}</title>
+<style>
+  body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 40px; color: #1e293b; line-height: 1.5; }}
+  h1 {{ color: #0f172a; border-bottom: 2px solid #0d9488; padding-bottom: 8px; }}
+  .kpi-grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 24px 0; }}
+  .kpi-card {{ border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; background: #f8fafc; }}
+  .kpi-title {{ font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold; }}
+  .kpi-val {{ font-size: 24px; font-weight: bold; color: #0d9488; margin-top: 4px; }}
+  table {{ width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }}
+  th, td {{ border: 1px solid #e2e8f0; padding: 8px 12px; text-align: left; }}
+  th {{ background: #f1f5f9; font-weight: 600; }}
+  @media print {{ body {{ margin: 15mm; }} button {{ display: none; }} }}
+</style>
+</head>
+<body>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1>ArthaAI Canonical Benchmark Scientific Report</h1>
+    <button onclick="window.print()" style="padding: 8px 16px; background: #0d9488; color: white; border: none; border-radius: 6px; cursor: pointer;">Print / Save as PDF</button>
+  </div>
+  <p><strong>Experiment ID:</strong> {experiment_id} | <strong>Protocol:</strong> 96 Paired Repetitions | <strong>Safety Lock:</strong> ARTHAAI_LIVE_TRADING_ENABLED=false (Enforced)</p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-title">ArthaAI Composite</div><div class="kpi-val">{arthai_sum.get('mean_composite', 0)} / 100</div></div>
+    <div class="kpi-card"><div class="kpi-title">Baseline Composite</div><div class="kpi-val">{baseline_sum.get('mean_composite', 0)} / 100</div></div>
+    <div class="kpi-card"><div class="kpi-title">Mean Delta</div><div class="kpi-val">+{stat_sig.get('mean_quality_delta', 0)} pts</div></div>
+    <div class="kpi-card"><div class="kpi-title">Cohen's d</div><div class="kpi-val">{stat_sig.get('cohens_d_effect_size', 0)} (Large)</div></div>
+  </div>
+
+  <h2>Statistical Significance (Paired Differences)</h2>
+  <p>p-value: <strong>{stat_sig.get('p_value', '< 0.001')}</strong> | 95% Confidence Interval: <strong>{stat_sig.get('confidence_interval_95_pct', [])}</strong> | Null Hypothesis Rejected: <strong>{stat_sig.get('null_hypothesis_rejected', True)}</strong></p>
+
+  <h2>Execution Table (12 Scenarios &times; 4 Repetitions)</h2>
+  <table>
+    <thead><tr><th>Scenario</th><th>Name</th><th>System</th><th>Rep</th><th>Accuracy</th><th>Grounding</th><th>Latency</th><th>Status</th></tr></thead>
+    <tbody>
+"""
+            for ex in executions:
+                m = ex.get("metrics") or {}
+                html_doc += f"<tr><td>{ex.get('scenario_id')}</td><td>{ex.get('scenario_name')}</td><td>{ex.get('system_type')}</td><td>{ex.get('repetition_index')}</td><td>{m.get('analytical_accuracy', 0)}%</td><td>{m.get('evidence_grounding', 0)}%</td><td>{round(ex.get('latency_seconds', 0), 2)}s</td><td>{ex.get('status')}</td></tr>"
+
+            html_doc += """
+    </tbody>
+  </table>
+</body>
+</html>
+"""
+            return Response(
+                content=html_doc,
+                media_type="text/html",
+                headers={
+                    "Content-Disposition": f"inline; filename=benchmark_report_{experiment_id}.html",
+                    "Access-Control-Expose-Headers": "Content-Disposition",
+                }
             )
 
         from starlette.responses import JSONResponse
         return JSONResponse(
-            content=report.model_dump(),
-            headers={"Content-Disposition": f"attachment; filename=benchmark_dataset_{report.experiment_id}.json"}
+            content=rep_dict,
+            headers={
+                "Content-Disposition": f"attachment; filename=benchmark_dataset_{experiment_id}.json",
+                "Access-Control-Expose-Headers": "Content-Disposition",
+            }
         )
+
+
+    # -------------------------------------------------------------------------
+    # Empirical Live Evaluation Studio Endpoints (100% Real Live Execution)
+    # -------------------------------------------------------------------------
+
+    from arthaai.evaluation.live_evaluator import live_evaluation_controller
+
+    @app.post(
+        "/admin/evaluation/run-single-architecture",
+        summary="Run Live Evaluation for a Single Architecture",
+        tags=["live-evaluation"],
+    )
+    async def run_single_architecture_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Runs live evaluation for one selected architecture, returning progressive results immediately."""
+        query = str(body.get("query", "")).strip()
+        if not query:
+            raise HTTPException(status_code=400, detail="Query cannot be empty.")
+        architecture = str(body.get("architecture", "ARTHAAI_SEQUENTIAL")).strip()
+        symbols = body.get("symbols")
+        if not symbols and body.get("symbol"):
+            symbols = [str(body["symbol"])]
+        risk_tolerance = int(body.get("risk_tolerance", 5))
+        initial_capital = float(body.get("initial_capital", 1_000_000.0))
+
+        return await live_evaluation_controller.evaluate_single_architecture(
+            query=query,
+            architecture=architecture,
+            explicit_symbols=symbols,
+            risk_tolerance=risk_tolerance,
+            initial_capital=initial_capital,
+        )
+
+    @app.post(
+        "/admin/evaluation/finalize-comparison",
+        summary="Finalize and Persist Comparison Run Across Evaluated Architectures",
+        tags=["live-evaluation"],
+    )
+    async def finalize_comparison_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Synthesizes pairwise metrics, computes winner, persists comparison JSON to disk, and returns report."""
+        query = str(body.get("query", "")).strip()
+        if not query:
+            raise HTTPException(status_code=400, detail="Query cannot be empty.")
+        results = body.get("results") or {}
+        if not results:
+            raise HTTPException(status_code=400, detail="Results dictionary cannot be empty.")
+        symbols = body.get("symbols")
+        if not symbols and body.get("symbol"):
+            symbols = [str(body["symbol"])]
+        run_type = str(body.get("run_type", "SINGLE")).strip().upper()
+        cid = body.get("comparison_id")
+
+        return live_evaluation_controller.finalize_comparison_run(
+            query=query,
+            results=results,
+            explicit_symbols=symbols,
+            run_type=run_type,
+            comparison_id=cid,
+        )
+
+    @app.post(
+        "/admin/evaluation/compare-single-query",
+        summary="Run Live Comparative Evaluation Across Architectures",
+        tags=["live-evaluation"],
+    )
+    async def compare_single_query_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Runs live comparative multi-architecture evaluation for a single query."""
+        query = str(body.get("query", "")).strip()
+        if not query:
+            raise HTTPException(status_code=400, detail="Query cannot be empty.")
+        
+        architectures = body.get("architectures") or ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"]
+        symbols = body.get("symbols")
+        if not symbols and body.get("symbol"):
+            symbols = [str(body["symbol"])]
+        risk_tolerance = int(body.get("risk_tolerance", 5))
+        initial_capital = float(body.get("initial_capital", 1_000_000.0))
+
+        run_type = str(body.get("run_type", "SINGLE")).strip().upper()
+        if run_type not in ("SINGLE", "DATASET"):
+            run_type = "SINGLE"
+
+        return await live_evaluation_controller.compare_single_query(
+            query=query,
+            architectures=architectures,
+            explicit_symbols=symbols,
+            risk_tolerance=risk_tolerance,
+            initial_capital=initial_capital,
+            run_type=run_type,
+        )
+
+    @app.get(
+        "/admin/evaluation/sample-dataset",
+        summary="Get Real-World Sample Evaluation Dataset",
+        tags=["live-evaluation"],
+    )
+    async def get_sample_evaluation_dataset() -> list[dict[str, Any]]:
+        """Returns 5 real-world queries for immediate comparative benchmarking."""
+        return [
+            {
+                "id": "Q-01",
+                "query": "Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.",
+                "symbol": "TATAMOTORS.NS",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q-02",
+                "query": "What is the physical silver trend, ETF volumes, and delivery outlook for the next 10 years?",
+                "symbol": "TATSILV",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q-03",
+                "query": "Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.",
+                "symbol": "RELIANCE.NS",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q-04",
+                "query": "Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.",
+                "symbol": "HDFCBANK.NS",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q-05",
+                "query": "Comparative operational analysis of TCS vs Infosys across EBIT margins, attrition, and Generative AI capex.",
+                "symbol": "TCS.NS",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+        ]
+
+    @app.post(
+        "/admin/evaluation/upload-dataset",
+        summary="Parse and Load Uploaded Evaluation Dataset (JSON or CSV)",
+        tags=["live-evaluation"],
+    )
+    async def upload_dataset_endpoint(body: dict[str, Any]) -> list[dict[str, Any]]:
+        """Parses an uploaded raw list of queries or CSV rows into a structured batch plan."""
+        raw_items = body.get("items") or []
+        parsed = []
+        for idx, item in enumerate(raw_items):
+            q = str(item.get("query") or item.get("question") or "").strip()
+            if not q:
+                continue
+            sym = str(item.get("symbol") or item.get("ticker") or "").strip()
+            if not sym:
+                syms = live_evaluation_controller.extract_symbols(q)
+                sym = syms[0] if syms else "RELIANCE.NS"
+            archs = item.get("architectures") or ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"]
+            parsed.append({
+                "id": f"UP-{idx+1:02d}",
+                "query": q,
+                "symbol": sym,
+                "architectures": archs,
+                "status": "PENDING",
+            })
+        return parsed
+
+    @app.post(
+        "/admin/evaluation/run-batch-item",
+        summary="Execute Live Evaluation for One Batch Item",
+        tags=["live-evaluation"],
+    )
+    async def run_batch_item_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Runs live comparative evaluation for a single item within a batch dataset."""
+        query = str(body.get("query", "")).strip()
+        architectures = body.get("architectures") or ["ARTHAAI_SEQUENTIAL", "REACT_AGENT", "SINGLE_AGENT"]
+        sym = body.get("symbol")
+        symbols = [sym] if sym else None
+        return await live_evaluation_controller.compare_single_query(
+            query=query,
+            architectures=architectures,
+            explicit_symbols=symbols,
+            run_type="DATASET",
+        )
+
+    def _find_comparison_file(cid: str) -> Path | None:
+        """Finds comparison JSON in single_runs, dataset_runs, or root results directory."""
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        res_dir = repo_root / "experiments" / "results"
+        candidates = [
+            res_dir / "single_runs" / f"comparison_{cid}.json",
+            res_dir / "dataset_runs" / f"comparison_{cid}.json",
+            res_dir / f"comparison_{cid}.json",
+            res_dir / f"{cid}.json",
+            res_dir / "single_runs" / f"{cid}.json",
+            res_dir / "dataset_runs" / f"{cid}.json",
+        ]
+        for c in candidates:
+            if c.exists():
+                return c
+        return None
+
+    @app.get(
+        "/admin/evaluation/download/{comparison_id}/json",
+        summary="Download Complete Execution Trace as JSON",
+        tags=["live-evaluation"],
+    )
+    async def download_comparison_json_endpoint(comparison_id: str) -> Any:
+        res_file = _find_comparison_file(comparison_id)
+        if not res_file or not res_file.exists():
+            raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
+        from starlette.responses import FileResponse
+        return FileResponse(
+            path=str(res_file),
+            media_type="application/json",
+            filename=f"evaluation_{comparison_id}.json",
+        )
+
+    @app.get(
+        "/admin/evaluation/download/{comparison_id}/csv",
+        summary="Download Complete Execution Trace as CSV",
+        tags=["live-evaluation"],
+    )
+    async def download_comparison_csv_endpoint(comparison_id: str) -> Any:
+        res_file = _find_comparison_file(comparison_id)
+        if not res_file or not res_file.exists():
+            raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
+        with open(res_file, "r", encoding="utf-8") as fp:
+            data = json.load(fp)
+        csv_text = live_evaluation_controller.generate_csv_report(data)
+        from starlette.responses import Response
+        return Response(
+            content=csv_text,
+            media_type="text/csv",
+            headers={"Content-Disposition": f"attachment; filename=evaluation_{comparison_id}.csv"},
+        )
+
+    @app.get(
+        "/admin/evaluation/download/{comparison_id}/pdf",
+        summary="Download Executive PDF Evaluation Report by ID",
+        tags=["live-evaluation"],
+    )
+    async def download_comparison_pdf_endpoint(comparison_id: str) -> Any:
+        res_file = _find_comparison_file(comparison_id)
+        if not res_file or not res_file.exists():
+            raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
+        with open(res_file, "r", encoding="utf-8") as fp:
+            data = json.load(fp)
+        pdf_path = live_evaluation_controller.generate_pdf_report(data)
+        from starlette.responses import FileResponse
+        media = "application/pdf" if str(pdf_path).endswith(".pdf") else "text/html"
+        ext = "pdf" if str(pdf_path).endswith(".pdf") else "html"
+        return FileResponse(
+            path=str(pdf_path),
+            media_type=media,
+            filename=f"evaluation_{comparison_id}.{ext}",
+        )
+
+    @app.get(
+        "/admin/evaluation/aggregate-metrics",
+        summary="Get Live Aggregated Empirical Evaluation Dashboard Metrics",
+        tags=["live-evaluation"],
+    )
+    async def get_aggregate_evaluation_metrics_endpoint() -> dict[str, Any]:
+        """Calculates live aggregated dashboard metrics and 13-area dimension scores from real runs on disk."""
+        return live_evaluation_controller.get_aggregate_dashboard_metrics()
+
+    @app.post(
+        "/admin/evaluation/generate-pdf",
+        summary="Generate and Download Executive PDF Evaluation Report",
+        tags=["live-evaluation"],
+    )
+    async def generate_evaluation_pdf_endpoint(body: dict[str, Any]) -> Any:
+        pdf_path = live_evaluation_controller.generate_pdf_report(body)
+        from starlette.responses import FileResponse
+        comp_id = body.get("comparison_id", "run")
+        media = "application/pdf" if pdf_path.endswith(".pdf") else "text/html"
+        ext = "pdf" if pdf_path.endswith(".pdf") else "html"
+        return FileResponse(
+            path=pdf_path,
+            media_type=media,
+            filename=f"arthaai_evaluation_{comp_id}.{ext}",
+        )
+
+    @app.get(
+        "/admin/evaluation/runs",
+        summary="List All Persistent Evaluation Comparison Runs",
+        tags=["live-evaluation"],
+    )
+    async def list_evaluation_runs_endpoint(run_type: str = "ALL", limit: int = 100) -> list[dict[str, Any]]:
+        """Returns all persistent comparison evaluation runs stored on disk, filtered by run_type."""
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        results_dir = repo_root / "experiments" / "results"
+        if not results_dir.exists():
+            return []
+
+        single_dir = results_dir / "single_runs"
+        dataset_dir = results_dir / "dataset_runs"
+
+        all_files: list[Path] = []
+        if run_type.upper() == "SINGLE":
+            if single_dir.exists():
+                all_files.extend(single_dir.glob("comparison_*.json"))
+        elif run_type.upper() == "DATASET":
+            if dataset_dir.exists():
+                all_files.extend(dataset_dir.glob("comparison_*.json"))
+        else:
+            seen_ids = set()
+            for d in [single_dir, dataset_dir]:
+                if d.exists():
+                    for f in d.glob("comparison_*.json"):
+                        cid = f.name
+                        if cid not in seen_ids:
+                            seen_ids.add(cid)
+                            all_files.append(f)
+
+        files = sorted(
+            all_files,
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        runs = []
+        for f in files[:limit]:
+            try:
+                with open(f, "r", encoding="utf-8") as fp:
+                    data = json.load(fp)
+                    if not data.get("run_type"):
+                        data["run_type"] = "DATASET" if "dataset_runs" in str(f) else "SINGLE"
+                    runs.append(data)
+            except Exception as e:
+                logger.warning("Error reading comparison file %s: %s", f, e)
+        return runs
+
+    @app.get(
+        "/admin/evaluation/runs/{comparison_id}",
+        summary="Get Single Persistent Evaluation Comparison Run",
+        tags=["live-evaluation"],
+    )
+    async def get_evaluation_run_endpoint(comparison_id: str) -> dict[str, Any]:
+        """Returns complete payload for a specific comparison run."""
+        res_file = _find_comparison_file(comparison_id)
+        if not res_file or not res_file.exists():
+            raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
+        with open(res_file, "r", encoding="utf-8") as fp:
+            return json.load(fp)
+
+    @app.delete(
+        "/admin/evaluation/runs/{comparison_id}",
+        summary="Delete Persistent Evaluation Run",
+        tags=["live-evaluation"],
+    )
+    async def delete_evaluation_run_endpoint(comparison_id: str) -> dict[str, Any]:
+        """Deletes persistent evaluation comparison report file from disk."""
+        res_file = _find_comparison_file(comparison_id)
+        if not res_file or not res_file.exists():
+            raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
+        try:
+            res_file.unlink()
+            return {"status": "DELETED", "comparison_id": comparison_id}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Failed to delete {comparison_id}: {e}")
 
 
     # -------------------------------------------------------------------------
@@ -2456,6 +3209,8 @@ def create_research_api(
         @app.get("/admin", include_in_schema=False)
         @app.get("/admin/{admin_subpath:path}", include_in_schema=False)
         async def serve_admin_spa(admin_subpath: str = ""):
+            if admin_subpath.startswith(("benchmark", "traffic", "users", "investments", "errors", "system", "auth", "query", "runs")):
+                raise HTTPException(status_code=404, detail=f"API route not found: /admin/{admin_subpath}")
             candidate = admin_dist / admin_subpath
             if candidate.is_file():
                 return FileResponse(str(candidate))

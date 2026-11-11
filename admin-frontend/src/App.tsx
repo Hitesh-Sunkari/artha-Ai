@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Activity,
   Cpu,
@@ -111,12 +111,19 @@ export type AdminSubTab =
   | 'trace_export';
 
 export const App: React.FC = () => {
-  const [activeSubTab, setActiveSubTab] = useState<AdminSubTab>('overview');
+  const [activeSubTab, setActiveSubTab] = useState<AdminSubTab>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlTab = params.get('tab') as AdminSubTab | null;
+    if (urlTab && ['overview', 'audit', 'benchmark', 'fleet', 'traffic', 'users', 'investments'].includes(urlTab)) {
+      return urlTab;
+    }
+    return 'overview';
+  });
   
   // Segmented sub-navigation states within each priority console
   const [overviewSubView, setOverviewSubView] = useState<'matrix' | 'traffic' | 'users' | 'investments' | 'rectification'>('matrix');
   const [auditFilter, setAuditFilter] = useState<'all' | 'query' | 'normal'>('all');
-  const [benchmarkSubView, setBenchmarkSubView] = useState<'studio' | 'continuous' | 'trace'>('studio');
+  const [benchmarkSubView, setBenchmarkSubView] = useState<'overview' | 'live_trace' | 'boxplots' | 'rag_eval' | 'economics' | 'quality_reports'>('overview');
   const [fleetSubView, setFleetSubView] = useState<'topology' | 'telemetry' | 'databank' | 'diagnostics'>('topology');
 
   // Theme Controller: Persistent Dark / Light Mode
@@ -183,6 +190,7 @@ export const App: React.FC = () => {
   const [readiness, setReadiness] = useState<ReadinessResponse | null>(null);
   const [healthOk, setHealthOk] = useState<boolean | null>(null);
   const [pingLatency, setPingLatency] = useState<number | null>(null);
+  const failedHealthPingsRef = useRef(0);
   const [testingConnection, setTestingConnection] = useState(false);
   const [testResult, setTestResult] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -328,20 +336,42 @@ export const App: React.FC = () => {
   const fetchDiagnostics = async () => {
     const start = performance.now();
     try {
-      const healthRes = await fetch(`${getApiBaseUrl()}/health`, { signal: AbortSignal.timeout(3000) });
-      const lat = Math.round(performance.now() - start);
-      setPingLatency(lat);
-      setHealthOk(healthRes.ok);
+      const baseUrl = getApiBaseUrl();
+      let healthRes: Response | null = null;
+      try {
+        healthRes = await fetch(`${baseUrl}/health`, { signal: AbortSignal.timeout(6000) });
+      } catch {
+        // Fallback to relative /health (via Vite dev proxy)
+        if (baseUrl) {
+          healthRes = await fetch('/health', { signal: AbortSignal.timeout(6000) }).catch(() => null);
+        }
+      }
 
-      const [statusData, readyData] = await Promise.all([
-        api.getSystemStatus().catch(() => null),
-        api.getReadiness().catch(() => null),
-      ]);
-      if (statusData) setStatus(statusData);
-      if (readyData) setReadiness(readyData);
+      if (healthRes && healthRes.ok) {
+        failedHealthPingsRef.current = 0;
+        const lat = Math.round(performance.now() - start);
+        setPingLatency(lat);
+        setHealthOk(true);
+
+        const [statusData, readyData] = await Promise.all([
+          api.getSystemStatus().catch(() => null),
+          api.getReadiness().catch(() => null),
+        ]);
+        if (statusData) setStatus(statusData);
+        if (readyData) setReadiness(readyData);
+      } else {
+        failedHealthPingsRef.current += 1;
+        if (failedHealthPingsRef.current >= 5) {
+          setHealthOk(false);
+          setPingLatency(null);
+        }
+      }
     } catch {
-      setHealthOk(false);
-      setPingLatency(null);
+      failedHealthPingsRef.current += 1;
+      if (failedHealthPingsRef.current >= 5) {
+        setHealthOk(false);
+        setPingLatency(null);
+      }
     }
   };
 
@@ -456,6 +486,8 @@ export const App: React.FC = () => {
     try {
       const data = await api.getTrafficTelemetry();
       setTrafficData(data);
+      setHealthOk(true);
+      failedHealthPingsRef.current = 0;
     } catch {} finally {
       setTrafficLoading(false);
     }
@@ -466,6 +498,8 @@ export const App: React.FC = () => {
     try {
       const data = await api.getUsersSurveillance();
       if (Array.isArray(data)) setUsersData(data);
+      setHealthOk(true);
+      failedHealthPingsRef.current = 0;
     } catch {} finally {
       setUsersLoading(false);
     }
@@ -476,6 +510,8 @@ export const App: React.FC = () => {
     try {
       const data = await api.getInvestmentsSurveillance();
       setInvestmentsData(data);
+      setHealthOk(true);
+      failedHealthPingsRef.current = 0;
     } catch {} finally {
       setInvestmentsLoading(false);
     }
@@ -498,16 +534,18 @@ export const App: React.FC = () => {
 
   // Periodic Real-Time Polling for Surveillance (every 3.5 seconds)
   useEffect(() => {
+    fetchDiagnostics();
     fetchTraffic();
     fetchUsers();
     fetchInvestments();
     fetchErrors();
     const pollTimer = setInterval(() => {
+      fetchDiagnostics();
       fetchTraffic();
       fetchUsers();
       fetchInvestments();
       fetchErrors();
-    }, 3500);
+    }, 4000);
     return () => clearInterval(pollTimer);
   }, []);
 
@@ -640,7 +678,7 @@ export const App: React.FC = () => {
           id: 'benchmark' as AdminSubTab,
           label: '3. Benchmark & Eval Studio',
           icon: FlaskConical,
-          count: '12 Scenarios',
+          count: '40 Scenarios',
         },
       ],
     },
@@ -3008,93 +3046,10 @@ export const App: React.FC = () => {
           ══════════════════════════════════════════════════════════════════ */}
           {(activeSubTab === 'benchmark' || activeSubTab === 'evaluation' || activeSubTab === 'eval_studio' || activeSubTab === 'continuous_eval' || activeSubTab === 'trace_export') && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '1440px', width: '100%', margin: '0 auto' }}>
-              {/* Segmented Sub-Navigation Bar */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: 'var(--bg-card)',
-                  padding: '6px 10px',
-                  borderRadius: '12px',
-                  border: '1px solid var(--border-subtle)',
-                  overflowX: 'auto',
-                }}
-              >
-                <button
-                  onClick={() => setBenchmarkSubView('studio')}
-                  style={{
-                    padding: '7px 14px',
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                    backgroundColor: benchmarkSubView === 'studio' ? 'var(--groww-green)' : 'transparent',
-                    color: benchmarkSubView === 'studio' ? '#0F1217' : 'var(--text-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  <FlaskConical size={14} />
-                  <span>12-Scenario Benchmark Studio</span>
-                </button>
-
-                <button
-                  onClick={() => setBenchmarkSubView('continuous')}
-                  style={{
-                    padding: '7px 14px',
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                    backgroundColor: benchmarkSubView === 'continuous' ? 'var(--groww-green)' : 'transparent',
-                    color: benchmarkSubView === 'continuous' ? '#0F1217' : 'var(--text-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  <ShieldCheck size={14} />
-                  <span>Continuous In-Flight Eval</span>
-                </button>
-
-                <button
-                  onClick={() => setBenchmarkSubView('trace')}
-                  style={{
-                    padding: '7px 14px',
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    border: 'none',
-                    cursor: 'pointer',
-                    backgroundColor: benchmarkSubView === 'trace' ? 'var(--groww-green)' : 'transparent',
-                    color: benchmarkSubView === 'trace' ? '#0F1217' : 'var(--text-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    transition: 'all 0.15s ease',
-                  }}
-                >
-                  <FileCheck2 size={14} />
-                  <span>Publication Exports & Trace Lineage</span>
-                </button>
-              </div>
-
-              {benchmarkSubView === 'studio' && (
-                <BenchmarkStudioView
-                  onNavigateToContinuous={() => setBenchmarkSubView('continuous')}
-                  onNavigateToTrace={() => setBenchmarkSubView('trace')}
-                />
-              )}
-
-              {benchmarkSubView === 'continuous' && <ContinuousEvalView />}
-
-              {benchmarkSubView === 'trace' && <TraceExportView />}
+              <BenchmarkStudioView
+                activeTab={benchmarkSubView}
+                onTabChange={setBenchmarkSubView}
+              />
             </div>
           )}
 

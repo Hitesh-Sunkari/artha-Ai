@@ -22,12 +22,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-BENCHMARK_DATASET_PATH = REPO_ROOT / "experiments" / "datasets" / "arthaai_benchmark_v1.json"
+_v2_dataset = REPO_ROOT / "experiments" / "datasets" / "arthaai_benchmark_v2.json"
+BENCHMARK_DATASET_PATH = _v2_dataset if _v2_dataset.exists() else (REPO_ROOT / "experiments" / "datasets" / "arthaai_benchmark_v1.json")
 RUBRICS_PATH = REPO_ROOT / "experiments" / "reference_answers" / "rubrics_v1.json"
 RESULTS_DIR = REPO_ROOT / "experiments" / "results"
 
@@ -37,6 +38,7 @@ RESULTS_DIR = REPO_ROOT / "experiments" / "results"
 # ===========================================================================
 
 class MetricScores(BaseModel):
+    model_config = ConfigDict(extra="allow")
     analytical_accuracy: float = 0.0
     evidence_grounding: float = 0.0
     task_completion: float = 0.0
@@ -50,17 +52,18 @@ class MetricScores(BaseModel):
 
 
 class ExecutionRecord(BaseModel):
+    model_config = ConfigDict(extra="allow")
     execution_id: str = Field(default_factory=lambda: f"exec-{uuid.uuid4().hex[:8]}")
-    experiment_id: str
+    experiment_id: str = "exp-canon-v2-40scenarios"
     scenario_id: str
     scenario_name: str
-    workflow_type: str
-    repetition_index: int
-    system_type: str  # ARTHAAI_MULTI_AGENT | SINGLE_AGENT_BASELINE
+    workflow_type: str = "QUERY_RESEARCH"
+    repetition_index: int = 1
+    system_type: str  # ARTHAAI_MULTI_AGENT | REACT_AGENT_BASELINE | SINGLE_AGENT_BASELINE
     status: str = "COMPLETED"  # SUCCESS | FAILED | RETRIED
-    started_at: str
-    completed_at: str
-    latency_seconds: float
+    started_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    completed_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    latency_seconds: float = 0.0
     output: dict[str, Any] = Field(default_factory=dict)
     metrics: MetricScores = Field(default_factory=MetricScores)
     blackboard_events_count: int = 0
@@ -69,31 +72,33 @@ class ExecutionRecord(BaseModel):
 
 
 class PairedComparisonResult(BaseModel):
+    model_config = ConfigDict(extra="allow")
     scenario_id: str
     scenario_name: str
-    repetition_index: int
-    arthai_execution_id: str
-    baseline_execution_id: str
-    arthai_composite: float
-    baseline_composite: float
-    delta_composite: float
-    arthai_accuracy: float
-    baseline_accuracy: float
-    arthai_grounding: float
-    baseline_grounding: float
-    arthai_latency: float
-    baseline_latency: float
+    repetition_index: int = 1
+    arthai_execution_id: str = ""
+    baseline_execution_id: str = ""
+    arthai_composite: float = 0.0
+    baseline_composite: float = 0.0
+    delta_composite: float = 0.0
+    arthai_accuracy: float = 0.0
+    baseline_accuracy: float = 0.0
+    arthai_grounding: float = 0.0
+    baseline_grounding: float = 0.0
+    arthai_latency: float = 0.0
+    baseline_latency: float = 0.0
 
 
 class BenchmarkExperimentReport(BaseModel):
+    model_config = ConfigDict(extra="allow")
     experiment_id: str
     name: str = "ArthaAI vs Single-Agent Baseline Canonical Benchmark"
-    dataset_version: str = "1.0.0"
+    dataset_version: str = "2.0.0"
     status: str = "COMPLETED"
-    started_at: str
-    completed_at: str
-    total_scheduled: int = 96
-    completed_count: int = 0
+    started_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    completed_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    total_scheduled: int = 120
+    completed_count: int = 120
     failed_count: int = 0
     arthai_summary: dict[str, Any] = Field(default_factory=dict)
     baseline_summary: dict[str, Any] = Field(default_factory=dict)
@@ -231,26 +236,32 @@ class SingleAgentBaseline:
     """Executes scenarios through a solitary LLM agent without multi-agent coordination."""
 
     @staticmethod
-    async def run(scenario: dict[str, Any]) -> tuple[dict[str, Any], float]:
+    async def run(scenario: dict[str, Any], repetition: int = 1) -> tuple[dict[str, Any], float]:
         t0 = time.perf_counter()
-        # Single-agent direct synthesis simulating standard non-agentic prompt
         sym = scenario.get("target_symbols", ["RELIANCE.NS"])[0]
+        scen_id = scenario.get("scenario_id", "Q01")
         question = scenario.get("question", "")
 
-        # Deterministic simulation of single-agent response
-        await asyncio.sleep(0.08)  # Single LLM latency
-        elapsed = time.perf_counter() - t0 + random.uniform(1.8, 3.2)
+        from arthaai.evaluation.live_evaluator import LiveSingleAgentRunner
+        runner = LiveSingleAgentRunner()
+        exec_res = await runner.execute(query=question, symbol=sym)
 
+        elapsed = time.perf_counter() - t0
         output = {
             "system": "SINGLE_AGENT_BASELINE",
-            "scenario_id": scenario.get("scenario_id"),
+            "scenario_id": scen_id,
             "symbol": sym,
             "query": question,
-            "verdict": "BUY" if "growth" in question.lower() else "HOLD",
-            "conviction_score": 68,
-            "executive_synthesis": f"Baseline Single-Agent Analysis of {sym}: Trend shows moderate upward movement. Fundamental metrics remain neutral to positive with standard market risks.",
-            "source_provenance": ["DuckDB_OHLCV_Snapshot", "ChromaDB_Extract"],
-            "statutory_tax_drag": {"stt_rate_pct": 0.10, "effective_bps": 22.0},
+            "verdict": "HOLD" if exec_res.get("hallucination_rate", 0) > 15 else "ACCUMULATE",
+            "conviction_score": int(exec_res.get("analytical_accuracy", 65.0)),
+            "executive_synthesis": exec_res.get("output_text", ""),
+            "source_provenance": ["LLM_Prompt_Inference"],
+            "statutory_tax_drag": {
+                "stt_rate_pct": 0.10,
+                "effective_bps": 22.23,
+            },
+            "tokens_used": exec_res.get("tokens_used", 450),
+            "cost_usd": exec_res.get("cost_usd", 0.0004),
             "multi_agent_delegation": False,
         }
         return output, elapsed
@@ -321,8 +332,8 @@ class MasterBenchmarkEngine:
                     if execute_query_research:
                         multi_res = await execute_query_research(
                             query=scen["question"],
-                            target_symbols=scen.get("target_symbols", []),
-                            horizon_years=10 if "10" in scen["question"] else 5,
+                            explicit_symbols=scen.get("target_symbols", []),
+                            horizon_years_override=10 if "10" in scen["question"] else 5,
                         )
                         multi_output = multi_res.model_dump()
                     else:
@@ -534,18 +545,29 @@ class MasterBenchmarkEngine:
             logger.error("Failed to persist benchmark report: %s", e)
 
     def get_latest_report(self) -> BenchmarkExperimentReport | None:
-        if self._cached_report:
-            return self._cached_report
-        # Try loading most recent from disk
-        files = sorted(RESULTS_DIR.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-        if files:
+        # Load most recent canonical experiment file with executions
+        v2_path = RESULTS_DIR / "exp-canon-v2-40scenarios.json"
+        if v2_path.exists():
             try:
-                with open(files[0], "r", encoding="utf-8") as f:
+                with open(v2_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                    self._cached_report = BenchmarkExperimentReport(**data)
-                    return self._cached_report
-            except Exception:
-                pass
+                    if isinstance(data, dict) and data.get("experiment_id") and "executions" in data:
+                        return BenchmarkExperimentReport(**data)
+            except Exception as e:
+                logger.warning("Could not parse v2 report %s: %s", v2_path, e)
+
+        files = sorted(RESULTS_DIR.glob("exp-canon-*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+        # Prefer the newest completed canonical report with full coverage or largest run count
+        full_runs = [f for f in files if f.stat().st_size > 500000]
+        search_files = full_runs + [f for f in files if f not in full_runs] if full_runs else files
+        for fpath in search_files:
+            try:
+                with open(fpath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, dict) and data.get("experiment_id") and "executions" in data:
+                        return BenchmarkExperimentReport(**data)
+            except Exception as e:
+                logger.warning("Could not parse %s as BenchmarkExperimentReport: %s", fpath, e)
         return None
 
 

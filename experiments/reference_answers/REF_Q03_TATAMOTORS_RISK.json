@@ -1,0 +1,24 @@
+{
+  "scenario_id": "Q03",
+  "reference_id": "REF_Q03_TATAMOTORS_RISK",
+  "symbol": "TATAMOTORS.NS",
+  "verification_status": "VERIFIED",
+  "reference_metrics": {
+    "var_95_pct": -28.4,
+    "cvar_95_pct": -38.2,
+    "max_drawdown_pct": -34.8
+  },
+  "mandatory_evidence": [
+    "Empirical parametric VaR formula",
+    "Adversarial 2x volatility stress test"
+  ],
+  "prohibited_hallucinations": [
+    "Zero downside risk claims",
+    "Omission of cyclical automotive sector Beta"
+  ],
+  "acceptable_conclusions": [
+    "HOLD",
+    "ACCUMULATE_BASKET",
+    "HEDGE_RECOMMENDED"
+  ]
+}

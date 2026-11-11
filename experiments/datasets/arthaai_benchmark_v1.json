@@ -1,19 +1,34 @@
 {
   "benchmark_version": "1.0.0",
+  "name": "ArthaAI Canonical Financial Research Benchmark v1",
   "generated_at": "2026-11-09T12:00:00Z",
   "data_snapshot": "2026-10-29T15:30:00+05:30",
   "market_jurisdiction": "INDIA_NSE_BSE",
   "statutory_framework": "SEBI_LODR_2015_AND_FINANCE_ACT_2024",
   "total_scenarios": 12,
   "repetitions_per_scenario": 4,
+  "total_experimental_executions": 96,
+  "system_a": "ARTHAAI_MULTI_AGENT (7-Specialist Heterogeneous Fleet)",
+  "system_b": "SINGLE_AGENT_BASELINE (Solitary LLM with MCP Tools)",
   "scenarios": [
     {
       "scenario_id": "Q01",
-      "name": "Comprehensive Single-Stock 5Y Synthesis",
+      "name": "Comprehensive Single-Stock 5Y Research",
       "workflow_type": "QUERY_BASED",
-      "target_symbols": ["RELIANCE.NS"],
-      "question": "Conduct a comprehensive financial analysis of Reliance Industries using historical market performance, quantitative indicators, available financial statements, liquidity, and corporate evidence. Provide an evidence-backed conclusion.",
       "difficulty": "INTERMEDIATE",
+      "target_symbols": ["RELIANCE.NS"],
+      "question": "Conduct a comprehensive financial analysis of Reliance Industries using historical market performance, quantitative indicators, available financial statements, liquidity, and corporate evidence. Evaluate its momentum, volatility, liquidity, macroeconomic exposure, downside risks and evidence-supported investment outlook.",
+      "query_variations": [
+        "Provide a complete 5-year quantitative research synthesis on RELIANCE.NS including financial ratios, momentum indicators, Corwin-Schultz liquidity, and statutory tax drag.",
+        "Perform a multi-dimensional equity evaluation of Reliance Industries (RELIANCE.NS) covering valuation, volatility, balance sheet leverage, and downside risks.",
+        "Synthesize fundamental and technical analysis for RELIANCE.NS as of the historical snapshot with substantiated conviction."
+      ],
+      "input_parameters": {
+        "symbol": "RELIANCE.NS",
+        "horizon_years": 5,
+        "as_of_date": "2026-10-29",
+        "include_statutory_drag": true
+      },
       "required_subtasks": [
         "symbol_resolution",
         "historical_market_performance",
@@ -23,6 +38,15 @@
         "statutory_tax_drag_audit",
         "final_conviction_recommendation"
       ],
+      "expected_tools": [
+        "resolve_symbol",
+        "get_historical_ohlcv",
+        "calculate_moving_averages",
+        "calculate_realized_volatility",
+        "calculate_corwin_schultz_spread",
+        "calculate_statutory_costs"
+      ],
+      "reference_answer_id": "REF_Q01_RELIANCE_5Y",
       "numerical_invariants": {
         "anchor_close_inr": 1438.30,
         "sma_20d_inr": 1349.50,
@@ -30,15 +54,37 @@
         "statutory_stt_delivery_bps": 20.0,
         "statutory_roundtrip_friction_bps": 22.22
       },
-      "acceptable_conclusions": ["BUY", "ACCUMULATE_BASKET", "HOLD"]
+      "numerical_tolerances": {
+        "anchor_close_inr": 0.01,
+        "sma_20d_inr": 0.02,
+        "realized_volatility_annualized_pct": 0.05,
+        "statutory_roundtrip_friction_bps": 0.005
+      },
+      "acceptable_conclusions": ["BUY", "ACCUMULATE_BASKET", "HOLD"],
+      "unsupported_conclusions": ["STRONG_SELL", "SPECULATIVE_PUMP"],
+      "critical_error_conditions": [
+        "fabrication_of_closing_price",
+        "missing_statutory_tax_disclosure",
+        "lookahead_bias"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "Q02",
       "name": "Momentum and Volume Confirmation",
       "workflow_type": "QUERY_BASED",
+      "difficulty": "ADVANCED",
       "target_symbols": ["TATSILV", "SILVERBEES"],
       "question": "Determine whether recent physical silver price momentum is supported by trading volume and technical indicators. Distinguish genuine institutional accumulation from false breakouts.",
-      "difficulty": "ADVANCED",
+      "query_variations": [
+        "Analyze silver ETF/ETN instruments TATSILV and SILVERBEES for volume-confirmed momentum versus illiquid false breakout patterns.",
+        "Assess RSI-14, OBV, and volume distribution for domestic silver proxies to determine if momentum warrants accumulation."
+      ],
+      "input_parameters": {
+        "symbols": ["TATSILV", "SILVERBEES"],
+        "asset_class": "COMMODITY_ETF",
+        "indicators": ["RSI_14", "SMA_20", "VOLUME_TREND"]
+      },
       "required_subtasks": [
         "commodity_etf_resolution",
         "rsi_14d_calculation",
@@ -46,20 +92,47 @@
         "effective_spread_analysis",
         "commodity_statutory_drag_check"
       ],
+      "expected_tools": [
+        "resolve_symbol",
+        "get_historical_ohlcv",
+        "calculate_rsi",
+        "calculate_corwin_schultz_spread",
+        "calculate_statutory_costs"
+      ],
+      "reference_answer_id": "REF_Q02_SILVER_MOMENTUM",
       "numerical_invariants": {
         "rsi_14d": 58.2,
         "statutory_friction_drag_pct": 0.015,
         "is_commodity": true
       },
-      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"]
+      "numerical_tolerances": {
+        "rsi_14d": 0.03,
+        "statutory_friction_drag_pct": 0.01
+      },
+      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"],
+      "unsupported_conclusions": ["AGGRESSIVE_SHORT"],
+      "critical_error_conditions": [
+        "treating_commodity_etf_with_equity_stt_rates",
+        "failing_to_verify_volume_confirmation"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "Q03",
       "name": "Downside Risk and Volatility Stress Test",
       "workflow_type": "QUERY_BASED",
-      "target_symbols": ["TATAMOTORS.NS"],
-      "question": "Evaluate downside risk, historical volatility, maximum drawdown, and tail-risk exposure under a 2x macro volatility shock.",
       "difficulty": "ADVANCED",
+      "target_symbols": ["TATAMOTORS.NS"],
+      "question": "Evaluate downside risk, historical volatility, maximum drawdown, and tail-risk exposure for Tata Motors under a 2x macro volatility shock. Quantify VaR and CVaR.",
+      "query_variations": [
+        "Perform a stress-test downside risk evaluation on TATAMOTORS.NS calculating 95% Parametric VaR, Expected Shortfall, and historical maximum drawdown.",
+        "Quantify downside exposure for Tata Motors under severe equity drawdown scenarios and apply adversarial skeptic review."
+      ],
+      "input_parameters": {
+        "symbol": "TATAMOTORS.NS",
+        "confidence_level": 0.95,
+        "stress_multiplier": 2.0
+      },
       "required_subtasks": [
         "historical_volatility_measurement",
         "parametric_var_95_1y",
@@ -67,20 +140,46 @@
         "max_drawdown_calculation",
         "adversarial_skeptic_review"
       ],
+      "expected_tools": [
+        "get_historical_ohlcv",
+        "calculate_realized_volatility",
+        "calculate_max_drawdown",
+        "calculate_var_cvar"
+      ],
+      "reference_answer_id": "REF_Q03_TATAMOTORS_RISK",
       "numerical_invariants": {
         "var_95_pct": -28.4,
         "cvar_95_pct": -38.2,
         "max_drawdown_pct": -34.8
       },
-      "acceptable_conclusions": ["HOLD", "ACCUMULATE_BASKET"]
+      "numerical_tolerances": {
+        "var_95_pct": 0.05,
+        "cvar_95_pct": 0.06,
+        "max_drawdown_pct": 0.03
+      },
+      "acceptable_conclusions": ["HOLD", "ACCUMULATE_BASKET", "HEDGE_RECOMMENDED"],
+      "unsupported_conclusions": ["ZERO_RISK_LONG"],
+      "critical_error_conditions": [
+        "positive_var_sign",
+        "omission_of_historical_drawdown"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "Q04",
       "name": "Intra-Sector Stock Comparison",
       "workflow_type": "QUERY_BASED",
-      "target_symbols": ["TCS.NS", "INFY.NS"],
-      "question": "Compare TCS and Infosys based on fundamentals, valuation, liquidity, and risk. Identify which company presents superior risk-adjusted attributes.",
       "difficulty": "INTERMEDIATE",
+      "target_symbols": ["TCS.NS", "INFY.NS"],
+      "question": "Compare TCS and Infosys based on fundamentals, valuation, liquidity, and risk. Identify which company presents superior risk-adjusted attributes for institutional allocation.",
+      "query_variations": [
+        "Head-to-head quantitative comparison of TCS.NS vs INFY.NS on operating margins, P/E multiples, market beta, and trading spread.",
+        "Evaluate relative valuation and risk-adjusted characteristics of IT heavyweights TCS and Infosys."
+      ],
+      "input_parameters": {
+        "symbols": ["TCS.NS", "INFY.NS"],
+        "sector": "INFORMATION_TECHNOLOGY"
+      },
       "required_subtasks": [
         "dual_asset_resolution",
         "valuation_pe_comparison",
@@ -88,21 +187,48 @@
         "relative_beta_analysis",
         "comparative_synthesis"
       ],
+      "expected_tools": [
+        "resolve_symbol",
+        "get_historical_ohlcv",
+        "get_company_fundamentals",
+        "calculate_market_beta"
+      ],
+      "reference_answer_id": "REF_Q04_TCS_INFY_PAIR",
       "numerical_invariants": {
         "tcs_ltp_inr": 2475.20,
         "infy_ltp_inr": 1520.40,
         "tcs_beta": 0.78,
         "infy_beta": 1.04
       },
-      "acceptable_conclusions": ["TCS_OUTPERFORM", "INFY_OUTPERFORM", "BALANCED_PAIR"]
+      "numerical_tolerances": {
+        "tcs_ltp_inr": 0.02,
+        "infy_ltp_inr": 0.02,
+        "tcs_beta": 0.05,
+        "infy_beta": 0.05
+      },
+      "acceptable_conclusions": ["TCS_OUTPERFORM", "INFY_OUTPERFORM", "BALANCED_PAIR"],
+      "unsupported_conclusions": ["UNJUSTIFIED_SPECULATION"],
+      "critical_error_conditions": [
+        "misaligned_reporting_periods",
+        "inverted_beta_signs"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "Q05",
-      "name": "Incomplete or Conflicting Evidence",
+      "name": "Incomplete or Conflicting Evidence Handling",
       "workflow_type": "QUERY_BASED",
-      "target_symbols": ["SWIGGY.NS"],
-      "question": "Analyze the target asset where historical financial bars are limited (recent listing) or corporate reports contain negative margins. Demarcate confirmed facts from uncertainties.",
       "difficulty": "HARD",
+      "target_symbols": ["SWIGGY.NS"],
+      "question": "Analyze Swiggy where historical financial bars are limited (recent IPO listing) and corporate reports contain operating losses. Demarcate confirmed facts from model projections.",
+      "query_variations": [
+        "Conduct an evidence-bounded research analysis of recent listing SWIGGY.NS without lookahead bias and explicitly flag missing historical disclosures.",
+        "Evaluate SWIGGY.NS under data limitation constraints, highlighting negative operating margins and listing tenure."
+      ],
+      "input_parameters": {
+        "symbol": "SWIGGY.NS",
+        "is_recent_listing": true
+      },
       "required_subtasks": [
         "listing_age_audit",
         "operating_loss_disclosure",
@@ -110,40 +236,93 @@
         "uncertainty_disclosure",
         "defensive_verdict"
       ],
+      "expected_tools": [
+        "resolve_symbol",
+        "get_historical_ohlcv",
+        "get_company_fundamentals",
+        "audit_evidence_provenance"
+      ],
+      "reference_answer_id": "REF_Q05_SWIGGY_CONFLICT",
       "numerical_invariants": {
         "net_loss_cr_inr": -625.50,
         "operating_margin_pct": -17.37,
         "roe_pct": -27.05
       },
-      "acceptable_conclusions": ["HOLD", "INSUFFICIENT_EVIDENCE"]
+      "numerical_tolerances": {
+        "net_loss_cr_inr": 0.05,
+        "operating_margin_pct": 0.05,
+        "roe_pct": 0.05
+      },
+      "acceptable_conclusions": ["HOLD", "INSUFFICIENT_EVIDENCE", "SPECULATIVE_RISK"],
+      "unsupported_conclusions": ["UNCONDITIONAL_STRONG_BUY"],
+      "critical_error_conditions": [
+        "fabricating_5_year_history_for_new_ipo",
+        "claiming_positive_roe_for_loss_making_entity"
+      ],
+      "data_availability_status": "PARTIALLY_VERIFIED"
     },
     {
       "scenario_id": "Q06",
-      "name": "Macro and Regulatory Impact",
+      "name": "Macro and Regulatory Impact on Banking",
       "workflow_type": "QUERY_BASED",
-      "target_symbols": ["HDFCBANK.NS"],
-      "question": "Assess how RBI monetary policy corridor (6.50% repo) and Finance Act 2024 STT revisions impact bank net interest margins and delivery friction.",
       "difficulty": "INTERMEDIATE",
+      "target_symbols": ["HDFCBANK.NS"],
+      "question": "Assess how RBI monetary policy corridor (6.50% repo rate) and Finance Act 2024 STT revisions impact HDFC Bank's net interest margin sensitivity and institutional delivery drag.",
+      "query_variations": [
+        "Evaluate the sensitivity of HDFCBANK.NS to policy repo rates and statutory cash delivery drag under revised statutory tax schedules.",
+        "Analyze monetary policy and fiscal tax implications for HDFC Bank equity performance."
+      ],
+      "input_parameters": {
+        "symbol": "HDFCBANK.NS",
+        "repo_rate_pct": 6.50,
+        "cpi_pct": 5.49
+      },
       "required_subtasks": [
         "rbi_mpc_corridor_retrieval",
         "repo_rate_validation",
         "delivery_stt_schedule_audit",
         "nim_sensitivity_analysis"
       ],
+      "expected_tools": [
+        "resolve_symbol",
+        "get_macro_economic_indicators",
+        "calculate_statutory_costs"
+      ],
+      "reference_answer_id": "REF_Q06_HDFCBANK_MACRO",
       "numerical_invariants": {
         "rbi_repo_rate_pct": 6.50,
         "cpi_inflation_pct": 5.49,
         "stt_delivery_both_sides_pct": 0.10
       },
-      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"]
+      "numerical_tolerances": {
+        "rbi_repo_rate_pct": 0.0,
+        "cpi_inflation_pct": 0.01,
+        "stt_delivery_both_sides_pct": 0.0
+      },
+      "acceptable_conclusions": ["ACCUMULATE_BASKET", "BUY", "HOLD"],
+      "unsupported_conclusions": ["OUTDATED_REPO_RATE_CLAIM"],
+      "critical_error_conditions": [
+        "citing_incorrect_rbi_repo_rate",
+        "incorrect_stt_rates_under_finance_act_2024"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S01",
       "name": "Growth and Profitability Screening",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["NIFTY_50_UNIVERSE"],
-      "question": "Identify and rank top compounders from the universe exhibiting ROE > 18%, operating margin > 15%, and stable revenue growth. Disclose exclusion criteria.",
       "difficulty": "ADVANCED",
+      "target_symbols": ["NIFTY_50_UNIVERSE"],
+      "question": "Screen the NIFTY 50 universe for companies with ROE > 18%, operating margin > 15%, and positive 3Y revenue CAGR. Exclude non-compliant candidates with logged reasons.",
+      "query_variations": [
+        "Run an institutional growth and quality screen across NIFTY 50 equities requiring ROE >= 18% and Operating Margin >= 15%, logging all exclusions.",
+        "Screen and rank large-cap compounders based on profitability hurdles and growth constraints."
+      ],
+      "input_parameters": {
+        "universe": "NIFTY_50",
+        "min_roe": 18.0,
+        "min_operating_margin": 15.0
+      },
       "required_subtasks": [
         "universe_filtering",
         "roe_operating_margin_screen",
@@ -151,107 +330,249 @@
         "relative_ranking",
         "methodology_transparency"
       ],
+      "expected_tools": [
+        "screen_equity_universe",
+        "get_company_fundamentals",
+        "rank_candidates"
+      ],
+      "reference_answer_id": "REF_S01_GROWTH_SCREEN",
       "numerical_invariants": {
         "min_roe_threshold": 18.0,
         "min_operating_margin": 15.0
       },
-      "acceptable_conclusions": ["RANKED_LIST_GENERATED"]
+      "numerical_tolerances": {
+        "min_roe_threshold": 0.0,
+        "min_operating_margin": 0.0
+      },
+      "acceptable_conclusions": ["RANKED_LIST_GENERATED", "BASKET_PRODUCED"],
+      "unsupported_conclusions": ["EMPTY_OUTPUT_WITHOUT_REASON"],
+      "critical_error_conditions": [
+        "retaining_companies_with_roe_below_threshold",
+        "missing_disqualification_log"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S02",
       "name": "Momentum and Liquidity Screening",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["NIFTY_100_LIQUID"],
-      "question": "Identify liquid momentum candidates with RSI between 55–70, 20-Day SMA positive slope, and Corwin-Schultz spread < 15 bps.",
       "difficulty": "ADVANCED",
+      "target_symbols": ["NIFTY_100_LIQUID"],
+      "question": "Identify liquid momentum candidates with RSI between 55–70, 20-Day SMA positive slope, and Corwin-Schultz spread < 15 bps. Filter out illiquid outliers.",
+      "query_variations": [
+        "Screen NIFTY 100 for institutional momentum and liquidity: RSI 55-70, positive 20-day trend, Corwin-Schultz spread under 15 bps.",
+        "Perform joint microstructure and trend screening on liquid large-cap securities."
+      ],
+      "input_parameters": {
+        "universe": "NIFTY_100",
+        "rsi_range": [55.0, 70.0],
+        "max_spread_bps": 15.0
+      },
       "required_subtasks": [
         "technical_filter_pipeline",
         "corwin_schultz_spread_filter",
         "turnover_check",
         "friction_adjusted_ranking"
       ],
+      "expected_tools": [
+        "calculate_rsi",
+        "calculate_moving_averages",
+        "calculate_corwin_schultz_spread",
+        "rank_candidates"
+      ],
+      "reference_answer_id": "REF_S02_MOMENTUM_LIQUIDITY",
       "numerical_invariants": {
         "max_effective_spread_bps": 15.0,
         "rsi_lower_bound": 55.0,
         "rsi_upper_bound": 70.0
       },
-      "acceptable_conclusions": ["RANKED_LIST_GENERATED"]
+      "numerical_tolerances": {
+        "max_effective_spread_bps": 0.0,
+        "rsi_lower_bound": 0.0,
+        "rsi_upper_bound": 0.0
+      },
+      "acceptable_conclusions": ["RANKED_LIST_GENERATED"],
+      "unsupported_conclusions": ["INCLUDING_ILLIQUID_CANDIDATES"],
+      "critical_error_conditions": [
+        "violating_maximum_spread_constraint",
+        "rsi_out_of_bounds"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S03",
       "name": "Conservative Risk-Oriented Selection",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "ITC.NS"],
-      "question": "Select stocks with relatively lower historical volatility and drawdown from the supported universe. Explain the risk characteristics and limitations of the selected candidates.",
       "difficulty": "ADVANCED",
+      "target_symbols": ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "ITC.NS"],
+      "question": "Select stocks with relatively lower historical volatility and drawdown from the supported universe. Formulate a minimum variance allocation using Ledoit-Wolf shrinkage.",
+      "query_variations": [
+        "Construct a defensive, low-volatility allocation from blue-chip equities using Ledoit-Wolf covariance shrinkage.",
+        "Optimize a conservative equity basket to minimize portfolio variance subject to 20% max single-stock constraint."
+      ],
+      "input_parameters": {
+        "symbols": ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "ITC.NS"],
+        "objective": "MINIMUM_VARIANCE",
+        "shrinkage": "LEDOIT_WOLF",
+        "max_weight": 0.35
+      },
       "required_subtasks": [
         "ledoit_wolf_shrinkage",
         "minimum_variance_optimization",
         "portfolio_volatility_reduction",
         "capital_weight_allocation"
       ],
+      "expected_tools": [
+        "get_historical_ohlcv",
+        "calculate_covariance_matrix",
+        "optimize_portfolio_slsqp"
+      ],
+      "reference_answer_id": "REF_S03_CONSERVATIVE_BASKET",
       "numerical_invariants": {
         "min_vol_reduction_pct": 15.0,
         "sum_of_weights": 1.0
       },
-      "acceptable_conclusions": ["MINIMUM_VARIANCE_BASKET"]
+      "numerical_tolerances": {
+        "min_vol_reduction_pct": 0.05,
+        "sum_of_weights": 0.001
+      },
+      "acceptable_conclusions": ["MINIMUM_VARIANCE_BASKET", "OPTIMIZED_PORTFOLIO"],
+      "unsupported_conclusions": ["NEGATIVE_WEIGHTS_WITHOUT_SHORTING"],
+      "critical_error_conditions": [
+        "sum_of_weights_not_equal_to_one",
+        "failure_to_reduce_unweighted_variance"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S04",
-      "name": "Balanced Risk-Return Selection",
+      "name": "Balanced Risk-Return Selection (SIMD Monte-Carlo)",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["TATAMOTORS.NS", "MARUTI.NS"],
-      "question": "Identify and rank stocks that provide a balanced combination of historical performance, volatility, liquidity and financial quality. Explain the selection methodology.",
       "difficulty": "INTERMEDIATE",
+      "target_symbols": ["TATAMOTORS.NS", "MARUTI.NS"],
+      "question": "Identify and rank auto stocks combining historical performance, volatility, and liquidity. Run 5,000-path Monte-Carlo simulations to compare probability of achieving target hurdle rates.",
+      "query_variations": [
+        "Run paired Monte-Carlo 5Y simulations on Tata Motors vs Maruti Suzuki to determine risk-adjusted allocation.",
+        "Compare automotive sector candidates under 5,000-path geometric Brownian motion paths."
+      ],
+      "input_parameters": {
+        "symbols": ["TATAMOTORS.NS", "MARUTI.NS"],
+        "monte_carlo_paths": 5000,
+        "horizon_years": 5
+      },
       "required_subtasks": [
         "simd_monte_carlo_5y",
         "drawdown_risk_comparison",
         "cyclical_trend_analysis",
         "allocation_recommendation"
       ],
+      "expected_tools": [
+        "get_historical_ohlcv",
+        "run_monte_carlo_simulation",
+        "calculate_max_drawdown"
+      ],
+      "reference_answer_id": "REF_S04_AUTO_PAIR_MC",
       "numerical_invariants": {
         "monte_carlo_paths": 5000,
         "horizon_years": 5
       },
-      "acceptable_conclusions": ["ALLOCATION_SOLVED"]
+      "numerical_tolerances": {
+        "monte_carlo_paths": 0.0,
+        "horizon_years": 0.0
+      },
+      "acceptable_conclusions": ["ALLOCATION_SOLVED", "TATAMOTORS_PREFERRED", "MARUTI_PREFERRED"],
+      "unsupported_conclusions": ["FABRICATED_PERCENTILE_VALUES"],
+      "critical_error_conditions": [
+        "less_than_5000_paths",
+        "negative_terminal_prices"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S05",
-      "name": "Multi-Dimensional Stock Ranking",
+      "name": "Multi-Dimensional Cross-Asset Stock Ranking",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["TATAMOTORS.NS", "INFY.NS", "RELIANCE.NS", "SILVERBEES"],
-      "question": "Compare eligible stocks using fundamentals, technical indicators, market microstructure and risk metrics. Provide a justified ranking with supporting evidence.",
       "difficulty": "HARD",
+      "target_symbols": ["TATAMOTORS.NS", "INFY.NS", "RELIANCE.NS", "SILVERBEES"],
+      "question": "Rank a diversified multi-asset universe (Equities + Commodity ETF) across fundamental quality, momentum, liquidity, and statutory tax drag differences.",
+      "query_variations": [
+        "Construct a documented multi-factor ranking across TATAMOTORS, INFY, RELIANCE, and SILVERBEES incorporating statutory friction differences.",
+        "Perform cross-asset scoring incorporating SEBI tax distinctions between equity delivery and commodity ETF trading."
+      ],
+      "input_parameters": {
+        "symbols": ["TATAMOTORS.NS", "INFY.NS", "RELIANCE.NS", "SILVERBEES"],
+        "weights": {"quality": 0.35, "momentum": 0.25, "liquidity": 0.20, "tax_efficiency": 0.20}
+      },
       "required_subtasks": [
         "cross_sector_taxonomy",
         "asset_class_tax_differentiation",
         "composite_factor_scoring",
         "multi_agent_consensus"
       ],
+      "expected_tools": [
+        "get_historical_ohlcv",
+        "calculate_corwin_schultz_spread",
+        "calculate_statutory_costs",
+        "rank_candidates"
+      ],
+      "reference_answer_id": "REF_S05_CROSS_ASSET_RANKING",
       "numerical_invariants": {
         "equity_tax_drag_bps": 22.22,
         "commodity_tax_drag_bps": 1.5
       },
-      "acceptable_conclusions": ["CROSS_ASSET_RANKED"]
+      "numerical_tolerances": {
+        "equity_tax_drag_bps": 0.01,
+        "commodity_tax_drag_bps": 0.01
+      },
+      "acceptable_conclusions": ["CROSS_ASSET_RANKED"],
+      "unsupported_conclusions": ["EQUAL_TAX_TREATMENT_ERROR"],
+      "critical_error_conditions": [
+        "failing_to_distinguish_commodity_etf_stt",
+        "missing_relative_weights"
+      ],
+      "data_availability_status": "VERIFIED"
     },
     {
       "scenario_id": "S06",
-      "name": "Constraint-Based Selection",
+      "name": "Constraint-Based Stock Selection",
       "workflow_type": "STOCK_SELECTION",
-      "target_symbols": ["NIFTY_UNIVERSE_BASKET"],
-      "question": "Select stocks that satisfy explicit constraints relating to risk, liquidity, financial quality and data availability. Exclude candidates that fail mandatory conditions and explain all exclusions.",
       "difficulty": "ADVANCED",
+      "target_symbols": ["NIFTY_UNIVERSE_BASKET"],
+      "question": "Select stocks satisfying strict institutional risk constraints: maximum historical drawdown < 25%, daily liquidity > ₹50 Cr, and zero audit qualifications. Explicitly report all disqualified securities.",
+      "query_variations": [
+        "Apply hard constraint boundaries (drawdown < 25%, turnover > ₹50 Cr, clean audit) to candidate universe and log all exclusion reasons.",
+        "Run exclusion-first screening to construct an institutional-grade compliant basket."
+      ],
+      "input_parameters": {
+        "max_drawdown_pct": 25.0,
+        "min_turnover_cr": 50.0,
+        "require_clean_audit": true
+      },
       "required_subtasks": [
         "hard_constraint_boundary_evaluation",
         "drawdown_threshold_audit",
         "statutory_filings_check",
         "exclusion_audit_log"
       ],
+      "expected_tools": [
+        "screen_equity_universe",
+        "calculate_max_drawdown",
+        "get_company_fundamentals"
+      ],
+      "reference_answer_id": "REF_S06_CONSTRAINT_SELECTION",
       "numerical_invariants": {
         "max_allowable_drawdown_pct": 25.0
       },
-      "acceptable_conclusions": ["CONSTRAINT_PASSED_BASKET"]
+      "numerical_tolerances": {
+        "max_allowable_drawdown_pct": 0.0
+      },
+      "acceptable_conclusions": ["CONSTRAINT_PASSED_BASKET"],
+      "unsupported_conclusions": ["PASSING_STOCKS_EXCEEDING_DRAWDOWN"],
+      "critical_error_conditions": [
+        "selecting_stocks_with_greater_than_25pct_drawdown",
+        "missing_exclusion_justification"
+      ],
+      "data_availability_status": "VERIFIED"
     }
   ]
 }
-
