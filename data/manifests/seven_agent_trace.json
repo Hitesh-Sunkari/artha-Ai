@@ -1,0 +1,558 @@
+{
+  "run_id": "trace-run-reliance",
+  "symbol": "RELIANCE",
+  "as_of_time": "2024-11-01T10:00:00+00:00",
+  "recommendation": "HOLD",
+  "live_trading_blocked": true,
+  "isolation_verified": true,
+  "lookahead_violations_count": 0,
+  "total_citations": 13,
+  "all_citations_valid": true,
+  "agent_traces": [
+    {
+      "agent_id": "adk_research_manager",
+      "role": "Supervisory Coordinator & Research Synthesizer",
+      "framework": "GOOGLE_ADK",
+      "protocol": "Direct In-Process Orchestration",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "NOT_APPLICABLE",
+      "analytical_verdict": "NOT_EVALUATED",
+      "validation_outcome": "NOT_EVALUATED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "resolve_security",
+        "get_data_coverage",
+        "validate_research_evidence"
+      ],
+      "artifacts_consumed": [
+        "All specialist outputs from Blackboard"
+      ],
+      "artifacts_produced": [
+        "canonical_symbol",
+        "orchestration_pattern",
+        "objective",
+        "initial_hypothesis",
+        "conviction_score",
+        "required_agents",
+        "allowed_tools"
+      ],
+      "evidence_citations": [
+        "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/circuit_breakers_bands#SEBI-CIRCUIT-BREAKER-PRICE-BANDS",
+        "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS"
+      ],
+      "downstream_lineage": "Parent coordinator -> Quant, Microstructure, Filing, News, Skeptic -> Risk Validator -> Manager Synthesis",
+      "downstream_handoffs": [
+        "adk_quant_specialist",
+        "adk_microstructure_specialist",
+        "crewai_news_macro_specialist",
+        "crewai_corporate_filing_specialist",
+        "crewai_adversarial_specialist",
+        "adk_risk_validator"
+      ],
+      "findings_summary": {
+        "canonical_symbol": "RELIANCE",
+        "orchestration_pattern": "SEQUENTIAL",
+        "objective": "5-year quantitative valuation, microstructure liquidity, statutory friction under Finance Act 2024, and SEBI LODR compli",
+        "initial_hypothesis": "PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE",
+        "conviction_score": "None",
+        "required_agents": "['adk_quant_specialist', 'adk_microstructure_specialist', 'crewai_news_macro_specialist', 'crewai_corporate_filing_speci",
+        "allowed_tools": "['query_market_data', 'calculate_statutory_costs', 'retrieve_regulatory_evidence']"
+      }
+    },
+    {
+      "agent_id": "adk_quant_specialist",
+      "role": "Quantitative & Technical Market Analyst",
+      "framework": "GOOGLE_ADK",
+      "protocol": "Direct In-Process Execution",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "REJECTED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "query_market_data",
+        "get_historical_bars",
+        "calculate_quant_features",
+        "calculate_indicators"
+      ],
+      "artifacts_consumed": [
+        "ResearchRequest (symbol, as_of_time, timeframe)"
+      ],
+      "artifacts_produced": [
+        "records_retrieved",
+        "empty_result",
+        "finding_category",
+        "data_source",
+        "data_quality_status",
+        "data_quality_issues",
+        "anomaly_evaluations",
+        "quantitative_stance",
+        "max_daily_price_change_pct",
+        "historical_bars",
+        "five_year_analysis",
+        "recent_returns",
+        "calculated_metrics"
+      ],
+      "evidence_citations": [
+        "parquet://data/ohlcv/reliance:744_bars"
+      ],
+      "downstream_lineage": "Consumed by Skeptic (stress-test), Risk Validator (volatility checks), Manager (final synthesis)",
+      "downstream_handoffs": [
+        "adk_microstructure_specialist",
+        "crewai_adversarial_specialist"
+      ],
+      "findings_summary": {
+        "records_retrieved": "744",
+        "empty_result": "False",
+        "finding_category": "MEASURED",
+        "data_source": "yfinance_cached_parquet",
+        "data_quality_status": "PASSED",
+        "data_quality_issues": "[]",
+        "anomaly_evaluations": "[]",
+        "quantitative_stance": "BEARISH",
+        "max_daily_price_change_pct": "7.48",
+        "historical_bars": "[{'timestamp': '2024-06-26T03:45:00', 'open': 1446.05, 'high': 1518.97, 'low': 1445.12, 'close': 1514.03, 'volume': 2201",
+        "five_year_analysis": "{'total_observations': 744, 'coverage_years': 2.95, 'coverage_pct': 59.0, 'high_52w': 1608.8, 'low_52w': 1110.15, 'high_",
+        "recent_returns": "[0.01106, 0.00501, -0.00268, 0.00307, 0.00268, 0.01885, -0.03251, -0.00796, -0.03949, -0.01453, -0.0114, 0.01943, -0.016",
+        "calculated_metrics": "{'latest_close': 1338.65, 'sample_return_mean': 0.0002867370925161385, 'annualized_return': 0.0723, 'realized_volatility"
+      }
+    },
+    {
+      "agent_id": "adk_microstructure_specialist",
+      "role": "Order Book & Market Microstructure Analyst",
+      "framework": "GOOGLE_ADK",
+      "protocol": "Direct In-Process Execution",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "get_data_quality_report",
+        "get_derivative_coverage"
+      ],
+      "artifacts_consumed": [
+        "ResearchRequest",
+        "adk_quant_specialist close prices"
+      ],
+      "artifacts_produced": [
+        "microstructure_status",
+        "finding_category",
+        "symbol",
+        "corwin_schultz_spread_bps",
+        "roll_effective_spread_bps",
+        "roll_spread_limitation",
+        "spread_type",
+        "spread_estimation_method",
+        "spread_lookback_window",
+        "spread_input_observations_count",
+        "spread_units",
+        "effective_slippage_bps",
+        "slippage_status",
+        "slippage_observation_basis",
+        "average_daily_turnover_inr_cr",
+        "turnover_impact_proxy_bps_per_cr",
+        "kyles_lambda_impact_bps_per_cr",
+        "standard_kyles_lambda",
+        "kyles_lambda_status",
+        "kyles_lambda_note",
+        "amihud_illiquidity_ratio",
+        "liquidity_tier",
+        "liquidity_stance",
+        "options_analytics",
+        "order_flow_analysis",
+        "queue_depth_status",
+        "recommended_max_order_pct_adv",
+        "execution_style_recommendation"
+      ],
+      "evidence_citations": [
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread"
+      ],
+      "downstream_lineage": "Consumed by Skeptic and Manager",
+      "downstream_handoffs": [
+        "crewai_adversarial_specialist",
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "findings_summary": {
+        "microstructure_status": "MEASURED_PARAMETRIC",
+        "finding_category": "MEASURED",
+        "symbol": "RELIANCE",
+        "corwin_schultz_spread_bps": "80.56",
+        "roll_effective_spread_bps": "80.43",
+        "roll_spread_limitation": "Roll (1984) serial covariance spread proxy computed from negative return autocovariance.",
+        "spread_type": "ESTIMATED_PARAMETRIC",
+        "spread_estimation_method": "Corwin-Schultz (2012) High-Low estimator and Roll (1984) covariance proxy",
+        "spread_lookback_window": "30",
+        "spread_input_observations_count": "19",
+        "spread_units": "bps",
+        "effective_slippage_bps": "None",
+        "slippage_status": "UNAVAILABLE_NO_ORDERBOOK_FEED",
+        "slippage_observation_basis": "Tick-level L2/L3 queue depth and execution order flow unavailable; synthetic multiplier omitted.",
+        "average_daily_turnover_inr_cr": "2110.61",
+        "turnover_impact_proxy_bps_per_cr": "0.0382",
+        "kyles_lambda_impact_bps_per_cr": "0.0382",
+        "standard_kyles_lambda": "None",
+        "kyles_lambda_status": "UNAVAILABLE_NO_TICK_ORDERFLOW",
+        "kyles_lambda_note": "Standard Kyle's lambda requires tick-level price impact from signed order flow (dP/dQ); daily OHLCV provides only parame",
+        "amihud_illiquidity_ratio": "0.005654",
+        "liquidity_tier": "TIER-1 (High Institutional Liquidity)",
+        "liquidity_stance": "MODERATE_LIQUIDITY",
+        "options_analytics": "{'derivatives_eligible': True, 'segment': 'NSE_DERIVATIVES_FO', 'put_call_ratio_oi': 1.0, 'pcr_sentiment': 'NEUTRAL_BALA",
+        "order_flow_analysis": "{'order_flow_status': 'HISTORICAL_BAR_VOLUME_ONLY', 'total_buy_qty': 0, 'total_sell_qty': 0, 'order_imbalance_pct': 0.0,",
+        "queue_depth_status": "Parametric liquidity and estimated spread modeled from verified trailing historical bars. Tick-level L2/L3 queue depth o",
+        "recommended_max_order_pct_adv": "3.0",
+        "execution_style_recommendation": "VWAP (Volume-Weighted Average Price) algorithmic execution over 30-minute intervals"
+      }
+    },
+    {
+      "agent_id": "crewai_news_macro_specialist",
+      "role": "Macroeconomic & News Analyst",
+      "framework": "CREWAI",
+      "protocol": "A2A Protocol (JSON-RPC 2.0 / HTTP POST /rpc)",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "NEUTRAL",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "get_macro_events",
+        "get_corporate_news",
+        "search_news_and_macro"
+      ],
+      "artifacts_consumed": [
+        "ResearchRequest"
+      ],
+      "artifacts_produced": [
+        "source_status",
+        "finding_category",
+        "symbol",
+        "llm_provider",
+        "evidence_currency",
+        "macro_regime",
+        "headline_summary",
+        "live_news",
+        "live_news_count",
+        "llm_macro_analysis",
+        "policy_anchor",
+        "policy_resolution_date",
+        "inflation_target_pct",
+        "inflation_tolerance_band",
+        "systemic_liquidity_regime",
+        "rate_environment_impact",
+        "macro_verdict",
+        "structured_evidence"
+      ],
+      "evidence_citations": [
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK"
+      ],
+      "downstream_lineage": "Consumed by Skeptic and Manager",
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "findings_summary": {
+        "source_status": "CONFIGURED",
+        "finding_category": "SOURCE_REPORTED",
+        "symbol": "RELIANCE",
+        "llm_provider": "DETERMINISTIC",
+        "evidence_currency": "LIVE_FEED",
+        "macro_regime": "Policy Repo Rate anchored at 6.50%; SDF 6.25% / MSF 6.75% corridor.",
+        "headline_summary": "Jio Q2 Preview: First results after listing tomorrow. What should investors expect? - The Economic Times",
+        "live_news": "[{'title': 'Jio Q2 Preview: First results after listing tomorrow. What should investors expect? - The Economic Times', '",
+        "live_news_count": "10",
+        "llm_macro_analysis": "Macroeconomic context derived from statutory RBI operating framework.",
+        "policy_anchor": "RBI MPC Repo Rate (6.50%)",
+        "policy_resolution_date": "2024-10-09",
+        "inflation_target_pct": "4.0",
+        "inflation_tolerance_band": "+/- 2.0%",
+        "systemic_liquidity_regime": "Neutral to actively managed via daily LAF windows",
+        "rate_environment_impact": "Stable discount rate environment supporting equity valuation multiples",
+        "macro_verdict": "NEUTRAL",
+        "structured_evidence": "[{'source_id': 'RBI-MPC-OCT2024', 'chunk_id': 'RBI-CRR-MONETARY-POLICY-OCT24', 'source_authority': 'Reserve Bank of Indi"
+      }
+    },
+    {
+      "agent_id": "crewai_corporate_filing_specialist",
+      "role": "Corporate Disclosures & Financial Filing Specialist",
+      "framework": "CREWAI",
+      "protocol": "A2A Protocol (JSON-RPC 2.0 / HTTP POST /rpc)",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "search_filings",
+        "get_financial_results",
+        "get_corporate_actions",
+        "get_evidence_passage"
+      ],
+      "artifacts_consumed": [
+        "ResearchRequest",
+        "SecurityMaster metadata"
+      ],
+      "artifacts_produced": [
+        "source_status",
+        "finding_category",
+        "symbol",
+        "llm_provider",
+        "latest_filing_type",
+        "filing_date",
+        "summary",
+        "fundamentals",
+        "market_cap_cr",
+        "financial_statements",
+        "quarterly_financials",
+        "shareholding_pattern",
+        "llm_filing_analysis",
+        "regulatory_authority",
+        "compliance_status",
+        "audit_standard",
+        "governance_rating",
+        "company_specific_filing_verified",
+        "structured_evidence"
+      ],
+      "evidence_citations": [
+        "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+        "groww://company/reliance#financials"
+      ],
+      "downstream_lineage": "Consumed by Skeptic and Manager",
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "findings_summary": {
+        "source_status": "CONFIGURED",
+        "finding_category": "LLM_GENERATED",
+        "symbol": "RELIANCE",
+        "llm_provider": "GEMINI",
+        "latest_filing_type": "Reliance Industries Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures",
+        "filing_date": "2024-10-14",
+        "summary": "Reliance Industries Ltd: Q2 FY25 Standalone & Consolidated Financial Disclosures\nReliance Industries Limited (NSE: RELIA",
+        "fundamentals": "{}",
+        "market_cap_cr": "None",
+        "financial_statements": "{}",
+        "quarterly_financials": "[]",
+        "shareholding_pattern": "{\"Sep '26\": {'promoters': 50.4441, 'fii': 16.6712, 'dii': 21.7152, 'others': 0, 'public': 11.1695}, \"Jun '26\": {'promote",
+        "llm_filing_analysis": "### **Corporate Governance & Statutory Analysis: Reliance Industries (Q2 FY25)**\n\n*   **SEBI LODR Compliance**: RIL main",
+        "regulatory_authority": "National Stock Exchange of India (NSE) Corporate Disclosures",
+        "compliance_status": "COMPLIANT_LODR_REG_33",
+        "audit_standard": "Limited Review Report / Statutory Audit compliant with zero qualified opinions",
+        "governance_rating": "SATISFACTORY",
+        "company_specific_filing_verified": "True",
+        "structured_evidence": "[{'source_id': 'RELIANCE-Q2FY25', 'chunk_id': 'FILING-RELIANCE-Q2FY25', 'source_authority': 'National Stock Exchange of "
+      }
+    },
+    {
+      "agent_id": "crewai_adversarial_specialist",
+      "role": "Specialist",
+      "framework": "CREWAI",
+      "protocol": "A2A / In-Process",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [],
+      "artifacts_consumed": [],
+      "artifacts_produced": [
+        "finding_category",
+        "llm_provider",
+        "thesis_critique",
+        "llm_adversarial_analysis",
+        "stress_tests",
+        "stress_test_details",
+        "objections",
+        "statutory_drag_impact",
+        "regime_fragility",
+        "skeptic_verdict",
+        "adversarial_discount_bps"
+      ],
+      "evidence_citations": [
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY"
+      ],
+      "downstream_lineage": "",
+      "downstream_handoffs": [
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "findings_summary": {
+        "finding_category": "LLM_ADVERSARIAL",
+        "llm_provider": "GEMINI",
+        "thesis_critique": "Empirical Adversarial Audit for RELIANCE: Validated against 744 historical bar observations. Stress tests resulted in: C",
+        "llm_adversarial_analysis": "\u2022 **Volatility & Liquidity Stress**: At 15.8% annualized volatility, a 2x jump to 31.6% compresses the Sharpe ratio sign",
+        "stress_tests": "{'circuit_filter_boundary': 'PASS: Maximum single-day price move of 3.95% strictly within NSE 20.0% circuit boundary.', ",
+        "stress_test_details": "{'circuit_filter_boundary': {'test_id': 'circuit_filter_boundary', 'version': '1.1.0', 'input_artifact_refs': {'source_a",
+        "objections": "[]",
+        "statutory_drag_impact": "Statutory transaction costs (STT + GST + Stamp Duty + SEBI/NSE fees) create a baseline drag of ~11.86 bps per roundtrip ",
+        "regime_fragility": "Signals sensitive to extreme returns and quarterly index rebalancing.",
+        "skeptic_verdict": "CONDITIONALLY_APPROVED_WITH_STATUTORY_DRAG_DISCOUNT",
+        "adversarial_discount_bps": "12.0"
+      }
+    },
+    {
+      "agent_id": "adk_risk_validator",
+      "role": "Statutory Compliance & Execution Safety Gatekeeper",
+      "framework": "GOOGLE_ADK",
+      "protocol": "Direct In-Process Execution",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "calculate_statutory_costs",
+        "validate_research_evidence"
+      ],
+      "artifacts_consumed": [
+        "All upstream agent contributions on Blackboard"
+      ],
+      "artifacts_produced": [
+        "risk_validation_passed",
+        "live_trading_blocked",
+        "lookahead_bias_detected",
+        "statutory_compliance",
+        "unsupported_assertions_flagged",
+        "classified_objections",
+        "unresolved_objections",
+        "mandatory_gates_summary"
+      ],
+      "evidence_citations": [
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "downstream_lineage": "Final gatekeeper before Manager final report synthesis",
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "findings_summary": {
+        "risk_validation_passed": "True",
+        "live_trading_blocked": "True",
+        "lookahead_bias_detected": "False",
+        "statutory_compliance": "{'transaction_type': 'ROUND_TRIP', 'instrument_type': 'EQUITY_DELIVERY', 'notional_inr': 100398.75, 'price': 1338.65, 'q",
+        "unsupported_assertions_flagged": "False",
+        "classified_objections": "{}",
+        "unresolved_objections": "[]",
+        "mandatory_gates_summary": "{'live_trading_disabled': True, 'skeptic_objections_resolved': True, 'data_quality_acceptable': True, 'statutory_costs_e"
+      }
+    },
+    {
+      "agent_id": "adk_research_manager",
+      "role": "Supervisory Coordinator & Research Synthesizer",
+      "framework": "GOOGLE_ADK",
+      "protocol": "Direct In-Process Orchestration",
+      "status": "SUCCESS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "input_parameters": {
+        "symbol": "RELIANCE",
+        "as_of_time": "2024-11-01T10:00:00+00:00",
+        "timeframe": "1d"
+      },
+      "mcp_tools_called": [
+        "resolve_security",
+        "get_data_coverage",
+        "validate_research_evidence"
+      ],
+      "artifacts_consumed": [
+        "All specialist outputs from Blackboard"
+      ],
+      "artifacts_produced": [
+        "executive_thesis",
+        "consensus_stance",
+        "multi_agent_conviction_score",
+        "mandatory_gates_passed",
+        "gate_failures",
+        "llm_synthesis_provider",
+        "latency_seconds",
+        "orchestration_wall_clock_ms",
+        "manager_execution_ms",
+        "target_price",
+        "target_upside_pct",
+        "stop_loss_price",
+        "stop_loss_pct",
+        "reward_to_risk_ratio",
+        "target_methodology",
+        "orchestration_pattern",
+        "total_specialists_coordinated"
+      ],
+      "evidence_citations": [
+        "rag://filings/reliance_q2fy25#FILING-RELIANCE-Q2FY25",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/circuit_breakers_bands#SEBI-CIRCUIT-BREAKER-PRICE-BANDS",
+        "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS",
+        "parquet://data/ohlcv/reliance:744_bars",
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread",
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "groww://company/reliance#financials",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "downstream_lineage": "Parent coordinator -> Quant, Microstructure, Filing, News, Skeptic -> Risk Validator -> Manager Synthesis",
+      "downstream_handoffs": [],
+      "findings_summary": {
+        "executive_thesis": "Institutional Research Report for RELIANCE (as of 2024-11-01) \u2014 Retrieved 744 point-in-time verified OHLCV bars via Duck",
+        "consensus_stance": "HOLD",
+        "multi_agent_conviction_score": "65",
+        "mandatory_gates_passed": "True",
+        "gate_failures": "[]",
+        "llm_synthesis_provider": "GEMINI",
+        "latency_seconds": "69.434",
+        "orchestration_wall_clock_ms": "69434.47",
+        "manager_execution_ms": "3137.87",
+        "target_price": "None",
+        "target_upside_pct": "None",
+        "stop_loss_price": "None",
+        "stop_loss_pct": "None",
+        "reward_to_risk_ratio": "None",
+        "target_methodology": "Consolidation regime; evidence insufficient for directional expansion.",
+        "orchestration_pattern": "SEQUENTIAL",
+        "total_specialists_coordinated": "7"
+      }
+    }
+  ]
+}

@@ -33,21 +33,15 @@ htmlcov/
 .ruff_cache/
 
 # =============================================================
-# ARTHAAI GENERATED DATA — NEVER COMMIT
-# These directories contain generated market data, raw provider
-# responses, Parquet datasets, quality reports, and manifests.
-# They may contain sensitive financial data and large binary files.
+# ARTHAAI RUNTIME DYNAMIC ARTIFACTS
+# Transient per-run execution outputs and blackboard scratchpads
+# (Core datasets: evaluation.duckdb, parquet/, chroma_db/, manifests/
+#  and registered_users.json are tracked for zero-cost cloud deployment)
 # =============================================================
-/data/
-/data/raw/
-/data/parquet/
-/data/manifests/
+/data/runs/
+/data/blackboard/
 /data/quality/
-
-# Any other data root set via ARTHAAI_DATA_ROOT
-*.parquet
-*.jsonl.gz
-datasets/
+/data/quarantine/
 
 # Environment / secrets — NEVER COMMIT
 .env

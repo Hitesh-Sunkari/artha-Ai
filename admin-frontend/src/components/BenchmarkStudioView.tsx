@@ -888,18 +888,24 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
         if (Array.isArray(parsed) && parsed.length > 0) {
           // Normalize items on load:
           // Any item left with status === 'RUNNING' was interrupted by browser refresh/restart.
-          // Convert it to 'INTERRUPTED' (or 'COMPLETED' if it already has final result).
+          // Convert it to 'INTERRUPTED' (or 'COMPLETED' if it already has final result with positive score).
+          // Convert any corrupted 0-score run to 'ERROR' so it never corrupts benchmark composite scores.
           return parsed.map((item: any) => {
             const wasRunning = item.status === 'RUNNING';
-            const hasResult = !!(item.result && (item.result.architectures || item.result.comparison_id || item.result.winner));
+            const validScore = Number(item.result?.winning_score ?? item.result?.comparison_summary?.winning_score ?? item.result?.winner?.quality ?? 0) > 0;
+            const hasResult = !!(item.result && (item.result.architectures || item.result.comparison_id || item.result.winner)) && validScore;
             const newStatus: DatasetItem['status'] = hasResult
               ? 'COMPLETED'
               : wasRunning
               ? 'INTERRUPTED'
+              : item.status === 'COMPLETED' && !validScore
+              ? 'ERROR'
               : item.status || 'PENDING';
             return {
               ...item,
               status: newStatus,
+              result: validScore ? item.result : undefined,
+              error: (item.status === 'COMPLETED' && !validScore) ? 'LLM failed on prior run. Click Retry to re-evaluate with failover.' : item.error,
               locked: newStatus === 'COMPLETED',
               live_arch_index: undefined,
               live_arch_key: undefined,
@@ -1636,6 +1642,11 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
         run_type: 'DATASET',
       });
 
+      const winScore = Number(finalPayload?.winning_score ?? finalPayload?.comparison_summary?.winning_score ?? finalPayload?.winner?.quality ?? 0);
+      if (!finalPayload || winScore <= 0) {
+        throw new Error("Execution failed: LLM rate limit or provider unavailability. Zero score rejected to preserve benchmark integrity.");
+      }
+
       const best = finalPayload.architectures
         ? [...finalPayload.architectures].sort(
             (a: any, b: any) => (Number(b.composite_score ?? b.composite_quality ?? b.metrics?.composite_quality_index ?? b.overall_judge_score ?? 0)) - (Number(a.composite_score ?? a.composite_quality ?? a.metrics?.composite_quality_index ?? a.overall_judge_score ?? 0))
@@ -1650,6 +1661,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           result: finalPayload,
           latency_s: finalPayload.total_elapsed_seconds || 0,
           winner: finalPayload.winning_architecture || finalPayload.winner?.label || (best ? best.architecture : 'ArthaAI Sequential'),
+          error: undefined,
           live_arch_index: undefined,
           live_arch_key: undefined,
           live_arch_label: undefined,
@@ -1660,12 +1672,16 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
       });
       fetchHistoricalRuns();
     } catch (err: any) {
+      console.error(`Error executing question index ${index}:`, err);
       setDatasetItems((prev) => {
         const copy = [...prev];
         copy[index] = {
           ...copy[index],
           status: 'ERROR',
-          error: err.message || 'Run failed',
+          error: err.message || 'Run failed due to LLM rate limit or unavailability',
+          result: undefined,
+          latency_s: undefined,
+          winner: undefined,
           live_arch_index: undefined,
           live_arch_key: undefined,
           live_arch_label: undefined,
@@ -1683,101 +1699,88 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
     await executeDatasetScenario(index);
   };
 
-  // Retry All Failed Scenarios concurrently in parallel
-  const handleRetryFailedParallel = async () => {
-    if (isBatchRunning) return;
-    const failedIndices = datasetItems
-      .map((it, idx) => (it.status === 'ERROR' ? idx : -1))
-      .filter((idx) => idx !== -1);
-    if (failedIndices.length === 0) return;
-
-    setIsBatchRunning(true);
-    setIsBatchPaused(false);
-    pauseRef.current = false;
-    stopRef.current = false;
-    setBatchLiveStatus(`Retrying ${failedIndices.length} failed scenario(s) concurrently in parallel...`);
-
-    // Reset error on failed scenarios
-    setDatasetItems((prev) => {
-      const copy = [...prev];
-      failedIndices.forEach((idx) => {
-        copy[idx] = {
-          ...copy[idx],
-          status: 'RUNNING',
-          locked: true,
-          error: undefined,
-          live_arch_index: 1,
-          live_arch_total: copy[idx].architectures?.length || 5,
-          live_step_name: 'Initializing parallel retry dispatch...',
-          completed_archs: [],
-        };
-      });
-      return copy;
+  // Bounded worker pool helper for controlled parallel concurrency
+  const runWorkerPool = async (indices: number[], concurrency: number = 2) => {
+    let nextIdx = 0;
+    const workers = Array.from({ length: Math.min(concurrency, indices.length) }, async () => {
+      while (nextIdx < indices.length && !stopRef.current) {
+        while (pauseRef.current) {
+          await new Promise((r) => setTimeout(r, 500));
+          if (stopRef.current) break;
+        }
+        if (stopRef.current) break;
+        const current = indices[nextIdx++];
+        setBatchCurrentIndex(current);
+        await executeDatasetScenario(current);
+        await new Promise((r) => setTimeout(r, 600));
+      }
     });
-
-    // Concurrently trigger all failed scenarios in parallel with slight 300ms stagger
-    await Promise.all(
-      failedIndices.map(async (idx, order) => {
-        await new Promise((r) => setTimeout(r, order * 300));
-        return executeDatasetScenario(idx);
-      })
-    );
-
-    setIsBatchRunning(false);
-    setBatchLiveStatus(`Finished parallel retry of ${failedIndices.length} scenario(s). All evidence saved to vault.`);
-    fetchHistoricalRuns();
+    await Promise.all(workers);
   };
 
-  // Run All Scenarios Concurrently in Parallel
-  const handleRunBatchParallel = async () => {
+  // Continue Remaining Scenarios (preserves already COMPLETED scenarios)
+  const handleContinueRemaining = async (parallel: boolean = false) => {
     if (isBatchRunning) return;
-    setEditingQuestionId(null);
-    setIsBatchRunning(true);
-    setIsBatchPaused(false);
-    pauseRef.current = false;
-    stopRef.current = false;
-    setBatchLiveStatus(`Launching all ${datasetItems.length} scenarios simultaneously in parallel...`);
+    const targetIndices = datasetItems
+      .map((it, idx) => (it.status !== 'COMPLETED' || (!it.result || Number(it.result.winning_score || 0) <= 0) ? idx : -1))
+      .filter((idx) => idx !== -1);
+    if (targetIndices.length === 0) return;
 
-    // Reset and lock all items
-    setDatasetItems((prev) =>
-      prev.map((it) => ({
-        ...it,
-        status: 'PENDING',
-        locked: true,
-        error: undefined,
-        result: undefined,
-        latency_s: undefined,
-        winner: undefined,
-        live_arch_index: undefined,
-        live_arch_key: undefined,
-        live_arch_label: undefined,
-        live_step_name: undefined,
-        completed_archs: [],
-      }))
-    );
-
-    await Promise.all(
-      datasetItems.map(async (_, idx) => {
-        await new Promise((r) => setTimeout(r, idx * 500));
-        return executeDatasetScenario(idx);
-      })
-    );
-
-    setIsBatchRunning(false);
-    setBatchLiveStatus(`All ${datasetItems.length} scenarios completed in parallel. Saved to vault.`);
-    fetchHistoricalRuns();
-  };
-
-  // Run Batch Dataset with Progressive Architecture Execution & Live Status
-  const handleRunBatch = async () => {
-    if (isBatchRunning) return;
     setEditingQuestionId(null);
     setIsBatchRunning(true);
     setIsBatchPaused(false);
     pauseRef.current = false;
     stopRef.current = false;
 
-    // Reset all scenarios to PENDING and lock all items from editing
+    if (parallel) {
+      setBatchLiveStatus(`Continuing ${targetIndices.length} remaining scenario(s) in parallel pool...`);
+      setDatasetItems((prev) => {
+        const copy = [...prev];
+        targetIndices.forEach((idx) => {
+          copy[idx] = { ...copy[idx], locked: true };
+        });
+        return copy;
+      });
+      await runWorkerPool(targetIndices, 2);
+    } else {
+      setBatchLiveStatus(`Continuing ${targetIndices.length} remaining scenario(s) sequentially...`);
+      for (let step = 0; step < targetIndices.length; step++) {
+        if (stopRef.current) break;
+        while (pauseRef.current) {
+          setBatchLiveStatus(`Paused at scenario ${step + 1}/${targetIndices.length}. Click Resume to proceed.`);
+          await new Promise((r) => setTimeout(r, 600));
+          if (stopRef.current) break;
+        }
+        if (stopRef.current) break;
+
+        const idx = targetIndices[step];
+        setBatchCurrentIndex(idx);
+        setBatchLiveStatus(`Executing remaining scenario ${step + 1}/${targetIndices.length} (${datasetItems[idx]?.id})...`);
+        await executeDatasetScenario(idx);
+
+        if (step < targetIndices.length - 1 && !stopRef.current) {
+          await new Promise((r) => setTimeout(r, 1200));
+        }
+      }
+    }
+
+    setIsBatchRunning(false);
+    setIsBatchPaused(false);
+    setBatchCurrentIndex(null);
+    setBatchLiveStatus('Finished running remaining scenarios. All evidence saved to vault.');
+    fetchHistoricalRuns();
+  };
+
+  // Restart All Scenarios from scratch
+  const handleRestartAll = async (parallel: boolean = false) => {
+    if (isBatchRunning) return;
+    setEditingQuestionId(null);
+    setIsBatchRunning(true);
+    setIsBatchPaused(false);
+    pauseRef.current = false;
+    stopRef.current = false;
+
+    // Reset all items to PENDING and locked
     const itemsToRun = datasetItems.map((it) => ({
       ...it,
       status: 'PENDING' as const,
@@ -1794,190 +1797,83 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
     }));
     setDatasetItems(itemsToRun);
 
-    for (let i = 0; i < itemsToRun.length; i++) {
-      if (stopRef.current) break;
-
-      while (pauseRef.current) {
-        setBatchLiveStatus(`Execution paused at Question ${i + 1}/${itemsToRun.length}. Click Resume to proceed.`);
-        await new Promise((r) => setTimeout(r, 600));
+    const allIndices = itemsToRun.map((_, i) => i);
+    if (parallel) {
+      setBatchLiveStatus(`Restarting all ${itemsToRun.length} scenarios in parallel pool...`);
+      await runWorkerPool(allIndices, 2);
+    } else {
+      setBatchLiveStatus(`Restarting all ${itemsToRun.length} scenarios sequentially...`);
+      for (let step = 0; step < allIndices.length; step++) {
         if (stopRef.current) break;
-      }
-      if (stopRef.current) break;
-
-      const it = itemsToRun[i];
-      setBatchCurrentIndex(i);
-
-      const archsToRun = it.architectures && it.architectures.length > 0
-        ? it.architectures
-        : ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'];
-
-      setDatasetItems((prev) => {
-        const copy = [...prev];
-        copy[i] = {
-          ...copy[i],
-          status: 'RUNNING',
-          locked: true,
-          error: undefined,
-          live_arch_index: 1,
-          live_arch_total: archsToRun.length,
-          live_arch_key: archsToRun[0],
-          live_arch_label: ARCHITECTURE_OPTIONS.find((o) => o.key === archsToRun[0])?.label || archsToRun[0],
-          live_step_name: 'Ingesting 5-Year NSE OHLCV & FastMCP technicals...',
-          completed_archs: [],
-        };
-        return copy;
-      });
-
-      const resultsAcc: Record<string, any> = {};
-
-      try {
-        for (let aIdx = 0; aIdx < archsToRun.length; aIdx++) {
+        while (pauseRef.current) {
+          setBatchLiveStatus(`Paused at scenario ${step + 1}/${allIndices.length}. Click Resume to proceed.`);
+          await new Promise((r) => setTimeout(r, 600));
           if (stopRef.current) break;
-
-          const archKey = archsToRun[aIdx];
-          const opt = ARCHITECTURE_OPTIONS.find((o) => o.key === archKey);
-          const archLabel = opt ? opt.label : archKey;
-
-          const stepMsg = aIdx === 0
-            ? 'Ingesting 5-Year NSE OHLCV & FastMCP technicals...'
-            : aIdx === 1
-            ? 'Synthesizing options chain surface & PCR Max Pain...'
-            : aIdx === 2
-            ? 'Vectorized 5,000-Path Monte Carlo simulation...'
-            : aIdx === 3
-            ? 'Multi-factor risk cross-examination & SEBI audit...'
-            : 'LLM Judge scoring & evidence grounding evaluation...';
-
-          setDatasetItems((prev) => {
-            const copy = [...prev];
-            copy[i] = {
-              ...copy[i],
-              live_arch_index: aIdx + 1,
-              live_arch_total: archsToRun.length,
-              live_arch_key: archKey,
-              live_arch_label: archLabel,
-              live_step_name: stepMsg,
-              completed_archs: Object.keys(resultsAcc),
-            };
-            return copy;
-          });
-
-          setBatchLiveStatus(`Executing Q-${String(i + 1).padStart(2, '0')} (${i + 1}/${itemsToRun.length}): "${it.query.slice(0, 40)}..." • Arch ${aIdx + 1}/${archsToRun.length}: ${archLabel} — ${stepMsg}`);
-
-          let archRes = null;
-          try {
-            archRes = await (api as any).runSingleArchitecture({
-              query: it.query,
-              architecture: archKey,
-              symbol: it.symbol,
-              symbols: [it.symbol],
-            });
-          } catch (callErr: any) {
-            console.warn(`Retry architecture ${archKey} for ${it.id}...`, callErr);
-            try {
-              archRes = await (api as any).runSingleArchitecture({
-                query: it.query,
-                architecture: archKey,
-                symbol: it.symbol,
-                symbols: [it.symbol],
-              });
-            } catch (retryErr: any) {
-              console.error(`Architecture ${archKey} failed:`, retryErr);
-            }
-          }
-
-          if (archRes) {
-            resultsAcc[archKey] = archRes;
-          }
-
-          setDatasetItems((prev) => {
-            const copy = [...prev];
-            copy[i] = {
-              ...copy[i],
-              completed_archs: Object.keys(resultsAcc),
-            };
-            return copy;
-          });
-
-          if (aIdx < archsToRun.length - 1) {
-            await new Promise((r) => setTimeout(r, 600));
-          }
         }
-
         if (stopRef.current) break;
 
-        setDatasetItems((prev) => {
-          const copy = [...prev];
-          copy[i] = {
-            ...copy[i],
-            live_step_name: 'Finalizing summary, radar charts, and vault persistence...',
-          };
-          return copy;
-        });
+        const idx = allIndices[step];
+        setBatchCurrentIndex(idx);
+        setBatchLiveStatus(`Executing scenario ${step + 1}/${allIndices.length} (${itemsToRun[idx]?.id})...`);
+        await executeDatasetScenario(idx);
 
-        setBatchLiveStatus(`Finalizing Q-${String(i + 1).padStart(2, '0')} summary and writing evidence to vault...`);
-
-        const finalPayload = await (api as any).finalizeComparison({
-          query: it.query,
-          results: resultsAcc,
-          symbol: it.symbol,
-          symbols: [it.symbol],
-          run_type: 'DATASET',
-        });
-
-        const best = finalPayload.architectures
-          ? [...finalPayload.architectures].sort(
-              (a: any, b: any) => (Number(b.composite_score ?? b.composite_quality ?? b.metrics?.composite_quality_index ?? b.overall_judge_score ?? 0)) - (Number(a.composite_score ?? a.composite_quality ?? a.metrics?.composite_quality_index ?? a.overall_judge_score ?? 0))
-            )[0]
-          : null;
-
-        setDatasetItems((prev) => {
-          const copy = [...prev];
-          copy[i] = {
-            ...copy[i],
-            status: 'COMPLETED',
-            result: finalPayload,
-            latency_s: finalPayload.total_elapsed_seconds || 0,
-            winner: finalPayload.winning_architecture || finalPayload.winner?.label || (best ? best.architecture : 'ArthaAI Sequential'),
-            live_arch_index: undefined,
-            live_arch_key: undefined,
-            live_arch_label: undefined,
-            live_step_name: undefined,
-            completed_archs: archsToRun,
-          };
-          return copy;
-        });
-        fetchHistoricalRuns();
-
-        // Inter-scenario pacing pause
-        if (i < itemsToRun.length - 1 && !stopRef.current) {
-          setBatchLiveStatus(`Q-${String(i + 1).padStart(2, '0')} finished. Pacing 1.5s before next scenario...`);
-          await new Promise((r) => setTimeout(r, 1500));
+        if (step < allIndices.length - 1 && !stopRef.current) {
+          await new Promise((r) => setTimeout(r, 1200));
         }
-      } catch (err: any) {
-        console.error(`Error executing question ${i}:`, err);
-        setDatasetItems((prev) => {
-          const copy = [...prev];
-          copy[i] = {
-            ...copy[i],
-            status: 'ERROR',
-            error: err.message || 'Run failed',
-            live_arch_index: undefined,
-            live_arch_key: undefined,
-            live_arch_label: undefined,
-            live_step_name: undefined,
-          };
-          return copy;
-        });
       }
     }
 
     setIsBatchRunning(false);
     setIsBatchPaused(false);
     setBatchCurrentIndex(null);
-    setBatchLiveStatus('Batch run finished. All completed runs saved to disk and dashboard.');
+    setBatchLiveStatus('All scenarios completed. Results persisted to vault.');
     fetchHistoricalRuns();
   };
+
+  // Retry All Failed Scenarios in Parallel
+  const handleRetryFailedParallel = async () => {
+    if (isBatchRunning) return;
+    const failedIndices = datasetItems
+      .map((it, idx) => (it.status === 'ERROR' || (it.status === 'COMPLETED' && (!it.result || Number(it.result.winning_score || 0) <= 0)) ? idx : -1))
+      .filter((idx) => idx !== -1);
+    if (failedIndices.length === 0) return;
+
+    setIsBatchRunning(true);
+    setIsBatchPaused(false);
+    pauseRef.current = false;
+    stopRef.current = false;
+    setBatchLiveStatus(`Retrying ${failedIndices.length} failed scenario(s) in parallel pool...`);
+
+    // Reset error on failed scenarios
+    setDatasetItems((prev) => {
+      const copy = [...prev];
+      failedIndices.forEach((idx) => {
+        copy[idx] = {
+          ...copy[idx],
+          status: 'RUNNING',
+          locked: true,
+          error: undefined,
+          live_arch_index: 1,
+          live_arch_total: copy[idx].architectures?.length || 5,
+          live_step_name: 'Initializing failover retry dispatch...',
+          completed_archs: [],
+        };
+      });
+      return copy;
+    });
+
+    await runWorkerPool(failedIndices, 2);
+
+    setIsBatchRunning(false);
+    setBatchLiveStatus(`Finished retry of ${failedIndices.length} scenario(s). All evidence saved to vault.`);
+    fetchHistoricalRuns();
+  };
+
+  // Run All Scenarios Concurrently in Parallel
+  const handleRunBatchParallel = () => handleContinueRemaining(true);
+
+  // Run Batch Dataset with Progressive Architecture Execution & Live Status
+  const handleRunBatch = () => handleContinueRemaining(false);
 
   const handlePauseBatch = () => {
     pauseRef.current = true;
@@ -3539,25 +3435,160 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               {/* Batch Run Controls */}
               {!isBatchRunning ? (
-                <button
-                  onClick={handleRunBatch}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    backgroundColor: 'var(--groww-green)',
-                    color: '#0F1217',
-                    border: 'none',
-                    borderRadius: '8px',
-                    padding: '8px 18px',
-                    fontSize: '12px',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Play size={14} fill="#0F1217" />
-                  Run All Scenarios
-                </button>
+                completedBatchCount > 0 && (datasetItems.length - completedBatchCount) > 0 ? (
+                  <>
+                    <button
+                      onClick={handleRunBatch}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'var(--groww-green)',
+                        color: '#0F1217',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '8px 18px',
+                        fontSize: '12px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        boxShadow: '0 0 12px rgba(0, 209, 157, 0.3)',
+                      }}
+                      title="Continues execution of remaining uncompleted scenarios without resetting finished ones"
+                    >
+                      <Play size={14} fill="#0F1217" />
+                      ▶ Continue Remaining ({datasetItems.length - completedBatchCount})
+                    </button>
+
+                    <button
+                      onClick={handleRunBatchParallel}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        color: '#3b82f6',
+                        border: '1px solid rgba(59, 130, 246, 0.4)',
+                        borderRadius: '8px',
+                        padding: '8px 16px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                      title="Executes remaining scenarios concurrently in parallel"
+                    >
+                      <Zap size={14} />
+                      ⚡ Continue (Parallel)
+                    </button>
+
+                    <button
+                      onClick={() => handleRestartAll(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'transparent',
+                        color: 'var(--text-muted)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: '8px',
+                        padding: '8px 14px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                      }}
+                      title="Resets all scenarios to pending and re-executes from Q-01"
+                    >
+                      <RotateCcw size={13} />
+                      Restart All ({datasetItems.length})
+                    </button>
+                  </>
+                ) : (datasetItems.length - completedBatchCount) === 0 ? (
+                  <>
+                    <button
+                      onClick={() => handleRestartAll(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'transparent',
+                        color: 'var(--groww-green)',
+                        border: '1px solid var(--groww-green)',
+                        borderRadius: '8px',
+                        padding: '8px 18px',
+                        fontSize: '12px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                      }}
+                      title="Re-executes all scenarios from the beginning"
+                    >
+                      <RotateCcw size={14} />
+                      Rerun All Scenarios
+                    </button>
+
+                    <button
+                      onClick={() => handleRestartAll(true)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        color: '#3b82f6',
+                        border: '1px solid rgba(59, 130, 246, 0.4)',
+                        borderRadius: '8px',
+                        padding: '8px 16px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                      title="Re-executes all scenarios concurrently in parallel"
+                    >
+                      <Zap size={14} />
+                      Rerun All (Parallel)
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={handleRunBatch}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'var(--groww-green)',
+                        color: '#0F1217',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '8px 18px',
+                        fontSize: '12px',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <Play size={14} fill="#0F1217" />
+                      Run All Scenarios
+                    </button>
+
+                    <button
+                      onClick={handleRunBatchParallel}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                        color: '#3b82f6',
+                        border: '1px solid rgba(59, 130, 246, 0.35)',
+                        borderRadius: '8px',
+                        padding: '8px 16px',
+                        fontSize: '12px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                      title="Executes all scenarios simultaneously in parallel with live telemetry"
+                    >
+                      <Zap size={14} />
+                      Run All (Parallel)
+                    </button>
+                  </>
+                )
               ) : isBatchPaused ? (
                 <button
                   onClick={handleResumeBatch}
@@ -3600,31 +3631,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                 </button>
               )}
 
-              {/* Parallel Run & Parallel Retry Action Buttons */}
-              {!isBatchRunning && (
-                <button
-                  onClick={handleRunBatchParallel}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    backgroundColor: 'rgba(59, 130, 246, 0.12)',
-                    color: '#3b82f6',
-                    border: '1px solid rgba(59, 130, 246, 0.35)',
-                    borderRadius: '8px',
-                    padding: '8px 16px',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                  title="Executes all scenarios simultaneously in parallel with live telemetry"
-                >
-                  <Zap size={14} />
-                  Run All (Parallel)
-                </button>
-              )}
-
-              {!isBatchRunning && datasetItems.some((it) => it.status === 'ERROR') && (
+              {!isBatchRunning && datasetItems.some((it) => it.status === 'ERROR' || (it.status === 'COMPLETED' && (!it.result || Number(it.result.winning_score || 0) <= 0))) && (
                 <button
                   onClick={handleRetryFailedParallel}
                   style={{
@@ -3642,10 +3649,10 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                     boxShadow: '0 0 12px rgba(239, 68, 68, 0.25)',
                     transition: 'all 0.2s ease',
                   }}
-                  title="Concurrently retries all failed scenarios simultaneously in parallel"
+                  title="Concurrently retries all failed or rate-limited scenarios in parallel pool"
                 >
                   <RotateCcw size={14} />
-                  Retry All Failed ({datasetItems.filter((it) => it.status === 'ERROR').length}) in Parallel
+                  Retry Failed ({datasetItems.filter((it) => it.status === 'ERROR' || (it.status === 'COMPLETED' && (!it.result || Number(it.result.winning_score || 0) <= 0))).length}) in Parallel
                 </button>
               )}
 
@@ -3830,6 +3837,91 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   }}
                 >
                   Save Question
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Dataset Session Continuity & Recovery Banner */}
+          {!isBatchRunning && completedBatchCount > 0 && (datasetItems.length - completedBatchCount) > 0 && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '14px',
+                padding: '14px 20px',
+                backgroundColor: 'rgba(0, 209, 157, 0.08)',
+                border: '1px solid rgba(0, 209, 157, 0.3)',
+                borderRadius: '12px',
+                flexWrap: 'wrap',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(0, 209, 157, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CheckCircle2 size={18} color="var(--groww-green)" />
+                </div>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    Active Session Continuity: {completedBatchCount} of {datasetItems.length} scenarios completed
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                    {datasetItems.length - completedBatchCount} scenarios remaining
+                    {datasetItems.some((it) => it.status === 'ERROR') ? ` (${datasetItems.filter((it) => it.status === 'ERROR').length} failed / rate-limited)` : ''}.
+                    You can continue seamlessly without re-running finished scenarios.
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  onClick={handleRunBatch}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: 'var(--groww-green)',
+                    color: '#0F1217',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '8px 16px',
+                    fontSize: '12px',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Play size={13} fill="#0F1217" />
+                  Continue Remaining ({datasetItems.length - completedBatchCount})
+                </button>
+
+                <button
+                  onClick={handleRunBatchParallel}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                    color: '#3b82f6',
+                    border: '1px solid rgba(59, 130, 246, 0.35)',
+                    borderRadius: '8px',
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Zap size={13} />
+                  Continue (Parallel)
                 </button>
               </div>
             </div>

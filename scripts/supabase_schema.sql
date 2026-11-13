@@ -111,3 +111,4 @@ VALUES
     ('newuser@gmail.com', 'New User', 'USER', 'GOOGLE')
 ON CONFLICT (email) DO UPDATE 
 SET role = EXCLUDED.role, name = EXCLUDED.name, updated_at = timezone('utc'::text, now());
+

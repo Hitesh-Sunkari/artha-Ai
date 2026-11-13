@@ -103,6 +103,7 @@ class LLMConfig(BaseSettings):
 
     openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
     gemini_api_key: str | None = Field(default=None, alias="GEMINI_API_KEY")
+    gemini_api_key2: str | None = Field(default=None, alias="GEMINI_API_KEY2")
     google_api_key: str | None = Field(default=None, alias="GOOGLE_API_KEY")
 
     # Cascade: prefer GEMINI if key is present, else OPENAI, else DETERMINISTIC
@@ -117,18 +118,29 @@ class LLMConfig(BaseSettings):
     max_budget_per_run_usd: float = 10.00
 
     @property
-    def effective_gemini_key(self) -> str | None:
+    def all_gemini_keys(self) -> list[str]:
+        """Returns all configured Gemini API keys in priority order for automatic failover."""
         import os
-        if "gemini_api_key" in self.model_fields_set:
-            return self.gemini_api_key if (self.gemini_api_key and self.gemini_api_key.strip()) else None
-        if "google_api_key" in self.model_fields_set:
-            return self.google_api_key if (self.google_api_key and self.google_api_key.strip()) else None
-        if self.gemini_api_key is not None and self.gemini_api_key.strip():
-            return self.gemini_api_key.strip()
-        if self.google_api_key is not None and self.google_api_key.strip():
-            return self.google_api_key.strip()
-        k = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-        return k.strip() if k and k.strip() else None
+        keys: list[str] = []
+        # Key 1
+        k1 = self.gemini_api_key or os.environ.get("GEMINI_API_KEY") or self.google_api_key or os.environ.get("GOOGLE_API_KEY")
+        if k1 and k1.strip() and k1.strip() not in keys:
+            keys.append(k1.strip())
+        # Key 2
+        k2 = self.gemini_api_key2 or os.environ.get("GEMINI_API_KEY2") or os.environ.get("GEMINI_API_KEY_2")
+        if k2 and k2.strip() and k2.strip() not in keys:
+            keys.append(k2.strip())
+        # Any additional keys (e.g. GEMINI_API_KEY3)
+        for i in range(3, 10):
+            ki = os.environ.get(f"GEMINI_API_KEY{i}") or os.environ.get(f"GEMINI_API_KEY_{i}")
+            if ki and ki.strip() and ki.strip() not in keys:
+                keys.append(ki.strip())
+        return keys
+
+    @property
+    def effective_gemini_key(self) -> str | None:
+        keys = self.all_gemini_keys
+        return keys[0] if keys else None
 
     @property
     def has_openai(self) -> bool:

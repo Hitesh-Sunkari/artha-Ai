@@ -1,0 +1,42 @@
+{
+  "total_chunks": 21,
+  "doc_types": {
+    "REGULATION": 4,
+    "STATUTE": 2,
+    "MACRO": 2,
+    "FILING": 12,
+    "SURVEILLANCE": 1
+  },
+  "symbols": {
+    "ALL": 9,
+    "RELIANCE": 1,
+    "TCS": 1,
+    "INFY": 1,
+    "HDFCBANK": 1,
+    "TATAMOTORS": 3,
+    "ICICIBANK": 1,
+    "SBIN": 1,
+    "ITC": 1,
+    "WIPRO": 1,
+    "ETERNAL": 1
+  },
+  "authorities": {
+    "Securities and Exchange Board of India (SEBI)": 5,
+    "Ministry of Finance, Government of India": 2,
+    "Reserve Bank of India (RBI)": 2,
+    "National Stock Exchange of India (NSE) Corporate Disclosures": 10,
+    "BSE/NSE Corporate Disclosures (Tata Motors)": 1,
+    "National Stock Exchange of India (NSE)": 1
+  },
+  "retrieval_tests": {
+    "exact_filing": 3,
+    "semantic_retrieval": 3,
+    "numeric_lookup": 3,
+    "company_filtering_reliance": 3,
+    "company_filtering_tcs": 3,
+    "cutoff_past": 5,
+    "cutoff_current": 5,
+    "missing_evidence": 3,
+    "citation_pass_rate": "6/7"
+  }
+}

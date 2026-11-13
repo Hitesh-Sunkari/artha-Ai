@@ -222,3 +222,4 @@ def persist_benchmark_execution_pg(record: dict[str, Any]) -> None:
         conn.close()
     except Exception as e:
         logger.warning(f"[PostgreSQL] Failed to persist benchmark execution to PostgreSQL: {e}")
+

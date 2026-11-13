@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArthaAIBenchmarkDatasetSchema",
+  "type": "object",
+  "required": [
+    "benchmark_version",
+    "name",
+    "generated_at",
+    "market_jurisdiction",
+    "statutory_framework",
+    "total_scenarios",
+    "repetitions_per_scenario",
+    "total_experimental_executions",
+    "scenarios"
+  ],
+  "properties": {
+    "benchmark_version": { "type": "string" },
+    "name": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "data_snapshot": { "type": "string" },
+    "market_jurisdiction": { "type": "string" },
+    "statutory_framework": { "type": "string" },
+    "total_scenarios": { "type": "integer", "const": 12 },
+    "repetitions_per_scenario": { "type": "integer", "const": 4 },
+    "total_experimental_executions": { "type": "integer", "const": 96 },
+    "system_a": { "type": "string" },
+    "system_b": { "type": "string" },
+    "scenarios": {
+      "type": "array",
+      "minItems": 12,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "scenario_id",
+          "name",
+          "workflow_type",
+          "difficulty",
+          "target_symbols",
+          "question",
+          "required_subtasks",
+          "expected_tools",
+          "reference_answer_id",
+          "numerical_invariants",
+          "numerical_tolerances",
+          "acceptable_conclusions",
+          "critical_error_conditions",
+          "data_availability_status"
+        ],
+        "properties": {
+          "scenario_id": { "type": "string", "pattern": "^(Q0[1-6]|S0[1-6])$" },
+          "name": { "type": "string" },
+          "workflow_type": { "type": "string", "enum": ["QUERY_BASED", "STOCK_SELECTION"] },
+          "difficulty": { "type": "string", "enum": ["BEGINNER", "INTERMEDIATE", "ADVANCED", "HARD"] },
+          "target_symbols": { "type": "array", "items": { "type": "string" } },
+          "question": { "type": "string" },
+          "query_variations": { "type": "array", "items": { "type": "string" } },
+          "input_parameters": { "type": "object" },
+          "required_subtasks": { "type": "array", "items": { "type": "string" } },
+          "expected_tools": { "type": "array", "items": { "type": "string" } },
+          "reference_answer_id": { "type": "string" },
+          "numerical_invariants": { "type": "object" },
+          "numerical_tolerances": { "type": "object" },
+          "acceptable_conclusions": { "type": "array", "items": { "type": "string" } },
+          "unsupported_conclusions": { "type": "array", "items": { "type": "string" } },
+          "critical_error_conditions": { "type": "array", "items": { "type": "string" } },
+          "data_availability_status": { "type": "string", "enum": ["VERIFIED", "PARTIALLY_VERIFIED", "BLOCKED", "NOT_APPLICABLE"] }
+        }
+      }
+    }
+  }
+}

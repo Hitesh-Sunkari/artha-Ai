@@ -1,0 +1,191 @@
+[
+  {
+    "tool_name": "query_market_data",
+    "signature": "(symbol: str, start_date: str, end_date: str, as_of_time: str, limit: int = 1500) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / YahooFinancePipeline / data/parquet/ohlcv/",
+    "data_provenance": "Genuine Historical Market Observations (NSE/Yahoo Finance canonical bars)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'records_count', 'empty_result', 'records', 'pit_cutoff', 'source']",
+    "invalid_error_handling": "Gracefully handled: status=empty"
+  },
+  {
+    "tool_name": "calculate_statutory_costs",
+    "signature": "(instrument_type: Literal['EQUITY_DELIVERY', 'EQUITY_INTRADAY', 'FUTURES', 'OPTIONS'], price: float, quantity: int, transaction_type: Literal['BUY', 'SELL', 'ROUND_TRIP'] = 'BUY', as_of_date: str | None = None) -> dict[str, typing.Any]",
+    "backend": "TransactionCostEngine (Finance No. 2 Act 2024 Schedule)",
+    "data_provenance": "Deterministic Statutory Calculation (Finance No. 2 Act 2024)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['instrument_type', 'transaction_type', 'price', 'quantity', 'turnover', 'as_of_date']",
+    "invalid_error_handling": "Raised exception: ValueError: Unsupported instrument_type 'INVALID_TYPE'. Supported: ['EQUITY_DELIVERY', 'EQUI"
+  },
+  {
+    "tool_name": "retrieve_regulatory_evidence",
+    "signature": "(query: str, symbol: str | None = None, doc_type: str | None = None, as_of_time: str | None = None, limit: int = 5) -> dict[str, typing.Any]",
+    "backend": "RAGRetriever / ChromaRAGStore (data/chroma/)",
+    "data_provenance": "Official Statutory & Corporate Regulatory Passages (SEBI/MoF/RBI)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['query', 'symbol', 'matches_count', 'citations', 'results']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['query', 'symbol', 'matches_count', 'citations']"
+  },
+  {
+    "tool_name": "calculate_quant_features",
+    "signature": "(symbol: str, prices: list[float]) -> dict[str, typing.Any]",
+    "backend": "Deterministic NumPy / Quant Indicator Pipeline",
+    "data_provenance": "Deterministic Mathematical Indicators (from input prices)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'observations_count', 'status', 'latest_close', 'sample_return_mean', 'realized_volatility_annualized']",
+    "invalid_error_handling": "Gracefully handled: status=UNAVAILABLE"
+  },
+  {
+    "tool_name": "validate_research_evidence",
+    "signature": "(citations: list[str], target_symbol: str | None = None, as_of_time: str | None = None) -> dict[str, typing.Any]",
+    "backend": "CitationVerifier / ChromaRAGStore / Parquet Manifest",
+    "data_provenance": "Deterministic Integrity Audit against indexed passages",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['total_citations', 'valid_count', 'unverified_count', 'all_valid', 'valid_citations', 'unverified_citations']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['total_citations', 'valid_count', 'unverified_count', 'all_valid']"
+  },
+  {
+    "tool_name": "resolve_security",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "SecurityMaster (configs/seed_universe.json + exchange master)",
+    "data_provenance": "Official Reference / Seed Universe (NSE/BSE master)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['query_symbol', 'resolved', 'canonical_id', 'symbol', 'exchange', 'yahoo_ticker']",
+    "invalid_error_handling": "Gracefully handled: status=empty"
+  },
+  {
+    "tool_name": "get_data_coverage",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "Multi-category catalog inspector (Parquet/DuckDB)",
+    "data_provenance": "Actual Persisted Parquet Storage Audit",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'canonical_id', 'exchange', 'company_name', 'is_sme', 'has_derivatives']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'canonical_id', 'exchange', 'company_name']"
+  },
+  {
+    "tool_name": "get_corporate_actions",
+    "signature": "(symbol: str, action_type: str | None = None) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / data/parquet/corporate_actions/",
+    "data_provenance": "Official NSE/BSE Corporate Actions (1:1 bonus, dividends)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'actions_count', 'actions']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'actions_count', 'actions']"
+  },
+  {
+    "tool_name": "get_financial_results",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / data/parquet/financials/",
+    "data_provenance": "Official SEBI LODR Reg 33 Audited Financial Results",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'results_count', 'results']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'results_count', 'results']"
+  },
+  {
+    "tool_name": "get_option_chain",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "OptionEngine / data/parquet/options/",
+    "data_provenance": "Official NSE Derivatives Snapshot & Black-Scholes Greeks",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'contracts_count', 'contracts']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'contracts_count', 'contracts']"
+  },
+  {
+    "tool_name": "get_derivative_coverage",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "OptionEngine / SecurityMaster",
+    "data_provenance": "Official NSE Lot Sizes & F&O Entitlement Registry",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'is_fno_eligible', 'lot_size', 'supported_expiries', 'total_strikes_tracked', 'total_call_oi']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'is_fno_eligible', 'lot_size', 'supported_expiries']"
+  },
+  {
+    "tool_name": "get_macro_events",
+    "signature": "(category: str | None = None, symbol: str | None = None) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / data/parquet/macro/economic_events.parquet",
+    "data_provenance": "Official RBI MPC & MoSPI Macroeconomic Series",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['events_count', 'events']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['events_count', 'events']"
+  },
+  {
+    "tool_name": "get_corporate_news",
+    "signature": "(symbol: str | None = None, category: str | None = None) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / data/parquet/news/corporate_news.parquet",
+    "data_provenance": "Official Exchange Announcements (NSE Corporate Disclosures)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['articles_count', 'articles']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['articles_count', 'articles']"
+  },
+  {
+    "tool_name": "get_historical_bars",
+    "signature": "(symbol: str, start_date: str | None = None, end_date: str | None = None, as_of_time: str | None = None, limit: int = 1500) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / data/parquet/ohlcv/bars_{symbol}.parquet",
+    "data_provenance": "Genuine Historical Market Observations (Parquet storage)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'records_count', 'empty_result', 'records', 'pit_cutoff', 'source']",
+    "invalid_error_handling": "Gracefully handled: status=empty"
+  },
+  {
+    "tool_name": "get_latest_quote",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "DuckDBEngine / yfinance cache / latest parquet bar",
+    "data_provenance": "Genuine Market Quote / Latest Canonical Bar",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'latest_close', 'observation_timestamp', 'retrieval_timestamp', 'currency', 'data_mode']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'latest_close', 'observation_timestamp', 'retrieval_timestamp']"
+  },
+  {
+    "tool_name": "get_data_quality_report",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "DataQualityEngine (OHLC monotonicity, bounds, continuity)",
+    "data_provenance": "Deterministic Quality Audit of actual Parquet records",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'total_bars', 'missing_values_count', 'zero_negative_prices_count', 'duplicate_timestamps_count', 'observation_range_start']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'total_bars', 'missing_values_count', 'zero_negative_prices_count']"
+  },
+  {
+    "tool_name": "get_expired_contract_history",
+    "signature": "(symbol: str) -> dict[str, typing.Any]",
+    "backend": "OptionEngine (SEBI/NSE entitlement limits & disclosures)",
+    "data_provenance": "Official Regulatory Entitlement & Boundary Disclosures",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'is_fno_eligible', 'status', 'expired_contracts_limitation', 'active_expiries_supported', 'total_active_strikes']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'is_fno_eligible', 'status', 'expired_contracts_limitation']"
+  },
+  {
+    "tool_name": "search_filings",
+    "signature": "(symbol: str, query: str = 'financial results disclosures', as_of_time: str | None = None, limit: int = 5) -> dict[str, typing.Any]",
+    "backend": "RAGRetriever (ChromaDB filtered by doc_type=FILING)",
+    "data_provenance": "Official Corporate LODR Filings (ChromaDB index)",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'query', 'matches_count', 'results']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['symbol', 'query', 'matches_count', 'results']"
+  },
+  {
+    "tool_name": "search_news_and_macro",
+    "signature": "(symbol: str | None = None, category: str | None = None) -> dict[str, typing.Any]",
+    "backend": "RAGRetriever + DuckDBEngine news/macro index",
+    "data_provenance": "Official Macro & Exchange Announcements",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['macro_events_count', 'news_articles_count', 'macro_events', 'news_articles']",
+    "invalid_error_handling": "Returned: <class 'dict'> keys=['macro_events_count', 'news_articles_count', 'macro_events', 'news_articles']"
+  },
+  {
+    "tool_name": "calculate_indicators",
+    "signature": "(symbol: str, prices: list[float]) -> dict[str, typing.Any]",
+    "backend": "Deterministic NumPy math routines",
+    "data_provenance": "Deterministic Technical Indicators",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['symbol', 'observations_count', 'status', 'latest_close', 'sample_return_mean', 'realized_volatility_annualized']",
+    "invalid_error_handling": "Gracefully handled: status=INSUFFICIENT_OBSERVATIONS"
+  },
+  {
+    "tool_name": "get_evidence_passage",
+    "signature": "(chunk_id: str) -> dict[str, typing.Any]",
+    "backend": "RAGRetriever / ChromaRAGStore (data/chroma/)",
+    "data_provenance": "Official Regulatory & Statutory Primary Text Passages",
+    "valid_execution_status": "SUCCESS",
+    "valid_output_summary": "dict with keys ['found', 'chunk_id', 'error']",
+    "invalid_error_handling": "Gracefully handled: status=Chunk ID not found in RAG registry."
+  }
+]

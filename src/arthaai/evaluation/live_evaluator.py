@@ -1340,8 +1340,21 @@ class LiveEvaluationController:
             for k, v in results.items()
         ]
 
+        # 1. Enforce strict filter for valid, successful architectures
+        successful_results = {
+            k: v for k, v in results.items()
+            if v.get("status") != "ERROR" and safe_float(v.get("composite_score") or v.get("metrics", {}).get("composite_quality_index"), 0.0) > 0.0
+        }
+
+        if not successful_results:
+            logger.error("All architectures failed for query '%s'. Not persisting 0-score comparison payload.", query)
+            raise ValueError(
+                "All architectures encountered operational errors or LLM unavailability. "
+                "Comparison cannot be finalized with zero scores to protect benchmark composite integrity."
+            )
+
         sorted_by_quality = sorted(
-            results.items(),
+            successful_results.items(),
             key=lambda x: safe_float(x[1].get("composite_score") or x[1].get("metrics", {}).get("composite_quality_index"), 0.0),
             reverse=True
         )
@@ -1746,12 +1759,19 @@ class LiveEvaluationController:
         dim2_store = {ad["key"]: {"seq": [], "par": [], "hie": []} for ad in area_defs}
 
         for r in runs:
+            w_score = safe_float(r.get("winning_score") or r.get("winner", {}).get("quality"), 0.0)
+            if w_score <= 0.0:
+                continue
+
             winner = str(r.get("winning_architecture") or r.get("winner", {}).get("label") or "")
             if any(k in winner for k in ("ArthaAI", "Sequential", "Parallel", "Hierarchical")):
                 multi_agent_wins += 1
 
             res = r.get("results", {})
             for arch_key, arch_val in res.items():
+                if arch_val.get("status") == "ERROR":
+                    continue
+
                 m = arch_val.get("metrics", {})
                 audit = m.get("audit_areas", {}) or arch_val.get("audit_areas", {})
                 if not audit:
@@ -1790,24 +1810,26 @@ class LiveEvaluationController:
                 is_react = "REACT" in arch_key
                 is_single = any(k in arch_key for k in ("SINGLE", "BASELINE"))
 
-                if is_seq and score is not None:
+                has_valid_score = score is not None and safe_float(score, 0.0) > 0.0
+
+                if is_seq and has_valid_score:
                     arch_perf["ArthaAI Sequential Flow"]["scores"].append(score)
                     if lat: arch_perf["ArthaAI Sequential Flow"]["latencies"].append(lat)
-                elif is_par and score is not None:
+                elif is_par and has_valid_score:
                     arch_perf["ArthaAI Parallel Fleet"]["scores"].append(score)
                     if lat: arch_perf["ArthaAI Parallel Fleet"]["latencies"].append(lat)
-                elif is_hie and score is not None:
+                elif is_hie and has_valid_score:
                     arch_perf["ArthaAI Hierarchical Fleet"]["scores"].append(score)
                     if lat: arch_perf["ArthaAI Hierarchical Fleet"]["latencies"].append(lat)
-                elif is_react and score is not None:
+                elif is_react and has_valid_score:
                     arch_perf["ReAct Single Agent"]["scores"].append(score)
                     if lat: arch_perf["ReAct Single Agent"]["latencies"].append(lat)
-                elif is_single and score is not None:
+                elif is_single and has_valid_score:
                     arch_perf["Solitary LLM Baseline"]["scores"].append(score)
                     if lat: arch_perf["Solitary LLM Baseline"]["latencies"].append(lat)
 
                 if is_multi:
-                    if score is not None: multi_agent_scores.append(score)
+                    if has_valid_score: multi_agent_scores.append(score)
                     if m.get("analytical_accuracy") is not None: multi_agent_acc.append(m["analytical_accuracy"])
                     elif arch_val.get("analytical_accuracy") is not None: multi_agent_acc.append(arch_val["analytical_accuracy"])
                     if m.get("evidence_grounding") is not None: multi_agent_grd.append(m["evidence_grounding"])
@@ -1822,7 +1844,7 @@ class LiveEvaluationController:
                     if m.get("retry_recovery_rate") is not None: multi_agent_retries.append(m["retry_recovery_rate"])
                     elif arch_val.get("retry_recovery_rate") is not None: multi_agent_retries.append(arch_val["retry_recovery_rate"])
                 else:
-                    if score is not None: baseline_scores.append(score)
+                    if has_valid_score: baseline_scores.append(score)
 
                 # Route audit areas
                 for ad in area_defs:

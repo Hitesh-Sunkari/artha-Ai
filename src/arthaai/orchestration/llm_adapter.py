@@ -73,6 +73,39 @@ class LLMAdapter:
         self._total_cost_usd: float = 0.00385
         self._gemini_semaphore = asyncio.Semaphore(2)  # Strict concurrency limit for Gemini REST calls
         self._last_gemini_call_time: float = 0.0
+        self._active_gemini_key_idx: int = 0
+
+    def get_current_gemini_key(self) -> str | None:
+        """Returns the active Gemini API key from configured keys with multi-key failover support."""
+        keys = self.config.all_gemini_keys
+        if not keys:
+            return self.config.effective_gemini_key
+        return keys[self._active_gemini_key_idx % len(keys)]
+
+    def rotate_gemini_key(self, reason: str = "Rate limit / Quota exceeded") -> str | None:
+        """Rotates seamlessly to the next available Gemini API key and synchronizes process environment."""
+        import os
+        keys = self.config.all_gemini_keys
+        if not keys or len(keys) <= 1:
+            return self.get_current_gemini_key()
+        prev_idx = self._active_gemini_key_idx % len(keys)
+        self._active_gemini_key_idx = (self._active_gemini_key_idx + 1) % len(keys)
+        new_idx = self._active_gemini_key_idx % len(keys)
+        new_key = keys[new_idx]
+
+        # Dynamically synchronize environment variables so downstream libraries also use failover key
+        os.environ["GEMINI_API_KEY"] = new_key
+        os.environ["GOOGLE_API_KEY"] = new_key
+
+        logger.warning(
+            "[LLM] Gemini key failover triggered (%s). Rotated from Key #%d (..%s) to Key #%d (..%s).",
+            reason,
+            prev_idx + 1,
+            keys[prev_idx][-6:] if len(keys[prev_idx]) >= 6 else "***",
+            new_idx + 1,
+            new_key[-6:] if len(new_key) >= 6 else "***",
+        )
+        return new_key
 
     def is_provider_available(self, provider: str) -> bool:
         """Returns True if provider has not hit persistent exhaustion or temporary rate-limit cooldown."""
@@ -400,7 +433,8 @@ class LLMAdapter:
         """Executes a Google Gemini model invocation via direct HTTPS REST (bypasses gRPC)."""
         import httpx
 
-        api_key = self.config.effective_gemini_key
+        api_key = self.get_current_gemini_key()
+        all_keys = self.config.all_gemini_keys
         # Normalize model name: strip models/ prefix if present
         model_name = self.config.gemini_model
         if model_name.startswith("models/"):
@@ -453,7 +487,7 @@ class LLMAdapter:
 
                 for cand in candidate_models:
                     url = f"https://generativelanguage.googleapis.com/v1beta/models/{cand}:generateContent"
-                    for attempt in range(3):
+                    for attempt in range(max(3, len(all_keys) * 2)):
                         try:
                             async with httpx.AsyncClient(timeout=self.config.timeout_seconds) as client:
                                 resp = await client.post(url, headers=headers, params=params, json=body)
@@ -465,14 +499,23 @@ class LLMAdapter:
                             selected_model = cand
                             break
 
-                        if resp.status_code == 429:
-                            wait_sec = 1.8 * (attempt + 1) + random.uniform(0.1, 0.4)
-                            logger.warning(
-                                "[LLM] Gemini %s 429 rate limit. Pausing %.1fs before retry (attempt %d/3)...",
-                                cand, wait_sec, attempt + 1
-                            )
-                            await asyncio.sleep(wait_sec)
-                            continue
+                        if resp.status_code in (429, 403):
+                            last_err_text = resp.text[:200]
+                            if len(all_keys) > 1:
+                                # Seamless key rotation: switch to backup key immediately without heavy delay
+                                new_k = self.rotate_gemini_key(f"HTTP {resp.status_code} on {cand}")
+                                params["key"] = new_k
+                                logger.info("[LLM] Failover key active. Retrying immediately...")
+                                await asyncio.sleep(0.25)
+                                continue
+                            else:
+                                wait_sec = 1.8 * (attempt + 1) + random.uniform(0.1, 0.4)
+                                logger.warning(
+                                    "[LLM] Gemini %s %d rate limit (single key). Pausing %.1fs before retry (attempt %d)...",
+                                    cand, resp.status_code, wait_sec, attempt + 1
+                                )
+                                await asyncio.sleep(wait_sec)
+                                continue
 
                         if resp.status_code in (503, 500, 404):
                             last_err_text = resp.text[:200]

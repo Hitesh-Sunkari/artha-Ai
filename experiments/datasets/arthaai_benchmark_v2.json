@@ -1,0 +1,974 @@
+{
+  "benchmark_version": "2.0.0",
+  "name": "ArthaAI Institutional Financial Benchmark v2 (40 Scenarios, 5 Personas)",
+  "generated_at": "2026-11-10T12:11:56.963105+00:00",
+  "total_scenarios": 40,
+  "personas_count": 5,
+  "architectures_evaluated": [
+    "ARTHAAI_MULTI_AGENT",
+    "REACT_AGENT_BASELINE",
+    "SINGLE_AGENT_BASELINE"
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "Q01",
+      "name": "Reliance Industries 5Y Integrated Capital Allocation & O2C Multiples",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Energy & Diversified",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "RELIANCE.NS"
+      ],
+      "question": "Evaluate 5-year capital allocation, O2C margin outlook, and retail/telecom cash conversion for Reliance Industries.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1438.3,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "SEBI LODR Regulation 44 21-day notice for shareholder meetings. Finance Act 2024 revised STT schedule: delivery STT 10 bps, derivative STT 2 bps. Reliance 5Y historical OHLCV closing at \u20b91438.30 with 23.4% annualized volatility."
+    },
+    {
+      "scenario_id": "Q02",
+      "name": "Tata Motors EV Segment Margin Cannibalization & JLR Free Cash Flow",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "STANDARD",
+      "sector": "Automotive",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "TATAMOTORS.NS"
+      ],
+      "question": "Stress-test Tata Motors valuation against European EV demand contraction, JLR capex commitments, and domestic commercial vehicle replacement cycles.",
+      "numerical_invariants": {
+        "anchor_closing_price": 980.5,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "SKEPTICAL_HOLD",
+      "ground_truth_evidence": "SEBI LODR 2015 Reg 44 compliance. Finance Act 2024 delivery STT 10 bps, total roundtrip friction 22.22 bps. JLR EBIT margin expansion target 8.5% with peak-to-trough historical drawdown of 38.4%."
+    },
+    {
+      "scenario_id": "Q03",
+      "name": "HDFC Bank Post-Merger NPA Recognition & Net Interest Margin Pressure",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Banking & Financials",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "HDFCBANK.NS"
+      ],
+      "question": "Audit post-merger mortgage integration, CASA ratio trends, liquidity coverage ratios, and statutory credit provisioning adequacy for HDFC Bank.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1642.1,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE_ON_DIPS",
+      "ground_truth_evidence": "RBI Master Direction on Prudential Norms on Income Recognition and Asset Classification. SEBI LODR Regulation 44 remote e-voting 21 days notice. HDFC Bank NIM compressed to 3.45% post merger."
+    },
+    {
+      "scenario_id": "Q04",
+      "name": "TCS vs Infosys Attrition, Margin Defensibility & Generative AI Capex",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "STANDARD",
+      "sector": "Information Technology",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "TCS.NS"
+      ],
+      "question": "Perform quantitative pairs analysis of TCS vs Infosys across operating margin defensibility, dollar revenue momentum, and voluntary attrition.",
+      "numerical_invariants": {
+        "anchor_closing_price": 3840.2,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "PAIR_OVERWEIGHT_TCS",
+      "ground_truth_evidence": "TCS EBIT margin 26.0% vs Infosys 21.2%. Attrition rate 12.1% (TCS) vs 14.8% (Infosys). Finance Act 2024 STT 10 bps delivery equity friction. Ledoit-Wolf covariance shrinkage applied."
+    },
+    {
+      "scenario_id": "Q05",
+      "name": "State Bank of India (SBIN) Sensitivity to RBI Repo Rate Cut & Treasury MTM",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Banking & Financials",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "SBIN.NS"
+      ],
+      "question": "Model SBIN earnings sensitivity, modified duration of AFS/HFT bond portfolios, and loan re-pricing lag under an impending 50 bps RBI repo rate easing cycle.",
+      "numerical_invariants": {
+        "anchor_closing_price": 815.4,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "TACTICAL_BUY",
+      "ground_truth_evidence": "RBI Monetary Policy Committee resolution stance. SBIN Gross NPA 2.24%, Net NPA 0.57%. Treasury investment book modified duration 1.84 years. Statutory friction 22.22 bps roundtrip."
+    },
+    {
+      "scenario_id": "Q06",
+      "name": "Sun Pharma USFDA Halol Warning Letter & Taro Restructuring",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "STANDARD",
+      "sector": "Pharmaceuticals",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "SUNPHARMA.NS"
+      ],
+      "question": "Evaluate USFDA regulatory inspection remediation costs, Taro complete buyout synergies, and specialty drug revenue contribution for Sun Pharma.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1780.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "USFDA Form 483 inspection observations. SEBI LODR 2015 Reg 44 advance notice. Sun Pharma Global Specialty revenue reached 18.5% of total sales. STT 10 bps delivery."
+    },
+    {
+      "scenario_id": "Q07",
+      "name": "Bharti Airtel ARPU Inflection, 5G Capex Peak & Indus Towers Lease Drag",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Telecommunications",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "BHARTIARTL.NS"
+      ],
+      "question": "Assess mobile tariff hike transmission, free cash flow inflection post peak 5G network rollout, and return on capital employed for Bharti Airtel.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1585.5,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "LONG_TERM_COMPOUNDER",
+      "ground_truth_evidence": "TRAI monthly subscriber report. Indian wireless ARPU crossed \u20b9211. Finance Act 2024 STT 10 bps. Free cash flow generation expected to double over 3 years."
+    },
+    {
+      "scenario_id": "Q08",
+      "name": "Larsen & Toubro Mega Order Book Execution & Working Capital Cycle",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "STANDARD",
+      "sector": "Infrastructure & Capital Goods",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "LT.NS"
+      ],
+      "question": "Analyze L&T consolidated order book of \u20b94.8 lakh crore, Middle East hydrocarbon project execution margins, and domestic infrastructure ordering velocity.",
+      "numerical_invariants": {
+        "anchor_closing_price": 3620.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "STRONG_BUY",
+      "ground_truth_evidence": "SEBI LODR 2015 Reg 44 notice. L&T working capital to sales ratio stable at 16.2%. Delivery STT 10 bps. Core EPC operating margin 8.6%."
+    },
+    {
+      "scenario_id": "Q09",
+      "name": "ITC Hotels Demerger Ratio & FMCG Margin Resilience",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "FMCG & Diversified",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "ITC.NS"
+      ],
+      "question": "Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, non-cigarette FMCG EBITDA margin trajectory, and dividend yield.",
+      "numerical_invariants": {
+        "anchor_closing_price": 472.3,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "DIVIDEND_COMPOUNDER",
+      "ground_truth_evidence": "SEBI LODR Reg 44 remote e-voting 21 days notice. NCLT approved hotel demerger scheme. Dividend payout ratio ~85%. Statutory drag 22.22 bps."
+    },
+    {
+      "scenario_id": "Q10",
+      "name": "MCX Gold vs Silver Delivery Surge, Exchange Turnover & 1.5 bps STT Drag",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "STANDARD",
+      "sector": "Commodities & Exchanges",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "TATSILV"
+      ],
+      "question": "Examine volume surges across domestic gold and silver ETF contracts, commodity STT rate of 1.5 bps, and physical delivery warehouse utilization.",
+      "numerical_invariants": {
+        "anchor_closing_price": 94.2,
+        "statutory_stt_bps": 1.5,
+        "statutory_friction_drag_bps": 1.5,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "TACTICAL_ACCUMULATE",
+      "ground_truth_evidence": "MCX physical bullion delivery statistics. Finance Act 2024 commodity ETF transaction tax schedule (1.5 bps vs 10 bps equity delivery). Silver spot anchor \u20b994.20."
+    },
+    {
+      "scenario_id": "Q11",
+      "name": "Bajaj Finance High-Frequency Consumer Credit Defaults & Regulatory Risk Weights",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Banking & Financials",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "BAJFINANCE.NS"
+      ],
+      "question": "Stress-test Bajaj Finance unsecured personal loan portfolio against RBI revised risk-weight guidelines, customer acquisition cost inflation, and Stage-2 asset migration.",
+      "numerical_invariants": {
+        "anchor_closing_price": 6850.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "CAUTIOUS_HOLD",
+      "ground_truth_evidence": "RBI circular on regulatory measures towards consumer credit risk weights (+25 bps). SEBI LODR Reg 44. Credit cost normalized at 1.95%. Statutory friction 22.22 bps."
+    },
+    {
+      "scenario_id": "Q12",
+      "name": "Adani Ports Cash Flow Forensic Audit & SEBI LODR 23 Disclosures",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "STANDARD",
+      "sector": "Infrastructure & Logistics",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "ADANIPORTS.NS"
+      ],
+      "question": "Conduct forensic examination of Adani Ports operating cash flows, related-party transactions under SEBI LODR Regulation 23, net debt-to-EBITDA, and Haifa port cargo.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1395.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "VERIFIED_PASS",
+      "ground_truth_evidence": "SEBI LODR Regulation 23 (Related Party Disclosures) and Regulation 44 (21-day notice). Consolidated Net Debt/EBITDA 2.3x. Operating cash flow conversion 88%."
+    },
+    {
+      "scenario_id": "Q13",
+      "name": "ICICI Bank Retail Unsecured Loan Growth vs Provision Coverage Ratio",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Banking & Financials",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "ICICIBANK.NS"
+      ],
+      "question": "Analyze ICICI Bank core operating profit trajectory, loan book underwriting discipline, provision coverage ratio (82%), and domestic loan growth outperformance.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1285.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "HIGH_CONVICTION_BUY",
+      "ground_truth_evidence": "RBI prudential asset classification norms. ICICI Bank RoA 2.36%, RoE 18.5%. SEBI LODR Reg 44 notice confirmed. Delivery STT 10 bps."
+    },
+    {
+      "scenario_id": "Q14",
+      "name": "Hindustan Unilever Volume Growth Deceleration & Rural FMCG Demand",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "STANDARD",
+      "sector": "FMCG",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "HINDUNILVR.NS"
+      ],
+      "question": "Assess HUL underlying volume growth trends across beauty, home care, and food categories amidst local brand competition and rural wage recovery.",
+      "numerical_invariants": {
+        "anchor_closing_price": 2420.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "DEFENSIVE_HOLD",
+      "ground_truth_evidence": "SEBI LODR 2015 Reg 44 21-day notice. HUL gross margin expansion 150 bps offset by A&P reinvestment. STT 10 bps delivery."
+    },
+    {
+      "scenario_id": "Q15",
+      "name": "Tata Steel Domestic Realization vs European Blast Furnace Decarbonization",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Metals & Mining",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "TATASTEEL.NS"
+      ],
+      "question": "Model Tata Steel consolidated debt trajectory, UK Port Talbot electric arc furnace transition grant terms, and Chinese steel export dump pressure.",
+      "numerical_invariants": {
+        "anchor_closing_price": 154.2,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "SKEPTICAL_REDUCE",
+      "ground_truth_evidence": "UK Government \u00a3500m decarbonization grant agreement. SEBI LODR Reg 44 notice. Indian operations EBITDA margin 24% vs European losses."
+    },
+    {
+      "scenario_id": "Q16",
+      "name": "Kotak Mahindra Bank Leadership Transition & Core Deposit Growth",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "STANDARD",
+      "sector": "Banking & Financials",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "KOTAKBANK.NS"
+      ],
+      "question": "Evaluate Kotak Mahindra Bank technological remediation following RBI digital onboarding restrictions, CASA deposit retention, and leadership continuity.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1740.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "MONITOR_REMEDIATION",
+      "ground_truth_evidence": "RBI directive on IT infrastructure audit and onboarding curbs. CASA ratio 47.7%. SEBI LODR Reg 44 notice compliance confirmed."
+    },
+    {
+      "scenario_id": "Q17",
+      "name": "Coal India Dividend Yield Sustainability & Evacuation Capex",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Metals & Mining",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "COALINDIA.NS"
+      ],
+      "question": "Assess Coal India production ramp-up to 1 billion tonnes, e-auction premium realization trends, railway siding evacuation capex, and 6%+ dividend yield.",
+      "numerical_invariants": {
+        "anchor_closing_price": 435.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "HIGH_YIELD_ACCUMULATE",
+      "ground_truth_evidence": "Ministry of Coal production targets. SEBI LODR Reg 44 remote e-voting notice. Annual dividend payout >\u20b925/share. STT 10 bps."
+    },
+    {
+      "scenario_id": "Q18",
+      "name": "Mahindra & Mahindra SUV Order Backlog vs Tractors Cyclical Downturn",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "HIERARCHICAL",
+      "orchestration_pattern": "HIERARCHICAL",
+      "difficulty": "STANDARD",
+      "sector": "Automotive",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "M&M.NS"
+      ],
+      "question": "Analyze M&M automotive open booking pipeline (Thar Roxx, XUV700), tractor monsoon recovery elasticity, and capital return on Tech Mahindra and financial services.",
+      "numerical_invariants": {
+        "anchor_closing_price": 2890.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "OUTPERFORM",
+      "ground_truth_evidence": "SIAM monthly auto sales dispatch data. Open SUV order book >200,000 units. Auto division EBIT margin 8.9%. STT 10 bps delivery."
+    },
+    {
+      "scenario_id": "Q19",
+      "name": "Maruti Suzuki Hybrid vs EV Strategy & Royalty Outflow to Suzuki Motor Corp",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "SEQUENTIAL",
+      "orchestration_pattern": "SEQUENTIAL",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Automotive",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "MARUTI.NS"
+      ],
+      "question": "Scrutinize Maruti Suzuki strong-hybrid tax incentives viability, Gujarat plant acquisition cash outflow, and parent royalty payment arrangements.",
+      "numerical_invariants": {
+        "anchor_closing_price": 11250.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "NEUTRAL_HOLD",
+      "ground_truth_evidence": "SEBI LODR Regulation 23 related party royalty approval. GST Council tax deliberations on hybrid vehicles. Net cash reserves \u20b948,000 crore."
+    },
+    {
+      "scenario_id": "Q20",
+      "name": "UltraTech Cement Capacity Expansion & Regional Pricing Discipline",
+      "workflow_type": "QUERY_BASED",
+      "execution_type": "PARALLEL",
+      "orchestration_pattern": "PARALLEL",
+      "difficulty": "STANDARD",
+      "sector": "Infrastructure & Materials",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "ULTRACEMCO.NS"
+      ],
+      "question": "Examine UltraTech Cement acquisition of Kesoram and India Cements assets, pan-India capacity expansion towards 200 MTPA, and petcoke/coal energy cost savings.",
+      "numerical_invariants": {
+        "anchor_closing_price": 10840.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "BUY_SCALE_LEADER",
+      "ground_truth_evidence": "CCI merger approval filings. SEBI LODR Reg 44 notice. Blended EBITDA per tonne \u20b91,050. Statutory tax drag 22.22 bps."
+    },
+    {
+      "scenario_id": "S01",
+      "name": "Axis Bank Digital Banking Friction & Net Interest Margin Stabilization",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Banking & Financials",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "AXISBANK.NS"
+      ],
+      "question": "Evaluate Axis Bank Citibank consumer portfolio integration, credit card attrition, net interest margin trajectory, and provision buffer sufficiency.",
+      "numerical_invariants": {
+        "anchor_closing_price": 1165.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "RBI banking supervision report. Citibank portfolio synergy realization \u20b9800 crore. RoA 1.78%. Statutory drag 22.22 bps."
+    },
+    {
+      "scenario_id": "S02",
+      "name": "Wipro Consulting Margin Drag & Capco Goodwill Impairment Risks",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "STANDARD",
+      "sector": "Information Technology",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "WIPRO.NS"
+      ],
+      "question": "Stress-test Wipro consulting division (Capco/Rizing) organic growth contraction, senior leadership departures, and potential balance sheet goodwill impairments.",
+      "numerical_invariants": {
+        "anchor_closing_price": 540.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "UNDERWEIGHT",
+      "ground_truth_evidence": "Wipro FY24 Annual Report Balance Sheet Note on Goodwill ($2.4B). SEBI LODR 2015 Reg 44 notice. IT operating margin 16.4%."
+    },
+    {
+      "scenario_id": "S03",
+      "name": "Power Grid Corporation Transmission Tariff Regulatory Framework",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Power & Utilities",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "POWERGRID.NS"
+      ],
+      "question": "Review CERC regulatory tariff guidelines for 2024-2029, regulated return on equity (15.5%), renewable energy evacuation corridors, and dividend stability.",
+      "numerical_invariants": {
+        "anchor_closing_price": 315.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "UTILITY_BOND_EQUIVALENT",
+      "ground_truth_evidence": "CERC Tariff Regulations 2024-29. Regulated RoE maintained at 15.5%. System availability 99.8%. Statutory friction 22.22 bps."
+    },
+    {
+      "scenario_id": "S04",
+      "name": "NTPC Green Energy Demerger & Solar PPA Execution",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "STANDARD",
+      "sector": "Power & Utilities",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "NTPC.NS"
+      ],
+      "question": "Analyze NTPC Green Energy subsidiary IPO valuation, renewable energy pipeline of 60 GW by 2032, and thermal plant plant load factor (PLF) monetization.",
+      "numerical_invariants": {
+        "anchor_closing_price": 395.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE_GREEN_TRANSITION",
+      "ground_truth_evidence": "SEBI DRHP filing for NTPC Green Energy. Thermal PLF 77.4%. Regulated return model. Statutory delivery STT 10 bps."
+    },
+    {
+      "scenario_id": "S05",
+      "name": "Titan Company Gold Volatility & SGB Discontinuation Impact on Jewellery Margins",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Consumer Discretionary",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "TITAN.NS"
+      ],
+      "question": "Examine customs duty reduction on gold bullion (15% to 6%), sovereign gold bond redemption demand shifting to Tanishq, and jewellery EBIT margin sustainability.",
+      "numerical_invariants": {
+        "anchor_closing_price": 3280.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "BUY_ON_EXPANSION",
+      "ground_truth_evidence": "Finance Act 2024 customs duty reduction notification. Tanishq buyer growth 14% YoY. Jewellery EBIT margin 11.2%."
+    },
+    {
+      "scenario_id": "S06",
+      "name": "Asian Paints Crude Derivative Sensitivity & Grasim Birla Opus Competition",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "STANDARD",
+      "sector": "Consumer Discretionary",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "ASIANPAINT.NS"
+      ],
+      "question": "Model Asian Paints decorative market share defense against Grasim Birla Opus \u20b910,000 crore capacity rollout, dealer discounting, and raw material volatility.",
+      "numerical_invariants": {
+        "anchor_closing_price": 2740.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "CAUTIOUS_UNDERWEIGHT",
+      "ground_truth_evidence": "Grasim capacity commissioning updates. Asian Paints dealer tinting machine network (90,000+). Operating margin compressed to 18.2%."
+    },
+    {
+      "scenario_id": "S07",
+      "name": "Dr. Reddy's Laboratories Revlimid Patent Cliff & Biosimilar Pipeline Monetization",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Pharmaceuticals",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "DRREDDY.NS"
+      ],
+      "question": "Audit Dr. Reddy's revenue concentration in generic lenalidomide (Revlimid), US pricing erosion in oral solids, and biosimilar pipeline approvals in Europe.",
+      "numerical_invariants": {
+        "anchor_closing_price": 6480.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "HOLD_FOR_PIPELINE",
+      "ground_truth_evidence": "US generic pricing index filings. SEBI LODR Reg 44 notice. Revlimid contribution to EBITDA estimated at 22%. Net debt zero."
+    },
+    {
+      "scenario_id": "S08",
+      "name": "Hindalco Industries Novelis Scrap Recycling Spread & US Can Demand",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "STANDARD",
+      "sector": "Metals & Mining",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "HINDALCO.NS"
+      ],
+      "question": "Analyze Novelis scrap aluminum recycling spread, Bay Minette greenfield rolling mill capex inflation, and domestic upstream copper/aluminum profitability.",
+      "numerical_invariants": {
+        "anchor_closing_price": 665.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "Novelis 10-K SEC filing. Bay Minette capex revised to $4.1B. Novelis EBITDA/tonne $510. Upstream domestic aluminum cost quartile 1."
+    },
+    {
+      "scenario_id": "S09",
+      "name": "Bharat Electronics (BEL) Defence Order Inflow & Make In India Indigenisation",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Defence & Capital Goods",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "BEL.NS"
+      ],
+      "question": "Evaluate BEL order book of \u20b976,000 crore, indigenisation of electronic warfare and radar systems, defense capex allocation in Union Budget, and operating margins.",
+      "numerical_invariants": {
+        "anchor_closing_price": 288.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "LONG_TERM_DEFENCE_COMPOUNDER",
+      "ground_truth_evidence": "Ministry of Defence indigenisation positive list. BEL EBITDA margin 24.5%. Zero long-term debt. Delivery STT 10 bps."
+    },
+    {
+      "scenario_id": "S10",
+      "name": "Hindustan Aeronautics (HAL) Tejas Mk1A Delivery Schedule & GE-F404 Engine Bottleneck",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "STANDARD",
+      "sector": "Defence & Aerospace",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "HAL.NS"
+      ],
+      "question": "Analyze HAL manufacturing delivery timelines for 83 Tejas Mk1A fighters, GE-F404 engine supply delay mitigations, and Su-30MKI upgrade order momentum.",
+      "numerical_invariants": {
+        "anchor_closing_price": 4350.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "STRONG_BUY",
+      "ground_truth_evidence": "Defence Acquisition Council contract milestones. HAL order book \u20b994,000 crore. Manufacturing EBIT margin 27.2%. Net cash \u20b926,000 crore."
+    },
+    {
+      "scenario_id": "S11",
+      "name": "Trent Limited Zudio Store Rollout Economics & Working Capital Turn",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Consumer Retail",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "TRENT.NS"
+      ],
+      "question": "Model Zudio value-fashion store unit economics, same-store sales growth (SSSG), inventory turn velocity (15 days), and Westside premiumization.",
+      "numerical_invariants": {
+        "anchor_closing_price": 6450.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "MOMENTUM_COMPOUNDER",
+      "ground_truth_evidence": "Trent quarterly corporate disclosure on store metrics. Zudio store count crossed 550. Consolidated revenue CAGR 42%. STT 10 bps."
+    },
+    {
+      "scenario_id": "S12",
+      "name": "Zomato Blinkit Quick-Commerce Dark Store Unit Economics & Take-Rate Compression",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "STANDARD",
+      "sector": "Internet & Consumer Tech",
+      "persona": "ADVERSARIAL_SKEPTIC",
+      "target_symbols": [
+        "ZOMATO.NS"
+      ],
+      "question": "Stress-test Blinkit dark-store economics against Zepto/Swiggy Instamart aggressive capital allocation, delivery rider wage inflation, and take-rate sustainability.",
+      "numerical_invariants": {
+        "anchor_closing_price": 265.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "SKEPTICAL_ACCUMULATE",
+      "ground_truth_evidence": "Zomato shareholder letter. Blinkit GOV crossed \u20b94,000 crore/quarter. Dark store count reaching 1,000. Contribution margin 4.0%."
+    },
+    {
+      "scenario_id": "S13",
+      "name": "Jio Financial Services Lending Book Ramp & BlackRock Joint Venture AMC AUM",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Financial Services",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "JIOFIN.NS"
+      ],
+      "question": "Assess Jio Financial Services capital base (\u20b91.2 lakh crore net worth), device leasing rollout, supply-chain financing, and BlackRock JV asset management readiness.",
+      "numerical_invariants": {
+        "anchor_closing_price": 318.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "LONG_TERM_SEED_COMPOUNDER",
+      "ground_truth_evidence": "SEBI mutual fund in-principle approval. JIOFIN liquid treasury portfolio. SEBI LODR 2015 Reg 44 notice. Statutory drag 22.22 bps."
+    },
+    {
+      "scenario_id": "S14",
+      "name": "Siemens India Energy Demerger & High-Speed Rail Locomotive Execution",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "STANDARD",
+      "sector": "Industrial Goods & Energy",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "SIEMENS.NS"
+      ],
+      "question": "Examine Siemens India energy business demerger ratio (1:1), Dahod 9000 HP electric locomotive contract execution milestones, and smart infrastructure orders.",
+      "numerical_invariants": {
+        "anchor_closing_price": 7250.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "QUALITY_ACCUMULATE",
+      "ground_truth_evidence": "NCLT demerger application. Indian Railways 1200 locomotive order contract terms. Operating cash flow conversion 94%."
+    },
+    {
+      "scenario_id": "S15",
+      "name": "DLF Luxury Real Estate Pre-Sales Momentum & Cash Flow Lock-In",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Real Estate",
+      "persona": "HEDGE_FUND_ALPHA",
+      "target_symbols": [
+        "DLF.NS"
+      ],
+      "question": "Analyze DLF super-luxury pre-sales velocity in Gurgaon (The Camellias/Dahlias), DCCDL rental office portfolio occupancy, and net cash balance trajectory.",
+      "numerical_invariants": {
+        "anchor_closing_price": 845.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "OUTPERFORM",
+      "ground_truth_evidence": "Haryana RERA registration filings. DCCDL exit rental run rate \u20b94,800 crore. Net debt zero achieved. STT 10 bps delivery."
+    },
+    {
+      "scenario_id": "S16",
+      "name": "Tata Power Renewable Capacity Additions & Mundra UMPP Tariff Resolution",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "STANDARD",
+      "sector": "Power & Utilities",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "TATAPOWER.NS"
+      ],
+      "question": "Review Tata Power solar rooftop market share, 4.3 GW cell/module manufacturing plant ramp-up in Tirunelveli, and Section 11 Mundra thermal pass-through terms.",
+      "numerical_invariants": {
+        "anchor_closing_price": 412.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "Ministry of Power Section 11 directions. Tata Power renewable portfolio 5.5 GW operational. Transmission availability 99.2%."
+    },
+    {
+      "scenario_id": "S17",
+      "name": "Polycab India Channel Inventory Forensic Audit & Cash Settlement Tax Search",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Consumer Electricals",
+      "persona": "FORENSIC_AUDITOR",
+      "target_symbols": [
+        "POLYCAB.NS"
+      ],
+      "question": "Perform forensic audit of Polycab dealer distributor inventory turnover, Income Tax search settlement disclosures, working capital cash generation, and FMEG turn.",
+      "numerical_invariants": {
+        "anchor_closing_price": 6550.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "FORENSIC_CLEAR_ACCUMULATE",
+      "ground_truth_evidence": "Income Tax Department disclosure notices and exchange clarification filings. Polycab domestic cable & wire market share 26%. RoE 22.4%."
+    },
+    {
+      "scenario_id": "S18",
+      "name": "Divi's Laboratories Custom Synthesis Recovery & GLP-1 Intermediate Opportunities",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "RANKING",
+      "orchestration_pattern": "RANKING",
+      "difficulty": "STANDARD",
+      "sector": "Pharmaceuticals",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "DIVISLAB.NS"
+      ],
+      "question": "Evaluate Divi's Laboratories active pharmaceutical ingredient (API) price normalization, global pharma custom synthesis contracts, and peptide/GLP-1 reagents.",
+      "numerical_invariants": {
+        "anchor_closing_price": 5780.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "ACCUMULATE",
+      "ground_truth_evidence": "Divi's US and European export trade data. Kakinada Unit-III capex operationalization. Gross margin recovered to 68.5%. STT 10 bps."
+    },
+    {
+      "scenario_id": "S19",
+      "name": "IRCTC Catering Pricing Power & Rail Neer Bottling Monopoly",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "OPTIMIZATION",
+      "orchestration_pattern": "OPTIMIZATION",
+      "difficulty": "INTERMEDIATE",
+      "sector": "Consumer Services & Rail",
+      "persona": "RETAIL_WEALTH_BUILDER",
+      "target_symbols": [
+        "IRCTC.NS"
+      ],
+      "question": "Analyze IRCTC internet ticketing convenience fee stability, Vande Bharat train expansion catering volume uplift, and Rail Neer plant capacity utilization.",
+      "numerical_invariants": {
+        "anchor_closing_price": 875.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "MOAT_COMPOUNDER",
+      "ground_truth_evidence": "Ministry of Railways catering commercial policy circulars. Ticketing operating EBIT margin 82%. Zero debt. Dividend payout >50%."
+    },
+    {
+      "scenario_id": "S20",
+      "name": "Persistent Systems Discretionary US Tech Spending vs European Healthcare AI Contracts",
+      "workflow_type": "STOCK_SELECTION",
+      "execution_type": "SCREENING",
+      "orchestration_pattern": "SCREENING",
+      "difficulty": "STANDARD",
+      "sector": "Information Technology",
+      "persona": "QUANT_STAT_ARB",
+      "target_symbols": [
+        "PERSISTENT.NS"
+      ],
+      "question": "Assess Persistent Systems software engineering contract renewal win rates, healthcare and life sciences revenue momentum, and EBIT margin resilience above 14.5%.",
+      "numerical_invariants": {
+        "anchor_closing_price": 5620.0,
+        "statutory_stt_bps": 10.0,
+        "statutory_friction_drag_bps": 22.22,
+        "sebi_lodr_notice_days": 21,
+        "sebi_lodr_regulation": "Regulation 44",
+        "trading_lock_enforced": true
+      },
+      "expected_primary_stance": "BUY_GROWTH",
+      "ground_truth_evidence": "Persistent Systems quarterly investor presentation. Total contract value (TCV) >$450m. Voluntary attrition 11.8%. STT 10 bps."
+    }
+  ]
+}
