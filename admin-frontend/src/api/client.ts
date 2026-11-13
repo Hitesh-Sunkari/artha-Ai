@@ -60,6 +60,14 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
 
+  // Automatically attach Super-Admin session token to Authorization headers
+  const token = localStorage.getItem('arthai_admin_token') || localStorage.getItem('arthai_session_token');
+  const authHeaders: Record<string, string> = {};
+  if (token && token.trim()) {
+    authHeaders['Authorization'] = `Bearer ${token.trim()}`;
+    authHeaders['X-ArthaAI-Admin-Token'] = token.trim();
+  }
+
   try {
     const res = await fetch(fullUrl, {
       ...options,
@@ -67,6 +75,7 @@ async function request<T>(path: string, options: RequestInit = {}, timeoutMs = 1
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...authHeaders,
         ...(options.headers || {}),
       },
     });
@@ -445,6 +454,20 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ email, name, picture, mode }),
     }),
+
+  verifyGoogleIdToken: (idToken: string) =>
+    request<import('./types').AuthUser>('/auth/google/verify', {
+      method: 'POST',
+      body: JSON.stringify({ id_token: idToken, credential: idToken, token: idToken }),
+    }),
+
+  getMe: () =>
+    request<import('./types').AuthUser>('/auth/me', {}, 6000),
+
+  logout: () =>
+    request<{ status: string; message: string }>('/auth/logout', {
+      method: 'POST',
+    }, 4000),
 
   getGoogleOAuthConfig: () =>
     request<{ client_id: string }>('/auth/google/config', {}, 3000),

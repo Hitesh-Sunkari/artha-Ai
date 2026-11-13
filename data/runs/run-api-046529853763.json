@@ -1,0 +1,490 @@
+{
+  "run_id": "run-api-046529853763",
+  "request_id": "req-api-4b575ca7",
+  "symbol": "ICICIBANK",
+  "orchestration_pattern": "SEQUENTIAL",
+  "status": "COMPLETED",
+  "submitted_at": "2026-10-25T17:56:59.643378Z",
+  "completed_at": "2026-10-25T17:56:59.815426Z",
+  "report": {
+    "run_id": "run-api-046529853763",
+    "symbol": "ICICIBANK",
+    "as_of_time": "2026-10-25T12:26:00Z",
+    "executive_thesis": "Institutional Quantitative Synthesis for ICICIBANK (as of 2026-10-25): Retrieved 0 historical bar records via DuckDB Parquet store. Statutory cost analysis establishes a baseline friction of 0.1186% (Total: INR 118.62 per 100k turnover). CrewAI adversarial evaluation cautions: UNVERIFIED: Lack of historical market data and open interest prevents empirical regime classification..",
+    "quantitative_findings": {
+      "records_retrieved": 0,
+      "empty_result": true,
+      "finding_category": "UNAVAILABLE",
+      "data_source": "duckdb_parquet_partitioned",
+      "calculated_metrics": {
+        "simple_returns": null,
+        "realized_volatility_20d": null,
+        "sma_20d": null,
+        "ema_20d": null,
+        "rsi_14d": null
+      },
+      "data_quality_warning": "Zero historical bars retrieved for ICICIBANK. No numerical indicators calculated."
+    },
+    "statutory_risk_bounds": {
+      "total_statutory_costs_inr": 118.62,
+      "effective_rate_pct": 0.1186,
+      "breakdown": {
+        "securities_transaction_tax": 100.0,
+        "exchange_turnover_fee": 2.97,
+        "sebi_turnover_charges": 0.1,
+        "stamp_duty": 15.0,
+        "goods_and_services_tax_18pct": 0.55
+      }
+    },
+    "qualitative_evidence": [
+      "Statutory Source: Finance (No. 2) Act 2024"
+    ],
+    "source_provenance": [
+      "duckdb_parquet_analytical_engine",
+      "statutory_rules_registry_finance_act_2024",
+      "crewai_a2a_protocol_endpoint_v1.0",
+      "orchestration_pattern_SEQUENTIAL"
+    ],
+    "limitations_and_uncertainties": [
+      "Point-in-time data bounds strictly enforced (zero lookahead).",
+      "Live trading disabled by system configuration; paper/simulation mode only.",
+      "Historical store has no pre-recorded Parquet bars for ICICIBANK in selected window.",
+      "No historical records found for ICICIBANK in range 2024-01-01 to 2026-10-25 before 2026-10-25T12:26:00+00:00.",
+      "Level 2/3 microstructure data unavailable for ICICIBANK; real-time book depth omitted.",
+      "External news feed unconfigured for ICICIBANK; real-time news headlines omitted to prevent data fabrication.",
+      "Official filing disclosures unconfigured for ICICIBANK; no filing claims fabricated.",
+      "Data absence mandate: Zero historical observations retrieved for ICICIBANK; no quantitative edge can be claimed.",
+      "Execution warning: Market orders must not be placed on unobserved asset ICICIBANK."
+    ],
+    "generated_at": "2026-10-25T17:56:59.815426Z"
+  },
+  "blackboard_events": [
+    {
+      "event_id": "evt-f81d94c7",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.655136Z"
+    },
+    {
+      "event_id": "evt-9cc423ff",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.655136Z"
+    },
+    {
+      "event_id": "evt-97e3f185",
+      "run_id": "run-api-046529853763",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data"
+      },
+      "timestamp": "2026-10-25T17:56:59.655136Z"
+    },
+    {
+      "event_id": "evt-912eb50f",
+      "run_id": "run-api-046529853763",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data",
+        "count": 0
+      },
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-357150ca",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 56.08589999974356,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-d5ccc023",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_quant_specialist"
+      },
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-96e86d2c",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-b4dde12c",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 0.03870000000461005,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-7eebdb78",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_microstructure_specialist"
+      },
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-0969a711",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-5612f42b",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_news_macro_specialist",
+        "task": "macro_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:56:59.699827Z"
+    },
+    {
+      "event_id": "evt-77c28f5e",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "macro_analysis",
+        "citations_count": 0
+      },
+      "timestamp": "2026-10-25T17:56:59.736239Z"
+    },
+    {
+      "event_id": "evt-becbbced",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.736239Z"
+    },
+    {
+      "event_id": "evt-fede5db9",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_news_macro_specialist"
+      },
+      "timestamp": "2026-10-25T17:56:59.736239Z"
+    },
+    {
+      "event_id": "evt-2acfd5ba",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.736239Z"
+    },
+    {
+      "event_id": "evt-e6777163",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_corporate_filing_specialist",
+        "task": "filing_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:56:59.736239Z"
+    },
+    {
+      "event_id": "evt-8f267721",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "filing_analysis",
+        "status": "SUCCESS"
+      },
+      "timestamp": "2026-10-25T17:56:59.775571Z"
+    },
+    {
+      "event_id": "evt-281b2bda",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.775571Z"
+    },
+    {
+      "event_id": "evt-e11d91ed",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_corporate_filing_specialist"
+      },
+      "timestamp": "2026-10-25T17:56:59.775571Z"
+    },
+    {
+      "event_id": "evt-c2405af7",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.775571Z"
+    },
+    {
+      "event_id": "evt-c5d1131e",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_adversarial_specialist",
+        "task": "adversarial_critique",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:56:59.775571Z"
+    },
+    {
+      "event_id": "evt-452a2f87",
+      "run_id": "run-api-046529853763",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "adversarial_critique",
+        "challenges": 2
+      },
+      "timestamp": "2026-10-25T17:56:59.799339Z"
+    },
+    {
+      "event_id": "evt-7484483f",
+      "run_id": "run-api-046529853763",
+      "event_type": "SKEPTIC_CHALLENGE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.799339Z"
+    },
+    {
+      "event_id": "evt-21345c19",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.799339Z"
+    },
+    {
+      "event_id": "evt-4a68cc62",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-25T17:56:59.799983Z"
+    },
+    {
+      "event_id": "evt-44b3dfaa",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.799983Z"
+    },
+    {
+      "event_id": "evt-21b21000",
+      "run_id": "run-api-046529853763",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-25T17:56:59.799983Z"
+    },
+    {
+      "event_id": "evt-98103477",
+      "run_id": "run-api-046529853763",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-25T17:56:59.800312Z"
+    },
+    {
+      "event_id": "evt-66d2b343",
+      "run_id": "run-api-046529853763",
+      "event_type": "RISK_VALIDATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 25.865999999950873,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.815426Z"
+    },
+    {
+      "event_id": "evt-2f20b357",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 25.865999999950873,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.815426Z"
+    },
+    {
+      "event_id": "evt-7142fc69",
+      "run_id": "run-api-046529853763",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-25T17:56:59.815426Z"
+    },
+    {
+      "event_id": "evt-1b057c68",
+      "run_id": "run-api-046529853763",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 171.0,
+      "payload": {},
+      "timestamp": "2026-10-25T17:56:59.815426Z"
+    }
+  ],
+  "error": null
+}

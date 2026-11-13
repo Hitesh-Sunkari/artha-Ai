@@ -1,0 +1,5059 @@
+{
+  "run_id": "run-api-9bbf2c88044b",
+  "request_id": "req-api-ac757827",
+  "symbol": "TATAMOTORS.NS",
+  "orchestration_pattern": "SEQUENTIAL",
+  "status": "COMPLETED",
+  "submitted_at": "2026-10-28T07:32:47.438316Z",
+  "completed_at": "2026-10-28T07:33:26.486181Z",
+  "report": {
+    "run_id": "run-api-9bbf2c88044b",
+    "symbol": "TATAMOTORS.NS",
+    "as_of_time": "2026-10-28T07:32:47.325000Z",
+    "executive_thesis": "Institutional Quantitative Synthesis for TATAMOTORS (as of 2026-10-28) \u2014 Consensus Stance: INCONCLUSIVE (Conviction Score: Unscored / Gated).\n\nMandatory finalization gates blocked investment recommendation:\n- Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.\n- Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]\n- Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]\n\nData Profile: Retrieved 1260 historical bars via DuckDB analytical engine. Latest Close: INR 660.4. Statutory friction baseline: INR 221.62 per 100k turnover (0.2222% drag).",
+    "quantitative_findings": {
+      "records_retrieved": 1260,
+      "empty_result": false,
+      "finding_category": "MEASURED",
+      "data_source": "yfinance_cached_parquet",
+      "data_quality_status": "ANOMALOUS_DATA_FLAGGED",
+      "data_quality_issues": [
+        "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary."
+      ],
+      "anomaly_evaluations": [
+        {
+          "type": "LEGITIMATE_LARGE_MOVE",
+          "date": "2026-10-26",
+          "move_pct": 26.92,
+          "reason": "F&O eligible equity (TATAMOTORS) operating under NSE dynamic price band mechanism."
+        }
+      ],
+      "quantitative_stance": "CAUTION",
+      "max_daily_price_change_pct": 26.92,
+      "historical_bars": [
+        {
+          "timestamp": "2026-06-23T10:00:00",
+          "open": 609.24,
+          "high": 609.9,
+          "low": 604.29,
+          "close": 607.61,
+          "volume": 1975109
+        },
+        {
+          "timestamp": "2026-06-24T10:00:00",
+          "open": 605.17,
+          "high": 605.98,
+          "low": 602.25,
+          "close": 605.29,
+          "volume": 3375589
+        },
+        {
+          "timestamp": "2026-06-25T10:00:00",
+          "open": 596.49,
+          "high": 600.66,
+          "low": 587.5,
+          "close": 596.27,
+          "volume": 2318719
+        },
+        {
+          "timestamp": "2026-06-26T10:00:00",
+          "open": 619.48,
+          "high": 623.98,
+          "low": 616.67,
+          "close": 621.09,
+          "volume": 4180977
+        },
+        {
+          "timestamp": "2026-06-29T10:00:00",
+          "open": 625.87,
+          "high": 636.92,
+          "low": 622.17,
+          "close": 623.95,
+          "volume": 3869444
+        },
+        {
+          "timestamp": "2026-06-30T10:00:00",
+          "open": 617.61,
+          "high": 617.85,
+          "low": 614.26,
+          "close": 616.11,
+          "volume": 1694271
+        },
+        {
+          "timestamp": "2026-07-01T10:00:00",
+          "open": 613.15,
+          "high": 614.69,
+          "low": 611.9,
+          "close": 612.11,
+          "volume": 2321292
+        },
+        {
+          "timestamp": "2026-07-02T10:00:00",
+          "open": 616.33,
+          "high": 620.93,
+          "low": 615.23,
+          "close": 615.65,
+          "volume": 993036
+        },
+        {
+          "timestamp": "2026-07-03T10:00:00",
+          "open": 615.7,
+          "high": 616.76,
+          "low": 607.67,
+          "close": 610.53,
+          "volume": 1737783
+        },
+        {
+          "timestamp": "2026-07-06T10:00:00",
+          "open": 622.82,
+          "high": 628.86,
+          "low": 620.18,
+          "close": 624.9,
+          "volume": 1845484
+        },
+        {
+          "timestamp": "2026-07-07T10:00:00",
+          "open": 640.08,
+          "high": 645.06,
+          "low": 639.75,
+          "close": 642.01,
+          "volume": 2174753
+        },
+        {
+          "timestamp": "2026-07-08T10:00:00",
+          "open": 657.67,
+          "high": 658.11,
+          "low": 655.11,
+          "close": 657.23,
+          "volume": 1921507
+        },
+        {
+          "timestamp": "2026-07-09T10:00:00",
+          "open": 657.88,
+          "high": 665.47,
+          "low": 653.6,
+          "close": 660.63,
+          "volume": 2980556
+        },
+        {
+          "timestamp": "2026-07-10T10:00:00",
+          "open": 638.36,
+          "high": 643.2,
+          "low": 632.53,
+          "close": 638.02,
+          "volume": 2791124
+        },
+        {
+          "timestamp": "2026-07-13T10:00:00",
+          "open": 643.8,
+          "high": 650.35,
+          "low": 639.83,
+          "close": 644.16,
+          "volume": 2266602
+        },
+        {
+          "timestamp": "2026-07-14T10:00:00",
+          "open": 663.73,
+          "high": 665.57,
+          "low": 659.51,
+          "close": 661.63,
+          "volume": 2550954
+        },
+        {
+          "timestamp": "2026-07-15T10:00:00",
+          "open": 665.72,
+          "high": 674.67,
+          "low": 651.73,
+          "close": 661.49,
+          "volume": 2775322
+        },
+        {
+          "timestamp": "2026-07-16T10:00:00",
+          "open": 638.46,
+          "high": 640.1,
+          "low": 638.36,
+          "close": 639.1,
+          "volume": 2157340
+        },
+        {
+          "timestamp": "2026-07-17T10:00:00",
+          "open": 652.26,
+          "high": 654.62,
+          "low": 647.79,
+          "close": 648.31,
+          "volume": 2393292
+        },
+        {
+          "timestamp": "2026-07-20T10:00:00",
+          "open": 667.14,
+          "high": 668.84,
+          "low": 662.29,
+          "close": 665.47,
+          "volume": 3728980
+        },
+        {
+          "timestamp": "2026-07-21T10:00:00",
+          "open": 658.79,
+          "high": 661.33,
+          "low": 655.26,
+          "close": 656.96,
+          "volume": 2315671
+        },
+        {
+          "timestamp": "2026-07-22T10:00:00",
+          "open": 647.67,
+          "high": 648.78,
+          "low": 643.01,
+          "close": 646.16,
+          "volume": 2271386
+        },
+        {
+          "timestamp": "2026-07-23T10:00:00",
+          "open": 660.76,
+          "high": 662.93,
+          "low": 654.17,
+          "close": 658.65,
+          "volume": 2088154
+        },
+        {
+          "timestamp": "2026-07-24T10:00:00",
+          "open": 651.4,
+          "high": 651.73,
+          "low": 641.16,
+          "close": 650.64,
+          "volume": 2369957
+        },
+        {
+          "timestamp": "2026-07-27T10:00:00",
+          "open": 668.71,
+          "high": 669.84,
+          "low": 666.56,
+          "close": 669.54,
+          "volume": 1868341
+        },
+        {
+          "timestamp": "2026-07-28T10:00:00",
+          "open": 665.46,
+          "high": 667.1,
+          "low": 665.24,
+          "close": 666.68,
+          "volume": 3742447
+        },
+        {
+          "timestamp": "2026-07-29T10:00:00",
+          "open": 658.81,
+          "high": 665.71,
+          "low": 654.66,
+          "close": 663.14,
+          "volume": 3940631
+        },
+        {
+          "timestamp": "2026-07-30T10:00:00",
+          "open": 678.47,
+          "high": 686.18,
+          "low": 673.37,
+          "close": 683.42,
+          "volume": 4425708
+        },
+        {
+          "timestamp": "2026-07-31T10:00:00",
+          "open": 695.35,
+          "high": 712.85,
+          "low": 694.4,
+          "close": 694.66,
+          "volume": 2259049
+        },
+        {
+          "timestamp": "2026-08-03T10:00:00",
+          "open": 719.82,
+          "high": 721.61,
+          "low": 712.3,
+          "close": 716.75,
+          "volume": 2569556
+        },
+        {
+          "timestamp": "2026-08-04T10:00:00",
+          "open": 709.09,
+          "high": 710.94,
+          "low": 708.33,
+          "close": 709.84,
+          "volume": 1505089
+        },
+        {
+          "timestamp": "2026-08-05T10:00:00",
+          "open": 718.53,
+          "high": 726.12,
+          "low": 712.76,
+          "close": 721.19,
+          "volume": 2245131
+        },
+        {
+          "timestamp": "2026-08-06T10:00:00",
+          "open": 696.35,
+          "high": 703.46,
+          "low": 694.42,
+          "close": 697.68,
+          "volume": 1530395
+        },
+        {
+          "timestamp": "2026-08-07T10:00:00",
+          "open": 745.55,
+          "high": 747.41,
+          "low": 743.57,
+          "close": 743.94,
+          "volume": 3648617
+        },
+        {
+          "timestamp": "2026-08-10T10:00:00",
+          "open": 726.61,
+          "high": 730.27,
+          "low": 726.19,
+          "close": 728.17,
+          "volume": 2438519
+        },
+        {
+          "timestamp": "2026-08-11T10:00:00",
+          "open": 717.57,
+          "high": 721.08,
+          "low": 715.34,
+          "close": 717.19,
+          "volume": 3065793
+        },
+        {
+          "timestamp": "2026-08-12T10:00:00",
+          "open": 707.61,
+          "high": 708.12,
+          "low": 706.09,
+          "close": 706.46,
+          "volume": 1521400
+        },
+        {
+          "timestamp": "2026-08-13T10:00:00",
+          "open": 712.67,
+          "high": 720.08,
+          "low": 706.66,
+          "close": 714.32,
+          "volume": 2002535
+        },
+        {
+          "timestamp": "2026-08-14T10:00:00",
+          "open": 739.55,
+          "high": 741.43,
+          "low": 739.42,
+          "close": 740.12,
+          "volume": 3844135
+        },
+        {
+          "timestamp": "2026-08-17T10:00:00",
+          "open": 750.58,
+          "high": 754.97,
+          "low": 745.83,
+          "close": 748.68,
+          "volume": 1928949
+        },
+        {
+          "timestamp": "2026-08-18T10:00:00",
+          "open": 777.79,
+          "high": 779.14,
+          "low": 767.15,
+          "close": 775.1,
+          "volume": 2616791
+        },
+        {
+          "timestamp": "2026-08-19T10:00:00",
+          "open": 811.49,
+          "high": 816.86,
+          "low": 809.28,
+          "close": 814.2,
+          "volume": 1906977
+        },
+        {
+          "timestamp": "2026-08-20T10:00:00",
+          "open": 822.18,
+          "high": 824.3,
+          "low": 818.91,
+          "close": 821.84,
+          "volume": 2733709
+        },
+        {
+          "timestamp": "2026-08-21T10:00:00",
+          "open": 808.3,
+          "high": 809.34,
+          "low": 799.26,
+          "close": 807.65,
+          "volume": 2802528
+        },
+        {
+          "timestamp": "2026-08-24T10:00:00",
+          "open": 826.87,
+          "high": 832.57,
+          "low": 824.75,
+          "close": 829.66,
+          "volume": 2218658
+        },
+        {
+          "timestamp": "2026-08-25T10:00:00",
+          "open": 853.67,
+          "high": 854.81,
+          "low": 849.9,
+          "close": 854.8,
+          "volume": 2356224
+        },
+        {
+          "timestamp": "2026-08-26T10:00:00",
+          "open": 881.77,
+          "high": 883.14,
+          "low": 874.92,
+          "close": 877.86,
+          "volume": 2779737
+        },
+        {
+          "timestamp": "2026-08-27T10:00:00",
+          "open": 871.0,
+          "high": 882.44,
+          "low": 865.0,
+          "close": 879.21,
+          "volume": 2233207
+        },
+        {
+          "timestamp": "2026-08-28T10:00:00",
+          "open": 874.32,
+          "high": 879.78,
+          "low": 872.24,
+          "close": 876.28,
+          "volume": 1811523
+        },
+        {
+          "timestamp": "2026-08-31T10:00:00",
+          "open": 861.28,
+          "high": 862.32,
+          "low": 860.7,
+          "close": 862.11,
+          "volume": 1781720
+        },
+        {
+          "timestamp": "2026-09-01T10:00:00",
+          "open": 873.82,
+          "high": 875.06,
+          "low": 869.78,
+          "close": 873.64,
+          "volume": 2452006
+        },
+        {
+          "timestamp": "2026-09-02T10:00:00",
+          "open": 901.12,
+          "high": 906.04,
+          "low": 896.25,
+          "close": 899.51,
+          "volume": 2650184
+        },
+        {
+          "timestamp": "2026-09-03T10:00:00",
+          "open": 903.59,
+          "high": 903.84,
+          "low": 900.73,
+          "close": 901.52,
+          "volume": 1849890
+        },
+        {
+          "timestamp": "2026-09-04T10:00:00",
+          "open": 895.45,
+          "high": 898.66,
+          "low": 894.33,
+          "close": 898.15,
+          "volume": 2740114
+        },
+        {
+          "timestamp": "2026-09-07T10:00:00",
+          "open": 927.0,
+          "high": 929.3,
+          "low": 923.14,
+          "close": 925.65,
+          "volume": 3439301
+        },
+        {
+          "timestamp": "2026-09-08T10:00:00",
+          "open": 932.75,
+          "high": 937.92,
+          "low": 931.24,
+          "close": 934.36,
+          "volume": 3346286
+        },
+        {
+          "timestamp": "2026-09-09T10:00:00",
+          "open": 937.21,
+          "high": 946.58,
+          "low": 922.55,
+          "close": 933.09,
+          "volume": 2111114
+        },
+        {
+          "timestamp": "2026-09-10T10:00:00",
+          "open": 940.68,
+          "high": 944.95,
+          "low": 931.82,
+          "close": 939.02,
+          "volume": 3618483
+        },
+        {
+          "timestamp": "2026-09-11T10:00:00",
+          "open": 916.84,
+          "high": 918.42,
+          "low": 913.63,
+          "close": 914.94,
+          "volume": 1524398
+        },
+        {
+          "timestamp": "2026-09-14T10:00:00",
+          "open": 931.89,
+          "high": 932.49,
+          "low": 921.26,
+          "close": 927.83,
+          "volume": 1002258
+        },
+        {
+          "timestamp": "2026-09-15T10:00:00",
+          "open": 888.09,
+          "high": 895.69,
+          "low": 881.95,
+          "close": 884.62,
+          "volume": 3032313
+        },
+        {
+          "timestamp": "2026-09-16T10:00:00",
+          "open": 901.56,
+          "high": 904.62,
+          "low": 896.77,
+          "close": 899.4,
+          "volume": 2145622
+        },
+        {
+          "timestamp": "2026-09-17T10:00:00",
+          "open": 909.16,
+          "high": 918.2,
+          "low": 898.02,
+          "close": 902.35,
+          "volume": 1509532
+        },
+        {
+          "timestamp": "2026-09-18T10:00:00",
+          "open": 883.09,
+          "high": 883.62,
+          "low": 872.05,
+          "close": 881.66,
+          "volume": 3771064
+        },
+        {
+          "timestamp": "2026-09-21T10:00:00",
+          "open": 892.81,
+          "high": 894.77,
+          "low": 880.57,
+          "close": 894.66,
+          "volume": 2902782
+        },
+        {
+          "timestamp": "2026-09-22T10:00:00",
+          "open": 906.19,
+          "high": 907.72,
+          "low": 903.11,
+          "close": 905.87,
+          "volume": 2773331
+        },
+        {
+          "timestamp": "2026-09-23T10:00:00",
+          "open": 889.8,
+          "high": 895.77,
+          "low": 877.94,
+          "close": 889.87,
+          "volume": 3366802
+        },
+        {
+          "timestamp": "2026-09-24T10:00:00",
+          "open": 914.29,
+          "high": 914.43,
+          "low": 909.5,
+          "close": 913.7,
+          "volume": 2730076
+        },
+        {
+          "timestamp": "2026-09-25T10:00:00",
+          "open": 885.66,
+          "high": 888.13,
+          "low": 879.44,
+          "close": 882.66,
+          "volume": 2003235
+        },
+        {
+          "timestamp": "2026-09-28T10:00:00",
+          "open": 910.26,
+          "high": 913.99,
+          "low": 907.17,
+          "close": 912.08,
+          "volume": 3152053
+        },
+        {
+          "timestamp": "2026-09-29T10:00:00",
+          "open": 912.76,
+          "high": 914.69,
+          "low": 912.17,
+          "close": 912.72,
+          "volume": 2836862
+        },
+        {
+          "timestamp": "2026-09-30T10:00:00",
+          "open": 957.46,
+          "high": 960.46,
+          "low": 952.71,
+          "close": 954.28,
+          "volume": 2103911
+        },
+        {
+          "timestamp": "2026-10-01T10:00:00",
+          "open": 932.07,
+          "high": 933.16,
+          "low": 920.52,
+          "close": 926.51,
+          "volume": 2413682
+        },
+        {
+          "timestamp": "2026-10-02T10:00:00",
+          "open": 914.11,
+          "high": 914.18,
+          "low": 905.7,
+          "close": 909.4,
+          "volume": 2120675
+        },
+        {
+          "timestamp": "2026-10-05T10:00:00",
+          "open": 903.16,
+          "high": 905.03,
+          "low": 901.6,
+          "close": 901.87,
+          "volume": 2433809
+        },
+        {
+          "timestamp": "2026-10-06T10:00:00",
+          "open": 921.72,
+          "high": 922.4,
+          "low": 919.31,
+          "close": 921.83,
+          "volume": 3601109
+        },
+        {
+          "timestamp": "2026-10-07T10:00:00",
+          "open": 894.69,
+          "high": 896.94,
+          "low": 892.37,
+          "close": 893.95,
+          "volume": 4442694
+        },
+        {
+          "timestamp": "2026-10-08T10:00:00",
+          "open": 896.74,
+          "high": 910.58,
+          "low": 885.22,
+          "close": 897.55,
+          "volume": 1996976
+        },
+        {
+          "timestamp": "2026-10-09T10:00:00",
+          "open": 899.95,
+          "high": 903.77,
+          "low": 896.7,
+          "close": 899.71,
+          "volume": 2462912
+        },
+        {
+          "timestamp": "2026-10-12T10:00:00",
+          "open": 882.29,
+          "high": 885.46,
+          "low": 875.14,
+          "close": 881.35,
+          "volume": 1836092
+        },
+        {
+          "timestamp": "2026-10-13T10:00:00",
+          "open": 912.12,
+          "high": 919.68,
+          "low": 905.08,
+          "close": 912.52,
+          "volume": 2079257
+        },
+        {
+          "timestamp": "2026-10-14T10:00:00",
+          "open": 938.48,
+          "high": 945.08,
+          "low": 937.66,
+          "close": 943.34,
+          "volume": 3274035
+        },
+        {
+          "timestamp": "2026-10-15T10:00:00",
+          "open": 949.83,
+          "high": 962.34,
+          "low": 947.58,
+          "close": 951.01,
+          "volume": 2540360
+        },
+        {
+          "timestamp": "2026-10-16T10:00:00",
+          "open": 970.65,
+          "high": 975.22,
+          "low": 960.79,
+          "close": 969.92,
+          "volume": 2290371
+        },
+        {
+          "timestamp": "2026-10-19T10:00:00",
+          "open": 958.98,
+          "high": 968.37,
+          "low": 948.65,
+          "close": 949.34,
+          "volume": 3016186
+        },
+        {
+          "timestamp": "2026-10-20T10:00:00",
+          "open": 933.08,
+          "high": 934.76,
+          "low": 927.2,
+          "close": 932.32,
+          "volume": 3501202
+        },
+        {
+          "timestamp": "2026-10-21T10:00:00",
+          "open": 932.76,
+          "high": 933.92,
+          "low": 926.0,
+          "close": 932.24,
+          "volume": 1708829
+        },
+        {
+          "timestamp": "2026-10-22T10:00:00",
+          "open": 924.29,
+          "high": 924.95,
+          "low": 918.34,
+          "close": 918.66,
+          "volume": 1636075
+        },
+        {
+          "timestamp": "2026-10-23T10:00:00",
+          "open": 900.82,
+          "high": 907.15,
+          "low": 897.82,
+          "close": 903.72,
+          "volume": 1492140
+        },
+        {
+          "timestamp": "2026-10-26T10:00:00",
+          "open": 885.18,
+          "high": 887.23,
+          "low": 653.8,
+          "close": 660.4,
+          "volume": 2900966
+        }
+      ],
+      "five_year_analysis": {
+        "total_observations": 1260,
+        "coverage_years": 5.0,
+        "coverage_pct": 100.0,
+        "high_52w": 975.22,
+        "low_52w": 546.79,
+        "high_5y": 975.22,
+        "low_5y": 184.38,
+        "max_drawdown_5y": -0.4257,
+        "realized_volatility_5y": 0.3563,
+        "sma_200d": 702.48,
+        "sma_50d": 893.72,
+        "sharpe_ratio": 0.3587,
+        "sortino_ratio": 0.4488,
+        "calmar_ratio": 0.5116,
+        "trend_regime": "SIDEWAYS_CONSOLIDATION",
+        "momentum_regime": "OVERSOLD",
+        "volatility_regime": "EXTREME_VOLATILITY",
+        "sample_bars": [
+          {
+            "timestamp": "2026-06-23T10:00:00",
+            "open": 609.24,
+            "high": 609.9,
+            "low": 604.29,
+            "close": 607.61,
+            "volume": 1975109
+          },
+          {
+            "timestamp": "2026-06-24T10:00:00",
+            "open": 605.17,
+            "high": 605.98,
+            "low": 602.25,
+            "close": 605.29,
+            "volume": 3375589
+          },
+          {
+            "timestamp": "2026-06-25T10:00:00",
+            "open": 596.49,
+            "high": 600.66,
+            "low": 587.5,
+            "close": 596.27,
+            "volume": 2318719
+          },
+          {
+            "timestamp": "2026-06-26T10:00:00",
+            "open": 619.48,
+            "high": 623.98,
+            "low": 616.67,
+            "close": 621.09,
+            "volume": 4180977
+          },
+          {
+            "timestamp": "2026-06-29T10:00:00",
+            "open": 625.87,
+            "high": 636.92,
+            "low": 622.17,
+            "close": 623.95,
+            "volume": 3869444
+          },
+          {
+            "timestamp": "2026-06-30T10:00:00",
+            "open": 617.61,
+            "high": 617.85,
+            "low": 614.26,
+            "close": 616.11,
+            "volume": 1694271
+          },
+          {
+            "timestamp": "2026-07-01T10:00:00",
+            "open": 613.15,
+            "high": 614.69,
+            "low": 611.9,
+            "close": 612.11,
+            "volume": 2321292
+          },
+          {
+            "timestamp": "2026-07-02T10:00:00",
+            "open": 616.33,
+            "high": 620.93,
+            "low": 615.23,
+            "close": 615.65,
+            "volume": 993036
+          },
+          {
+            "timestamp": "2026-07-03T10:00:00",
+            "open": 615.7,
+            "high": 616.76,
+            "low": 607.67,
+            "close": 610.53,
+            "volume": 1737783
+          },
+          {
+            "timestamp": "2026-07-06T10:00:00",
+            "open": 622.82,
+            "high": 628.86,
+            "low": 620.18,
+            "close": 624.9,
+            "volume": 1845484
+          },
+          {
+            "timestamp": "2026-07-07T10:00:00",
+            "open": 640.08,
+            "high": 645.06,
+            "low": 639.75,
+            "close": 642.01,
+            "volume": 2174753
+          },
+          {
+            "timestamp": "2026-07-08T10:00:00",
+            "open": 657.67,
+            "high": 658.11,
+            "low": 655.11,
+            "close": 657.23,
+            "volume": 1921507
+          },
+          {
+            "timestamp": "2026-07-09T10:00:00",
+            "open": 657.88,
+            "high": 665.47,
+            "low": 653.6,
+            "close": 660.63,
+            "volume": 2980556
+          },
+          {
+            "timestamp": "2026-07-10T10:00:00",
+            "open": 638.36,
+            "high": 643.2,
+            "low": 632.53,
+            "close": 638.02,
+            "volume": 2791124
+          },
+          {
+            "timestamp": "2026-07-13T10:00:00",
+            "open": 643.8,
+            "high": 650.35,
+            "low": 639.83,
+            "close": 644.16,
+            "volume": 2266602
+          },
+          {
+            "timestamp": "2026-07-14T10:00:00",
+            "open": 663.73,
+            "high": 665.57,
+            "low": 659.51,
+            "close": 661.63,
+            "volume": 2550954
+          },
+          {
+            "timestamp": "2026-07-15T10:00:00",
+            "open": 665.72,
+            "high": 674.67,
+            "low": 651.73,
+            "close": 661.49,
+            "volume": 2775322
+          },
+          {
+            "timestamp": "2026-07-16T10:00:00",
+            "open": 638.46,
+            "high": 640.1,
+            "low": 638.36,
+            "close": 639.1,
+            "volume": 2157340
+          },
+          {
+            "timestamp": "2026-07-17T10:00:00",
+            "open": 652.26,
+            "high": 654.62,
+            "low": 647.79,
+            "close": 648.31,
+            "volume": 2393292
+          },
+          {
+            "timestamp": "2026-07-20T10:00:00",
+            "open": 667.14,
+            "high": 668.84,
+            "low": 662.29,
+            "close": 665.47,
+            "volume": 3728980
+          },
+          {
+            "timestamp": "2026-07-21T10:00:00",
+            "open": 658.79,
+            "high": 661.33,
+            "low": 655.26,
+            "close": 656.96,
+            "volume": 2315671
+          },
+          {
+            "timestamp": "2026-07-22T10:00:00",
+            "open": 647.67,
+            "high": 648.78,
+            "low": 643.01,
+            "close": 646.16,
+            "volume": 2271386
+          },
+          {
+            "timestamp": "2026-07-23T10:00:00",
+            "open": 660.76,
+            "high": 662.93,
+            "low": 654.17,
+            "close": 658.65,
+            "volume": 2088154
+          },
+          {
+            "timestamp": "2026-07-24T10:00:00",
+            "open": 651.4,
+            "high": 651.73,
+            "low": 641.16,
+            "close": 650.64,
+            "volume": 2369957
+          },
+          {
+            "timestamp": "2026-07-27T10:00:00",
+            "open": 668.71,
+            "high": 669.84,
+            "low": 666.56,
+            "close": 669.54,
+            "volume": 1868341
+          },
+          {
+            "timestamp": "2026-07-28T10:00:00",
+            "open": 665.46,
+            "high": 667.1,
+            "low": 665.24,
+            "close": 666.68,
+            "volume": 3742447
+          },
+          {
+            "timestamp": "2026-07-29T10:00:00",
+            "open": 658.81,
+            "high": 665.71,
+            "low": 654.66,
+            "close": 663.14,
+            "volume": 3940631
+          },
+          {
+            "timestamp": "2026-07-30T10:00:00",
+            "open": 678.47,
+            "high": 686.18,
+            "low": 673.37,
+            "close": 683.42,
+            "volume": 4425708
+          },
+          {
+            "timestamp": "2026-07-31T10:00:00",
+            "open": 695.35,
+            "high": 712.85,
+            "low": 694.4,
+            "close": 694.66,
+            "volume": 2259049
+          },
+          {
+            "timestamp": "2026-08-03T10:00:00",
+            "open": 719.82,
+            "high": 721.61,
+            "low": 712.3,
+            "close": 716.75,
+            "volume": 2569556
+          },
+          {
+            "timestamp": "2026-08-04T10:00:00",
+            "open": 709.09,
+            "high": 710.94,
+            "low": 708.33,
+            "close": 709.84,
+            "volume": 1505089
+          },
+          {
+            "timestamp": "2026-08-05T10:00:00",
+            "open": 718.53,
+            "high": 726.12,
+            "low": 712.76,
+            "close": 721.19,
+            "volume": 2245131
+          },
+          {
+            "timestamp": "2026-08-06T10:00:00",
+            "open": 696.35,
+            "high": 703.46,
+            "low": 694.42,
+            "close": 697.68,
+            "volume": 1530395
+          },
+          {
+            "timestamp": "2026-08-07T10:00:00",
+            "open": 745.55,
+            "high": 747.41,
+            "low": 743.57,
+            "close": 743.94,
+            "volume": 3648617
+          },
+          {
+            "timestamp": "2026-08-10T10:00:00",
+            "open": 726.61,
+            "high": 730.27,
+            "low": 726.19,
+            "close": 728.17,
+            "volume": 2438519
+          },
+          {
+            "timestamp": "2026-08-11T10:00:00",
+            "open": 717.57,
+            "high": 721.08,
+            "low": 715.34,
+            "close": 717.19,
+            "volume": 3065793
+          },
+          {
+            "timestamp": "2026-08-12T10:00:00",
+            "open": 707.61,
+            "high": 708.12,
+            "low": 706.09,
+            "close": 706.46,
+            "volume": 1521400
+          },
+          {
+            "timestamp": "2026-08-13T10:00:00",
+            "open": 712.67,
+            "high": 720.08,
+            "low": 706.66,
+            "close": 714.32,
+            "volume": 2002535
+          },
+          {
+            "timestamp": "2026-08-14T10:00:00",
+            "open": 739.55,
+            "high": 741.43,
+            "low": 739.42,
+            "close": 740.12,
+            "volume": 3844135
+          },
+          {
+            "timestamp": "2026-08-17T10:00:00",
+            "open": 750.58,
+            "high": 754.97,
+            "low": 745.83,
+            "close": 748.68,
+            "volume": 1928949
+          },
+          {
+            "timestamp": "2026-08-18T10:00:00",
+            "open": 777.79,
+            "high": 779.14,
+            "low": 767.15,
+            "close": 775.1,
+            "volume": 2616791
+          },
+          {
+            "timestamp": "2026-08-19T10:00:00",
+            "open": 811.49,
+            "high": 816.86,
+            "low": 809.28,
+            "close": 814.2,
+            "volume": 1906977
+          },
+          {
+            "timestamp": "2026-08-20T10:00:00",
+            "open": 822.18,
+            "high": 824.3,
+            "low": 818.91,
+            "close": 821.84,
+            "volume": 2733709
+          },
+          {
+            "timestamp": "2026-08-21T10:00:00",
+            "open": 808.3,
+            "high": 809.34,
+            "low": 799.26,
+            "close": 807.65,
+            "volume": 2802528
+          },
+          {
+            "timestamp": "2026-08-24T10:00:00",
+            "open": 826.87,
+            "high": 832.57,
+            "low": 824.75,
+            "close": 829.66,
+            "volume": 2218658
+          },
+          {
+            "timestamp": "2026-08-25T10:00:00",
+            "open": 853.67,
+            "high": 854.81,
+            "low": 849.9,
+            "close": 854.8,
+            "volume": 2356224
+          },
+          {
+            "timestamp": "2026-08-26T10:00:00",
+            "open": 881.77,
+            "high": 883.14,
+            "low": 874.92,
+            "close": 877.86,
+            "volume": 2779737
+          },
+          {
+            "timestamp": "2026-08-27T10:00:00",
+            "open": 871.0,
+            "high": 882.44,
+            "low": 865.0,
+            "close": 879.21,
+            "volume": 2233207
+          },
+          {
+            "timestamp": "2026-08-28T10:00:00",
+            "open": 874.32,
+            "high": 879.78,
+            "low": 872.24,
+            "close": 876.28,
+            "volume": 1811523
+          },
+          {
+            "timestamp": "2026-08-31T10:00:00",
+            "open": 861.28,
+            "high": 862.32,
+            "low": 860.7,
+            "close": 862.11,
+            "volume": 1781720
+          },
+          {
+            "timestamp": "2026-09-01T10:00:00",
+            "open": 873.82,
+            "high": 875.06,
+            "low": 869.78,
+            "close": 873.64,
+            "volume": 2452006
+          },
+          {
+            "timestamp": "2026-09-02T10:00:00",
+            "open": 901.12,
+            "high": 906.04,
+            "low": 896.25,
+            "close": 899.51,
+            "volume": 2650184
+          },
+          {
+            "timestamp": "2026-09-03T10:00:00",
+            "open": 903.59,
+            "high": 903.84,
+            "low": 900.73,
+            "close": 901.52,
+            "volume": 1849890
+          },
+          {
+            "timestamp": "2026-09-04T10:00:00",
+            "open": 895.45,
+            "high": 898.66,
+            "low": 894.33,
+            "close": 898.15,
+            "volume": 2740114
+          },
+          {
+            "timestamp": "2026-09-07T10:00:00",
+            "open": 927.0,
+            "high": 929.3,
+            "low": 923.14,
+            "close": 925.65,
+            "volume": 3439301
+          },
+          {
+            "timestamp": "2026-09-08T10:00:00",
+            "open": 932.75,
+            "high": 937.92,
+            "low": 931.24,
+            "close": 934.36,
+            "volume": 3346286
+          },
+          {
+            "timestamp": "2026-09-09T10:00:00",
+            "open": 937.21,
+            "high": 946.58,
+            "low": 922.55,
+            "close": 933.09,
+            "volume": 2111114
+          },
+          {
+            "timestamp": "2026-09-10T10:00:00",
+            "open": 940.68,
+            "high": 944.95,
+            "low": 931.82,
+            "close": 939.02,
+            "volume": 3618483
+          },
+          {
+            "timestamp": "2026-09-11T10:00:00",
+            "open": 916.84,
+            "high": 918.42,
+            "low": 913.63,
+            "close": 914.94,
+            "volume": 1524398
+          },
+          {
+            "timestamp": "2026-09-14T10:00:00",
+            "open": 931.89,
+            "high": 932.49,
+            "low": 921.26,
+            "close": 927.83,
+            "volume": 1002258
+          },
+          {
+            "timestamp": "2026-09-15T10:00:00",
+            "open": 888.09,
+            "high": 895.69,
+            "low": 881.95,
+            "close": 884.62,
+            "volume": 3032313
+          },
+          {
+            "timestamp": "2026-09-16T10:00:00",
+            "open": 901.56,
+            "high": 904.62,
+            "low": 896.77,
+            "close": 899.4,
+            "volume": 2145622
+          },
+          {
+            "timestamp": "2026-09-17T10:00:00",
+            "open": 909.16,
+            "high": 918.2,
+            "low": 898.02,
+            "close": 902.35,
+            "volume": 1509532
+          },
+          {
+            "timestamp": "2026-09-18T10:00:00",
+            "open": 883.09,
+            "high": 883.62,
+            "low": 872.05,
+            "close": 881.66,
+            "volume": 3771064
+          },
+          {
+            "timestamp": "2026-09-21T10:00:00",
+            "open": 892.81,
+            "high": 894.77,
+            "low": 880.57,
+            "close": 894.66,
+            "volume": 2902782
+          },
+          {
+            "timestamp": "2026-09-22T10:00:00",
+            "open": 906.19,
+            "high": 907.72,
+            "low": 903.11,
+            "close": 905.87,
+            "volume": 2773331
+          },
+          {
+            "timestamp": "2026-09-23T10:00:00",
+            "open": 889.8,
+            "high": 895.77,
+            "low": 877.94,
+            "close": 889.87,
+            "volume": 3366802
+          },
+          {
+            "timestamp": "2026-09-24T10:00:00",
+            "open": 914.29,
+            "high": 914.43,
+            "low": 909.5,
+            "close": 913.7,
+            "volume": 2730076
+          },
+          {
+            "timestamp": "2026-09-25T10:00:00",
+            "open": 885.66,
+            "high": 888.13,
+            "low": 879.44,
+            "close": 882.66,
+            "volume": 2003235
+          },
+          {
+            "timestamp": "2026-09-28T10:00:00",
+            "open": 910.26,
+            "high": 913.99,
+            "low": 907.17,
+            "close": 912.08,
+            "volume": 3152053
+          },
+          {
+            "timestamp": "2026-09-29T10:00:00",
+            "open": 912.76,
+            "high": 914.69,
+            "low": 912.17,
+            "close": 912.72,
+            "volume": 2836862
+          },
+          {
+            "timestamp": "2026-09-30T10:00:00",
+            "open": 957.46,
+            "high": 960.46,
+            "low": 952.71,
+            "close": 954.28,
+            "volume": 2103911
+          },
+          {
+            "timestamp": "2026-10-01T10:00:00",
+            "open": 932.07,
+            "high": 933.16,
+            "low": 920.52,
+            "close": 926.51,
+            "volume": 2413682
+          },
+          {
+            "timestamp": "2026-10-02T10:00:00",
+            "open": 914.11,
+            "high": 914.18,
+            "low": 905.7,
+            "close": 909.4,
+            "volume": 2120675
+          },
+          {
+            "timestamp": "2026-10-05T10:00:00",
+            "open": 903.16,
+            "high": 905.03,
+            "low": 901.6,
+            "close": 901.87,
+            "volume": 2433809
+          },
+          {
+            "timestamp": "2026-10-06T10:00:00",
+            "open": 921.72,
+            "high": 922.4,
+            "low": 919.31,
+            "close": 921.83,
+            "volume": 3601109
+          },
+          {
+            "timestamp": "2026-10-07T10:00:00",
+            "open": 894.69,
+            "high": 896.94,
+            "low": 892.37,
+            "close": 893.95,
+            "volume": 4442694
+          },
+          {
+            "timestamp": "2026-10-08T10:00:00",
+            "open": 896.74,
+            "high": 910.58,
+            "low": 885.22,
+            "close": 897.55,
+            "volume": 1996976
+          },
+          {
+            "timestamp": "2026-10-09T10:00:00",
+            "open": 899.95,
+            "high": 903.77,
+            "low": 896.7,
+            "close": 899.71,
+            "volume": 2462912
+          },
+          {
+            "timestamp": "2026-10-12T10:00:00",
+            "open": 882.29,
+            "high": 885.46,
+            "low": 875.14,
+            "close": 881.35,
+            "volume": 1836092
+          },
+          {
+            "timestamp": "2026-10-13T10:00:00",
+            "open": 912.12,
+            "high": 919.68,
+            "low": 905.08,
+            "close": 912.52,
+            "volume": 2079257
+          },
+          {
+            "timestamp": "2026-10-14T10:00:00",
+            "open": 938.48,
+            "high": 945.08,
+            "low": 937.66,
+            "close": 943.34,
+            "volume": 3274035
+          },
+          {
+            "timestamp": "2026-10-15T10:00:00",
+            "open": 949.83,
+            "high": 962.34,
+            "low": 947.58,
+            "close": 951.01,
+            "volume": 2540360
+          },
+          {
+            "timestamp": "2026-10-16T10:00:00",
+            "open": 970.65,
+            "high": 975.22,
+            "low": 960.79,
+            "close": 969.92,
+            "volume": 2290371
+          },
+          {
+            "timestamp": "2026-10-19T10:00:00",
+            "open": 958.98,
+            "high": 968.37,
+            "low": 948.65,
+            "close": 949.34,
+            "volume": 3016186
+          },
+          {
+            "timestamp": "2026-10-20T10:00:00",
+            "open": 933.08,
+            "high": 934.76,
+            "low": 927.2,
+            "close": 932.32,
+            "volume": 3501202
+          },
+          {
+            "timestamp": "2026-10-21T10:00:00",
+            "open": 932.76,
+            "high": 933.92,
+            "low": 926.0,
+            "close": 932.24,
+            "volume": 1708829
+          },
+          {
+            "timestamp": "2026-10-22T10:00:00",
+            "open": 924.29,
+            "high": 924.95,
+            "low": 918.34,
+            "close": 918.66,
+            "volume": 1636075
+          },
+          {
+            "timestamp": "2026-10-23T10:00:00",
+            "open": 900.82,
+            "high": 907.15,
+            "low": 897.82,
+            "close": 903.72,
+            "volume": 1492140
+          },
+          {
+            "timestamp": "2026-10-26T10:00:00",
+            "open": 885.18,
+            "high": 887.23,
+            "low": 653.8,
+            "close": 660.4,
+            "volume": 2900966
+          }
+        ]
+      },
+      "recent_returns": [
+        -0.04657,
+        0.01671,
+        0.00328,
+        -0.02293,
+        0.01474,
+        0.01253,
+        -0.01766,
+        0.02678,
+        -0.03397,
+        0.03333,
+        0.0007,
+        0.04553,
+        -0.0291,
+        -0.01847,
+        -0.00828,
+        0.02213,
+        -0.03024,
+        0.00403,
+        0.00241,
+        -0.02041,
+        0.03537,
+        0.03377,
+        0.00813,
+        0.01988,
+        -0.02122,
+        -0.01793,
+        -9e-05,
+        -0.01457,
+        -0.01626,
+        -0.26924
+      ],
+      "calculated_metrics": {
+        "latest_close": 660.4,
+        "sample_return_mean": 0.0008643630044742932,
+        "annualized_return": 0.2178,
+        "realized_volatility_annualized": 1.017224802477814,
+        "realized_volatility_20d": 1.017224802477814,
+        "realized_volatility_60d": 0.6745163577823355,
+        "realized_volatility_252d": 0.42597646096082076,
+        "realized_volatility_5y": 0.3562648318295747,
+        "sharpe_ratio": 0.3587,
+        "sortino_ratio": 0.4488,
+        "calmar_ratio": 0.5116,
+        "latest_sma": 908.632,
+        "sma_20d": 908.632,
+        "sma_50d": 893.7186,
+        "sma_200d": 702.4803999999999,
+        "latest_ema": 894.3582394472985,
+        "ema_20d": 894.3582394472985,
+        "ema_50d": 869.0562998701606,
+        "ema_200d": 730.8520309584385,
+        "latest_rsi": 22.516892968620027,
+        "rsi_14d": 22.516892968620027,
+        "max_drawdown_5y": -0.4257,
+        "high_52w": 975.22,
+        "low_52w": 546.79,
+        "high_5y": 975.22,
+        "low_5y": 184.38,
+        "coverage_years": 5.0,
+        "trend_regime": "SIDEWAYS_CONSOLIDATION",
+        "momentum_regime": "OVERSOLD",
+        "volatility_regime": "EXTREME_VOLATILITY"
+      }
+    },
+    "statutory_risk_bounds": {
+      "transaction_type": "ROUND_TRIP",
+      "instrument_type": "EQUITY_DELIVERY",
+      "notional_inr": 99720.4,
+      "price": 660.4,
+      "quantity": 151,
+      "total_statutory_costs_inr": 221.62,
+      "effective_rate_pct": 0.2222,
+      "breakdown": {
+        "securities_transaction_tax": 199.44,
+        "stt": 199.44,
+        "exchange_turnover_fee": 5.92,
+        "sebi_turnover_charges": 0.2,
+        "stamp_duty": 14.96,
+        "goods_and_services_tax_18pct": 1.1,
+        "gst_18pct": 1.1
+      },
+      "rates": {
+        "stt_pct": 0.1,
+        "stamp_duty_pct": 0.015,
+        "exchange_fee_pct": 0.00297,
+        "sebi_fee_pct": 0.0001,
+        "gst_pct": 18.0
+      }
+    },
+    "qualitative_evidence": [
+      "rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW",
+      "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+      "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+      "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS",
+      "parquet://data/ohlcv/tatamotors:1260_bars",
+      "academic://corwin_schultz_2012#high_low_spread_estimator",
+      "academic://amihud_2002#illiquidity_ratio",
+      "academic://roll_1984#effective_spread",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+      "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+    ],
+    "source_provenance": [
+      "duckdb_parquet_analytical_engine",
+      "statutory_rules_registry_finance_act_2024",
+      "crewai_a2a_protocol_endpoint_v1.0",
+      "llm_synthesis_deterministic",
+      "orchestration_pattern_SEQUENTIAL",
+      "artifact:art-adk_quant_specialist-v15",
+      "artifact:art-adk_microstructure_specialist-v17",
+      "artifact:art-crewai_news_macro_specialist-v19",
+      "artifact:art-crewai_corporate_filing_specialist-v21",
+      "artifact:art-crewai_adversarial_specialist-v23",
+      "artifact:art-adk_risk_validator-v27"
+    ],
+    "limitations_and_uncertainties": [
+      "Point-in-time data bounds strictly enforced (zero lookahead).",
+      "Live trading disabled by system configuration; paper/simulation mode only.",
+      "Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+      "Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+      "Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+      "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+      "Skeptic objection flagged: CIRCUIT_FILTER_BREACH",
+      "Skeptic objection flagged: EXTREME_VOLATILITY_ANOMALY",
+      "Risk Validator Gate BLOCKED: Unresolved Skeptic objection(s): CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY"
+    ],
+    "recommendation": "INCONCLUSIVE",
+    "conviction_score": null,
+    "statutory_friction_drag_pct": 0.2222,
+    "rag_citations": [
+      "rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW",
+      "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+      "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+      "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS",
+      "parquet://data/ohlcv/tatamotors:1260_bars",
+      "academic://corwin_schultz_2012#high_low_spread_estimator",
+      "academic://amihud_2002#illiquidity_ratio",
+      "academic://roll_1984#effective_spread",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+      "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+    ],
+    "target_price": null,
+    "target_upside_pct": null,
+    "stop_loss_price": null,
+    "stop_loss_pct": null,
+    "reward_to_risk_ratio": null,
+    "target_methodology": "Mandatory decision gates blocked recommendation; target corridor omitted.",
+    "audit_hash": "a2ee29ef911f5858ccf4564e94a3b621db107a880e4080eaaf46e6f5a078bc77",
+    "generated_at": "2026-10-28T07:33:26.440562Z"
+  },
+  "blackboard_events": [
+    {
+      "event_id": "evt-15d7e700",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "stage": "SUPERVISION_INIT"
+      },
+      "timestamp": "2026-10-28T07:32:47.460723Z"
+    },
+    {
+      "event_id": "evt-2f636db5",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "TASK_PLANNED",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "plan_id": "plan-35145b37",
+        "run_id": "run-api-9bbf2c88044b",
+        "symbol": "TATAMOTORS",
+        "orchestration_pattern": "SEQUENTIAL",
+        "data_coverage_summary": {
+          "symbol": "TATAMOTORS",
+          "canonical_id": "NSE:TATAMOTORS",
+          "exchange": "NSE",
+          "company_name": "Tata Motors Limited",
+          "is_sme": false,
+          "has_derivatives": true,
+          "target_horizon_years": 5.0,
+          "audited_at": "2026-10-28T07:32:50.422956Z",
+          "categories": {
+            "daily_ohlcv": {
+              "category": "daily_ohlcv",
+              "display_name": "Daily OHLCV Bars",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "duckdb_parquet",
+              "start_date": "2021-12-28",
+              "end_date": "2026-10-26",
+              "total_observations": 1260,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.310595+00:00",
+              "limitations": [
+                "Point-in-time available_at filtering enforced on all analytical partitions.",
+                "Zero synthetic bars inserted for weekend or market holiday gaps."
+              ]
+            },
+            "intraday_candles": {
+              "category": "intraday_candles",
+              "display_name": "Intraday 1M/5M/15M Candles",
+              "status": "PARTIAL_HISTORY_AVAILABLE",
+              "provider": "yahoo_finance_chart_api",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.16,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.310595+00:00",
+              "limitations": [
+                "Intraday minute-level candles available on dynamic query for up to rolling 60 days.",
+                "Multi-year intraday history requires paid commercial archive."
+              ]
+            },
+            "corporate_actions": {
+              "category": "corporate_actions",
+              "display_name": "Corporate Actions & Splits",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "security_master_and_exchange_filings",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 2,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.310595+00:00",
+              "limitations": [
+                "SEBI corporate announcements audited for splits, bonuses, and name changes.",
+                "Back-adjusted prices verified against statutory ex-dates."
+              ]
+            },
+            "options_and_futures_history": {
+              "category": "options_and_futures_history",
+              "display_name": "Historical Options & Futures Contracts",
+              "status": "REQUIRES_LICENSED_SUBSCRIPTION",
+              "provider": "nse_derivatives_master",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.311398+00:00",
+              "limitations": [
+                "NSE derivatives segment active, but tick-by-tick historical options contracts are absent.",
+                "Live option chain is accessible via broker token (Groww API / TrueData)."
+              ]
+            },
+            "open_interest_and_greeks": {
+              "category": "open_interest_and_greeks",
+              "display_name": "Option Greeks & Strike Open Interest",
+              "status": "UNAVAILABLE_DATA_ABSENCE",
+              "provider": "unconfigured_broker_feed",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "Contract-level options chain and open interest tick feeds are unavailable in daily OHLCV storage.",
+                "Zero-fabrication policy: PCR, ATM IV, and Max Pain omitted rather than synthesized."
+              ]
+            },
+            "order_book_market_depth": {
+              "category": "order_book_market_depth",
+              "display_name": "Level 2/3 Order Book & Tick Flow",
+              "status": "UNAVAILABLE_DATA_ABSENCE",
+              "provider": "colocation_tbt_feed_required",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "Tick-level L2/L3 queue depth and execution order flow unavailable.",
+                "Parametric Corwin-Schultz (2012) spread proxy utilized; slippage marked UNAVAILABLE."
+              ]
+            },
+            "company_results_financials": {
+              "category": "company_results_financials",
+              "display_name": "Quarterly Financial Results (SEBI LODR Reg 33)",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "chromadb_rag_filings",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 1,
+              "coverage_years": 2.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "Statutory limited review reports audited under SEBI LODR 2015 Regulation 33."
+              ]
+            },
+            "exchange_filings_annual_reports": {
+              "category": "exchange_filings_annual_reports",
+              "display_name": "Exchange Material Disclosures (SEBI LODR Reg 30)",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "sebi_lodr_statutory_corpus",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 4,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "Material disclosures audited against statutory materiality guidelines under SEBI LODR Reg 30."
+              ]
+            },
+            "news_and_macro_events": {
+              "category": "news_and_macro_events",
+              "display_name": "RBI Monetary Policy & Macro Indicators",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "rbi_mpc_framework_corpus",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 5,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "Macroeconomic anchor derived from authentic Reserve Bank of India (RBI) MPC resolution frameworks.",
+                "Live RSS news crawler unconfigured; general news filtered against verified statutory releases."
+              ]
+            },
+            "benchmark_and_sector_data": {
+              "category": "benchmark_and_sector_data",
+              "display_name": "NIFTY 50 / Sector Benchmarking",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "duckdb_parquet_benchmarks",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 1260,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T07:32:50.422956+00:00",
+              "limitations": [
+                "NIFTY 50 index benchmarks available for relative beta, alpha, and drawdown benchmarking."
+              ]
+            }
+          },
+          "overall_eligibility": "FULL_5Y_QUANT_READY",
+          "summary_limitations": []
+        },
+        "nodes": [
+          {
+            "task_id": "task-adk_quant_specialist",
+            "agent_id": "adk_quant_specialist",
+            "framework": "GOOGLE_ADK",
+            "task_name": "market_data_and_quant_features",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-adk_microstructure_specialist",
+            "agent_id": "adk_microstructure_specialist",
+            "framework": "GOOGLE_ADK",
+            "task_name": "microstructure_analysis",
+            "dependencies": [
+              "task-adk_quant_specialist"
+            ],
+            "required_input_artifacts": [
+              "market_data_and_quant_features"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_news_macro_specialist",
+            "agent_id": "crewai_news_macro_specialist",
+            "framework": "CREWAI",
+            "task_name": "macro_analysis",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_corporate_filing_specialist",
+            "agent_id": "crewai_corporate_filing_specialist",
+            "framework": "CREWAI",
+            "task_name": "filing_analysis",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_adversarial_specialist",
+            "agent_id": "crewai_adversarial_specialist",
+            "framework": "CREWAI",
+            "task_name": "adversarial_critique",
+            "dependencies": [
+              "task-adk_quant_specialist",
+              "task-adk_microstructure_specialist",
+              "task-crewai_news_macro_specialist",
+              "task-crewai_corporate_filing_specialist"
+            ],
+            "required_input_artifacts": [
+              "market_data_and_quant_features",
+              "microstructure_analysis"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-adk_risk_validator",
+            "agent_id": "adk_risk_validator",
+            "framework": "GOOGLE_ADK",
+            "task_name": "statutory_and_risk_validation",
+            "dependencies": [
+              "task-crewai_adversarial_specialist",
+              "task-adk_quant_specialist"
+            ],
+            "required_input_artifacts": [
+              "adversarial_critique",
+              "market_data_and_quant_features"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          }
+        ],
+        "created_at": "2026-10-28T07:32:50.432675+00:00"
+      },
+      "timestamp": "2026-10-28T07:32:50.432675Z"
+    },
+    {
+      "event_id": "evt-9f37eb83",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "retrieve_regulatory_evidence",
+        "query": "TATAMOTORS SEBI LODR corporate disclosure filing macro"
+      },
+      "timestamp": "2026-10-28T07:32:50.432675Z"
+    },
+    {
+      "event_id": "evt-1ec8a9ad",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "retrieve_regulatory_evidence",
+        "matches_count": 5
+      },
+      "timestamp": "2026-10-28T07:32:51.020811Z"
+    },
+    {
+      "event_id": "evt-8eaea2b5",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "RAG_RETRIEVAL",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "citations": [
+          "rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW",
+          "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+          "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+          "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+          "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS"
+        ],
+        "matches_count": 5,
+        "source": "ChromaDB Persistent Evidence Corpus"
+      },
+      "timestamp": "2026-10-28T07:32:51.020811Z"
+    },
+    {
+      "event_id": "evt-9faf7cfc",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "namespace": "rag_evidence",
+        "citations_count": 5
+      },
+      "timestamp": "2026-10-28T07:32:51.020811Z"
+    },
+    {
+      "event_id": "evt-69d0aa95",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "research_plan_and_supervision",
+        "status": "INITIALIZED",
+        "version": 11
+      },
+      "timestamp": "2026-10-28T07:32:51.021323Z"
+    },
+    {
+      "event_id": "evt-9608c0c7",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_quant_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": []
+      },
+      "timestamp": "2026-10-28T07:32:51.021323Z"
+    },
+    {
+      "event_id": "evt-0d9aca08",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:51.021323Z"
+    },
+    {
+      "event_id": "evt-5ea68b00",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data"
+      },
+      "timestamp": "2026-10-28T07:32:51.021323Z"
+    },
+    {
+      "event_id": "evt-19f5a17f",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data",
+        "count": 1260
+      },
+      "timestamp": "2026-10-28T07:32:55.523954Z"
+    },
+    {
+      "event_id": "evt-c06a5d6d",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 4576.328700000886,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-88062397",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_quant_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-c4615b1d",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_quant_specialist-3c0fb2",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_quant_specialist-v15",
+        "version": 15,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-a3f20d79",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_microstructure_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-adk_quant_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-da686e14",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "adk_microstructure_specialist"
+      },
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-57e8fe47",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-bea9a3",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:55.597731Z"
+    },
+    {
+      "event_id": "evt-bfddf94e",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-bea9a3",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 0.7553000032203272,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-b8e6cc37",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-bea9a3",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_microstructure_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-6d284c84",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_microstructure_specialist-bea9a3",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_microstructure_specialist-v17",
+        "version": 17,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-3b7e5833",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_news_macro_specialist",
+        "mode": "SEQUENTIAL"
+      },
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-c2371901",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "active_request",
+        "consumer": "crewai_news_macro_specialist"
+      },
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-9c473dd2",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-d32c01",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-65f2fb87",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_news_macro_specialist",
+        "task": "macro_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "event_id": "evt-1dfad504",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-d32c01",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "macro_analysis",
+        "citations_count": 2
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-7642247b",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-d32c01",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 3367.4535999889486,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-f3f41f57",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-d32c01",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_news_macro_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-ffcd846c",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_news_macro_specialist-d32c01",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_news_macro_specialist-v19",
+        "version": 19,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-79e7eb8d",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_corporate_filing_specialist",
+        "mode": "SEQUENTIAL"
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-64ad814b",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "active_request",
+        "consumer": "crewai_corporate_filing_specialist"
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-c9f1e51f",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-f8c48a8b",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_corporate_filing_specialist",
+        "task": "filing_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T07:32:58.967436Z"
+    },
+    {
+      "event_id": "evt-6e6eb320",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "filing_analysis",
+        "status": "SUCCESS"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-6dcf0f58",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "RAG_RETRIEVAL",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "citations": [
+          "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+          "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25"
+        ],
+        "source": "SEBI LODR Filings Index"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-add7452c",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 10421.566999997594,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-287094c5",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_corporate_filing_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-94f56c2a",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_corporate_filing_specialist-5232ca",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_corporate_filing_specialist-v21",
+        "version": 21,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-df72efd5",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_adversarial_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-adk_quant_specialist",
+          "task-adk_microstructure_specialist",
+          "task-crewai_news_macro_specialist",
+          "task-crewai_corporate_filing_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-a603b3f6",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-e75950db",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "microstructure_analysis",
+        "consumer": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-9ba342e2",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-85be5fee",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_adversarial_specialist",
+        "task": "adversarial_critique",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T07:33:09.391058Z"
+    },
+    {
+      "event_id": "evt-0d702b1f",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "adversarial_critique",
+        "challenges": 2
+      },
+      "timestamp": "2026-10-28T07:33:26.437083Z"
+    },
+    {
+      "event_id": "evt-16d48753",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "SKEPTIC_CHALLENGE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:26.437083Z"
+    },
+    {
+      "event_id": "evt-a3232a19",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 17045.151099999202,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:26.437083Z"
+    },
+    {
+      "event_id": "evt-8ce757a8",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_adversarial_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:33:26.437595Z"
+    },
+    {
+      "event_id": "evt-a9f0b3cb",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-crewai_adversarial_specialist-3f3931",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_adversarial_specialist-v23",
+        "version": 23,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-335f4306",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_risk_validator",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-crewai_adversarial_specialist",
+          "task-adk_quant_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-cb970eb8",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "adversarial_critique",
+        "consumer": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-c90cc2e0",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-c15f4ca7",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-bd2ed3b1",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-28T07:33:26.437906Z"
+    },
+    {
+      "event_id": "evt-918fda62",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-28T07:33:26.439047Z"
+    },
+    {
+      "event_id": "evt-6124979d",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "RISK_VALIDATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "FAILED",
+      "duration_ms": 1.1952000058954582,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:26.439047Z"
+    },
+    {
+      "event_id": "evt-30cc56d6",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 1.1952000058954582,
+      "payload": {},
+      "timestamp": "2026-10-28T07:33:26.439047Z"
+    },
+    {
+      "event_id": "evt-74f6d74c",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_risk_validator",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T07:33:26.439635Z"
+    },
+    {
+      "event_id": "evt-6785a655",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_risk_validator-23ad49",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_risk_validator-v27",
+        "version": 27,
+        "run_id": "run-api-9bbf2c88044b"
+      },
+      "timestamp": "2026-10-28T07:33:26.439635Z"
+    },
+    {
+      "event_id": "evt-41934841",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "GATE_DECISION",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "BLOCKED",
+      "duration_ms": null,
+      "payload": {
+        "gate_failures": [
+          "Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+          "Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+          "Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]"
+        ],
+        "recommendation": "INCONCLUSIVE"
+      },
+      "timestamp": "2026-10-28T07:33:26.443802Z"
+    },
+    {
+      "event_id": "evt-f522b2b5",
+      "run_id": "run-api-9bbf2c88044b",
+      "execution_id": "exec-adk_research_manager-40847e",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 3560.94,
+      "payload": {
+        "orchestration_wall_clock_ms": 38979.75,
+        "agent_execution_ms": 3560.94
+      },
+      "timestamp": "2026-10-28T07:33:26.481093Z"
+    }
+  ],
+  "agent_contributions": [
+    {
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "task_name": "research_plan_and_supervision",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "NOT_APPLICABLE",
+      "analytical_verdict": "NOT_EVALUATED",
+      "validation_outcome": "NOT_EVALUATED",
+      "status": "SUCCESS",
+      "findings": {
+        "canonical_symbol": "TATAMOTORS",
+        "orchestration_pattern": "SEQUENTIAL",
+        "objective": "5-year quantitative valuation, microstructure liquidity, statutory friction under Finance Act 2024, and SEBI LODR compliance for TATAMOTORS.",
+        "initial_hypothesis": "PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE",
+        "conviction_score": null,
+        "required_agents": [
+          "adk_quant_specialist",
+          "adk_microstructure_specialist",
+          "crewai_news_macro_specialist",
+          "crewai_corporate_filing_specialist",
+          "crewai_adversarial_specialist",
+          "adk_risk_validator"
+        ],
+        "allowed_tools": [
+          "query_market_data",
+          "calculate_statutory_costs",
+          "retrieve_regulatory_evidence"
+        ]
+      },
+      "evidence_citations": [
+        "rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW",
+        "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS"
+      ],
+      "warnings": [],
+      "limitations": [
+        "Provisional research plan initialized; awaiting specialist findings and risk validation."
+      ],
+      "downstream_handoffs": [
+        "adk_quant_specialist",
+        "adk_microstructure_specialist",
+        "crewai_news_macro_specialist",
+        "crewai_corporate_filing_specialist",
+        "crewai_adversarial_specialist",
+        "adk_risk_validator"
+      ],
+      "timestamp": "2026-10-28T07:32:51.020811Z"
+    },
+    {
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "task_name": "market_data_and_quant_features",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "UNVERIFIED",
+      "analytical_verdict": "REJECTED",
+      "validation_outcome": "WARNING",
+      "status": "SUCCESS",
+      "findings": {
+        "records_retrieved": 1260,
+        "empty_result": false,
+        "finding_category": "MEASURED",
+        "data_source": "yfinance_cached_parquet",
+        "data_quality_status": "ANOMALOUS_DATA_FLAGGED",
+        "data_quality_issues": [
+          "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary."
+        ],
+        "anomaly_evaluations": [
+          {
+            "type": "LEGITIMATE_LARGE_MOVE",
+            "date": "2026-10-26",
+            "move_pct": 26.92,
+            "reason": "F&O eligible equity (TATAMOTORS) operating under NSE dynamic price band mechanism."
+          }
+        ],
+        "quantitative_stance": "CAUTION",
+        "max_daily_price_change_pct": 26.92,
+        "historical_bars": [
+          {
+            "timestamp": "2026-06-23T10:00:00",
+            "open": 609.24,
+            "high": 609.9,
+            "low": 604.29,
+            "close": 607.61,
+            "volume": 1975109
+          },
+          {
+            "timestamp": "2026-06-24T10:00:00",
+            "open": 605.17,
+            "high": 605.98,
+            "low": 602.25,
+            "close": 605.29,
+            "volume": 3375589
+          },
+          {
+            "timestamp": "2026-06-25T10:00:00",
+            "open": 596.49,
+            "high": 600.66,
+            "low": 587.5,
+            "close": 596.27,
+            "volume": 2318719
+          },
+          {
+            "timestamp": "2026-06-26T10:00:00",
+            "open": 619.48,
+            "high": 623.98,
+            "low": 616.67,
+            "close": 621.09,
+            "volume": 4180977
+          },
+          {
+            "timestamp": "2026-06-29T10:00:00",
+            "open": 625.87,
+            "high": 636.92,
+            "low": 622.17,
+            "close": 623.95,
+            "volume": 3869444
+          },
+          {
+            "timestamp": "2026-06-30T10:00:00",
+            "open": 617.61,
+            "high": 617.85,
+            "low": 614.26,
+            "close": 616.11,
+            "volume": 1694271
+          },
+          {
+            "timestamp": "2026-07-01T10:00:00",
+            "open": 613.15,
+            "high": 614.69,
+            "low": 611.9,
+            "close": 612.11,
+            "volume": 2321292
+          },
+          {
+            "timestamp": "2026-07-02T10:00:00",
+            "open": 616.33,
+            "high": 620.93,
+            "low": 615.23,
+            "close": 615.65,
+            "volume": 993036
+          },
+          {
+            "timestamp": "2026-07-03T10:00:00",
+            "open": 615.7,
+            "high": 616.76,
+            "low": 607.67,
+            "close": 610.53,
+            "volume": 1737783
+          },
+          {
+            "timestamp": "2026-07-06T10:00:00",
+            "open": 622.82,
+            "high": 628.86,
+            "low": 620.18,
+            "close": 624.9,
+            "volume": 1845484
+          },
+          {
+            "timestamp": "2026-07-07T10:00:00",
+            "open": 640.08,
+            "high": 645.06,
+            "low": 639.75,
+            "close": 642.01,
+            "volume": 2174753
+          },
+          {
+            "timestamp": "2026-07-08T10:00:00",
+            "open": 657.67,
+            "high": 658.11,
+            "low": 655.11,
+            "close": 657.23,
+            "volume": 1921507
+          },
+          {
+            "timestamp": "2026-07-09T10:00:00",
+            "open": 657.88,
+            "high": 665.47,
+            "low": 653.6,
+            "close": 660.63,
+            "volume": 2980556
+          },
+          {
+            "timestamp": "2026-07-10T10:00:00",
+            "open": 638.36,
+            "high": 643.2,
+            "low": 632.53,
+            "close": 638.02,
+            "volume": 2791124
+          },
+          {
+            "timestamp": "2026-07-13T10:00:00",
+            "open": 643.8,
+            "high": 650.35,
+            "low": 639.83,
+            "close": 644.16,
+            "volume": 2266602
+          },
+          {
+            "timestamp": "2026-07-14T10:00:00",
+            "open": 663.73,
+            "high": 665.57,
+            "low": 659.51,
+            "close": 661.63,
+            "volume": 2550954
+          },
+          {
+            "timestamp": "2026-07-15T10:00:00",
+            "open": 665.72,
+            "high": 674.67,
+            "low": 651.73,
+            "close": 661.49,
+            "volume": 2775322
+          },
+          {
+            "timestamp": "2026-07-16T10:00:00",
+            "open": 638.46,
+            "high": 640.1,
+            "low": 638.36,
+            "close": 639.1,
+            "volume": 2157340
+          },
+          {
+            "timestamp": "2026-07-17T10:00:00",
+            "open": 652.26,
+            "high": 654.62,
+            "low": 647.79,
+            "close": 648.31,
+            "volume": 2393292
+          },
+          {
+            "timestamp": "2026-07-20T10:00:00",
+            "open": 667.14,
+            "high": 668.84,
+            "low": 662.29,
+            "close": 665.47,
+            "volume": 3728980
+          },
+          {
+            "timestamp": "2026-07-21T10:00:00",
+            "open": 658.79,
+            "high": 661.33,
+            "low": 655.26,
+            "close": 656.96,
+            "volume": 2315671
+          },
+          {
+            "timestamp": "2026-07-22T10:00:00",
+            "open": 647.67,
+            "high": 648.78,
+            "low": 643.01,
+            "close": 646.16,
+            "volume": 2271386
+          },
+          {
+            "timestamp": "2026-07-23T10:00:00",
+            "open": 660.76,
+            "high": 662.93,
+            "low": 654.17,
+            "close": 658.65,
+            "volume": 2088154
+          },
+          {
+            "timestamp": "2026-07-24T10:00:00",
+            "open": 651.4,
+            "high": 651.73,
+            "low": 641.16,
+            "close": 650.64,
+            "volume": 2369957
+          },
+          {
+            "timestamp": "2026-07-27T10:00:00",
+            "open": 668.71,
+            "high": 669.84,
+            "low": 666.56,
+            "close": 669.54,
+            "volume": 1868341
+          },
+          {
+            "timestamp": "2026-07-28T10:00:00",
+            "open": 665.46,
+            "high": 667.1,
+            "low": 665.24,
+            "close": 666.68,
+            "volume": 3742447
+          },
+          {
+            "timestamp": "2026-07-29T10:00:00",
+            "open": 658.81,
+            "high": 665.71,
+            "low": 654.66,
+            "close": 663.14,
+            "volume": 3940631
+          },
+          {
+            "timestamp": "2026-07-30T10:00:00",
+            "open": 678.47,
+            "high": 686.18,
+            "low": 673.37,
+            "close": 683.42,
+            "volume": 4425708
+          },
+          {
+            "timestamp": "2026-07-31T10:00:00",
+            "open": 695.35,
+            "high": 712.85,
+            "low": 694.4,
+            "close": 694.66,
+            "volume": 2259049
+          },
+          {
+            "timestamp": "2026-08-03T10:00:00",
+            "open": 719.82,
+            "high": 721.61,
+            "low": 712.3,
+            "close": 716.75,
+            "volume": 2569556
+          },
+          {
+            "timestamp": "2026-08-04T10:00:00",
+            "open": 709.09,
+            "high": 710.94,
+            "low": 708.33,
+            "close": 709.84,
+            "volume": 1505089
+          },
+          {
+            "timestamp": "2026-08-05T10:00:00",
+            "open": 718.53,
+            "high": 726.12,
+            "low": 712.76,
+            "close": 721.19,
+            "volume": 2245131
+          },
+          {
+            "timestamp": "2026-08-06T10:00:00",
+            "open": 696.35,
+            "high": 703.46,
+            "low": 694.42,
+            "close": 697.68,
+            "volume": 1530395
+          },
+          {
+            "timestamp": "2026-08-07T10:00:00",
+            "open": 745.55,
+            "high": 747.41,
+            "low": 743.57,
+            "close": 743.94,
+            "volume": 3648617
+          },
+          {
+            "timestamp": "2026-08-10T10:00:00",
+            "open": 726.61,
+            "high": 730.27,
+            "low": 726.19,
+            "close": 728.17,
+            "volume": 2438519
+          },
+          {
+            "timestamp": "2026-08-11T10:00:00",
+            "open": 717.57,
+            "high": 721.08,
+            "low": 715.34,
+            "close": 717.19,
+            "volume": 3065793
+          },
+          {
+            "timestamp": "2026-08-12T10:00:00",
+            "open": 707.61,
+            "high": 708.12,
+            "low": 706.09,
+            "close": 706.46,
+            "volume": 1521400
+          },
+          {
+            "timestamp": "2026-08-13T10:00:00",
+            "open": 712.67,
+            "high": 720.08,
+            "low": 706.66,
+            "close": 714.32,
+            "volume": 2002535
+          },
+          {
+            "timestamp": "2026-08-14T10:00:00",
+            "open": 739.55,
+            "high": 741.43,
+            "low": 739.42,
+            "close": 740.12,
+            "volume": 3844135
+          },
+          {
+            "timestamp": "2026-08-17T10:00:00",
+            "open": 750.58,
+            "high": 754.97,
+            "low": 745.83,
+            "close": 748.68,
+            "volume": 1928949
+          },
+          {
+            "timestamp": "2026-08-18T10:00:00",
+            "open": 777.79,
+            "high": 779.14,
+            "low": 767.15,
+            "close": 775.1,
+            "volume": 2616791
+          },
+          {
+            "timestamp": "2026-08-19T10:00:00",
+            "open": 811.49,
+            "high": 816.86,
+            "low": 809.28,
+            "close": 814.2,
+            "volume": 1906977
+          },
+          {
+            "timestamp": "2026-08-20T10:00:00",
+            "open": 822.18,
+            "high": 824.3,
+            "low": 818.91,
+            "close": 821.84,
+            "volume": 2733709
+          },
+          {
+            "timestamp": "2026-08-21T10:00:00",
+            "open": 808.3,
+            "high": 809.34,
+            "low": 799.26,
+            "close": 807.65,
+            "volume": 2802528
+          },
+          {
+            "timestamp": "2026-08-24T10:00:00",
+            "open": 826.87,
+            "high": 832.57,
+            "low": 824.75,
+            "close": 829.66,
+            "volume": 2218658
+          },
+          {
+            "timestamp": "2026-08-25T10:00:00",
+            "open": 853.67,
+            "high": 854.81,
+            "low": 849.9,
+            "close": 854.8,
+            "volume": 2356224
+          },
+          {
+            "timestamp": "2026-08-26T10:00:00",
+            "open": 881.77,
+            "high": 883.14,
+            "low": 874.92,
+            "close": 877.86,
+            "volume": 2779737
+          },
+          {
+            "timestamp": "2026-08-27T10:00:00",
+            "open": 871.0,
+            "high": 882.44,
+            "low": 865.0,
+            "close": 879.21,
+            "volume": 2233207
+          },
+          {
+            "timestamp": "2026-08-28T10:00:00",
+            "open": 874.32,
+            "high": 879.78,
+            "low": 872.24,
+            "close": 876.28,
+            "volume": 1811523
+          },
+          {
+            "timestamp": "2026-08-31T10:00:00",
+            "open": 861.28,
+            "high": 862.32,
+            "low": 860.7,
+            "close": 862.11,
+            "volume": 1781720
+          },
+          {
+            "timestamp": "2026-09-01T10:00:00",
+            "open": 873.82,
+            "high": 875.06,
+            "low": 869.78,
+            "close": 873.64,
+            "volume": 2452006
+          },
+          {
+            "timestamp": "2026-09-02T10:00:00",
+            "open": 901.12,
+            "high": 906.04,
+            "low": 896.25,
+            "close": 899.51,
+            "volume": 2650184
+          },
+          {
+            "timestamp": "2026-09-03T10:00:00",
+            "open": 903.59,
+            "high": 903.84,
+            "low": 900.73,
+            "close": 901.52,
+            "volume": 1849890
+          },
+          {
+            "timestamp": "2026-09-04T10:00:00",
+            "open": 895.45,
+            "high": 898.66,
+            "low": 894.33,
+            "close": 898.15,
+            "volume": 2740114
+          },
+          {
+            "timestamp": "2026-09-07T10:00:00",
+            "open": 927.0,
+            "high": 929.3,
+            "low": 923.14,
+            "close": 925.65,
+            "volume": 3439301
+          },
+          {
+            "timestamp": "2026-09-08T10:00:00",
+            "open": 932.75,
+            "high": 937.92,
+            "low": 931.24,
+            "close": 934.36,
+            "volume": 3346286
+          },
+          {
+            "timestamp": "2026-09-09T10:00:00",
+            "open": 937.21,
+            "high": 946.58,
+            "low": 922.55,
+            "close": 933.09,
+            "volume": 2111114
+          },
+          {
+            "timestamp": "2026-09-10T10:00:00",
+            "open": 940.68,
+            "high": 944.95,
+            "low": 931.82,
+            "close": 939.02,
+            "volume": 3618483
+          },
+          {
+            "timestamp": "2026-09-11T10:00:00",
+            "open": 916.84,
+            "high": 918.42,
+            "low": 913.63,
+            "close": 914.94,
+            "volume": 1524398
+          },
+          {
+            "timestamp": "2026-09-14T10:00:00",
+            "open": 931.89,
+            "high": 932.49,
+            "low": 921.26,
+            "close": 927.83,
+            "volume": 1002258
+          },
+          {
+            "timestamp": "2026-09-15T10:00:00",
+            "open": 888.09,
+            "high": 895.69,
+            "low": 881.95,
+            "close": 884.62,
+            "volume": 3032313
+          },
+          {
+            "timestamp": "2026-09-16T10:00:00",
+            "open": 901.56,
+            "high": 904.62,
+            "low": 896.77,
+            "close": 899.4,
+            "volume": 2145622
+          },
+          {
+            "timestamp": "2026-09-17T10:00:00",
+            "open": 909.16,
+            "high": 918.2,
+            "low": 898.02,
+            "close": 902.35,
+            "volume": 1509532
+          },
+          {
+            "timestamp": "2026-09-18T10:00:00",
+            "open": 883.09,
+            "high": 883.62,
+            "low": 872.05,
+            "close": 881.66,
+            "volume": 3771064
+          },
+          {
+            "timestamp": "2026-09-21T10:00:00",
+            "open": 892.81,
+            "high": 894.77,
+            "low": 880.57,
+            "close": 894.66,
+            "volume": 2902782
+          },
+          {
+            "timestamp": "2026-09-22T10:00:00",
+            "open": 906.19,
+            "high": 907.72,
+            "low": 903.11,
+            "close": 905.87,
+            "volume": 2773331
+          },
+          {
+            "timestamp": "2026-09-23T10:00:00",
+            "open": 889.8,
+            "high": 895.77,
+            "low": 877.94,
+            "close": 889.87,
+            "volume": 3366802
+          },
+          {
+            "timestamp": "2026-09-24T10:00:00",
+            "open": 914.29,
+            "high": 914.43,
+            "low": 909.5,
+            "close": 913.7,
+            "volume": 2730076
+          },
+          {
+            "timestamp": "2026-09-25T10:00:00",
+            "open": 885.66,
+            "high": 888.13,
+            "low": 879.44,
+            "close": 882.66,
+            "volume": 2003235
+          },
+          {
+            "timestamp": "2026-09-28T10:00:00",
+            "open": 910.26,
+            "high": 913.99,
+            "low": 907.17,
+            "close": 912.08,
+            "volume": 3152053
+          },
+          {
+            "timestamp": "2026-09-29T10:00:00",
+            "open": 912.76,
+            "high": 914.69,
+            "low": 912.17,
+            "close": 912.72,
+            "volume": 2836862
+          },
+          {
+            "timestamp": "2026-09-30T10:00:00",
+            "open": 957.46,
+            "high": 960.46,
+            "low": 952.71,
+            "close": 954.28,
+            "volume": 2103911
+          },
+          {
+            "timestamp": "2026-10-01T10:00:00",
+            "open": 932.07,
+            "high": 933.16,
+            "low": 920.52,
+            "close": 926.51,
+            "volume": 2413682
+          },
+          {
+            "timestamp": "2026-10-02T10:00:00",
+            "open": 914.11,
+            "high": 914.18,
+            "low": 905.7,
+            "close": 909.4,
+            "volume": 2120675
+          },
+          {
+            "timestamp": "2026-10-05T10:00:00",
+            "open": 903.16,
+            "high": 905.03,
+            "low": 901.6,
+            "close": 901.87,
+            "volume": 2433809
+          },
+          {
+            "timestamp": "2026-10-06T10:00:00",
+            "open": 921.72,
+            "high": 922.4,
+            "low": 919.31,
+            "close": 921.83,
+            "volume": 3601109
+          },
+          {
+            "timestamp": "2026-10-07T10:00:00",
+            "open": 894.69,
+            "high": 896.94,
+            "low": 892.37,
+            "close": 893.95,
+            "volume": 4442694
+          },
+          {
+            "timestamp": "2026-10-08T10:00:00",
+            "open": 896.74,
+            "high": 910.58,
+            "low": 885.22,
+            "close": 897.55,
+            "volume": 1996976
+          },
+          {
+            "timestamp": "2026-10-09T10:00:00",
+            "open": 899.95,
+            "high": 903.77,
+            "low": 896.7,
+            "close": 899.71,
+            "volume": 2462912
+          },
+          {
+            "timestamp": "2026-10-12T10:00:00",
+            "open": 882.29,
+            "high": 885.46,
+            "low": 875.14,
+            "close": 881.35,
+            "volume": 1836092
+          },
+          {
+            "timestamp": "2026-10-13T10:00:00",
+            "open": 912.12,
+            "high": 919.68,
+            "low": 905.08,
+            "close": 912.52,
+            "volume": 2079257
+          },
+          {
+            "timestamp": "2026-10-14T10:00:00",
+            "open": 938.48,
+            "high": 945.08,
+            "low": 937.66,
+            "close": 943.34,
+            "volume": 3274035
+          },
+          {
+            "timestamp": "2026-10-15T10:00:00",
+            "open": 949.83,
+            "high": 962.34,
+            "low": 947.58,
+            "close": 951.01,
+            "volume": 2540360
+          },
+          {
+            "timestamp": "2026-10-16T10:00:00",
+            "open": 970.65,
+            "high": 975.22,
+            "low": 960.79,
+            "close": 969.92,
+            "volume": 2290371
+          },
+          {
+            "timestamp": "2026-10-19T10:00:00",
+            "open": 958.98,
+            "high": 968.37,
+            "low": 948.65,
+            "close": 949.34,
+            "volume": 3016186
+          },
+          {
+            "timestamp": "2026-10-20T10:00:00",
+            "open": 933.08,
+            "high": 934.76,
+            "low": 927.2,
+            "close": 932.32,
+            "volume": 3501202
+          },
+          {
+            "timestamp": "2026-10-21T10:00:00",
+            "open": 932.76,
+            "high": 933.92,
+            "low": 926.0,
+            "close": 932.24,
+            "volume": 1708829
+          },
+          {
+            "timestamp": "2026-10-22T10:00:00",
+            "open": 924.29,
+            "high": 924.95,
+            "low": 918.34,
+            "close": 918.66,
+            "volume": 1636075
+          },
+          {
+            "timestamp": "2026-10-23T10:00:00",
+            "open": 900.82,
+            "high": 907.15,
+            "low": 897.82,
+            "close": 903.72,
+            "volume": 1492140
+          },
+          {
+            "timestamp": "2026-10-26T10:00:00",
+            "open": 885.18,
+            "high": 887.23,
+            "low": 653.8,
+            "close": 660.4,
+            "volume": 2900966
+          }
+        ],
+        "five_year_analysis": {
+          "total_observations": 1260,
+          "coverage_years": 5.0,
+          "coverage_pct": 100.0,
+          "high_52w": 975.22,
+          "low_52w": 546.79,
+          "high_5y": 975.22,
+          "low_5y": 184.38,
+          "max_drawdown_5y": -0.4257,
+          "realized_volatility_5y": 0.3563,
+          "sma_200d": 702.48,
+          "sma_50d": 893.72,
+          "sharpe_ratio": 0.3587,
+          "sortino_ratio": 0.4488,
+          "calmar_ratio": 0.5116,
+          "trend_regime": "SIDEWAYS_CONSOLIDATION",
+          "momentum_regime": "OVERSOLD",
+          "volatility_regime": "EXTREME_VOLATILITY",
+          "sample_bars": [
+            {
+              "timestamp": "2026-06-23T10:00:00",
+              "open": 609.24,
+              "high": 609.9,
+              "low": 604.29,
+              "close": 607.61,
+              "volume": 1975109
+            },
+            {
+              "timestamp": "2026-06-24T10:00:00",
+              "open": 605.17,
+              "high": 605.98,
+              "low": 602.25,
+              "close": 605.29,
+              "volume": 3375589
+            },
+            {
+              "timestamp": "2026-06-25T10:00:00",
+              "open": 596.49,
+              "high": 600.66,
+              "low": 587.5,
+              "close": 596.27,
+              "volume": 2318719
+            },
+            {
+              "timestamp": "2026-06-26T10:00:00",
+              "open": 619.48,
+              "high": 623.98,
+              "low": 616.67,
+              "close": 621.09,
+              "volume": 4180977
+            },
+            {
+              "timestamp": "2026-06-29T10:00:00",
+              "open": 625.87,
+              "high": 636.92,
+              "low": 622.17,
+              "close": 623.95,
+              "volume": 3869444
+            },
+            {
+              "timestamp": "2026-06-30T10:00:00",
+              "open": 617.61,
+              "high": 617.85,
+              "low": 614.26,
+              "close": 616.11,
+              "volume": 1694271
+            },
+            {
+              "timestamp": "2026-07-01T10:00:00",
+              "open": 613.15,
+              "high": 614.69,
+              "low": 611.9,
+              "close": 612.11,
+              "volume": 2321292
+            },
+            {
+              "timestamp": "2026-07-02T10:00:00",
+              "open": 616.33,
+              "high": 620.93,
+              "low": 615.23,
+              "close": 615.65,
+              "volume": 993036
+            },
+            {
+              "timestamp": "2026-07-03T10:00:00",
+              "open": 615.7,
+              "high": 616.76,
+              "low": 607.67,
+              "close": 610.53,
+              "volume": 1737783
+            },
+            {
+              "timestamp": "2026-07-06T10:00:00",
+              "open": 622.82,
+              "high": 628.86,
+              "low": 620.18,
+              "close": 624.9,
+              "volume": 1845484
+            },
+            {
+              "timestamp": "2026-07-07T10:00:00",
+              "open": 640.08,
+              "high": 645.06,
+              "low": 639.75,
+              "close": 642.01,
+              "volume": 2174753
+            },
+            {
+              "timestamp": "2026-07-08T10:00:00",
+              "open": 657.67,
+              "high": 658.11,
+              "low": 655.11,
+              "close": 657.23,
+              "volume": 1921507
+            },
+            {
+              "timestamp": "2026-07-09T10:00:00",
+              "open": 657.88,
+              "high": 665.47,
+              "low": 653.6,
+              "close": 660.63,
+              "volume": 2980556
+            },
+            {
+              "timestamp": "2026-07-10T10:00:00",
+              "open": 638.36,
+              "high": 643.2,
+              "low": 632.53,
+              "close": 638.02,
+              "volume": 2791124
+            },
+            {
+              "timestamp": "2026-07-13T10:00:00",
+              "open": 643.8,
+              "high": 650.35,
+              "low": 639.83,
+              "close": 644.16,
+              "volume": 2266602
+            },
+            {
+              "timestamp": "2026-07-14T10:00:00",
+              "open": 663.73,
+              "high": 665.57,
+              "low": 659.51,
+              "close": 661.63,
+              "volume": 2550954
+            },
+            {
+              "timestamp": "2026-07-15T10:00:00",
+              "open": 665.72,
+              "high": 674.67,
+              "low": 651.73,
+              "close": 661.49,
+              "volume": 2775322
+            },
+            {
+              "timestamp": "2026-07-16T10:00:00",
+              "open": 638.46,
+              "high": 640.1,
+              "low": 638.36,
+              "close": 639.1,
+              "volume": 2157340
+            },
+            {
+              "timestamp": "2026-07-17T10:00:00",
+              "open": 652.26,
+              "high": 654.62,
+              "low": 647.79,
+              "close": 648.31,
+              "volume": 2393292
+            },
+            {
+              "timestamp": "2026-07-20T10:00:00",
+              "open": 667.14,
+              "high": 668.84,
+              "low": 662.29,
+              "close": 665.47,
+              "volume": 3728980
+            },
+            {
+              "timestamp": "2026-07-21T10:00:00",
+              "open": 658.79,
+              "high": 661.33,
+              "low": 655.26,
+              "close": 656.96,
+              "volume": 2315671
+            },
+            {
+              "timestamp": "2026-07-22T10:00:00",
+              "open": 647.67,
+              "high": 648.78,
+              "low": 643.01,
+              "close": 646.16,
+              "volume": 2271386
+            },
+            {
+              "timestamp": "2026-07-23T10:00:00",
+              "open": 660.76,
+              "high": 662.93,
+              "low": 654.17,
+              "close": 658.65,
+              "volume": 2088154
+            },
+            {
+              "timestamp": "2026-07-24T10:00:00",
+              "open": 651.4,
+              "high": 651.73,
+              "low": 641.16,
+              "close": 650.64,
+              "volume": 2369957
+            },
+            {
+              "timestamp": "2026-07-27T10:00:00",
+              "open": 668.71,
+              "high": 669.84,
+              "low": 666.56,
+              "close": 669.54,
+              "volume": 1868341
+            },
+            {
+              "timestamp": "2026-07-28T10:00:00",
+              "open": 665.46,
+              "high": 667.1,
+              "low": 665.24,
+              "close": 666.68,
+              "volume": 3742447
+            },
+            {
+              "timestamp": "2026-07-29T10:00:00",
+              "open": 658.81,
+              "high": 665.71,
+              "low": 654.66,
+              "close": 663.14,
+              "volume": 3940631
+            },
+            {
+              "timestamp": "2026-07-30T10:00:00",
+              "open": 678.47,
+              "high": 686.18,
+              "low": 673.37,
+              "close": 683.42,
+              "volume": 4425708
+            },
+            {
+              "timestamp": "2026-07-31T10:00:00",
+              "open": 695.35,
+              "high": 712.85,
+              "low": 694.4,
+              "close": 694.66,
+              "volume": 2259049
+            },
+            {
+              "timestamp": "2026-08-03T10:00:00",
+              "open": 719.82,
+              "high": 721.61,
+              "low": 712.3,
+              "close": 716.75,
+              "volume": 2569556
+            },
+            {
+              "timestamp": "2026-08-04T10:00:00",
+              "open": 709.09,
+              "high": 710.94,
+              "low": 708.33,
+              "close": 709.84,
+              "volume": 1505089
+            },
+            {
+              "timestamp": "2026-08-05T10:00:00",
+              "open": 718.53,
+              "high": 726.12,
+              "low": 712.76,
+              "close": 721.19,
+              "volume": 2245131
+            },
+            {
+              "timestamp": "2026-08-06T10:00:00",
+              "open": 696.35,
+              "high": 703.46,
+              "low": 694.42,
+              "close": 697.68,
+              "volume": 1530395
+            },
+            {
+              "timestamp": "2026-08-07T10:00:00",
+              "open": 745.55,
+              "high": 747.41,
+              "low": 743.57,
+              "close": 743.94,
+              "volume": 3648617
+            },
+            {
+              "timestamp": "2026-08-10T10:00:00",
+              "open": 726.61,
+              "high": 730.27,
+              "low": 726.19,
+              "close": 728.17,
+              "volume": 2438519
+            },
+            {
+              "timestamp": "2026-08-11T10:00:00",
+              "open": 717.57,
+              "high": 721.08,
+              "low": 715.34,
+              "close": 717.19,
+              "volume": 3065793
+            },
+            {
+              "timestamp": "2026-08-12T10:00:00",
+              "open": 707.61,
+              "high": 708.12,
+              "low": 706.09,
+              "close": 706.46,
+              "volume": 1521400
+            },
+            {
+              "timestamp": "2026-08-13T10:00:00",
+              "open": 712.67,
+              "high": 720.08,
+              "low": 706.66,
+              "close": 714.32,
+              "volume": 2002535
+            },
+            {
+              "timestamp": "2026-08-14T10:00:00",
+              "open": 739.55,
+              "high": 741.43,
+              "low": 739.42,
+              "close": 740.12,
+              "volume": 3844135
+            },
+            {
+              "timestamp": "2026-08-17T10:00:00",
+              "open": 750.58,
+              "high": 754.97,
+              "low": 745.83,
+              "close": 748.68,
+              "volume": 1928949
+            },
+            {
+              "timestamp": "2026-08-18T10:00:00",
+              "open": 777.79,
+              "high": 779.14,
+              "low": 767.15,
+              "close": 775.1,
+              "volume": 2616791
+            },
+            {
+              "timestamp": "2026-08-19T10:00:00",
+              "open": 811.49,
+              "high": 816.86,
+              "low": 809.28,
+              "close": 814.2,
+              "volume": 1906977
+            },
+            {
+              "timestamp": "2026-08-20T10:00:00",
+              "open": 822.18,
+              "high": 824.3,
+              "low": 818.91,
+              "close": 821.84,
+              "volume": 2733709
+            },
+            {
+              "timestamp": "2026-08-21T10:00:00",
+              "open": 808.3,
+              "high": 809.34,
+              "low": 799.26,
+              "close": 807.65,
+              "volume": 2802528
+            },
+            {
+              "timestamp": "2026-08-24T10:00:00",
+              "open": 826.87,
+              "high": 832.57,
+              "low": 824.75,
+              "close": 829.66,
+              "volume": 2218658
+            },
+            {
+              "timestamp": "2026-08-25T10:00:00",
+              "open": 853.67,
+              "high": 854.81,
+              "low": 849.9,
+              "close": 854.8,
+              "volume": 2356224
+            },
+            {
+              "timestamp": "2026-08-26T10:00:00",
+              "open": 881.77,
+              "high": 883.14,
+              "low": 874.92,
+              "close": 877.86,
+              "volume": 2779737
+            },
+            {
+              "timestamp": "2026-08-27T10:00:00",
+              "open": 871.0,
+              "high": 882.44,
+              "low": 865.0,
+              "close": 879.21,
+              "volume": 2233207
+            },
+            {
+              "timestamp": "2026-08-28T10:00:00",
+              "open": 874.32,
+              "high": 879.78,
+              "low": 872.24,
+              "close": 876.28,
+              "volume": 1811523
+            },
+            {
+              "timestamp": "2026-08-31T10:00:00",
+              "open": 861.28,
+              "high": 862.32,
+              "low": 860.7,
+              "close": 862.11,
+              "volume": 1781720
+            },
+            {
+              "timestamp": "2026-09-01T10:00:00",
+              "open": 873.82,
+              "high": 875.06,
+              "low": 869.78,
+              "close": 873.64,
+              "volume": 2452006
+            },
+            {
+              "timestamp": "2026-09-02T10:00:00",
+              "open": 901.12,
+              "high": 906.04,
+              "low": 896.25,
+              "close": 899.51,
+              "volume": 2650184
+            },
+            {
+              "timestamp": "2026-09-03T10:00:00",
+              "open": 903.59,
+              "high": 903.84,
+              "low": 900.73,
+              "close": 901.52,
+              "volume": 1849890
+            },
+            {
+              "timestamp": "2026-09-04T10:00:00",
+              "open": 895.45,
+              "high": 898.66,
+              "low": 894.33,
+              "close": 898.15,
+              "volume": 2740114
+            },
+            {
+              "timestamp": "2026-09-07T10:00:00",
+              "open": 927.0,
+              "high": 929.3,
+              "low": 923.14,
+              "close": 925.65,
+              "volume": 3439301
+            },
+            {
+              "timestamp": "2026-09-08T10:00:00",
+              "open": 932.75,
+              "high": 937.92,
+              "low": 931.24,
+              "close": 934.36,
+              "volume": 3346286
+            },
+            {
+              "timestamp": "2026-09-09T10:00:00",
+              "open": 937.21,
+              "high": 946.58,
+              "low": 922.55,
+              "close": 933.09,
+              "volume": 2111114
+            },
+            {
+              "timestamp": "2026-09-10T10:00:00",
+              "open": 940.68,
+              "high": 944.95,
+              "low": 931.82,
+              "close": 939.02,
+              "volume": 3618483
+            },
+            {
+              "timestamp": "2026-09-11T10:00:00",
+              "open": 916.84,
+              "high": 918.42,
+              "low": 913.63,
+              "close": 914.94,
+              "volume": 1524398
+            },
+            {
+              "timestamp": "2026-09-14T10:00:00",
+              "open": 931.89,
+              "high": 932.49,
+              "low": 921.26,
+              "close": 927.83,
+              "volume": 1002258
+            },
+            {
+              "timestamp": "2026-09-15T10:00:00",
+              "open": 888.09,
+              "high": 895.69,
+              "low": 881.95,
+              "close": 884.62,
+              "volume": 3032313
+            },
+            {
+              "timestamp": "2026-09-16T10:00:00",
+              "open": 901.56,
+              "high": 904.62,
+              "low": 896.77,
+              "close": 899.4,
+              "volume": 2145622
+            },
+            {
+              "timestamp": "2026-09-17T10:00:00",
+              "open": 909.16,
+              "high": 918.2,
+              "low": 898.02,
+              "close": 902.35,
+              "volume": 1509532
+            },
+            {
+              "timestamp": "2026-09-18T10:00:00",
+              "open": 883.09,
+              "high": 883.62,
+              "low": 872.05,
+              "close": 881.66,
+              "volume": 3771064
+            },
+            {
+              "timestamp": "2026-09-21T10:00:00",
+              "open": 892.81,
+              "high": 894.77,
+              "low": 880.57,
+              "close": 894.66,
+              "volume": 2902782
+            },
+            {
+              "timestamp": "2026-09-22T10:00:00",
+              "open": 906.19,
+              "high": 907.72,
+              "low": 903.11,
+              "close": 905.87,
+              "volume": 2773331
+            },
+            {
+              "timestamp": "2026-09-23T10:00:00",
+              "open": 889.8,
+              "high": 895.77,
+              "low": 877.94,
+              "close": 889.87,
+              "volume": 3366802
+            },
+            {
+              "timestamp": "2026-09-24T10:00:00",
+              "open": 914.29,
+              "high": 914.43,
+              "low": 909.5,
+              "close": 913.7,
+              "volume": 2730076
+            },
+            {
+              "timestamp": "2026-09-25T10:00:00",
+              "open": 885.66,
+              "high": 888.13,
+              "low": 879.44,
+              "close": 882.66,
+              "volume": 2003235
+            },
+            {
+              "timestamp": "2026-09-28T10:00:00",
+              "open": 910.26,
+              "high": 913.99,
+              "low": 907.17,
+              "close": 912.08,
+              "volume": 3152053
+            },
+            {
+              "timestamp": "2026-09-29T10:00:00",
+              "open": 912.76,
+              "high": 914.69,
+              "low": 912.17,
+              "close": 912.72,
+              "volume": 2836862
+            },
+            {
+              "timestamp": "2026-09-30T10:00:00",
+              "open": 957.46,
+              "high": 960.46,
+              "low": 952.71,
+              "close": 954.28,
+              "volume": 2103911
+            },
+            {
+              "timestamp": "2026-10-01T10:00:00",
+              "open": 932.07,
+              "high": 933.16,
+              "low": 920.52,
+              "close": 926.51,
+              "volume": 2413682
+            },
+            {
+              "timestamp": "2026-10-02T10:00:00",
+              "open": 914.11,
+              "high": 914.18,
+              "low": 905.7,
+              "close": 909.4,
+              "volume": 2120675
+            },
+            {
+              "timestamp": "2026-10-05T10:00:00",
+              "open": 903.16,
+              "high": 905.03,
+              "low": 901.6,
+              "close": 901.87,
+              "volume": 2433809
+            },
+            {
+              "timestamp": "2026-10-06T10:00:00",
+              "open": 921.72,
+              "high": 922.4,
+              "low": 919.31,
+              "close": 921.83,
+              "volume": 3601109
+            },
+            {
+              "timestamp": "2026-10-07T10:00:00",
+              "open": 894.69,
+              "high": 896.94,
+              "low": 892.37,
+              "close": 893.95,
+              "volume": 4442694
+            },
+            {
+              "timestamp": "2026-10-08T10:00:00",
+              "open": 896.74,
+              "high": 910.58,
+              "low": 885.22,
+              "close": 897.55,
+              "volume": 1996976
+            },
+            {
+              "timestamp": "2026-10-09T10:00:00",
+              "open": 899.95,
+              "high": 903.77,
+              "low": 896.7,
+              "close": 899.71,
+              "volume": 2462912
+            },
+            {
+              "timestamp": "2026-10-12T10:00:00",
+              "open": 882.29,
+              "high": 885.46,
+              "low": 875.14,
+              "close": 881.35,
+              "volume": 1836092
+            },
+            {
+              "timestamp": "2026-10-13T10:00:00",
+              "open": 912.12,
+              "high": 919.68,
+              "low": 905.08,
+              "close": 912.52,
+              "volume": 2079257
+            },
+            {
+              "timestamp": "2026-10-14T10:00:00",
+              "open": 938.48,
+              "high": 945.08,
+              "low": 937.66,
+              "close": 943.34,
+              "volume": 3274035
+            },
+            {
+              "timestamp": "2026-10-15T10:00:00",
+              "open": 949.83,
+              "high": 962.34,
+              "low": 947.58,
+              "close": 951.01,
+              "volume": 2540360
+            },
+            {
+              "timestamp": "2026-10-16T10:00:00",
+              "open": 970.65,
+              "high": 975.22,
+              "low": 960.79,
+              "close": 969.92,
+              "volume": 2290371
+            },
+            {
+              "timestamp": "2026-10-19T10:00:00",
+              "open": 958.98,
+              "high": 968.37,
+              "low": 948.65,
+              "close": 949.34,
+              "volume": 3016186
+            },
+            {
+              "timestamp": "2026-10-20T10:00:00",
+              "open": 933.08,
+              "high": 934.76,
+              "low": 927.2,
+              "close": 932.32,
+              "volume": 3501202
+            },
+            {
+              "timestamp": "2026-10-21T10:00:00",
+              "open": 932.76,
+              "high": 933.92,
+              "low": 926.0,
+              "close": 932.24,
+              "volume": 1708829
+            },
+            {
+              "timestamp": "2026-10-22T10:00:00",
+              "open": 924.29,
+              "high": 924.95,
+              "low": 918.34,
+              "close": 918.66,
+              "volume": 1636075
+            },
+            {
+              "timestamp": "2026-10-23T10:00:00",
+              "open": 900.82,
+              "high": 907.15,
+              "low": 897.82,
+              "close": 903.72,
+              "volume": 1492140
+            },
+            {
+              "timestamp": "2026-10-26T10:00:00",
+              "open": 885.18,
+              "high": 887.23,
+              "low": 653.8,
+              "close": 660.4,
+              "volume": 2900966
+            }
+          ]
+        },
+        "recent_returns": [
+          -0.04657,
+          0.01671,
+          0.00328,
+          -0.02293,
+          0.01474,
+          0.01253,
+          -0.01766,
+          0.02678,
+          -0.03397,
+          0.03333,
+          0.0007,
+          0.04553,
+          -0.0291,
+          -0.01847,
+          -0.00828,
+          0.02213,
+          -0.03024,
+          0.00403,
+          0.00241,
+          -0.02041,
+          0.03537,
+          0.03377,
+          0.00813,
+          0.01988,
+          -0.02122,
+          -0.01793,
+          -9e-05,
+          -0.01457,
+          -0.01626,
+          -0.26924
+        ],
+        "calculated_metrics": {
+          "latest_close": 660.4,
+          "sample_return_mean": 0.0008643630044742932,
+          "annualized_return": 0.2178,
+          "realized_volatility_annualized": 1.017224802477814,
+          "realized_volatility_20d": 1.017224802477814,
+          "realized_volatility_60d": 0.6745163577823355,
+          "realized_volatility_252d": 0.42597646096082076,
+          "realized_volatility_5y": 0.3562648318295747,
+          "sharpe_ratio": 0.3587,
+          "sortino_ratio": 0.4488,
+          "calmar_ratio": 0.5116,
+          "latest_sma": 908.632,
+          "sma_20d": 908.632,
+          "sma_50d": 893.7186,
+          "sma_200d": 702.4803999999999,
+          "latest_ema": 894.3582394472985,
+          "ema_20d": 894.3582394472985,
+          "ema_50d": 869.0562998701606,
+          "ema_200d": 730.8520309584385,
+          "latest_rsi": 22.516892968620027,
+          "rsi_14d": 22.516892968620027,
+          "max_drawdown_5y": -0.4257,
+          "high_52w": 975.22,
+          "low_52w": 546.79,
+          "high_5y": 975.22,
+          "low_5y": 184.38,
+          "coverage_years": 5.0,
+          "trend_regime": "SIDEWAYS_CONSOLIDATION",
+          "momentum_regime": "OVERSOLD",
+          "volatility_regime": "EXTREME_VOLATILITY"
+        }
+      },
+      "evidence_citations": [
+        "parquet://data/ohlcv/tatamotors:1260_bars"
+      ],
+      "warnings": [
+        "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary."
+      ],
+      "limitations": [
+        "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary."
+      ],
+      "downstream_handoffs": [
+        "adk_microstructure_specialist",
+        "crewai_adversarial_specialist"
+      ],
+      "timestamp": "2026-10-28T07:32:55.596988Z"
+    },
+    {
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "task_name": "microstructure_analysis",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "microstructure_status": "MEASURED_PARAMETRIC",
+        "finding_category": "MEASURED",
+        "symbol": "TATAMOTORS",
+        "corwin_schultz_spread_bps": 18.46,
+        "roll_effective_spread_bps": null,
+        "roll_spread_limitation": "Roll (1984) effective spread undefined: serial autocovariance of price changes is non-negative (cov >= 0); price dynamics not dominated by bid-ask bounce.",
+        "spread_type": "ESTIMATED_PARAMETRIC",
+        "spread_estimation_method": "Corwin-Schultz (2012) High-Low estimator and Roll (1984) covariance proxy",
+        "spread_lookback_window": 30,
+        "spread_input_observations_count": 4,
+        "spread_units": "bps",
+        "effective_slippage_bps": null,
+        "slippage_status": "UNAVAILABLE_NO_ORDERBOOK_FEED",
+        "slippage_observation_basis": "Tick-level L2/L3 queue depth and execution order flow unavailable; synthetic multiplier omitted.",
+        "average_daily_turnover_inr_cr": 229.93,
+        "turnover_impact_proxy_bps_per_cr": 0.0803,
+        "kyles_lambda_impact_bps_per_cr": 0.0803,
+        "standard_kyles_lambda": null,
+        "kyles_lambda_status": "UNAVAILABLE_NO_TICK_ORDERFLOW",
+        "kyles_lambda_note": "Standard Kyle's lambda requires tick-level price impact from signed order flow (dP/dQ); daily OHLCV provides only parametric turnover impact proxy.",
+        "amihud_illiquidity_ratio": 0.049834,
+        "liquidity_tier": "TIER-1 (High Institutional Liquidity)",
+        "liquidity_stance": "MODERATE_LIQUIDITY",
+        "options_analytics": {
+          "derivatives_eligible": true,
+          "segment": "NSE_DERIVATIVES_FO",
+          "put_call_ratio_oi": null,
+          "atm_implied_volatility_pct": null,
+          "max_pain_strike": null,
+          "options_liquidity_status": "UNAVAILABLE_NO_CONTRACT_FEED",
+          "greeks_provenance": "UNAVAILABLE",
+          "order_flow_status": "UNAVAILABLE_NO_TICK_ORDERFLOW",
+          "limitation_note": "Contract-level options chain and open interest tick feeds are unavailable in daily OHLCV storage. Per zero-fabrication mandate, synthetic PCR, ATM IV, and Max Pain are omitted."
+        },
+        "queue_depth_status": "Parametric liquidity and estimated spread modeled from verified trailing historical bars. Tick-level L2/L3 queue depth omitted to prevent numerical fabrication.",
+        "recommended_max_order_pct_adv": 3.0,
+        "execution_style_recommendation": "VWAP (Volume-Weighted Average Price) algorithmic execution over 30-minute intervals"
+      },
+      "evidence_citations": [
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread"
+      ],
+      "warnings": [],
+      "limitations": [
+        "Quoted spread is an estimated parametric proxy, not an observed exchange orderbook spread."
+      ],
+      "downstream_handoffs": [
+        "crewai_adversarial_specialist",
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T07:32:55.599799Z"
+    },
+    {
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "task_name": "news_macro_analysis",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "NEUTRAL",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "source_status": "CONFIGURED",
+        "finding_category": "LLM_GENERATED",
+        "symbol": "TATAMOTORS",
+        "llm_provider": "GEMINI",
+        "evidence_currency": "HISTORICAL_FRAMEWORK",
+        "macro_regime": "Policy Repo Rate anchored at 6.50%; SDF 6.25% / MSF 6.75% corridor.",
+        "headline_summary": "RBI Monetary Policy Committee (MPC) Operating Framework\nReserve Bank of India Monetary Policy Committee Operating Framework: The policy repo rate under the Liquidity Adjustment Facility (LAF) serves as the anchor rate for money market interest rates. The Standing Deposit Facility (SDF) rate operates at repo rate minus 25 bps (6.25% when repo is 6.50%), and the Marginal Standing Facility (MSF) operates at repo rate plus 25 bps (6.75%). The MPC targets medium-term consumer price index (CPI) headline inflation of 4.0% within a +/- 2.0% tolerance band.",
+        "llm_macro_analysis": "### Macroeconomic Analysis: Tata Motors (TTMT)\n\n*   **Monetary Policy & Rates**: The shift to a 'Neutral' stance signals a pivot toward potential rate cuts. With the repo rate at 6.50% and the MSF at 6.75%, the cost of capital for Tata Motors\u2019 heavy debt-servicing requirements and capital-intensive EV expansion remains elevated but stable, reducing near-term interest expense volatility.\n*   **Inflation & Systemic Liquidity**: CPI remains the primary anchor for the MPC. While liquidity is currently balanced within the SDF-MSF corridor, persistent food inflation risks could delay rate easing. Stable liquidity supports domestic auto demand, though high borrowing costs continue to pressure discretionary PV financing.\n*   **Macro Verdict**: **NEUTRAL (6/10)**. While the policy pivot is a positive, Tata Motors faces cyclical headwinds from slowing domestic PV growth and JLR\u2019s exposure to global demand volatility.",
+        "policy_anchor": "RBI MPC Repo Rate (6.50%)",
+        "policy_resolution_date": "2024-08-08",
+        "inflation_target_pct": 4.0,
+        "inflation_tolerance_band": "+/- 2.0%",
+        "systemic_liquidity_regime": "Neutral to actively managed via daily LAF windows",
+        "rate_environment_impact": "Stable discount rate environment supporting equity valuation multiples",
+        "macro_verdict": "NEUTRAL",
+        "structured_evidence": [
+          {
+            "source_id": "RBI-MONETARY-POLICY",
+            "chunk_id": "RBI-MPC-REPO-RATE-FRAMEWORK",
+            "source_authority": "Reserve Bank of India (RBI)",
+            "citation_uri": "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+            "primary_source_ref": "RBI Monetary Policy Resolution / RBI-MPC-REPO-RATE-FRAMEWORK",
+            "publisher": "Reserve Bank of India (RBI)",
+            "publication_date": "2024-08-08",
+            "evidence_currency": "HISTORICAL_FRAMEWORK",
+            "retrieval_timestamp": "2026-10-28T07:32:58.936933+00:00",
+            "reporting_period": "Historical Monetary Policy Baseline (Resolution Date: 2024-08-08)",
+            "passage": "RBI Monetary Policy Committee (MPC) Operating Framework\nReserve Bank of India Monetary Policy Committee Operating Framework: The policy repo rate under the Liquidity Adjustment Facility (LAF) serves as the anchor rate for money market interest rates. The Standing Deposit Facility (SDF) rate operates at repo rate minus 25 bps (6.25% when repo is 6.50%), and the Marginal Standing Facility (MSF) operates at repo rate plus 25 bps (6.75%). The MPC targets medium-term consumer price index (CPI) headline inflation of 4.0% within a +/- 2.0% tolerance band.",
+            "entity": "TATAMOTORS",
+            "claim_mapping": "Statutory RBI operating framework (effective 2024-08-08)",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT"
+          },
+          {
+            "source_id": "RBI-MPC-OCT2024",
+            "chunk_id": "RBI-CRR-MONETARY-POLICY-OCT24",
+            "source_authority": "Reserve Bank of India (RBI)",
+            "citation_uri": "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+            "primary_source_ref": "RBI Monetary Policy Resolution / RBI-CRR-MONETARY-POLICY-OCT24",
+            "publisher": "Reserve Bank of India (RBI)",
+            "publication_date": "2024-10-09",
+            "evidence_currency": "HISTORICAL_FRAMEWORK",
+            "retrieval_timestamp": "2026-10-28T07:32:58.936933+00:00",
+            "reporting_period": "Historical Monetary Policy Baseline (Resolution Date: 2024-10-09)",
+            "passage": "Reserve Bank of India Monetary Policy: Repo Rate 6.50% & Liquidity Stance\nReserve Bank of India Monetary Policy Committee Statement: The MPC decided by a 5 to 1 majority to keep the policy repo rate unchanged at 6.50%. Consequently, the standing deposit facility (SDF) rate remains at 6.25% and the marginal standing facility (MSF) rate and Bank Rate at 6.75%. The stance of monetary policy was unanimously revised from 'withdrawal of accommodation' to 'NEUTRAL'. Cash Reserve Ratio (CRR) of scheduled commercial banks is maintained at 4.50% of NDTL.",
+            "entity": "TATAMOTORS",
+            "claim_mapping": "Statutory RBI operating framework (effective 2024-10-09)",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT"
+          }
+        ]
+      },
+      "evidence_citations": [
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24"
+      ],
+      "warnings": [],
+      "limitations": [
+        "External live news feed unconfigured; macro ground truth derived from authentic RBI MPC filings."
+      ],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T07:32:58.936933Z"
+    },
+    {
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "task_name": "corporate_filing_analysis",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "source_status": "CONFIGURED",
+        "finding_category": "LLM_GENERATED",
+        "symbol": "TATAMOTORS",
+        "llm_provider": "GEMINI",
+        "latest_filing_type": "Tata Motors Limited: Demerger of Commercial & Passenger Vehicles Businesses",
+        "filing_date": "2024-03-04",
+        "summary": "Tata Motors Limited: Demerger of Commercial & Passenger Vehicles Businesses\nTata Motors Limited Investor Update: The Board of Directors approved the demerger of Tata Motors into two separate listed entities: (1) The Commercial Vehicles business and its related investments; (2) The Passenger Vehicles businesses including PV, EV, JLR and related investments. JLR continues to deliver record cash flow and order book exceeding 140,000 units. Domestic EV market share stands at ~72% supported by Tiago.ev and Nexon.ev.",
+        "llm_filing_analysis": "### **Corporate Governance Analysis: Tata Motors**\n\n*   **SEBI LODR Compliance**: High. Consistent adherence to **Regulation 30** (material event disclosure regarding the NCLT-supervised demerger) and **Regulation 33** (timely submission of Q2 FY25 financial results). Disclosures regarding business segment performance (JLR/CV/PV) are granular and transparent.\n*   **Audit Quality & Transparency**: Robust. Financial reporting reflects high-quality disclosures on segment-wise EBIT margins and EV penetration. No material qualifications noted in recent filings; related-party transactions remain within the purview of the Audit Committee under **Regulation 23**.\n*   **Governance Verdict**: **STRONG (9/10)**. The strategic demerger demonstrates proactive capital allocation and structural clarity. Management maintains high standards of regulatory compliance and investor communication, effectively mitigating risks associated with complex multi-entity operations.",
+        "regulatory_authority": "BSE/NSE Corporate Disclosures (Tata Motors)",
+        "compliance_status": "COMPLIANT_LODR_REG_33",
+        "audit_standard": "Limited Review Report / Statutory Audit compliant with zero qualified opinions",
+        "governance_rating": "SATISFACTORY",
+        "company_specific_filing_verified": true,
+        "structured_evidence": [
+          {
+            "source_id": "TATAMOTORS-FY24-DISCLOSURE",
+            "chunk_id": "TATAMOTORS-FY24-Q4-DEMERGER",
+            "source_authority": "BSE/NSE Corporate Disclosures (Tata Motors)",
+            "citation_uri": "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+            "primary_source_ref": "NSE/BSE Corporate Filings Portal / TATAMOTORS-FY24-Q4-DEMERGER",
+            "publisher": "BSE/NSE Corporate Disclosures (Tata Motors)",
+            "publication_date": "2024-03-04",
+            "retrieval_timestamp": "2026-10-28T07:32:59.065933+00:00",
+            "reporting_period": "Statutory Annual",
+            "passage": "Tata Motors Limited: Demerger of Commercial & Passenger Vehicles Businesses\nTata Motors Limited Investor Update: The Board of Directors approved the demerger of Tata Motors into two separate listed entities: (1) The Commercial Vehicles business and its related investments; (2) The Passenger Vehicles businesses including PV, EV, JLR and related investments. JLR continues to deliver record cash flow and order book exceeding 140,000 units. Domestic EV market share stands at ~72% supported by Tiago.ev and Nexon.ev.",
+            "entity": "TATAMOTORS",
+            "claim_mapping": "TATAMOTORS Financial Results Disclosures & Limited Review Report under SEBI LODR Reg 33",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT",
+            "audit_opinion": "Clean / Unqualified opinion under limited review",
+            "compliance_evidence": "Submitted within statutory 45 days under SEBI LODR Reg 33"
+          },
+          {
+            "source_id": "TATAMOTORS-Q2FY25",
+            "chunk_id": "FILING-TATAMOTORS-Q2FY25",
+            "source_authority": "National Stock Exchange of India (NSE) Corporate Disclosures",
+            "citation_uri": "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25",
+            "primary_source_ref": "NSE/BSE Corporate Filings Portal / FILING-TATAMOTORS-Q2FY25",
+            "publisher": "National Stock Exchange of India (NSE) Corporate Disclosures",
+            "publication_date": "2024-11-08",
+            "retrieval_timestamp": "2026-10-28T07:32:59.065933+00:00",
+            "reporting_period": "Q2 FY2024-25 (Quarter ended Sep 30, 2024)",
+            "passage": "Tata Motors Ltd: Q2 FY25 Financial Disclosures, JLR EBIT Margin & Demerger\nTata Motors Limited (NSE: TATAMOTORS) Statutory Disclosure under SEBI LODR Regulation 33: For Q2 FY25 (quarter ended September 30, 2024), Consolidated Revenue from Operations reached INR 101,450 crore. JLR (Jaguar Land Rover) revenue stood at GBP 6.5 billion with EBIT margin at 5.1%, with order book exceeding 140,000 units. Commercial Vehicle domestic market share stood at 37.8%. Passenger Vehicle business delivered EV penetration of 12.0%. Demerger of Commercial Vehicles and Passenger Vehicles into two separate listed entities progressing under NCLT supervision.",
+            "entity": "TATAMOTORS",
+            "claim_mapping": "TATAMOTORS Financial Results Disclosures & Limited Review Report under SEBI LODR Reg 33",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT",
+            "audit_opinion": "Clean / Unqualified opinion under limited review",
+            "compliance_evidence": "Submitted within statutory 45 days under SEBI LODR Reg 33"
+          }
+        ]
+      },
+      "evidence_citations": [
+        "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+        "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25"
+      ],
+      "warnings": [],
+      "limitations": [],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T07:33:07.799062Z"
+    },
+    {
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "task_name": "adversarial_critique",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "REJECTED",
+      "validation_outcome": "BLOCKED",
+      "status": "SUCCESS",
+      "findings": {
+        "finding_category": "LLM_ADVERSARIAL",
+        "llm_provider": "GEMINI",
+        "thesis_critique": "Empirical Adversarial Audit for TATAMOTORS: Validated against 1260 historical bar observations. Stress tests resulted in: REJECTED.",
+        "llm_adversarial_analysis": "\u2022 **Volatility & Liquidity Stress**: With 101.7% annualized volatility and failed stress tests, the stock is in a regime of structural instability. A 2x volatility spike would trigger catastrophic margin erosion, while a 50% volume dry-up renders the current float illiquid for institutional exits. You are effectively \"trapped\" in a high-beta sinkhole.\n\n\u2022 **Statutory Drag & Reg Bounds**: At an RSI of 22.5, you are catching a falling knife. The 11.86 bps roundtrip friction is punitive given the current price action; the cost of hedging against further downside exceeds the potential alpha capture, rendering short-term mean reversion strategies mathematically non-viable.\n\n\u2022 **Skeptic Verdict**: **REJECTED**. The breach of circuit filters signals a breakdown in market microstructure. Downside risk remains unconstrained until the volatility anomaly resolves; current entry is speculative suicide.",
+        "stress_tests": {
+          "circuit_filter_boundary": "FAIL: Trailing single-day move of 26.92% breaches NSE 20.0% circuit filter limit.",
+          "volatility_shock_test": "FAIL: Baseline annualized volatility (101.7%) exceeds 80% boundary; 2x shocked VaR (29.8%) exceeds 15.0% single-stock stress limit.",
+          "statutory_drag_test": "PASS: Sample return (21.78% ann) comfortably covers 22.23 bps statutory friction.",
+          "liquidity_contraction_test": "PASS: Under 50% turnover drop (INR 114.97 Cr), estimated market impact 1.6 bps remains <= 25.0 bps threshold.",
+          "lookahead_leakage_audit": "PASS: Point-in-time timestamp matching verified across 1260 bars with zero future leakage."
+        },
+        "stress_test_details": {
+          "circuit_filter_boundary": {
+            "test_id": "circuit_filter_boundary",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "observations_analyzed": 1260,
+                "returns_window": 30
+              }
+            },
+            "formula": "max(abs(r_t)) <= 0.20",
+            "expected_condition": "Maximum trailing single-day absolute price move <= 20.0% (NSE statutory circuit filter)",
+            "threshold": 0.2,
+            "actual_result": 0.26924,
+            "status": "FAIL",
+            "timestamp": "2026-10-28T07:33:09.799521+00:00",
+            "execution_id": "run-api-9bbf2c88044b",
+            "explanation": "FAIL: Trailing single-day move of 26.92% breaches NSE 20.0% circuit filter limit.",
+            "limitations": "Corporate actions or split unadjusted bars trigger false circuit breaches."
+          },
+          "volatility_shock_test": {
+            "test_id": "volatility_shock_test",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "realized_volatility_annualized": 1.017224802477814,
+                "shock_multiplier": 2.0
+              }
+            },
+            "formula": "shocked_sigma = 2.0 * sigma; shocked_daily_var99 = 2.326 * (shocked_sigma / sqrt(252)) <= 0.15; sigma <= 0.80",
+            "expected_condition": "Annualized realized volatility <= 80.0% and 2x shocked 99% parametric daily VaR <= 15.0%",
+            "threshold": {
+              "max_baseline_vol": 0.8,
+              "max_shocked_var99": 0.15
+            },
+            "actual_result": {
+              "baseline_vol": 1.0172,
+              "shocked_daily_var99": 0.2981
+            },
+            "status": "FAIL",
+            "timestamp": "2026-10-28T07:33:09.799521+00:00",
+            "execution_id": "run-api-9bbf2c88044b",
+            "explanation": "FAIL: Baseline annualized volatility (101.7%) exceeds 80% boundary; 2x shocked VaR (29.8%) exceeds 15.0% single-stock stress limit.",
+            "limitations": "Assumes log-normal return distribution; tail heaviness under shock may underestimate kurtosis."
+          },
+          "statutory_drag_test": {
+            "test_id": "statutory_drag_test",
+            "version": "1.2.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "sample_mean_return": 0.0008643630044742932,
+                "statutory_drag_bps": 22.23,
+                "transaction_basis": "ROUND_TRIP_DELIVERY",
+                "one_way_buy_bps": 11.86,
+                "one_way_sell_bps": 10.36,
+                "round_trip_bps": 22.22,
+                "statutory_schedule": "Finance (No. 2) Act 2024"
+              }
+            },
+            "formula": "annualized_return = sample_mean_return * 252.0 >= statutory_drag_bps / 10000.0",
+            "expected_condition": "Sample annualized return strictly covers Finance Act 2024 statutory friction drag (22.23 bps)",
+            "threshold": 0.002223,
+            "actual_result": 0.21782,
+            "status": "PASS",
+            "timestamp": "2026-10-28T07:33:09.799521+00:00",
+            "execution_id": "run-api-9bbf2c88044b",
+            "explanation": "PASS: Sample return (21.78% ann) comfortably covers 22.23 bps statutory friction.",
+            "limitations": "Historical sample mean return does not guarantee forward alpha realization."
+          },
+          "liquidity_contraction_test": {
+            "test_id": "liquidity_contraction_test",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_microstructure_specialist",
+              "task_name": "microstructure_analysis",
+              "parameters": {
+                "average_daily_turnover_inr_cr": 229.93,
+                "corwin_schultz_spread_bps": 18.46
+              }
+            },
+            "formula": "stressed_impact_bps = spread_bps / (turnover_cr * 0.5) * 10.0 <= 25.0 bps; turnover_cr >= 25.0",
+            "expected_condition": "Turnover under 50% contraction >= 25.0 Cr and stressed market impact <= 25.0 bps",
+            "threshold": {
+              "min_turnover_cr": 25.0,
+              "max_impact_bps": 25.0
+            },
+            "actual_result": {
+              "stressed_turnover_cr": 114.97,
+              "stressed_impact_bps": 1.61
+            },
+            "status": "PASS",
+            "timestamp": "2026-10-28T07:33:09.799521+00:00",
+            "execution_id": "run-api-9bbf2c88044b",
+            "explanation": "PASS: Under 50% turnover drop (INR 114.97 Cr), estimated market impact 1.6 bps remains <= 25.0 bps threshold.",
+            "limitations": "Parametric Kyle's lambda proxy; order book queue depth omitted to prevent numerical fabrication."
+          },
+          "lookahead_leakage_audit": {
+            "test_id": "lookahead_leakage_audit",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "duckdb_parquet",
+              "task_name": "query_market_data",
+              "parameters": {
+                "records_audited": 1260,
+                "as_of_time": null
+              }
+            },
+            "formula": "all(bar_timestamp <= as_of_time)",
+            "expected_condition": "All bar timestamps strictly <= decision cutoff timestamp (zero lookahead leakage)",
+            "threshold": 0,
+            "actual_result": {
+              "future_observations_count": 0,
+              "audited_bars": 1260
+            },
+            "status": "PASS",
+            "timestamp": "2026-10-28T07:33:09.799521+00:00",
+            "execution_id": "run-api-9bbf2c88044b",
+            "explanation": "PASS: Point-in-time timestamp matching verified across 1260 bars with zero future leakage.",
+            "limitations": "Relies on database partition metadata accuracy and DuckDB analytical query bounds."
+          }
+        },
+        "objections": [
+          "CIRCUIT_FILTER_BREACH",
+          "EXTREME_VOLATILITY_ANOMALY"
+        ],
+        "statutory_drag_impact": "Statutory transaction costs (STT + GST + Stamp Duty + SEBI/NSE fees) create a baseline drag of ~11.86 bps per roundtrip in equity delivery. Gross edge must exceed 15 bps to justify allocation.",
+        "regime_fragility": "Signals sensitive to extreme returns and quarterly index rebalancing.",
+        "skeptic_verdict": "REJECTED",
+        "adversarial_discount_bps": 50.0
+      },
+      "evidence_citations": [
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY"
+      ],
+      "warnings": [
+        "Skeptic objection flagged: CIRCUIT_FILTER_BREACH",
+        "Skeptic objection flagged: EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "limitations": [
+        "Stress test failure: CIRCUIT_FILTER_BREACH",
+        "Stress test failure: EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "downstream_handoffs": [
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T07:33:26.302377Z"
+    },
+    {
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "task_name": "statutory_and_risk_validation",
+      "run_id": "run-api-9bbf2c88044b",
+      "symbol": "TATAMOTORS",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "REJECTED",
+      "validation_outcome": "BLOCKED",
+      "status": "FAILED",
+      "findings": {
+        "risk_validation_passed": false,
+        "live_trading_blocked": true,
+        "lookahead_bias_detected": false,
+        "statutory_compliance": {
+          "transaction_type": "ROUND_TRIP",
+          "instrument_type": "EQUITY_DELIVERY",
+          "notional_inr": 99720.4,
+          "price": 660.4,
+          "quantity": 151,
+          "total_statutory_costs_inr": 221.62,
+          "effective_rate_pct": 0.2222,
+          "breakdown": {
+            "securities_transaction_tax": 199.44,
+            "stt": 199.44,
+            "exchange_turnover_fee": 5.92,
+            "sebi_turnover_charges": 0.2,
+            "stamp_duty": 14.96,
+            "goods_and_services_tax_18pct": 1.1,
+            "gst_18pct": 1.1
+          },
+          "rates": {
+            "stt_pct": 0.1,
+            "stamp_duty_pct": 0.015,
+            "exchange_fee_pct": 0.00297,
+            "sebi_fee_pct": 0.0001,
+            "gst_pct": 18.0
+          }
+        },
+        "unsupported_assertions_flagged": false,
+        "classified_objections": {
+          "CIRCUIT_FILTER_BREACH": "UNRESOLVED",
+          "EXTREME_VOLATILITY_ANOMALY": "UNRESOLVED"
+        },
+        "unresolved_objections": [
+          "CIRCUIT_FILTER_BREACH",
+          "EXTREME_VOLATILITY_ANOMALY"
+        ],
+        "mandatory_gates_summary": {
+          "live_trading_disabled": true,
+          "skeptic_objections_resolved": false,
+          "data_quality_acceptable": true,
+          "statutory_costs_evaluated": true
+        }
+      },
+      "evidence_citations": [
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "warnings": [
+        "Risk Validator Gate BLOCKED: Unresolved Skeptic objection(s): CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "limitations": [
+        "Unresolved objection: CIRCUIT_FILTER_BREACH",
+        "Unresolved objection: EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T07:33:26.439047Z"
+    },
+    {
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "task_name": "research_synthesis_and_supervision",
+      "run_id": null,
+      "symbol": null,
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "REJECTED",
+      "validation_outcome": "BLOCKED",
+      "status": "SUCCESS",
+      "findings": {
+        "executive_thesis": "Institutional Quantitative Synthesis for TATAMOTORS (as of 2026-10-28) \u2014 Consensus Stance: INCONCLUSIVE (Conviction Score: Unscored / Gated).\n\nMandatory finalization gates blocked investment recommendation:\n- Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.\n- Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]\n- Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]\n\nData Profile: Retrieved 1260 historical bars via DuckDB analytical engine. Latest Close: INR 660.4. Statutory friction baseline: INR 221.62 per 100k turnover (0.2222% drag).",
+        "consensus_stance": "INCONCLUSIVE",
+        "multi_agent_conviction_score": null,
+        "mandatory_gates_passed": false,
+        "gate_failures": [
+          "Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+          "Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+          "Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]"
+        ],
+        "llm_synthesis_provider": "DETERMINISTIC",
+        "latency_seconds": 38.98,
+        "orchestration_wall_clock_ms": 38979.75,
+        "manager_execution_ms": 3560.94,
+        "target_price": null,
+        "target_upside_pct": null,
+        "stop_loss_price": null,
+        "stop_loss_pct": null,
+        "reward_to_risk_ratio": null,
+        "target_methodology": "Mandatory decision gates blocked recommendation; target corridor omitted.",
+        "orchestration_pattern": "SEQUENTIAL",
+        "total_specialists_coordinated": 7
+      },
+      "evidence_citations": [
+        "rag://tatamotors/filing_jlr_cashflow#TATAMOTORS-JLR-FREE-CASH-FLOW",
+        "rag://tatamotors/filing_demerger_2024#TATAMOTORS-FY24-Q4-DEMERGER",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/lodr_reg33#SEBI-LODR-REG33-FINANCIALS",
+        "parquet://data/ohlcv/tatamotors:1260_bars",
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread",
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+        "rag://filings/tatamotors_q2fy25#FILING-TATAMOTORS-Q2FY25",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "warnings": [
+        "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+        "Skeptic objection flagged: CIRCUIT_FILTER_BREACH",
+        "Skeptic objection flagged: EXTREME_VOLATILITY_ANOMALY",
+        "Risk Validator Gate BLOCKED: Unresolved Skeptic objection(s): CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "limitations": [
+        "Point-in-time data bounds strictly enforced (zero lookahead).",
+        "Live trading disabled by system configuration; paper/simulation mode only.",
+        "Data Quality Gate Failed: Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+        "Adversarial Skeptic Gate REJECTED: Objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+        "Risk Validator Gate BLOCKED: Unresolved objections: [CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY]",
+        "Extreme volatility anomaly: 20-day annualized realized volatility of 101.7% exceeds 80% boundary.",
+        "Skeptic objection flagged: CIRCUIT_FILTER_BREACH",
+        "Skeptic objection flagged: EXTREME_VOLATILITY_ANOMALY",
+        "Risk Validator Gate BLOCKED: Unresolved Skeptic objection(s): CIRCUIT_FILTER_BREACH, EXTREME_VOLATILITY_ANOMALY"
+      ],
+      "downstream_handoffs": [],
+      "timestamp": "2026-10-28T07:33:26.480079Z"
+    }
+  ],
+  "error": null
+}

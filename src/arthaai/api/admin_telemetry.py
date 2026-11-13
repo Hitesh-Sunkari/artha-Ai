@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import secrets
 import time
 import uuid
 from collections import deque
@@ -19,12 +21,33 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import httpx
 from fastapi import HTTPException
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token as google_id_token
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
-SUPER_ADMIN_EMAIL = "hitesh.sunkari.23cse@bmu.edu.in"
+DEFAULT_SUPER_ADMIN_EMAIL = "hitesh.sunkari.23cse@bmu.edu.in"
+SUPER_ADMIN_EMAIL = os.getenv("SUPER_ADMIN_EMAIL", DEFAULT_SUPER_ADMIN_EMAIL).strip().lower()
+
+
+def get_super_admin_emails() -> set[str]:
+    """Returns the set of authorized Super-Administrator email addresses from backend environment."""
+    raw = os.getenv("ARTHAAI_SUPER_ADMIN_EMAILS") or os.getenv("SUPER_ADMIN_EMAIL") or DEFAULT_SUPER_ADMIN_EMAIL
+    emails = {e.strip().lower() for e in raw.split(",") if e.strip() and "@" in e}
+    if not emails:
+        emails.add(DEFAULT_SUPER_ADMIN_EMAIL.lower())
+    return emails
+
+
+def is_super_admin_email(email: str | None) -> bool:
+    """Checks whether the given email address is in the Super-Administrator allowlist."""
+    if not email or not isinstance(email, str):
+        return False
+    return email.strip().lower() in get_super_admin_emails()
+
 
 
 class TrafficRequestLog(BaseModel):
@@ -100,6 +123,8 @@ class AdminTelemetryEngine:
         # User Sessions & Portfolios
         self._sessions: dict[str, UserSessionRecord] = {}
         self._user_portfolios: dict[str, dict[str, Any]] = {}
+        # Active Cryptographically Verified Authentication Sessions
+        self._active_sessions: dict[str, dict[str, Any]] = {}
 
         # Error Logs & Active Notices
         self._errors: deque[ClientErrorRecord] = deque(maxlen=100)
@@ -562,51 +587,193 @@ class AdminTelemetryEngine:
         return {"status": "UNKNOWN_ACTION", "action": action}
 
     # -------------------------------------------------------------------------
-    # Authentication & Role Authorization
+    # Authentication & Role Authorization (Cryptographic Verification Engine)
     # -------------------------------------------------------------------------
-    def authenticate_user(
-        self,
-        email: str,
-        name: str | None = None,
-        picture: str | None = None,
-        auth_provider: str = "GOOGLE",
-        mode: str = "LOGIN",
-    ) -> dict[str, Any]:
-        """Authenticates user and strictly assigns SUPER_ADMIN only to hitesh.sunkari.23cse@bmu.edu.in.
-        
-        Strict Account Verification Policy:
-        - In LOGIN mode: Checks if the user is registered. If no account exists, raises 404 asking to sign up first.
-        - In SIGNUP mode: Checks if user already exists (409) or registers new account to persistent store.
+    def verify_google_token(self, token_str: str) -> dict[str, Any]:
+        """Cryptographically verifies a Google ID token or OAuth access token server-side.
+
+        Security Guarantees:
+        1. For ID tokens (JWTs): verifies cryptographic signature against Google's public certs,
+           validates expiration, validates issuer is accounts.google.com, validates audience
+           against GOOGLE_CLIENT_ID (if configured), and ensures email_verified is true.
+        2. For Access tokens: queries Google's official tokeninfo endpoint to verify token validity,
+           audience/client, and verified email.
+        3. Never trusts an unverified email passed from client body or query string.
         """
-        clean_email = email.strip().lower()
-        if not clean_email or "@" not in clean_email:
-            raise HTTPException(status_code=400, detail="A valid email address is required.")
+        if not token_str or not isinstance(token_str, str) or not token_str.strip():
+            raise HTTPException(status_code=401, detail="Google authentication token is required.")
 
-        normalized_mode = mode.strip().upper() if mode else "LOGIN"
-        is_super = clean_email == SUPER_ADMIN_EMAIL.lower()
+        clean_token = token_str.strip()
+        client_id = (
+            os.getenv("GOOGLE_CLIENT_ID")
+            or os.getenv("VITE_GOOGLE_CLIENT_ID")
+            or os.getenv("GOOGLE_OAUTH_CLIENT_ID")
+            or ""
+        ).strip() or None
+
+        # A. JWT ID Token verification (standard 3-segment token)
+        if clean_token.count(".") == 2:
+            try:
+                request = google_requests.Request()
+                id_info = google_id_token.verify_oauth2_token(
+                    clean_token,
+                    request,
+                    audience=client_id,
+                )
+                issuer = id_info.get("iss", "")
+                if issuer not in ("accounts.google.com", "https://accounts.google.com"):
+                    raise HTTPException(
+                        status_code=401,
+                        detail=f"Invalid Google ID token issuer: {issuer}",
+                    )
+                email = id_info.get("email", "").strip().lower()
+                if not email or "@" not in email:
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Google ID token does not contain a valid email claim.",
+                    )
+                if not id_info.get("email_verified", False):
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Google account email address is not verified by Google.",
+                    )
+
+                return {
+                    "email": email,
+                    "name": id_info.get("name") or email.split("@")[0].title(),
+                    "picture": id_info.get("picture"),
+                    "sub": id_info.get("sub"),
+                    "auth_provider": "GOOGLE_ID_TOKEN",
+                }
+            except ValueError as ve:
+                logger.warning(f"Google ID token signature verification failed: {ve}")
+                raise HTTPException(
+                    status_code=401,
+                    detail=f"Google ID token verification failed: {str(ve)}",
+                )
+            except HTTPException:
+                raise
+            except Exception as e:
+                logger.error(f"Unexpected error validating Google ID token: {e}")
+                raise HTTPException(
+                    status_code=401,
+                    detail="Failed to verify Google ID token with identity authority.",
+                )
+
+        # B. OAuth Access Token verification (fallback for initTokenClient)
+        try:
+            with httpx.Client(timeout=6.0) as client:
+                resp = client.get(
+                    "https://oauth2.googleapis.com/tokeninfo",
+                    params={"access_token": clean_token},
+                )
+                if resp.status_code != 200:
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Invalid, revoked, or expired Google access token.",
+                    )
+                tokeninfo = resp.json()
+
+                if client_id:
+                    aud = tokeninfo.get("aud") or tokeninfo.get("issued_to") or tokeninfo.get("azp")
+                    if aud and aud != client_id:
+                        raise HTTPException(
+                            status_code=401,
+                            detail="Google token audience does not match configured client ID.",
+                        )
+
+                email = tokeninfo.get("email", "").strip().lower()
+                if not email or "@" not in email:
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Google token does not contain a verified email address.",
+                    )
+                if tokeninfo.get("email_verified") not in (True, "true"):
+                    raise HTTPException(
+                        status_code=401,
+                        detail="Google email address is not verified by Google.",
+                    )
+
+                name = email.split("@")[0].title()
+                picture = None
+                try:
+                    u_resp = client.get(
+                        "https://www.googleapis.com/oauth2/v3/userinfo",
+                        headers={"Authorization": f"Bearer {clean_token}"},
+                    )
+                    if u_resp.status_code == 200:
+                        u_data = u_resp.json()
+                        name = u_data.get("name") or name
+                        picture = u_data.get("picture")
+                except Exception:
+                    pass
+
+                return {
+                    "email": email,
+                    "name": name,
+                    "picture": picture,
+                    "sub": tokeninfo.get("sub") or tokeninfo.get("user_id"),
+                    "auth_provider": "GOOGLE_ACCESS_TOKEN",
+                }
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Error verifying Google access token: {e}")
+            raise HTTPException(
+                status_code=401,
+                detail=f"Google access token verification failed: {e}",
+            )
+
+    def create_verified_session(
+        self,
+        verified_claims: dict[str, Any],
+        auth_provider: str = "GOOGLE",
+        require_super_admin: bool = False,
+    ) -> dict[str, Any]:
+        """Creates an authenticated session for cryptographically verified claims.
+
+        Enforces Super-Administrator allowlist server-side.
+        If require_super_admin is True and user is not super-admin, raises HTTP 403 Forbidden.
+        """
+        verified_email = verified_claims["email"].strip().lower()
+        is_super = is_super_admin_email(verified_email)
         role = "SUPER_ADMIN" if is_super else "USER"
-        display_name = name or (clean_email.split("@")[0].replace(".", " ").title())
+        display_name = verified_claims.get("name") or verified_email.split("@")[0].title()
+        picture = verified_claims.get("picture")
 
-        # 1. LOGIN Check: Account must exist
-        if normalized_mode == "LOGIN":
-            if clean_email not in self._registered_users and not is_super:
-                raise HTTPException(
-                    status_code=404,
-                    detail=f"No account found for this Google email ({clean_email}). Please sign up first.",
-                )
-            existing = self._registered_users.get(clean_email, {})
-            if existing.get("name") and not name:
-                display_name = existing["name"]
+        if require_super_admin and not is_super:
+            admin_list_display = ", ".join(sorted(get_super_admin_emails()))
+            raise HTTPException(
+                status_code=403,
+                detail=(
+                    f"ACCESS FORBIDDEN (HTTP 403): Account [{verified_email}] is not authorized "
+                    f"for the ArthaAI Control Plane. Administrative clearance is restricted "
+                    f"exclusively to configured Super-Administrators ({admin_list_display})."
+                ),
+            )
 
-        # 2. SIGNUP Check: Account is registered or conflict reported
-        elif normalized_mode == "SIGNUP":
-            if clean_email in self._registered_users and not is_super:
-                raise HTTPException(
-                    status_code=409,
-                    detail=f"An account with this email ({clean_email}) is already registered. Please sign in.",
-                )
-            self._registered_users[clean_email] = {
-                "email": clean_email,
+        # Generate cryptographically secure session token (256-bit entropy)
+        token = f"arthai_sec_{secrets.token_urlsafe(32)}_{int(time.time())}"
+        now_ts = time.time()
+        expires_at = now_ts + 86400.0  # 24-hour session lifetime
+
+        session_record = {
+            "token": token,
+            "email": verified_email,
+            "name": display_name,
+            "picture": picture,
+            "role": role,
+            "is_super_admin": is_super,
+            "auth_provider": auth_provider,
+            "created_at": now_ts,
+            "expires_at": expires_at,
+        }
+        self._active_sessions[token] = session_record
+
+        # Ensure registered in local store
+        if verified_email not in self._registered_users:
+            self._registered_users[verified_email] = {
+                "email": verified_email,
                 "name": display_name,
                 "role": role,
                 "auth_provider": auth_provider,
@@ -614,14 +781,11 @@ class AdminTelemetryEngine:
             }
             self._save_registered_users()
 
-        # Generate lightweight JWT-compatible mock token
-        token = f"arthai_{uuid.uuid4().hex}_{int(time.time())}"
-
-        # Register or update session
-        sess_id = f"sess-{clean_email.replace('@', '-').replace('.', '-')}"
+        # Record heartbeat telemetry
+        sess_id = f"sess-{verified_email.replace('@', '-').replace('.', '-')}"
         self.record_heartbeat(
             session_id=sess_id,
-            user_email=clean_email,
+            user_email=verified_email,
             user_name=display_name,
             current_page="/admin" if is_super else "/",
             current_tab="overview" if is_super else "query_studio",
@@ -635,7 +799,7 @@ class AdminTelemetryEngine:
 
         return {
             "token": token,
-            "email": clean_email,
+            "email": verified_email,
             "name": display_name,
             "picture": picture,
             "role": role,
@@ -643,6 +807,133 @@ class AdminTelemetryEngine:
             "can_switch_to_admin": is_super,
             "can_switch_to_user": True,
             "auth_provider": auth_provider,
+            "expires_at": expires_at,
+        }
+
+    def validate_session_token(self, token: str | None) -> dict[str, Any] | None:
+        """Validates a session token against active memory sessions or admin master secret key."""
+        if not token or not isinstance(token, str) or not token.strip():
+            return None
+
+        clean_token = token.strip()
+
+        # 1. Check if token matches server-side configured admin secret key (for CI/automated tests)
+        admin_secret = (os.getenv("ARTHAAI_ADMIN_SECRET_KEY") or os.getenv("ADMIN_API_KEY") or "").strip()
+        if admin_secret and clean_token == admin_secret:
+            primary_admin = list(sorted(get_super_admin_emails()))[0]
+            return {
+                "token": clean_token,
+                "email": primary_admin,
+                "name": "Super-Administrator (Master API Key)",
+                "role": "SUPER_ADMIN",
+                "is_super_admin": True,
+                "auth_provider": "ADMIN_SECRET_KEY",
+                "created_at": time.time(),
+                "expires_at": time.time() + 86400 * 365,
+            }
+
+        # 2. Check active in-memory sessions
+        sess = self._active_sessions.get(clean_token)
+        if not sess:
+            return None
+
+        # Check expiration
+        if time.time() > sess.get("expires_at", 0):
+            self._active_sessions.pop(clean_token, None)
+            return None
+
+        return sess
+
+    def revoke_session_token(self, token: str | None) -> bool:
+        """Invalidates and removes an active session token."""
+        if not token or not isinstance(token, str):
+            return False
+        clean_token = token.strip()
+        if clean_token in self._active_sessions:
+            del self._active_sessions[clean_token]
+            return True
+        return False
+
+    def authenticate_user(
+        self,
+        email: str,
+        name: str | None = None,
+        picture: str | None = None,
+        auth_provider: str = "GOOGLE",
+        mode: str = "LOGIN",
+        id_token: str | None = None,
+    ) -> dict[str, Any]:
+        """Authenticates user. If id_token is provided, performs strict cryptographic verification."""
+        # If an id_token was supplied, delegate to cryptographic verification
+        if id_token and id_token.strip():
+            claims = self.verify_google_token(id_token)
+            return self.create_verified_session(claims, auth_provider=auth_provider, require_super_admin=False)
+
+        clean_email = email.strip().lower()
+        if not clean_email or "@" not in clean_email:
+            raise HTTPException(status_code=400, detail="A valid email address is required.")
+
+        normalized_mode = mode.strip().upper() if mode else "LOGIN"
+        # Never grant super admin role without verified cryptographic token!
+        is_super = False
+        role = "USER"
+        display_name = name or (clean_email.split("@")[0].replace(".", " ").title())
+
+        # 1. LOGIN Check: Account must exist
+        if normalized_mode == "LOGIN":
+            if clean_email not in self._registered_users:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"No account found for email ({clean_email}). Please sign up first.",
+                )
+            existing = self._registered_users.get(clean_email, {})
+            if existing.get("name") and not name:
+                display_name = existing["name"]
+
+        # 2. SIGNUP Check: Account is registered or conflict reported
+        elif normalized_mode == "SIGNUP":
+            if clean_email in self._registered_users:
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"An account with this email ({clean_email}) is already registered. Please sign in.",
+                )
+            self._registered_users[clean_email] = {
+                "email": clean_email,
+                "name": display_name,
+                "role": role,
+                "auth_provider": auth_provider,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+            }
+            self._save_registered_users()
+
+        # Generate standard user session token
+        token = f"arthai_user_{secrets.token_urlsafe(32)}_{int(time.time())}"
+        expires_at = time.time() + 86400.0
+
+        session_record = {
+            "token": token,
+            "email": clean_email,
+            "name": display_name,
+            "picture": picture,
+            "role": role,
+            "is_super_admin": False,
+            "auth_provider": auth_provider,
+            "created_at": time.time(),
+            "expires_at": expires_at,
+        }
+        self._active_sessions[token] = session_record
+
+        return {
+            "token": token,
+            "email": clean_email,
+            "name": display_name,
+            "picture": picture,
+            "role": role,
+            "is_super_admin": False,
+            "can_switch_to_admin": False,
+            "can_switch_to_user": True,
+            "auth_provider": auth_provider,
+            "expires_at": expires_at,
         }
 
     def get_registered_accounts(self) -> list[dict[str, Any]]:

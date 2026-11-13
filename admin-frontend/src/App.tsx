@@ -143,30 +143,56 @@ export const App: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [currentDate, setCurrentDate] = useState<string>('');
 
-  // Super-Administrator RBAC State
+  // Super-Administrator RBAC State — Strictly server-verified sessions only
   const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
-  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
-    try {
-      const saved = localStorage.getItem('arthai_admin_user') || localStorage.getItem('arthai_auth_user');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.email && parsed.email.toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase()) {
-          return parsed;
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authChecking, setAuthChecking] = useState<boolean>(true);
+
+  // Validate active session with backend on initial mount
+  useEffect(() => {
+    let isMounted = true;
+    const verifySessionOnMount = async () => {
+      const savedToken = localStorage.getItem('arthai_admin_token') || localStorage.getItem('arthai_session_token');
+      if (!savedToken) {
+        if (isMounted) {
+          setAuthUser(null);
+          setAuthChecking(false);
+        }
+        return;
+      }
+
+      try {
+        const verifiedUser = await api.getMe();
+        if (isMounted) {
+          if (verifiedUser && verifiedUser.is_super_admin) {
+            setAuthUser(verifiedUser);
+            localStorage.setItem('arthai_admin_user', JSON.stringify(verifiedUser));
+          } else {
+            setAuthUser(null);
+            localStorage.removeItem('arthai_admin_token');
+            localStorage.removeItem('arthai_session_token');
+            localStorage.removeItem('arthai_admin_user');
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          setAuthUser(null);
+          localStorage.removeItem('arthai_admin_token');
+          localStorage.removeItem('arthai_session_token');
+          localStorage.removeItem('arthai_admin_user');
+        }
+      } finally {
+        if (isMounted) {
+          setAuthChecking(false);
         }
       }
-    } catch {}
-    // Seed initial verified super admin clearance
-    return {
-      token: 'arthai_admin_master',
-      email: SUPER_ADMIN_EMAIL,
-      name: 'Hitesh Sunkari',
-      role: 'SUPER_ADMIN',
-      is_super_admin: true,
-      can_switch_to_admin: true,
-      can_switch_to_user: true,
-      auth_provider: 'GOOGLE',
     };
-  });
+
+    verifySessionOnMount();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Real-time Traffic Surveillance State
   const [trafficData, setTrafficData] = useState<TrafficTelemetry | null>(null);
@@ -695,8 +721,32 @@ export const App: React.FC = () => {
     },
   ];
 
-  // Strict Super-Admin RBAC Gatekeeper: only hitesh.sunkari.23cse@bmu.edu.in has clearance
-  if (!authUser || !authUser.is_super_admin || authUser.email.toLowerCase() !== SUPER_ADMIN_EMAIL.toLowerCase()) {
+  // Institutional Clearance Loading Indicator
+  if (authChecking) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          width: '100vw',
+          backgroundColor: '#0B0E14',
+          color: '#00D09C',
+          gap: '16px',
+        }}
+      >
+        <ArthaLogo size={56} showGlow variant="icon" />
+        <div style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.08em', fontFamily: 'monospace' }}>
+          VERIFYING INSTITUTIONAL CLEARANCE...
+        </div>
+      </div>
+    );
+  }
+
+  // Strict Super-Admin RBAC Gatekeeper: only authenticated Super-Administrator has clearance
+  if (!authUser || !authUser.is_super_admin) {
     return <SuperAdminGatekeeper onAuthorized={(u) => setAuthUser(u)} />;
   }
 
@@ -1216,8 +1266,17 @@ export const App: React.FC = () => {
                   </a>
 
                   <button
-                    onClick={() => {
+                    onClick={async () => {
+                      try {
+                        await api.logout();
+                      } catch (e) {
+                        console.warn('Backend logout failed:', e);
+                      }
+                      localStorage.removeItem('arthai_admin_token');
+                      localStorage.removeItem('arthai_session_token');
                       localStorage.removeItem('arthai_admin_user');
+                      localStorage.removeItem('arthai_auth_user');
+                      sessionStorage.clear();
                       setAuthUser(null);
                       setIsUserMenuOpen(false);
                     }}

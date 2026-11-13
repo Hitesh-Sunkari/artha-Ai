@@ -1,0 +1,5001 @@
+{
+  "run_id": "run-api-678d6928956c",
+  "request_id": "req-api-acec2b41",
+  "symbol": "ZOMATO.NS",
+  "orchestration_pattern": "SEQUENTIAL",
+  "status": "COMPLETED",
+  "submitted_at": "2026-10-28T05:43:26.523626Z",
+  "completed_at": "2026-10-28T05:43:51.319474Z",
+  "report": {
+    "run_id": "run-api-678d6928956c",
+    "symbol": "ZOMATO.NS",
+    "as_of_time": "2026-10-28T05:43:26.513000Z",
+    "executive_thesis": "Institutional Quantitative Synthesis for ETERNAL (as of 2026-10-28) \u2014 Consensus Stance: HOLD (Multi-Agent Conviction Score: 45/100). Retrieved 125 point-in-time verified OHLCV bars via DuckDB analytical engine. Market Profile: Latest Close INR 325.55 | Annualized Volatility: 32.5% | 14-Day RSI: 53.0. Microstructure: Corwin-Schultz estimated parametric spread 150.6 bps (Tier-1 liquidity). Statutory Risk Model: Finance (No. 2) Act 2024 total friction of INR 222.11 per 100k (0.2222% drag). Macro Context: RBI Repo Rate steady at 6.50% corridor. Corporate Governance: SEBI LODR Regulation 30/33 audit standards satisfied. Adversarial Evaluation: Stress test bounds validated; execution reviewed under statutory friction drag.",
+    "quantitative_findings": {
+      "records_retrieved": 125,
+      "empty_result": false,
+      "finding_category": "MEASURED",
+      "data_source": "yfinance_cached_parquet",
+      "data_quality_status": "PASSED",
+      "data_quality_issues": [],
+      "anomaly_evaluations": [],
+      "quantitative_stance": "MODERATELY_BULLISH",
+      "max_daily_price_change_pct": 5.71,
+      "historical_bars": [
+        {
+          "timestamp": "2026-06-17T03:45:00",
+          "open": 254.0,
+          "high": 262.5,
+          "low": 253.2,
+          "close": 258.4,
+          "volume": 33196297
+        },
+        {
+          "timestamp": "2026-06-18T03:45:00",
+          "open": 258.5,
+          "high": 259.9,
+          "low": 255.25,
+          "close": 258.55,
+          "volume": 17926359
+        },
+        {
+          "timestamp": "2026-06-19T03:45:00",
+          "open": 257.0,
+          "high": 264.9,
+          "low": 254.55,
+          "close": 264.3,
+          "volume": 29061365
+        },
+        {
+          "timestamp": "2026-06-22T03:45:00",
+          "open": 264.5,
+          "high": 267.5,
+          "low": 262.75,
+          "close": 263.65,
+          "volume": 18797609
+        },
+        {
+          "timestamp": "2026-06-23T03:45:00",
+          "open": 263.0,
+          "high": 266.3,
+          "low": 258.0,
+          "close": 258.95,
+          "volume": 16643592
+        },
+        {
+          "timestamp": "2026-06-24T03:45:00",
+          "open": 258.45,
+          "high": 260.95,
+          "low": 253.8,
+          "close": 256.35,
+          "volume": 25071320
+        },
+        {
+          "timestamp": "2026-06-25T03:45:00",
+          "open": 254.0,
+          "high": 257.5,
+          "low": 252.5,
+          "close": 255.15,
+          "volume": 20971007
+        },
+        {
+          "timestamp": "2026-06-29T03:45:00",
+          "open": 260.0,
+          "high": 261.3,
+          "low": 257.05,
+          "close": 259.4,
+          "volume": 34568988
+        },
+        {
+          "timestamp": "2026-06-30T03:45:00",
+          "open": 260.2,
+          "high": 266.7,
+          "low": 257.3,
+          "close": 264.6,
+          "volume": 32940948
+        },
+        {
+          "timestamp": "2026-07-01T03:45:00",
+          "open": 266.3,
+          "high": 280.6,
+          "low": 265.3,
+          "close": 279.7,
+          "volume": 66845146
+        },
+        {
+          "timestamp": "2026-07-02T03:45:00",
+          "open": 282.0,
+          "high": 285.95,
+          "low": 278.6,
+          "close": 279.7,
+          "volume": 41301386
+        },
+        {
+          "timestamp": "2026-07-03T03:45:00",
+          "open": 281.95,
+          "high": 287.8,
+          "low": 279.65,
+          "close": 281.65,
+          "volume": 36875000
+        },
+        {
+          "timestamp": "2026-07-06T03:45:00",
+          "open": 283.8,
+          "high": 284.2,
+          "low": 279.85,
+          "close": 283.4,
+          "volume": 21282150
+        },
+        {
+          "timestamp": "2026-07-07T03:45:00",
+          "open": 283.8,
+          "high": 291.0,
+          "low": 283.55,
+          "close": 289.4,
+          "volume": 45305615
+        },
+        {
+          "timestamp": "2026-07-08T03:45:00",
+          "open": 288.5,
+          "high": 296.55,
+          "low": 283.75,
+          "close": 286.7,
+          "volume": 58555994
+        },
+        {
+          "timestamp": "2026-07-09T03:45:00",
+          "open": 287.3,
+          "high": 300.35,
+          "low": 287.3,
+          "close": 292.45,
+          "volume": 49865056
+        },
+        {
+          "timestamp": "2026-07-10T03:45:00",
+          "open": 294.7,
+          "high": 295.2,
+          "low": 287.15,
+          "close": 289.65,
+          "volume": 24239849
+        },
+        {
+          "timestamp": "2026-07-13T03:45:00",
+          "open": 286.1,
+          "high": 288.9,
+          "low": 284.6,
+          "close": 285.2,
+          "volume": 14808761
+        },
+        {
+          "timestamp": "2026-07-14T03:45:00",
+          "open": 283.05,
+          "high": 287.9,
+          "low": 278.55,
+          "close": 286.15,
+          "volume": 42966836
+        },
+        {
+          "timestamp": "2026-07-15T03:45:00",
+          "open": 285.0,
+          "high": 296.45,
+          "low": 283.05,
+          "close": 294.8,
+          "volume": 45125835
+        },
+        {
+          "timestamp": "2026-07-16T03:45:00",
+          "open": 298.75,
+          "high": 299.0,
+          "low": 285.05,
+          "close": 286.45,
+          "volume": 31866265
+        },
+        {
+          "timestamp": "2026-07-17T03:45:00",
+          "open": 287.0,
+          "high": 287.85,
+          "low": 283.05,
+          "close": 286.6,
+          "volume": 17477557
+        },
+        {
+          "timestamp": "2026-07-20T03:45:00",
+          "open": 284.65,
+          "high": 289.45,
+          "low": 284.4,
+          "close": 286.95,
+          "volume": 16701880
+        },
+        {
+          "timestamp": "2026-07-21T03:45:00",
+          "open": 286.0,
+          "high": 288.1,
+          "low": 283.6,
+          "close": 286.6,
+          "volume": 22178874
+        },
+        {
+          "timestamp": "2026-07-22T03:45:00",
+          "open": 287.8,
+          "high": 291.35,
+          "low": 275.55,
+          "close": 284.4,
+          "volume": 65944414
+        },
+        {
+          "timestamp": "2026-07-23T03:45:00",
+          "open": 289.85,
+          "high": 296.15,
+          "low": 282.7,
+          "close": 287.1,
+          "volume": 64734810
+        },
+        {
+          "timestamp": "2026-07-24T03:45:00",
+          "open": 285.0,
+          "high": 285.0,
+          "low": 276.55,
+          "close": 280.0,
+          "volume": 37050034
+        },
+        {
+          "timestamp": "2026-07-27T03:45:00",
+          "open": 281.5,
+          "high": 297.0,
+          "low": 281.45,
+          "close": 295.85,
+          "volume": 48012383
+        },
+        {
+          "timestamp": "2026-07-28T03:45:00",
+          "open": 295.7,
+          "high": 310.0,
+          "low": 294.2,
+          "close": 308.35,
+          "volume": 70410211
+        },
+        {
+          "timestamp": "2026-07-29T03:45:00",
+          "open": 309.9,
+          "high": 316.35,
+          "low": 308.5,
+          "close": 311.8,
+          "volume": 49740797
+        },
+        {
+          "timestamp": "2026-07-30T03:45:00",
+          "open": 307.0,
+          "high": 312.25,
+          "low": 305.0,
+          "close": 310.65,
+          "volume": 32431887
+        },
+        {
+          "timestamp": "2026-07-31T03:45:00",
+          "open": 312.5,
+          "high": 316.0,
+          "low": 301.8,
+          "close": 302.45,
+          "volume": 36770653
+        },
+        {
+          "timestamp": "2026-08-03T03:45:00",
+          "open": 303.5,
+          "high": 310.9,
+          "low": 300.05,
+          "close": 310.5,
+          "volume": 26906290
+        },
+        {
+          "timestamp": "2026-08-04T03:45:00",
+          "open": 311.0,
+          "high": 312.7,
+          "low": 309.0,
+          "close": 312.4,
+          "volume": 16096034
+        },
+        {
+          "timestamp": "2026-08-05T03:45:00",
+          "open": 313.9,
+          "high": 314.65,
+          "low": 309.5,
+          "close": 310.35,
+          "volume": 12296275
+        },
+        {
+          "timestamp": "2026-08-06T03:45:00",
+          "open": 311.0,
+          "high": 319.7,
+          "low": 310.0,
+          "close": 316.25,
+          "volume": 29960978
+        },
+        {
+          "timestamp": "2026-08-07T03:45:00",
+          "open": 314.0,
+          "high": 316.9,
+          "low": 313.15,
+          "close": 315.0,
+          "volume": 12763812
+        },
+        {
+          "timestamp": "2026-08-10T03:45:00",
+          "open": 315.45,
+          "high": 316.25,
+          "low": 309.5,
+          "close": 310.25,
+          "volume": 16471148
+        },
+        {
+          "timestamp": "2026-08-11T03:45:00",
+          "open": 310.5,
+          "high": 318.5,
+          "low": 306.2,
+          "close": 318.0,
+          "volume": 20749569
+        },
+        {
+          "timestamp": "2026-08-12T03:45:00",
+          "open": 318.95,
+          "high": 318.95,
+          "low": 312.6,
+          "close": 314.05,
+          "volume": 19976751
+        },
+        {
+          "timestamp": "2026-08-13T03:45:00",
+          "open": 315.0,
+          "high": 319.35,
+          "low": 313.3,
+          "close": 318.0,
+          "volume": 26225284
+        },
+        {
+          "timestamp": "2026-08-14T03:45:00",
+          "open": 317.8,
+          "high": 325.0,
+          "low": 316.8,
+          "close": 318.5,
+          "volume": 30147388
+        },
+        {
+          "timestamp": "2026-08-17T03:45:00",
+          "open": 317.6,
+          "high": 321.9,
+          "low": 316.2,
+          "close": 318.0,
+          "volume": 18972081
+        },
+        {
+          "timestamp": "2026-08-18T03:45:00",
+          "open": 318.0,
+          "high": 321.2,
+          "low": 315.55,
+          "close": 315.9,
+          "volume": 18387007
+        },
+        {
+          "timestamp": "2026-08-19T03:45:00",
+          "open": 316.15,
+          "high": 322.85,
+          "low": 315.85,
+          "close": 320.0,
+          "volume": 28100651
+        },
+        {
+          "timestamp": "2026-08-20T03:45:00",
+          "open": 323.85,
+          "high": 328.5,
+          "low": 321.35,
+          "close": 327.95,
+          "volume": 36661268
+        },
+        {
+          "timestamp": "2026-08-21T03:45:00",
+          "open": 330.0,
+          "high": 331.7,
+          "low": 324.1,
+          "close": 328.0,
+          "volume": 31651425
+        },
+        {
+          "timestamp": "2026-08-24T03:45:00",
+          "open": 323.0,
+          "high": 329.5,
+          "low": 323.0,
+          "close": 327.15,
+          "volume": 21892944
+        },
+        {
+          "timestamp": "2026-08-25T03:45:00",
+          "open": 330.0,
+          "high": 331.0,
+          "low": 325.5,
+          "close": 331.0,
+          "volume": 29062006
+        },
+        {
+          "timestamp": "2026-08-26T03:45:00",
+          "open": 330.0,
+          "high": 332.0,
+          "low": 325.0,
+          "close": 327.0,
+          "volume": 39246846
+        },
+        {
+          "timestamp": "2026-08-27T03:45:00",
+          "open": 329.0,
+          "high": 330.9,
+          "low": 325.3,
+          "close": 328.5,
+          "volume": 34877860
+        },
+        {
+          "timestamp": "2026-08-28T03:45:00",
+          "open": 329.1,
+          "high": 330.0,
+          "low": 324.3,
+          "close": 328.0,
+          "volume": 31385139
+        },
+        {
+          "timestamp": "2026-08-31T03:45:00",
+          "open": 328.8,
+          "high": 332.95,
+          "low": 315.8,
+          "close": 328.1,
+          "volume": 272151922
+        },
+        {
+          "timestamp": "2026-09-01T03:45:00",
+          "open": 325.0,
+          "high": 329.4,
+          "low": 323.0,
+          "close": 327.75,
+          "volume": 21501682
+        },
+        {
+          "timestamp": "2026-09-02T03:45:00",
+          "open": 325.5,
+          "high": 327.5,
+          "low": 320.3,
+          "close": 327.3,
+          "volume": 20138975
+        },
+        {
+          "timestamp": "2026-09-03T03:45:00",
+          "open": 327.8,
+          "high": 331.0,
+          "low": 324.15,
+          "close": 324.8,
+          "volume": 15603719
+        },
+        {
+          "timestamp": "2026-09-04T03:45:00",
+          "open": 325.3,
+          "high": 327.75,
+          "low": 320.8,
+          "close": 322.75,
+          "volume": 17824027
+        },
+        {
+          "timestamp": "2026-09-07T03:45:00",
+          "open": 325.75,
+          "high": 325.75,
+          "low": 319.7,
+          "close": 320.8,
+          "volume": 12845170
+        },
+        {
+          "timestamp": "2026-09-08T03:45:00",
+          "open": 320.8,
+          "high": 324.3,
+          "low": 320.5,
+          "close": 321.6,
+          "volume": 10662039
+        },
+        {
+          "timestamp": "2026-09-09T03:45:00",
+          "open": 322.0,
+          "high": 322.55,
+          "low": 318.0,
+          "close": 320.6,
+          "volume": 22599551
+        },
+        {
+          "timestamp": "2026-09-10T03:45:00",
+          "open": 322.7,
+          "high": 322.9,
+          "low": 317.55,
+          "close": 322.1,
+          "volume": 15557911
+        },
+        {
+          "timestamp": "2026-09-11T03:45:00",
+          "open": 317.95,
+          "high": 324.8,
+          "low": 316.05,
+          "close": 323.5,
+          "volume": 22712054
+        },
+        {
+          "timestamp": "2026-09-15T03:45:00",
+          "open": 327.5,
+          "high": 327.95,
+          "low": 314.65,
+          "close": 315.25,
+          "volume": 12538697
+        },
+        {
+          "timestamp": "2026-09-16T03:45:00",
+          "open": 316.25,
+          "high": 318.35,
+          "low": 310.8,
+          "close": 317.0,
+          "volume": 11286053
+        },
+        {
+          "timestamp": "2026-09-17T03:45:00",
+          "open": 318.3,
+          "high": 327.8,
+          "low": 318.25,
+          "close": 322.35,
+          "volume": 27543143
+        },
+        {
+          "timestamp": "2026-09-18T03:45:00",
+          "open": 328.5,
+          "high": 329.75,
+          "low": 325.7,
+          "close": 326.85,
+          "volume": 17696853
+        },
+        {
+          "timestamp": "2026-09-21T03:45:00",
+          "open": 326.85,
+          "high": 336.5,
+          "low": 326.85,
+          "close": 335.9,
+          "volume": 20274532
+        },
+        {
+          "timestamp": "2026-09-22T03:45:00",
+          "open": 337.7,
+          "high": 342.0,
+          "low": 334.65,
+          "close": 342.0,
+          "volume": 22276945
+        },
+        {
+          "timestamp": "2026-09-23T03:45:00",
+          "open": 344.4,
+          "high": 344.4,
+          "low": 340.55,
+          "close": 342.65,
+          "volume": 18360484
+        },
+        {
+          "timestamp": "2026-09-24T03:45:00",
+          "open": 338.7,
+          "high": 343.6,
+          "low": 333.55,
+          "close": 335.5,
+          "volume": 14989187
+        },
+        {
+          "timestamp": "2026-09-25T03:45:00",
+          "open": 335.6,
+          "high": 339.9,
+          "low": 331.7,
+          "close": 335.0,
+          "volume": 24508361
+        },
+        {
+          "timestamp": "2026-09-28T03:45:00",
+          "open": 335.05,
+          "high": 335.1,
+          "low": 328.45,
+          "close": 330.95,
+          "volume": 19560239
+        },
+        {
+          "timestamp": "2026-09-29T03:45:00",
+          "open": 333.0,
+          "high": 333.0,
+          "low": 323.65,
+          "close": 327.85,
+          "volume": 30822496
+        },
+        {
+          "timestamp": "2026-09-30T03:45:00",
+          "open": 328.15,
+          "high": 329.0,
+          "low": 317.1,
+          "close": 320.0,
+          "volume": 28850208
+        },
+        {
+          "timestamp": "2026-10-01T03:45:00",
+          "open": 316.6,
+          "high": 320.4,
+          "low": 309.8,
+          "close": 313.9,
+          "volume": 29716584
+        },
+        {
+          "timestamp": "2026-10-05T03:45:00",
+          "open": 308.95,
+          "high": 322.85,
+          "low": 308.1,
+          "close": 320.8,
+          "volume": 31037275
+        },
+        {
+          "timestamp": "2026-10-06T03:45:00",
+          "open": 322.5,
+          "high": 330.2,
+          "low": 319.1,
+          "close": 329.0,
+          "volume": 27075757
+        },
+        {
+          "timestamp": "2026-10-07T03:45:00",
+          "open": 332.6,
+          "high": 332.7,
+          "low": 324.6,
+          "close": 328.0,
+          "volume": 23804457
+        },
+        {
+          "timestamp": "2026-10-08T03:45:00",
+          "open": 328.0,
+          "high": 328.4,
+          "low": 317.5,
+          "close": 319.05,
+          "volume": 18044786
+        },
+        {
+          "timestamp": "2026-10-09T03:45:00",
+          "open": 322.1,
+          "high": 325.45,
+          "low": 317.15,
+          "close": 323.45,
+          "volume": 12981184
+        },
+        {
+          "timestamp": "2026-10-12T03:45:00",
+          "open": 325.75,
+          "high": 327.7,
+          "low": 322.0,
+          "close": 323.0,
+          "volume": 12225670
+        },
+        {
+          "timestamp": "2026-10-13T03:45:00",
+          "open": 323.0,
+          "high": 328.6,
+          "low": 318.0,
+          "close": 320.45,
+          "volume": 18462352
+        },
+        {
+          "timestamp": "2026-10-14T03:45:00",
+          "open": 320.55,
+          "high": 320.85,
+          "low": 314.05,
+          "close": 316.0,
+          "volume": 21027728
+        },
+        {
+          "timestamp": "2026-10-15T03:45:00",
+          "open": 315.2,
+          "high": 323.0,
+          "low": 313.6,
+          "close": 323.0,
+          "volume": 18503817
+        },
+        {
+          "timestamp": "2026-10-16T03:45:00",
+          "open": 321.75,
+          "high": 327.45,
+          "low": 321.35,
+          "close": 325.3,
+          "volume": 16825927
+        },
+        {
+          "timestamp": "2026-10-19T03:45:00",
+          "open": 324.85,
+          "high": 327.1,
+          "low": 319.5,
+          "close": 320.2,
+          "volume": 17850721
+        },
+        {
+          "timestamp": "2026-10-21T03:45:00",
+          "open": 322.5,
+          "high": 324.55,
+          "low": 305.5,
+          "close": 312.35,
+          "volume": 30152462
+        },
+        {
+          "timestamp": "2026-10-22T03:45:00",
+          "open": 312.0,
+          "high": 319.0,
+          "low": 303.6,
+          "close": 304.45,
+          "volume": 85504573
+        },
+        {
+          "timestamp": "2026-10-23T03:45:00",
+          "open": 306.1,
+          "high": 318.0,
+          "low": 301.75,
+          "close": 317.4,
+          "volume": 55091712
+        },
+        {
+          "timestamp": "2026-10-26T03:45:00",
+          "open": 315.6,
+          "high": 327.95,
+          "low": 313.65,
+          "close": 325.55,
+          "volume": 32170994
+        }
+      ],
+      "five_year_analysis": {
+        "total_observations": 125,
+        "coverage_years": 0.5,
+        "coverage_pct": 9.9,
+        "high_52w": null,
+        "low_52w": null,
+        "high_5y": 344.4,
+        "low_5y": 233.61,
+        "max_drawdown_5y": -0.1115,
+        "realized_volatility_5y": 0.2989,
+        "sma_200d": null,
+        "sma_50d": 324.01,
+        "sharpe_ratio": null,
+        "sortino_ratio": 2.6563,
+        "calmar_ratio": 4.8168,
+        "trend_regime": "INSUFFICIENT_HISTORY",
+        "momentum_regime": "NEUTRAL_MOMENTUM",
+        "volatility_regime": "ELEVATED_VOLATILITY",
+        "sample_bars": [
+          {
+            "timestamp": "2026-06-17T03:45:00",
+            "open": 254.0,
+            "high": 262.5,
+            "low": 253.2,
+            "close": 258.4,
+            "volume": 33196297
+          },
+          {
+            "timestamp": "2026-06-18T03:45:00",
+            "open": 258.5,
+            "high": 259.9,
+            "low": 255.25,
+            "close": 258.55,
+            "volume": 17926359
+          },
+          {
+            "timestamp": "2026-06-19T03:45:00",
+            "open": 257.0,
+            "high": 264.9,
+            "low": 254.55,
+            "close": 264.3,
+            "volume": 29061365
+          },
+          {
+            "timestamp": "2026-06-22T03:45:00",
+            "open": 264.5,
+            "high": 267.5,
+            "low": 262.75,
+            "close": 263.65,
+            "volume": 18797609
+          },
+          {
+            "timestamp": "2026-06-23T03:45:00",
+            "open": 263.0,
+            "high": 266.3,
+            "low": 258.0,
+            "close": 258.95,
+            "volume": 16643592
+          },
+          {
+            "timestamp": "2026-06-24T03:45:00",
+            "open": 258.45,
+            "high": 260.95,
+            "low": 253.8,
+            "close": 256.35,
+            "volume": 25071320
+          },
+          {
+            "timestamp": "2026-06-25T03:45:00",
+            "open": 254.0,
+            "high": 257.5,
+            "low": 252.5,
+            "close": 255.15,
+            "volume": 20971007
+          },
+          {
+            "timestamp": "2026-06-29T03:45:00",
+            "open": 260.0,
+            "high": 261.3,
+            "low": 257.05,
+            "close": 259.4,
+            "volume": 34568988
+          },
+          {
+            "timestamp": "2026-06-30T03:45:00",
+            "open": 260.2,
+            "high": 266.7,
+            "low": 257.3,
+            "close": 264.6,
+            "volume": 32940948
+          },
+          {
+            "timestamp": "2026-07-01T03:45:00",
+            "open": 266.3,
+            "high": 280.6,
+            "low": 265.3,
+            "close": 279.7,
+            "volume": 66845146
+          },
+          {
+            "timestamp": "2026-07-02T03:45:00",
+            "open": 282.0,
+            "high": 285.95,
+            "low": 278.6,
+            "close": 279.7,
+            "volume": 41301386
+          },
+          {
+            "timestamp": "2026-07-03T03:45:00",
+            "open": 281.95,
+            "high": 287.8,
+            "low": 279.65,
+            "close": 281.65,
+            "volume": 36875000
+          },
+          {
+            "timestamp": "2026-07-06T03:45:00",
+            "open": 283.8,
+            "high": 284.2,
+            "low": 279.85,
+            "close": 283.4,
+            "volume": 21282150
+          },
+          {
+            "timestamp": "2026-07-07T03:45:00",
+            "open": 283.8,
+            "high": 291.0,
+            "low": 283.55,
+            "close": 289.4,
+            "volume": 45305615
+          },
+          {
+            "timestamp": "2026-07-08T03:45:00",
+            "open": 288.5,
+            "high": 296.55,
+            "low": 283.75,
+            "close": 286.7,
+            "volume": 58555994
+          },
+          {
+            "timestamp": "2026-07-09T03:45:00",
+            "open": 287.3,
+            "high": 300.35,
+            "low": 287.3,
+            "close": 292.45,
+            "volume": 49865056
+          },
+          {
+            "timestamp": "2026-07-10T03:45:00",
+            "open": 294.7,
+            "high": 295.2,
+            "low": 287.15,
+            "close": 289.65,
+            "volume": 24239849
+          },
+          {
+            "timestamp": "2026-07-13T03:45:00",
+            "open": 286.1,
+            "high": 288.9,
+            "low": 284.6,
+            "close": 285.2,
+            "volume": 14808761
+          },
+          {
+            "timestamp": "2026-07-14T03:45:00",
+            "open": 283.05,
+            "high": 287.9,
+            "low": 278.55,
+            "close": 286.15,
+            "volume": 42966836
+          },
+          {
+            "timestamp": "2026-07-15T03:45:00",
+            "open": 285.0,
+            "high": 296.45,
+            "low": 283.05,
+            "close": 294.8,
+            "volume": 45125835
+          },
+          {
+            "timestamp": "2026-07-16T03:45:00",
+            "open": 298.75,
+            "high": 299.0,
+            "low": 285.05,
+            "close": 286.45,
+            "volume": 31866265
+          },
+          {
+            "timestamp": "2026-07-17T03:45:00",
+            "open": 287.0,
+            "high": 287.85,
+            "low": 283.05,
+            "close": 286.6,
+            "volume": 17477557
+          },
+          {
+            "timestamp": "2026-07-20T03:45:00",
+            "open": 284.65,
+            "high": 289.45,
+            "low": 284.4,
+            "close": 286.95,
+            "volume": 16701880
+          },
+          {
+            "timestamp": "2026-07-21T03:45:00",
+            "open": 286.0,
+            "high": 288.1,
+            "low": 283.6,
+            "close": 286.6,
+            "volume": 22178874
+          },
+          {
+            "timestamp": "2026-07-22T03:45:00",
+            "open": 287.8,
+            "high": 291.35,
+            "low": 275.55,
+            "close": 284.4,
+            "volume": 65944414
+          },
+          {
+            "timestamp": "2026-07-23T03:45:00",
+            "open": 289.85,
+            "high": 296.15,
+            "low": 282.7,
+            "close": 287.1,
+            "volume": 64734810
+          },
+          {
+            "timestamp": "2026-07-24T03:45:00",
+            "open": 285.0,
+            "high": 285.0,
+            "low": 276.55,
+            "close": 280.0,
+            "volume": 37050034
+          },
+          {
+            "timestamp": "2026-07-27T03:45:00",
+            "open": 281.5,
+            "high": 297.0,
+            "low": 281.45,
+            "close": 295.85,
+            "volume": 48012383
+          },
+          {
+            "timestamp": "2026-07-28T03:45:00",
+            "open": 295.7,
+            "high": 310.0,
+            "low": 294.2,
+            "close": 308.35,
+            "volume": 70410211
+          },
+          {
+            "timestamp": "2026-07-29T03:45:00",
+            "open": 309.9,
+            "high": 316.35,
+            "low": 308.5,
+            "close": 311.8,
+            "volume": 49740797
+          },
+          {
+            "timestamp": "2026-07-30T03:45:00",
+            "open": 307.0,
+            "high": 312.25,
+            "low": 305.0,
+            "close": 310.65,
+            "volume": 32431887
+          },
+          {
+            "timestamp": "2026-07-31T03:45:00",
+            "open": 312.5,
+            "high": 316.0,
+            "low": 301.8,
+            "close": 302.45,
+            "volume": 36770653
+          },
+          {
+            "timestamp": "2026-08-03T03:45:00",
+            "open": 303.5,
+            "high": 310.9,
+            "low": 300.05,
+            "close": 310.5,
+            "volume": 26906290
+          },
+          {
+            "timestamp": "2026-08-04T03:45:00",
+            "open": 311.0,
+            "high": 312.7,
+            "low": 309.0,
+            "close": 312.4,
+            "volume": 16096034
+          },
+          {
+            "timestamp": "2026-08-05T03:45:00",
+            "open": 313.9,
+            "high": 314.65,
+            "low": 309.5,
+            "close": 310.35,
+            "volume": 12296275
+          },
+          {
+            "timestamp": "2026-08-06T03:45:00",
+            "open": 311.0,
+            "high": 319.7,
+            "low": 310.0,
+            "close": 316.25,
+            "volume": 29960978
+          },
+          {
+            "timestamp": "2026-08-07T03:45:00",
+            "open": 314.0,
+            "high": 316.9,
+            "low": 313.15,
+            "close": 315.0,
+            "volume": 12763812
+          },
+          {
+            "timestamp": "2026-08-10T03:45:00",
+            "open": 315.45,
+            "high": 316.25,
+            "low": 309.5,
+            "close": 310.25,
+            "volume": 16471148
+          },
+          {
+            "timestamp": "2026-08-11T03:45:00",
+            "open": 310.5,
+            "high": 318.5,
+            "low": 306.2,
+            "close": 318.0,
+            "volume": 20749569
+          },
+          {
+            "timestamp": "2026-08-12T03:45:00",
+            "open": 318.95,
+            "high": 318.95,
+            "low": 312.6,
+            "close": 314.05,
+            "volume": 19976751
+          },
+          {
+            "timestamp": "2026-08-13T03:45:00",
+            "open": 315.0,
+            "high": 319.35,
+            "low": 313.3,
+            "close": 318.0,
+            "volume": 26225284
+          },
+          {
+            "timestamp": "2026-08-14T03:45:00",
+            "open": 317.8,
+            "high": 325.0,
+            "low": 316.8,
+            "close": 318.5,
+            "volume": 30147388
+          },
+          {
+            "timestamp": "2026-08-17T03:45:00",
+            "open": 317.6,
+            "high": 321.9,
+            "low": 316.2,
+            "close": 318.0,
+            "volume": 18972081
+          },
+          {
+            "timestamp": "2026-08-18T03:45:00",
+            "open": 318.0,
+            "high": 321.2,
+            "low": 315.55,
+            "close": 315.9,
+            "volume": 18387007
+          },
+          {
+            "timestamp": "2026-08-19T03:45:00",
+            "open": 316.15,
+            "high": 322.85,
+            "low": 315.85,
+            "close": 320.0,
+            "volume": 28100651
+          },
+          {
+            "timestamp": "2026-08-20T03:45:00",
+            "open": 323.85,
+            "high": 328.5,
+            "low": 321.35,
+            "close": 327.95,
+            "volume": 36661268
+          },
+          {
+            "timestamp": "2026-08-21T03:45:00",
+            "open": 330.0,
+            "high": 331.7,
+            "low": 324.1,
+            "close": 328.0,
+            "volume": 31651425
+          },
+          {
+            "timestamp": "2026-08-24T03:45:00",
+            "open": 323.0,
+            "high": 329.5,
+            "low": 323.0,
+            "close": 327.15,
+            "volume": 21892944
+          },
+          {
+            "timestamp": "2026-08-25T03:45:00",
+            "open": 330.0,
+            "high": 331.0,
+            "low": 325.5,
+            "close": 331.0,
+            "volume": 29062006
+          },
+          {
+            "timestamp": "2026-08-26T03:45:00",
+            "open": 330.0,
+            "high": 332.0,
+            "low": 325.0,
+            "close": 327.0,
+            "volume": 39246846
+          },
+          {
+            "timestamp": "2026-08-27T03:45:00",
+            "open": 329.0,
+            "high": 330.9,
+            "low": 325.3,
+            "close": 328.5,
+            "volume": 34877860
+          },
+          {
+            "timestamp": "2026-08-28T03:45:00",
+            "open": 329.1,
+            "high": 330.0,
+            "low": 324.3,
+            "close": 328.0,
+            "volume": 31385139
+          },
+          {
+            "timestamp": "2026-08-31T03:45:00",
+            "open": 328.8,
+            "high": 332.95,
+            "low": 315.8,
+            "close": 328.1,
+            "volume": 272151922
+          },
+          {
+            "timestamp": "2026-09-01T03:45:00",
+            "open": 325.0,
+            "high": 329.4,
+            "low": 323.0,
+            "close": 327.75,
+            "volume": 21501682
+          },
+          {
+            "timestamp": "2026-09-02T03:45:00",
+            "open": 325.5,
+            "high": 327.5,
+            "low": 320.3,
+            "close": 327.3,
+            "volume": 20138975
+          },
+          {
+            "timestamp": "2026-09-03T03:45:00",
+            "open": 327.8,
+            "high": 331.0,
+            "low": 324.15,
+            "close": 324.8,
+            "volume": 15603719
+          },
+          {
+            "timestamp": "2026-09-04T03:45:00",
+            "open": 325.3,
+            "high": 327.75,
+            "low": 320.8,
+            "close": 322.75,
+            "volume": 17824027
+          },
+          {
+            "timestamp": "2026-09-07T03:45:00",
+            "open": 325.75,
+            "high": 325.75,
+            "low": 319.7,
+            "close": 320.8,
+            "volume": 12845170
+          },
+          {
+            "timestamp": "2026-09-08T03:45:00",
+            "open": 320.8,
+            "high": 324.3,
+            "low": 320.5,
+            "close": 321.6,
+            "volume": 10662039
+          },
+          {
+            "timestamp": "2026-09-09T03:45:00",
+            "open": 322.0,
+            "high": 322.55,
+            "low": 318.0,
+            "close": 320.6,
+            "volume": 22599551
+          },
+          {
+            "timestamp": "2026-09-10T03:45:00",
+            "open": 322.7,
+            "high": 322.9,
+            "low": 317.55,
+            "close": 322.1,
+            "volume": 15557911
+          },
+          {
+            "timestamp": "2026-09-11T03:45:00",
+            "open": 317.95,
+            "high": 324.8,
+            "low": 316.05,
+            "close": 323.5,
+            "volume": 22712054
+          },
+          {
+            "timestamp": "2026-09-15T03:45:00",
+            "open": 327.5,
+            "high": 327.95,
+            "low": 314.65,
+            "close": 315.25,
+            "volume": 12538697
+          },
+          {
+            "timestamp": "2026-09-16T03:45:00",
+            "open": 316.25,
+            "high": 318.35,
+            "low": 310.8,
+            "close": 317.0,
+            "volume": 11286053
+          },
+          {
+            "timestamp": "2026-09-17T03:45:00",
+            "open": 318.3,
+            "high": 327.8,
+            "low": 318.25,
+            "close": 322.35,
+            "volume": 27543143
+          },
+          {
+            "timestamp": "2026-09-18T03:45:00",
+            "open": 328.5,
+            "high": 329.75,
+            "low": 325.7,
+            "close": 326.85,
+            "volume": 17696853
+          },
+          {
+            "timestamp": "2026-09-21T03:45:00",
+            "open": 326.85,
+            "high": 336.5,
+            "low": 326.85,
+            "close": 335.9,
+            "volume": 20274532
+          },
+          {
+            "timestamp": "2026-09-22T03:45:00",
+            "open": 337.7,
+            "high": 342.0,
+            "low": 334.65,
+            "close": 342.0,
+            "volume": 22276945
+          },
+          {
+            "timestamp": "2026-09-23T03:45:00",
+            "open": 344.4,
+            "high": 344.4,
+            "low": 340.55,
+            "close": 342.65,
+            "volume": 18360484
+          },
+          {
+            "timestamp": "2026-09-24T03:45:00",
+            "open": 338.7,
+            "high": 343.6,
+            "low": 333.55,
+            "close": 335.5,
+            "volume": 14989187
+          },
+          {
+            "timestamp": "2026-09-25T03:45:00",
+            "open": 335.6,
+            "high": 339.9,
+            "low": 331.7,
+            "close": 335.0,
+            "volume": 24508361
+          },
+          {
+            "timestamp": "2026-09-28T03:45:00",
+            "open": 335.05,
+            "high": 335.1,
+            "low": 328.45,
+            "close": 330.95,
+            "volume": 19560239
+          },
+          {
+            "timestamp": "2026-09-29T03:45:00",
+            "open": 333.0,
+            "high": 333.0,
+            "low": 323.65,
+            "close": 327.85,
+            "volume": 30822496
+          },
+          {
+            "timestamp": "2026-09-30T03:45:00",
+            "open": 328.15,
+            "high": 329.0,
+            "low": 317.1,
+            "close": 320.0,
+            "volume": 28850208
+          },
+          {
+            "timestamp": "2026-10-01T03:45:00",
+            "open": 316.6,
+            "high": 320.4,
+            "low": 309.8,
+            "close": 313.9,
+            "volume": 29716584
+          },
+          {
+            "timestamp": "2026-10-05T03:45:00",
+            "open": 308.95,
+            "high": 322.85,
+            "low": 308.1,
+            "close": 320.8,
+            "volume": 31037275
+          },
+          {
+            "timestamp": "2026-10-06T03:45:00",
+            "open": 322.5,
+            "high": 330.2,
+            "low": 319.1,
+            "close": 329.0,
+            "volume": 27075757
+          },
+          {
+            "timestamp": "2026-10-07T03:45:00",
+            "open": 332.6,
+            "high": 332.7,
+            "low": 324.6,
+            "close": 328.0,
+            "volume": 23804457
+          },
+          {
+            "timestamp": "2026-10-08T03:45:00",
+            "open": 328.0,
+            "high": 328.4,
+            "low": 317.5,
+            "close": 319.05,
+            "volume": 18044786
+          },
+          {
+            "timestamp": "2026-10-09T03:45:00",
+            "open": 322.1,
+            "high": 325.45,
+            "low": 317.15,
+            "close": 323.45,
+            "volume": 12981184
+          },
+          {
+            "timestamp": "2026-10-12T03:45:00",
+            "open": 325.75,
+            "high": 327.7,
+            "low": 322.0,
+            "close": 323.0,
+            "volume": 12225670
+          },
+          {
+            "timestamp": "2026-10-13T03:45:00",
+            "open": 323.0,
+            "high": 328.6,
+            "low": 318.0,
+            "close": 320.45,
+            "volume": 18462352
+          },
+          {
+            "timestamp": "2026-10-14T03:45:00",
+            "open": 320.55,
+            "high": 320.85,
+            "low": 314.05,
+            "close": 316.0,
+            "volume": 21027728
+          },
+          {
+            "timestamp": "2026-10-15T03:45:00",
+            "open": 315.2,
+            "high": 323.0,
+            "low": 313.6,
+            "close": 323.0,
+            "volume": 18503817
+          },
+          {
+            "timestamp": "2026-10-16T03:45:00",
+            "open": 321.75,
+            "high": 327.45,
+            "low": 321.35,
+            "close": 325.3,
+            "volume": 16825927
+          },
+          {
+            "timestamp": "2026-10-19T03:45:00",
+            "open": 324.85,
+            "high": 327.1,
+            "low": 319.5,
+            "close": 320.2,
+            "volume": 17850721
+          },
+          {
+            "timestamp": "2026-10-21T03:45:00",
+            "open": 322.5,
+            "high": 324.55,
+            "low": 305.5,
+            "close": 312.35,
+            "volume": 30152462
+          },
+          {
+            "timestamp": "2026-10-22T03:45:00",
+            "open": 312.0,
+            "high": 319.0,
+            "low": 303.6,
+            "close": 304.45,
+            "volume": 85504573
+          },
+          {
+            "timestamp": "2026-10-23T03:45:00",
+            "open": 306.1,
+            "high": 318.0,
+            "low": 301.75,
+            "close": 317.4,
+            "volume": 55091712
+          },
+          {
+            "timestamp": "2026-10-26T03:45:00",
+            "open": 315.6,
+            "high": 327.95,
+            "low": 313.65,
+            "close": 325.55,
+            "volume": 32170994
+          }
+        ]
+      },
+      "recent_returns": [
+        0.00468,
+        0.00435,
+        -0.0255,
+        0.00555,
+        0.01688,
+        0.01396,
+        0.02769,
+        0.01816,
+        0.0019,
+        -0.02087,
+        -0.00149,
+        -0.01209,
+        -0.00937,
+        -0.02394,
+        -0.01906,
+        0.02198,
+        0.02556,
+        -0.00304,
+        -0.02729,
+        0.01379,
+        -0.00139,
+        -0.00789,
+        -0.01389,
+        0.02215,
+        0.00712,
+        -0.01568,
+        -0.02452,
+        -0.02529,
+        0.04254,
+        0.02568
+      ],
+      "calculated_metrics": {
+        "latest_close": 325.55,
+        "sample_return_mean": 0.0021309028528350943,
+        "annualized_return": 0.537,
+        "realized_volatility_annualized": 0.3251856166270322,
+        "realized_volatility_20d": 0.3251856166270322,
+        "realized_volatility_60d": 0.25348777886511753,
+        "realized_volatility_252d": null,
+        "realized_volatility_5y": 0.2989441747714958,
+        "sharpe_ratio": null,
+        "sortino_ratio": 2.6563,
+        "calmar_ratio": 4.8168,
+        "latest_sma": 321.78499999999997,
+        "sma_20d": 321.78499999999997,
+        "sma_50d": 324.01,
+        "sma_200d": null,
+        "latest_ema": 320.9129518315976,
+        "ema_20d": 320.9129518315976,
+        "ema_50d": 317.84128957368426,
+        "ema_200d": null,
+        "latest_rsi": 52.95966197769354,
+        "rsi_14d": 52.95966197769354,
+        "max_drawdown_5y": -0.1115,
+        "high_52w": null,
+        "low_52w": null,
+        "high_5y": 344.4,
+        "low_5y": 233.61,
+        "coverage_years": 0.5,
+        "trend_regime": "INSUFFICIENT_HISTORY",
+        "momentum_regime": "NEUTRAL_MOMENTUM",
+        "volatility_regime": "ELEVATED_VOLATILITY"
+      }
+    },
+    "statutory_risk_bounds": {
+      "transaction_type": "ROUND_TRIP",
+      "instrument_type": "EQUITY_DELIVERY",
+      "notional_inr": 99943.85,
+      "price": 325.55,
+      "quantity": 307,
+      "total_statutory_costs_inr": 222.11,
+      "effective_rate_pct": 0.2222,
+      "breakdown": {
+        "securities_transaction_tax": 199.88,
+        "stt": 199.88,
+        "exchange_turnover_fee": 5.94,
+        "sebi_turnover_charges": 0.2,
+        "stamp_duty": 14.99,
+        "goods_and_services_tax_18pct": 1.1,
+        "gst_18pct": 1.1
+      },
+      "rates": {
+        "stt_pct": 0.1,
+        "stamp_duty_pct": 0.015,
+        "exchange_fee_pct": 0.00297,
+        "sebi_fee_pct": 0.0001,
+        "gst_pct": 18.0
+      }
+    },
+    "qualitative_evidence": [
+      "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+      "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+      "parquet://data/ohlcv/eternal:125_bars",
+      "academic://corwin_schultz_2012#high_low_spread_estimator",
+      "academic://amihud_2002#illiquidity_ratio",
+      "academic://roll_1984#effective_spread",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+      "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+    ],
+    "source_provenance": [
+      "duckdb_parquet_analytical_engine",
+      "statutory_rules_registry_finance_act_2024",
+      "crewai_a2a_protocol_endpoint_v1.0",
+      "llm_synthesis_deterministic",
+      "orchestration_pattern_SEQUENTIAL",
+      "artifact:art-adk_quant_specialist-v15",
+      "artifact:art-adk_microstructure_specialist-v17",
+      "artifact:art-crewai_news_macro_specialist-v19",
+      "artifact:art-crewai_corporate_filing_specialist-v21",
+      "artifact:art-crewai_adversarial_specialist-v23",
+      "artifact:art-adk_risk_validator-v27"
+    ],
+    "limitations_and_uncertainties": [
+      "Point-in-time data bounds strictly enforced (zero lookahead).",
+      "Live trading disabled by system configuration; paper/simulation mode only.",
+      "Macroeconomic analysis evaluated against statutory monetary policy framework.",
+      "Corporate filings evaluated against statutory SEBI LODR rules registry.",
+      "Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction."
+    ],
+    "recommendation": "HOLD",
+    "conviction_score": 45,
+    "statutory_friction_drag_pct": 0.2222,
+    "rag_citations": [
+      "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+      "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+      "parquet://data/ohlcv/eternal:125_bars",
+      "academic://corwin_schultz_2012#high_low_spread_estimator",
+      "academic://amihud_2002#illiquidity_ratio",
+      "academic://roll_1984#effective_spread",
+      "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+      "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+      "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+    ],
+    "target_price": null,
+    "target_upside_pct": null,
+    "stop_loss_price": null,
+    "stop_loss_pct": null,
+    "reward_to_risk_ratio": null,
+    "target_methodology": "Consolidation regime; evidence insufficient for directional expansion.",
+    "audit_hash": "304ce352cdea42ff145e5e3a2af9cf4c831e7438c104743a18f30131fbe735fa",
+    "generated_at": "2026-10-28T05:43:51.286716Z"
+  },
+  "blackboard_events": [
+    {
+      "event_id": "evt-27f47e6b",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "stage": "SUPERVISION_INIT"
+      },
+      "timestamp": "2026-10-28T05:43:26.672371Z"
+    },
+    {
+      "event_id": "evt-9a1d61b0",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "TASK_PLANNED",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "plan_id": "plan-5731222b",
+        "run_id": "run-api-678d6928956c",
+        "symbol": "ETERNAL",
+        "orchestration_pattern": "SEQUENTIAL",
+        "data_coverage_summary": {
+          "symbol": "ETERNAL",
+          "canonical_id": "NSE:ETERNAL",
+          "exchange": "NSE",
+          "company_name": "Eternal Limited (formerly Zomato Limited)",
+          "is_sme": false,
+          "has_derivatives": true,
+          "target_horizon_years": 5.0,
+          "audited_at": "2026-10-28T05:43:27.051545Z",
+          "categories": {
+            "daily_ohlcv": {
+              "category": "daily_ohlcv",
+              "display_name": "Daily OHLCV Bars",
+              "status": "SHORT_HISTORY_ELIGIBLE",
+              "provider": "duckdb_parquet",
+              "start_date": "2026-04-27",
+              "end_date": "2026-10-26",
+              "total_observations": 125,
+              "coverage_years": 0.5,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Point-in-time available_at filtering enforced on all analytical partitions.",
+                "Zero synthetic bars inserted for weekend or market holiday gaps."
+              ]
+            },
+            "intraday_candles": {
+              "category": "intraday_candles",
+              "display_name": "Intraday 1M/5M/15M Candles",
+              "status": "PARTIAL_HISTORY_AVAILABLE",
+              "provider": "yahoo_finance_chart_api",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.16,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Intraday minute-level candles available on dynamic query for up to rolling 60 days.",
+                "Multi-year intraday history requires paid commercial archive."
+              ]
+            },
+            "corporate_actions": {
+              "category": "corporate_actions",
+              "display_name": "Corporate Actions & Splits",
+              "status": "PARTIAL_HISTORY_AVAILABLE",
+              "provider": "security_master_and_exchange_filings",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "SEBI corporate announcements audited for splits, bonuses, and name changes.",
+                "Back-adjusted prices verified against statutory ex-dates."
+              ]
+            },
+            "options_and_futures_history": {
+              "category": "options_and_futures_history",
+              "display_name": "Historical Options & Futures Contracts",
+              "status": "REQUIRES_LICENSED_SUBSCRIPTION",
+              "provider": "nse_derivatives_master",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "NSE derivatives segment active, but tick-by-tick historical options contracts are absent.",
+                "Live option chain is accessible via broker token (Groww API / TrueData)."
+              ]
+            },
+            "open_interest_and_greeks": {
+              "category": "open_interest_and_greeks",
+              "display_name": "Option Greeks & Strike Open Interest",
+              "status": "UNAVAILABLE_DATA_ABSENCE",
+              "provider": "unconfigured_broker_feed",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Contract-level options chain and open interest tick feeds are unavailable in daily OHLCV storage.",
+                "Zero-fabrication policy: PCR, ATM IV, and Max Pain omitted rather than synthesized."
+              ]
+            },
+            "order_book_market_depth": {
+              "category": "order_book_market_depth",
+              "display_name": "Level 2/3 Order Book & Tick Flow",
+              "status": "UNAVAILABLE_DATA_ABSENCE",
+              "provider": "colocation_tbt_feed_required",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 0,
+              "coverage_years": 0.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Tick-level L2/L3 queue depth and execution order flow unavailable.",
+                "Parametric Corwin-Schultz (2012) spread proxy utilized; slippage marked UNAVAILABLE."
+              ]
+            },
+            "company_results_financials": {
+              "category": "company_results_financials",
+              "display_name": "Quarterly Financial Results (SEBI LODR Reg 33)",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "chromadb_rag_filings",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 1,
+              "coverage_years": 2.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Statutory limited review reports audited under SEBI LODR 2015 Regulation 33."
+              ]
+            },
+            "exchange_filings_annual_reports": {
+              "category": "exchange_filings_annual_reports",
+              "display_name": "Exchange Material Disclosures (SEBI LODR Reg 30)",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "sebi_lodr_statutory_corpus",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 4,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Material disclosures audited against statutory materiality guidelines under SEBI LODR Reg 30."
+              ]
+            },
+            "news_and_macro_events": {
+              "category": "news_and_macro_events",
+              "display_name": "RBI Monetary Policy & Macro Indicators",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "rbi_mpc_framework_corpus",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 5,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "Macroeconomic anchor derived from authentic Reserve Bank of India (RBI) MPC resolution frameworks.",
+                "Live RSS news crawler unconfigured; general news filtered against verified statutory releases."
+              ]
+            },
+            "benchmark_and_sector_data": {
+              "category": "benchmark_and_sector_data",
+              "display_name": "NIFTY 50 / Sector Benchmarking",
+              "status": "FULL_5Y_AVAILABLE",
+              "provider": "duckdb_parquet_benchmarks",
+              "start_date": null,
+              "end_date": null,
+              "total_observations": 1260,
+              "coverage_years": 5.0,
+              "missing_intervals_count": 0,
+              "last_retrieval_timestamp": "2026-10-28T05:43:27.051545+00:00",
+              "limitations": [
+                "NIFTY 50 index benchmarks available for relative beta, alpha, and drawdown benchmarking."
+              ]
+            }
+          },
+          "overall_eligibility": "SHORT_HISTORY_RESTRICTED",
+          "summary_limitations": [
+            "Available daily history is 0.5 years (125 bars); long-horizon (5-Year / 200-Day) metrics will be marked unavailable."
+          ]
+        },
+        "nodes": [
+          {
+            "task_id": "task-adk_quant_specialist",
+            "agent_id": "adk_quant_specialist",
+            "framework": "GOOGLE_ADK",
+            "task_name": "market_data_and_quant_features",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-adk_microstructure_specialist",
+            "agent_id": "adk_microstructure_specialist",
+            "framework": "GOOGLE_ADK",
+            "task_name": "microstructure_analysis",
+            "dependencies": [
+              "task-adk_quant_specialist"
+            ],
+            "required_input_artifacts": [
+              "market_data_and_quant_features"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_news_macro_specialist",
+            "agent_id": "crewai_news_macro_specialist",
+            "framework": "CREWAI",
+            "task_name": "macro_analysis",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_corporate_filing_specialist",
+            "agent_id": "crewai_corporate_filing_specialist",
+            "framework": "CREWAI",
+            "task_name": "filing_analysis",
+            "dependencies": [],
+            "required_input_artifacts": [
+              "active_request"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-crewai_adversarial_specialist",
+            "agent_id": "crewai_adversarial_specialist",
+            "framework": "CREWAI",
+            "task_name": "adversarial_critique",
+            "dependencies": [
+              "task-adk_quant_specialist",
+              "task-adk_microstructure_specialist",
+              "task-crewai_news_macro_specialist",
+              "task-crewai_corporate_filing_specialist"
+            ],
+            "required_input_artifacts": [
+              "market_data_and_quant_features",
+              "microstructure_analysis"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          },
+          {
+            "task_id": "task-adk_risk_validator",
+            "agent_id": "adk_risk_validator",
+            "framework": "GOOGLE_ADK",
+            "task_name": "statutory_and_risk_validation",
+            "dependencies": [
+              "task-crewai_adversarial_specialist",
+              "task-adk_quant_specialist"
+            ],
+            "required_input_artifacts": [
+              "adversarial_critique",
+              "market_data_and_quant_features"
+            ],
+            "expected_output_schema": "AgentContribution",
+            "status": "PENDING",
+            "retry_count": 0,
+            "max_retries": 2,
+            "start_time": null,
+            "end_time": null,
+            "duration_ms": null,
+            "artifact_id": null,
+            "error_message": null,
+            "validation_errors": []
+          }
+        ],
+        "created_at": "2026-10-28T05:43:27.053306+00:00"
+      },
+      "timestamp": "2026-10-28T05:43:27.053306Z"
+    },
+    {
+      "event_id": "evt-f0c25a84",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "retrieve_regulatory_evidence",
+        "query": "ETERNAL SEBI LODR corporate disclosure filing macro"
+      },
+      "timestamp": "2026-10-28T05:43:27.053306Z"
+    },
+    {
+      "event_id": "evt-addfb2d4",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "retrieve_regulatory_evidence",
+        "matches_count": 5
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-855bf924",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "RAG_RETRIEVAL",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "citations": [
+          "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+          "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+          "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+          "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+          "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES"
+        ],
+        "matches_count": 5,
+        "source": "ChromaDB Persistent Evidence Corpus"
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-61af381c",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "namespace": "rag_evidence",
+        "citations_count": 5
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-b38d0582",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "research_plan_and_supervision",
+        "status": "INITIALIZED",
+        "version": 11
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-28824631",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_quant_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": []
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-31ed00e2",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-7b7f13a3",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data"
+      },
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "event_id": "evt-ec54bb8f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data",
+        "count": 125
+      },
+      "timestamp": "2026-10-28T05:43:27.200797Z"
+    },
+    {
+      "event_id": "evt-ce4fe58d",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 126.18590000784025,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:27.202439Z"
+    },
+    {
+      "event_id": "evt-ef3a5c4f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_quant_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:27.202439Z"
+    },
+    {
+      "event_id": "evt-7f2bba5f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_quant_specialist-479b72",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_quant_specialist-v15",
+        "version": 15,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-ac6a5c2b",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_microstructure_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-adk_quant_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-3d1f1844",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "adk_microstructure_specialist"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-dadb3c69",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-ed500a",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-51860605",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-ed500a",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 0.6563000060850754,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-0e6cc3e3",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-ed500a",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_microstructure_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-77946d12",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_microstructure_specialist-ed500a",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_microstructure_specialist-v17",
+        "version": 17,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-1dcfaae7",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_news_macro_specialist",
+        "mode": "SEQUENTIAL"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-78da3e97",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "active_request",
+        "consumer": "crewai_news_macro_specialist"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-3bded2cf",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-5e742a",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-16d31e88",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_news_macro_specialist",
+        "task": "macro_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "event_id": "evt-bd11e0d9",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-5e742a",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "macro_analysis",
+        "citations_count": 2
+      },
+      "timestamp": "2026-10-28T05:43:51.167053Z"
+    },
+    {
+      "event_id": "evt-732fdf2f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-5e742a",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 23961.46600000793,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.167053Z"
+    },
+    {
+      "event_id": "evt-47dc7225",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-5e742a",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_news_macro_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:51.167053Z"
+    },
+    {
+      "event_id": "evt-376d385f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_news_macro_specialist-5e742a",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_news_macro_specialist-v19",
+        "version": 19,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:51.167736Z"
+    },
+    {
+      "event_id": "evt-1e54966e",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_corporate_filing_specialist",
+        "mode": "SEQUENTIAL"
+      },
+      "timestamp": "2026-10-28T05:43:51.167736Z"
+    },
+    {
+      "event_id": "evt-64abeca5",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "active_request",
+        "consumer": "crewai_corporate_filing_specialist"
+      },
+      "timestamp": "2026-10-28T05:43:51.167736Z"
+    },
+    {
+      "event_id": "evt-47c4c852",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.167736Z"
+    },
+    {
+      "event_id": "evt-666281fb",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_corporate_filing_specialist",
+        "task": "filing_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T05:43:51.167736Z"
+    },
+    {
+      "event_id": "evt-5a48ba5d",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "filing_analysis",
+        "status": "SUCCESS"
+      },
+      "timestamp": "2026-10-28T05:43:51.233207Z"
+    },
+    {
+      "event_id": "evt-4280fe18",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "RAG_RETRIEVAL",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "citations": [
+          "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25"
+        ],
+        "source": "SEBI LODR Filings Index"
+      },
+      "timestamp": "2026-10-28T05:43:51.233207Z"
+    },
+    {
+      "event_id": "evt-1aa57c5e",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 65.31650001124945,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.233207Z"
+    },
+    {
+      "event_id": "evt-2f29da3f",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_corporate_filing_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:51.233207Z"
+    },
+    {
+      "event_id": "evt-8e82e291",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_corporate_filing_specialist-63de82",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_corporate_filing_specialist-v21",
+        "version": 21,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-dbb4e996",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_adversarial_specialist",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-adk_quant_specialist",
+          "task-adk_microstructure_specialist",
+          "task-crewai_news_macro_specialist",
+          "task-crewai_corporate_filing_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-946fc0b3",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-ded9cabb",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "microstructure_analysis",
+        "consumer": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-d3c5a314",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-db811ec6",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_adversarial_specialist",
+        "task": "adversarial_critique",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-28T05:43:51.233770Z"
+    },
+    {
+      "event_id": "evt-ff71dcbe",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "adversarial_critique",
+        "challenges": 1
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-feaffe5e",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "SKEPTIC_CHALLENGE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-90b6163e",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 41.376699999091215,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-73c1ff94",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-crewai_adversarial_specialist",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-7756ebbb",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-crewai_adversarial_specialist-6d18bf",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-crewai_adversarial_specialist-v23",
+        "version": 23,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-bf6374d3",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "TASK_DISPATCHED",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_risk_validator",
+        "mode": "SEQUENTIAL",
+        "dependencies": [
+          "task-crewai_adversarial_specialist",
+          "task-adk_quant_specialist"
+        ]
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-9c206e09",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "adversarial_critique",
+        "consumer": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-32052ae2",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-default",
+      "event_type": "BLACKBOARD_READ",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact": "market_data_and_quant_features",
+        "consumer": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-a80833e4",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-d55bbedf",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-28T05:43:51.275630Z"
+    },
+    {
+      "event_id": "evt-e52f2bc8",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-28T05:43:51.277938Z"
+    },
+    {
+      "event_id": "evt-825fbeb8",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "RISK_VALIDATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 1.5065999905345961,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.277938Z"
+    },
+    {
+      "event_id": "evt-55bfd345",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 1.5065999905345961,
+      "payload": {},
+      "timestamp": "2026-10-28T05:43:51.277938Z"
+    },
+    {
+      "event_id": "evt-dcfc09f2",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "VALIDATION_SUCCESS",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task_id": "task-adk_risk_validator",
+        "attempts": 1
+      },
+      "timestamp": "2026-10-28T05:43:51.278517Z"
+    },
+    {
+      "event_id": "evt-f08bbb7c",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_risk_validator-2b8a7e",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "artifact_id": "art-adk_risk_validator-v27",
+        "version": 27,
+        "run_id": "run-api-678d6928956c"
+      },
+      "timestamp": "2026-10-28T05:43:51.278517Z"
+    },
+    {
+      "event_id": "evt-e704c144",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "LLM_INVOCATION",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "stage": "LLM_SYNTHESIS",
+        "symbol": "ETERNAL"
+      },
+      "timestamp": "2026-10-28T05:43:51.279113Z"
+    },
+    {
+      "event_id": "evt-790746ba",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "GATE_DECISION",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "PASSED",
+      "duration_ms": null,
+      "payload": {
+        "gate_failures": [],
+        "recommendation": "HOLD"
+      },
+      "timestamp": "2026-10-28T05:43:51.289686Z"
+    },
+    {
+      "event_id": "evt-96afa926",
+      "run_id": "run-api-678d6928956c",
+      "execution_id": "exec-adk_research_manager-17e4a2",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 413.32,
+      "payload": {
+        "orchestration_wall_clock_ms": 24615.19,
+        "agent_execution_ms": 413.32
+      },
+      "timestamp": "2026-10-28T05:43:51.316174Z"
+    }
+  ],
+  "agent_contributions": [
+    {
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "task_name": "research_plan_and_supervision",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "NOT_APPLICABLE",
+      "analytical_verdict": "NOT_EVALUATED",
+      "validation_outcome": "NOT_EVALUATED",
+      "status": "SUCCESS",
+      "findings": {
+        "canonical_symbol": "ETERNAL",
+        "orchestration_pattern": "SEQUENTIAL",
+        "objective": "5-year quantitative valuation, microstructure liquidity, statutory friction under Finance Act 2024, and SEBI LODR compliance for ETERNAL.",
+        "initial_hypothesis": "PROVISIONAL_EVALUATION_PENDING_SPECIALIST_EVIDENCE",
+        "conviction_score": null,
+        "required_agents": [
+          "adk_quant_specialist",
+          "adk_microstructure_specialist",
+          "crewai_news_macro_specialist",
+          "crewai_corporate_filing_specialist",
+          "crewai_adversarial_specialist",
+          "adk_risk_validator"
+        ],
+        "allowed_tools": [
+          "query_market_data",
+          "calculate_statutory_costs",
+          "retrieve_regulatory_evidence"
+        ]
+      },
+      "evidence_citations": [
+        "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES"
+      ],
+      "warnings": [],
+      "limitations": [
+        "Provisional research plan initialized; awaiting specialist findings and risk validation."
+      ],
+      "downstream_handoffs": [
+        "adk_quant_specialist",
+        "adk_microstructure_specialist",
+        "crewai_news_macro_specialist",
+        "crewai_corporate_filing_specialist",
+        "crewai_adversarial_specialist",
+        "adk_risk_validator"
+      ],
+      "timestamp": "2026-10-28T05:43:27.075970Z"
+    },
+    {
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "task_name": "market_data_and_quant_features",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "records_retrieved": 125,
+        "empty_result": false,
+        "finding_category": "MEASURED",
+        "data_source": "yfinance_cached_parquet",
+        "data_quality_status": "PASSED",
+        "data_quality_issues": [],
+        "anomaly_evaluations": [],
+        "quantitative_stance": "MODERATELY_BULLISH",
+        "max_daily_price_change_pct": 5.71,
+        "historical_bars": [
+          {
+            "timestamp": "2026-06-17T03:45:00",
+            "open": 254.0,
+            "high": 262.5,
+            "low": 253.2,
+            "close": 258.4,
+            "volume": 33196297
+          },
+          {
+            "timestamp": "2026-06-18T03:45:00",
+            "open": 258.5,
+            "high": 259.9,
+            "low": 255.25,
+            "close": 258.55,
+            "volume": 17926359
+          },
+          {
+            "timestamp": "2026-06-19T03:45:00",
+            "open": 257.0,
+            "high": 264.9,
+            "low": 254.55,
+            "close": 264.3,
+            "volume": 29061365
+          },
+          {
+            "timestamp": "2026-06-22T03:45:00",
+            "open": 264.5,
+            "high": 267.5,
+            "low": 262.75,
+            "close": 263.65,
+            "volume": 18797609
+          },
+          {
+            "timestamp": "2026-06-23T03:45:00",
+            "open": 263.0,
+            "high": 266.3,
+            "low": 258.0,
+            "close": 258.95,
+            "volume": 16643592
+          },
+          {
+            "timestamp": "2026-06-24T03:45:00",
+            "open": 258.45,
+            "high": 260.95,
+            "low": 253.8,
+            "close": 256.35,
+            "volume": 25071320
+          },
+          {
+            "timestamp": "2026-06-25T03:45:00",
+            "open": 254.0,
+            "high": 257.5,
+            "low": 252.5,
+            "close": 255.15,
+            "volume": 20971007
+          },
+          {
+            "timestamp": "2026-06-29T03:45:00",
+            "open": 260.0,
+            "high": 261.3,
+            "low": 257.05,
+            "close": 259.4,
+            "volume": 34568988
+          },
+          {
+            "timestamp": "2026-06-30T03:45:00",
+            "open": 260.2,
+            "high": 266.7,
+            "low": 257.3,
+            "close": 264.6,
+            "volume": 32940948
+          },
+          {
+            "timestamp": "2026-07-01T03:45:00",
+            "open": 266.3,
+            "high": 280.6,
+            "low": 265.3,
+            "close": 279.7,
+            "volume": 66845146
+          },
+          {
+            "timestamp": "2026-07-02T03:45:00",
+            "open": 282.0,
+            "high": 285.95,
+            "low": 278.6,
+            "close": 279.7,
+            "volume": 41301386
+          },
+          {
+            "timestamp": "2026-07-03T03:45:00",
+            "open": 281.95,
+            "high": 287.8,
+            "low": 279.65,
+            "close": 281.65,
+            "volume": 36875000
+          },
+          {
+            "timestamp": "2026-07-06T03:45:00",
+            "open": 283.8,
+            "high": 284.2,
+            "low": 279.85,
+            "close": 283.4,
+            "volume": 21282150
+          },
+          {
+            "timestamp": "2026-07-07T03:45:00",
+            "open": 283.8,
+            "high": 291.0,
+            "low": 283.55,
+            "close": 289.4,
+            "volume": 45305615
+          },
+          {
+            "timestamp": "2026-07-08T03:45:00",
+            "open": 288.5,
+            "high": 296.55,
+            "low": 283.75,
+            "close": 286.7,
+            "volume": 58555994
+          },
+          {
+            "timestamp": "2026-07-09T03:45:00",
+            "open": 287.3,
+            "high": 300.35,
+            "low": 287.3,
+            "close": 292.45,
+            "volume": 49865056
+          },
+          {
+            "timestamp": "2026-07-10T03:45:00",
+            "open": 294.7,
+            "high": 295.2,
+            "low": 287.15,
+            "close": 289.65,
+            "volume": 24239849
+          },
+          {
+            "timestamp": "2026-07-13T03:45:00",
+            "open": 286.1,
+            "high": 288.9,
+            "low": 284.6,
+            "close": 285.2,
+            "volume": 14808761
+          },
+          {
+            "timestamp": "2026-07-14T03:45:00",
+            "open": 283.05,
+            "high": 287.9,
+            "low": 278.55,
+            "close": 286.15,
+            "volume": 42966836
+          },
+          {
+            "timestamp": "2026-07-15T03:45:00",
+            "open": 285.0,
+            "high": 296.45,
+            "low": 283.05,
+            "close": 294.8,
+            "volume": 45125835
+          },
+          {
+            "timestamp": "2026-07-16T03:45:00",
+            "open": 298.75,
+            "high": 299.0,
+            "low": 285.05,
+            "close": 286.45,
+            "volume": 31866265
+          },
+          {
+            "timestamp": "2026-07-17T03:45:00",
+            "open": 287.0,
+            "high": 287.85,
+            "low": 283.05,
+            "close": 286.6,
+            "volume": 17477557
+          },
+          {
+            "timestamp": "2026-07-20T03:45:00",
+            "open": 284.65,
+            "high": 289.45,
+            "low": 284.4,
+            "close": 286.95,
+            "volume": 16701880
+          },
+          {
+            "timestamp": "2026-07-21T03:45:00",
+            "open": 286.0,
+            "high": 288.1,
+            "low": 283.6,
+            "close": 286.6,
+            "volume": 22178874
+          },
+          {
+            "timestamp": "2026-07-22T03:45:00",
+            "open": 287.8,
+            "high": 291.35,
+            "low": 275.55,
+            "close": 284.4,
+            "volume": 65944414
+          },
+          {
+            "timestamp": "2026-07-23T03:45:00",
+            "open": 289.85,
+            "high": 296.15,
+            "low": 282.7,
+            "close": 287.1,
+            "volume": 64734810
+          },
+          {
+            "timestamp": "2026-07-24T03:45:00",
+            "open": 285.0,
+            "high": 285.0,
+            "low": 276.55,
+            "close": 280.0,
+            "volume": 37050034
+          },
+          {
+            "timestamp": "2026-07-27T03:45:00",
+            "open": 281.5,
+            "high": 297.0,
+            "low": 281.45,
+            "close": 295.85,
+            "volume": 48012383
+          },
+          {
+            "timestamp": "2026-07-28T03:45:00",
+            "open": 295.7,
+            "high": 310.0,
+            "low": 294.2,
+            "close": 308.35,
+            "volume": 70410211
+          },
+          {
+            "timestamp": "2026-07-29T03:45:00",
+            "open": 309.9,
+            "high": 316.35,
+            "low": 308.5,
+            "close": 311.8,
+            "volume": 49740797
+          },
+          {
+            "timestamp": "2026-07-30T03:45:00",
+            "open": 307.0,
+            "high": 312.25,
+            "low": 305.0,
+            "close": 310.65,
+            "volume": 32431887
+          },
+          {
+            "timestamp": "2026-07-31T03:45:00",
+            "open": 312.5,
+            "high": 316.0,
+            "low": 301.8,
+            "close": 302.45,
+            "volume": 36770653
+          },
+          {
+            "timestamp": "2026-08-03T03:45:00",
+            "open": 303.5,
+            "high": 310.9,
+            "low": 300.05,
+            "close": 310.5,
+            "volume": 26906290
+          },
+          {
+            "timestamp": "2026-08-04T03:45:00",
+            "open": 311.0,
+            "high": 312.7,
+            "low": 309.0,
+            "close": 312.4,
+            "volume": 16096034
+          },
+          {
+            "timestamp": "2026-08-05T03:45:00",
+            "open": 313.9,
+            "high": 314.65,
+            "low": 309.5,
+            "close": 310.35,
+            "volume": 12296275
+          },
+          {
+            "timestamp": "2026-08-06T03:45:00",
+            "open": 311.0,
+            "high": 319.7,
+            "low": 310.0,
+            "close": 316.25,
+            "volume": 29960978
+          },
+          {
+            "timestamp": "2026-08-07T03:45:00",
+            "open": 314.0,
+            "high": 316.9,
+            "low": 313.15,
+            "close": 315.0,
+            "volume": 12763812
+          },
+          {
+            "timestamp": "2026-08-10T03:45:00",
+            "open": 315.45,
+            "high": 316.25,
+            "low": 309.5,
+            "close": 310.25,
+            "volume": 16471148
+          },
+          {
+            "timestamp": "2026-08-11T03:45:00",
+            "open": 310.5,
+            "high": 318.5,
+            "low": 306.2,
+            "close": 318.0,
+            "volume": 20749569
+          },
+          {
+            "timestamp": "2026-08-12T03:45:00",
+            "open": 318.95,
+            "high": 318.95,
+            "low": 312.6,
+            "close": 314.05,
+            "volume": 19976751
+          },
+          {
+            "timestamp": "2026-08-13T03:45:00",
+            "open": 315.0,
+            "high": 319.35,
+            "low": 313.3,
+            "close": 318.0,
+            "volume": 26225284
+          },
+          {
+            "timestamp": "2026-08-14T03:45:00",
+            "open": 317.8,
+            "high": 325.0,
+            "low": 316.8,
+            "close": 318.5,
+            "volume": 30147388
+          },
+          {
+            "timestamp": "2026-08-17T03:45:00",
+            "open": 317.6,
+            "high": 321.9,
+            "low": 316.2,
+            "close": 318.0,
+            "volume": 18972081
+          },
+          {
+            "timestamp": "2026-08-18T03:45:00",
+            "open": 318.0,
+            "high": 321.2,
+            "low": 315.55,
+            "close": 315.9,
+            "volume": 18387007
+          },
+          {
+            "timestamp": "2026-08-19T03:45:00",
+            "open": 316.15,
+            "high": 322.85,
+            "low": 315.85,
+            "close": 320.0,
+            "volume": 28100651
+          },
+          {
+            "timestamp": "2026-08-20T03:45:00",
+            "open": 323.85,
+            "high": 328.5,
+            "low": 321.35,
+            "close": 327.95,
+            "volume": 36661268
+          },
+          {
+            "timestamp": "2026-08-21T03:45:00",
+            "open": 330.0,
+            "high": 331.7,
+            "low": 324.1,
+            "close": 328.0,
+            "volume": 31651425
+          },
+          {
+            "timestamp": "2026-08-24T03:45:00",
+            "open": 323.0,
+            "high": 329.5,
+            "low": 323.0,
+            "close": 327.15,
+            "volume": 21892944
+          },
+          {
+            "timestamp": "2026-08-25T03:45:00",
+            "open": 330.0,
+            "high": 331.0,
+            "low": 325.5,
+            "close": 331.0,
+            "volume": 29062006
+          },
+          {
+            "timestamp": "2026-08-26T03:45:00",
+            "open": 330.0,
+            "high": 332.0,
+            "low": 325.0,
+            "close": 327.0,
+            "volume": 39246846
+          },
+          {
+            "timestamp": "2026-08-27T03:45:00",
+            "open": 329.0,
+            "high": 330.9,
+            "low": 325.3,
+            "close": 328.5,
+            "volume": 34877860
+          },
+          {
+            "timestamp": "2026-08-28T03:45:00",
+            "open": 329.1,
+            "high": 330.0,
+            "low": 324.3,
+            "close": 328.0,
+            "volume": 31385139
+          },
+          {
+            "timestamp": "2026-08-31T03:45:00",
+            "open": 328.8,
+            "high": 332.95,
+            "low": 315.8,
+            "close": 328.1,
+            "volume": 272151922
+          },
+          {
+            "timestamp": "2026-09-01T03:45:00",
+            "open": 325.0,
+            "high": 329.4,
+            "low": 323.0,
+            "close": 327.75,
+            "volume": 21501682
+          },
+          {
+            "timestamp": "2026-09-02T03:45:00",
+            "open": 325.5,
+            "high": 327.5,
+            "low": 320.3,
+            "close": 327.3,
+            "volume": 20138975
+          },
+          {
+            "timestamp": "2026-09-03T03:45:00",
+            "open": 327.8,
+            "high": 331.0,
+            "low": 324.15,
+            "close": 324.8,
+            "volume": 15603719
+          },
+          {
+            "timestamp": "2026-09-04T03:45:00",
+            "open": 325.3,
+            "high": 327.75,
+            "low": 320.8,
+            "close": 322.75,
+            "volume": 17824027
+          },
+          {
+            "timestamp": "2026-09-07T03:45:00",
+            "open": 325.75,
+            "high": 325.75,
+            "low": 319.7,
+            "close": 320.8,
+            "volume": 12845170
+          },
+          {
+            "timestamp": "2026-09-08T03:45:00",
+            "open": 320.8,
+            "high": 324.3,
+            "low": 320.5,
+            "close": 321.6,
+            "volume": 10662039
+          },
+          {
+            "timestamp": "2026-09-09T03:45:00",
+            "open": 322.0,
+            "high": 322.55,
+            "low": 318.0,
+            "close": 320.6,
+            "volume": 22599551
+          },
+          {
+            "timestamp": "2026-09-10T03:45:00",
+            "open": 322.7,
+            "high": 322.9,
+            "low": 317.55,
+            "close": 322.1,
+            "volume": 15557911
+          },
+          {
+            "timestamp": "2026-09-11T03:45:00",
+            "open": 317.95,
+            "high": 324.8,
+            "low": 316.05,
+            "close": 323.5,
+            "volume": 22712054
+          },
+          {
+            "timestamp": "2026-09-15T03:45:00",
+            "open": 327.5,
+            "high": 327.95,
+            "low": 314.65,
+            "close": 315.25,
+            "volume": 12538697
+          },
+          {
+            "timestamp": "2026-09-16T03:45:00",
+            "open": 316.25,
+            "high": 318.35,
+            "low": 310.8,
+            "close": 317.0,
+            "volume": 11286053
+          },
+          {
+            "timestamp": "2026-09-17T03:45:00",
+            "open": 318.3,
+            "high": 327.8,
+            "low": 318.25,
+            "close": 322.35,
+            "volume": 27543143
+          },
+          {
+            "timestamp": "2026-09-18T03:45:00",
+            "open": 328.5,
+            "high": 329.75,
+            "low": 325.7,
+            "close": 326.85,
+            "volume": 17696853
+          },
+          {
+            "timestamp": "2026-09-21T03:45:00",
+            "open": 326.85,
+            "high": 336.5,
+            "low": 326.85,
+            "close": 335.9,
+            "volume": 20274532
+          },
+          {
+            "timestamp": "2026-09-22T03:45:00",
+            "open": 337.7,
+            "high": 342.0,
+            "low": 334.65,
+            "close": 342.0,
+            "volume": 22276945
+          },
+          {
+            "timestamp": "2026-09-23T03:45:00",
+            "open": 344.4,
+            "high": 344.4,
+            "low": 340.55,
+            "close": 342.65,
+            "volume": 18360484
+          },
+          {
+            "timestamp": "2026-09-24T03:45:00",
+            "open": 338.7,
+            "high": 343.6,
+            "low": 333.55,
+            "close": 335.5,
+            "volume": 14989187
+          },
+          {
+            "timestamp": "2026-09-25T03:45:00",
+            "open": 335.6,
+            "high": 339.9,
+            "low": 331.7,
+            "close": 335.0,
+            "volume": 24508361
+          },
+          {
+            "timestamp": "2026-09-28T03:45:00",
+            "open": 335.05,
+            "high": 335.1,
+            "low": 328.45,
+            "close": 330.95,
+            "volume": 19560239
+          },
+          {
+            "timestamp": "2026-09-29T03:45:00",
+            "open": 333.0,
+            "high": 333.0,
+            "low": 323.65,
+            "close": 327.85,
+            "volume": 30822496
+          },
+          {
+            "timestamp": "2026-09-30T03:45:00",
+            "open": 328.15,
+            "high": 329.0,
+            "low": 317.1,
+            "close": 320.0,
+            "volume": 28850208
+          },
+          {
+            "timestamp": "2026-10-01T03:45:00",
+            "open": 316.6,
+            "high": 320.4,
+            "low": 309.8,
+            "close": 313.9,
+            "volume": 29716584
+          },
+          {
+            "timestamp": "2026-10-05T03:45:00",
+            "open": 308.95,
+            "high": 322.85,
+            "low": 308.1,
+            "close": 320.8,
+            "volume": 31037275
+          },
+          {
+            "timestamp": "2026-10-06T03:45:00",
+            "open": 322.5,
+            "high": 330.2,
+            "low": 319.1,
+            "close": 329.0,
+            "volume": 27075757
+          },
+          {
+            "timestamp": "2026-10-07T03:45:00",
+            "open": 332.6,
+            "high": 332.7,
+            "low": 324.6,
+            "close": 328.0,
+            "volume": 23804457
+          },
+          {
+            "timestamp": "2026-10-08T03:45:00",
+            "open": 328.0,
+            "high": 328.4,
+            "low": 317.5,
+            "close": 319.05,
+            "volume": 18044786
+          },
+          {
+            "timestamp": "2026-10-09T03:45:00",
+            "open": 322.1,
+            "high": 325.45,
+            "low": 317.15,
+            "close": 323.45,
+            "volume": 12981184
+          },
+          {
+            "timestamp": "2026-10-12T03:45:00",
+            "open": 325.75,
+            "high": 327.7,
+            "low": 322.0,
+            "close": 323.0,
+            "volume": 12225670
+          },
+          {
+            "timestamp": "2026-10-13T03:45:00",
+            "open": 323.0,
+            "high": 328.6,
+            "low": 318.0,
+            "close": 320.45,
+            "volume": 18462352
+          },
+          {
+            "timestamp": "2026-10-14T03:45:00",
+            "open": 320.55,
+            "high": 320.85,
+            "low": 314.05,
+            "close": 316.0,
+            "volume": 21027728
+          },
+          {
+            "timestamp": "2026-10-15T03:45:00",
+            "open": 315.2,
+            "high": 323.0,
+            "low": 313.6,
+            "close": 323.0,
+            "volume": 18503817
+          },
+          {
+            "timestamp": "2026-10-16T03:45:00",
+            "open": 321.75,
+            "high": 327.45,
+            "low": 321.35,
+            "close": 325.3,
+            "volume": 16825927
+          },
+          {
+            "timestamp": "2026-10-19T03:45:00",
+            "open": 324.85,
+            "high": 327.1,
+            "low": 319.5,
+            "close": 320.2,
+            "volume": 17850721
+          },
+          {
+            "timestamp": "2026-10-21T03:45:00",
+            "open": 322.5,
+            "high": 324.55,
+            "low": 305.5,
+            "close": 312.35,
+            "volume": 30152462
+          },
+          {
+            "timestamp": "2026-10-22T03:45:00",
+            "open": 312.0,
+            "high": 319.0,
+            "low": 303.6,
+            "close": 304.45,
+            "volume": 85504573
+          },
+          {
+            "timestamp": "2026-10-23T03:45:00",
+            "open": 306.1,
+            "high": 318.0,
+            "low": 301.75,
+            "close": 317.4,
+            "volume": 55091712
+          },
+          {
+            "timestamp": "2026-10-26T03:45:00",
+            "open": 315.6,
+            "high": 327.95,
+            "low": 313.65,
+            "close": 325.55,
+            "volume": 32170994
+          }
+        ],
+        "five_year_analysis": {
+          "total_observations": 125,
+          "coverage_years": 0.5,
+          "coverage_pct": 9.9,
+          "high_52w": null,
+          "low_52w": null,
+          "high_5y": 344.4,
+          "low_5y": 233.61,
+          "max_drawdown_5y": -0.1115,
+          "realized_volatility_5y": 0.2989,
+          "sma_200d": null,
+          "sma_50d": 324.01,
+          "sharpe_ratio": null,
+          "sortino_ratio": 2.6563,
+          "calmar_ratio": 4.8168,
+          "trend_regime": "INSUFFICIENT_HISTORY",
+          "momentum_regime": "NEUTRAL_MOMENTUM",
+          "volatility_regime": "ELEVATED_VOLATILITY",
+          "sample_bars": [
+            {
+              "timestamp": "2026-06-17T03:45:00",
+              "open": 254.0,
+              "high": 262.5,
+              "low": 253.2,
+              "close": 258.4,
+              "volume": 33196297
+            },
+            {
+              "timestamp": "2026-06-18T03:45:00",
+              "open": 258.5,
+              "high": 259.9,
+              "low": 255.25,
+              "close": 258.55,
+              "volume": 17926359
+            },
+            {
+              "timestamp": "2026-06-19T03:45:00",
+              "open": 257.0,
+              "high": 264.9,
+              "low": 254.55,
+              "close": 264.3,
+              "volume": 29061365
+            },
+            {
+              "timestamp": "2026-06-22T03:45:00",
+              "open": 264.5,
+              "high": 267.5,
+              "low": 262.75,
+              "close": 263.65,
+              "volume": 18797609
+            },
+            {
+              "timestamp": "2026-06-23T03:45:00",
+              "open": 263.0,
+              "high": 266.3,
+              "low": 258.0,
+              "close": 258.95,
+              "volume": 16643592
+            },
+            {
+              "timestamp": "2026-06-24T03:45:00",
+              "open": 258.45,
+              "high": 260.95,
+              "low": 253.8,
+              "close": 256.35,
+              "volume": 25071320
+            },
+            {
+              "timestamp": "2026-06-25T03:45:00",
+              "open": 254.0,
+              "high": 257.5,
+              "low": 252.5,
+              "close": 255.15,
+              "volume": 20971007
+            },
+            {
+              "timestamp": "2026-06-29T03:45:00",
+              "open": 260.0,
+              "high": 261.3,
+              "low": 257.05,
+              "close": 259.4,
+              "volume": 34568988
+            },
+            {
+              "timestamp": "2026-06-30T03:45:00",
+              "open": 260.2,
+              "high": 266.7,
+              "low": 257.3,
+              "close": 264.6,
+              "volume": 32940948
+            },
+            {
+              "timestamp": "2026-07-01T03:45:00",
+              "open": 266.3,
+              "high": 280.6,
+              "low": 265.3,
+              "close": 279.7,
+              "volume": 66845146
+            },
+            {
+              "timestamp": "2026-07-02T03:45:00",
+              "open": 282.0,
+              "high": 285.95,
+              "low": 278.6,
+              "close": 279.7,
+              "volume": 41301386
+            },
+            {
+              "timestamp": "2026-07-03T03:45:00",
+              "open": 281.95,
+              "high": 287.8,
+              "low": 279.65,
+              "close": 281.65,
+              "volume": 36875000
+            },
+            {
+              "timestamp": "2026-07-06T03:45:00",
+              "open": 283.8,
+              "high": 284.2,
+              "low": 279.85,
+              "close": 283.4,
+              "volume": 21282150
+            },
+            {
+              "timestamp": "2026-07-07T03:45:00",
+              "open": 283.8,
+              "high": 291.0,
+              "low": 283.55,
+              "close": 289.4,
+              "volume": 45305615
+            },
+            {
+              "timestamp": "2026-07-08T03:45:00",
+              "open": 288.5,
+              "high": 296.55,
+              "low": 283.75,
+              "close": 286.7,
+              "volume": 58555994
+            },
+            {
+              "timestamp": "2026-07-09T03:45:00",
+              "open": 287.3,
+              "high": 300.35,
+              "low": 287.3,
+              "close": 292.45,
+              "volume": 49865056
+            },
+            {
+              "timestamp": "2026-07-10T03:45:00",
+              "open": 294.7,
+              "high": 295.2,
+              "low": 287.15,
+              "close": 289.65,
+              "volume": 24239849
+            },
+            {
+              "timestamp": "2026-07-13T03:45:00",
+              "open": 286.1,
+              "high": 288.9,
+              "low": 284.6,
+              "close": 285.2,
+              "volume": 14808761
+            },
+            {
+              "timestamp": "2026-07-14T03:45:00",
+              "open": 283.05,
+              "high": 287.9,
+              "low": 278.55,
+              "close": 286.15,
+              "volume": 42966836
+            },
+            {
+              "timestamp": "2026-07-15T03:45:00",
+              "open": 285.0,
+              "high": 296.45,
+              "low": 283.05,
+              "close": 294.8,
+              "volume": 45125835
+            },
+            {
+              "timestamp": "2026-07-16T03:45:00",
+              "open": 298.75,
+              "high": 299.0,
+              "low": 285.05,
+              "close": 286.45,
+              "volume": 31866265
+            },
+            {
+              "timestamp": "2026-07-17T03:45:00",
+              "open": 287.0,
+              "high": 287.85,
+              "low": 283.05,
+              "close": 286.6,
+              "volume": 17477557
+            },
+            {
+              "timestamp": "2026-07-20T03:45:00",
+              "open": 284.65,
+              "high": 289.45,
+              "low": 284.4,
+              "close": 286.95,
+              "volume": 16701880
+            },
+            {
+              "timestamp": "2026-07-21T03:45:00",
+              "open": 286.0,
+              "high": 288.1,
+              "low": 283.6,
+              "close": 286.6,
+              "volume": 22178874
+            },
+            {
+              "timestamp": "2026-07-22T03:45:00",
+              "open": 287.8,
+              "high": 291.35,
+              "low": 275.55,
+              "close": 284.4,
+              "volume": 65944414
+            },
+            {
+              "timestamp": "2026-07-23T03:45:00",
+              "open": 289.85,
+              "high": 296.15,
+              "low": 282.7,
+              "close": 287.1,
+              "volume": 64734810
+            },
+            {
+              "timestamp": "2026-07-24T03:45:00",
+              "open": 285.0,
+              "high": 285.0,
+              "low": 276.55,
+              "close": 280.0,
+              "volume": 37050034
+            },
+            {
+              "timestamp": "2026-07-27T03:45:00",
+              "open": 281.5,
+              "high": 297.0,
+              "low": 281.45,
+              "close": 295.85,
+              "volume": 48012383
+            },
+            {
+              "timestamp": "2026-07-28T03:45:00",
+              "open": 295.7,
+              "high": 310.0,
+              "low": 294.2,
+              "close": 308.35,
+              "volume": 70410211
+            },
+            {
+              "timestamp": "2026-07-29T03:45:00",
+              "open": 309.9,
+              "high": 316.35,
+              "low": 308.5,
+              "close": 311.8,
+              "volume": 49740797
+            },
+            {
+              "timestamp": "2026-07-30T03:45:00",
+              "open": 307.0,
+              "high": 312.25,
+              "low": 305.0,
+              "close": 310.65,
+              "volume": 32431887
+            },
+            {
+              "timestamp": "2026-07-31T03:45:00",
+              "open": 312.5,
+              "high": 316.0,
+              "low": 301.8,
+              "close": 302.45,
+              "volume": 36770653
+            },
+            {
+              "timestamp": "2026-08-03T03:45:00",
+              "open": 303.5,
+              "high": 310.9,
+              "low": 300.05,
+              "close": 310.5,
+              "volume": 26906290
+            },
+            {
+              "timestamp": "2026-08-04T03:45:00",
+              "open": 311.0,
+              "high": 312.7,
+              "low": 309.0,
+              "close": 312.4,
+              "volume": 16096034
+            },
+            {
+              "timestamp": "2026-08-05T03:45:00",
+              "open": 313.9,
+              "high": 314.65,
+              "low": 309.5,
+              "close": 310.35,
+              "volume": 12296275
+            },
+            {
+              "timestamp": "2026-08-06T03:45:00",
+              "open": 311.0,
+              "high": 319.7,
+              "low": 310.0,
+              "close": 316.25,
+              "volume": 29960978
+            },
+            {
+              "timestamp": "2026-08-07T03:45:00",
+              "open": 314.0,
+              "high": 316.9,
+              "low": 313.15,
+              "close": 315.0,
+              "volume": 12763812
+            },
+            {
+              "timestamp": "2026-08-10T03:45:00",
+              "open": 315.45,
+              "high": 316.25,
+              "low": 309.5,
+              "close": 310.25,
+              "volume": 16471148
+            },
+            {
+              "timestamp": "2026-08-11T03:45:00",
+              "open": 310.5,
+              "high": 318.5,
+              "low": 306.2,
+              "close": 318.0,
+              "volume": 20749569
+            },
+            {
+              "timestamp": "2026-08-12T03:45:00",
+              "open": 318.95,
+              "high": 318.95,
+              "low": 312.6,
+              "close": 314.05,
+              "volume": 19976751
+            },
+            {
+              "timestamp": "2026-08-13T03:45:00",
+              "open": 315.0,
+              "high": 319.35,
+              "low": 313.3,
+              "close": 318.0,
+              "volume": 26225284
+            },
+            {
+              "timestamp": "2026-08-14T03:45:00",
+              "open": 317.8,
+              "high": 325.0,
+              "low": 316.8,
+              "close": 318.5,
+              "volume": 30147388
+            },
+            {
+              "timestamp": "2026-08-17T03:45:00",
+              "open": 317.6,
+              "high": 321.9,
+              "low": 316.2,
+              "close": 318.0,
+              "volume": 18972081
+            },
+            {
+              "timestamp": "2026-08-18T03:45:00",
+              "open": 318.0,
+              "high": 321.2,
+              "low": 315.55,
+              "close": 315.9,
+              "volume": 18387007
+            },
+            {
+              "timestamp": "2026-08-19T03:45:00",
+              "open": 316.15,
+              "high": 322.85,
+              "low": 315.85,
+              "close": 320.0,
+              "volume": 28100651
+            },
+            {
+              "timestamp": "2026-08-20T03:45:00",
+              "open": 323.85,
+              "high": 328.5,
+              "low": 321.35,
+              "close": 327.95,
+              "volume": 36661268
+            },
+            {
+              "timestamp": "2026-08-21T03:45:00",
+              "open": 330.0,
+              "high": 331.7,
+              "low": 324.1,
+              "close": 328.0,
+              "volume": 31651425
+            },
+            {
+              "timestamp": "2026-08-24T03:45:00",
+              "open": 323.0,
+              "high": 329.5,
+              "low": 323.0,
+              "close": 327.15,
+              "volume": 21892944
+            },
+            {
+              "timestamp": "2026-08-25T03:45:00",
+              "open": 330.0,
+              "high": 331.0,
+              "low": 325.5,
+              "close": 331.0,
+              "volume": 29062006
+            },
+            {
+              "timestamp": "2026-08-26T03:45:00",
+              "open": 330.0,
+              "high": 332.0,
+              "low": 325.0,
+              "close": 327.0,
+              "volume": 39246846
+            },
+            {
+              "timestamp": "2026-08-27T03:45:00",
+              "open": 329.0,
+              "high": 330.9,
+              "low": 325.3,
+              "close": 328.5,
+              "volume": 34877860
+            },
+            {
+              "timestamp": "2026-08-28T03:45:00",
+              "open": 329.1,
+              "high": 330.0,
+              "low": 324.3,
+              "close": 328.0,
+              "volume": 31385139
+            },
+            {
+              "timestamp": "2026-08-31T03:45:00",
+              "open": 328.8,
+              "high": 332.95,
+              "low": 315.8,
+              "close": 328.1,
+              "volume": 272151922
+            },
+            {
+              "timestamp": "2026-09-01T03:45:00",
+              "open": 325.0,
+              "high": 329.4,
+              "low": 323.0,
+              "close": 327.75,
+              "volume": 21501682
+            },
+            {
+              "timestamp": "2026-09-02T03:45:00",
+              "open": 325.5,
+              "high": 327.5,
+              "low": 320.3,
+              "close": 327.3,
+              "volume": 20138975
+            },
+            {
+              "timestamp": "2026-09-03T03:45:00",
+              "open": 327.8,
+              "high": 331.0,
+              "low": 324.15,
+              "close": 324.8,
+              "volume": 15603719
+            },
+            {
+              "timestamp": "2026-09-04T03:45:00",
+              "open": 325.3,
+              "high": 327.75,
+              "low": 320.8,
+              "close": 322.75,
+              "volume": 17824027
+            },
+            {
+              "timestamp": "2026-09-07T03:45:00",
+              "open": 325.75,
+              "high": 325.75,
+              "low": 319.7,
+              "close": 320.8,
+              "volume": 12845170
+            },
+            {
+              "timestamp": "2026-09-08T03:45:00",
+              "open": 320.8,
+              "high": 324.3,
+              "low": 320.5,
+              "close": 321.6,
+              "volume": 10662039
+            },
+            {
+              "timestamp": "2026-09-09T03:45:00",
+              "open": 322.0,
+              "high": 322.55,
+              "low": 318.0,
+              "close": 320.6,
+              "volume": 22599551
+            },
+            {
+              "timestamp": "2026-09-10T03:45:00",
+              "open": 322.7,
+              "high": 322.9,
+              "low": 317.55,
+              "close": 322.1,
+              "volume": 15557911
+            },
+            {
+              "timestamp": "2026-09-11T03:45:00",
+              "open": 317.95,
+              "high": 324.8,
+              "low": 316.05,
+              "close": 323.5,
+              "volume": 22712054
+            },
+            {
+              "timestamp": "2026-09-15T03:45:00",
+              "open": 327.5,
+              "high": 327.95,
+              "low": 314.65,
+              "close": 315.25,
+              "volume": 12538697
+            },
+            {
+              "timestamp": "2026-09-16T03:45:00",
+              "open": 316.25,
+              "high": 318.35,
+              "low": 310.8,
+              "close": 317.0,
+              "volume": 11286053
+            },
+            {
+              "timestamp": "2026-09-17T03:45:00",
+              "open": 318.3,
+              "high": 327.8,
+              "low": 318.25,
+              "close": 322.35,
+              "volume": 27543143
+            },
+            {
+              "timestamp": "2026-09-18T03:45:00",
+              "open": 328.5,
+              "high": 329.75,
+              "low": 325.7,
+              "close": 326.85,
+              "volume": 17696853
+            },
+            {
+              "timestamp": "2026-09-21T03:45:00",
+              "open": 326.85,
+              "high": 336.5,
+              "low": 326.85,
+              "close": 335.9,
+              "volume": 20274532
+            },
+            {
+              "timestamp": "2026-09-22T03:45:00",
+              "open": 337.7,
+              "high": 342.0,
+              "low": 334.65,
+              "close": 342.0,
+              "volume": 22276945
+            },
+            {
+              "timestamp": "2026-09-23T03:45:00",
+              "open": 344.4,
+              "high": 344.4,
+              "low": 340.55,
+              "close": 342.65,
+              "volume": 18360484
+            },
+            {
+              "timestamp": "2026-09-24T03:45:00",
+              "open": 338.7,
+              "high": 343.6,
+              "low": 333.55,
+              "close": 335.5,
+              "volume": 14989187
+            },
+            {
+              "timestamp": "2026-09-25T03:45:00",
+              "open": 335.6,
+              "high": 339.9,
+              "low": 331.7,
+              "close": 335.0,
+              "volume": 24508361
+            },
+            {
+              "timestamp": "2026-09-28T03:45:00",
+              "open": 335.05,
+              "high": 335.1,
+              "low": 328.45,
+              "close": 330.95,
+              "volume": 19560239
+            },
+            {
+              "timestamp": "2026-09-29T03:45:00",
+              "open": 333.0,
+              "high": 333.0,
+              "low": 323.65,
+              "close": 327.85,
+              "volume": 30822496
+            },
+            {
+              "timestamp": "2026-09-30T03:45:00",
+              "open": 328.15,
+              "high": 329.0,
+              "low": 317.1,
+              "close": 320.0,
+              "volume": 28850208
+            },
+            {
+              "timestamp": "2026-10-01T03:45:00",
+              "open": 316.6,
+              "high": 320.4,
+              "low": 309.8,
+              "close": 313.9,
+              "volume": 29716584
+            },
+            {
+              "timestamp": "2026-10-05T03:45:00",
+              "open": 308.95,
+              "high": 322.85,
+              "low": 308.1,
+              "close": 320.8,
+              "volume": 31037275
+            },
+            {
+              "timestamp": "2026-10-06T03:45:00",
+              "open": 322.5,
+              "high": 330.2,
+              "low": 319.1,
+              "close": 329.0,
+              "volume": 27075757
+            },
+            {
+              "timestamp": "2026-10-07T03:45:00",
+              "open": 332.6,
+              "high": 332.7,
+              "low": 324.6,
+              "close": 328.0,
+              "volume": 23804457
+            },
+            {
+              "timestamp": "2026-10-08T03:45:00",
+              "open": 328.0,
+              "high": 328.4,
+              "low": 317.5,
+              "close": 319.05,
+              "volume": 18044786
+            },
+            {
+              "timestamp": "2026-10-09T03:45:00",
+              "open": 322.1,
+              "high": 325.45,
+              "low": 317.15,
+              "close": 323.45,
+              "volume": 12981184
+            },
+            {
+              "timestamp": "2026-10-12T03:45:00",
+              "open": 325.75,
+              "high": 327.7,
+              "low": 322.0,
+              "close": 323.0,
+              "volume": 12225670
+            },
+            {
+              "timestamp": "2026-10-13T03:45:00",
+              "open": 323.0,
+              "high": 328.6,
+              "low": 318.0,
+              "close": 320.45,
+              "volume": 18462352
+            },
+            {
+              "timestamp": "2026-10-14T03:45:00",
+              "open": 320.55,
+              "high": 320.85,
+              "low": 314.05,
+              "close": 316.0,
+              "volume": 21027728
+            },
+            {
+              "timestamp": "2026-10-15T03:45:00",
+              "open": 315.2,
+              "high": 323.0,
+              "low": 313.6,
+              "close": 323.0,
+              "volume": 18503817
+            },
+            {
+              "timestamp": "2026-10-16T03:45:00",
+              "open": 321.75,
+              "high": 327.45,
+              "low": 321.35,
+              "close": 325.3,
+              "volume": 16825927
+            },
+            {
+              "timestamp": "2026-10-19T03:45:00",
+              "open": 324.85,
+              "high": 327.1,
+              "low": 319.5,
+              "close": 320.2,
+              "volume": 17850721
+            },
+            {
+              "timestamp": "2026-10-21T03:45:00",
+              "open": 322.5,
+              "high": 324.55,
+              "low": 305.5,
+              "close": 312.35,
+              "volume": 30152462
+            },
+            {
+              "timestamp": "2026-10-22T03:45:00",
+              "open": 312.0,
+              "high": 319.0,
+              "low": 303.6,
+              "close": 304.45,
+              "volume": 85504573
+            },
+            {
+              "timestamp": "2026-10-23T03:45:00",
+              "open": 306.1,
+              "high": 318.0,
+              "low": 301.75,
+              "close": 317.4,
+              "volume": 55091712
+            },
+            {
+              "timestamp": "2026-10-26T03:45:00",
+              "open": 315.6,
+              "high": 327.95,
+              "low": 313.65,
+              "close": 325.55,
+              "volume": 32170994
+            }
+          ]
+        },
+        "recent_returns": [
+          0.00468,
+          0.00435,
+          -0.0255,
+          0.00555,
+          0.01688,
+          0.01396,
+          0.02769,
+          0.01816,
+          0.0019,
+          -0.02087,
+          -0.00149,
+          -0.01209,
+          -0.00937,
+          -0.02394,
+          -0.01906,
+          0.02198,
+          0.02556,
+          -0.00304,
+          -0.02729,
+          0.01379,
+          -0.00139,
+          -0.00789,
+          -0.01389,
+          0.02215,
+          0.00712,
+          -0.01568,
+          -0.02452,
+          -0.02529,
+          0.04254,
+          0.02568
+        ],
+        "calculated_metrics": {
+          "latest_close": 325.55,
+          "sample_return_mean": 0.0021309028528350943,
+          "annualized_return": 0.537,
+          "realized_volatility_annualized": 0.3251856166270322,
+          "realized_volatility_20d": 0.3251856166270322,
+          "realized_volatility_60d": 0.25348777886511753,
+          "realized_volatility_252d": null,
+          "realized_volatility_5y": 0.2989441747714958,
+          "sharpe_ratio": null,
+          "sortino_ratio": 2.6563,
+          "calmar_ratio": 4.8168,
+          "latest_sma": 321.78499999999997,
+          "sma_20d": 321.78499999999997,
+          "sma_50d": 324.01,
+          "sma_200d": null,
+          "latest_ema": 320.9129518315976,
+          "ema_20d": 320.9129518315976,
+          "ema_50d": 317.84128957368426,
+          "ema_200d": null,
+          "latest_rsi": 52.95966197769354,
+          "rsi_14d": 52.95966197769354,
+          "max_drawdown_5y": -0.1115,
+          "high_52w": null,
+          "low_52w": null,
+          "high_5y": 344.4,
+          "low_5y": 233.61,
+          "coverage_years": 0.5,
+          "trend_regime": "INSUFFICIENT_HISTORY",
+          "momentum_regime": "NEUTRAL_MOMENTUM",
+          "volatility_regime": "ELEVATED_VOLATILITY"
+        }
+      },
+      "evidence_citations": [
+        "parquet://data/ohlcv/eternal:125_bars"
+      ],
+      "warnings": [],
+      "limitations": [],
+      "downstream_handoffs": [
+        "adk_microstructure_specialist",
+        "crewai_adversarial_specialist"
+      ],
+      "timestamp": "2026-10-28T05:43:27.202439Z"
+    },
+    {
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "task_name": "microstructure_analysis",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "microstructure_status": "MEASURED_PARAMETRIC",
+        "finding_category": "MEASURED",
+        "symbol": "ETERNAL",
+        "corwin_schultz_spread_bps": 150.61,
+        "roll_effective_spread_bps": null,
+        "roll_spread_limitation": "Roll (1984) effective spread undefined: serial autocovariance of price changes is non-negative (cov >= 0); price dynamics not dominated by bid-ask bounce.",
+        "spread_type": "ESTIMATED_PARAMETRIC",
+        "spread_estimation_method": "Corwin-Schultz (2012) High-Low estimator and Roll (1984) covariance proxy",
+        "spread_lookback_window": 30,
+        "spread_input_observations_count": 12,
+        "spread_units": "bps",
+        "effective_slippage_bps": null,
+        "slippage_status": "UNAVAILABLE_NO_ORDERBOOK_FEED",
+        "slippage_observation_basis": "Tick-level L2/L3 queue depth and execution order flow unavailable; synthetic multiplier omitted.",
+        "average_daily_turnover_inr_cr": 885.31,
+        "turnover_impact_proxy_bps_per_cr": 0.1701,
+        "kyles_lambda_impact_bps_per_cr": 0.1701,
+        "standard_kyles_lambda": null,
+        "kyles_lambda_status": "UNAVAILABLE_NO_TICK_ORDERFLOW",
+        "kyles_lambda_note": "Standard Kyle's lambda requires tick-level price impact from signed order flow (dP/dQ); daily OHLCV provides only parametric turnover impact proxy.",
+        "amihud_illiquidity_ratio": 0.00735,
+        "liquidity_tier": "TIER-1 (High Institutional Liquidity)",
+        "liquidity_stance": "MODERATE_LIQUIDITY",
+        "options_analytics": {
+          "derivatives_eligible": true,
+          "segment": "NSE_DERIVATIVES_FO",
+          "put_call_ratio_oi": null,
+          "atm_implied_volatility_pct": null,
+          "max_pain_strike": null,
+          "options_liquidity_status": "UNAVAILABLE_NO_CONTRACT_FEED",
+          "greeks_provenance": "UNAVAILABLE",
+          "order_flow_status": "UNAVAILABLE_NO_TICK_ORDERFLOW",
+          "limitation_note": "Contract-level options chain and open interest tick feeds are unavailable in daily OHLCV storage. Per zero-fabrication mandate, synthetic PCR, ATM IV, and Max Pain are omitted."
+        },
+        "queue_depth_status": "Parametric liquidity and estimated spread modeled from verified trailing historical bars. Tick-level L2/L3 queue depth omitted to prevent numerical fabrication.",
+        "recommended_max_order_pct_adv": 3.0,
+        "execution_style_recommendation": "VWAP (Volume-Weighted Average Price) algorithmic execution over 30-minute intervals"
+      },
+      "evidence_citations": [
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread"
+      ],
+      "warnings": [],
+      "limitations": [
+        "Quoted spread is an estimated parametric proxy, not an observed exchange orderbook spread."
+      ],
+      "downstream_handoffs": [
+        "crewai_adversarial_specialist",
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T05:43:27.204081Z"
+    },
+    {
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "task_name": "news_macro_analysis",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "NEUTRAL",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "source_status": "CONFIGURED",
+        "finding_category": "SOURCE_REPORTED",
+        "symbol": "ETERNAL",
+        "llm_provider": "DETERMINISTIC",
+        "evidence_currency": "HISTORICAL_FRAMEWORK",
+        "macro_regime": "Policy Repo Rate anchored at 6.50%; SDF 6.25% / MSF 6.75% corridor.",
+        "headline_summary": "RBI Monetary Policy Committee (MPC) Operating Framework\nReserve Bank of India Monetary Policy Committee Operating Framework: The policy repo rate under the Liquidity Adjustment Facility (LAF) serves as the anchor rate for money market interest rates. The Standing Deposit Facility (SDF) rate operates at repo rate minus 25 bps (6.25% when repo is 6.50%), and the Marginal Standing Facility (MSF) operates at repo rate plus 25 bps (6.75%). The MPC targets medium-term consumer price index (CPI) headline inflation of 4.0% within a +/- 2.0% tolerance band.",
+        "llm_macro_analysis": "Macroeconomic context derived from statutory RBI operating framework.",
+        "policy_anchor": "RBI MPC Repo Rate (6.50%)",
+        "policy_resolution_date": "2024-08-08",
+        "inflation_target_pct": 4.0,
+        "inflation_tolerance_band": "+/- 2.0%",
+        "systemic_liquidity_regime": "Neutral to actively managed via daily LAF windows",
+        "rate_environment_impact": "Stable discount rate environment supporting equity valuation multiples",
+        "macro_verdict": "NEUTRAL",
+        "structured_evidence": [
+          {
+            "source_id": "RBI-MONETARY-POLICY",
+            "chunk_id": "RBI-MPC-REPO-RATE-FRAMEWORK",
+            "source_authority": "Reserve Bank of India (RBI)",
+            "citation_uri": "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+            "primary_source_ref": "RBI Monetary Policy Resolution / RBI-MPC-REPO-RATE-FRAMEWORK",
+            "publisher": "Reserve Bank of India (RBI)",
+            "publication_date": "2024-08-08",
+            "evidence_currency": "HISTORICAL_FRAMEWORK",
+            "retrieval_timestamp": "2026-10-28T05:43:51.142814+00:00",
+            "reporting_period": "Historical Monetary Policy Baseline (Resolution Date: 2024-08-08)",
+            "passage": "RBI Monetary Policy Committee (MPC) Operating Framework\nReserve Bank of India Monetary Policy Committee Operating Framework: The policy repo rate under the Liquidity Adjustment Facility (LAF) serves as the anchor rate for money market interest rates. The Standing Deposit Facility (SDF) rate operates at repo rate minus 25 bps (6.25% when repo is 6.50%), and the Marginal Standing Facility (MSF) operates at repo rate plus 25 bps (6.75%). The MPC targets medium-term consumer price index (CPI) headline inflation of 4.0% within a +/- 2.0% tolerance band.",
+            "entity": "ETERNAL",
+            "claim_mapping": "Statutory RBI operating framework (effective 2024-08-08)",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT"
+          },
+          {
+            "source_id": "RBI-MPC-OCT2024",
+            "chunk_id": "RBI-CRR-MONETARY-POLICY-OCT24",
+            "source_authority": "Reserve Bank of India (RBI)",
+            "citation_uri": "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+            "primary_source_ref": "RBI Monetary Policy Resolution / RBI-CRR-MONETARY-POLICY-OCT24",
+            "publisher": "Reserve Bank of India (RBI)",
+            "publication_date": "2024-10-09",
+            "evidence_currency": "HISTORICAL_FRAMEWORK",
+            "retrieval_timestamp": "2026-10-28T05:43:51.142814+00:00",
+            "reporting_period": "Historical Monetary Policy Baseline (Resolution Date: 2024-10-09)",
+            "passage": "Reserve Bank of India Monetary Policy: Repo Rate 6.50% & Liquidity Stance\nReserve Bank of India Monetary Policy Committee Statement: The MPC decided by a 5 to 1 majority to keep the policy repo rate unchanged at 6.50%. Consequently, the standing deposit facility (SDF) rate remains at 6.25% and the marginal standing facility (MSF) rate and Bank Rate at 6.75%. The stance of monetary policy was unanimously revised from 'withdrawal of accommodation' to 'NEUTRAL'. Cash Reserve Ratio (CRR) of scheduled commercial banks is maintained at 4.50% of NDTL.",
+            "entity": "ETERNAL",
+            "claim_mapping": "Statutory RBI operating framework (effective 2024-10-09)",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT"
+          }
+        ]
+      },
+      "evidence_citations": [
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24"
+      ],
+      "warnings": [
+        "Macroeconomic analysis evaluated against statutory monetary policy framework."
+      ],
+      "limitations": [
+        "External live news feed unconfigured; macro ground truth derived from authentic RBI MPC filings."
+      ],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T05:43:51.142814Z"
+    },
+    {
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "task_name": "corporate_filing_analysis",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "source_status": "CONFIGURED",
+        "finding_category": "SOURCE_REPORTED",
+        "symbol": "ETERNAL",
+        "llm_provider": "DETERMINISTIC",
+        "latest_filing_type": "Eternal Limited (Zomato): Q2 FY25 Disclosures, Blinkit Quick Commerce GOV & Corporate Rebranding",
+        "filing_date": "2024-10-22",
+        "summary": "Eternal Limited (Zomato): Q2 FY25 Disclosures, Blinkit Quick Commerce GOV & Corporate Rebranding\nEternal Limited (formerly Zomato Limited, NSE: ETERNAL / ZOMATO) Statutory Disclosure under SEBI LODR Regulation 33: For Q2 FY25, Consolidated Revenue from Operations grew 68.5% YoY to INR 4,799 crore with Adjusted EBITDA at INR 330 crore. Blinkit (Quick Commerce vertical) Gross Order Value (GOV) surged 122% YoY with dark store footprint expanding past 1,000 stores. Food delivery GOV increased 21% YoY with contribution margin holding steady at 7.6% of GOV. Corporate rebranding to Eternal Limited approved by shareholders, organizing operations into four core engines: Zomato, Blinkit, Hyperpure, and District. Statutory auditors Deloitte Haskins & Sells LLP issued clean, unmodified audit opinion.",
+        "llm_filing_analysis": "Corporate filings and statutory disclosures evaluated against SEBI LODR regulatory baseline.",
+        "regulatory_authority": "National Stock Exchange of India (NSE) Corporate Disclosures",
+        "compliance_status": "COMPLIANT_LODR_REG_33",
+        "audit_standard": "Limited Review Report / Statutory Audit compliant with zero qualified opinions",
+        "governance_rating": "SATISFACTORY",
+        "company_specific_filing_verified": true,
+        "structured_evidence": [
+          {
+            "source_id": "ETERNAL-ZOMATO-Q2FY25",
+            "chunk_id": "FILING-ETERNAL-ZOMATO-Q2FY25",
+            "source_authority": "National Stock Exchange of India (NSE) Corporate Disclosures",
+            "citation_uri": "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+            "primary_source_ref": "NSE/BSE Corporate Filings Portal / FILING-ETERNAL-ZOMATO-Q2FY25",
+            "publisher": "National Stock Exchange of India (NSE) Corporate Disclosures",
+            "publication_date": "2024-10-22",
+            "retrieval_timestamp": "2026-10-28T05:43:51.202735+00:00",
+            "reporting_period": "Q2 FY2024-25 (Quarter ended Sep 30, 2024)",
+            "passage": "Eternal Limited (Zomato): Q2 FY25 Disclosures, Blinkit Quick Commerce GOV & Corporate Rebranding\nEternal Limited (formerly Zomato Limited, NSE: ETERNAL / ZOMATO) Statutory Disclosure under SEBI LODR Regulation 33: For Q2 FY25, Consolidated Revenue from Operations grew 68.5% YoY to INR 4,799 crore with Adjusted EBITDA at INR 330 crore. Blinkit (Quick Commerce vertical) Gross Order Value (GOV) surged 122% YoY with dark store footprint expanding past 1,000 stores. Food delivery GOV increased 21% YoY with contribution margin holding steady at 7.6% of GOV. Corporate rebranding to Eternal Limited approved by shareholders, organizing operations into four core engines: Zomato, Blinkit, Hyperpure, and District. Statutory auditors Deloitte Haskins & Sells LLP issued clean, unmodified audit opinion.",
+            "entity": "ETERNAL",
+            "claim_mapping": "ETERNAL Financial Results Disclosures & Limited Review Report under SEBI LODR Reg 33",
+            "validation_outcome": "RESOLVED_STORED_DOCUMENT",
+            "audit_opinion": "Clean / Unqualified opinion under limited review",
+            "compliance_evidence": "Submitted within statutory 45 days under SEBI LODR Reg 33"
+          }
+        ]
+      },
+      "evidence_citations": [
+        "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25"
+      ],
+      "warnings": [
+        "Corporate filings evaluated against statutory SEBI LODR rules registry."
+      ],
+      "limitations": [],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T05:43:51.210559Z"
+    },
+    {
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "task_name": "adversarial_critique",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "CONDITIONALLY_APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "finding_category": "INFERRED",
+        "llm_provider": "DETERMINISTIC",
+        "thesis_critique": "Empirical Adversarial Audit for ETERNAL: Validated against 125 historical bar observations. Stress tests resulted in: CONDITIONALLY_APPROVED.",
+        "llm_adversarial_analysis": "Adversarial critique evaluated against deterministic risk and stress parameters.",
+        "stress_tests": {
+          "circuit_filter_boundary": "PASS: Maximum single-day price move of 4.25% strictly within NSE 20.0% circuit boundary.",
+          "volatility_shock_test": "PASS: 2x volatility jump (65.0%) results in daily 99% VaR of 9.53% within 15.0% stress limit.",
+          "statutory_drag_test": "PASS: Sample return (53.70% ann) comfortably covers 22.22 bps statutory friction.",
+          "liquidity_contraction_test": "PASS: Under 50% turnover drop (INR 442.65 Cr), estimated market impact 3.4 bps remains <= 25.0 bps threshold.",
+          "lookahead_leakage_audit": "PASS: Point-in-time timestamp matching verified across 125 bars with zero future leakage."
+        },
+        "stress_test_details": {
+          "circuit_filter_boundary": {
+            "test_id": "circuit_filter_boundary",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "observations_analyzed": 125,
+                "returns_window": 30
+              }
+            },
+            "formula": "max(abs(r_t)) <= 0.20",
+            "expected_condition": "Maximum trailing single-day absolute price move <= 20.0% (NSE statutory circuit filter)",
+            "threshold": 0.2,
+            "actual_result": 0.04254,
+            "status": "PASS",
+            "timestamp": "2026-10-28T05:43:51.239565+00:00",
+            "execution_id": "run-api-678d6928956c",
+            "explanation": "PASS: Maximum single-day price move of 4.25% strictly within NSE 20.0% circuit boundary.",
+            "limitations": "Corporate actions or split unadjusted bars trigger false circuit breaches."
+          },
+          "volatility_shock_test": {
+            "test_id": "volatility_shock_test",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "realized_volatility_annualized": 0.3251856166270322,
+                "shock_multiplier": 2.0
+              }
+            },
+            "formula": "shocked_sigma = 2.0 * sigma; shocked_daily_var99 = 2.326 * (shocked_sigma / sqrt(252)) <= 0.15; sigma <= 0.80",
+            "expected_condition": "Annualized realized volatility <= 80.0% and 2x shocked 99% parametric daily VaR <= 15.0%",
+            "threshold": {
+              "max_baseline_vol": 0.8,
+              "max_shocked_var99": 0.15
+            },
+            "actual_result": {
+              "baseline_vol": 0.3252,
+              "shocked_daily_var99": 0.0953
+            },
+            "status": "PASS",
+            "timestamp": "2026-10-28T05:43:51.239565+00:00",
+            "execution_id": "run-api-678d6928956c",
+            "explanation": "PASS: 2x volatility jump (65.0%) results in daily 99% VaR of 9.53% within 15.0% stress limit.",
+            "limitations": "Assumes log-normal return distribution; tail heaviness under shock may underestimate kurtosis."
+          },
+          "statutory_drag_test": {
+            "test_id": "statutory_drag_test",
+            "version": "1.2.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_quant_specialist",
+              "task_name": "market_data_and_quant_features",
+              "parameters": {
+                "sample_mean_return": 0.0021309028528350943,
+                "statutory_drag_bps": 22.22,
+                "transaction_basis": "ROUND_TRIP_DELIVERY",
+                "one_way_buy_bps": 11.86,
+                "one_way_sell_bps": 10.36,
+                "round_trip_bps": 22.22,
+                "statutory_schedule": "Finance (No. 2) Act 2024"
+              }
+            },
+            "formula": "annualized_return = sample_mean_return * 252.0 >= statutory_drag_bps / 10000.0",
+            "expected_condition": "Sample annualized return strictly covers Finance Act 2024 statutory friction drag (22.22 bps)",
+            "threshold": 0.002222,
+            "actual_result": 0.53699,
+            "status": "PASS",
+            "timestamp": "2026-10-28T05:43:51.239565+00:00",
+            "execution_id": "run-api-678d6928956c",
+            "explanation": "PASS: Sample return (53.70% ann) comfortably covers 22.22 bps statutory friction.",
+            "limitations": "Historical sample mean return does not guarantee forward alpha realization."
+          },
+          "liquidity_contraction_test": {
+            "test_id": "liquidity_contraction_test",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "adk_microstructure_specialist",
+              "task_name": "microstructure_analysis",
+              "parameters": {
+                "average_daily_turnover_inr_cr": 885.31,
+                "corwin_schultz_spread_bps": 150.61
+              }
+            },
+            "formula": "stressed_impact_bps = spread_bps / (turnover_cr * 0.5) * 10.0 <= 25.0 bps; turnover_cr >= 25.0",
+            "expected_condition": "Turnover under 50% contraction >= 25.0 Cr and stressed market impact <= 25.0 bps",
+            "threshold": {
+              "min_turnover_cr": 25.0,
+              "max_impact_bps": 25.0
+            },
+            "actual_result": {
+              "stressed_turnover_cr": 442.65,
+              "stressed_impact_bps": 3.4
+            },
+            "status": "PASS",
+            "timestamp": "2026-10-28T05:43:51.239565+00:00",
+            "execution_id": "run-api-678d6928956c",
+            "explanation": "PASS: Under 50% turnover drop (INR 442.65 Cr), estimated market impact 3.4 bps remains <= 25.0 bps threshold.",
+            "limitations": "Parametric Kyle's lambda proxy; order book queue depth omitted to prevent numerical fabrication."
+          },
+          "lookahead_leakage_audit": {
+            "test_id": "lookahead_leakage_audit",
+            "version": "1.1.0",
+            "input_artifact_refs": {
+              "source_agent": "duckdb_parquet",
+              "task_name": "query_market_data",
+              "parameters": {
+                "records_audited": 125,
+                "as_of_time": null
+              }
+            },
+            "formula": "all(bar_timestamp <= as_of_time)",
+            "expected_condition": "All bar timestamps strictly <= decision cutoff timestamp (zero lookahead leakage)",
+            "threshold": 0,
+            "actual_result": {
+              "future_observations_count": 0,
+              "audited_bars": 125
+            },
+            "status": "PASS",
+            "timestamp": "2026-10-28T05:43:51.239565+00:00",
+            "execution_id": "run-api-678d6928956c",
+            "explanation": "PASS: Point-in-time timestamp matching verified across 125 bars with zero future leakage.",
+            "limitations": "Relies on database partition metadata accuracy and DuckDB analytical query bounds."
+          }
+        },
+        "objections": [],
+        "statutory_drag_impact": "Statutory transaction costs (STT + GST + Stamp Duty + SEBI/NSE fees) create a baseline drag of ~11.86 bps per roundtrip in equity delivery. Gross edge must exceed 15 bps to justify allocation.",
+        "regime_fragility": "Signals sensitive to extreme returns and quarterly index rebalancing.",
+        "skeptic_verdict": "CONDITIONALLY_APPROVED_WITH_STATUTORY_DRAG_DISCOUNT",
+        "adversarial_discount_bps": 12.0
+      },
+      "evidence_citations": [
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY"
+      ],
+      "warnings": [
+        "Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction."
+      ],
+      "limitations": [
+        "Stress tests subject to historical sample regime stability."
+      ],
+      "downstream_handoffs": [
+        "adk_risk_validator",
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T05:43:51.244533Z"
+    },
+    {
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "task_name": "statutory_and_risk_validation",
+      "run_id": "run-api-678d6928956c",
+      "symbol": "ETERNAL",
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "risk_validation_passed": true,
+        "live_trading_blocked": true,
+        "lookahead_bias_detected": false,
+        "statutory_compliance": {
+          "transaction_type": "ROUND_TRIP",
+          "instrument_type": "EQUITY_DELIVERY",
+          "notional_inr": 99943.85,
+          "price": 325.55,
+          "quantity": 307,
+          "total_statutory_costs_inr": 222.11,
+          "effective_rate_pct": 0.2222,
+          "breakdown": {
+            "securities_transaction_tax": 199.88,
+            "stt": 199.88,
+            "exchange_turnover_fee": 5.94,
+            "sebi_turnover_charges": 0.2,
+            "stamp_duty": 14.99,
+            "goods_and_services_tax_18pct": 1.1,
+            "gst_18pct": 1.1
+          },
+          "rates": {
+            "stt_pct": 0.1,
+            "stamp_duty_pct": 0.015,
+            "exchange_fee_pct": 0.00297,
+            "sebi_fee_pct": 0.0001,
+            "gst_pct": 18.0
+          }
+        },
+        "unsupported_assertions_flagged": false,
+        "classified_objections": {},
+        "unresolved_objections": [],
+        "mandatory_gates_summary": {
+          "live_trading_disabled": true,
+          "skeptic_objections_resolved": true,
+          "data_quality_acceptable": true,
+          "statutory_costs_evaluated": true
+        }
+      },
+      "evidence_citations": [
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "warnings": [],
+      "limitations": [],
+      "downstream_handoffs": [
+        "adk_research_manager"
+      ],
+      "timestamp": "2026-10-28T05:43:51.277938Z"
+    },
+    {
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "task_name": "research_synthesis_and_supervision",
+      "run_id": null,
+      "symbol": null,
+      "execution_status": "COMPLETED",
+      "evidence_status": "VERIFIED",
+      "analytical_verdict": "APPROVED",
+      "validation_outcome": "PASSED",
+      "status": "SUCCESS",
+      "findings": {
+        "executive_thesis": "Institutional Quantitative Synthesis for ETERNAL (as of 2026-10-28) \u2014 Consensus Stance: HOLD (Multi-Agent Conviction Score: 45/100). Retrieved 125 point-in-time verified OHLCV bars via DuckDB analytical engine. Market Profile: Latest Close INR 325.55 | Annualized Volatility: 32.5% | 14-Day RSI: 53.0. Microstructure: Corwin-Schultz estimated parametric spread 150.6 bps (Tier-1 liquidity). Statutory Risk Model: Finance (No. 2) Act 2024 total friction of INR 222.11 per 100k (0.2222% drag). Macro Context: RBI Repo Rate steady at 6.50% corridor. Corporate Governance: SEBI LODR Regulation 30/33 audit standards satisfied. Adversarial Evaluation: Stress test bounds validated; execution reviewed under statutory friction drag.",
+        "consensus_stance": "HOLD",
+        "multi_agent_conviction_score": 45,
+        "mandatory_gates_passed": true,
+        "gate_failures": [],
+        "llm_synthesis_provider": "DETERMINISTIC",
+        "latency_seconds": 24.615,
+        "orchestration_wall_clock_ms": 24615.19,
+        "manager_execution_ms": 413.32,
+        "target_price": null,
+        "target_upside_pct": null,
+        "stop_loss_price": null,
+        "stop_loss_pct": null,
+        "reward_to_risk_ratio": null,
+        "target_methodology": "Consolidation regime; evidence insufficient for directional expansion.",
+        "orchestration_pattern": "SEQUENTIAL",
+        "total_specialists_coordinated": 7
+      },
+      "evidence_citations": [
+        "rag://filings/eternal_zomato_q2fy25#FILING-ETERNAL-ZOMATO-Q2FY25",
+        "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+        "rag://sebi/lodr_reg30#SEBI-LODR-REG30-MATERIALITY",
+        "rag://sebi/research_analyst_regs#SEBI-RESEARCH-ANALYSTS-REG-2024",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES",
+        "parquet://data/ohlcv/eternal:125_bars",
+        "academic://corwin_schultz_2012#high_low_spread_estimator",
+        "academic://amihud_2002#illiquidity_ratio",
+        "academic://roll_1984#effective_spread",
+        "rag://rbi/mpc_statement_oct2024#RBI-CRR-MONETARY-POLICY-OCT24",
+        "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+        "Statutory Source: Finance (No. 2) Act 2024 (effective Oct 1, 2024)"
+      ],
+      "warnings": [
+        "Macroeconomic analysis evaluated against statutory monetary policy framework.",
+        "Corporate filings evaluated against statutory SEBI LODR rules registry.",
+        "Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction."
+      ],
+      "limitations": [
+        "Point-in-time data bounds strictly enforced (zero lookahead).",
+        "Live trading disabled by system configuration; paper/simulation mode only.",
+        "Macroeconomic analysis evaluated against statutory monetary policy framework.",
+        "Corporate filings evaluated against statutory SEBI LODR rules registry.",
+        "Adversarial note: Ensure execution slippage does not exceed 8 bps during peak opening auction."
+      ],
+      "downstream_handoffs": [],
+      "timestamp": "2026-10-28T05:43:51.316174Z"
+    }
+  ],
+  "error": null
+}

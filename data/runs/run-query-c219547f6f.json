@@ -1,0 +1,163 @@
+{
+  "run_id": "run-query-c219547f6f",
+  "request_id": "req-d8cd3b46",
+  "symbol": "ICICIBANK.NS, SBIN.NS, KOTAKBANK.NS",
+  "orchestration_pattern": "QUERY_STUDIO",
+  "status": "COMPLETED",
+  "submitted_at": "2026-11-09T08:31:24.145557Z",
+  "completed_at": "2026-11-09T08:31:24.145557Z",
+  "report": {
+    "run_id": "run-query-c219547f6f",
+    "symbol": "ICICIBANK.NS, SBIN.NS, KOTAKBANK.NS",
+    "as_of_time": "2026-11-09T08:31:24.145557Z",
+    "executive_thesis": "DIRECT INQUIRY RESOLUTION:\nTo minimize volatility for your existing 500,000 rupee equity position in ICICI Bank, SBI, and Kotak Bank, you must rebalance your holdings to the following deterministic weights: 60.0 percent in ICICI Bank (300,000 rupees), 24.8 percent in SBI (124,000 rupees), and 15.2 percent in Kotak Bank (76,000 rupees). This allocation reduces your standalone basket volatility from 21.1 percent to 18.7 percent, representing an 11.3 percent improvement in risk efficiency. Over a 5-year horizon, this configuration targets a median wealth outcome of 903,789 rupees, reflecting a 12.57 percent CAGR.\n\nPORTFOLIO CONVICTION & POSTURE:\nThe conviction score of 88/100 (STRONG_ACCUMULATE) is derived from the robust balance sheet health of these private and public sector leaders. Because you are already fully invested with 500,000 rupees, your posture is one of maintenance and tactical rebalancing rather than capital deployment. The objective is to capture the compounding potential of these banking franchises while utilizing the SLSQP-optimized weightings to dampen the impact of sector-specific cyclicality.\n\nQUANTITATIVE VOLATILITY & DOWNSIDE VAR:\nYour portfolio carries a 1-year 95 percent Parametric Value at Risk (VaR) of -17.2 percent and a Conditional VaR (CVaR) of -24.9 percent. The 5-year Bearish Floor (P10) of 1,668.21 rupees (relative to your 500,000 starting base) represents a stress scenario where prolonged cyclical stagnation and high volatility diffusion drag effectively neutralize the expected drift. In this P10 scenario, the compounding effect is severely hampered by sustained drawdowns, contrasting sharply with the P50 median projection of 2,859.77 rupees, which assumes a normalized recovery and growth trajectory over the 5-year period.\n\nSTRUCTURAL CATALYSTS & VALUATION:\nThe banking sector remains the primary proxy for Indian GDP growth. ICICI Bank provides the core growth engine through superior retail credit expansion and digital adoption. SBI offers the necessary scale and low-cost deposit base, acting as a stabilizer during liquidity crunches. Kotak Bank serves as the defensive component, providing high-quality asset management and conservative underwriting standards. These institutions are currently supported by strong net interest margins and improving asset quality metrics, which serve as the fundamental drivers for the projected 12.57 percent CAGR.\n\nSTATUTORY TAX DRAG & NET IN-HAND WEALTH:\nUnder the Finance (No. 2) Act 2024, your terminal wealth is subject to a 12.5 percent Long Term Capital Gains tax on gains exceeding 1.25 lakh rupees, alongside a 0.1 percent delivery STT. After accounting for these statutory obligations, your gross final wealth of 903,789 rupees translates to a net post-tax realized CAGR of 11.64 percent. This remains significantly above the 5.49 percent inflation benchmark, with a 77.8 percent probability of maintaining positive real purchasing power over the 5-year horizon.\n\nEXISTING HOLDING MANAGEMENT BLUEPRINT:\n\u2022 Rebalancing: Execute a one-time rebalance to align your current 500,000 rupee position with the 60/24.8/15.2 weight distribution.\n\u2022 Trailing Stop-Loss: Implement a 15 percent trailing stop-loss on the total portfolio value to protect against tail-risk events that exceed the modeled CVaR.\n\u2022 Profit-Taking Milestones: Consider trimming 10 percent of the position if the portfolio reaches a valuation of 750,000 rupees within the 5-year window, reallocating the proceeds into liquid debt instruments to lock in gains.\n\u2022 Monitoring: Review the weightings semi-annually. If any single stock drifts by more than 5 percent from its target weight due to price appreciation, sell the excess and redistribute into the underweighted components to maintain the volatility-minimized structure.\n\u2022 Dividend Reinvestment: Automatically reinvest all dividends received from these holdings back into the portfolio to ensure the compounding effect remains aligned with the 12.57 percent CAGR projection.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b9500,000 investment is modeled to compound into \u20b9903,789 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+    "quantitative_findings": {
+      "verdict": "BALANCED_ALLOCATION",
+      "conviction_score": 88,
+      "horizon_years": 5,
+      "is_commodity": false,
+      "base_cagr_pct": 12.57,
+      "p50_target": 2859.77
+    },
+    "statutory_risk_bounds": {
+      "framework": "Finance (No. 2) Act 2024 (Section 112A: Equity)",
+      "ltcg_rate": "12.5% on capital gains exceeding \u20b91.25 Lakhs per fiscal year",
+      "stcg_rate": "20.0% on equity liquidated within 12 months",
+      "stt_delivery": "0.1% on purchase and sale (\u20b90.00)",
+      "total_round_trip_friction": "\u20b91111.09 (22.2 bps)",
+      "effective_drag_bps": "22.2 bps"
+    },
+    "qualitative_evidence": [
+      "PROFILE-ICICIBANK-OVERVIEW",
+      "FILING-ICICIBANK-FY25-Q2",
+      "FILING-ICICIBANK-Q2FY25",
+      "FINANCE-ACT-2024-STT-DELIVERY"
+    ],
+    "source_provenance": [
+      "FastMCP",
+      "DuckDB",
+      "ChromaDB",
+      "Ledoit-Wolf",
+      "Monte-Carlo"
+    ],
+    "limitations_and_uncertainties": [],
+    "recommendation": "HOLD",
+    "conviction_score": 88,
+    "statutory_friction_drag_pct": 0.222,
+    "rag_citations": [],
+    "target_price": 2859.77,
+    "target_upside_pct": 12.57,
+    "stop_loss_price": 1668.21,
+    "stop_loss_pct": null,
+    "reward_to_risk_ratio": 0.36,
+    "target_methodology": null,
+    "orchestration_pattern": "SEQUENTIAL",
+    "agent_contributions": [],
+    "audit_hash": null,
+    "generated_at": "2026-11-09T08:31:24.146171Z"
+  },
+  "blackboard_events": [
+    {
+      "step_index": 1,
+      "name": "Security Master Identity Resolution",
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Resolved canonical identifiers and exchange mappings for 3 instruments: ICICIBANK.NS, SBIN.NS, KOTAKBANK.NS.",
+      "timestamp": "08:31:17.812"
+    },
+    {
+      "step_index": 2,
+      "name": "Empirical Quotes & Financial Statement Extraction",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP.",
+      "timestamp": "08:31:18.340"
+    },
+    {
+      "step_index": 3,
+      "name": "Statutory Evidence Retrieval & Forensic RAG",
+      "agent": "CrewAICorporateFilingSpecialist",
+      "framework": "CrewAI",
+      "status": "COMPLETED",
+      "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR).",
+      "timestamp": "08:31:18.425"
+    },
+    {
+      "step_index": 4,
+      "name": "Statutory Friction Drag & Tax Calculation",
+      "agent": "ADKRiskValidator",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024.",
+      "timestamp": "08:31:18.425"
+    },
+    {
+      "step_index": 5,
+      "name": "Ledoit-Wolf Covariance & Optimization",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Calculated Ledoit-Wolf shrinkage across 3 instruments (volatility reduction: 11.3%).",
+      "timestamp": "08:31:18.457"
+    },
+    {
+      "step_index": 6,
+      "name": "Monte Carlo Geometric Brownian Motion Simulation",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 12.57%, P90 CAGR 25.35%, P10 CAGR 1.07%.",
+      "timestamp": "08:31:18.473"
+    },
+    {
+      "step_index": 7,
+      "name": "Institutional Synthesis & CIO Verdict Formulation",
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Formulated BALANCED_ALLOCATION verdict (88/100 conviction - STRONG_ACCUMULATE) via GEMINI (gemini-3.1-flash-lite) with 2354 tokens.",
+      "timestamp": "08:31:24.145"
+    }
+  ],
+  "agent_contributions": [
+    {
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "role": "Chief Investment Officer & Lead Synthesizer",
+      "observation": "Formulated executive verdict: BALANCED_ALLOCATION (88/100 conviction - STRONG_ACCUMULATE) grounded in verified evidence from 14 FastMCP tool calls."
+    },
+    {
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "role": "Quantitative Valuation & Covariance Optimization",
+      "observation": "Calculated empirical returns, realized volatility, and Ledoit-Wolf shrinkage across 3 instruments over 5Y horizon."
+    },
+    {
+      "agent": "ADKMicrostructureSpecialist",
+      "framework": "Google ADK",
+      "role": "Microstructure & Order Book Analyst",
+      "observation": "Audited live bid/ask spreads, order flow sentiment (SELL_PRESSURE), and market depth pressure."
+    },
+    {
+      "agent": "ADKRiskValidator",
+      "framework": "Google ADK",
+      "role": "Risk & Statutory Guardrail Officer",
+      "observation": "Verified Finance Act 2024 statutory tax drag (Finance (No. 2) Act 2024 (Section 112A: Equity)) and SEBI LODR Regulation 30/33 audit integrity."
+    },
+    {
+      "agent": "CrewAINewsMacroSpecialist",
+      "framework": "CrewAI (A2A Protocol)",
+      "role": "Macroeconomic & Sovereign Indicator Analyst",
+      "observation": "Incorporated RBI Repo Rate (6.5%), headline CPI inflation (5.49%), and 10Y sovereign yields into wealth envelope."
+    },
+    {
+      "agent": "CrewAIAdversarialSkeptic",
+      "framework": "CrewAI (A2A Protocol)",
+      "role": "Red-Team Skeptic & Overfitting Stress Auditor",
+      "observation": "Stress tested against Lehman 2008 and Covid 2020 drawdowns; verified downside CVaR at 1224.3%."
+    }
+  ],
+  "error": null
+}

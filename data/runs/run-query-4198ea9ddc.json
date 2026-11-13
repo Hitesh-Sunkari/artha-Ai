@@ -1,0 +1,839 @@
+{
+  "run_id": "run-query-4198ea9ddc",
+  "request_id": "req-456dfece",
+  "symbol": "INFY.NS, TCS.NS",
+  "orchestration_pattern": "QUERY_STUDIO",
+  "status": "COMPLETED",
+  "submitted_at": "2026-11-09T10:52:52.705275Z",
+  "completed_at": "2026-11-09T10:52:52.705275Z",
+  "report": {
+    "run_id": "run-query-4198ea9ddc",
+    "symbol": "INFY.NS, TCS.NS",
+    "as_of_time": "2026-11-09T10:52:52.705275Z",
+    "executive_thesis": "DIRECT INQUIRY RESOLUTION:\nThe 5-year compounding outlook for a \u20b9500,000 allocation split between TCS and Infosys suggests a moderate wealth accumulation trajectory. Based on the optimized SLSQP weights, your capital is projected to grow to a gross terminal value of approximately \u20b9613,400. This represents a 4.17% CAGR over the 5-year horizon. While these entities remain pillars of the Indian IT sector, the current valuation environment and volatility diffusion suggest that capital appreciation will be sensitive to margin expansion and global discretionary spending cycles.\n\nPORTFOLIO CONVICTION & POSTURE:\nThe ACCUMULATE_STAGGERED posture with a 75/100 conviction score reflects the necessity of mitigating entry-point risk. Given the current volatility profile, a lump-sum deployment is discouraged. The strategy mandates a systematic entry to capture cost-averaging benefits, particularly as the sector navigates a transition from legacy maintenance to AI-led service integration. For fresh capital of \u20b9500,000, the focus is on building the position over a 6-month window to neutralize short-term price swings.\n\nQUANTITATIVE VOLATILITY & DOWNSIDE VAR:\nThe portfolio carries a 1-year 95% Parametric VaR of -29.5% and a Conditional VaR of -38.6%, indicating significant tail-risk exposure during market stress. The 5-year bearish floor (P10) at \u20b9753.15 highlights a critical quantitative reality: in a prolonged severe downcycle, the combination of high volatility diffusion and sector-specific cyclical stagnation can effectively neutralize the expected drift. While the P50 median projection of \u20b91,415.85 suggests a positive outcome, the P10 scenario serves as a reminder that high-beta equity baskets are susceptible to multi-year periods where compounding is offset by valuation compression.\n\nSTRUCTURAL CATALYSTS & VALUATION:\nThe investment thesis rests on the robust operating cash flows and high return on equity (ROE) characteristic of both TCS and Infosys. Key drivers include the acceleration of cloud migration, cybersecurity demand, and the long-term integration of generative AI into enterprise workflows. However, the current valuation multiples necessitate a disciplined approach, as the expected returns are contingent upon these firms maintaining their premium pricing power amidst a competitive global landscape.\n\nSTATUTORY TAX DRAG & NET IN-HAND WEALTH:\nUnder the Finance (No. 2) Act 2024, your terminal wealth is subject to a 12.5% LTCG tax on gains exceeding the \u20b91.25 Lakh threshold, alongside a 0.1% delivery STT. After accounting for these statutory obligations, the gross final wealth of \u20b9613,400.05 results in a net post-tax CAGR of 4.13%. This net figure is the primary metric for evaluating the success of your wealth compounding objective against inflation.\n\nPERSONALIZED ACTION BLUEPRINT:\nTo deploy your \u20b9500,000 fresh capital effectively, adhere to the following execution plan:\n\u2022 Allocate \u20b9301,000 to TCS.NS and \u20b9199,000 to INFY.NS to maintain the optimal SLSQP weights.\n\u2022 Implement a 6-month Systematic Transfer Plan (STP) or staggered buy orders. Divide the total capital into 6 equal tranches of approximately \u20b983,333.\n\u2022 Execute one tranche at the start of each month, regardless of market fluctuations, to ensure the portfolio is not fully exposed to a single entry-point valuation.\n\u2022 Rebalance the portfolio semi-annually to ensure the 60.2/39.8 weight distribution remains intact, preventing drift caused by the relative performance variance between the two stocks.\n\u2022 Monitor the 4.13% net CAGR target against prevailing inflation rates; if the probability of beating inflation (currently 45.2%) shifts downward due to sustained macro headwinds, consider a tactical review of the allocation.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b9500,000 investment is modeled to compound into \u20b9613,400 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+    "quantitative_findings": {
+      "query_research_result": {
+        "query": "TCS vs INFY 5-year compounding",
+        "intent": "RISK_REDUCTION_COMBINATION",
+        "detected_symbols": [
+          "INFY.NS",
+          "TCS.NS"
+        ],
+        "horizon_years": 5,
+        "executive_synthesis": "DIRECT INQUIRY RESOLUTION:\nThe 5-year compounding outlook for a \u20b9500,000 allocation split between TCS and Infosys suggests a moderate wealth accumulation trajectory. Based on the optimized SLSQP weights, your capital is projected to grow to a gross terminal value of approximately \u20b9613,400. This represents a 4.17% CAGR over the 5-year horizon. While these entities remain pillars of the Indian IT sector, the current valuation environment and volatility diffusion suggest that capital appreciation will be sensitive to margin expansion and global discretionary spending cycles.\n\nPORTFOLIO CONVICTION & POSTURE:\nThe ACCUMULATE_STAGGERED posture with a 75/100 conviction score reflects the necessity of mitigating entry-point risk. Given the current volatility profile, a lump-sum deployment is discouraged. The strategy mandates a systematic entry to capture cost-averaging benefits, particularly as the sector navigates a transition from legacy maintenance to AI-led service integration. For fresh capital of \u20b9500,000, the focus is on building the position over a 6-month window to neutralize short-term price swings.\n\nQUANTITATIVE VOLATILITY & DOWNSIDE VAR:\nThe portfolio carries a 1-year 95% Parametric VaR of -29.5% and a Conditional VaR of -38.6%, indicating significant tail-risk exposure during market stress. The 5-year bearish floor (P10) at \u20b9753.15 highlights a critical quantitative reality: in a prolonged severe downcycle, the combination of high volatility diffusion and sector-specific cyclical stagnation can effectively neutralize the expected drift. While the P50 median projection of \u20b91,415.85 suggests a positive outcome, the P10 scenario serves as a reminder that high-beta equity baskets are susceptible to multi-year periods where compounding is offset by valuation compression.\n\nSTRUCTURAL CATALYSTS & VALUATION:\nThe investment thesis rests on the robust operating cash flows and high return on equity (ROE) characteristic of both TCS and Infosys. Key drivers include the acceleration of cloud migration, cybersecurity demand, and the long-term integration of generative AI into enterprise workflows. However, the current valuation multiples necessitate a disciplined approach, as the expected returns are contingent upon these firms maintaining their premium pricing power amidst a competitive global landscape.\n\nSTATUTORY TAX DRAG & NET IN-HAND WEALTH:\nUnder the Finance (No. 2) Act 2024, your terminal wealth is subject to a 12.5% LTCG tax on gains exceeding the \u20b91.25 Lakh threshold, alongside a 0.1% delivery STT. After accounting for these statutory obligations, the gross final wealth of \u20b9613,400.05 results in a net post-tax CAGR of 4.13%. This net figure is the primary metric for evaluating the success of your wealth compounding objective against inflation.\n\nPERSONALIZED ACTION BLUEPRINT:\nTo deploy your \u20b9500,000 fresh capital effectively, adhere to the following execution plan:\n\u2022 Allocate \u20b9301,000 to TCS.NS and \u20b9199,000 to INFY.NS to maintain the optimal SLSQP weights.\n\u2022 Implement a 6-month Systematic Transfer Plan (STP) or staggered buy orders. Divide the total capital into 6 equal tranches of approximately \u20b983,333.\n\u2022 Execute one tranche at the start of each month, regardless of market fluctuations, to ensure the portfolio is not fully exposed to a single entry-point valuation.\n\u2022 Rebalance the portfolio semi-annually to ensure the 60.2/39.8 weight distribution remains intact, preventing drift caused by the relative performance variance between the two stocks.\n\u2022 Monitor the 4.13% net CAGR target against prevailing inflation rates; if the probability of beating inflation (currently 45.2%) shifts downward due to sustained macro headwinds, consider a tactical review of the allocation.\n\nPERSONALIZED PORTFOLIO GUIDANCE:\nFor 10-year wealth compounding, your \u20b9500,000 investment is modeled to compound into \u20b9613,400 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation.",
+        "verdict": "ACCUMULATE_BASKET",
+        "conviction_score": 75,
+        "stocks_analyzed": [
+          {
+            "ticker": "INFY.NS",
+            "name": "Infosys",
+            "sector": "Technology",
+            "ltp": 1154.1,
+            "day_change": -17.5,
+            "day_change_perc": -1.49,
+            "pe_ratio": 29.6,
+            "roe_pct": 16.5,
+            "debt_equity": 0.45,
+            "expected_return_pct": 13.5,
+            "volatility_pct": 20.2,
+            "beta": 1.3,
+            "max_drawdown_pct": 32.0,
+            "order_flow_sentiment": "SELL_PRESSURE"
+          },
+          {
+            "ticker": "TCS.NS",
+            "name": "Tata Consultancy Services",
+            "sector": "Technology",
+            "ltp": 2475.4,
+            "day_change": -23.4,
+            "day_change_perc": -0.94,
+            "pe_ratio": 29.0,
+            "roe_pct": 16.5,
+            "debt_equity": 0.45,
+            "expected_return_pct": 13.8,
+            "volatility_pct": 16.5,
+            "beta": 1.06,
+            "max_drawdown_pct": 26.8,
+            "order_flow_sentiment": "SELL_PRESSURE"
+          }
+        ],
+        "ten_year_projection": {
+          "horizon_years": 5,
+          "current_price": 1154.1,
+          "p10_bear_target": 753.15,
+          "p50_base_target": 1415.85,
+          "p90_bull_target": 2657.29,
+          "base_cagr_pct": 4.17,
+          "bull_cagr_pct": 18.15,
+          "bear_cagr_pct": -8.18,
+          "prob_beat_inflation": 45.2,
+          "prob_capital_loss": 33.7,
+          "real_median_wealth": 1083.83,
+          "sharpe_ratio": -0.01,
+          "sortino_ratio": -0.02,
+          "var_95_1y_pct": -29.5,
+          "cvar_95_pct": -38.6,
+          "trajectory_points": [
+            {
+              "year": 0,
+              "bear_p10": 1154.1,
+              "median_p50": 1154.1,
+              "bull_p90": 1154.1
+            },
+            {
+              "year": 1,
+              "bear_p10": 912.38,
+              "median_p50": 1210.88,
+              "bull_p90": 1613.61
+            },
+            {
+              "year": 2,
+              "bear_p10": 846.12,
+              "median_p50": 1260.86,
+              "bull_p90": 1874.01
+            },
+            {
+              "year": 3,
+              "bear_p10": 805.61,
+              "median_p50": 1317.14,
+              "bull_p90": 2101.44
+            },
+            {
+              "year": 4,
+              "bear_p10": 770.31,
+              "median_p50": 1367.4,
+              "bull_p90": 2422.86
+            },
+            {
+              "year": 5,
+              "bear_p10": 753.15,
+              "median_p50": 1415.85,
+              "bull_p90": 2657.29
+            }
+          ],
+          "growth_catalysts": [
+            "Earnings Compounding: Robust operating cash flows compounding at ~4.17% baseline CAGR over 5 years.",
+            "Macro Expansion: India domestic GDP momentum (6.5%-7.0%) supporting operational scale and pricing power.",
+            "Capital Efficiency: Strong balance sheet health with sustainable Return on Equity (16.5% ROE)."
+          ],
+          "downside_risks": [
+            "Macro Drag: Inflation spikes and elevated benchmark rates compressing valuation multiples.",
+            "Sector Headwinds: Cyclical slowdowns or technological disruption impacting top-line margins.",
+            "Regulatory Compliance: Periodic SEBI LODR 2015 surveillance and statutory tax compliance."
+          ],
+          "segment_drivers": [
+            {
+              "segment": "Enterprise Cloud & Digital Transformation",
+              "contribution_pct": 40,
+              "growth_driver": "Infosys Cobalt cloud suite scaling across Fortune 500 enterprises with generative AI Topaz integration.",
+              "status": "ACCELERATING"
+            },
+            {
+              "segment": "Finacle Universal Banking Core",
+              "contribution_pct": 25,
+              "growth_driver": "Global core banking platform powering 1.3B+ consumer accounts with high recurring license and SaaS margins.",
+              "status": "HIGH_MARGIN_CORE"
+            },
+            {
+              "segment": "Manufacturing & Engineering R&D",
+              "contribution_pct": 20,
+              "growth_driver": "Autonomous automotive engineering, aerospace digital twins, and industrial IoT modernization.",
+              "status": "EXPANDING"
+            },
+            {
+              "segment": "Telecom & Media Solutions",
+              "contribution_pct": 15,
+              "growth_driver": "5G network operations automation and BSS/OSS digital stack transformations.",
+              "status": "CYCLICAL_RECOVERY"
+            }
+          ],
+          "dcf_sensitivity_matrix": [
+            {
+              "wacc_pct": 10.5,
+              "scenario_name": "WACC 10.5%",
+              "cells": [
+                {
+                  "terminal_growth_pct": 4.5,
+                  "fair_value": 1154.1,
+                  "margin_of_safety_pct": 0.0,
+                  "verdict": "FAIR_VALUE"
+                },
+                {
+                  "terminal_growth_pct": 5.5,
+                  "fair_value": 1384.92,
+                  "margin_of_safety_pct": 20.0,
+                  "verdict": "UNDERVALUED"
+                },
+                {
+                  "terminal_growth_pct": 6.5,
+                  "fair_value": 1731.15,
+                  "margin_of_safety_pct": 50.0,
+                  "verdict": "UNDERVALUED"
+                }
+              ]
+            },
+            {
+              "wacc_pct": 11.5,
+              "scenario_name": "WACC 11.5%",
+              "cells": [
+                {
+                  "terminal_growth_pct": 4.5,
+                  "fair_value": 989.23,
+                  "margin_of_safety_pct": -14.3,
+                  "verdict": "FAIR_VALUE"
+                },
+                {
+                  "terminal_growth_pct": 5.5,
+                  "fair_value": 1154.1,
+                  "margin_of_safety_pct": 0.0,
+                  "verdict": "FAIR_VALUE"
+                },
+                {
+                  "terminal_growth_pct": 6.5,
+                  "fair_value": 1384.92,
+                  "margin_of_safety_pct": 20.0,
+                  "verdict": "UNDERVALUED"
+                }
+              ]
+            },
+            {
+              "wacc_pct": 12.5,
+              "scenario_name": "WACC 12.5%",
+              "cells": [
+                {
+                  "terminal_growth_pct": 4.5,
+                  "fair_value": 865.57,
+                  "margin_of_safety_pct": -25.0,
+                  "verdict": "OVERVALUED"
+                },
+                {
+                  "terminal_growth_pct": 5.5,
+                  "fair_value": 989.23,
+                  "margin_of_safety_pct": -14.3,
+                  "verdict": "FAIR_VALUE"
+                },
+                {
+                  "terminal_growth_pct": 6.5,
+                  "fair_value": 1154.1,
+                  "margin_of_safety_pct": 0.0,
+                  "verdict": "FAIR_VALUE"
+                }
+              ]
+            }
+          ],
+          "tax_waterfall": {
+            "initial_capital": 500000.0,
+            "gross_final_wealth": 613400.05,
+            "gross_capital_gain": 113400.05,
+            "statutory_exemption_112a": 125000.0,
+            "taxable_long_term_gain": 0.0,
+            "ltcg_tax_12_5_pct": 0.0,
+            "stt_delivery_0_1_pct": 1113.4,
+            "total_statutory_friction": 1328.09,
+            "net_in_hand_wealth": 612071.96,
+            "nominal_cagr_pct": 4.17,
+            "net_post_tax_cagr_pct": 4.13,
+            "tax_drag_bps": 4.0,
+            "statutory_reference": "Finance (No. 2) Act 2024 (Section 112A: 12.5% LTCG above \u20b91.25 Lakhs, 0.1% delivery STT)",
+            "is_commodity": false
+          },
+          "scenarios": [
+            {
+              "id": "baseline",
+              "name": "Secular Domestic Compounding (P50)",
+              "probability_pct": 50,
+              "horizon_target_price": 1415.85,
+              "cagr_pct": 4.17,
+              "macro_assumptions": "India GDP 6.5%-7.0%, CPI inflation at 4.8%-5.5%, steady private capex, stable corporate balance sheets.",
+              "impact": "Steady compounding outperforming headline CPI inflation by ~7.5% real alpha."
+            },
+            {
+              "id": "bull_capex",
+              "name": "Bullish Capex & Digital Monetization (P90)",
+              "probability_pct": 25,
+              "horizon_target_price": 2657.29,
+              "cagr_pct": 18.15,
+              "macro_assumptions": "Aggressive market share gains, ROE expansion above 19%, P/E multiple expansion to 32x+, global enterprise acceleration.",
+              "impact": "Wealth super-compounding reaching top decile valuation envelope."
+            },
+            {
+              "id": "stagflation",
+              "name": "Stagflation & Elevated Rate Squeeze (P25)",
+              "probability_pct": 15,
+              "horizon_target_price": 1311.5,
+              "cagr_pct": 2.59,
+              "macro_assumptions": "Commodity inflation, crude oil sustained above $95/bbl, RBI repo maintained above 6.5%, valuation multiple compression.",
+              "impact": "Growth decelerates; nominal CAGR barely exceeds inflation hurdle with margin compression."
+            },
+            {
+              "id": "black_swan",
+              "name": "Severe Crisis & Geopolitical Liquidity Shock (P10)",
+              "probability_pct": 10,
+              "horizon_target_price": 753.15,
+              "cagr_pct": -8.18,
+              "macro_assumptions": "Systemic global recession, FII emergency capital flight, historical maximum drawdown (-35%) stress condition.",
+              "impact": "Drawdown floor test; requires 2-3 years of recovery before resumption of baseline trajectory."
+            }
+          ]
+        },
+        "multi_stock_combination": {
+          "tickers": [
+            "INFY.NS",
+            "TCS.NS"
+          ],
+          "weights": {
+            "TCS.NS": 60.2,
+            "INFY.NS": 39.8
+          },
+          "combined_expected_return_pct": 6.5,
+          "combined_volatility_pct": 21.9,
+          "weighted_avg_single_volatility_pct": 18.0,
+          "volatility_reduction_pct": 0.0,
+          "combined_max_drawdown_pct": 40.6,
+          "individual_avg_drawdown_pct": 18.0,
+          "drawdown_reduction_pct": 0.0,
+          "diversification_ratio": 0.82,
+          "sharpe_ratio": -0.01,
+          "correlation_matrix": {
+            "INFY.NS": {
+              "INFY.NS": 1.0,
+              "TCS.NS": 0.62
+            },
+            "TCS.NS": {
+              "INFY.NS": 0.62,
+              "TCS.NS": 1.0
+            }
+          },
+          "recommendation_rationale": "Combining INFY.NS, TCS.NS reflects high sector concentration (21.9% basket volatility vs 18.0% weighted standalone volatility). The basket captures sector beta and compounding growth (6.5% CAGR) rather than volatility dampening.",
+          "rebalancing_guidance": "Quarterly rebalancing with annual tax-efficient drift monitoring.",
+          "asset_allocation_details": [
+            {
+              "ticker": "INFY.NS",
+              "name": "Infosys",
+              "weight_pct": 39.8,
+              "inr_allocation": 199000.0,
+              "sector": "Technology",
+              "expected_return_pct": 13.5,
+              "volatility_pct": 20.2,
+              "max_drawdown_pct": 32.0,
+              "role": "Sector Stabilizer"
+            },
+            {
+              "ticker": "TCS.NS",
+              "name": "Tata Consultancy Services",
+              "weight_pct": 60.2,
+              "inr_allocation": 301000.0,
+              "sector": "Technology",
+              "expected_return_pct": 13.8,
+              "volatility_pct": 16.5,
+              "max_drawdown_pct": 26.8,
+              "role": "Anchor Compounding Engine"
+            }
+          ]
+        },
+        "regulatory_audit": {
+          "framework": "SEBI LODR (Listing Obligations and Disclosure Requirements) 2015",
+          "regulation_30_compliance": "CLEAN",
+          "regulation_33_quarterly_results": "UNAUDITED_LIMITED_REVIEW / AUDITED_CLEAN",
+          "promoter_pledge_status": "LOW (< 5% of promoter equity pledged)",
+          "insider_trading_code": "SEBI PIT Regulations 2015 Compliant",
+          "audit_opinion": "Unmodified Clean Auditor Review"
+        },
+        "statutory_tax_drag": {
+          "framework": "Finance (No. 2) Act 2024 (Section 112A: Equity)",
+          "ltcg_rate": "12.5% on capital gains exceeding \u20b91.25 Lakhs per fiscal year",
+          "stcg_rate": "20.0% on equity liquidated within 12 months",
+          "stt_delivery": "0.1% on purchase and sale (\u20b90.00)",
+          "total_round_trip_friction": "\u20b91110.62 (22.2 bps)",
+          "effective_drag_bps": "22.2 bps"
+        },
+        "agent_contributions": [
+          {
+            "agent": "ADKResearchManager",
+            "framework": "Google ADK",
+            "role": "Chief Investment Officer & Lead Synthesizer",
+            "observation": "Formulated executive verdict: ACCUMULATE_BASKET (75/100 conviction - ACCUMULATE_STAGGERED) grounded in verified evidence from 10 FastMCP tool calls."
+          },
+          {
+            "agent": "ADKQuantSpecialist",
+            "framework": "Google ADK",
+            "role": "Quantitative Valuation & Covariance Optimization",
+            "observation": "Calculated empirical returns, realized volatility, and Ledoit-Wolf shrinkage across 2 instruments over 5Y horizon."
+          },
+          {
+            "agent": "ADKMicrostructureSpecialist",
+            "framework": "Google ADK",
+            "role": "Microstructure & Order Book Analyst",
+            "observation": "Audited live bid/ask spreads, order flow sentiment (SELL_PRESSURE), and market depth pressure."
+          },
+          {
+            "agent": "ADKRiskValidator",
+            "framework": "Google ADK",
+            "role": "Risk & Statutory Guardrail Officer",
+            "observation": "Verified Finance Act 2024 statutory tax drag (Finance (No. 2) Act 2024 (Section 112A: Equity)) and SEBI LODR Regulation 30/33 audit integrity."
+          },
+          {
+            "agent": "CrewAINewsMacroSpecialist",
+            "framework": "CrewAI (A2A Protocol)",
+            "role": "Macroeconomic & Sovereign Indicator Analyst",
+            "observation": "Incorporated RBI Repo Rate (6.5%), headline CPI inflation (5.49%), and 10Y sovereign yields into wealth envelope."
+          },
+          {
+            "agent": "CrewAIAdversarialSkeptic",
+            "framework": "CrewAI (A2A Protocol)",
+            "role": "Red-Team Skeptic & Overfitting Stress Auditor",
+            "observation": "Stress tested against Lehman 2008 and Covid 2020 drawdowns; verified downside CVaR at 525.3%."
+          }
+        ],
+        "fastmcp_tool_calls": [
+          {
+            "tool_name": "resolve_security",
+            "parameters": {
+              "symbol": "INFY.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 1.0,
+            "summary": "FastMCP call 'resolve_security' succeeded in 1.0ms"
+          },
+          {
+            "tool_name": "resolve_security",
+            "parameters": {
+              "symbol": "TCS.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.57,
+            "summary": "FastMCP call 'resolve_security' succeeded in 0.6ms"
+          },
+          {
+            "tool_name": "get_latest_quote",
+            "parameters": {
+              "symbol": "INFY.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 7123.04,
+            "summary": "FastMCP call 'get_latest_quote' succeeded in 7123.0ms"
+          },
+          {
+            "tool_name": "get_financial_results",
+            "parameters": {
+              "symbol": "INFY.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 824.53,
+            "summary": "FastMCP call 'get_financial_results' succeeded in 824.5ms"
+          },
+          {
+            "tool_name": "get_corporate_actions",
+            "parameters": {
+              "symbol": "INFY.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 36.77,
+            "summary": "FastMCP call 'get_corporate_actions' succeeded in 36.8ms"
+          },
+          {
+            "tool_name": "get_latest_quote",
+            "parameters": {
+              "symbol": "TCS.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 196.06,
+            "summary": "FastMCP call 'get_latest_quote' succeeded in 196.1ms"
+          },
+          {
+            "tool_name": "get_financial_results",
+            "parameters": {
+              "symbol": "TCS.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.74,
+            "summary": "FastMCP call 'get_financial_results' succeeded in 0.7ms"
+          },
+          {
+            "tool_name": "get_corporate_actions",
+            "parameters": {
+              "symbol": "TCS.NS"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 11.54,
+            "summary": "FastMCP call 'get_corporate_actions' succeeded in 11.5ms"
+          },
+          {
+            "tool_name": "retrieve_regulatory_evidence",
+            "parameters": {
+              "query": "TCS vs INFY 5-year compounding INFY.NS TCS.NS SEBI LODR Regulation 30 33 Finance Act 2024 STT",
+              "limit": 4
+            },
+            "status": "SUCCESS",
+            "latency_ms": 2404.95,
+            "summary": "FastMCP call 'retrieve_regulatory_evidence' succeeded in 2405.0ms"
+          },
+          {
+            "tool_name": "calculate_statutory_costs",
+            "parameters": {
+              "instrument_type": "EQUITY_DELIVERY",
+              "price": 1154.1,
+              "quantity": 433,
+              "transaction_type": "ROUND_TRIP"
+            },
+            "status": "SUCCESS",
+            "latency_ms": 0.25,
+            "summary": "FastMCP call 'calculate_statutory_costs' succeeded in 0.2ms"
+          }
+        ],
+        "retrieved_evidence": [
+          {
+            "chunk_id": "PROFILE-INFY-OVERVIEW",
+            "doc_type": "COMPANY_PROFILE",
+            "title": "Infosys Limited (INFY): Comprehensive Business Profile, Segment Drivers & Catalysts",
+            "citation_uri": "rag://profiles/infy#PROFILE-INFY-OVERVIEW",
+            "relevance_score": 0.718,
+            "sanitized_snippet": "<UNTRUSTED_STATUTORY_DOCUMENT id=\"PROFILE-INFY-OVERVIEW\" authority=\"NSE / BSE Corporate Disclosures & Statutory Profiles\">\nInfosys Limited (INFY): Comprehensive Business Profile, Segment Drivers & Catalysts\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata='symbol=\"INFY\" profile_type=\"CORPORATE_PROFILE\" effective_date=\"2024-10-17\" content_hash=\"b2e40c9d93967fc8\"'\nCompany Profile: Infosys Limited (NSE/BSE: INFY)\nBusiness Overview: Infosys is a global leader in next-generation digital services and consulting. Pioneer of India's software export boom, headquartered in Bengaluru, with operations across 56 countries.\nCore Operating Segments: 1. Financial Services: 27%; 2. Retail &amp; CPG: 14%; 3. Communications: 12%; 4. Energy &amp; Utilities: 13%; 5. Manufacturing: 15%; 6. Hi-Tech: 8%.\nKey Financial Highlights: Quarterly revenue at INR 40,986 Cr, EBITDA INR 9,908 Cr, PAT INR 6,506 Cr. Raised full-year FY25 revenue guidance to 3.75%-4.50% CC. Free cash flow conversion to net profit exceeds 100%. Debt-free balance sheet with active share buybacks and dividend payouts.\nRegulatory &amp; Tax Considerations: US Department of Labor immigration rules, EU privacy directives, and Indian STT/tax regulations.\nStrategic Capex &amp; Growth Catalysts: Scaling generative AI platform Infosys Topaz and cloud suite Cobalt. Inks USD multi-billion enterprise contracts with European telecom and automotive clients.\n</UNTRUSTED_STATUTORY_DOCUMENT>\n</UNTRUSTED_STATUTORY_DOCUMENT>"
+          },
+          {
+            "chunk_id": "FILING-INFY-FY25-Q2",
+            "doc_type": "FILING",
+            "title": "Infosys Limited \u2014 Financial Disclosures & Table (Q2 FY25)",
+            "citation_uri": "rag://filings/infy_fy25_q2#FILING-INFY-FY25-Q2",
+            "relevance_score": 0.693,
+            "sanitized_snippet": "<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-INFY-FY25-Q2\" authority=\"National Stock Exchange of India (NSE) / BSE Corporate Filings\">\nInfosys Limited \u2014 Financial Disclosures & Table (Q2 FY25)\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata='symbol=\"INFY\" period=\"Q2 FY25\" filing_date=\"2024-10-17\" content_hash=\"0c1d3373fa98f2af\" is_restated=\"False\"'\nSEBI LODR Regulation 33 Financial Statement Table for INFY (Q2 FY25):\nScope: CONSOLIDATED Results in INR CRORES. Status: UNAUDITED_LIMITED_REVIEW.\n### Infosys Limited \u2014 Unaudited Consolidated Financial Results (Q2 FY25)\n**Entity**: INFY | **Basis**: CONSOLIDATED | **Unit**: INR CRORES | **Audit**: UNAUDITED_LIMITED_REVIEW\n**Auditor Qualification**: Unmodified Limited Review / Clean\n\n| Financial Line Item | Q2 FY25 (Stated) | Notes |\n| --- | --- | --- |\n| Revenue from Operations | 40,986.00 | - |\n| Operating Profit (EBITDA) | 9,908.00 | - |\n| Net Profit after Tax (PAT) | 6,506.00 | - |\n| Basic EPS (INR) | 15.71 | - |\n| Total Borrowings (Debt) | 0.00 | - |\n| Net Worth / Shareholders' Equity | 86,200.00 | - |\n| Total Assets | 128,900.00 | - |\n| Total Liabilities | 42,700.00 | - |\n\n**Statutory Notes &amp; Qualifications:**\n- Official quarterly filing under SEBI LODR Regulation 33 for quarter ended 2024-09-30.\n- Statutory limited review conducted by registered statutory auditors; clean unmodified opinion issued.\n- FY25 constant currency revenue guidance raised to 3.75%-4.50%. Interim dividend INR 21/sh.\n</UNTRUSTED_STATUTORY_DOCUMENT>\n</UNTRUSTED_STATUTORY_DOCUMENT>"
+          },
+          {
+            "chunk_id": "FILING-INFY-Q2FY25",
+            "doc_type": "FILING",
+            "title": "Infosys Ltd: Q2 FY25 Financial Disclosures & FY25 Guidance Update",
+            "citation_uri": "rag://filings/infy_q2fy25#FILING-INFY-Q2FY25",
+            "relevance_score": 0.634,
+            "sanitized_snippet": "<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-INFY-Q2FY25\" authority=\"National Stock Exchange of India (NSE) Corporate Disclosures\">\nInfosys Ltd: Q2 FY25 Financial Disclosures & FY25 Guidance Update\nInfosys Limited (NSE: INFY) Statutory Disclosure under SEBI LODR Regulation 33: Q2 FY25 constant currency revenue grew 3.8% YoY. Operating margin expanded to 21.1%. Large deal Total Contract Value (TCV) was reported at USD 2.4 billion with 52% net new deals. FY25 constant currency revenue guidance revised upwards to 3.75% - 4.50%. Interim dividend of INR 21 per share approved by board of directors.\n</UNTRUSTED_STATUTORY_DOCUMENT>"
+          },
+          {
+            "chunk_id": "FINANCE-ACT-2024-STT-DELIVERY",
+            "doc_type": "STATUTE",
+            "title": "Finance (No. 2) Act 2024: Securities Transaction Tax (STT) Equity Delivery",
+            "citation_uri": "rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DELIVERY",
+            "relevance_score": 0.349,
+            "sanitized_snippet": "<UNTRUSTED_STATUTORY_DOCUMENT id=\"FINANCE-ACT-2024-STT-DELIVERY\" authority=\"Ministry of Finance, Government of India\">\nFinance (No. 2) Act 2024: Securities Transaction Tax (STT) Equity Delivery\nFinance (No. 2) Act 2024, Chapter VII \u2014 Securities Transaction Tax: Under Section 98 and Section 99, taxable securities transactions in Equity Delivery on recognized stock exchanges shall be levied at 0.1% (one-tenth of one percent) payable by both the purchaser and seller. For equity intraday (non-delivery) transactions, the statutory rate is 0.025% payable by the seller only. Statutory costs are mandatory and deduct from gross trading turnover before net trading realization.\n</UNTRUSTED_STATUTORY_DOCUMENT>"
+          }
+        ],
+        "agentic_flow_steps": [
+          {
+            "step_index": 1,
+            "name": "Security Master Identity Resolution",
+            "agent": "ADKResearchManager",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Resolved canonical identifiers and exchange mappings for 2 instruments: INFY.NS, TCS.NS.",
+            "timestamp": "10:52:36.186"
+          },
+          {
+            "step_index": 2,
+            "name": "Empirical Quotes & Financial Statement Extraction",
+            "agent": "ADKQuantSpecialist",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP.",
+            "timestamp": "10:52:44.554"
+          },
+          {
+            "step_index": 3,
+            "name": "Statutory Evidence Retrieval & Forensic RAG",
+            "agent": "CrewAICorporateFilingSpecialist",
+            "framework": "CrewAI",
+            "status": "COMPLETED",
+            "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR).",
+            "timestamp": "10:52:46.959"
+          },
+          {
+            "step_index": 4,
+            "name": "Statutory Friction Drag & Tax Calculation",
+            "agent": "ADKRiskValidator",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024.",
+            "timestamp": "10:52:46.959"
+          },
+          {
+            "step_index": 5,
+            "name": "Ledoit-Wolf Covariance & Optimization",
+            "agent": "ADKQuantSpecialist",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Calculated Ledoit-Wolf shrinkage across 2 instruments (volatility reduction: 0.0%).",
+            "timestamp": "10:52:47.076"
+          },
+          {
+            "step_index": 6,
+            "name": "Monte Carlo Geometric Brownian Motion Simulation",
+            "agent": "ADKQuantSpecialist",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 4.17%, P90 CAGR 18.15%, P10 CAGR -8.18%.",
+            "timestamp": "10:52:47.093"
+          },
+          {
+            "step_index": 7,
+            "name": "Institutional Synthesis & CIO Verdict Formulation",
+            "agent": "ADKResearchManager",
+            "framework": "Google ADK",
+            "status": "COMPLETED",
+            "details": "Formulated ACCUMULATE_BASKET verdict (75/100 conviction - ACCUMULATE_STAGGERED) via GEMINI (gemini-3.1-flash-lite) with 2109 tokens.",
+            "timestamp": "10:52:52.705"
+          }
+        ],
+        "llm_telemetry": {
+          "provider": "GEMINI",
+          "model": "gemini-3.1-flash-lite",
+          "status": "SUCCESS",
+          "prompt_tokens": 1250,
+          "completion_tokens": 859,
+          "cost_usd": 0.000351,
+          "latency_ms": 5607.4
+        },
+        "timestamp": "09 Nov 2026, 10:52:52 UTC",
+        "run_id": "run-query-4198ea9ddc",
+        "is_commodity": false,
+        "is_substitute_assets": false,
+        "commodity_fundamentals": null,
+        "etf_efficiency_comparison": null,
+        "conviction_details": {
+          "score": 75,
+          "posture": "ACCUMULATE_STAGGERED",
+          "fresh_entry_directive": "Staggered accumulation: Avoid deploying lump sum at once; execute systematic monthly SIP or staggered limit orders across 4 tranches.",
+          "existing_position_directive": "Hold existing position: Do not trim unless asset exceeds 20% of your total liquid net worth. Compounding trajectory remains intact.",
+          "score_breakdown": {
+            "alpha_potential_score": "20/40",
+            "downside_resilience_score": "22/30",
+            "statutory_safety_score": "30/30"
+          },
+          "directive_note": "Action verified across 5,000 Monte Carlo paths and statutory tax audit."
+        },
+        "personalized_portfolio": {
+          "is_invested": true,
+          "current_holding_value": 500000.0,
+          "avg_buy_price": null,
+          "unrealized_pnl_pct": null,
+          "unrealized_pnl_inr": null,
+          "investor_objective": "WEALTH_COMPOUNDING",
+          "horizon_years": 10,
+          "ten_year_personalized_wealth": 613400.05,
+          "personalized_wealth": 613400.05,
+          "personalized_advice": "For 10-year wealth compounding, your \u20b9500,000 investment is modeled to compound into \u20b9613,400 (Base P50 target). Maintain full conviction hold. Rebalance only if asset drifts beyond \u00b15% of your strategic asset allocation."
+        },
+        "execution_telemetry": {
+          "total_latency_ms": 16520.1,
+          "mcp_tools_latency_ms": 8194.5,
+          "rag_retrieval_latency_ms": 2404.9,
+          "optimizer_latency_ms": 110.0,
+          "monte_carlo_latency_ms": 16.8,
+          "llm_synthesis_latency_ms": 5611.2,
+          "simulated_paths_count": 5000,
+          "simulated_matrix_points": 300000,
+          "execution_engine": "Vectorized NumPy SIMD + In-Process DuckDB Columnar + Scipy SLSQP + Google ADK",
+          "zero_mock_guarantee": "Dynamic live calculation grounded in NSE quotes & FastMCP; zero dummy values.",
+          "random_seed": 42,
+          "audit_hash": "9e3506922285b410"
+        },
+        "segment_drivers_by_symbol": {
+          "INFY.NS": [
+            {
+              "segment": "Enterprise Cloud & Digital Transformation",
+              "contribution_pct": 40,
+              "growth_driver": "Infosys Cobalt cloud suite scaling across Fortune 500 enterprises with generative AI Topaz integration.",
+              "status": "ACCELERATING"
+            },
+            {
+              "segment": "Finacle Universal Banking Core",
+              "contribution_pct": 25,
+              "growth_driver": "Global core banking platform powering 1.3B+ consumer accounts with high recurring license and SaaS margins.",
+              "status": "HIGH_MARGIN_CORE"
+            },
+            {
+              "segment": "Manufacturing & Engineering R&D",
+              "contribution_pct": 20,
+              "growth_driver": "Autonomous automotive engineering, aerospace digital twins, and industrial IoT modernization.",
+              "status": "EXPANDING"
+            },
+            {
+              "segment": "Telecom & Media Solutions",
+              "contribution_pct": 15,
+              "growth_driver": "5G network operations automation and BSS/OSS digital stack transformations.",
+              "status": "CYCLICAL_RECOVERY"
+            }
+          ],
+          "TCS.NS": [
+            {
+              "segment": "BFSI & Financial Enterprise Transformation",
+              "contribution_pct": 38,
+              "growth_driver": "Core banking modernization, mainframe migration, and regulatory risk tech for Tier-1 global institutions.",
+              "status": "STABLE_HIGH_MARGIN"
+            },
+            {
+              "segment": "Cloud, AI & Generative Workflows",
+              "contribution_pct": 30,
+              "growth_driver": "Strategic hyperscaler partnerships (AWS, Azure, GCP) delivering enterprise data lakes and autonomous AI agents.",
+              "status": "ACCELERATING"
+            },
+            {
+              "segment": "Manufacturing & Retail Logistics",
+              "contribution_pct": 20,
+              "growth_driver": "Smart factory IoT automation, supply chain resilience platforms, and omnichannel retail software modernizations.",
+              "status": "EXPANDING"
+            },
+            {
+              "segment": "Healthcare & Life Sciences",
+              "contribution_pct": 12,
+              "growth_driver": "Clinical trial data architecture, HIPAA/FDA compliance automation, and payer-provider exchanges.",
+              "status": "DEFENSIVE"
+            }
+          ]
+        }
+      },
+      "verdict": "ACCUMULATE_BASKET",
+      "conviction_score": 75,
+      "horizon_years": 5,
+      "is_commodity": false,
+      "base_cagr_pct": 4.17,
+      "p50_target": 1415.85
+    },
+    "statutory_risk_bounds": {
+      "framework": "Finance (No. 2) Act 2024 (Section 112A: Equity)",
+      "ltcg_rate": "12.5% on capital gains exceeding \u20b91.25 Lakhs per fiscal year",
+      "stcg_rate": "20.0% on equity liquidated within 12 months",
+      "stt_delivery": "0.1% on purchase and sale (\u20b90.00)",
+      "total_round_trip_friction": "\u20b91110.62 (22.2 bps)",
+      "effective_drag_bps": "22.2 bps"
+    },
+    "qualitative_evidence": [
+      "PROFILE-INFY-OVERVIEW",
+      "FILING-INFY-FY25-Q2",
+      "FILING-INFY-Q2FY25",
+      "FINANCE-ACT-2024-STT-DELIVERY"
+    ],
+    "source_provenance": [
+      "FastMCP",
+      "DuckDB",
+      "ChromaDB",
+      "Ledoit-Wolf",
+      "Monte-Carlo"
+    ],
+    "limitations_and_uncertainties": [],
+    "recommendation": "BUY",
+    "conviction_score": 75,
+    "statutory_friction_drag_pct": 0.222,
+    "rag_citations": [],
+    "target_price": 1415.85,
+    "target_upside_pct": 4.17,
+    "stop_loss_price": 753.15,
+    "stop_loss_pct": null,
+    "reward_to_risk_ratio": -0.01,
+    "target_methodology": null,
+    "orchestration_pattern": "SEQUENTIAL",
+    "agent_contributions": [],
+    "audit_hash": null,
+    "generated_at": "2026-11-09T10:52:52.705275Z"
+  },
+  "blackboard_events": [
+    {
+      "step_index": 1,
+      "name": "Security Master Identity Resolution",
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Resolved canonical identifiers and exchange mappings for 2 instruments: INFY.NS, TCS.NS.",
+      "timestamp": "10:52:36.186"
+    },
+    {
+      "step_index": 2,
+      "name": "Empirical Quotes & Financial Statement Extraction",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Extracted live market quotes, P/E valuations, ROE stability, and corporate disclosures via FastMCP.",
+      "timestamp": "10:52:44.554"
+    },
+    {
+      "step_index": 3,
+      "name": "Statutory Evidence Retrieval & Forensic RAG",
+      "agent": "CrewAICorporateFilingSpecialist",
+      "framework": "CrewAI",
+      "status": "COMPLETED",
+      "details": "Retrieved 4 authoritative legal chunks from ChromaDB (Finance Act 2024 & SEBI LODR).",
+      "timestamp": "10:52:46.959"
+    },
+    {
+      "step_index": 4,
+      "name": "Statutory Friction Drag & Tax Calculation",
+      "agent": "ADKRiskValidator",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024.",
+      "timestamp": "10:52:46.959"
+    },
+    {
+      "step_index": 5,
+      "name": "Ledoit-Wolf Covariance & Optimization",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Calculated Ledoit-Wolf shrinkage across 2 instruments (volatility reduction: 0.0%).",
+      "timestamp": "10:52:47.076"
+    },
+    {
+      "step_index": 6,
+      "name": "Monte Carlo Geometric Brownian Motion Simulation",
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Simulated 5,000 empirical paths over 5 years: P50 CAGR 4.17%, P90 CAGR 18.15%, P10 CAGR -8.18%.",
+      "timestamp": "10:52:47.093"
+    },
+    {
+      "step_index": 7,
+      "name": "Institutional Synthesis & CIO Verdict Formulation",
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "status": "COMPLETED",
+      "details": "Formulated ACCUMULATE_BASKET verdict (75/100 conviction - ACCUMULATE_STAGGERED) via GEMINI (gemini-3.1-flash-lite) with 2109 tokens.",
+      "timestamp": "10:52:52.705"
+    }
+  ],
+  "agent_contributions": [
+    {
+      "agent": "ADKResearchManager",
+      "framework": "Google ADK",
+      "role": "Chief Investment Officer & Lead Synthesizer",
+      "observation": "Formulated executive verdict: ACCUMULATE_BASKET (75/100 conviction - ACCUMULATE_STAGGERED) grounded in verified evidence from 10 FastMCP tool calls."
+    },
+    {
+      "agent": "ADKQuantSpecialist",
+      "framework": "Google ADK",
+      "role": "Quantitative Valuation & Covariance Optimization",
+      "observation": "Calculated empirical returns, realized volatility, and Ledoit-Wolf shrinkage across 2 instruments over 5Y horizon."
+    },
+    {
+      "agent": "ADKMicrostructureSpecialist",
+      "framework": "Google ADK",
+      "role": "Microstructure & Order Book Analyst",
+      "observation": "Audited live bid/ask spreads, order flow sentiment (SELL_PRESSURE), and market depth pressure."
+    },
+    {
+      "agent": "ADKRiskValidator",
+      "framework": "Google ADK",
+      "role": "Risk & Statutory Guardrail Officer",
+      "observation": "Verified Finance Act 2024 statutory tax drag (Finance (No. 2) Act 2024 (Section 112A: Equity)) and SEBI LODR Regulation 30/33 audit integrity."
+    },
+    {
+      "agent": "CrewAINewsMacroSpecialist",
+      "framework": "CrewAI (A2A Protocol)",
+      "role": "Macroeconomic & Sovereign Indicator Analyst",
+      "observation": "Incorporated RBI Repo Rate (6.5%), headline CPI inflation (5.49%), and 10Y sovereign yields into wealth envelope."
+    },
+    {
+      "agent": "CrewAIAdversarialSkeptic",
+      "framework": "CrewAI (A2A Protocol)",
+      "role": "Red-Team Skeptic & Overfitting Stress Auditor",
+      "observation": "Stress tested against Lehman 2008 and Covid 2020 drawdowns; verified downside CVaR at 525.3%."
+    }
+  ],
+  "error": null
+}

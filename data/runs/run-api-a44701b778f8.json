@@ -1,0 +1,1019 @@
+{
+  "run_id": "run-api-a44701b778f8",
+  "request_id": "req-api-89b867ca",
+  "symbol": "TCS",
+  "orchestration_pattern": "SEQUENTIAL",
+  "status": "COMPLETED",
+  "submitted_at": "2026-10-25T17:31:44.254701Z",
+  "completed_at": "2026-10-25T17:31:44.387863Z",
+  "report": {
+    "run_id": "run-api-a44701b778f8",
+    "symbol": "TCS",
+    "as_of_time": "2024-11-01T10:00:00Z",
+    "executive_thesis": "Institutional Quantitative Synthesis for TCS (as of 2024-11-01): Retrieved 100 historical bar records via DuckDB Parquet store. Statutory cost analysis establishes a baseline friction of 0.1186% (Total: INR 118.62 per 100k turnover). CrewAI adversarial evaluation cautions: Sample-based evaluation: Regime shift tests required across quarterly expiry cycles..",
+    "quantitative_findings": {
+      "records_retrieved": 100,
+      "empty_result": false,
+      "finding_category": "MEASURED",
+      "data_source": "duckdb_parquet_partitioned",
+      "historical_bars": [
+        {
+          "timestamp": "2024-02-26 15:30:00",
+          "open": 4032.47,
+          "high": 4067.76,
+          "low": 3959.68,
+          "close": 3994.64,
+          "volume": 844973
+        },
+        {
+          "timestamp": "2024-02-27 15:30:00",
+          "open": 3994.64,
+          "high": 4029.01,
+          "low": 3924.59,
+          "close": 3958.65,
+          "volume": 806373
+        },
+        {
+          "timestamp": "2024-02-28 15:30:00",
+          "open": 3958.65,
+          "high": 3991.7,
+          "low": 3892.74,
+          "close": 3925.51,
+          "volume": 802936
+        },
+        {
+          "timestamp": "2024-02-29 15:30:00",
+          "open": 3925.51,
+          "high": 3956.91,
+          "low": 3864.9,
+          "close": 3896.07,
+          "volume": 834967
+        },
+        {
+          "timestamp": "2024-03-01 15:30:00",
+          "open": 3896.07,
+          "high": 3925.56,
+          "low": 3841.72,
+          "close": 3871.03,
+          "volume": 899605
+        },
+        {
+          "timestamp": "2024-03-04 15:30:00",
+          "open": 3871.03,
+          "high": 3894.2,
+          "low": 3838.38,
+          "close": 3861.49,
+          "volume": 1220169
+        },
+        {
+          "timestamp": "2024-03-05 15:30:00",
+          "open": 3861.49,
+          "high": 3882.46,
+          "low": 3836.4,
+          "close": 3857.34,
+          "volume": 1337325
+        },
+        {
+          "timestamp": "2024-03-06 15:30:00",
+          "open": 3857.34,
+          "high": 3878.03,
+          "low": 3837.65,
+          "close": 3858.34,
+          "volume": 1442215
+        },
+        {
+          "timestamp": "2024-03-07 15:30:00",
+          "open": 3858.34,
+          "high": 3885.67,
+          "low": 3836.76,
+          "close": 3864.06,
+          "volume": 1525469
+        },
+        {
+          "timestamp": "2024-03-08 15:30:00",
+          "open": 3864.06,
+          "high": 3897.22,
+          "low": 3840.8,
+          "close": 3873.9,
+          "volume": 1579649
+        },
+        {
+          "timestamp": "2024-03-11 15:30:00",
+          "open": 3873.9,
+          "high": 3917.38,
+          "low": 3847.67,
+          "close": 3891.04,
+          "volume": 1534662
+        },
+        {
+          "timestamp": "2024-03-12 15:30:00",
+          "open": 3891.04,
+          "high": 3935.31,
+          "low": 3864.53,
+          "close": 3908.68,
+          "volume": 1454969
+        },
+        {
+          "timestamp": "2024-03-13 15:30:00",
+          "open": 3908.68,
+          "high": 3952.25,
+          "low": 3882.31,
+          "close": 3925.76,
+          "volume": 1352500
+        },
+        {
+          "timestamp": "2024-03-14 15:30:00",
+          "open": 3925.76,
+          "high": 3967.16,
+          "low": 3899.94,
+          "close": 3941.24,
+          "volume": 1236408
+        },
+        {
+          "timestamp": "2024-03-15 15:30:00",
+          "open": 3941.24,
+          "high": 3979.09,
+          "low": 3916.37,
+          "close": 3954.14,
+          "volume": 1117065
+        },
+        {
+          "timestamp": "2024-03-18 15:30:00",
+          "open": 3954.14,
+          "high": 3974.71,
+          "low": 3934.14,
+          "close": 3954.71,
+          "volume": 841925
+        },
+        {
+          "timestamp": "2024-03-19 15:30:00",
+          "open": 3954.71,
+          "high": 3976.26,
+          "low": 3928.74,
+          "close": 3950.27,
+          "volume": 805233
+        },
+        {
+          "timestamp": "2024-03-20 15:30:00",
+          "open": 3950.27,
+          "high": 3973.84,
+          "low": 3917.22,
+          "close": 3940.73,
+          "volume": 803805
+        },
+        {
+          "timestamp": "2024-03-21 15:30:00",
+          "open": 3940.73,
+          "high": 3966.23,
+          "low": 3900.84,
+          "close": 3926.24,
+          "volume": 837768
+        },
+        {
+          "timestamp": "2024-03-22 15:30:00",
+          "open": 3926.24,
+          "high": 3953.49,
+          "low": 3880.07,
+          "close": 3907.19,
+          "volume": 904088
+        },
+        {
+          "timestamp": "2024-03-25 15:30:00",
+          "open": 3907.19,
+          "high": 3938.27,
+          "low": 3847.49,
+          "close": 3878.34,
+          "volume": 1226883
+        },
+        {
+          "timestamp": "2024-03-26 15:30:00",
+          "open": 3878.34,
+          "high": 3909.78,
+          "low": 3817.01,
+          "close": 3848.21,
+          "volume": 1343623
+        },
+        {
+          "timestamp": "2024-03-27 15:30:00",
+          "open": 3848.21,
+          "high": 3879.58,
+          "low": 3786.76,
+          "close": 3817.88,
+          "volume": 1447534
+        },
+        {
+          "timestamp": "2024-03-28 15:30:00",
+          "open": 3817.88,
+          "high": 3848.75,
+          "low": 3757.81,
+          "close": 3788.44,
+          "volume": 1529333
+        },
+        {
+          "timestamp": "2024-03-29 15:30:00",
+          "open": 3788.44,
+          "high": 3818.39,
+          "low": 3731.19,
+          "close": 3760.92,
+          "volume": 1581714
+        },
+        {
+          "timestamp": "2024-04-01 15:30:00",
+          "open": 3760.92,
+          "high": 3786.37,
+          "low": 3718.96,
+          "close": 3744.3,
+          "volume": 1530931
+        },
+        {
+          "timestamp": "2024-04-02 15:30:00",
+          "open": 3744.3,
+          "high": 3767.63,
+          "low": 3709.51,
+          "close": 3732.77,
+          "volume": 1449750
+        },
+        {
+          "timestamp": "2024-04-03 15:30:00",
+          "open": 3732.77,
+          "high": 3753.85,
+          "low": 3705.7,
+          "close": 3726.74,
+          "volume": 1346261
+        },
+        {
+          "timestamp": "2024-04-04 15:30:00",
+          "open": 3726.74,
+          "high": 3745.5,
+          "low": 3707.67,
+          "close": 3726.43,
+          "volume": 1229706
+        },
+        {
+          "timestamp": "2024-04-05 15:30:00",
+          "open": 3726.43,
+          "high": 3752.72,
+          "low": 3705.62,
+          "close": 3731.88,
+          "volume": 1110497
+        },
+        {
+          "timestamp": "2024-04-08 15:30:00",
+          "open": 3731.88,
+          "high": 3780.12,
+          "low": 3704.81,
+          "close": 3752.9,
+          "volume": 838978
+        },
+        {
+          "timestamp": "2024-04-09 15:30:00",
+          "open": 3752.9,
+          "high": 3807.07,
+          "low": 3724.07,
+          "close": 3778.05,
+          "volume": 804205
+        },
+        {
+          "timestamp": "2024-04-10 15:30:00",
+          "open": 3778.05,
+          "high": 3837.06,
+          "low": 3747.76,
+          "close": 3806.54,
+          "volume": 804787
+        },
+        {
+          "timestamp": "2024-04-11 15:30:00",
+          "open": 3806.54,
+          "high": 3869.13,
+          "low": 3775.14,
+          "close": 3837.47,
+          "volume": 840672
+        },
+        {
+          "timestamp": "2024-04-12 15:30:00",
+          "open": 3837.47,
+          "high": 3902.23,
+          "low": 3805.34,
+          "close": 3869.83,
+          "volume": 908655
+        },
+        {
+          "timestamp": "2024-04-15 15:30:00",
+          "open": 3869.83,
+          "high": 3931.1,
+          "low": 3838.57,
+          "close": 3899.6,
+          "volume": 1233589
+        },
+        {
+          "timestamp": "2024-04-16 15:30:00",
+          "open": 3899.6,
+          "high": 3957.21,
+          "low": 3869.27,
+          "close": 3926.67,
+          "volume": 1349880
+        },
+        {
+          "timestamp": "2024-04-17 15:30:00",
+          "open": 3926.67,
+          "high": 3979.39,
+          "low": 3897.63,
+          "close": 3950.18,
+          "volume": 1452782
+        },
+        {
+          "timestamp": "2024-04-18 15:30:00",
+          "open": 3950.18,
+          "high": 3997.01,
+          "low": 3922.73,
+          "close": 3969.43,
+          "volume": 1533103
+        },
+        {
+          "timestamp": "2024-04-19 15:30:00",
+          "open": 3969.43,
+          "high": 4009.64,
+          "low": 3943.79,
+          "close": 3983.91,
+          "volume": 1583670
+        },
+        {
+          "timestamp": "2024-04-22 15:30:00",
+          "open": 3983.91,
+          "high": 4004.08,
+          "low": 3963.12,
+          "close": 3983.29,
+          "volume": 1527106
+        },
+        {
+          "timestamp": "2024-04-23 15:30:00",
+          "open": 3983.29,
+          "high": 4005.25,
+          "low": 3956.23,
+          "close": 3978.17,
+          "volume": 1444462
+        },
+        {
+          "timestamp": "2024-04-24 15:30:00",
+          "open": 3978.17,
+          "high": 4001.66,
+          "low": 3945.75,
+          "close": 3969.18,
+          "volume": 1339980
+        },
+        {
+          "timestamp": "2024-04-25 15:30:00",
+          "open": 3969.18,
+          "high": 3993.85,
+          "low": 3932.51,
+          "close": 3957.11,
+          "volume": 1222994
+        },
+        {
+          "timestamp": "2024-04-26 15:30:00",
+          "open": 3957.11,
+          "high": 3982.58,
+          "low": 3917.52,
+          "close": 3942.9,
+          "volume": 1103955
+        },
+        {
+          "timestamp": "2024-04-29 15:30:00",
+          "open": 3942.9,
+          "high": 3968.4,
+          "low": 3903.03,
+          "close": 3928.44,
+          "volume": 836133
+        },
+        {
+          "timestamp": "2024-04-30 15:30:00",
+          "open": 3928.44,
+          "high": 3953.05,
+          "low": 3891.5,
+          "close": 3916.03,
+          "volume": 803288
+        },
+        {
+          "timestamp": "2024-05-01 15:30:00",
+          "open": 3916.03,
+          "high": 3939.38,
+          "low": 3883.33,
+          "close": 3906.62,
+          "volume": 805880
+        },
+        {
+          "timestamp": "2024-05-02 15:30:00",
+          "open": 3906.62,
+          "high": 3928.39,
+          "low": 3879.28,
+          "close": 3901.02,
+          "volume": 843678
+        },
+        {
+          "timestamp": "2024-05-03 15:30:00",
+          "open": 3901.02,
+          "high": 3920.96,
+          "low": 3879.98,
+          "close": 3899.92,
+          "volume": 913305
+        },
+        {
+          "timestamp": "2024-05-06 15:30:00",
+          "open": 3899.92,
+          "high": 3940.1,
+          "low": 3874.54,
+          "close": 3914.62,
+          "volume": 1240286
+        },
+        {
+          "timestamp": "2024-05-07 15:30:00",
+          "open": 3914.62,
+          "high": 3962.52,
+          "low": 3887.0,
+          "close": 3934.75,
+          "volume": 1356094
+        },
+        {
+          "timestamp": "2024-05-08 15:30:00",
+          "open": 3934.75,
+          "high": 3990.05,
+          "low": 3904.95,
+          "close": 3960.06,
+          "volume": 1457958
+        },
+        {
+          "timestamp": "2024-05-09 15:30:00",
+          "open": 3960.06,
+          "high": 4022.18,
+          "low": 3928.24,
+          "close": 3990.12,
+          "volume": 1536780
+        },
+        {
+          "timestamp": "2024-05-10 15:30:00",
+          "open": 3990.12,
+          "high": 4058.22,
+          "low": 3956.49,
+          "close": 4024.31,
+          "volume": 1585518
+        },
+        {
+          "timestamp": "2024-05-13 15:30:00",
+          "open": 4024.31,
+          "high": 4101.5,
+          "low": 3987.99,
+          "close": 4064.81,
+          "volume": 1523189
+        },
+        {
+          "timestamp": "2024-05-14 15:30:00",
+          "open": 4064.81,
+          "high": 4142.47,
+          "low": 4028.21,
+          "close": 4105.5,
+          "volume": 1439104
+        },
+        {
+          "timestamp": "2024-05-15 15:30:00",
+          "open": 4105.5,
+          "high": 4181.99,
+          "low": 4069.09,
+          "close": 4145.22,
+          "volume": 1333660
+        },
+        {
+          "timestamp": "2024-05-16 15:30:00",
+          "open": 4145.22,
+          "high": 4218.87,
+          "low": 4109.47,
+          "close": 4182.79,
+          "volume": 1216277
+        },
+        {
+          "timestamp": "2024-05-17 15:30:00",
+          "open": 4182.79,
+          "high": 4252.01,
+          "low": 4148.16,
+          "close": 4217.09,
+          "volume": 1097440
+        }
+      ],
+      "recent_returns": [
+        0.00563,
+        0.0067,
+        0.00754,
+        0.00813,
+        0.00843,
+        0.00769,
+        0.00694,
+        0.00599,
+        0.00487,
+        0.00365,
+        -0.00016,
+        -0.00129,
+        -0.00226,
+        -0.00304,
+        -0.00359,
+        -0.00367,
+        -0.00316,
+        -0.0024,
+        -0.00143,
+        -0.00028,
+        0.00377,
+        0.00514,
+        0.00643,
+        0.00759,
+        0.00857,
+        0.01006,
+        0.01001,
+        0.00967,
+        0.00906,
+        0.0082
+      ],
+      "calculated_metrics": {
+        "latest_close": 4217.09,
+        "sample_return_mean": 0.001035107759321014,
+        "realized_volatility_annualized": 0.08571915616708209,
+        "latest_sma": 3996.0975,
+        "latest_ema": 4018.7708165628374,
+        "latest_rsi": 85.68026502028764
+      }
+    },
+    "statutory_risk_bounds": {
+      "total_statutory_costs_inr": 118.62,
+      "effective_rate_pct": 0.1186,
+      "breakdown": {
+        "securities_transaction_tax": 100.0,
+        "exchange_turnover_fee": 2.97,
+        "sebi_turnover_charges": 0.1,
+        "stamp_duty": 15.0,
+        "goods_and_services_tax_18pct": 0.55
+      }
+    },
+    "qualitative_evidence": [
+      "parquet://data/ohlcv/tcs:100_bars",
+      "rag://macro/rbi_policy#RBI-MPC-REPO-RATE-FRAMEWORK",
+      "rag://filings/tcs_q2fy25#FILING-TCS-Q2FY25",
+      "Statutory Source: Finance (No. 2) Act 2024"
+    ],
+    "source_provenance": [
+      "duckdb_parquet_analytical_engine",
+      "statutory_rules_registry_finance_act_2024",
+      "crewai_a2a_protocol_endpoint_v1.0",
+      "orchestration_pattern_SEQUENTIAL"
+    ],
+    "limitations_and_uncertainties": [
+      "Point-in-time data bounds strictly enforced (zero lookahead).",
+      "Live trading disabled by system configuration; paper/simulation mode only.",
+      "Level 2/3 microstructure data unavailable for TCS; real-time book depth omitted.",
+      "Adversarial warning: Verify execution friction and slippage models for TCS."
+    ],
+    "generated_at": "2026-10-25T17:31:44.387863Z"
+  },
+  "blackboard_events": [
+    {
+      "event_id": "evt-e55596d4",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.273264Z"
+    },
+    {
+      "event_id": "evt-76ccc01e",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.273264Z"
+    },
+    {
+      "event_id": "evt-b2f639b3",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data"
+      },
+      "timestamp": "2026-10-25T17:31:44.273264Z"
+    },
+    {
+      "event_id": "evt-58c85237",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "query_market_data",
+        "count": 100
+      },
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-fc91da4f",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_quant_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 58.21219999779714,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-8b64efd8",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_quant_specialist"
+      },
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-bb2224e3",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-78505d65",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_microstructure_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 0.041200000850949436,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-1cd97b9b",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_microstructure_specialist"
+      },
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-1416f8ee",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-2062f77d",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_news_macro_specialist",
+        "task": "macro_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:31:44.338113Z"
+    },
+    {
+      "event_id": "evt-906bbe07",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "macro_analysis",
+        "citations_count": 1
+      },
+      "timestamp": "2026-10-25T17:31:44.352418Z"
+    },
+    {
+      "event_id": "evt-32366eac",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_news_macro_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.352418Z"
+    },
+    {
+      "event_id": "evt-6d1cf8ad",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_news_macro_specialist"
+      },
+      "timestamp": "2026-10-25T17:31:44.352418Z"
+    },
+    {
+      "event_id": "evt-ce299288",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.352418Z"
+    },
+    {
+      "event_id": "evt-991511ec",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_corporate_filing_specialist",
+        "task": "filing_analysis",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:31:44.352418Z"
+    },
+    {
+      "event_id": "evt-6283a472",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "filing_analysis",
+        "status": "SUCCESS"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-d0197382",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "RAG_RETRIEVAL",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "citations": [
+          "rag://filings/tcs_q2fy25#FILING-TCS-Q2FY25"
+        ],
+        "source": "SEBI LODR Filings Index"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-8a5d403a",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_corporate_filing_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-384eb15c",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_corporate_filing_specialist"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-b6d9bc41",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-b485ba1b",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_SENT",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "recipient": "crewai_adversarial_specialist",
+        "task": "adversarial_critique",
+        "protocol": "JSON-RPC 2.0"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-921b5871",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "A2A_MESSAGE_RECEIVED",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "task": "adversarial_critique",
+        "challenges": 1
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-50fe9a6d",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "SKEPTIC_CHALLENGE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-4049acfc",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "crewai_adversarial_specialist",
+      "framework": "CREWAI",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-35f3cf28",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "crewai_adversarial_specialist"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-6c16fc47",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_START",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-155e3c2e",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "TOOL_INVOCATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-25T17:31:44.354283Z"
+    },
+    {
+      "event_id": "evt-e22d2d3e",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "TOOL_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "tool": "calculate_statutory_costs"
+      },
+      "timestamp": "2026-10-25T17:31:44.369810Z"
+    },
+    {
+      "event_id": "evt-a3759347",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "RISK_VALIDATION",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 24.045100002695108,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.387863Z"
+    },
+    {
+      "event_id": "evt-7ebb6f67",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_risk_validator",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 24.045100002695108,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.387863Z"
+    },
+    {
+      "event_id": "evt-674db55f",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "BLACKBOARD_WRITE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": null,
+      "payload": {
+        "agent": "adk_risk_validator"
+      },
+      "timestamp": "2026-10-25T17:31:44.387863Z"
+    },
+    {
+      "event_id": "evt-93111a3a",
+      "run_id": "run-api-a44701b778f8",
+      "event_type": "AGENT_COMPLETE",
+      "agent_id": "adk_research_manager",
+      "framework": "GOOGLE_ADK",
+      "orchestration_pattern": "SEQUENTIAL",
+      "status": "SUCCESS",
+      "duration_ms": 108.0,
+      "payload": {},
+      "timestamp": "2026-10-25T17:31:44.387863Z"
+    }
+  ],
+  "error": null
+}

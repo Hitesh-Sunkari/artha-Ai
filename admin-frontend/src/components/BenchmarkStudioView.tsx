@@ -1046,6 +1046,59 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
       .then((runs: any[]) => {
         if (Array.isArray(runs)) {
           setHistoricalRuns(runs);
+
+          // Reconcile dataset items with authentic completed runs from disk
+          setDatasetItems((currentItems) => {
+            let changed = false;
+            const updated = currentItems.map((item) => {
+              const itemNorm = (item.query || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+              const match = runs.find((r: any) => {
+                const runNorm = (r.query || r.inquiry || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                if (!runNorm || !itemNorm) return false;
+                const score = Number(r.winning_score || r.comparison_summary?.winning_score || r.winner?.quality || 0);
+                if (score <= 0) return false;
+                if (itemNorm === runNorm) return true;
+                if (itemNorm.length >= 20 && runNorm.length >= 20) {
+                  return itemNorm.slice(0, 30) === runNorm.slice(0, 30);
+                }
+                return false;
+              });
+
+              if (match) {
+                const winningScore = Number(match.winning_score || match.comparison_summary?.winning_score || match.winner?.quality || 0);
+                if (winningScore > 0) {
+                  const currentScore = Number(item.result?.winning_score || item.result?.comparison_summary?.winning_score || item.result?.winner?.quality || 0);
+                  if (item.status !== 'COMPLETED' || currentScore <= 0 || !item.result || item.result.comparison_id !== match.comparison_id) {
+                    changed = true;
+                    return {
+                      ...item,
+                      status: 'COMPLETED' as const,
+                      result: match,
+                      winner: match.winning_architecture || match.winner?.architecture_name || 'Sequential',
+                      latency_s: match.total_elapsed_seconds || item.latency_s,
+                      locked: true,
+                      live_arch_index: undefined,
+                      live_arch_key: undefined,
+                      live_arch_label: undefined,
+                      live_step_name: undefined,
+                      error: undefined,
+                    };
+                  }
+                }
+              }
+              return item;
+            });
+
+            if (changed) {
+              try {
+                localStorage.setItem(STORAGE_DATASET_KEY, JSON.stringify(updated));
+              } catch (e) {
+                console.warn('Could not save reconciled items to localStorage', e);
+              }
+              return updated;
+            }
+            return currentItems;
+          });
         }
       })
       .catch((err: any) => console.warn('Could not load runs:', err))
@@ -4255,17 +4308,17 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                               Won by {item.winner ? item.winner.replace('ArthaAI ', '').replace(' Fleet', '') : 'Sequential'}
                             </span>
                           </div>
-                        ) : item.status === 'ERROR' ? (
+                        ) : item.status === 'ERROR' || item.status === 'INTERRUPTED' ? (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: '135px' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--groww-red)', fontSize: '11px', fontWeight: 800 }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: item.status === 'ERROR' ? 'var(--groww-red)' : '#f59e0b', fontSize: '11px', fontWeight: 800 }}>
                               <AlertTriangle size={13} />
-                              Failed
+                              {item.status === 'ERROR' ? 'Failed' : 'Interrupted'}
                             </span>
                             <span
-                              title={item.error}
+                              title={item.error || 'Execution was interrupted by reload'}
                               style={{
                                 fontSize: '10px',
-                                color: 'var(--groww-red)',
+                                color: item.status === 'ERROR' ? 'var(--groww-red)' : 'var(--text-muted)',
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 whiteSpace: 'nowrap',
@@ -4273,28 +4326,28 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                                 display: 'block',
                               }}
                             >
-                              {item.error || 'Execution failed'}
+                              {item.error || 'Interrupted by reload'}
                             </span>
                             <button
                               onClick={() => handleRunDatasetItem(idx)}
                               disabled={isBatchRunning}
-                              title="Retry executing this scenario"
+                              title={item.status === 'ERROR' ? 'Retry executing this scenario' : 'Resume executing this scenario'}
                               style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 gap: '3px',
-                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                backgroundColor: item.status === 'ERROR' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                                border: `1px solid ${item.status === 'ERROR' ? 'rgba(239, 68, 68, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
                                 borderRadius: '3px',
                                 padding: '2px 6px',
                                 fontSize: '9px',
                                 fontWeight: 700,
-                                color: 'var(--groww-red)',
+                                color: item.status === 'ERROR' ? 'var(--groww-red)' : '#f59e0b',
                                 cursor: 'pointer',
                                 width: 'fit-content',
                               }}
                             >
-                              <RotateCcw size={9} /> Retry
+                              <RotateCcw size={9} /> {item.status === 'ERROR' ? 'Retry' : 'Resume'}
                             </button>
                           </div>
                         ) : (

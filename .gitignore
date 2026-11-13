@@ -35,10 +35,10 @@ htmlcov/
 # =============================================================
 # ARTHAAI RUNTIME DYNAMIC ARTIFACTS
 # Transient per-run execution outputs and blackboard scratchpads
-# (Core datasets: evaluation.duckdb, parquet/, chroma_db/, manifests/
-#  and registered_users.json are tracked for zero-cost cloud deployment)
+# (Core datasets: evaluation.duckdb, parquet/, chroma_db/, manifests/,
+#  data/runs/ and registered_users.json are tracked for zero-cost cloud deployment)
 # =============================================================
-/data/runs/
+/data/runs/*.tmp
 /data/blackboard/
 /data/quality/
 /data/quarantine/

@@ -38,11 +38,17 @@ from typing import Any
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Request
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Request, Depends, Header, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
-from arthaai.api.admin_telemetry import telemetry_engine, SUPER_ADMIN_EMAIL
+from arthaai.api.admin_telemetry import (
+    telemetry_engine,
+    SUPER_ADMIN_EMAIL,
+    get_super_admin_emails,
+    is_super_admin_email,
+)
 from arthaai.evaluation import (
     benchmark_engine,
     benchmark_orchestrator,
@@ -278,7 +284,7 @@ class RunStore:
         """Loads previously persisted successful runs from disk upon service initialization."""
         if not self.persistence_dir or not self.persistence_dir.exists():
             return
-        for fpath in self.persistence_dir.glob("run-*.json"):
+        for fpath in self.persistence_dir.glob("*.json"):
             try:
                 with open(fpath, "r", encoding="utf-8") as fh:
                     data = json.load(fh)
@@ -286,11 +292,6 @@ class RunStore:
                     # Strictly retain only successful executions with valid report in history
                     if record.status == ResearchRunStatus.COMPLETED and record.report is not None:
                         self._runs[record.run_id] = record
-                    else:
-                        try:
-                            fpath.unlink(missing_ok=True)
-                        except Exception:
-                            pass
             except Exception:
                 continue
 
@@ -496,6 +497,99 @@ def create_research_api(
                 component=request.url.path,
             )
             raise exc
+
+    @app.middleware("http")
+    async def enforce_admin_api_security_middleware(request: Request, call_next):
+        """Strictly intercepts and protects every privileged /admin API endpoint.
+
+        Guarantees:
+        - Unauthenticated requests receive HTTP 401.
+        - Authenticated requests with non-super-admin credentials receive HTTP 403.
+        - Static SPA frontend HTML (/admin and /admin-assets) continues to serve without block.
+        """
+        path = request.url.path
+        is_admin_api = (
+            path.startswith("/admin/")
+            and not path.startswith("/admin-assets/")
+            and not path.endswith((".js", ".css", ".png", ".jpg", ".svg", ".ico", ".jsonl", ".html"))
+        )
+
+        if is_admin_api:
+            # Allow CORS preflight requests through
+            if request.method == "OPTIONS":
+                return await call_next(request)
+
+            auth_hdr = request.headers.get("Authorization")
+            alt_token = request.headers.get("X-ArthaAI-Admin-Token")
+            token = None
+            if auth_hdr:
+                parts = auth_hdr.strip().split()
+                if len(parts) == 2 and parts[0].lower() == "bearer":
+                    token = parts[1]
+                else:
+                    token = auth_hdr.strip()
+            elif alt_token:
+                token = alt_token.strip()
+
+            if not token:
+                return JSONResponse(
+                    status_code=401,
+                    content={"detail": "Authentication credentials were not provided. Super-Admin session token required."},
+                )
+
+            sess = telemetry_engine.validate_session_token(token)
+            if not sess:
+                return JSONResponse(
+                    status_code=401,
+                    content={"detail": "Invalid or expired session token. Please authenticate via Google OAuth."},
+                )
+
+            if not sess.get("is_super_admin") or not is_super_admin_email(sess.get("email")):
+                return JSONResponse(
+                    status_code=403,
+                    content={
+                        "detail": f"Access forbidden (HTTP 403): Account [{sess.get('email')}] is not authorized for the Super-Administrator Control Plane."
+                    },
+                )
+
+        return await call_next(request)
+
+    async def require_super_admin(
+        authorization: str | None = Header(None, alias="Authorization"),
+        x_admin_token: str | None = Header(None, alias="X-ArthaAI-Admin-Token"),
+    ) -> dict[str, Any]:
+        """FastAPI route-level dependency enforcing active verified Super-Admin session."""
+        token = None
+        if authorization:
+            parts = authorization.strip().split()
+            if len(parts) == 2 and parts[0].lower() == "bearer":
+                token = parts[1]
+            else:
+                token = authorization.strip()
+        elif x_admin_token:
+            token = x_admin_token.strip()
+
+        if not token:
+            raise HTTPException(
+                status_code=401,
+                detail="Authentication credentials were not provided. Super-Admin session token required.",
+            )
+
+        sess = telemetry_engine.validate_session_token(token)
+        if not sess:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid or expired session token. Please authenticate via Google OAuth.",
+            )
+
+        if not sess.get("is_super_admin") or not is_super_admin_email(sess.get("email")):
+            raise HTTPException(
+                status_code=403,
+                detail=f"Access forbidden (HTTP 403): Account [{sess.get('email')}] is not authorized for Super-Admin Control Plane.",
+            )
+
+        return sess
+
 
     _store = run_store or RunStore()
     _comparison_store = ComparisonStore()
@@ -2318,21 +2412,103 @@ def create_research_api(
         return {"client_id": client_id}
 
     @app.post(
+        "/auth/google/verify",
+        summary="Server-Side Cryptographic Verification of Google ID Token & Super-Admin Clearance",
+        tags=["auth"],
+    )
+    async def auth_google_verify_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Cryptographically verifies a Google ID token or OAuth access token server-side.
+
+        Enforces:
+        - Cryptographic signature check against Google public keys.
+        - Expiration and audience validation.
+        - Verified email address verification.
+        - Exact Super-Administrator allowlist check.
+        - Returns HTTP 401 if token is invalid or missing.
+        - Returns HTTP 403 if Google account is valid but not an authorized Super-Admin.
+        """
+        token = str(
+            body.get("id_token")
+            or body.get("credential")
+            or body.get("token")
+            or body.get("access_token")
+            or ""
+        ).strip()
+        if not token:
+            raise HTTPException(
+                status_code=401,
+                detail="Google authentication token (id_token / credential) is required.",
+            )
+
+        # 1. Server-side cryptographic signature & claims verification
+        verified_claims = telemetry_engine.verify_google_token(token)
+
+        # 2. Strict Super-Administrator allowlist authorization
+        return telemetry_engine.create_verified_session(
+            verified_claims=verified_claims,
+            auth_provider="GOOGLE",
+            require_super_admin=True,
+        )
+
+    @app.post(
         "/auth/google",
         summary="Google OAuth Verified Single Sign-On / Sign-Up",
         tags=["auth"],
     )
     async def auth_google_endpoint(body: dict[str, Any]) -> dict[str, Any]:
-        """Authenticates user via verified Google profile. If login and no account exists, prompts to sign up first."""
-        email = str(body.get("email", "")).strip()
-        if not email or "@" not in email:
-            raise HTTPException(status_code=400, detail="Invalid Google profile email payload.")
-        name = str(body.get("name", ""))
-        picture = body.get("picture")
-        mode = str(body.get("mode", "LOGIN")).strip().upper()
-        return telemetry_engine.authenticate_user(
-            email=email, name=name, picture=picture, auth_provider="GOOGLE", mode=mode
+        """Authenticates user via cryptographically verified Google token."""
+        token = str(
+            body.get("id_token")
+            or body.get("credential")
+            or body.get("token")
+            or body.get("access_token")
+            or ""
+        ).strip()
+        if token:
+            verified_claims = telemetry_engine.verify_google_token(token)
+            return telemetry_engine.create_verified_session(
+                verified_claims=verified_claims,
+                auth_provider="GOOGLE",
+                require_super_admin=False,
+            )
+
+        # Never trust an unverified email passed in body without token
+        raise HTTPException(
+            status_code=401,
+            detail="Google ID token (credential) is required. Unauthenticated email access is permanently disabled.",
         )
+
+    @app.get(
+        "/auth/me",
+        summary="Get Current Authenticated Super-Administrator Identity",
+        tags=["auth"],
+    )
+    async def auth_me_endpoint(user: dict[str, Any] = Depends(require_super_admin)) -> dict[str, Any]:
+        """Returns the verified claims of the currently authenticated Super-Administrator."""
+        return user
+
+    @app.post(
+        "/auth/logout",
+        summary="Invalidate Current Super-Administrator Session",
+        tags=["auth"],
+    )
+    async def auth_logout_endpoint(
+        authorization: str | None = Header(None, alias="Authorization"),
+        x_admin_token: str | None = Header(None, alias="X-ArthaAI-Admin-Token"),
+    ) -> dict[str, Any]:
+        """Revokes the active session token server-side and clears session state."""
+        token = None
+        if authorization:
+            parts = authorization.strip().split()
+            token = parts[1] if len(parts) == 2 and parts[0].lower() == "bearer" else authorization.strip()
+        elif x_admin_token:
+            token = x_admin_token.strip()
+
+        if token:
+            telemetry_engine.revoke_session_token(token)
+
+        return {"status": "SUCCESS", "message": "Super-Administrator session successfully terminated."}
+
 
     @app.get(
         "/auth/google/accounts",
