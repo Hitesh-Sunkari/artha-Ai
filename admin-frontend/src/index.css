@@ -1028,3 +1028,144 @@ input[type="range"]::-moz-range-thumb {
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   Mobile & Responsive Layout Adaptations (Aspect Ratios 16:9, 19.5:9, 20:9, 4:3)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Admin Sidebar Drawer on Mobile */
+  .admin-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 280px !important;
+    max-width: 82vw !important;
+    height: 100vh !important;
+    z-index: 100 !important;
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .admin-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .admin-mobile-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background-color: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 90 !important;
+    display: block !important;
+  }
+
+  .mobile-close-sidebar-btn {
+    display: flex !important;
+  }
+
+  .admin-hamburger-btn {
+    display: inline-flex !important;
+  }
+
+  /* Admin Header on Mobile */
+  .admin-header {
+    padding: 0 12px !important;
+    height: 54px !important;
+    gap: 8px !important;
+  }
+
+  .admin-header-breadcrumbs-full {
+    display: none !important;
+  }
+
+  .admin-header-title-mobile {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: var(--text-primary) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 140px !important;
+  }
+
+  .admin-header-clock {
+    display: none !important;
+  }
+
+  .admin-header-userapp-btn span {
+    display: none !important;
+  }
+
+  .admin-header-userapp-btn {
+    padding: 6px 8px !important;
+  }
+
+  /* Admin Content Workspace on Mobile */
+  .admin-main-scrollable {
+    padding: 14px 8px !important;
+  }
+
+  .benchmark-studio-container {
+    padding: 10px 4px !important;
+    gap: 14px !important;
+  }
+
+  /* Gatekeeper Card */
+  .gatekeeper-card {
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Tables Horizontal Swipe */
+  .responsive-table-wrapper {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 10px !important;
+  }
+
+  /* Responsive Metric Cards Grids */
+  .responsive-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .responsive-tabs-strip {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .responsive-tabs-strip::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .admin-mobile-backdrop {
+    display: none !important;
+  }
+
+  .mobile-close-sidebar-btn {
+    display: none !important;
+  }
+
+  .admin-hamburger-btn {
+    display: none !important;
+  }
+
+  .admin-header-title-mobile {
+    display: none !important;
+  }
+}
+

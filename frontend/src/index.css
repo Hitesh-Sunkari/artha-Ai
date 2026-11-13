@@ -938,3 +938,99 @@ input[type="range"]::-moz-range-thumb {
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+/* ==========================================================================
+   Mobile Responsive Adaptations (Aspect Ratios 16:9, 19.5:9, 20:9, 4:3)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Terminal Main Layout */
+  .terminal-layout {
+    flex-direction: column !important;
+  }
+
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+
+  .terminal-content {
+    padding: 14px 12px 76px 12px !important;
+  }
+
+  /* Header adjustments */
+  .terminal-header {
+    padding: 0 12px !important;
+    height: 54px !important;
+    gap: 8px !important;
+  }
+
+  .desktop-header-tabs {
+    display: none !important;
+  }
+
+  .mobile-header-brand {
+    display: flex !important;
+  }
+
+  .header-search-container {
+    flex: 1 1 auto !important;
+    max-width: none !important;
+  }
+
+  .header-wallet-chip span {
+    display: none !important;
+  }
+
+  .header-wallet-chip {
+    padding: 6px 8px !important;
+  }
+
+  /* Floating Copilot Button position above mobile bottom nav */
+  .copilot-floating-btn {
+    bottom: 72px !important;
+    right: 14px !important;
+    padding: 10px 16px !important;
+    font-size: 13px !important;
+  }
+
+  .copilot-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
+  /* Tables Horizontal Swipe */
+  .responsive-table-container,
+  table {
+    max-width: 100% !important;
+  }
+
+  /* Cards responsive padding */
+  .groww-card {
+    padding: 14px 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-search-container input {
+    font-size: 12px !important;
+    padding: 7px 32px 7px 32px !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+
+  .desktop-sidebar {
+    display: flex !important;
+  }
+
+  .mobile-header-brand {
+    display: none !important;
+  }
+}

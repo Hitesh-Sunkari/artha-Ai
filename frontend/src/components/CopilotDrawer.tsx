@@ -85,6 +85,7 @@ export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeCont
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
+          className="copilot-floating-btn"
           style={{
             position: 'fixed',
             bottom: '28px',
@@ -121,6 +122,7 @@ export const CopilotDrawer: React.FC<{ activeContext?: string }> = ({ activeCont
       {/* Slide-Over Drawer */}
       {isOpen && (
         <aside
+          className="copilot-drawer"
           style={{
             position: 'fixed',
             top: 0,

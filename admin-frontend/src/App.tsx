@@ -36,6 +36,7 @@ import {
   Info,
   ChevronDown,
   Terminal,
+  Menu,
   BarChart3,
   ListFilter,
   SlidersHorizontal,
@@ -146,6 +147,7 @@ export const App: React.FC = () => {
   // Super-Administrator RBAC State — Strictly server-verified sessions only
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [authChecking, setAuthChecking] = useState<boolean>(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Validate active session with backend on initial mount
   useEffect(() => {
@@ -226,9 +228,12 @@ export const App: React.FC = () => {
   const [telemetryLoading, setTelemetryLoading] = useState(false);
   const [telemetryError, setTelemetryError] = useState<string | null>(null);
 
-  // Runs Audit State (Dedicated Query-Based and Normal Multi-Agent Runs)
+  // Runs Audit State (Dedicated Query-Based, Normal Multi-Agent, and Unified All Real Runs)
   const [runs, setRuns] = useState<RunListItem[]>([]);
   const [runsLoading, setRunsLoading] = useState(false);
+  const [allSearch, setAllSearch] = useState('');
+  const [allStatusFilter, setAllStatusFilter] = useState<'ALL' | 'COMPLETED' | 'FAILED' | 'IN_PROGRESS'>('ALL');
+  const [allPatternFilter, setAllPatternFilter] = useState('ALL');
   const [querySearch, setQuerySearch] = useState('');
   const [queryStatusFilter, setQueryStatusFilter] = useState<'ALL' | 'COMPLETED' | 'FAILED' | 'IN_PROGRESS'>('ALL');
   const [queryHorizonFilter, setQueryHorizonFilter] = useState('ALL');
@@ -644,6 +649,22 @@ export const App: React.FC = () => {
     });
   }, [normalRuns, normalStatusFilter, normalPatternFilter, normalSearch]);
 
+  const filteredAllRuns = useMemo(() => {
+    return runs.filter((r) => {
+      if (allStatusFilter !== 'ALL' && r.status !== allStatusFilter) return false;
+      if (allPatternFilter !== 'ALL' && r.orchestration_pattern !== allPatternFilter) return false;
+      if (allSearch) {
+        const q = allSearch.toLowerCase();
+        const symMatch = (r.symbol || '').toLowerCase().includes(q);
+        const idMatch = (r.run_id || '').toLowerCase().includes(q);
+        const thesisMatch = (r.executive_thesis || '').toLowerCase().includes(q);
+        const queryTextMatch = (r.query_research_result?.query || '').toLowerCase().includes(q);
+        return symMatch || idMatch || thesisMatch || queryTextMatch;
+      }
+      return true;
+    });
+  }, [runs, allStatusFilter, allPatternFilter, allSearch]);
+
   const discoveredTools = useMemo(() => {
     const list = status?.fastmcp_server?.discovered_tools || [
       'query_market_data',
@@ -751,8 +772,17 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'var(--bg-deep)' }}>
+      {/* Mobile Backdrop Overlay */}
+      {isMobileSidebarOpen && (
+        <div
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="admin-mobile-backdrop"
+        />
+      )}
+
       {/* ── Left Institutional Sidebar ───────────────────────────────────── */}
       <aside
+        className={`admin-sidebar ${isMobileSidebarOpen ? 'mobile-open' : ''}`}
         style={{
           width: '260px',
           height: '100vh',
@@ -762,45 +792,64 @@ export const App: React.FC = () => {
           flexDirection: 'column',
           flexShrink: 0,
           userSelect: 'none',
-          zIndex: 40,
+          zIndex: 95,
         }}
       >
-        {/* Brand Banner */}
+        {/* Brand Banner with mobile close button */}
         <div
           style={{
-            padding: '20px 18px',
+            padding: '16px 18px',
             borderBottom: '1px solid var(--border-subtle)',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            justifyContent: 'space-between',
+            gap: '10px',
           }}
         >
-          <ArthaLogo size={38} showGlow variant="icon" />
-
-          <div style={{ overflow: 'hidden' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-                Artha<span style={{ color: 'var(--groww-green)' }}>AI</span>
-              </span>
-              <span
-                style={{
-                  fontSize: '9.5px',
-                  fontWeight: 800,
-                  color: 'var(--groww-green)',
-                  backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  fontFamily: 'var(--font-mono)',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                ADMIN
-              </span>
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap', marginTop: '1px' }}>
-              Institutional Control Plane
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <ArthaLogo size={36} showGlow variant="icon" />
+            <div style={{ overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+                  Artha<span style={{ color: 'var(--groww-green)' }}>AI</span>
+                </span>
+                <span
+                  style={{
+                    fontSize: '9.5px',
+                    fontWeight: 800,
+                    color: 'var(--groww-green)',
+                    backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontFamily: 'var(--font-mono)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  ADMIN
+                </span>
+              </div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap', marginTop: '1px' }}>
+                Institutional Control Plane
+              </div>
             </div>
           </div>
+
+          <button
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className="mobile-close-sidebar-btn"
+            title="Close navigation"
+            style={{
+              padding: '6px',
+              borderRadius: '6px',
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
+              display: 'none',
+            }}
+          >
+            <X size={18} />
+          </button>
         </div>
 
         {/* Sidebar Nav Items */}
@@ -827,7 +876,10 @@ export const App: React.FC = () => {
                   return (
                     <button
                       key={item.id}
-                      onClick={() => setActiveSubTab(item.id)}
+                      onClick={() => {
+                        setActiveSubTab(item.id);
+                        setIsMobileSidebarOpen(false);
+                      }}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -959,6 +1011,7 @@ export const App: React.FC = () => {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
         {/* Top Header Bar */}
         <header
+          className="admin-header"
           style={{
             height: '60px',
             backgroundColor: 'var(--bg-chrome)',
@@ -970,64 +1023,95 @@ export const App: React.FC = () => {
             flexShrink: 0,
             zIndex: 30,
             whiteSpace: 'nowrap',
-            gap: '16px',
+            gap: '12px',
           }}
         >
-          {/* Breadcrumb Path */}
-          {(() => {
-            const { priority, title } = getSubTabInfo(activeSubTab);
-            return (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '13px',
-                  whiteSpace: 'nowrap',
-                  minWidth: 0,
-                  overflow: 'hidden',
-                }}
-              >
-                <span style={{ color: 'var(--text-muted)', fontWeight: 500, whiteSpace: 'nowrap' }}>Control Plane</span>
-                <ChevronRight size={14} color="var(--text-muted)" style={{ opacity: 0.6, flexShrink: 0 }} />
-                <span
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: 800,
-                    padding: '2px 7px',
-                    borderRadius: 'var(--radius-pill, 9999px)',
-                    backgroundColor: 'rgba(0, 208, 156, 0.12)',
-                    color: 'var(--groww-green)',
-                    letterSpacing: '0.04em',
-                    fontFamily: 'var(--font-mono)',
-                    flexShrink: 0,
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {priority}
-                </span>
-                <span
-                  style={{
-                    color: 'var(--text-primary)',
-                    fontWeight: 700,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {title}
-                </span>
-              </div>
-            );
-          })()}
+          {/* Breadcrumb Path & Mobile Hamburger Toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
+            {/* Hamburger button visible only on mobile */}
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="admin-hamburger-btn"
+              title="Open Navigation Menu"
+              style={{
+                padding: '7px 9px',
+                borderRadius: '8px',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--groww-green)',
+                cursor: 'pointer',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Menu size={18} />
+            </button>
+
+            {(() => {
+              const { priority, title } = getSubTabInfo(activeSubTab);
+              return (
+                <>
+                  <div
+                    className="admin-header-breadcrumbs-full"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      fontSize: '13px',
+                      whiteSpace: 'nowrap',
+                      minWidth: 0,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <span style={{ color: 'var(--text-muted)', fontWeight: 500, whiteSpace: 'nowrap' }}>Control Plane</span>
+                    <ChevronRight size={14} color="var(--text-muted)" style={{ opacity: 0.6, flexShrink: 0 }} />
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        padding: '2px 7px',
+                        borderRadius: 'var(--radius-pill, 9999px)',
+                        backgroundColor: 'rgba(0, 208, 156, 0.12)',
+                        color: 'var(--groww-green)',
+                        letterSpacing: '0.04em',
+                        fontFamily: 'var(--font-mono)',
+                        flexShrink: 0,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {priority}
+                    </span>
+                    <span
+                      style={{
+                        color: 'var(--text-primary)',
+                        fontWeight: 700,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {title}
+                    </span>
+                  </div>
+
+                  <span className="admin-header-title-mobile">
+                    {title}
+                  </span>
+                </>
+              );
+            })()}
+          </div>
 
           {/* Header Controls (User App, Clock, Theme, Sync, Super-Admin Profile) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
             {/* Switch to User App Button */}
             <a
               href="http://127.0.0.1:5173"
               target="_blank"
               rel="noreferrer"
+              className="admin-header-userapp-btn"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1060,6 +1144,7 @@ export const App: React.FC = () => {
 
             {/* Live IST Time */}
             <div
+              className="admin-header-clock"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1305,6 +1390,7 @@ export const App: React.FC = () => {
 
         {/* Content Area */}
         <main
+          className="admin-main-scrollable"
           style={{
             flex: 1,
             overflowY: 'auto',
@@ -2308,7 +2394,12 @@ export const App: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '20px' }}>
                   <div>
                     <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {auditFilter === 'normal' ? (
+                      {auditFilter === 'all' ? (
+                        <>
+                          <Database size={19} color="var(--groww-green)" />
+                          All Authentic Research Runs Audit
+                        </>
+                      ) : auditFilter === 'normal' ? (
                         <>
                           <Clock size={19} color="var(--groww-green)" />
                           Normal Multi-Agent Pipeline Runs Audit
@@ -2321,7 +2412,9 @@ export const App: React.FC = () => {
                       )}
                     </h3>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-                      {auditFilter === 'normal'
+                      {auditFilter === 'all'
+                        ? `Immutable DuckDB, Parquet & PostgreSQL execution records across all 7-Agent Fleet and Query Studio runs (${filteredAllRuns.length} of ${runs.length}).`
+                        : auditFilter === 'normal'
                         ? `DuckDB execution trace repository for Sequential, Parallel, and Hierarchical Google ADK & CrewAI agent runs (${filteredNormalRuns.length} of ${normalRuns.length}).`
                         : `Autonomous natural language queries across NSE/BSE equities, multi-stock SLSQP optimization, 10Y Monte Carlo envelopes & statutory audits (${filteredQueryRuns.length} of ${queryRuns.length}).`}
                     </p>
@@ -2329,7 +2422,28 @@ export const App: React.FC = () => {
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                     {/* Top Segmented Button Switcher */}
-                    <div style={{ display: 'flex', backgroundColor: 'var(--bg-surface)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ display: 'flex', backgroundColor: 'var(--bg-surface)', padding: '3px', borderRadius: '10px', border: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '2px' }}>
+                      <button
+                        onClick={() => setAuditFilter('all')}
+                        style={{
+                          padding: '6px 14px',
+                          borderRadius: '7px',
+                          fontSize: '12px',
+                          fontWeight: 700,
+                          border: 'none',
+                          cursor: 'pointer',
+                          backgroundColor: auditFilter === 'all' ? 'var(--groww-green)' : 'transparent',
+                          color: auditFilter === 'all' ? '#0F1217' : 'var(--text-secondary)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <Database size={13} />
+                        <span>All Real Runs ({runs.length})</span>
+                      </button>
+
                       <button
                         onClick={() => setAuditFilter('query')}
                         style={{
@@ -2348,7 +2462,7 @@ export const App: React.FC = () => {
                         }}
                       >
                         <Sparkles size={13} />
-                        <span>Query-Based Runs ({queryRuns.length})</span>
+                        <span>Query-Based ({queryRuns.length})</span>
                       </button>
 
                       <button
@@ -2369,7 +2483,7 @@ export const App: React.FC = () => {
                         }}
                       >
                         <Clock size={13} />
-                        <span>Normal Pipeline Runs ({normalRuns.length})</span>
+                        <span>Fleet Pipelines ({normalRuns.length})</span>
                       </button>
                     </div>
 
@@ -2395,6 +2509,140 @@ export const App: React.FC = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* ── Sub-view C: All Real Research Runs Table ───────────────── */}
+                {auditFilter === 'all' && (
+                  <>
+                    {/* Filters Row */}
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                      <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+                        <Search size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                          type="text"
+                          placeholder="Search all runs by Symbol, Run ID, Prompt, or Thesis..."
+                          value={allSearch}
+                          onChange={(e) => setAllSearch(e.target.value)}
+                          style={{ width: '100%', paddingLeft: '32px', height: '36px', fontSize: '12px' }}
+                        />
+                      </div>
+
+                      <select
+                        value={allStatusFilter}
+                        onChange={(e) => setAllStatusFilter(e.target.value as any)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '140px' }}
+                      >
+                        <option value="ALL">All Statuses</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="FAILED">Failed</option>
+                      </select>
+
+                      <select
+                        value={allPatternFilter}
+                        onChange={(e) => setAllPatternFilter(e.target.value)}
+                        style={{ height: '36px', fontSize: '12px', padding: '0 10px', width: '160px' }}
+                      >
+                        <option value="ALL">All Architectures</option>
+                        <option value="SEQUENTIAL">Sequential</option>
+                        <option value="PARALLEL">Parallel</option>
+                        <option value="HIERARCHICAL">Hierarchical</option>
+                        <option value="QUERY_STUDIO">Query Studio</option>
+                      </select>
+                    </div>
+
+                    {/* All Runs Table */}
+                    <div className="responsive-table-wrapper" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                      <table style={{ width: '100%', minWidth: '860px', borderCollapse: 'collapse', fontSize: '12px' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                            <th style={{ padding: '10px' }}>Run ID</th>
+                            <th style={{ padding: '10px' }}>Target / Equities</th>
+                            <th style={{ padding: '10px' }}>Pattern</th>
+                            <th style={{ padding: '10px' }}>Status</th>
+                            <th style={{ padding: '10px' }}>Submitted At</th>
+                            <th style={{ padding: '10px' }}>Latency</th>
+                            <th style={{ padding: '10px' }}>Recommendation / Stance</th>
+                            <th style={{ padding: '10px' }}>Conviction</th>
+                            <th style={{ padding: '10px', textAlign: 'right' }}>Complete Output</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredAllRuns.length === 0 ? (
+                            <tr>
+                              <td colSpan={9} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+                                No research records found matching your filter criteria.
+                              </td>
+                            </tr>
+                          ) : (
+                            filteredAllRuns.slice(0, 50).map((r) => {
+                              const qRes = r.query_research_result;
+                              const verdict = qRes?.verdict || r.recommendation || 'ACCUMULATE';
+                              const conviction = qRes?.conviction_score ?? r.conviction_score ?? 80;
+                              return (
+                                <tr key={r.run_id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                                  <td style={{ padding: '10px', fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)' }}>
+                                    {r.run_id.slice(0, 18)}...
+                                  </td>
+                                  <td style={{ padding: '10px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                                    {r.symbol || 'MULTI-BASKET'}
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <span style={{ fontSize: '10px', padding: '2px 6px', borderRadius: '4px', backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', fontFamily: 'var(--font-mono)' }}>
+                                      {r.orchestration_pattern}
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '10px' }}>
+                                    <StatusBadge status={r.status} />
+                                  </td>
+                                  <td style={{ padding: '10px', color: 'var(--text-muted)', fontSize: '11px' }}>
+                                    {r.submitted_at ? new Date(r.submitted_at).toLocaleTimeString() : '—'}
+                                  </td>
+                                  <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
+                                    {r.latency_seconds !== undefined && r.latency_seconds !== null ? `${r.latency_seconds.toFixed(1)}s` : '—'}
+                                  </td>
+                                  <td style={{ padding: '10px', fontWeight: 800, color: verdict === 'BUY' || verdict === 'STRONG_BUY' ? 'var(--groww-green)' : verdict === 'SELL' ? 'var(--groww-red)' : 'var(--text-primary)' }}>
+                                    {verdict}
+                                  </td>
+                                  <td style={{ padding: '10px', fontFamily: 'var(--font-mono)' }}>
+                                    {conviction}%
+                                  </td>
+                                  <td style={{ padding: '10px', textAlign: 'right' }}>
+                                    <button
+                                      onClick={() => setSelectedRun(r)}
+                                      style={{
+                                        padding: '5px 12px',
+                                        borderRadius: '6px',
+                                        backgroundColor: 'rgba(0, 208, 156, 0.1)',
+                                        border: '1px solid var(--groww-green)',
+                                        color: 'var(--groww-green)',
+                                        fontSize: '11.5px',
+                                        fontWeight: 700,
+                                        cursor: 'pointer',
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: '5px',
+                                        transition: 'all 0.15s ease',
+                                      }}
+                                    >
+                                      <FileText size={13} />
+                                      <span>View Full Report</span>
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {filteredAllRuns.length > 50 && (
+                      <div style={{ textAlign: 'center', marginTop: '14px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                        Showing latest 50 runs of {filteredAllRuns.length} total.
+                      </div>
+                    )}
+                  </>
+                )}
 
                 {/* ── Sub-view A: Query-Based Research Runs Table ───────────────── */}
                 {auditFilter === 'query' && (

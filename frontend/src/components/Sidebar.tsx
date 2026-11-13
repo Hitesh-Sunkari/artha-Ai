@@ -85,26 +85,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
   ];
 
   return (
-    <aside
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{
-        width: isHovered ? '240px' : '72px',
-        flexShrink: 0,
-        height: '100vh',
-        backgroundColor: 'var(--bg-chrome)',
-        borderRight: '1px solid var(--border-subtle)',
-        boxShadow: isHovered ? '4px 0 24px rgba(0, 0, 0, 0.18)' : 'none',
-        transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease',
-        display: 'flex',
-        flexDirection: 'column',
-        userSelect: 'none',
-        padding: isHovered ? '16px 12px' : '16px 8px',
-        gap: '14px',
-        overflow: 'hidden',
-        zIndex: 40,
-      }}
-    >
+    <>
+      <aside
+        className="desktop-sidebar"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          width: isHovered ? '240px' : '72px',
+          flexShrink: 0,
+          height: '100vh',
+          backgroundColor: 'var(--bg-chrome)',
+          borderRight: '1px solid var(--border-subtle)',
+          boxShadow: isHovered ? '4px 0 24px rgba(0, 0, 0, 0.18)' : 'none',
+          transition: 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease',
+          display: 'flex',
+          flexDirection: 'column',
+          userSelect: 'none',
+          padding: isHovered ? '16px 12px' : '16px 8px',
+          gap: '14px',
+          overflow: 'hidden',
+          zIndex: 40,
+        }}
+      >
         {/* Brand Icon & Title */}
         <div
           style={{
@@ -380,6 +382,80 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onSelectTab, active
           </div>
         )}
       </aside>
+
+      {/* Mobile Bottom Navigation Bar (Visible only on screens <= 768px) */}
+      <nav
+        className="mobile-bottom-nav"
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '58px',
+          backgroundColor: 'var(--bg-chrome)',
+          borderTop: '1px solid var(--border-subtle)',
+          display: 'none',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          zIndex: 80,
+          boxShadow: '0 -4px 16px rgba(0, 0, 0, 0.25)',
+          padding: '0 8px',
+        }}
+      >
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = normalizedActive === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => onSelectTab(item.id)}
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '3px',
+                padding: '6px 0',
+                background: 'transparent',
+                border: 'none',
+                color: isActive ? 'var(--groww-green)' : 'var(--text-muted)',
+                cursor: 'pointer',
+                position: 'relative',
+              }}
+            >
+              <div style={{ position: 'relative' }}>
+                <Icon size={20} strokeWidth={isActive ? 2.4 : 1.8} />
+                {item.badge && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '-2px',
+                      right: '-4px',
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--groww-green)',
+                      boxShadow: '0 0 6px var(--groww-green)',
+                    }}
+                  />
+                )}
+              </div>
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: isActive ? 800 : 500,
+                  letterSpacing: '-0.01em',
+                  color: isActive ? 'var(--groww-green)' : 'var(--text-secondary)',
+                }}
+              >
+                {item.label === 'Research & AI' ? 'Research' : item.label === 'Desk Profile' ? 'Profile' : item.label}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
+    </>
   );
 };
 

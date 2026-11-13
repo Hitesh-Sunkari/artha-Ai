@@ -3104,41 +3104,73 @@ def create_research_api(
         tags=["live-evaluation"],
     )
     async def get_sample_evaluation_dataset() -> list[dict[str, Any]]:
-        """Returns 5 real-world queries for immediate comparative benchmarking."""
+        """Returns 38 canonical Indian equity scenarios for multi-agent empirical benchmarking."""
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        csv_path = repo_root / "experiments" / "datasets" / "arthaai_evaluation_benchmark_suite.csv"
+        if csv_path.exists():
+            try:
+                import csv
+                items = []
+                with open(csv_path, mode="r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        q_id = row.get("id") or f"Q-{len(items)+1:02d}"
+                        q_text = row.get("question") or row.get("query") or ""
+                        q_sym = row.get("symbol") or "RELIANCE.NS"
+                        q_cat = row.get("category") or "General"
+                        if q_text:
+                            items.append({
+                                "id": q_id,
+                                "query": q_text,
+                                "symbol": q_sym,
+                                "category": q_cat,
+                                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                                "status": "PENDING",
+                            })
+                if items:
+                    return items
+            except Exception as e:
+                logger.warning("Failed to load canonical CSV benchmark suite: %s", e)
+
         return [
             {
-                "id": "Q-01",
-                "query": "Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.",
-                "symbol": "TATAMOTORS.NS",
-                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
-                "status": "PENDING",
-            },
-            {
-                "id": "Q-02",
-                "query": "What is the physical silver trend, ETF volumes, and delivery outlook for the next 10 years?",
-                "symbol": "TATSILV",
-                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
-                "status": "PENDING",
-            },
-            {
-                "id": "Q-03",
+                "id": "Q01",
                 "query": "Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.",
                 "symbol": "RELIANCE.NS",
-                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "REACT_AGENT", "SINGLE_AGENT"],
+                "category": "Conglomerates & Energy",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
                 "status": "PENDING",
             },
             {
-                "id": "Q-04",
-                "query": "Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.",
-                "symbol": "HDFCBANK.NS",
-                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "id": "Q02",
+                "query": "Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.",
+                "symbol": "RELIANCE.NS",
+                "category": "Conglomerates & Energy",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
                 "status": "PENDING",
             },
             {
-                "id": "Q-05",
-                "query": "Comparative operational analysis of TCS vs Infosys across EBIT margins, attrition, and Generative AI capex.",
-                "symbol": "TCS.NS",
-                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "REACT_AGENT", "SINGLE_AGENT"],
+                "id": "Q03",
+                "query": "What is the 5-year investment thesis for Reliance Industries across its oil-to-chemicals refining cycle, Jio telecom capex, and retail free cash flow?",
+                "symbol": "RELIANCE.NS",
+                "category": "Conglomerates & Energy",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q04",
+                "query": "Examine the downside risks, net debt leverage, and capital misallocation vulnerabilities in Reliance Industries over the next 5 years.",
+                "symbol": "RELIANCE.NS",
+                "category": "Conglomerates & Energy",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
+                "status": "PENDING",
+            },
+            {
+                "id": "Q05",
+                "query": "Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.",
+                "symbol": "TATAMOTORS.NS",
+                "category": "Automotive & Clean Mobility",
+                "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
                 "status": "PENDING",
             },
         ]

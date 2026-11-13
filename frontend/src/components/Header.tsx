@@ -24,6 +24,7 @@ import { getActiveTheme } from '../utils/useTheme';
 import { AuthModal } from './AuthModal';
 import { api, getApiBaseUrl } from '../api/client';
 import { sanitizeAndMigrateHoldings } from '../utils/holdingsMigration';
+import { ArthaLogo } from './ArthaLogo';
 import type { ReadinessResponse, MarketSessionState, AuthUser } from '../api/types';
 import type { PrimaryWorkspace, TabId } from './Sidebar';
 
@@ -339,6 +340,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
+      className="terminal-header"
       style={{
         height: 'var(--header-height)',
         backgroundColor: 'var(--bg-chrome)',
@@ -351,11 +353,24 @@ export const Header: React.FC<HeaderProps> = ({
         position: 'sticky',
         top: 0,
         backdropFilter: 'blur(12px)',
+        gap: '12px',
       }}
     >
-      {/* Left: Active Workspace Breadcrumb & Market Status */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div>
+      {/* Left: Active Workspace Breadcrumb & Market Status / Mobile Logo */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
+        {/* Mobile Logo Brand */}
+        <div
+          className="mobile-header-brand"
+          style={{ display: 'none', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+          onClick={() => onSelectWorkspace && onSelectWorkspace('command-center')}
+        >
+          <ArthaLogo size={28} showGlow variant="icon" />
+          <span style={{ fontSize: '15px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
+            Artha<span style={{ color: 'var(--groww-green)' }}>AI</span>
+          </span>
+        </div>
+
+        <div className="desktop-header-tabs">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             {/* Primary Workspace Switcher Tabs */}
             <nav style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -409,11 +424,13 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Center: Interactive Search Bar with Enter Key Processing */}
       <div
         ref={searchContainerRef}
+        className="header-search-container"
         style={{
           flex: '0 1 440px',
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
+          minWidth: 0,
         }}
       >
         <Search
@@ -582,9 +599,10 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Right: Groww Actions (Wallet, Theme, Refresh, Profile) */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+      <div className="header-actions-container" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
         {/* Paper Wallet Balance Chip */}
         <div
+          className="header-wallet-chip"
           style={{
             display: 'flex',
             alignItems: 'center',

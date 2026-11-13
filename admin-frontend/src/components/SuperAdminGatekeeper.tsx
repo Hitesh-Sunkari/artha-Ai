@@ -133,6 +133,7 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
       }}
     >
       <div
+        className="gatekeeper-card"
         style={{
           width: '100%',
           maxWidth: '520px',

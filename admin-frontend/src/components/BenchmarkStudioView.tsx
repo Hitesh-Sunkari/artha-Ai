@@ -43,6 +43,7 @@ import {
   Lock,
 } from 'lucide-react';
 import { api, getApiBaseUrl } from '../api/client';
+import { CANONICAL_BENCHMARK_SCENARIOS } from '../data/canonicalDataset';
 
 // ---------------------------------------------------------------------------
 // Typed Models for Empirical Evaluation
@@ -923,48 +924,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
     } catch (e) {
       console.warn('Could not parse saved dataset', e);
     }
-    return [
-      {
-        id: 'Q-01',
-        query: 'What is the physical silver trend, ETF volumes, and delivery outlook for next 10 years?',
-        symbol: 'TATSILV',
-        category: 'Commodities & Bullion',
-        architectures: ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'],
-        status: 'PENDING',
-      },
-      {
-        id: 'Q-02',
-        query: 'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.',
-        symbol: 'TATAMOTORS.NS',
-        category: 'Automotive & Clean Mobility',
-        architectures: ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'],
-        status: 'PENDING',
-      },
-      {
-        id: 'Q-03',
-        query: 'Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.',
-        symbol: 'RELIANCE.NS',
-        category: 'Conglomerates & Energy',
-        architectures: ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'],
-        status: 'PENDING',
-      },
-      {
-        id: 'Q-04',
-        query: 'Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.',
-        symbol: 'HDFCBANK.NS',
-        category: 'Banking & Financial Services',
-        architectures: ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'],
-        status: 'PENDING',
-      },
-      {
-        id: 'Q-05',
-        query: 'Comparative operational analysis of TCS vs Infosys across EBIT margins, attrition, and GenAI capex.',
-        symbol: 'TCS.NS',
-        category: 'Technology & Enterprise IT',
-        architectures: ['ARTHAAI_SEQUENTIAL', 'ARTHAAI_PARALLEL', 'ARTHAAI_HIERARCHICAL', 'REACT_AGENT', 'SINGLE_AGENT'],
-        status: 'PENDING',
-      },
-    ];
+    return CANONICAL_BENCHMARK_SCENARIOS;
   });
 
   // Batch Execution Control
@@ -1050,40 +1010,77 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           // Reconcile dataset items with authentic completed runs from disk
           setDatasetItems((currentItems) => {
             let changed = false;
+            const usedRunCids = new Set<string>();
+
+            // 1. Preserve existing completed items and register their comparison_ids
+            currentItems.forEach((it) => {
+              const cid = it.result?.comparison_id;
+              const s = Number(it.result?.winning_score ?? it.result?.comparison_summary?.winning_score ?? it.result?.winner?.quality ?? 0);
+              if (it.status === 'COMPLETED' && cid && s > 0) {
+                usedRunCids.add(cid);
+              }
+            });
+
             const updated = currentItems.map((item) => {
+              const currentScore = Number(item.result?.winning_score ?? item.result?.comparison_summary?.winning_score ?? item.result?.winner?.quality ?? 0);
+              if (item.status === 'COMPLETED' && currentScore > 0 && item.result) {
+                return item;
+              }
+
               const itemNorm = (item.query || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+              const itemWords = new Set((item.query || '').toLowerCase().split(/\s+/).filter((w) => w.length > 3));
+
               const match = runs.find((r: any) => {
+                const cid = r.comparison_id;
+                if (!cid || usedRunCids.has(cid)) return false;
+
+                const score = Number(r.winning_score ?? r.comparison_summary?.winning_score ?? r.winner?.quality ?? 0);
+                if (score <= 0) return false;
+
                 const runNorm = (r.query || r.inquiry || '').toLowerCase().replace(/[^a-z0-9]/g, '');
                 if (!runNorm || !itemNorm) return false;
-                const score = Number(r.winning_score || r.comparison_summary?.winning_score || r.winner?.quality || 0);
-                if (score <= 0) return false;
+
+                // A. Exact normalized match
                 if (itemNorm === runNorm) return true;
+
+                // B. Substantial word overlap + symbol match
+                const runSymbol = (r.symbol || r.primary_symbol || '').toUpperCase();
+                const itemSymbol = (item.symbol || '').toUpperCase();
+                const symbolMatches = runSymbol && itemSymbol && (runSymbol.includes(itemSymbol) || itemSymbol.includes(runSymbol));
+
+                const runWords = (r.query || r.inquiry || '').toLowerCase().split(/\s+/).filter((w: string) => w.length > 3);
+                let overlap = 0;
+                runWords.forEach((w: string) => { if (itemWords.has(w)) overlap++; });
+                const wordOverlapRatio = itemWords.size > 0 ? overlap / itemWords.size : 0;
+
+                if (symbolMatches && wordOverlapRatio >= 0.5) return true;
+
+                // C. Prefix match (for variant scenario extensions)
                 if (itemNorm.length >= 20 && runNorm.length >= 20) {
                   return itemNorm.slice(0, 30) === runNorm.slice(0, 30);
                 }
+
                 return false;
               });
 
               if (match) {
-                const winningScore = Number(match.winning_score || match.comparison_summary?.winning_score || match.winner?.quality || 0);
+                const winningScore = Number(match.winning_score ?? match.comparison_summary?.winning_score ?? match.winner?.quality ?? 0);
                 if (winningScore > 0) {
-                  const currentScore = Number(item.result?.winning_score || item.result?.comparison_summary?.winning_score || item.result?.winner?.quality || 0);
-                  if (item.status !== 'COMPLETED' || currentScore <= 0 || !item.result || item.result.comparison_id !== match.comparison_id) {
-                    changed = true;
-                    return {
-                      ...item,
-                      status: 'COMPLETED' as const,
-                      result: match,
-                      winner: match.winning_architecture || match.winner?.architecture_name || 'Sequential',
-                      latency_s: match.total_elapsed_seconds || item.latency_s,
-                      locked: true,
-                      live_arch_index: undefined,
-                      live_arch_key: undefined,
-                      live_arch_label: undefined,
-                      live_step_name: undefined,
-                      error: undefined,
-                    };
-                  }
+                  usedRunCids.add(match.comparison_id);
+                  changed = true;
+                  return {
+                    ...item,
+                    status: 'COMPLETED' as const,
+                    result: match,
+                    winner: match.winning_architecture || match.winner?.architecture_name || match.winner?.label || 'ArthaAI Sequential',
+                    latency_s: match.total_elapsed_seconds || item.latency_s || 50,
+                    locked: true,
+                    live_arch_index: undefined,
+                    live_arch_key: undefined,
+                    live_arch_label: undefined,
+                    live_step_name: undefined,
+                    error: undefined,
+                  };
                 }
               }
               return item;
@@ -1775,7 +1772,10 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   const handleContinueRemaining = async (parallel: boolean = false) => {
     if (isBatchRunning) return;
     const targetIndices = datasetItems
-      .map((it, idx) => (it.status !== 'COMPLETED' || (!it.result || Number(it.result.winning_score || 0) <= 0) ? idx : -1))
+      .map((it, idx) => {
+        const s = Number(it.result?.winning_score ?? it.result?.comparison_summary?.winning_score ?? it.result?.winner?.quality ?? 0);
+        return (it.status !== 'COMPLETED' || s <= 0) ? idx : -1;
+      })
       .filter((idx) => idx !== -1);
     if (targetIndices.length === 0) return;
 
@@ -2417,13 +2417,16 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
 
   // Computed summary stats
-  const completedBatchCount = datasetItems.filter((it) => it.status === 'COMPLETED').length;
+  const completedBatchCount = datasetItems.filter((it) => {
+    const s = Number(it.result?.winning_score ?? it.result?.comparison_summary?.winning_score ?? it.result?.winner?.quality ?? 0);
+    return it.status === 'COMPLETED' && s > 0;
+  }).length;
   const runningBatchCount = datasetItems.filter((it) => it.status === 'RUNNING').length;
   const errorBatchCount = datasetItems.filter((it) => it.status === 'ERROR').length;
   const progressPercent = datasetItems.length > 0 ? Math.round((completedBatchCount / datasetItems.length) * 100) : 0;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px', maxWidth: '1440px', margin: '0 auto' }}>
+    <div className="benchmark-studio-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px', maxWidth: '1440px', margin: '0 auto' }}>
       {/* ------------------------------------------------------------------- */}
       {/* Studio Header & Ordered 4-Tab Navigation Bar                        */}
       {/* 1. Single Query Compare ('single')                                   */}
@@ -2471,6 +2474,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
         {/* The 5 Ordered Tabs as Requested */}
         <div
+          className="responsive-tabs-strip"
           style={{
             display: 'flex',
             backgroundColor: 'var(--bg-surface)',
@@ -3982,15 +3986,17 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
           {/* Dataset Items Table */}
           <div
+            className="responsive-table-wrapper"
             style={{
               backgroundColor: 'var(--bg-card)',
               borderRadius: '14px',
               border: '1px solid var(--border-subtle)',
-              overflow: 'hidden',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
               boxShadow: 'var(--shadow-sm)',
             }}
           >
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
+            <table style={{ width: '100%', minWidth: '760px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
               <thead>
                 <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 700, width: '60px' }}>ID</th>
