@@ -180,3 +180,4 @@ if __name__ == "__main__":
     res = run_postgres_persistence_audit()
     print(f"\nFinal Result: {res['status']}")
     sys.exit(0 if res["status"] in ("PASS", "NOT RUN") else 1)
+

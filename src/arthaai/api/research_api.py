@@ -2407,7 +2407,7 @@ def create_research_api(
             os.getenv("VITE_GOOGLE_CLIENT_ID")
             or os.getenv("GOOGLE_CLIENT_ID")
             or os.getenv("GOOGLE_OAUTH_CLIENT_ID")
-            or ""
+            or "483107522680-m1trtj79rshru0cea0kq14jsgc1d9g35.apps.googleusercontent.com"
         ).strip()
         return {"client_id": client_id}
 

@@ -144,7 +144,6 @@ export const App: React.FC = () => {
   const [currentDate, setCurrentDate] = useState<string>('');
 
   // Super-Administrator RBAC State — Strictly server-verified sessions only
-  const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [authChecking, setAuthChecking] = useState<boolean>(true);
 
@@ -1211,7 +1210,7 @@ export const App: React.FC = () => {
                 >
                   <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '10px' }}>
                     <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                      Hitesh Sunkari
+                      {authUser?.name || 'Super Administrator'}
                     </div>
                     <div
                       style={{
@@ -1222,9 +1221,9 @@ export const App: React.FC = () => {
                         whiteSpace: 'nowrap',
                         marginTop: '2px',
                       }}
-                      title={SUPER_ADMIN_EMAIL}
+                      title={authUser?.email || 'Authorized Terminal Session'}
                     >
-                      {SUPER_ADMIN_EMAIL}
+                      {authUser?.email || 'Authorized Terminal Session'}
                     </div>
                     <div
                       style={{

@@ -8,7 +8,7 @@ interface SuperAdminGatekeeperProps {
   onAuthorized: (user: AuthUser) => void;
 }
 
-const SUPER_ADMIN_EMAIL = 'hitesh.sunkari.23cse@bmu.edu.in';
+const DEFAULT_GOOGLE_CLIENT_ID = '483107522680-m1trtj79rshru0cea0kq14jsgc1d9g35.apps.googleusercontent.com';
 
 export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAuthorized }) => {
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,12 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
     setLoading(true);
     setError(null);
 
-    let clientId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || localStorage.getItem('arthai_google_client_id');
-    if (!clientId) {
+    let clientId =
+      (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID ||
+      localStorage.getItem('arthai_google_client_id') ||
+      DEFAULT_GOOGLE_CLIENT_ID;
+
+    if (!clientId || !clientId.trim()) {
       try {
         const cfg = await api.getGoogleOAuthConfig();
         if (cfg?.client_id) clientId = cfg.client_id;
@@ -169,9 +173,7 @@ export const SuperAdminGatekeeper: React.FC<SuperAdminGatekeeperProps> = ({ onAu
 
         <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.6, margin: '0 0 24px 0', maxWidth: '440px' }}>
           This control plane oversees multi-agent research runs, live traffic surveillance, client sessions, and statutory audits.
-          Access is restricted strictly to Super-Administrator:
-          <br />
-          <strong style={{ color: '#00D09C', fontFamily: 'monospace' }}>{SUPER_ADMIN_EMAIL}</strong>
+          Access is restricted strictly to authorized Institutional Super-Administrators.
         </p>
 
         {error && (

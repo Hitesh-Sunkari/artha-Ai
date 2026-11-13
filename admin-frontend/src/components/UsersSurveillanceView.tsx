@@ -249,7 +249,7 @@ export const UsersSurveillanceView: React.FC<UsersSurveillanceViewProps> = ({
                 filteredUsers.map((u) => {
                   const isOnline = u.status === 'ONLINE';
                   const isIdle = u.status === 'IDLE';
-                  const isSuper = u.is_super_admin || u.user_email.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in';
+                  const isSuper = !!u.is_super_admin;
                   return (
                     <tr
                       key={u.session_id}

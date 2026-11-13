@@ -46,7 +46,7 @@ export async function getResolvedGoogleClientId(): Promise<string> {
     }
   } catch {}
 
-  return '';
+  return '483107522680-m1trtj79rshru0cea0kq14jsgc1d9g35.apps.googleusercontent.com';
 }
 
 /**
