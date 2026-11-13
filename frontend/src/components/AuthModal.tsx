@@ -640,7 +640,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               lineHeight: 1.5,
             }}
           >
-            <strong style={{ color: palette.policyStrong }}>Super-Admin Access Policy:</strong> Switching between User and Admin Dashboards is strictly protected and verified for <code>{SUPER_ADMIN_EMAIL}</code>.
+            <strong style={{ color: palette.policyStrong }}>Super-Admin Access Policy:</strong> Switching between User and Admin Dashboards is strictly protected and verified for authorized Super-Administrator clearance.
           </div>
         </div>
       </div>

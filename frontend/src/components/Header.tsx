@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
       if (user.email.toLowerCase() === 'hitesh.sunkari.23cse@bmu.edu.in') {
         window.open('http://127.0.0.1:5174', '_blank');
       } else {
-        setSwitchNotice('ACCESS DENIED: Administrative switching clearance is restricted exclusively to hitesh.sunkari.23cse@bmu.edu.in.');
+        setSwitchNotice('ACCESS DENIED: Administrative switching clearance is restricted exclusively to authorized Super-Administrator credentials.');
       }
     }
   };

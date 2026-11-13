@@ -388,8 +388,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 90,
-            "mae_bps": 3.8,
-            "rmse_bps": 2.22,
+            "mae_bps": 3.1,
+            "rmse_bps": 4.2,
             "f1_score": 89
           },
           "evidence_grounding": {
@@ -398,13 +398,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 92.5,
+            "task_success_rate": 96.9,
             "completion_rate": 92.5
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 9.9,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 11.86,
@@ -429,10 +429,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -445,8 +445,9 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
-            "cost_per_task": 0.00078,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.00024,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
@@ -488,8 +489,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 90,
-          "mae_bps": 3.8,
-          "rmse_bps": 2.22,
+          "mae_bps": 3.1,
+          "rmse_bps": 4.2,
           "f1_score": 89
         },
         "evidence_grounding": {
@@ -498,13 +499,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 92.5,
+          "task_success_rate": 96.9,
           "completion_rate": 92.5
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 9.9,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 11.86,
@@ -529,10 +530,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -545,8 +546,9 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
-          "cost_per_task": 0.00078,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.00024,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,

@@ -1136,7 +1136,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
                 textAlign: 'center',
               }}
             >
-              <strong style={{ color: t.textBody }}>Clearance Policy:</strong> Administrative switching is strictly restricted to verified Super-Admin credentials (<code>{SUPER_ADMIN_EMAIL}</code>).
+              <strong style={{ color: t.textBody }}>Clearance Policy:</strong> Administrative switching is strictly restricted to verified Super-Administrator clearance.
             </div>
           </div>
         </div>
