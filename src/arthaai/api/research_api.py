@@ -627,9 +627,27 @@ def create_research_api(
         return HealthResponse()
 
     _CACHED_MCP_TOOLS: list[str] = [
-        "get_stock_quote", "get_historical_ohlcv", "get_financial_ratios",
-        "get_options_chain", "run_monte_carlo", "get_statutory_tax_drag",
-        "get_technical_indicators", "get_filing_evidence", "get_sebi_compliance"
+        "query_market_data",
+        "calculate_statutory_costs",
+        "retrieve_regulatory_evidence",
+        "calculate_quant_features",
+        "validate_research_evidence",
+        "resolve_security",
+        "get_data_coverage",
+        "get_corporate_actions",
+        "get_financial_results",
+        "get_option_chain",
+        "get_derivative_coverage",
+        "get_macro_events",
+        "get_corporate_news",
+        "get_historical_bars",
+        "get_latest_quote",
+        "get_data_quality_report",
+        "get_expired_contract_history",
+        "search_filings",
+        "search_news_and_macro",
+        "calculate_indicators",
+        "get_evidence_passage",
     ]
     _CACHED_A2A_ROUTES: list[str] = ["/rpc", "/.well-known/agent-card.json"]
 

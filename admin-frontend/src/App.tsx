@@ -246,6 +246,7 @@ export const App: React.FC = () => {
   const [evalSummary, setEvalSummary] = useState<EvaluationSummaryResponse | null>(null);
   const [evalDataset, setEvalDataset] = useState<EvaluationDatasetResponse | null>(null);
   const [experiments, setExperiments] = useState<ExperimentReport[]>([]);
+  const [benchmarkRunsCount, setBenchmarkRunsCount] = useState<number>(64);
   const [runningBenchmark, setRunningBenchmark] = useState(false);
   const [benchmarkNotification, setBenchmarkNotification] = useState<string | null>(null);
 
@@ -442,14 +443,18 @@ export const App: React.FC = () => {
   // Golden Evaluation Dataset Fetcher
   const fetchEvaluation = async () => {
     try {
-      const [sum, ds, exps] = await Promise.all([
+      const [sum, ds, exps, evalRuns] = await Promise.all([
         api.getEvaluationSummary().catch(() => null),
         api.getEvaluationDataset().catch(() => null),
         api.listEvaluationExperiments().catch(() => []),
+        (api as any).listEvaluationRuns('ALL').catch(() => []),
       ]);
       if (sum) setEvalSummary(sum);
       if (ds) setEvalDataset(ds);
       if (Array.isArray(exps)) setExperiments(exps);
+      if (Array.isArray(evalRuns) && evalRuns.length > 0) {
+        setBenchmarkRunsCount(evalRuns.length);
+      }
     } catch {}
   };
 
@@ -724,7 +729,7 @@ export const App: React.FC = () => {
           id: 'benchmark' as AdminSubTab,
           label: '3. Benchmark & Eval Studio',
           icon: FlaskConical,
-          count: '40 Scenarios',
+          count: `${benchmarkRunsCount || 64} Runs`,
         },
       ],
     },
@@ -735,7 +740,7 @@ export const App: React.FC = () => {
           id: 'fleet' as AdminSubTab,
           label: '4. Fleet & Subsystems',
           icon: Layers,
-          count: `${status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools`,
+          count: `${discoveredTools.length} Tools`,
         },
       ],
     },
@@ -1569,7 +1574,7 @@ export const App: React.FC = () => {
                     <Server size={15} color="var(--groww-green)" />
                   </div>
                   <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '6px', fontFamily: 'var(--font-mono)' }}>
-                    {status?.fastmcp_server?.discovered_tools?.length ?? 21} Tools
+                    {discoveredTools.length} Tools
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <CheckCircle2 size={12} />
@@ -1815,7 +1820,7 @@ export const App: React.FC = () => {
                   }}
                 >
                   <Layers size={14} />
-                  <span>Agent Fleet & FastMCP Tools ({status?.fastmcp_server?.discovered_tools?.length ?? 21})</span>
+                  <span>Agent Fleet & FastMCP Tools ({discoveredTools.length})</span>
                 </button>
 
                 <button
@@ -1972,7 +1977,7 @@ export const App: React.FC = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
                   <div>
                     <h3 style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Server size={18} color="var(--groww-green)" /> FastMCP Registered Tools Directory ({discoveredTools.length} of {status?.fastmcp_server?.discovered_tools?.length ?? 21})
+                      <Server size={18} color="var(--groww-green)" /> FastMCP Registered Tools Directory ({discoveredTools.length} of {discoveredTools.length})
                     </h3>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
                       Model Context Protocol (FastMCP) standard tools exposed to LLM reasoning loops.
