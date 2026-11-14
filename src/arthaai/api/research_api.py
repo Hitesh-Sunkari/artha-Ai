@@ -272,10 +272,18 @@ class ComparisonStore:
 class RunStore:
     """Thread-safe store of research run records backed by durable JSON disk persistence."""
 
-    def __init__(self, persistence_dir: str | Path | None = "data/runs") -> None:
+    def __init__(self, persistence_dir: str | Path | None = None) -> None:
         self._runs: dict[str, RunRecord] = {}
         self._lock = asyncio.Lock()
-        self.persistence_dir = Path(persistence_dir) if persistence_dir else None
+        if persistence_dir:
+            self.persistence_dir = Path(persistence_dir)
+        else:
+            data_env = os.getenv("ARTHAAI_DATA_DIR")
+            if data_env:
+                self.persistence_dir = Path(data_env) / "runs"
+            else:
+                repo_root = Path(__file__).resolve().parent.parent.parent.parent
+                self.persistence_dir = repo_root / "data" / "runs"
         if self.persistence_dir:
             self.persistence_dir.mkdir(parents=True, exist_ok=True)
             self._load_persisted()
@@ -392,10 +400,33 @@ class RunStore:
 
     async def get(self, run_id: str) -> RunRecord | None:
         async with self._lock:
-            return self._runs.get(run_id)
+            rec = self._runs.get(run_id)
+            if not rec and self.persistence_dir:
+                fpath = self.persistence_dir / f"{run_id}.json"
+                if fpath.exists():
+                    try:
+                        with open(fpath, "r", encoding="utf-8") as fh:
+                            data = json.load(fh)
+                            rec = RunRecord(**data)
+                            self._runs[run_id] = rec
+                    except Exception:
+                        pass
+            return rec
 
     async def all_records(self) -> list[RunRecord]:
         async with self._lock:
+            if self.persistence_dir and self.persistence_dir.exists():
+                for fpath in self.persistence_dir.glob("*.json"):
+                    rid = fpath.stem
+                    if rid not in self._runs:
+                        try:
+                            with open(fpath, "r", encoding="utf-8") as fh:
+                                data = json.load(fh)
+                                record = RunRecord(**data)
+                                if record.status == ResearchRunStatus.COMPLETED and record.report is not None:
+                                    self._runs[record.run_id] = record
+                        except Exception:
+                            continue
             return list(self._runs.values())
 
 
@@ -3095,6 +3126,21 @@ def create_research_api(
         if not body:
             raise HTTPException(status_code=400, detail="Run payload body cannot be empty.")
         return live_evaluation_controller.persist_comparison_payload(body)
+
+    @app.post(
+        "/admin/evaluation/bulk-persist-runs",
+        summary="Bulk Persist Multiple Comparison Runs to Disk",
+        tags=["live-evaluation"],
+    )
+    async def bulk_persist_runs_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Directly writes multiple comparison runs to disk atomically."""
+        runs = body.get("runs") or []
+        persisted = []
+        for r in runs:
+            if isinstance(r, dict) and (r.get("query") or r.get("results")):
+                res = live_evaluation_controller.persist_comparison_payload(r)
+                persisted.append(res)
+        return {"status": "SUCCESS", "count": len(persisted), "persisted": persisted}
 
     @app.post(
         "/admin/evaluation/compare-single-query",

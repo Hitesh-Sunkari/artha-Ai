@@ -389,7 +389,7 @@ def get_persona_for_scenario(scenario_id: str, symbol: str, category: str) -> st
     sc_id = (scenario_id or "").upper()
 
     # 1. Commodities & Bullion
-    if "SILV" in sym or "GOLD" in sym or "COMMODIT" in cat or "SILVER" in sc_id:
+    if "SILV" in sym or "GOLD" in sym or "COMMODIT" in cat or "SILVER" in sc_id or "BULLION" in cat:
         return "commodities_bullion_allocator"
 
     # 2. Retiree / Dividend Focus
@@ -397,7 +397,7 @@ def get_persona_for_scenario(scenario_id: str, symbol: str, category: str) -> st
         return "conservative_retiree"
 
     # 3. Tactical F&O Hedger
-    if "TATAMOTORS" in sym or "AUTO" in cat:
+    if "TATAMOTORS" in sym or "AUTO" in cat or "NIFTY" in sym or "DERIVATIVE" in cat or "OPTIONS" in cat or "FNO" in cat or "MOMENTUM" in cat:
         return "tactical_fno_hedger"
 
     # 4. Long Term Compounder

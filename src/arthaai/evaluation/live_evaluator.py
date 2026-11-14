@@ -1724,6 +1724,7 @@ class LiveEvaluationController:
         repo_root = Path(__file__).resolve().parent.parent.parent.parent
         csv_path = repo_root / "experiments" / "datasets" / "arthaai_evaluation_benchmark_suite.csv"
         csv_map: dict[str, dict[str, Any]] = {}
+        id_map: dict[str, dict[str, Any]] = {}
         csv_rows: list[dict[str, Any]] = []
         if csv_path.exists():
             try:
@@ -1732,6 +1733,10 @@ class LiveEvaluationController:
                     reader = csv.DictReader(f)
                     for row in reader:
                         csv_rows.append(row)
+                        rid = str(row.get("id", "")).strip().upper()
+                        if rid:
+                            id_map[rid] = row
+                            id_map[rid.replace("-", "")] = row
                         q_txt = (row.get("question") or row.get("query") or "").strip().lower()
                         if q_txt and q_txt not in csv_map:
                             csv_map[q_txt] = row
@@ -1768,8 +1773,10 @@ class LiveEvaluationController:
                     d = json.load(fp)
                     if "comparison_id" in d and "results" in d:
                         q_raw = d.get("query", "").strip()
-                        if q_raw in csv_map:
-                            meta = csv_map[q_raw]
+                        q_norm = q_raw.lower()
+                        sc_id = str(d.get("scenario_id") or "").strip().upper()
+                        meta = csv_map.get(q_norm) or id_map.get(sc_id) or id_map.get(sc_id.replace("-", ""))
+                        if meta:
                             if not d.get("scenario_id"):
                                 d["scenario_id"] = meta.get("id")
                             if not d.get("variance_type"):

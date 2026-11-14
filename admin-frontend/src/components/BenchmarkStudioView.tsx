@@ -1046,8 +1046,28 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           const newlyPersisted: any[] = [];
           const mergedRuns = [...validRuns];
 
-          // Check datasetItems in current state (or localStorage)
-          datasetItems.forEach((it) => {
+          // Check both state datasetItems and localStorage for any saved completed runs
+          let allCandidateItems: DatasetItem[] = [...datasetItems];
+          try {
+            const raw = localStorage.getItem(STORAGE_DATASET_KEY);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (Array.isArray(parsed)) {
+                parsed.forEach((p: DatasetItem) => {
+                  if (!allCandidateItems.some((x) => x.id === p.id)) {
+                    allCandidateItems.push(p);
+                  } else {
+                    const idx = allCandidateItems.findIndex((x) => x.id === p.id);
+                    if (allCandidateItems[idx].status !== 'COMPLETED' && p.status === 'COMPLETED') {
+                      allCandidateItems[idx] = p;
+                    }
+                  }
+                });
+              }
+            }
+          } catch {}
+
+          allCandidateItems.forEach((it) => {
             if (it.status === 'COMPLETED' && it.result) {
               const res = it.result;
               const s = Number(res.winning_score ?? res.comparison_summary?.winning_score ?? res.winner?.quality ?? 0);
@@ -1067,19 +1087,21 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                 };
                 mergedRuns.unshift(runObj);
                 newlyPersisted.push(runObj);
-                // Asynchronously persist to backend disk so future reloads find it
-                (api as any).persistRun(runObj).catch((e: any) => console.warn('Could not auto-persist dataset run to disk:', e));
               }
             }
           });
 
           setHistoricalRuns(mergedRuns);
 
-          // If newly persisted items were added, refresh aggregate metrics
+          // If newly persisted items were added, sync to backend disk and refresh aggregate metrics
           if (newlyPersisted.length > 0) {
-            (api as any).getAggregateEvaluationMetrics(slice).then((agg: any) => {
-              if (agg) setAggregateData(agg);
-            }).catch(() => {});
+            (api as any).bulkPersistRuns(newlyPersisted)
+              .catch(() => Promise.all(newlyPersisted.map((r) => (api as any).persistRun(r).catch(() => {}))))
+              .then(() => (api as any).getAggregateEvaluationMetrics(slice))
+              .then((agg: any) => {
+                if (agg) setAggregateData(agg);
+              })
+              .catch(() => {});
           }
 
           // Reconcile dataset items with authentic completed runs from disk
@@ -1192,6 +1214,120 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   useEffect(() => {
     fetchHistoricalRuns();
   }, [studioMode]);
+
+  // Frontend Dynamic Reconciler for Persona Coverage and Box Plots
+  const getFrontendPersonaId = (r: any): string => {
+    if (r.persona_id) return r.persona_id;
+    const sym = (r.symbol || r.primary_symbol || '').toUpperCase();
+    const cat = (r.category || '').toUpperCase();
+    const q = (r.query || '').toUpperCase();
+    if (sym.includes('SILV') || sym.includes('GOLD') || cat.includes('COMMODIT') || q.includes('SILVER')) return 'commodities_bullion_allocator';
+    if (sym.includes('ITC') || sym.includes('HDFC') || sym.includes('SBIN') || cat.includes('FMCG') || cat.includes('BANK')) return 'conservative_retiree';
+    if (sym.includes('TATAMOTORS') || cat.includes('AUTO') || sym.includes('NIFTY') || cat.includes('DERIVATIVE') || cat.includes('OPTIONS') || cat.includes('FNO')) return 'tactical_fno_hedger';
+    if (sym.includes('RELIANCE') || sym.includes('TCS') || sym.includes('INFY') || cat.includes('ENERGY') || cat.includes('TECH')) return 'long_term_compounder';
+    if (sym.includes('POWER') || sym.includes('LT') || sym.includes('HAL') || sym.includes('STEEL') || cat.includes('DEFENSE') || cat.includes('METALS')) return 'green_capex_allocator';
+    return 'deep_value_adversarial';
+  };
+
+  const reconciledPersonaTable = useMemo(() => {
+    const backendTable = aggregateData?.persona_table || [];
+    if (!backendTable.length && !historicalRuns.length) return [];
+
+    const runsByPersona: Record<string, number[]> = {
+      conservative_retiree: [],
+      long_term_compounder: [],
+      tactical_fno_hedger: [],
+      commodities_bullion_allocator: [],
+      green_capex_allocator: [],
+      deep_value_adversarial: [],
+    };
+
+    historicalRuns.forEach((r: any) => {
+      const pid = getFrontendPersonaId(r);
+      const score = Number(r.winning_score ?? r.winner?.quality ?? r.composite_score ?? 0);
+      if (score > 0 && runsByPersona[pid]) {
+        runsByPersona[pid].push(score);
+      }
+    });
+
+    if (backendTable.length > 0) {
+      return backendTable.map((row: any) => {
+        const scores = runsByPersona[row.persona_id] || [];
+        if ((row.runs_count === 0 || !row.runs_count) && scores.length > 0) {
+          const mean = Number((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1));
+          const sorted = [...scores].sort((a, b) => a - b);
+          const median = Number((sorted[Math.floor(sorted.length / 2)]).toFixed(1));
+          const min = Number((sorted[0]).toFixed(1));
+          const max = Number((sorted[sorted.length - 1]).toFixed(1));
+          const variance = scores.length > 1 ? Number((scores.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / (scores.length - 1)).toFixed(2)) : 0.0;
+          const std = Number(Math.sqrt(variance).toFixed(1));
+          const cv = mean > 0 ? Number((std / mean).toFixed(3)) : 0.0;
+          return {
+            ...row,
+            runs_count: scores.length,
+            mean_score: mean,
+            median_score: median,
+            min_score: min,
+            max_score: max,
+            std_dev: std,
+            variance: variance,
+            coefficient_of_variation: cv,
+          };
+        }
+        return row;
+      });
+    }
+
+    return backendTable;
+  }, [aggregateData?.persona_table, historicalRuns]);
+
+  const reconciledPersonaBoxPlot = useMemo(() => {
+    const backendPlot = aggregateData?.persona_box_plot || [];
+    if (!backendPlot.length) return [];
+
+    return backendPlot.map((item: any) => {
+      if ((!item.sample_size || item.sample_size === 0) && item.persona_id) {
+        const matchingRuns = historicalRuns.filter((r: any) => getFrontendPersonaId(r) === item.persona_id);
+        const scores = matchingRuns
+          .map((r: any) => Number(r.winning_score ?? r.winner?.quality ?? r.composite_score ?? 0))
+          .filter((s) => s > 0);
+        if (scores.length > 0) {
+          const sorted = [...scores].sort((a, b) => a - b);
+          const n = sorted.length;
+          const min = sorted[0];
+          const max = sorted[n - 1];
+          const median = sorted[Math.floor(n / 2)];
+          const q1 = sorted[Math.floor(n * 0.25)] || min;
+          const q3 = sorted[Math.floor(n * 0.75)] || max;
+          const mean = Number((scores.reduce((a, b) => a + b, 0) / n).toFixed(1));
+          return {
+            ...item,
+            min,
+            q1,
+            median,
+            q3,
+            max,
+            mean,
+            points: sorted,
+            sample_size: n,
+          };
+        }
+      }
+      return item;
+    });
+  }, [aggregateData?.persona_box_plot, historicalRuns]);
+
+  const reconciledTotalRuns = useMemo(() => {
+    return Math.max(historicalRuns.length, aggregateData?.kpis?.total_runs || 0);
+  }, [historicalRuns.length, aggregateData?.kpis?.total_runs]);
+
+  const totalDatasetRuns = useMemo(() => {
+    return Math.max(aggregateData?.kpis?.dataset_runs_count || 0, historicalRuns.filter((r: any) => String(r.run_type || '').toUpperCase() === 'DATASET').length);
+  }, [aggregateData?.kpis?.dataset_runs_count, historicalRuns]);
+
+  const totalSingleRuns = useMemo(() => {
+    return Math.max(aggregateData?.kpis?.single_runs_count || 0, historicalRuns.filter((r: any) => String(r.run_type || '').toUpperCase() !== 'DATASET').length);
+  }, [aggregateData?.kpis?.single_runs_count, historicalRuns]);
 
   // Dedicated CSV and PDF direct download actions
   const handleDownloadCsv = async (comparisonId: string) => {
@@ -5092,9 +5228,9 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
           {/* Institutional Investor Personas Matrix */}
           <InvestorPersonasTable
-            personas={aggregateData?.persona_table || []}
+            personas={reconciledPersonaTable}
             sliceFilter={evaluationSlice}
-            totalRuns={aggregateData?.kpis?.total_runs || historicalRuns.length}
+            totalRuns={reconciledTotalRuns}
           />
         </div>
       )}
@@ -5974,7 +6110,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  📊 All Executed Runs ({aggregateData?.kpis?.all_runs_count || 64})
+                  📊 All Executed Runs ({reconciledTotalRuns})
                 </button>
                 <button
                   type="button"
@@ -5997,7 +6133,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  🎯 Dataset Suite ({aggregateData?.kpis?.dataset_runs_count || 50} Runs • 38 Canonical)
+                  🎯 Dataset Suite ({totalDatasetRuns} Runs • {aggregateData?.canonical_scenarios_count || 48} Canonical)
                 </button>
                 <button
                   type="button"
@@ -6020,7 +6156,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  ⚡ Single Query On-Demand ({aggregateData?.kpis?.single_runs_count || 14} Runs)
+                  ⚡ Single Query On-Demand ({totalSingleRuns} Runs)
                 </button>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -6060,11 +6196,11 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                       fontWeight: 800,
                     }}
                   >
-                    ORIGINAL DATA • {aggregateData?.kpis?.total_runs || historicalRuns.length} RUNS
+                    ORIGINAL DATA • {reconciledTotalRuns} RUNS
                   </span>
                 </div>
                 <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
-                  Across {aggregateData?.kpis?.total_runs || historicalRuns.length} empirical runs ({aggregateData?.kpis?.single_runs_count || historicalRuns.filter((r: any) => r.run_type !== 'DATASET').length} single query + {aggregateData?.kpis?.dataset_runs_count || historicalRuns.filter((r: any) => r.run_type === 'DATASET').length} dataset suite), ArthaAI Multi-Agent Fleets achieved a composite quality index of {aggregateData?.kpis?.composite_quality?.toFixed(1) || '--'}/100 (+{aggregateData?.kpis?.quality_advantage_delta?.toFixed(1) || '--'} pts advantage over baseline LLMs) with {aggregateData?.kpis?.win_rate?.toFixed(1) || '--'}% win rate.
+                  Across {reconciledTotalRuns} empirical runs ({totalSingleRuns} single query + {totalDatasetRuns} dataset suite), ArthaAI Multi-Agent Fleets achieved a composite quality index of {aggregateData?.kpis?.composite_quality?.toFixed(1) || '--'}/100 (+{aggregateData?.kpis?.quality_advantage_delta?.toFixed(1) || '--'} pts advantage over baseline LLMs) with {aggregateData?.kpis?.win_rate?.toFixed(1) || '--'}% win rate.
                 </p>
               </div>
 
@@ -6120,10 +6256,10 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   <span style={{ cursor: 'pointer', border: '1px solid var(--text-muted)', borderRadius: '50%', width: '14px', height: '14px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px' }}>!</span>
                 </div>
                 <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--text-primary)' }}>
-                  {aggregateData?.kpis?.total_runs || historicalRuns.length}
+                  {reconciledTotalRuns}
                 </div>
                 <div style={{ fontSize: '11px', color: 'var(--groww-green)', marginTop: '4px' }}>
-                  {aggregateData?.kpis?.single_runs_count || historicalRuns.filter((r: any) => r.run_type !== 'DATASET').length} Single Query + {aggregateData?.kpis?.dataset_runs_count || historicalRuns.filter((r: any) => r.run_type === 'DATASET').length} Dataset Batch
+                  {totalSingleRuns} Single Query + {totalDatasetRuns} Dataset Batch
                 </div>
               </div>
 
@@ -6259,7 +6395,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '16px' }}>
               <ArchitectureRadarChart />
               <PersonaBoxPlot
-                boxPlotData={aggregateData?.persona_box_plot || []}
+                boxPlotData={reconciledPersonaBoxPlot}
                 runs={historicalRuns}
               />
             </div>
@@ -6290,9 +6426,9 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
 
             {/* Row 4: Institutional Investor Personas & Scenario Coverage Matrix */}
             <InvestorPersonasTable
-              personas={aggregateData?.persona_table || []}
+              personas={reconciledPersonaTable}
               sliceFilter={evaluationSlice}
-              totalRuns={aggregateData?.kpis?.total_runs || historicalRuns.length}
+              totalRuns={reconciledTotalRuns}
             />
 
             {/* Visual Plots Section (Dynamically Rendered from all runs) */}

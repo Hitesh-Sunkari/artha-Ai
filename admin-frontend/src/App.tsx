@@ -638,6 +638,31 @@ export const App: React.FC = () => {
     handleResolveTicker('RELIANCE');
   }, []);
 
+  // Live Runs Auto-Sync: Poll every 6s when viewing Audit tab, 15s otherwise, and immediately on window focus
+  useEffect(() => {
+    const pollInterval = activeSubTab === 'audit' ? 6000 : 15000;
+    const timer = setInterval(() => {
+      fetchRuns();
+    }, pollInterval);
+
+    const handleFocus = () => {
+      fetchRuns();
+    };
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [activeSubTab]);
+
+  // Immediately refresh runs when switching to audit tab
+  useEffect(() => {
+    if (activeSubTab === 'audit') {
+      fetchRuns();
+    }
+  }, [activeSubTab]);
+
   // Categorize runs into Query-Based Research and Normal Multi-Agent Runs
   const queryRuns = useMemo(() => {
     return runs.filter(

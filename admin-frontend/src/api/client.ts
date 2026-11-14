@@ -321,6 +321,12 @@ export const api = {
       body: JSON.stringify(body),
     }, 15000),
 
+  bulkPersistRuns: (runs: any[]) =>
+    request<any>('/admin/evaluation/bulk-persist-runs', {
+      method: 'POST',
+      body: JSON.stringify({ runs }),
+    }, 30000),
+
   compareSingleQuery: (body: { query: string; architectures: string[]; symbols?: string[]; symbol?: string; risk_tolerance?: number; initial_capital?: number; run_type?: string }) =>
     request<any>('/admin/evaluation/compare-single-query', {
       method: 'POST',
