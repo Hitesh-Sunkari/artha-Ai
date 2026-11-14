@@ -28,29 +28,32 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
 }) => {
   const [hoveredPoint, setHoveredPoint] = useState<MeaningScatterPoint | null>(null);
 
-  // SVG Coordinate mapping
-  const width = 760;
-  const height = 360;
-  const paddingLeft = 55;
-  const paddingRight = 45;
-  const paddingTop = 35;
+  // SVG Coordinate mapping (Optimized domain for high resolution)
+  const width = 540;
+  const height = 320;
+  const paddingLeft = 50;
+  const paddingRight = 30;
+  const paddingTop = 30;
   const paddingBottom = 45;
 
   const plotWidth = width - paddingLeft - paddingRight;
   const plotHeight = height - paddingTop - paddingBottom;
 
-  // X maps ROUGE-L 0.0 - 1.0
-  const scaleX = (rouge: number) => paddingLeft + Math.max(0, Math.min(1.0, rouge)) * plotWidth;
+  // X maps ROUGE-L 0.0 - 0.65 (focused on true empirical range)
+  const maxRouge = 0.65;
+  const scaleX = (rouge: number) => paddingLeft + (Math.max(0, Math.min(maxRouge, rouge)) / maxRouge) * plotWidth;
 
-  // Y maps Meaning Match 1.0 - 5.0 (inverted: 5.0 at top, 1.0 at bottom)
+  // Y maps Meaning Match 2.0 - 5.0 (inverted: 5.0 at top, 2.0 at bottom)
+  const minMeaning = 2.0;
+  const maxMeaning = 5.0;
   const scaleY = (match: number) => {
-    const clamped = Math.max(1.0, Math.min(5.0, match));
-    const norm = (clamped - 1.0) / 4.0;
+    const clamped = Math.max(minMeaning, Math.min(maxMeaning, match));
+    const norm = (clamped - minMeaning) / (maxMeaning - minMeaning);
     return paddingTop + (1.0 - norm) * plotHeight;
   };
 
-  const midX = scaleX(0.45);
-  const midY = scaleY(3.5);
+  const midX = scaleX(0.35);
+  const midY = scaleY(3.8);
 
   return (
     <div
@@ -61,9 +64,11 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
+        gap: '14px',
         boxShadow: 'var(--shadow-sm)',
         position: 'relative',
+        height: '100%',
+        minHeight: '440px',
       }}
     >
       {/* Header */}

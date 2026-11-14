@@ -48,6 +48,9 @@ import { InvestorPersonasTable } from './InvestorPersonasTable';
 import { PersonaBoxPlot } from './PersonaBoxPlot';
 import { MasLatencyWaterfall } from './MasLatencyWaterfall';
 import { MeaningVsRougeScatter } from './MeaningVsRougeScatter';
+import { ArchitectureRadarChart } from './ArchitectureRadarChart';
+import { ParetoFrontierPlot } from './ParetoFrontierPlot';
+import { TestRetestGauge } from './TestRetestGauge';
 
 // ---------------------------------------------------------------------------
 // Typed Models for Empirical Evaluation
@@ -6195,24 +6198,40 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
               </div>
             </div>
 
-            {/* Cell 45 Parity: Box Plot with Jittered Scatter Dots */}
-            <PersonaBoxPlot
-              boxPlotData={aggregateData?.persona_box_plot || []}
-              runs={historicalRuns}
-            />
-
-            {/* MAS Latency Waterfall & Semantic Meaning vs ROUGE-L Dual Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
-              <MasLatencyWaterfall
-                breakdown={aggregateData?.agent_latency_breakdown || []}
-                totalLatencySeconds={aggregateData?.kpis?.mean_latency || 8.0}
+            {/* Row 1: Dual Core Analytical Charts (Radar Capability + Score Dispersion Box Plot) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '16px' }}>
+              <ArchitectureRadarChart />
+              <PersonaBoxPlot
+                boxPlotData={aggregateData?.persona_box_plot || []}
+                runs={historicalRuns}
               />
+            </div>
+
+            {/* Row 2: Optimization Frontier & Semantic Abstraction Synthesis */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '16px' }}>
+              <ParetoFrontierPlot />
               <MeaningVsRougeScatter
                 points={aggregateData?.meaning_vs_word_overlap || []}
               />
             </div>
 
-            {/* Institutional Investor Personas Matrix */}
+            {/* Row 3: Subsystem Timing Waterfall & Repeatability Invariance Audit */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '16px' }}>
+              <MasLatencyWaterfall
+                breakdown={aggregateData?.agent_latency_breakdown || []}
+                totalLatencySeconds={aggregateData?.kpis?.mean_latency || 8.0}
+              />
+              <TestRetestGauge
+                consistencyPct={98.2}
+                sigmaPts={8.8}
+                cvValue={0.099}
+                contradictionRate={0.0}
+                statutoryDragBps={22.22}
+                schemaValidityPct={100.0}
+              />
+            </div>
+
+            {/* Row 4: Institutional Investor Personas & Scenario Coverage Matrix */}
             <InvestorPersonasTable
               personas={aggregateData?.persona_table || []}
               sliceFilter={evaluationSlice}

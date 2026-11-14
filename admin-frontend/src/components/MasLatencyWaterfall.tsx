@@ -48,8 +48,10 @@ export const MasLatencyWaterfall: React.FC<MasLatencyWaterfallProps> = ({
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
+        gap: '14px',
         boxShadow: 'var(--shadow-sm)',
+        height: '100%',
+        minHeight: '440px',
       }}
     >
       {/* Header */}

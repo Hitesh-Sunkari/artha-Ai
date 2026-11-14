@@ -70,6 +70,9 @@ import { InvestorPersonasTable } from './components/InvestorPersonasTable';
 import { PersonaBoxPlot } from './components/PersonaBoxPlot';
 import { MasLatencyWaterfall } from './components/MasLatencyWaterfall';
 import { MeaningVsRougeScatter } from './components/MeaningVsRougeScatter';
+import { ArchitectureRadarChart } from './components/ArchitectureRadarChart';
+import { ParetoFrontierPlot } from './components/ParetoFrontierPlot';
+import { TestRetestGauge } from './components/TestRetestGauge';
 import type {
   TrafficTelemetry,
   UserSession,
@@ -1980,28 +1983,44 @@ export const App: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Visual Component 1: Institutional Investor Personas Matrix */}
-                <InvestorPersonasTable
-                  personas={evalAggregate?.persona_table || []}
-                  sliceFilter={dashboardSlice}
-                  totalRuns={evalAggregate?.kpis?.total_runs || evaluationRuns.length || 64}
-                />
-
-                {/* Visual Components 2 & 3: Side-by-Side Box Plot & Latency Waterfall */}
+                {/* Row 1: Dual Analytical Charts (Architecture Radar + Score Dispersion Box Plot) */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '20px' }}>
+                  <ArchitectureRadarChart />
                   <PersonaBoxPlot
                     boxPlotData={evalAggregate?.persona_box_plot || []}
                     runs={evaluationRuns}
                   />
+                </div>
+
+                {/* Row 2: Optimization Frontier & Semantic Abstraction Synthesis */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '20px' }}>
+                  <ParetoFrontierPlot />
+                  <MeaningVsRougeScatter
+                    points={evalAggregate?.meaning_vs_word_overlap || []}
+                  />
+                </div>
+
+                {/* Row 3: Subsystem Timing Waterfall & Repeatability Invariance Audit */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '20px' }}>
                   <MasLatencyWaterfall
                     breakdown={evalAggregate?.agent_latency_breakdown || []}
                     totalLatencySeconds={evalAggregate?.kpis?.mean_latency || 17.4}
                   />
+                  <TestRetestGauge
+                    consistencyPct={98.2}
+                    sigmaPts={8.8}
+                    cvValue={0.099}
+                    contradictionRate={0.0}
+                    statutoryDragBps={22.22}
+                    schemaValidityPct={100.0}
+                  />
                 </div>
 
-                {/* Visual Component 4: Cell 56 Meaning Match vs ROUGE-L Overlap */}
-                <MeaningVsRougeScatter
-                  points={evalAggregate?.meaning_vs_word_overlap || []}
+                {/* Row 4: Institutional Investor Personas Matrix */}
+                <InvestorPersonasTable
+                  personas={evalAggregate?.persona_table || []}
+                  sliceFilter={dashboardSlice}
+                  totalRuns={evalAggregate?.kpis?.total_runs || evaluationRuns.length || 64}
                 />
               </div>
               </>

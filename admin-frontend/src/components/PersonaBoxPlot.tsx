@@ -67,24 +67,26 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
   const [archFilter, setArchFilter] = useState<'ALL' | 'MULTI' | 'REACT' | 'SINGLE'>('ALL');
 
   // Chart Dimensions
-  const svgWidth = 840;
-  const rowHeight = 65;
-  const paddingLeft = 210;
-  const paddingRight = 40;
-  const paddingTop = 35;
-  const paddingBottom = 40;
+  const svgWidth = 820;
+  const rowHeight = 58;
+  const paddingLeft = 250;
+  const paddingRight = 30;
+  const paddingTop = 30;
+  const paddingBottom = 35;
   const plotWidth = svgWidth - paddingLeft - paddingRight;
-  const plotHeight = Math.max(260, boxPlotData.length * rowHeight);
+  const plotHeight = Math.max(240, boxPlotData.length * rowHeight);
   const totalSvgHeight = plotHeight + paddingTop + paddingBottom;
 
-  // X-scale maps score 0 - 100 to SVG pixels
+  // X-scale maps score 50 - 100 to SVG pixels (zoomed in to eliminate empty 0-50 whitespace)
+  const minDomain = 50;
+  const maxDomain = 100;
   const scaleX = (score: number) => {
-    const clamped = Math.max(0, Math.min(100, score));
-    return paddingLeft + (clamped / 100) * plotWidth;
+    const clamped = Math.max(minDomain, Math.min(maxDomain, score));
+    return paddingLeft + ((clamped - minDomain) / (maxDomain - minDomain)) * plotWidth;
   };
 
   // Deterministic Pseudo-random jitter generator based on score and index
-  const getJitter = (score: number, idx: number, maxJitter: number = 14) => {
+  const getJitter = (score: number, idx: number, maxJitter: number = 12) => {
     const pseudo = Math.sin(score * 12.9898 + idx * 78.233) * 43758.5453;
     const norm = (pseudo - Math.floor(pseudo)) * 2 - 1; // -1.0 to 1.0
     return norm * maxJitter;
@@ -99,9 +101,11 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
+        gap: '14px',
         boxShadow: 'var(--shadow-sm)',
         position: 'relative',
+        height: '100%',
+        minHeight: '440px',
       }}
     >
       {/* Header and Toggle Bar */}
@@ -134,7 +138,7 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
             </span>
           </div>
           <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-            Horizontal box plots (Min, Q1, Median, Q3, Max) overlaid with individual jittered run observations (0-100 scale)
+            Horizontal box plots (Min, Q1, Median, Q3, Max) overlaid with individual jittered run observations (50-100 scale)
           </span>
         </div>
 
@@ -156,13 +160,13 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
       </div>
 
       {/* SVG Canvas */}
-      <div style={{ width: '100%', overflowX: 'auto', position: 'relative' }}>
+      <div style={{ width: '100%', overflowX: 'auto', position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
         <svg
           viewBox={`0 0 ${svgWidth} ${totalSvgHeight}`}
           style={{ width: '100%', minWidth: `${svgWidth}px`, height: 'auto', display: 'block' }}
         >
-          {/* Background Grid Lines (Every 10 points) */}
-          {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((score) => {
+          {/* Background Grid Lines (Every 10 points: 50, 60, 70, 80, 90, 100) */}
+          {[50, 60, 70, 80, 90, 100].map((score) => {
             const x = scaleX(score);
             return (
               <g key={`grid-${score}`}>
@@ -179,10 +183,11 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
                 {/* Bottom Axis Label */}
                 <text
                   x={x}
-                  y={paddingTop + plotHeight + 20}
-                  fill="var(--text-muted)"
-                  fontSize="11"
+                  y={paddingTop + plotHeight + 18}
                   textAnchor="middle"
+                  fontSize="11px"
+                  fontWeight="600"
+                  fill="var(--text-muted)"
                   fontFamily="var(--font-mono)"
                 >
                   {score}
