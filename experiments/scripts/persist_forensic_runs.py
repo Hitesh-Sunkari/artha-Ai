@@ -267,3 +267,4 @@ for sc in forensic_scenarios:
 print(f"Successfully wrote {len(created_files)} forensic auditor comparison run files to disk:")
 for f in created_files:
     print(" -", f)
+
