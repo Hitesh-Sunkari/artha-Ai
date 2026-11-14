@@ -6,9 +6,7 @@ import {
   Check,
   Zap,
   Layers,
-  Cpu,
   ShieldAlert,
-  GitCompare,
   Target,
   Clock,
   Coins,
@@ -17,6 +15,8 @@ import {
   BarChart2,
   Database,
   Info,
+  ShieldCheck,
+  Cpu,
 } from 'lucide-react';
 
 interface StructuredExecutiveSynthesisProps {
@@ -30,56 +30,40 @@ interface StructuredExecutiveSynthesisProps {
 }
 
 // ---------------------------------------------------------------------------
-// Inline Formatting Helper
+// Clean String Utility - Guarantees ZERO '#' and ZERO '*' in Clean View / Copy
+// ---------------------------------------------------------------------------
+
+export const stripMarkdownSymbols = (text: string): string => {
+  if (!text) return '';
+  return text
+    // Strip leading markdown headers (e.g. ## 1. Section -> 1. Section, # Title -> Title)
+    .replace(/^(?:#{1,6})\s*/gm, '')
+    // Strip bold asterisks (**text** -> text)
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    // Strip bullet asterisks or dashes (* bullet -> • bullet, - bullet -> • bullet)
+    .replace(/^\s*[\*\-]\s+/gm, '• ')
+    // Strip italic asterisks (*text* -> text)
+    .replace(/\*([^*]+)\*/g, '$1')
+    // Strip any leftover stray asterisks or hashes
+    .replace(/[*#]/g, '')
+    // Normalize multiple spaces or line hashes
+    .replace(/(?<=\n)#{1,6}\s*/g, '')
+    .trim();
+};
+
+// ---------------------------------------------------------------------------
+// Inline Formatting Helper (Strips stray symbols and highlights metrics)
 // ---------------------------------------------------------------------------
 
 export const formatInlineText = (text: string): React.ReactNode => {
   if (!text) return null;
 
-  // Split by bold (**...**) and code (`...`) tokens
-  const regex = /(\*\*[^*]+\*\*|`[^`]+`)/g;
-  const parts: React.ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
+  // First strip any stray hashes or unformatted asterisks
+  const sanitized = text
+    .replace(/^(?:#{1,6})\s*/, '')
+    .replace(/[*#]/g, '');
 
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(highlightMetrics(text.substring(lastIndex, match.index), `txt-${lastIndex}`));
-    }
-    const token = match[0];
-    if (token.startsWith('**') && token.endsWith('**')) {
-      const inner = token.slice(2, -2);
-      parts.push(
-        <strong key={`b-${match.index}`} style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
-          {inner}
-        </strong>
-      );
-    } else if (token.startsWith('`') && token.endsWith('`')) {
-      const inner = token.slice(1, -1);
-      parts.push(
-        <code
-          key={`c-${match.index}`}
-          style={{
-            backgroundColor: 'rgba(0, 208, 156, 0.1)',
-            color: 'var(--groww-green)',
-            padding: '1px 6px',
-            borderRadius: '4px',
-            fontSize: '11.5px',
-            fontFamily: 'var(--font-mono)',
-          }}
-        >
-          {inner}
-        </code>
-      );
-    }
-    lastIndex = match.index + token.length;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(highlightMetrics(text.substring(lastIndex), `txt-${lastIndex}`));
-  }
-
-  return <>{parts}</>;
+  return highlightMetrics(sanitized, 'inl');
 };
 
 // Highlights currencies (₹...), percentages (...%), and bps (... bps)
@@ -96,7 +80,6 @@ const highlightMetrics = (text: string, keyPrefix: string): React.ReactNode => {
     const val = m[0];
     const isCurrency = val.startsWith('₹');
     const isBps = val.includes('bps');
-    const isPct = val.endsWith('%');
 
     parts.push(
       <span
@@ -105,7 +88,11 @@ const highlightMetrics = (text: string, keyPrefix: string): React.ReactNode => {
           color: isCurrency ? 'var(--text-primary)' : isBps ? '#f59e0b' : 'var(--groww-green)',
           fontFamily: isCurrency || isBps ? 'var(--font-mono)' : 'inherit',
           fontWeight: 700,
-          backgroundColor: isBps ? 'rgba(245, 158, 11, 0.1)' : isCurrency ? 'rgba(255, 255, 255, 0.04)' : 'rgba(0, 208, 156, 0.08)',
+          backgroundColor: isBps
+            ? 'rgba(245, 158, 11, 0.1)'
+            : isCurrency
+            ? 'rgba(255, 255, 255, 0.05)'
+            : 'rgba(0, 208, 156, 0.09)',
           padding: '0 4px',
           borderRadius: '3px',
         }}
@@ -124,6 +111,59 @@ const highlightMetrics = (text: string, keyPrefix: string): React.ReactNode => {
 };
 
 // ---------------------------------------------------------------------------
+// Section Identification Helpers
+// ---------------------------------------------------------------------------
+
+// Checks whether a line represents a major section header (e.g. "1. DIRECT INQUIRY RESOLUTION...")
+const isMajorSectionHeader = (line: string): boolean => {
+  const clean = line.replace(/^(?:#{1,6})\s*/, '').replace(/[*#]/g, '').trim();
+  // Numbered major section pattern: 1. DIRECT ..., 2. STAGE-BY-STAGE ..., 3. PIPELINE ...
+  if (/^[1-9]\.\s+[A-Z][A-Z0-9\s\-\&—\:\(\)]+$/.test(clean) && clean.length > 8 && clean.length < 120) {
+    return true;
+  }
+  // Line originally had ## markdown heading
+  if (/^#{1,3}\s+[1-9]\./.test(line.trim())) {
+    return true;
+  }
+  // Named sections common across ArthaAI multi-agent patterns
+  const uppercase = clean.toUpperCase();
+  if (
+    uppercase.startsWith('1. DIRECT INQUIRY') ||
+    uppercase.startsWith('2. STAGE-BY-STAGE') ||
+    uppercase.startsWith('3. PIPELINE INVARIANTS') ||
+    uppercase.startsWith('2. INDEPENDENT SPECIALIST') ||
+    uppercase.startsWith('3. DIVERGENCE AUDIT') ||
+    uppercase.startsWith('2. EXECUTIVE DELIBERATION') ||
+    uppercase.startsWith('3. REGULATORY SIGN-OFF') ||
+    uppercase.startsWith('1. DIRECT EVIDENCE') ||
+    uppercase.startsWith('2. MULTI-AGENT SYNTHETIC') ||
+    uppercase.startsWith('3. STRATEGIC ALLOCATION')
+  ) {
+    return true;
+  }
+  return false;
+};
+
+// Checks whether a line represents an institutional subheading (e.g. "Milestone Profit Targets:")
+const isSubheading = (line: string): boolean => {
+  const clean = line.replace(/^(?:#{1,6})\s*/, '').replace(/[*#]/g, '').trim();
+  if (clean.endsWith(':') && clean.length < 60 && !clean.includes('.') && clean.length > 5) {
+    return true;
+  }
+  return (
+    clean.startsWith('Milestone Profit Targets:') ||
+    clean.startsWith('Capital Deployment Strategy:') ||
+    clean.startsWith('Trailing Stop-Loss Boundary:') ||
+    clean.startsWith('Supervisory Mandate:') ||
+    clean.startsWith('Squad Deliverables:') ||
+    clean.startsWith('Resolution & Target Projection:') ||
+    clean.startsWith('Direct Evidence-Grounded:') ||
+    clean.startsWith('Adversarial Critique:') ||
+    clean.startsWith('Statutory Guardrails:')
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Main Component
 // ---------------------------------------------------------------------------
 
@@ -136,7 +176,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
   anchorPrice,
   capital,
 }) => {
-  const [viewMode, setViewMode] = useState<'structured' | 'raw'>('structured');
+  const [viewMode, setViewMode] = useState<'structured' | 'clean_text'>('structured');
   const [copied, setCopied] = useState(false);
 
   if (!synthesis) {
@@ -147,13 +187,15 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
     );
   }
 
+  const cleanSynthesisText = stripMarkdownSymbols(synthesis);
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(synthesis);
+    navigator.clipboard.writeText(cleanSynthesisText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Parse markdown into sections
+  // Parse synthesis into structured document sections
   const lines = synthesis.split('\n');
   const rawMetadata: { key: string; value: string }[] = [];
   const sections: { title: string; lines: string[] }[] = [];
@@ -164,27 +206,43 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
     const trimmed = rawLine.trim();
     if (!trimmed) continue;
 
-    if (trimmed.startsWith('# ') && !docTitle) {
-      docTitle = trimmed.replace(/^#\s+/, '');
+    const cleanedLine = trimmed
+      .replace(/^(?:#{1,6})\s*/, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/[*#]/g, '')
+      .trim();
+
+    // Check for document title (e.g. ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT)
+    if (
+      !docTitle &&
+      (trimmed.startsWith('# ') ||
+        cleanedLine.toUpperCase().startsWith('ARTHAAI ') ||
+        cleanedLine.toUpperCase().includes('FLEET:') ||
+        cleanedLine.toUpperCase().includes('REPORT') && cleanedLine.length < 80)
+    ) {
+      docTitle = cleanedLine;
       continue;
     }
 
-    if (trimmed.startsWith('## ')) {
+    // Check for Major Section Header (e.g. 1. DIRECT INQUIRY RESOLUTION..., 2. STAGE-BY-STAGE...)
+    if (isMajorSectionHeader(trimmed)) {
       if (currentSection) {
         sections.push(currentSection);
       }
       currentSection = {
-        title: trimmed.replace(/^##\s+/, ''),
+        title: cleanedLine,
         lines: [],
       };
       continue;
     }
 
-    // Check if line is top-level metadata (e.g. **Verdict**: ... or **Target Horizon**: ...)
-    if (!currentSection && trimmed.startsWith('**') && trimmed.includes(':')) {
-      const match = trimmed.match(/^\*\*([^*]+)\*\*:\s*(.*)/);
-      if (match) {
-        rawMetadata.push({ key: match[1], value: match[2] });
+    // Check for metadata key-value lines (e.g. Execution Model: 7-Agent Linear Relay..., Verdict: ...)
+    if (!currentSection && cleanedLine.includes(':') && cleanedLine.split(':')[0].length < 35 && !cleanedLine.startsWith('•')) {
+      const parts = cleanedLine.split(':');
+      const k = parts[0].trim();
+      const v = parts.slice(1).join(':').trim();
+      if (k && v) {
+        rawMetadata.push({ key: k, value: v });
         continue;
       }
     }
@@ -193,9 +251,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
       currentSection.lines.push(trimmed);
     } else {
       // Preface lines before first section
-      if (!currentSection) {
-        currentSection = { title: 'Executive Overview', lines: [trimmed] };
-      }
+      currentSection = { title: '1. Executive Synthesis & Resolution', lines: [trimmed] };
     }
   }
 
@@ -206,18 +262,18 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
   const getSectionIcon = (title: string, index: number) => {
     const t = title.toLowerCase();
     if (t.includes('direct') || t.includes('resolution') || t.includes('verdict')) {
-      return <Zap size={15} color="var(--groww-green)" />;
+      return <Zap size={16} color="var(--groww-green)" />;
     }
-    if (t.includes('discoveries') || t.includes('stream') || t.includes('squad') || t.includes('specialist')) {
-      return <Layers size={15} color="var(--accent-cyan)" />;
+    if (t.includes('discoveries') || t.includes('stream') || t.includes('squad') || t.includes('specialist') || t.includes('stage-by-stage') || t.includes('refinement')) {
+      return <Layers size={16} color="var(--accent-cyan)" />;
     }
-    if (t.includes('divergence') || t.includes('reconciliation') || t.includes('risk') || t.includes('skeptic')) {
-      return <ShieldAlert size={15} color="#f59e0b" />;
+    if (t.includes('divergence') || t.includes('reconciliation') || t.includes('risk') || t.includes('skeptic') || t.includes('audit')) {
+      return <ShieldAlert size={16} color="#f59e0b" />;
     }
-    if (t.includes('directive') || t.includes('allocation') || t.includes('mandate') || t.includes('execution')) {
-      return <Target size={15} color="#a78bfa" />;
+    if (t.includes('directive') || t.includes('allocation') || t.includes('mandate') || t.includes('invariant') || t.includes('execution')) {
+      return <Target size={16} color="#a78bfa" />;
     }
-    return <Sparkles size={15} color="var(--groww-green)" />;
+    return <Sparkles size={16} color="var(--groww-green)" />;
   };
 
   const getSectionBorderColor = (title: string) => {
@@ -225,13 +281,13 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
     if (t.includes('direct') || t.includes('resolution') || t.includes('verdict')) {
       return 'var(--groww-green)';
     }
-    if (t.includes('discoveries') || t.includes('stream') || t.includes('squad') || t.includes('specialist')) {
+    if (t.includes('discoveries') || t.includes('stream') || t.includes('squad') || t.includes('specialist') || t.includes('stage-by-stage') || t.includes('refinement')) {
       return 'var(--accent-cyan)';
     }
-    if (t.includes('divergence') || t.includes('reconciliation') || t.includes('risk') || t.includes('skeptic')) {
+    if (t.includes('divergence') || t.includes('reconciliation') || t.includes('risk') || t.includes('skeptic') || t.includes('audit')) {
       return '#f59e0b';
     }
-    if (t.includes('directive') || t.includes('allocation') || t.includes('mandate') || t.includes('execution')) {
+    if (t.includes('directive') || t.includes('allocation') || t.includes('mandate') || t.includes('invariant') || t.includes('execution')) {
       return '#a78bfa';
     }
     return 'var(--groww-green)';
@@ -239,7 +295,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-      {/* Top Controls Bar: Toggle between Structured and Raw Markdown */}
+      {/* Top Controls Bar: Toggle between Structured and Clean Text */}
       <div
         style={{
           display: 'flex',
@@ -304,7 +360,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
               Structured View
             </button>
             <button
-              onClick={() => setViewMode('raw')}
+              onClick={() => setViewMode('clean_text')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -315,13 +371,13 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                 borderRadius: '4px',
                 border: 'none',
                 cursor: 'pointer',
-                backgroundColor: viewMode === 'raw' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
-                color: viewMode === 'raw' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                backgroundColor: viewMode === 'clean_text' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                color: viewMode === 'clean_text' ? 'var(--text-primary)' : 'var(--text-secondary)',
                 transition: 'all 0.15s ease',
               }}
             >
               <FileText size={12} />
-              Raw Markdown
+              Clean Text View
             </button>
           </div>
 
@@ -337,7 +393,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
               fontWeight: 600,
               cursor: 'pointer',
             }}
-            title="Copy full synthesis to clipboard"
+            title="Copy clean institutional synthesis to clipboard"
           >
             {copied ? <Check size={12} color="var(--groww-green)" /> : <Copy size={12} />}
             <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -345,48 +401,52 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
         </div>
       </div>
 
-      {/* RAW MARKDOWN VIEW */}
-      {viewMode === 'raw' ? (
+      {/* CLEAN TEXT VIEW (Zero hashes and zero asterisks) */}
+      {viewMode === 'clean_text' ? (
         <div
           style={{
-            fontSize: '12px',
-            lineHeight: 1.65,
+            fontSize: '12.5px',
+            lineHeight: 1.7,
             color: 'var(--text-secondary)',
             backgroundColor: 'var(--bg-surface)',
-            padding: '16px 18px',
-            borderRadius: '8px',
+            padding: '18px 20px',
+            borderRadius: '10px',
             border: '1px solid var(--border-subtle)',
             whiteSpace: 'pre-wrap',
             fontFamily: 'var(--font-mono)',
           }}
         >
-          {synthesis}
+          {cleanSynthesisText}
         </div>
       ) : (
-        /* STRUCTURED VIEW */
+        /* STRUCTURED VIEW (Rich interactive cards, styled subheadings, bullet items, badges) */
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {/* Document Header & Metadata Ribbon (if metadata found) */}
+          {/* Document Header & Metadata Ribbon */}
           {(docTitle || rawMetadata.length > 0) && (
             <div
               style={{
                 padding: '16px 18px',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
+                boxShadow: 'var(--shadow-sm)',
               }}
             >
               {docTitle && (
-                <h4
-                  style={{
-                    fontSize: '15px',
-                    fontWeight: 800,
-                    color: 'var(--text-primary)',
-                    margin: '0 0 10px 0',
-                    letterSpacing: '-0.2px',
-                  }}
-                >
-                  {docTitle}
-                </h4>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: rawMetadata.length > 0 ? '12px' : 0 }}>
+                  <ShieldCheck size={16} color="var(--groww-green)" />
+                  <h4
+                    style={{
+                      fontSize: '14.5px',
+                      fontWeight: 800,
+                      color: 'var(--text-primary)',
+                      margin: 0,
+                      letterSpacing: '-0.2px',
+                    }}
+                  >
+                    {docTitle}
+                  </h4>
+                </div>
               )}
 
               {rawMetadata.length > 0 && (
@@ -477,26 +537,49 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                   {sec.lines.map((line, lIdx) => {
                     const trimmed = line.trim();
 
-                    // 1. Subheading (### ...)
-                    if (trimmed.startsWith('### ')) {
+                    // Strip any stray markdown symbols from this line
+                    const cleanLine = trimmed
+                      .replace(/^(?:#{1,6})\s*/, '')
+                      .replace(/\*\*([^*]+)\*\*/g, '$1')
+                      .replace(/[*#]/g, '')
+                      .trim();
+
+                    if (!cleanLine) return null;
+
+                    // 1. Subheading Block (e.g. Milestone Profit Targets:, Capital Deployment Strategy:)
+                    if (isSubheading(trimmed)) {
                       return (
-                        <h5
+                        <div
                           key={lIdx}
                           style={{
-                            fontSize: '12.5px',
-                            fontWeight: 700,
-                            color: 'var(--text-primary)',
-                            margin: '8px 0 2px 0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '6px 10px',
+                            borderRadius: '6px',
+                            backgroundColor: 'rgba(0, 208, 156, 0.06)',
+                            border: '1px solid rgba(0, 208, 156, 0.15)',
+                            marginTop: lIdx > 0 ? '6px' : 0,
                           }}
                         >
-                          {trimmed.replace(/^###\s+/, '')}
-                        </h5>
+                          <Target size={13} color="var(--groww-green)" />
+                          <span
+                            style={{
+                              fontSize: '12.5px',
+                              fontWeight: 800,
+                              color: 'var(--text-primary)',
+                              letterSpacing: '-0.1px',
+                            }}
+                          >
+                            {cleanLine}
+                          </span>
+                        </div>
                       );
                     }
 
-                    // 2. Bullet Point (- ... or * ...)
-                    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-                      const bulletText = trimmed.replace(/^[-*]\s+/, '');
+                    // 2. Bullet Point (starts with •, -, or *)
+                    if (trimmed.startsWith('•') || trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+                      const bulletText = trimmed.replace(/^(?:•\s*|[-*]\s+)/, '');
                       return (
                         <div
                           key={lIdx}
@@ -507,7 +590,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                             fontSize: '12.5px',
                             lineHeight: 1.6,
                             color: 'var(--text-secondary)',
-                            padding: '6px 10px',
+                            padding: '7px 12px',
                             borderRadius: '6px',
                             backgroundColor: 'rgba(255, 255, 255, 0.015)',
                             border: '1px solid rgba(255, 255, 255, 0.04)',
@@ -520,6 +603,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                               fontSize: '14px',
                               lineHeight: 1.2,
                               marginTop: '2px',
+                              userSelect: 'none',
                             }}
                           >
                             •
@@ -529,9 +613,9 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                       );
                     }
 
-                    // 3. Numbered Step (1. ..., 2. ...)
-                    if (/^\d+\.\s+/.test(trimmed)) {
-                      const numMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
+                    // 3. Numbered Sub-step (e.g. 1. Step, 2. Step) inside section
+                    if (/^\d+\.\s+/.test(cleanLine)) {
+                      const numMatch = cleanLine.match(/^(\d+)\.\s+(.*)/);
                       if (numMatch) {
                         return (
                           <div
@@ -543,7 +627,7 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                               fontSize: '12.5px',
                               lineHeight: 1.6,
                               color: 'var(--text-secondary)',
-                              padding: '6px 10px',
+                              padding: '7px 12px',
                               borderRadius: '6px',
                               backgroundColor: 'rgba(255, 255, 255, 0.015)',
                               border: '1px solid rgba(255, 255, 255, 0.04)',
@@ -575,12 +659,12 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
                         key={lIdx}
                         style={{
                           fontSize: '12.5px',
-                          lineHeight: 1.65,
+                          lineHeight: 1.68,
                           color: 'var(--text-secondary)',
                           margin: 0,
                         }}
                       >
-                        {formatInlineText(trimmed)}
+                        {formatInlineText(cleanLine)}
                       </p>
                     );
                   })}
@@ -593,4 +677,3 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
     </div>
   );
 };
-
