@@ -45,6 +45,7 @@ import {
   FolderOpen,
 } from 'lucide-react';
 import { getApiBaseUrl } from '../api/client';
+import { StructuredExecutiveSynthesis } from './StructuredExecutiveSynthesis';
 
 const API = getApiBaseUrl();
 
@@ -215,6 +216,7 @@ export interface QueryResearchResponse {
   };
   timestamp: string;
   run_id?: string;
+  orchestration_pattern?: string;
   is_commodity?: boolean;
   is_substitute_assets?: boolean;
   commodity_fundamentals?: any;
@@ -2634,21 +2636,16 @@ export const QueryStudioView: React.FC<QueryStudioProps> = ({
               </div>
             )}
 
-            {/* Narrative Synthesis Text */}
-            <div
-              style={{
-                fontSize: '13px',
-                lineHeight: 1.65,
-                color: 'var(--text-secondary)',
-                backgroundColor: 'var(--bg-surface)',
-                padding: '16px 18px',
-                borderRadius: '8px',
-                border: '1px solid var(--border-subtle)',
-                whiteSpace: 'pre-line',
-              }}
-            >
-              {result.executive_synthesis}
-            </div>
+            {/* Institutional Structured Executive Synthesis */}
+            <StructuredExecutiveSynthesis
+              synthesis={result.executive_synthesis}
+              verdict={result.verdict}
+              convictionScore={result.conviction_score}
+              orchestrationPattern={result.orchestration_pattern}
+              horizonYears={result.horizon_years}
+              anchorPrice={result.stocks_analyzed?.[0]?.ltp}
+              capital={result.personalized_portfolio?.current_holding_value || initialCapital}
+            />
           </div>
 
           {/* 2. AGENTIC EXECUTION STREAM & FASTMCP FORENSIC CONSOLE */}

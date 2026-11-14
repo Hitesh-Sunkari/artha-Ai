@@ -510,6 +510,9 @@ def compute_audit_formulas(
     is_multi_agent = any(k in system_type.upper() for k in ("MULTI_AGENT", "ARTHAAI", "SEQUENTIAL", "PARALLEL", "HIERARCHICAL"))
     is_hierarchical = "HIERARCHICAL" in system_type.upper()
     is_parallel = "PARALLEL" in system_type.upper()
+    is_seq = "SEQUENTIAL" in system_type.upper() or ("MULTI_AGENT" in system_type.upper() and not is_hierarchical and not is_parallel)
+    is_par = is_parallel
+    is_hie = is_hierarchical
     is_react = "REACT" in system_type.upper()
     is_single_prompt = not is_multi_agent and not is_react
 
