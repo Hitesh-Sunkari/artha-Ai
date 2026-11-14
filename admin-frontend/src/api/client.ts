@@ -315,6 +315,12 @@ export const api = {
       body: JSON.stringify(body),
     }, 30000),
 
+  persistRun: (body: any) =>
+    request<any>('/admin/evaluation/persist-run', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }, 15000),
+
   compareSingleQuery: (body: { query: string; architectures: string[]; symbols?: string[]; symbol?: string; risk_tolerance?: number; initial_capital?: number; run_type?: string }) =>
     request<any>('/admin/evaluation/compare-single-query', {
       method: 'POST',

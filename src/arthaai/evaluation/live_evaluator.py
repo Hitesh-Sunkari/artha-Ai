@@ -1446,14 +1446,35 @@ class LiveEvaluationController:
 
         # Save to dedicated subfolder
         target_dir = DATASET_RUNS_DIR if "DATASET" in run_type.upper() else SINGLE_RUNS_DIR
+        target_dir.mkdir(parents=True, exist_ok=True)
         sub_file = target_dir / f"comparison_{cid}.json"
         try:
             with open(sub_file, "w", encoding="utf-8") as f:
                 json.dump(comparison_payload, f, indent=2)
+            logger.info("Successfully persisted comparison payload %s to %s", cid, sub_file)
         except Exception as ex:
-            logger.warning("Could not persist comparison payload to %s: %s", sub_file, ex)
+            logger.error("Could not persist comparison payload to %s: %s", sub_file, ex)
 
         return comparison_payload
+
+    @classmethod
+    def persist_comparison_payload(cls, payload: dict[str, Any]) -> dict[str, Any]:
+        """Directly persists an authentic comparison run payload to disk so it's instantly indexed in Vault & Dashboard."""
+        cid = payload.get("comparison_id") or f"comp-{uuid.uuid4().hex[:8]}"
+        run_type = str(payload.get("run_type", "DATASET")).upper()
+        target_dir = DATASET_RUNS_DIR if "DATASET" in run_type else SINGLE_RUNS_DIR
+        target_dir.mkdir(parents=True, exist_ok=True)
+        sub_file = target_dir / f"comparison_{cid}.json"
+
+        if not payload.get("comparison_id"):
+            payload["comparison_id"] = cid
+        if not payload.get("timestamp"):
+            payload["timestamp"] = datetime.now(timezone.utc).isoformat()
+
+        with open(sub_file, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        logger.info("Successfully persisted run payload %s to %s", cid, sub_file)
+        return {"status": "SUCCESS", "comparison_id": cid, "path": str(sub_file)}
 
     @classmethod
     async def compare_single_query(

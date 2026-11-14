@@ -3086,6 +3086,17 @@ def create_research_api(
         )
 
     @app.post(
+        "/admin/evaluation/persist-run",
+        summary="Directly Persist Comparison Run to Disk",
+        tags=["live-evaluation"],
+    )
+    async def persist_run_endpoint(body: dict[str, Any]) -> dict[str, Any]:
+        """Directly writes an authentic comparison run payload to disk so it is instantly indexed in Vault & Dashboard."""
+        if not body:
+            raise HTTPException(status_code=400, detail="Run payload body cannot be empty.")
+        return live_evaluation_controller.persist_comparison_payload(body)
+
+    @app.post(
         "/admin/evaluation/compare-single-query",
         summary="Run Live Comparative Evaluation Across Architectures",
         tags=["live-evaluation"],

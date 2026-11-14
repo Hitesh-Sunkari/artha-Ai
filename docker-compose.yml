@@ -35,8 +35,8 @@ services:
       - arthai-blackboard:/app/data/blackboard
       - arthai-chroma:/app/data/chroma_db
       - arthai-parquet:/app/data/parquet
-      - arthai-experiments-results:/app/experiments/results
-      - arthai-experiments-datasets:/app/experiments/datasets
+      - ./experiments/results:/app/experiments/results
+      - ./experiments/datasets:/app/experiments/datasets
     deploy:
       resources:
         limits:

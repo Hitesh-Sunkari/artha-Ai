@@ -1039,7 +1039,48 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             const cleanCid = cid.replace(/^comparison_/, '').replace(/\.json$/, '');
             return !deletedRunIdsRef.current.has(cid) && !deletedRunIdsRef.current.has(cleanCid);
           });
-          setHistoricalRuns(validRuns);
+
+          // Reconcile and merge completed items from dataset suite into historical runs
+          const existingCids = new Set(validRuns.map((r: any) => r.comparison_id));
+          const existingQueries = new Set(validRuns.map((r: any) => (r.query || '').trim().toLowerCase()));
+          const newlyPersisted: any[] = [];
+          const mergedRuns = [...validRuns];
+
+          // Check datasetItems in current state (or localStorage)
+          datasetItems.forEach((it) => {
+            if (it.status === 'COMPLETED' && it.result) {
+              const res = it.result;
+              const s = Number(res.winning_score ?? res.comparison_summary?.winning_score ?? res.winner?.quality ?? 0);
+              const cid = res.comparison_id || `comp-${it.id.toLowerCase()}`;
+              const qNorm = (it.query || '').trim().toLowerCase();
+
+              if (s > 0 && !existingCids.has(cid) && !existingQueries.has(qNorm) && !deletedRunIdsRef.current.has(cid)) {
+                existingCids.add(cid);
+                existingQueries.add(qNorm);
+                const runObj = {
+                  ...res,
+                  comparison_id: cid,
+                  query: it.query,
+                  symbol: it.symbol || res.symbol || res.primary_symbol,
+                  run_type: 'DATASET',
+                  scenario_id: it.id,
+                };
+                mergedRuns.unshift(runObj);
+                newlyPersisted.push(runObj);
+                // Asynchronously persist to backend disk so future reloads find it
+                (api as any).persistRun(runObj).catch((e: any) => console.warn('Could not auto-persist dataset run to disk:', e));
+              }
+            }
+          });
+
+          setHistoricalRuns(mergedRuns);
+
+          // If newly persisted items were added, refresh aggregate metrics
+          if (newlyPersisted.length > 0) {
+            (api as any).getAggregateEvaluationMetrics(slice).then((agg: any) => {
+              if (agg) setAggregateData(agg);
+            }).catch(() => {});
+          }
 
           // Reconcile dataset items with authentic completed runs from disk
           setDatasetItems((currentItems) => {
@@ -1769,6 +1810,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           });
         } catch (callErr: any) {
           console.warn(`Retry architecture ${archKey} for ${it.id}...`, callErr);
+          await new Promise((r) => setTimeout(r, 1200));
           try {
             archRes = await (api as any).runSingleArchitecture({
               query: it.query,
@@ -1844,6 +1886,21 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
         };
         return copy;
       });
+
+      // Ensure the completed run payload is explicitly written to backend disk
+      if (finalPayload && !finalPayload.error) {
+        try {
+          await (api as any).persistRun({
+            ...finalPayload,
+            run_type: 'DATASET',
+            scenario_id: it.id,
+            symbol: it.symbol || finalPayload.symbol,
+          });
+        } catch (persistErr: any) {
+          console.warn('Could not persist run to disk:', persistErr);
+        }
+      }
+
       fetchHistoricalRuns();
     } catch (err: any) {
       console.error(`Error executing question index ${index}:`, err);
