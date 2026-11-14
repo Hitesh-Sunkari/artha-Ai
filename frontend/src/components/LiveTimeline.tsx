@@ -20,7 +20,7 @@ import {
   ExternalLink,
   Info,
 } from 'lucide-react';
-import type { AgentContribution, LifecycleEvent, OrchestrationPattern } from '../api/types';
+import type { AgentContribution, LifecycleEvent, OrchestrationPattern, QuantitativeResearchReport } from '../api/types';
 
 interface AgentExecutionInfo {
   id: string;
@@ -95,9 +95,10 @@ interface LiveTimelineProps {
   events: LifecycleEvent[];
   runStatus: string;
   contributions?: AgentContribution[];
+  report?: QuantitativeResearchReport | null;
 }
 
-export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, runStatus, contributions = [] }) => {
+export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, runStatus, contributions = [], report = null }) => {
   const normPattern = (pattern || 'SEQUENTIAL').toUpperCase() as OrchestrationPattern;
   const [expandedAgentId, setExpandedAgentId] = useState<string | null>(null);
 
@@ -294,8 +295,15 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
       }
 
       if (agent.id === 'adk_research_manager') {
+        const stance = findings.consensus_stance || report?.recommendation;
+        const conv = findings.multi_agent_conviction_score ?? report?.conviction_score;
         return (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+            {stance && (
+              <span className="badge-chip" style={{ color: 'var(--accent-emerald)', fontWeight: 800 }}>
+                {stance} {conv ? `(${conv}/100)` : ''}
+              </span>
+            )}
             <span className="badge-chip" style={{ color: 'var(--accent-indigo)' }}>Supervisory Coordinator</span>
             <span className="badge-chip">7 Autonomous Specialists Dispatched</span>
             <span className="badge-chip" style={{ color: 'var(--accent-emerald)' }}>Zero Lookahead Bias</span>
@@ -371,49 +379,145 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           </div>
 
           {/* Body per Agent ID */}
-          {agent.id === 'adk_research_manager' && (
-            <div>
-              <div style={{
-                marginBottom: '10px', padding: '8px 12px', borderRadius: 'var(--radius-sm)',
-                backgroundColor: 'var(--groww-green-light)',
-                border: '1px solid rgba(0, 208, 156, 0.3)',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-green)' }}>
-                    Supervisory Fleet Planning & Task Dispatch
+          {agent.id === 'adk_research_manager' && (() => {
+            const managerSynthesis =
+              findings.narrative_summary ||
+              findings.executive_thesis ||
+              findings.thesis ||
+              report?.executive_thesis ||
+              '';
+            const managerObjective =
+              findings.objective ||
+              findings.initial_hypothesis ||
+              (report?.symbol ? `5-year quantitative valuation, microstructure liquidity, statutory friction under Finance Act 2024, and SEBI LODR compliance for ${report.symbol}.` : '');
+            const stance =
+              findings.consensus_stance ||
+              report?.recommendation ||
+              '';
+            const conviction =
+              findings.multi_agent_conviction_score ??
+              report?.conviction_score ??
+              null;
+            const target = findings.target_price ?? report?.target_price ?? null;
+            const targetUpside = findings.target_upside_pct ?? report?.target_upside_pct ?? null;
+            const stopLoss = findings.stop_loss_price ?? null;
+            const stopLossPct = findings.stop_loss_pct ?? null;
+            const r2r = findings.reward_to_risk_ratio ?? null;
+
+            return (
+              <div>
+                <div style={{
+                  marginBottom: '10px', padding: '8px 12px', borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--groww-green-light)',
+                  border: '1px solid rgba(0, 208, 156, 0.3)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--groww-green)' }}>
+                      Supervisory Fleet Planning &amp; Task Dispatch
+                    </span>
+                    <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Coordinates multi-agent handoff across all 6 specialists</span>
+                  </div>
+                  <span style={{ fontSize: '10px', color: 'var(--groww-green)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                    100% Real Exchange &amp; Filing Data • Zero Synthetic Data
                   </span>
-                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>— Coordinates multi-agent handoff across all 6 specialists</span>
                 </div>
-                <span style={{ fontSize: '10px', color: 'var(--groww-green)', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
-                  100% Real Exchange & Filing Data • Zero Synthetic Data
-                </span>
-              </div>
-              <div style={{ marginBottom: '12px', fontSize: '12.5px', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-                Supervisory Research Manager initialized the institutional research inquiry. Formulated task DAG, validated point-in-time constraints (strictly zero future lookahead), and sequentially dispatches tasks to Quant, Order Flow, Macro, Corporate Filings, Adversarial Skeptic, and Statutory Risk Gate. Full consensus synthesis is finalized at the bottom Consensus Gate.
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Supervisory Framework</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
-                    GOOGLE ADK + CREWAI
+
+                {/* Manager Executive Consensus Synthesis & Findings */}
+                {managerSynthesis ? (
+                  <div style={{
+                    marginBottom: '12px', padding: '14px 16px', borderRadius: 'var(--radius-md)',
+                    backgroundColor: 'var(--bg-card)', border: '1px solid rgba(0, 208, 156, 0.35)',
+                    boxShadow: '0 2px 10px rgba(0, 208, 156, 0.05)',
+                  }}>
+                    <div style={{
+                      fontSize: '11px', color: 'var(--groww-green)', fontWeight: 800, marginBottom: '8px',
+                      textTransform: 'uppercase', letterSpacing: '0.05em',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '6px'
+                    }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Brain size={14} />
+                        Supervisory Consensus Synthesis &amp; Strategic Thesis
+                      </span>
+                      {stance && (
+                        <span style={{
+                          fontSize: '10px', padding: '2px 8px', borderRadius: '4px',
+                          backgroundColor: stance === 'BUY' ? 'rgba(0, 208, 156, 0.15)' : stance === 'SELL' ? 'rgba(235, 91, 89, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                          color: stance === 'BUY' ? 'var(--groww-green)' : stance === 'SELL' ? 'var(--groww-red)' : 'var(--groww-amber)',
+                          fontFamily: 'var(--font-mono)', fontWeight: 800
+                        }}>
+                          {stance} {conviction != null ? `(${conviction}/100)` : ''}
+                        </span>
+                      )}
+                    </div>
+                    {renderStructuredText(managerSynthesis)}
+                  </div>
+                ) : (
+                  <div style={{ marginBottom: '12px', fontSize: '12.5px', color: 'var(--text-secondary)', lineHeight: 1.55 }}>
+                    Supervisory Research Manager initialized the institutional research inquiry. Formulated task DAG, validated point-in-time constraints (strictly zero future lookahead), and sequentially dispatches tasks to Quant, Order Flow, Macro, Corporate Filings, Adversarial Skeptic, and Statutory Risk Gate. Full consensus synthesis is finalized at the bottom Consensus Gate.
+                  </div>
+                )}
+
+                {/* Supervisory Mandate Objective */}
+                {managerObjective && (
+                  <div style={{
+                    marginBottom: '12px', padding: '10px 12px', borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-subtle)',
+                    fontSize: '11.5px', color: 'var(--text-secondary)', lineHeight: 1.5
+                  }}>
+                    <strong style={{ color: 'var(--groww-blue)' }}>Supervisory Mandate: </strong>
+                    {managerObjective}
+                  </div>
+                )}
+
+                {/* Supervisory Metric Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Supervisory Framework</div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-blue)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
+                      GOOGLE ADK + CREWAI
+                    </div>
+                  </div>
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Active Fleet</div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                      7 Autonomous Agents
+                    </div>
+                  </div>
+                  {target != null ? (
+                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Target Horizon</div>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
+                        ₹{Number(target).toFixed(2)}{targetUpside ? ` (+${targetUpside}%)` : ''}
+                      </div>
+                    </div>
+                  ) : null}
+                  {stopLoss != null ? (
+                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Stop-Loss Floor</div>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-red)', marginTop: '2px' }}>
+                        ₹{Number(stopLoss).toFixed(2)}{stopLossPct ? ` (${stopLossPct}%)` : ''}
+                      </div>
+                    </div>
+                  ) : null}
+                  {r2r != null ? (
+                    <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Reward / Risk</div>
+                      <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-amber)', marginTop: '2px' }}>
+                        {r2r}x
+                      </div>
+                    </div>
+                  ) : null}
+                  <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Point-in-Time Cutoff</div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
+                      STRICT UTC
+                    </div>
                   </div>
                 </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Active Fleet</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '2px' }}>
-                    7 Autonomous Agents
-                  </div>
-                </div>
-                <div style={{ padding: '10px 12px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Point-in-Time Cutoff</div>
-                  <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
-                    STRICT UTC
-                  </div>
-                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {agent.id === 'adk_quant_specialist' && (
             <div>
@@ -1144,17 +1248,17 @@ export const LiveTimeline: React.FC<LiveTimelineProps> = ({ pattern, events, run
           (e) => e.agent_id === 'adk_research_manager' && e.event_type === 'AGENT_COMPLETE' && (e.payload?.conviction_score !== undefined || e.payload?.recommendation !== undefined)
         );
 
-        if (!synthesizedManager && !lastManagerEvent && runStatus !== 'COMPLETED') return null;
+        if (!synthesizedManager && !lastManagerEvent && runStatus !== 'COMPLETED' && !report) return null;
 
         const f = synthesizedManager?.findings || lastManagerEvent?.payload || {};
-        const stance = f.consensus_stance || f.recommendation || 'HOLD';
-        const conviction = f.multi_agent_conviction_score ?? f.conviction_score ?? 60;
-        const targetPrice = f.target_price;
-        const targetUpside = f.target_upside_pct;
+        const stance = f.consensus_stance || f.recommendation || report?.recommendation || 'HOLD';
+        const conviction = f.multi_agent_conviction_score ?? f.conviction_score ?? report?.conviction_score ?? 60;
+        const targetPrice = f.target_price ?? report?.target_price;
+        const targetUpside = f.target_upside_pct ?? report?.target_upside_pct;
         const stopLoss = f.stop_loss_price;
         const stopLossPct = f.stop_loss_pct;
         const rrRatio = f.reward_to_risk_ratio;
-        const narrative = f.executive_thesis || f.narrative_summary || f.executive_summary || '';
+        const narrative = f.executive_thesis || f.narrative_summary || f.executive_summary || report?.executive_thesis || '';
 
         const stanceColor =
           stance === 'BUY'

@@ -827,6 +827,7 @@ export const ResearchWorkspacePage: React.FC<ResearchWorkspaceProps> = ({
             events={events}
             runStatus={runStatus}
             contributions={contributions}
+            report={report}
           />
 
           {/* Blackboard Monotonic State & A2A Event Stream */}
