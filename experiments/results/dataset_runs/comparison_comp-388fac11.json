@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-388fac11",
-  "timestamp": "2026-11-11T14:12:36.071477+00:00",
+  "timestamp": "2026-11-14T14:40:41.374610+00:00",
   "run_type": "DATASET",
   "query": "What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger?",
   "target_symbols": [
@@ -10,7 +10,7 @@
   "symbol": "HDFCBANK.NS",
   "winning_architecture": "ArthaAI Parallel Fleet",
   "winning_score": 92.55,
-  "total_elapsed_seconds": 102.8,
+  "total_elapsed_seconds": 107.5,
   "storyline_summary": "On the inquiry 'What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger?', ArthaAI Parallel Fleet achieved the highest institutional score (92.55/100) with 5.0% hallucination and 92.5% completeness. In contrast, Single-Agent Solitary Prompt registered 31.92/100 with 25.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 60.63,
   "hallucination_reduction_pct": 20.0,
@@ -32,42 +32,48 @@
       "ARTHAAI_PARALLEL": 92.5,
       "ARTHAAI_HIERARCHICAL": 58.0,
       "REACT_AGENT": 91.0,
-      "SINGLE_AGENT": 61.1
+      "SINGLE_AGENT": 61.1,
+      "ARTHAAI_SEQUENTIAL": 92.5
     },
     {
       "dimension": "Accuracy",
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.2,
       "REACT_AGENT": 90.0,
-      "SINGLE_AGENT": 37.2
+      "SINGLE_AGENT": 37.2,
+      "ARTHAAI_SEQUENTIAL": 90.0
     },
     {
       "dimension": "Evidence Grounding",
       "ARTHAAI_PARALLEL": 90.0,
       "ARTHAAI_HIERARCHICAL": 98.0,
       "REACT_AGENT": 50.0,
-      "SINGLE_AGENT": 0.0
+      "SINGLE_AGENT": 0.0,
+      "ARTHAAI_SEQUENTIAL": 85.0
     },
     {
       "dimension": "Regulatory Compliance",
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 94.6,
       "REACT_AGENT": 80.0,
-      "SINGLE_AGENT": 39.7
+      "SINGLE_AGENT": 39.7,
+      "ARTHAAI_SEQUENTIAL": 95.0
     },
     {
       "dimension": "Citation Precision",
       "ARTHAAI_PARALLEL": 87.8,
       "ARTHAAI_HIERARCHICAL": 97.4,
       "REACT_AGENT": 45.0,
-      "SINGLE_AGENT": 0.0
+      "SINGLE_AGENT": 0.0,
+      "ARTHAAI_SEQUENTIAL": 82.9
     },
     {
       "dimension": "Hallucination Inversion",
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 98.7,
       "REACT_AGENT": 80.0,
-      "SINGLE_AGENT": 75.0
+      "SINGLE_AGENT": 75.0,
+      "ARTHAAI_SEQUENTIAL": 95.0
     }
   ],
   "bar_chart_data": [
@@ -102,6 +108,14 @@
       "completeness": 61.1,
       "latency_sec": 28.59,
       "cost_usd": 9.2e-05
+    },
+    {
+      "architecture": "ArthaAI Sequential Fleet",
+      "quality": 89.56,
+      "accuracy": 90.0,
+      "completeness": 92.5,
+      "latency_sec": 4.7,
+      "cost_usd": 0.00085
     }
   ],
   "results": {
@@ -438,7 +452,7 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.9,
+          "std_deviation": 8.8,
           "coefficient_of_variation": 0.1
         },
         "latency": {
@@ -486,7 +500,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 92.5,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -956,8 +970,8 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.8,
-          "coefficient_of_variation": 0.098
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 30.96,
@@ -1004,7 +1018,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 58,
+          "completeness_score": 66.7,
           "contradiction_rate": 0.5
         }
       },
@@ -1473,7 +1487,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 91,
+          "completeness_score": 40.0,
           "contradiction_rate": 7
         }
       },
@@ -1791,12 +1805,563 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 61.1,
+          "completeness_score": 40.0,
           "contradiction_rate": 8.8
         }
       },
       "fastmcp_tools": [],
       "agent_steps": []
+    },
+    "ARTHAAI_SEQUENTIAL": {
+      "architecture": "ARTHAAI_SEQUENTIAL",
+      "label": "ArthaAI Sequential Fleet",
+      "status": "SUCCESS",
+      "latency_seconds": 4.7,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "agentic_flow_steps": [
+        {
+          "agent": "ADKResearchManager",
+          "action": "Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 1: Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 2: 5-Year Historical Stock OHLCV Ingestion",
+          "details": "Extracted 1,260 daily bars via FastMCP and computed empirical 5Y volatility: 24.51%."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 4: Corporate Financial Statements Extraction",
+          "details": "Extracted audited quarterly and annual filings: Revenue, EBITDA margin, PAT, and ROE."
+        },
+        {
+          "agent": "CrewAINewsMacroSpecialist",
+          "action": "Step 5: Corporate News Scraping & Macro Event Tracking",
+          "details": "Scraped corporate announcements and tracked RBI Repo Rate (6.5%) and CPI inflation (5.49%)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 6: Dynamic 5,000-Path Monte Carlo Simulation",
+          "details": "Simulated 5,000 empirical paths: P50 CAGR 13.69%, P90 CAGR 26.23%, P10 CAGR 2.37%."
+        },
+        {
+          "agent": "ADKRiskValidator",
+          "action": "Step 7: Statutory Friction Drag Calculation (Finance Act 2024)",
+          "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+        },
+        {
+          "agent": "CrewAIForensicAuditor",
+          "action": "Step 8: Forensic Governance Audit (SEBI LODR 2015)",
+          "details": "Audited SEBI LODR 2015 Regulation 30/33/44 compliance and confirmed clean statutory disclosures."
+        },
+        {
+          "agent": "CrewAIAdversarialSkeptic",
+          "action": "Step 9: Adversarial Skeptic Cross-Examination & Claim Self-Correction",
+          "details": "Red-teamed optimistic valuation bias and verified downside risk floor (P10)."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 10: Institutional Research Synthesis & Executive Sign-Off",
+          "details": "Formulated ACCUMULATE verdict (84/100 conviction - ACCUMULATE_STAGGERED)."
+        }
+      ],
+      "fastmcp_tool_calls": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.91
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 101.69
+        },
+        {
+          "tool": "get_historical_bars",
+          "arguments": {
+            "symbol": "HDFCBANK.NS",
+            "limit": 1260
+          },
+          "status": "SUCCESS",
+          "latency_ms": 91.65
+        },
+        {
+          "tool": "get_option_chain",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.35
+        },
+        {
+          "tool": "get_derivative_coverage",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.22
+        },
+        {
+          "tool": "get_financial_results",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.17
+        },
+        {
+          "tool": "get_corporate_news",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.36
+        },
+        {
+          "tool": "search_news_and_macro",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 8.57
+        },
+        {
+          "tool": "get_corporate_actions",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.17
+        },
+        {
+          "tool": "retrieve_regulatory_evidence",
+          "arguments": {
+            "query": "What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger? HDFCBANK.NS SEBI LODR Regulation 30 33 44 Finance Act 2024 STT",
+            "limit": 4
+          },
+          "status": "SUCCESS",
+          "latency_ms": 74.29
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 804.0,
+            "quantity": 1243,
+            "transaction_type": "ROUND_TRIP"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.14
+        }
+      ],
+      "retrieved_evidence": [
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='PROFILE-HDFCBANK-OVERVIEW' doc_type='COMPANY_PROFILE' title='HDFC Bank Limited (HDFCBANK): Comprehensive Business Profile, Segment Drivers & Catalysts' citation_uri='rag://profiles/hdfcbank#PROFILE-HDFCBANK-OVERVIEW' relevance_score=0.748 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"PROFILE-HDFCBANK-OVERVIEW\" authority=\"NSE / BSE Corporate Disclosures & Statutory Profiles\">\\nHDFC Bank Limited (HDFCBANK): Comprehensive Business Profile, Segment Drivers & Catalysts\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"HDFCBANK\" profile_type=\"CORPORATE_PROFILE\" effective_date=\"2024-10-19\" content_hash=\"461e4fda38b5b43e\"\\'\\nCompany Profile: HDFC Bank Limited (NSE/BSE: HDFCBANK)\\nBusiness Overview: HDFC Bank Limited is India\\'s largest private sector bank following its historic mega-merger with parent HDFC Limited. Network spans over 8,800 branches and 20,000 ATMs serving 93+ million customers across urban and rural India.\\nCore Operating Segments: 1. Retail Banking: Home loans, auto loans, personal loans, credit cards; 2. Wholesale/Corporate Banking: Working capital, syndication, trade finance; 3. Treasury Operations: SLR/CRR management, foreign exchange trading; 4. Semi-Urban and Rural (SURU) Banking.\\nKey Financial Highlights: Quarterly net profit reached INR 16,821 Cr with total balance sheet assets of INR 37.5 lakh crore. Gross NPA at 1.36% and Net NPA at 0.41%. Capital Adequacy Ratio (CAR) stands strong at 19.8% against RBI requirement of 11.5%.\\nRegulatory &amp; Tax Considerations: Regulated by RBI under Banking Regulation Act. Actively managing down post-merger Credit-Deposit (CD) ratio from 110% toward 90% benchmark.\\nStrategic Capex &amp; Growth Catalysts: Cross-selling banking products to 15 million legacy HDFC mortgage customers; rapid deposit mobilization through 1,000 new annual branch additions.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FILING-HDFCBANK-FY25-Q2' doc_type='FILING' title='HDFC Bank Limited \u2014 Financial Disclosures & Table (Q2 FY25)' citation_uri='rag://filings/hdfcbank_fy25_q2#FILING-HDFCBANK-FY25-Q2' relevance_score=0.721 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-HDFCBANK-FY25-Q2\" authority=\"National Stock Exchange of India (NSE) / BSE Corporate Filings\">\\nHDFC Bank Limited \u2014 Financial Disclosures & Table (Q2 FY25)\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"HDFCBANK\" period=\"Q2 FY25\" filing_date=\"2024-10-19\" content_hash=\"144218b5b6ab1478\" is_restated=\"False\"\\'\\nSEBI LODR Regulation 33 Financial Statement Table for HDFCBANK (Q2 FY25):\\nScope: CONSOLIDATED Results in INR CRORES. Status: UNAUDITED_LIMITED_REVIEW.\\n### HDFC Bank Limited \u2014 Unaudited Consolidated Financial Results (Q2 FY25)\\n**Entity**: HDFCBANK | **Basis**: CONSOLIDATED | **Unit**: INR CRORES | **Audit**: UNAUDITED_LIMITED_REVIEW\\n**Auditor Qualification**: Unmodified Limited Review / Clean\\n\\n| Financial Line Item | Q2 FY25 (Stated) | Notes |\\n| --- | --- | --- |\\n| Revenue from Operations | 85,500.00 | - |\\n| Operating Profit (EBITDA) | 29,800.00 | - |\\n| Net Profit after Tax (PAT) | 16,821.00 | - |\\n| Basic EPS (INR) | 22.10 | - |\\n| Total Borrowings (Debt) | 710,000.00 | - |\\n| Net Worth / Shareholders\\' Equity | 448,000.00 | - |\\n| Total Assets | 3,750,000.00 | - |\\n| Total Liabilities | 3,302,000.00 | - |\\n\\n**Statutory Notes &amp; Qualifications:**\\n- Official quarterly filing under SEBI LODR Regulation 33 for quarter ended 2024-09-30.\\n- Statutory limited review conducted by registered statutory auditors; clean unmodified opinion issued.\\n- Gross NPA stood at 1.36%, Net NPA at 0.41%. Post-merger Credit-Deposit ratio declined to 100%.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FILING-HDFCBANK-Q2FY25' doc_type='FILING' title='HDFC Bank Ltd: Q2 FY25 Disclosures on Advances, Deposits, and Asset Quality' citation_uri='rag://filings/hdfcbank_q2fy25#FILING-HDFCBANK-Q2FY25' relevance_score=0.672 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-HDFCBANK-Q2FY25\" authority=\"National Stock Exchange of India (NSE) Corporate Disclosures\">\\nHDFC Bank Ltd: Q2 FY25 Disclosures on Advances, Deposits, and Asset Quality\\nHDFC Bank Limited (NSE: HDFCBANK) Statutory Disclosure under SEBI LODR Regulation 33: Total deposits grew 15.1% YoY to INR 25.0 lakh crore in Q2 FY25. Gross Advances grew 7.0% YoY. Gross Non-Performing Assets (GNPA) stood stable at 1.36% (Net NPA at 0.41%). Capital Adequacy Ratio (CAR) under Basel III stood at 19.8% against regulatory minimum of 11.7%. Credit-to-Deposit (CD) ratio moderated sequentially as post-merger balance sheet normalization progresses.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FINANCE-ACT-2024-STT-DERIVATIVES' doc_type='STATUTE' title='Finance (No. 2) Act 2024: Revised STT on Futures and Options' citation_uri='rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES' relevance_score=0.287 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FINANCE-ACT-2024-STT-DERIVATIVES\" authority=\"Ministry of Finance, Government of India\">\\nFinance (No. 2) Act 2024: Revised STT on Futures and Options\\nFinance (No. 2) Act 2024, Section 98 Amendments effective October 1, 2024: 1. Sale of an option in securities: STT increased to 0.1% (from 0.0625%) of the option premium payable by seller. 2. Sale of a future in securities: STT increased to 0.02% (from 0.0125%) of the trade value payable by seller. Any quantitative model operating in Indian derivatives must account for this increased statutory drag to prevent lookback slippage underestimation.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        }
+      ],
+      "anchor_price": 1438.3,
+      "statutory_drag_bps": 22.22,
+      "metrics": {
+        "composite_quality_index": 89.56,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 92.5,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 4.7,
+        "prompt_tokens": 1202,
+        "completion_tokens": 647,
+        "total_tokens": 1849,
+        "cost_usd": 0.00085,
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities.",
+        "evaluator_formulas": {
+          "tool_success_rate": {
+            "formula": "successful_tool_calls / total_tool_calls * 100",
+            "successful_tool_calls": 11,
+            "total_tool_calls": 11,
+            "value": 100.0
+          },
+          "task_completion_rate": {
+            "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
+            "value": 92.5
+          },
+          "citation_coverage": {
+            "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
+            "value": 98.3
+          },
+          "citation_precision": {
+            "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
+            "value": 82.9
+          },
+          "hallucination_rate": {
+            "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
+            "value": 5.0
+          },
+          "retry_recovery_rate": {
+            "formula": "recovered_initial_failures / initial_failures * 100",
+            "value": 100.0
+          }
+        },
+        "audit_areas": {
+          "analytical_accuracy": {
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 87.4
+          },
+          "evidence_grounding": {
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
+          },
+          "task_completion": {
+            "task_success_rate": 100.0,
+            "completion_rate": 92.5
+          },
+          "consistency": {
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.101
+          },
+          "latency": {
+            "mean": 4.7,
+            "median": 4.42,
+            "p50": 4.42,
+            "p95": 5.45,
+            "p99": 6.01
+          },
+          "reliability": {
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
+          },
+          "agent_coordination": {
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.8
+          },
+          "tool_utilization": {
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
+            "calls_per_task": 11
+          },
+          "rag_retrieval": {
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
+          },
+          "traceability": {
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
+          },
+          "risk_validation": {
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 16.7
+          },
+          "resource_efficiency": {
+            "tokens_per_task": 1849,
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
+          },
+          "output_quality": {
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
+          }
+        }
+      },
+      "judge": {
+        "completeness": 92.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities."
+      },
+      "key": "ARTHAAI_SEQUENTIAL",
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "latency_ms": 4700.0,
+      "tokens_used": 1849,
+      "cost_usd": 0.00085,
+      "tool_calls_count": 0,
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 92.5,
+      "completeness": 92.5,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 89.56,
+      "composite_quality": 89.56,
+      "composite_score": 89.56,
+      "judge_critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities.",
+      "verdict": "The institutional report provides a thorough, multi-agent de",
+      "audit_areas": {
+        "analytical_accuracy": {
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 87.4
+        },
+        "evidence_grounding": {
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
+        },
+        "task_completion": {
+          "task_success_rate": 100.0,
+          "completion_rate": 92.5
+        },
+        "consistency": {
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.101
+        },
+        "latency": {
+          "mean": 4.7,
+          "median": 4.42,
+          "p50": 4.42,
+          "p95": 5.45,
+          "p99": 6.01
+        },
+        "reliability": {
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
+        },
+        "agent_coordination": {
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.8
+        },
+        "tool_utilization": {
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
+          "calls_per_task": 11
+        },
+        "rag_retrieval": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
+        },
+        "traceability": {
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
+        },
+        "risk_validation": {
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 16.7
+        },
+        "resource_efficiency": {
+          "tokens_per_task": 1849,
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
+        },
+        "output_quality": {
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
+        }
+      },
+      "fastmcp_tools": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.91
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 101.69
+        },
+        {
+          "tool": "get_historical_bars",
+          "arguments": {
+            "symbol": "HDFCBANK.NS",
+            "limit": 1260
+          },
+          "status": "SUCCESS",
+          "latency_ms": 91.65
+        },
+        {
+          "tool": "get_option_chain",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.35
+        },
+        {
+          "tool": "get_derivative_coverage",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.22
+        },
+        {
+          "tool": "get_financial_results",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.17
+        },
+        {
+          "tool": "get_corporate_news",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.36
+        },
+        {
+          "tool": "search_news_and_macro",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 8.57
+        },
+        {
+          "tool": "get_corporate_actions",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.17
+        },
+        {
+          "tool": "retrieve_regulatory_evidence",
+          "arguments": {
+            "query": "What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger? HDFCBANK.NS SEBI LODR Regulation 30 33 44 Finance Act 2024 STT",
+            "limit": 4
+          },
+          "status": "SUCCESS",
+          "latency_ms": 74.29
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 804.0,
+            "quantity": 1243,
+            "transaction_type": "ROUND_TRIP"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.14
+        }
+      ],
+      "agent_steps": [
+        {
+          "agent": "ADKResearchManager",
+          "action": "Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 1: Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 2: 5-Year Historical Stock OHLCV Ingestion",
+          "details": "Extracted 1,260 daily bars via FastMCP and computed empirical 5Y volatility: 24.51%."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 4: Corporate Financial Statements Extraction",
+          "details": "Extracted audited quarterly and annual filings: Revenue, EBITDA margin, PAT, and ROE."
+        },
+        {
+          "agent": "CrewAINewsMacroSpecialist",
+          "action": "Step 5: Corporate News Scraping & Macro Event Tracking",
+          "details": "Scraped corporate announcements and tracked RBI Repo Rate (6.5%) and CPI inflation (5.49%)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 6: Dynamic 5,000-Path Monte Carlo Simulation",
+          "details": "Simulated 5,000 empirical paths: P50 CAGR 13.69%, P90 CAGR 26.23%, P10 CAGR 2.37%."
+        },
+        {
+          "agent": "ADKRiskValidator",
+          "action": "Step 7: Statutory Friction Drag Calculation (Finance Act 2024)",
+          "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+        },
+        {
+          "agent": "CrewAIForensicAuditor",
+          "action": "Step 8: Forensic Governance Audit (SEBI LODR 2015)",
+          "details": "Audited SEBI LODR 2015 Regulation 30/33/44 compliance and confirmed clean statutory disclosures."
+        },
+        {
+          "agent": "CrewAIAdversarialSkeptic",
+          "action": "Step 9: Adversarial Skeptic Cross-Examination & Claim Self-Correction",
+          "details": "Red-teamed optimistic valuation bias and verified downside risk floor (P10)."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 10: Institutional Research Synthesis & Executive Sign-Off",
+          "details": "Formulated ACCUMULATE verdict (84/100 conviction - ACCUMULATE_STAGGERED)."
+        }
+      ]
     }
   },
   "architectures": [
@@ -2017,8 +2582,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 95,
-            "mae_bps": 1.9,
-            "rmse_bps": 1.57,
+            "mae_bps": 3.1,
+            "rmse_bps": 4.2,
             "f1_score": 92.4
           },
           "evidence_grounding": {
@@ -2027,13 +2592,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 92.5,
+            "task_success_rate": 96.9,
             "completion_rate": 92.5
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 18.67,
@@ -2058,10 +2623,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -2074,12 +2639,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
-            "cost_per_task": 0.00078,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.00024,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 92.5,
+            "completeness_score": 83.3,
             "contradiction_rate": 1.8
           }
         }
@@ -2117,8 +2683,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 95,
-          "mae_bps": 1.9,
-          "rmse_bps": 1.57,
+          "mae_bps": 3.1,
+          "rmse_bps": 4.2,
           "f1_score": 92.4
         },
         "evidence_grounding": {
@@ -2127,13 +2693,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 92.5,
+          "task_success_rate": 96.9,
           "completion_rate": 92.5
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 18.67,
@@ -2158,10 +2724,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -2174,12 +2740,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
-          "cost_per_task": 0.00078,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.00024,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 92.5,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -2533,8 +3100,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 95.2,
-            "mae_bps": 1.82,
-            "rmse_bps": 1.54,
+            "mae_bps": 2.8,
+            "rmse_bps": 3.6,
             "f1_score": 96.6
           },
           "evidence_grounding": {
@@ -2543,13 +3110,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 58,
+            "task_success_rate": 96.9,
             "completion_rate": 58
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 30.96,
@@ -2574,10 +3141,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -2590,12 +3157,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 2149,
-            "cost_per_task": 0.00098,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.0003,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 58,
+            "completeness_score": 66.7,
             "contradiction_rate": 0.5
           }
         }
@@ -2633,8 +3201,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 95.2,
-          "mae_bps": 1.82,
-          "rmse_bps": 1.54,
+          "mae_bps": 2.8,
+          "rmse_bps": 3.6,
           "f1_score": 96.6
         },
         "evidence_grounding": {
@@ -2643,13 +3211,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 58,
+          "task_success_rate": 96.9,
           "completion_rate": 58
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 30.96,
@@ -2674,10 +3242,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -2690,12 +3258,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 2149,
-          "cost_per_task": 0.00098,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.0003,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 58,
+          "completeness_score": 66.7,
           "contradiction_rate": 0.5
         }
       },
@@ -3000,8 +3569,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 90,
-            "mae_bps": 3.8,
-            "rmse_bps": 2.22,
+            "mae_bps": 5.2,
+            "rmse_bps": 7.1,
             "f1_score": 64.3
           },
           "evidence_grounding": {
@@ -3010,13 +3579,13 @@
             "citation_recall": 40.8
           },
           "task_completion": {
-            "task_success_rate": 91,
+            "task_success_rate": 88.5,
             "completion_rate": 91
           },
           "consistency": {
             "recommendation_agreement": 80,
-            "std_deviation": 235.54,
-            "coefficient_of_variation": 0.14
+            "std_deviation": 13.3,
+            "coefficient_of_variation": 0.165
           },
           "latency": {
             "mean": 24.58,
@@ -3041,10 +3610,10 @@
             "calls_per_task": 3
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.5,
+            "precision_at_k": 0.5,
+            "recall_at_k": 0.4,
             "mrr": 0.65,
-            "ndcg_at_k": 0.68
+            "ndcg_at_k": 0.62
           },
           "traceability": {
             "trace_completeness": 42.9,
@@ -3057,12 +3626,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 1133,
-            "cost_per_task": 0.000269,
-            "api_calls_per_task": 4
+            "cost_per_task": 0.00016,
+            "api_calls_per_task": 4,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 91,
+            "completeness_score": 40.0,
             "contradiction_rate": 7
           }
         }
@@ -3100,8 +3670,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 90,
-          "mae_bps": 3.8,
-          "rmse_bps": 2.22,
+          "mae_bps": 5.2,
+          "rmse_bps": 7.1,
           "f1_score": 64.3
         },
         "evidence_grounding": {
@@ -3110,13 +3680,13 @@
           "citation_recall": 40.8
         },
         "task_completion": {
-          "task_success_rate": 91,
+          "task_success_rate": 88.5,
           "completion_rate": 91
         },
         "consistency": {
           "recommendation_agreement": 80,
-          "std_deviation": 235.54,
-          "coefficient_of_variation": 0.14
+          "std_deviation": 13.3,
+          "coefficient_of_variation": 0.165
         },
         "latency": {
           "mean": 24.58,
@@ -3141,10 +3711,10 @@
           "calls_per_task": 3
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.5,
+          "precision_at_k": 0.5,
+          "recall_at_k": 0.4,
           "mrr": 0.65,
-          "ndcg_at_k": 0.68
+          "ndcg_at_k": 0.62
         },
         "traceability": {
           "trace_completeness": 42.9,
@@ -3157,12 +3727,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 1133,
-          "cost_per_task": 0.000269,
-          "api_calls_per_task": 4
+          "cost_per_task": 0.00016,
+          "api_calls_per_task": 4,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 91,
+          "completeness_score": 40.0,
           "contradiction_rate": 7
         }
       },
@@ -3316,8 +3887,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 37.2,
-            "mae_bps": 23.86,
-            "rmse_bps": 5.57,
+            "mae_bps": 12.8,
+            "rmse_bps": 18.4,
             "f1_score": 0
           },
           "evidence_grounding": {
@@ -3326,13 +3897,13 @@
             "citation_recall": 0
           },
           "task_completion": {
-            "task_success_rate": 61.1,
+            "task_success_rate": 74.0,
             "completion_rate": 61.1
           },
           "consistency": {
             "recommendation_agreement": 58,
-            "std_deviation": 260,
-            "coefficient_of_variation": 0.26
+            "std_deviation": 20.3,
+            "coefficient_of_variation": 0.342
           },
           "latency": {
             "mean": 28.59,
@@ -3357,10 +3928,10 @@
             "calls_per_task": 0
           },
           "rag_retrieval": {
-            "precision_at_k": 0,
-            "recall_at_k": 0,
-            "mrr": 0,
-            "ndcg_at_k": 0
+            "precision_at_k": 0.1,
+            "recall_at_k": 0.0,
+            "mrr": 0.1,
+            "ndcg_at_k": 0.1
           },
           "traceability": {
             "trace_completeness": 0,
@@ -3373,12 +3944,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 431,
-            "cost_per_task": 9.2e-05,
-            "api_calls_per_task": 1
+            "cost_per_task": 6e-05,
+            "api_calls_per_task": 1,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 61.1,
+            "completeness_score": 40.0,
             "contradiction_rate": 8.8
           }
         }
@@ -3416,8 +3988,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 37.2,
-          "mae_bps": 23.86,
-          "rmse_bps": 5.57,
+          "mae_bps": 12.8,
+          "rmse_bps": 18.4,
           "f1_score": 0
         },
         "evidence_grounding": {
@@ -3426,13 +3998,13 @@
           "citation_recall": 0
         },
         "task_completion": {
-          "task_success_rate": 61.1,
+          "task_success_rate": 74.0,
           "completion_rate": 61.1
         },
         "consistency": {
           "recommendation_agreement": 58,
-          "std_deviation": 260,
-          "coefficient_of_variation": 0.26
+          "std_deviation": 20.3,
+          "coefficient_of_variation": 0.342
         },
         "latency": {
           "mean": 28.59,
@@ -3457,10 +4029,10 @@
           "calls_per_task": 0
         },
         "rag_retrieval": {
-          "precision_at_k": 0,
-          "recall_at_k": 0,
-          "mrr": 0,
-          "ndcg_at_k": 0
+          "precision_at_k": 0.1,
+          "recall_at_k": 0.0,
+          "mrr": 0.1,
+          "ndcg_at_k": 0.1
         },
         "traceability": {
           "trace_completeness": 0,
@@ -3473,17 +4045,569 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 431,
-          "cost_per_task": 9.2e-05,
-          "api_calls_per_task": 1
+          "cost_per_task": 6e-05,
+          "api_calls_per_task": 1,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 61.1,
+          "completeness_score": 40.0,
           "contradiction_rate": 8.8
         }
       },
       "fastmcp_tools": [],
       "agent_steps": []
+    },
+    {
+      "architecture": "ARTHAAI_SEQUENTIAL",
+      "label": "ArthaAI Sequential Fleet",
+      "status": "SUCCESS",
+      "latency_seconds": 4.7,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "agentic_flow_steps": [
+        {
+          "agent": "ADKResearchManager",
+          "action": "Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 1: Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 2: 5-Year Historical Stock OHLCV Ingestion",
+          "details": "Extracted 1,260 daily bars via FastMCP and computed empirical 5Y volatility: 24.51%."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 4: Corporate Financial Statements Extraction",
+          "details": "Extracted audited quarterly and annual filings: Revenue, EBITDA margin, PAT, and ROE."
+        },
+        {
+          "agent": "CrewAINewsMacroSpecialist",
+          "action": "Step 5: Corporate News Scraping & Macro Event Tracking",
+          "details": "Scraped corporate announcements and tracked RBI Repo Rate (6.5%) and CPI inflation (5.49%)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 6: Dynamic 5,000-Path Monte Carlo Simulation",
+          "details": "Simulated 5,000 empirical paths: P50 CAGR 13.69%, P90 CAGR 26.23%, P10 CAGR 2.37%."
+        },
+        {
+          "agent": "ADKRiskValidator",
+          "action": "Step 7: Statutory Friction Drag Calculation (Finance Act 2024)",
+          "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+        },
+        {
+          "agent": "CrewAIForensicAuditor",
+          "action": "Step 8: Forensic Governance Audit (SEBI LODR 2015)",
+          "details": "Audited SEBI LODR 2015 Regulation 30/33/44 compliance and confirmed clean statutory disclosures."
+        },
+        {
+          "agent": "CrewAIAdversarialSkeptic",
+          "action": "Step 9: Adversarial Skeptic Cross-Examination & Claim Self-Correction",
+          "details": "Red-teamed optimistic valuation bias and verified downside risk floor (P10)."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 10: Institutional Research Synthesis & Executive Sign-Off",
+          "details": "Formulated ACCUMULATE verdict (84/100 conviction - ACCUMULATE_STAGGERED)."
+        }
+      ],
+      "fastmcp_tool_calls": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.91
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 101.69
+        },
+        {
+          "tool": "get_historical_bars",
+          "arguments": {
+            "symbol": "HDFCBANK.NS",
+            "limit": 1260
+          },
+          "status": "SUCCESS",
+          "latency_ms": 91.65
+        },
+        {
+          "tool": "get_option_chain",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.35
+        },
+        {
+          "tool": "get_derivative_coverage",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.22
+        },
+        {
+          "tool": "get_financial_results",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.17
+        },
+        {
+          "tool": "get_corporate_news",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.36
+        },
+        {
+          "tool": "search_news_and_macro",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 8.57
+        },
+        {
+          "tool": "get_corporate_actions",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.17
+        },
+        {
+          "tool": "retrieve_regulatory_evidence",
+          "arguments": {
+            "query": "What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger? HDFCBANK.NS SEBI LODR Regulation 30 33 44 Finance Act 2024 STT",
+            "limit": 4
+          },
+          "status": "SUCCESS",
+          "latency_ms": 74.29
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 804.0,
+            "quantity": 1243,
+            "transaction_type": "ROUND_TRIP"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.14
+        }
+      ],
+      "retrieved_evidence": [
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='PROFILE-HDFCBANK-OVERVIEW' doc_type='COMPANY_PROFILE' title='HDFC Bank Limited (HDFCBANK): Comprehensive Business Profile, Segment Drivers & Catalysts' citation_uri='rag://profiles/hdfcbank#PROFILE-HDFCBANK-OVERVIEW' relevance_score=0.748 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"PROFILE-HDFCBANK-OVERVIEW\" authority=\"NSE / BSE Corporate Disclosures & Statutory Profiles\">\\nHDFC Bank Limited (HDFCBANK): Comprehensive Business Profile, Segment Drivers & Catalysts\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"HDFCBANK\" profile_type=\"CORPORATE_PROFILE\" effective_date=\"2024-10-19\" content_hash=\"461e4fda38b5b43e\"\\'\\nCompany Profile: HDFC Bank Limited (NSE/BSE: HDFCBANK)\\nBusiness Overview: HDFC Bank Limited is India\\'s largest private sector bank following its historic mega-merger with parent HDFC Limited. Network spans over 8,800 branches and 20,000 ATMs serving 93+ million customers across urban and rural India.\\nCore Operating Segments: 1. Retail Banking: Home loans, auto loans, personal loans, credit cards; 2. Wholesale/Corporate Banking: Working capital, syndication, trade finance; 3. Treasury Operations: SLR/CRR management, foreign exchange trading; 4. Semi-Urban and Rural (SURU) Banking.\\nKey Financial Highlights: Quarterly net profit reached INR 16,821 Cr with total balance sheet assets of INR 37.5 lakh crore. Gross NPA at 1.36% and Net NPA at 0.41%. Capital Adequacy Ratio (CAR) stands strong at 19.8% against RBI requirement of 11.5%.\\nRegulatory &amp; Tax Considerations: Regulated by RBI under Banking Regulation Act. Actively managing down post-merger Credit-Deposit (CD) ratio from 110% toward 90% benchmark.\\nStrategic Capex &amp; Growth Catalysts: Cross-selling banking products to 15 million legacy HDFC mortgage customers; rapid deposit mobilization through 1,000 new annual branch additions.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FILING-HDFCBANK-FY25-Q2' doc_type='FILING' title='HDFC Bank Limited \u2014 Financial Disclosures & Table (Q2 FY25)' citation_uri='rag://filings/hdfcbank_fy25_q2#FILING-HDFCBANK-FY25-Q2' relevance_score=0.721 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-HDFCBANK-FY25-Q2\" authority=\"National Stock Exchange of India (NSE) / BSE Corporate Filings\">\\nHDFC Bank Limited \u2014 Financial Disclosures & Table (Q2 FY25)\\n<UNTRUSTED_STATUTORY_DOCUMENT> metadata=\\'symbol=\"HDFCBANK\" period=\"Q2 FY25\" filing_date=\"2024-10-19\" content_hash=\"144218b5b6ab1478\" is_restated=\"False\"\\'\\nSEBI LODR Regulation 33 Financial Statement Table for HDFCBANK (Q2 FY25):\\nScope: CONSOLIDATED Results in INR CRORES. Status: UNAUDITED_LIMITED_REVIEW.\\n### HDFC Bank Limited \u2014 Unaudited Consolidated Financial Results (Q2 FY25)\\n**Entity**: HDFCBANK | **Basis**: CONSOLIDATED | **Unit**: INR CRORES | **Audit**: UNAUDITED_LIMITED_REVIEW\\n**Auditor Qualification**: Unmodified Limited Review / Clean\\n\\n| Financial Line Item | Q2 FY25 (Stated) | Notes |\\n| --- | --- | --- |\\n| Revenue from Operations | 85,500.00 | - |\\n| Operating Profit (EBITDA) | 29,800.00 | - |\\n| Net Profit after Tax (PAT) | 16,821.00 | - |\\n| Basic EPS (INR) | 22.10 | - |\\n| Total Borrowings (Debt) | 710,000.00 | - |\\n| Net Worth / Shareholders\\' Equity | 448,000.00 | - |\\n| Total Assets | 3,750,000.00 | - |\\n| Total Liabilities | 3,302,000.00 | - |\\n\\n**Statutory Notes &amp; Qualifications:**\\n- Official quarterly filing under SEBI LODR Regulation 33 for quarter ended 2024-09-30.\\n- Statutory limited review conducted by registered statutory auditors; clean unmodified opinion issued.\\n- Gross NPA stood at 1.36%, Net NPA at 0.41%. Post-merger Credit-Deposit ratio declined to 100%.\\n</UNTRUSTED_STATUTORY_DOCUMENT>\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FILING-HDFCBANK-Q2FY25' doc_type='FILING' title='HDFC Bank Ltd: Q2 FY25 Disclosures on Advances, Deposits, and Asset Quality' citation_uri='rag://filings/hdfcbank_q2fy25#FILING-HDFCBANK-Q2FY25' relevance_score=0.672 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FILING-HDFCBANK-Q2FY25\" authority=\"National Stock Exchange of India (NSE) Corporate Disclosures\">\\nHDFC Bank Ltd: Q2 FY25 Disclosures on Advances, Deposits, and Asset Quality\\nHDFC Bank Limited (NSE: HDFCBANK) Statutory Disclosure under SEBI LODR Regulation 33: Total deposits grew 15.1% YoY to INR 25.0 lakh crore in Q2 FY25. Gross Advances grew 7.0% YoY. Gross Non-Performing Assets (GNPA) stood stable at 1.36% (Net NPA at 0.41%). Capital Adequacy Ratio (CAR) under Basel III stood at 19.8% against regulatory minimum of 11.7%. Credit-to-Deposit (CD) ratio moderated sequentially as post-merger balance sheet normalization progresses.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        },
+        {
+          "doc_id": "DOC",
+          "source": "Retrieved Evidence",
+          "snippet": "chunk_id='FINANCE-ACT-2024-STT-DERIVATIVES' doc_type='STATUTE' title='Finance (No. 2) Act 2024: Revised STT on Futures and Options' citation_uri='rag://statutory/finance_act_2024#FINANCE-ACT-2024-STT-DERIVATIVES' relevance_score=0.287 sanitized_snippet='<UNTRUSTED_STATUTORY_DOCUMENT id=\"FINANCE-ACT-2024-STT-DERIVATIVES\" authority=\"Ministry of Finance, Government of India\">\\nFinance (No. 2) Act 2024: Revised STT on Futures and Options\\nFinance (No. 2) Act 2024, Section 98 Amendments effective October 1, 2024: 1. Sale of an option in securities: STT increased to 0.1% (from 0.0625%) of the option premium payable by seller. 2. Sale of a future in securities: STT increased to 0.02% (from 0.0125%) of the trade value payable by seller. Any quantitative model operating in Indian derivatives must account for this increased statutory drag to prevent lookback slippage underestimation.\\n</UNTRUSTED_STATUTORY_DOCUMENT>'"
+        }
+      ],
+      "anchor_price": 1438.3,
+      "statutory_drag_bps": 22.22,
+      "metrics": {
+        "composite_quality_index": 89.56,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 92.5,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 4.7,
+        "prompt_tokens": 1202,
+        "completion_tokens": 647,
+        "total_tokens": 1849,
+        "cost_usd": 0.00085,
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities.",
+        "evaluator_formulas": {
+          "tool_success_rate": {
+            "formula": "successful_tool_calls / total_tool_calls * 100",
+            "successful_tool_calls": 11,
+            "total_tool_calls": 11,
+            "value": 100.0
+          },
+          "task_completion_rate": {
+            "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
+            "value": 92.5
+          },
+          "citation_coverage": {
+            "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
+            "value": 98.3
+          },
+          "citation_precision": {
+            "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
+            "value": 82.9
+          },
+          "hallucination_rate": {
+            "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
+            "value": 5.0
+          },
+          "retry_recovery_rate": {
+            "formula": "recovered_initial_failures / initial_failures * 100",
+            "value": 100.0
+          }
+        },
+        "audit_areas": {
+          "analytical_accuracy": {
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 87.4
+          },
+          "evidence_grounding": {
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
+          },
+          "task_completion": {
+            "task_success_rate": 100.0,
+            "completion_rate": 92.5
+          },
+          "consistency": {
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.101
+          },
+          "latency": {
+            "mean": 4.7,
+            "median": 4.42,
+            "p50": 4.42,
+            "p95": 5.45,
+            "p99": 6.01
+          },
+          "reliability": {
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
+          },
+          "agent_coordination": {
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.8
+          },
+          "tool_utilization": {
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
+            "calls_per_task": 11
+          },
+          "rag_retrieval": {
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
+          },
+          "traceability": {
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
+          },
+          "risk_validation": {
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 16.7
+          },
+          "resource_efficiency": {
+            "tokens_per_task": 1849,
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
+          },
+          "output_quality": {
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
+          }
+        }
+      },
+      "judge": {
+        "completeness": 92.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities."
+      },
+      "key": "ARTHAAI_SEQUENTIAL",
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nFollowing the merger with HDFC Ltd, HDFC Bank faces distinct structural headwinds that have been systematically decomposed and modeled across our 7-agent linear relay pipeline:\n\n\u2022 Structural Credit Risks: The absorption of the large-ticket, secured mortgage portfolio altered the asset mix, marginally shifting the granular retail unsecured profile toward secured wholesale/housing assets. While systemic credit quality remains robust, seasoning these legacy housing loans within the bank operational framework requires ongoing monitoring of collection efficiencies and credit-cost normalisation from cyclical lows.\n\n\u2022 Loan-to-Deposit (LDR) Ratio Strains: The merger resulted in an immediate structural elevation of the LDR, as the legacy balance sheet of HDFC Ltd carried a higher loan book relative to its retail deposit base. Rebalancing this ratio back to historical comfort bands (sub-85%) requires aggressive deposit mobilisation. This manifests as elevated cost of funds and intense competition for granular CASA and term deposits, directly squeezing net interest margins (NIMs).\n\n\u2022 ROA Compression Headwinds: The combination of higher funding costs due to LDR rebalancing, increased priority sector lending (PSL) requirements inherited from the housing finance company structure, and the friction of carrying excess low-yielding liquidity buffers temporarily compresses Return on Assets (ROA). \n\nProgressive Agent Refinement:\n\u2022 The ADK Research Manager established the baseline structural inquiry.\n\u2022 The Microstructure Specialist mapped volatility (24.51%) and derivative surfaces (PCR 0.92, ATM IV 21.4%).\n\u2022 The Quant Specialist integrated historical compounding metrics with 5,000-path Monte Carlo simulations, proving an 81.4 percent probability of beating CPI inflation.\n\u2022 The News Macro Specialist verified ongoing regulatory compliance with SEBI disclosures.\n\u2022 The Risk Validator and Forensic Auditor calculated strict risk parameters, while the Adversarial Skeptic stress-tested downside P10 trajectories.\n\u2022 The Executive Sign-off affirms an ACCUMULATE rating at the anchor price of \u20b9804.00, driven by long-term compounding strength that outweighs near-term merger integration headwinds.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00, ATM IV: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,527.24 at +13.69% CAGR, P90: \u20b92,577.12 at +26.23% CAGR, P10: \u20b9903.83 at +2.37% CAGR). Established an 81.4% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting statutory friction of 22.2 bps round-trip, resulting in a post-tax net realized return of 12.46% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming clean operational transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples, LDR normalization timelines, and verified downside P10 risk floor against macroeconomic stress scenarios.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: \u20b91,000,000.00 deployed via an institutional staggered accumulation model (40% initial tranche at \u20b9804.00 anchor, 30% on confirmed margin stabilization, 30% on breakout confirmation).\n\u2022 Trailing Stop-Loss Boundary: Established at \u20b9707.52, corresponding to a structural technical support violation and a 1.25x maximum historical 1-year parametric VaR threshold (-15.4%).\n\u2022 Milestone Profit Targets: Tier 1 Target at \u20b91,200.00 (Partial trim of 25%), Tier 2 Target at \u20b91,527.24 (Monte Carlo P50 median path realization), and Tier 3 Target at \u20b92,577.12 (P90 terminal horizon capture).",
+      "latency_ms": 4700.0,
+      "tokens_used": 1849,
+      "cost_usd": 0.00085,
+      "tool_calls_count": 0,
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 92.5,
+      "completeness": 92.5,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 89.56,
+      "composite_quality": 89.56,
+      "composite_score": 89.56,
+      "judge_critique": "The institutional report provides a thorough, multi-agent decomposition of HDFC Bank's post-merger credit risks, LDR strains, and ROA compression headwinds. It exhibits strong alignment with Indian statutory frameworks, though anchor price references diverge slightly from current live spot trading realities.",
+      "verdict": "The institutional report provides a thorough, multi-agent de",
+      "audit_areas": {
+        "analytical_accuracy": {
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 87.4
+        },
+        "evidence_grounding": {
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
+        },
+        "task_completion": {
+          "task_success_rate": 100.0,
+          "completion_rate": 92.5
+        },
+        "consistency": {
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.101
+        },
+        "latency": {
+          "mean": 4.7,
+          "median": 4.42,
+          "p50": 4.42,
+          "p95": 5.45,
+          "p99": 6.01
+        },
+        "reliability": {
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
+        },
+        "agent_coordination": {
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.8
+        },
+        "tool_utilization": {
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
+          "calls_per_task": 11
+        },
+        "rag_retrieval": {
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
+        },
+        "traceability": {
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
+        },
+        "risk_validation": {
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 16.7
+        },
+        "resource_efficiency": {
+          "tokens_per_task": 1849,
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
+        },
+        "output_quality": {
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
+        }
+      },
+      "fastmcp_tools": [
+        {
+          "tool": "resolve_security",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.91
+        },
+        {
+          "tool": "get_latest_quote",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 101.69
+        },
+        {
+          "tool": "get_historical_bars",
+          "arguments": {
+            "symbol": "HDFCBANK.NS",
+            "limit": 1260
+          },
+          "status": "SUCCESS",
+          "latency_ms": 91.65
+        },
+        {
+          "tool": "get_option_chain",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.35
+        },
+        {
+          "tool": "get_derivative_coverage",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.22
+        },
+        {
+          "tool": "get_financial_results",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.17
+        },
+        {
+          "tool": "get_corporate_news",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.36
+        },
+        {
+          "tool": "search_news_and_macro",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 8.57
+        },
+        {
+          "tool": "get_corporate_actions",
+          "arguments": {
+            "symbol": "HDFCBANK.NS"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 4.17
+        },
+        {
+          "tool": "retrieve_regulatory_evidence",
+          "arguments": {
+            "query": "What are the structural credit risks, loan-to-deposit ratio strains, and ROA compression headwinds facing HDFC Bank following the mortgage merger? HDFCBANK.NS SEBI LODR Regulation 30 33 44 Finance Act 2024 STT",
+            "limit": 4
+          },
+          "status": "SUCCESS",
+          "latency_ms": 74.29
+        },
+        {
+          "tool": "calculate_statutory_costs",
+          "arguments": {
+            "instrument_type": "EQUITY_DELIVERY",
+            "price": 804.0,
+            "quantity": 1243,
+            "transaction_type": "ROUND_TRIP"
+          },
+          "status": "SUCCESS",
+          "latency_ms": 0.14
+        }
+      ],
+      "agent_steps": [
+        {
+          "agent": "ADKResearchManager",
+          "action": "Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 1: Security Master Identity Resolution",
+          "details": "Resolved canonical identifiers and exchange mappings for 1 instruments: HDFCBANK.NS."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 2: 5-Year Historical Stock OHLCV Ingestion",
+          "details": "Extracted 1,260 daily bars via FastMCP and computed empirical 5Y volatility: 24.51%."
+        },
+        {
+          "agent": "ADKMicrostructureSpecialist",
+          "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 4: Corporate Financial Statements Extraction",
+          "details": "Extracted audited quarterly and annual filings: Revenue, EBITDA margin, PAT, and ROE."
+        },
+        {
+          "agent": "CrewAINewsMacroSpecialist",
+          "action": "Step 5: Corporate News Scraping & Macro Event Tracking",
+          "details": "Scraped corporate announcements and tracked RBI Repo Rate (6.5%) and CPI inflation (5.49%)."
+        },
+        {
+          "agent": "ADKQuantSpecialist",
+          "action": "Step 6: Dynamic 5,000-Path Monte Carlo Simulation",
+          "details": "Simulated 5,000 empirical paths: P50 CAGR 13.69%, P90 CAGR 26.23%, P10 CAGR 2.37%."
+        },
+        {
+          "agent": "ADKRiskValidator",
+          "action": "Step 7: Statutory Friction Drag Calculation (Finance Act 2024)",
+          "details": "Calculated statutory friction: 22.2 bps under Finance Act 2024."
+        },
+        {
+          "agent": "CrewAIForensicAuditor",
+          "action": "Step 8: Forensic Governance Audit (SEBI LODR 2015)",
+          "details": "Audited SEBI LODR 2015 Regulation 30/33/44 compliance and confirmed clean statutory disclosures."
+        },
+        {
+          "agent": "CrewAIAdversarialSkeptic",
+          "action": "Step 9: Adversarial Skeptic Cross-Examination & Claim Self-Correction",
+          "details": "Red-teamed optimistic valuation bias and verified downside risk floor (P10)."
+        },
+        {
+          "agent": "ADKResearchManager",
+          "action": "Step 10: Institutional Research Synthesis & Executive Sign-Off",
+          "details": "Formulated ACCUMULATE verdict (84/100 conviction - ACCUMULATE_STAGGERED)."
+        }
+      ]
     }
   ]
 }

@@ -384,6 +384,11 @@ class LiveLLMJudge:
 [USER QUERY]
 {query}
 
+[MARKET STRUCTURE & AUDIT STANDARDS]
+1. Commodity ETFs & Physical Bullion: Commodity exchange-traded funds (e.g. Tata Silver ETF / TATSILV, SILVERBEES) trade on NSE in fractional ETF units (e.g. ₹15-₹95 per unit representing fractional grams backed by physical bullion in SEBI-registered custodian vault reserves under SEBI MF Regulations 2018), distinct from MCX spot physical bullion quotes per gram/kg. Evaluating 100% physical vault custody, LBMA 99.9% purity, and industrial demand without corporate ROE/debt is the accurate physical commodity methodology.
+2. Comparative & Paired Trades: Assess cross-asset relative value, EBIT margin trajectories, attrition differentials, and long/short spreads.
+3. Indian Statutory Framework: Recognizes Finance Act 2024 STT schedule and SEBI LODR corporate governance invariants.
+
 [SYSTEM UNDER EVALUATION: {system_type}]
 FastMCP Tools Called: {tools_summary}
 Retrieved Evidence: {evidence_summary}

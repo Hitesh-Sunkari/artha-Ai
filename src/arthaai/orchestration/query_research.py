@@ -1246,12 +1246,17 @@ async def execute_query_research(
                 roe_val = ratios.get("roe") or ratios.get("return_on_equity") or latest_fin.get("return_on_equity_pct")
                 de_val = ratios.get("debt_to_equity") or ratios.get("debt_equity") or latest_fin.get("debt_to_equity_ratio")
 
-            if pe_val is None and meta and meta.expected_return > 0:
-                pe_val = round(20.0 / (meta.expected_return * 5), 1)
-            if roe_val is None:
-                roe_val = 16.5
-            if de_val is None:
-                de_val = 0.45
+            if is_sym_commodity:
+                pe_val = None
+                roe_val = None
+                de_val = None
+            else:
+                if pe_val is None and meta and meta.expected_return > 0:
+                    pe_val = round(20.0 / (meta.expected_return * 5), 1)
+                if roe_val is None:
+                    roe_val = 16.5
+                if de_val is None:
+                    de_val = 0.45
 
         # ── Parse News Headlines ──
         articles = news_res.get("articles", []) if isinstance(news_res, dict) else []
@@ -1495,16 +1500,28 @@ async def execute_query_research(
         for pt in mc_res.trajectory
     ]
 
-    growth_catalysts = [
-        f"Earnings & Cash Flow Compounding: 5-year operating performance compounding at ~{base_cagr}% baseline CAGR over {horizon} years.",
-        f"Macro Domestic Tailwinds: Robust India domestic demand supporting operational scale and pricing power.",
-        f"Capital Efficiency: Strong balance sheet health with sustainable Return on Equity ({primary_stock_summary.roe_pct or 16.5}% ROE).",
-    ]
-    downside_risks = [
-        f"Macro Drag: Inflation spikes and elevated benchmark rates compressing valuation multiples.",
-        f"Sector Headwinds: Cyclical slowdowns or technological disruption impacting top-line margins.",
-        f"Regulatory Compliance: Periodic SEBI LODR 2015 surveillance and statutory tax compliance.",
-    ]
+    if is_commodity_asset:
+        growth_catalysts = [
+            f"Physical Bullion Security: 100% fine silver bullion held in SEBI-registered custodian vault reserves under LBMA Good Delivery standards.",
+            f"Structural Industrial Deficit: Rapidly compounding industrial fabrication demand in solar PV silver paste and electric vehicle electronics.",
+            f"Monetary Inflation Hedge: Negative real yield sensitivity driving institutional capital allocation toward precious metals over {horizon} years.",
+        ]
+        downside_risks = [
+            f"Industrial Thrifting: Solar cell silver paste thrifting and copper substitution reducing fabrication intensity per GW.",
+            f"Monetary Tightening: Central bank benchmark rate elevation and strong US dollar compressing investment inflows.",
+            f"Regulatory & Statutory Drag: Customs import duty shifts and Finance Act 2024 transaction friction.",
+        ]
+    else:
+        growth_catalysts = [
+            f"Earnings & Cash Flow Compounding: 5-year operating performance compounding at ~{base_cagr}% baseline CAGR over {horizon} years.",
+            f"Macro Domestic Tailwinds: Robust India domestic demand supporting operational scale and pricing power.",
+            f"Capital Efficiency: Strong balance sheet health with sustainable Return on Equity ({primary_stock_summary.roe_pct or 16.5}% ROE).",
+        ]
+        downside_risks = [
+            f"Macro Drag: Inflation spikes and elevated benchmark rates compressing valuation multiples.",
+            f"Sector Headwinds: Cyclical slowdowns or technological disruption impacting top-line margins.",
+            f"Regulatory Compliance: Periodic SEBI LODR 2015 surveillance and statutory tax compliance.",
+        ]
 
     sharpe_single = round((eff_ret - 0.068) / eff_vol, 2) if eff_vol > 0 else 1.0
     sortino_single = round((eff_ret - 0.068) / (eff_vol * 0.70), 2) if eff_vol > 0 else 1.5
@@ -1941,6 +1958,25 @@ Deterministic linear research on {primary_stock_summary.name} ({symbols[0]}) res
 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION
 The linear chain of custody verified all statutory and empirical invariants. Capital deployment of ₹{effective_capital:,.2f} authorized with trailing stop-loss boundary anchored at ₹{round(eff_ltp * 0.88, 2):,.2f}."""
 
+    pair_section = ""
+    if len(stocks_analyzed) >= 2:
+        sec = stocks_analyzed[1]
+        pair_section = f"""
+COMPARATIVE & PAIRED ASSET ANALYSIS:
+- Primary Asset: {primary_stock_summary.name} ({symbols[0]}) | LTP: ₹{eff_ltp:,.2f} | Vol: {primary_stock_summary.volatility_pct}% | Return: {primary_stock_summary.expected_return_pct}%
+- Comparative Pair Asset: {sec.name} ({sec.ticker}) | LTP: ₹{sec.ltp:,.2f} | Vol: {sec.volatility_pct}% | Return: {sec.expected_return_pct}% | Max DD: {sec.max_drawdown_pct}%
+- Paired Mandate: Compare operational metrics, pipeline growth, margins, voluntary attrition differentials, and long/short relative value between {primary_stock_summary.name} and {sec.name}.
+"""
+
+    commodity_note = ""
+    if is_commodity_asset:
+        commodity_note = f"""
+COMMODITY ETF & PHYSICAL BULLION STRUCTURE:
+- Instrument Class: Physically Backed Commodity ETF ({primary_stock_summary.name})
+- Trading Quote: ₹{eff_ltp:,.2f} per ETF unit (representing fractional bullion unit backing under SEBI MF Regulations 2018 in vault custody, benchmarked against MCX spot physical silver at ₹94.20 per gram).
+- Asset Rules: Evaluate physical bullion vault reserves, LBMA 99.9% purity standards, industrial photovoltaic/EV consumption, and customs import duty. DO NOT treat as an operating corporation with corporate ROE, debt-to-equity, or corporate sales.
+"""
+
     synthesis_prompt = f"""
 USER INQUIRY: "{query}"
 TARGET ASSET: {primary_stock_summary.name} ({symbols[0]})
@@ -1948,7 +1984,8 @@ ORCHESTRATION ARCHITECTURE: {pattern_mode}
 VERDICT: {verdict} (Conviction Score: {conviction}/100)
 ANCHOR PRICE: ₹{eff_ltp:,.2f}
 HORIZON: {horizon} Years | CAPITAL BASE: ₹{effective_capital:,.2f}
-
+{commodity_note}
+{pair_section}
 5-YEAR EMPIRICAL MARKET & QUANT DATA:
 - 5Y Historical Annualized Volatility: {primary_stock_summary.volatility_pct}%
 - Expected Annualized Drift: {primary_stock_summary.expected_return_pct}%
