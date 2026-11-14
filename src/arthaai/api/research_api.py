@@ -3238,22 +3238,76 @@ def create_research_api(
             run_type="DATASET",
         )
 
-    def _find_comparison_file(cid: str) -> Path | None:
-        """Finds comparison JSON in single_runs, dataset_runs, or root results directory."""
+    def _find_all_comparison_files(cid: str) -> list[Path]:
+        """Finds all comparison JSON and report files matching cid across single_runs, dataset_runs, reports, or results."""
         repo_root = Path(__file__).resolve().parent.parent.parent.parent
         res_dir = repo_root / "experiments" / "results"
-        candidates = [
-            res_dir / "single_runs" / f"comparison_{cid}.json",
-            res_dir / "dataset_runs" / f"comparison_{cid}.json",
-            res_dir / f"comparison_{cid}.json",
-            res_dir / f"{cid}.json",
-            res_dir / "single_runs" / f"{cid}.json",
-            res_dir / "dataset_runs" / f"{cid}.json",
+        if not res_dir.exists():
+            return []
+
+        clean_cid = cid.strip()
+        if clean_cid.endswith(".json"):
+            clean_cid = clean_cid[:-5]
+        core_cid = clean_cid[len("comparison_"):] if clean_cid.startswith("comparison_") else clean_cid
+
+        matched: list[Path] = []
+        seen_paths: set[str] = set()
+
+        search_dirs = [
+            res_dir / "single_runs",
+            res_dir / "dataset_runs",
+            res_dir / "reports",
+            res_dir,
         ]
-        for c in candidates:
-            if c.exists():
-                return c
-        return None
+
+        for d in search_dirs:
+            if not d.exists():
+                continue
+            candidates = [
+                d / f"comparison_{core_cid}.json",
+                d / f"comparison_{clean_cid}.json",
+                d / f"{core_cid}.json",
+                d / f"{clean_cid}.json",
+                d / f"comparison_report_{core_cid}.html",
+                d / f"comparison_report_{core_cid}.pdf",
+                d / f"comparison_report_{clean_cid}.html",
+                d / f"comparison_report_{clean_cid}.pdf",
+                d / f"evaluation_{core_cid}.json",
+                d / f"evaluation_{core_cid}.csv",
+                d / f"evaluation_{clean_cid}.json",
+                d / f"evaluation_{clean_cid}.csv",
+            ]
+            for c in candidates:
+                if c.exists() and str(c) not in seen_paths:
+                    seen_paths.add(str(c))
+                    matched.append(c)
+
+            # Glob pattern for any file carrying this ID in name
+            for p in d.glob(f"*{core_cid}*"):
+                if p.is_file() and str(p) not in seen_paths:
+                    seen_paths.add(str(p))
+                    matched.append(p)
+
+            # Check inside json files if comparison_id matches
+            for p in d.glob("*.json"):
+                if str(p) in seen_paths or not p.is_file():
+                    continue
+                try:
+                    with open(p, "r", encoding="utf-8") as fp:
+                        data = json.load(fp)
+                        if data.get("comparison_id") in (core_cid, clean_cid, cid):
+                            seen_paths.add(str(p))
+                            matched.append(p)
+                except Exception:
+                    pass
+
+        return matched
+
+    def _find_comparison_file(cid: str) -> Path | None:
+        """Finds primary comparison JSON file in single_runs, dataset_runs, or root results directory."""
+        files = _find_all_comparison_files(cid)
+        json_files = [f for f in files if f.suffix == ".json"]
+        return json_files[0] if json_files else (files[0] if files else None)
 
     @app.get(
         "/admin/evaluation/download/{comparison_id}/json",
@@ -3405,15 +3459,26 @@ def create_research_api(
         tags=["live-evaluation"],
     )
     async def delete_evaluation_run_endpoint(comparison_id: str) -> dict[str, Any]:
-        """Deletes persistent evaluation comparison report file from disk."""
-        res_file = _find_comparison_file(comparison_id)
-        if not res_file or not res_file.exists():
+        """Deletes persistent evaluation comparison report file(s) and companion artifacts from disk."""
+        matched_files = _find_all_comparison_files(comparison_id)
+        if not matched_files:
             raise HTTPException(status_code=404, detail=f"Comparison report {comparison_id} not found.")
-        try:
-            res_file.unlink()
-            return {"status": "DELETED", "comparison_id": comparison_id}
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to delete {comparison_id}: {e}")
+        deleted: list[str] = []
+        errors: list[str] = []
+        for f in matched_files:
+            try:
+                f.unlink(missing_ok=True)
+                deleted.append(f.name)
+            except Exception as e:
+                errors.append(f"{f.name}: {e}")
+        if errors and not deleted:
+            raise HTTPException(status_code=500, detail=f"Failed to delete {comparison_id}: {', '.join(errors)}")
+        return {
+            "status": "DELETED",
+            "comparison_id": comparison_id,
+            "deleted_files": deleted,
+            "errors": errors if errors else None,
+        }
 
 
     # -------------------------------------------------------------------------

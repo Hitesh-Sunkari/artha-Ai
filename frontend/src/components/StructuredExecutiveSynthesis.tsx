@@ -593,3 +593,4 @@ export const StructuredExecutiveSynthesis: React.FC<StructuredExecutiveSynthesis
     </div>
   );
 };
+
