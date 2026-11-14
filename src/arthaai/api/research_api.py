@@ -3136,12 +3136,20 @@ def create_research_api(
                         q_text = row.get("question") or row.get("query") or ""
                         q_sym = row.get("symbol") or "RELIANCE.NS"
                         q_cat = row.get("category") or "General"
+                        q_diff = row.get("difficulty") or "INTERMEDIATE"
+                        q_dim = row.get("evaluation_dimension") or "General"
+                        q_var = row.get("variance_type") or "CORE_BENCHMARK"
+                        q_grp = row.get("repetition_group") or ""
                         if q_text:
                             items.append({
                                 "id": q_id,
                                 "query": q_text,
                                 "symbol": q_sym,
                                 "category": q_cat,
+                                "difficulty": q_diff,
+                                "evaluation_dimension": q_dim,
+                                "variance_type": q_var,
+                                "repetition_group": q_grp,
                                 "architectures": ["ARTHAAI_SEQUENTIAL", "ARTHAAI_PARALLEL", "ARTHAAI_HIERARCHICAL", "REACT_AGENT", "SINGLE_AGENT"],
                                 "status": "PENDING",
                             })
@@ -3370,9 +3378,40 @@ def create_research_api(
         summary="Get Live Aggregated Empirical Evaluation Dashboard Metrics",
         tags=["live-evaluation"],
     )
-    async def get_aggregate_evaluation_metrics_endpoint() -> dict[str, Any]:
+    async def get_aggregate_evaluation_metrics_endpoint(slice: str = "ALL") -> dict[str, Any]:
         """Calculates live aggregated dashboard metrics and 13-area dimension scores from real runs on disk."""
-        return live_evaluation_controller.get_aggregate_dashboard_metrics()
+        return live_evaluation_controller.get_aggregate_dashboard_metrics(slice_filter=slice)
+
+    @app.get(
+        "/admin/evaluation/aggregate-dashboard",
+        summary="Get Live Aggregated Empirical Evaluation Dashboard Metrics (Alias)",
+        tags=["live-evaluation"],
+    )
+    async def get_aggregate_dashboard_alias_endpoint(slice: str = "ALL") -> dict[str, Any]:
+        """Alias for aggregate-metrics accepting slice query parameter."""
+        return live_evaluation_controller.get_aggregate_dashboard_metrics(slice_filter=slice)
+
+    @app.get(
+        "/admin/evaluation/personas",
+        summary="List Institutional Investor Personas and Coverage Profiles",
+        tags=["live-evaluation"],
+    )
+    async def list_evaluation_personas_endpoint() -> list[dict[str, Any]]:
+        """Returns the 6 institutional investor personas with their live coverage and metrics."""
+        from arthaai.evaluation.benchmark_references import INVESTOR_PERSONAS
+        dash = live_evaluation_controller.get_aggregate_dashboard_metrics()
+        persona_table = dash.get("persona_table", [])
+        return persona_table if persona_table else list(INVESTOR_PERSONAS.values())
+
+    @app.get(
+        "/admin/evaluation/references",
+        summary="List Ground-Truth Reference Benchmarks (38 Scenarios)",
+        tags=["live-evaluation"],
+    )
+    async def list_evaluation_references_endpoint() -> dict[str, Any]:
+        """Returns ground-truth institutional benchmark references for all 38 canonical scenarios."""
+        from arthaai.evaluation.benchmark_references import BENCHMARK_REFERENCES
+        return BENCHMARK_REFERENCES
 
     @app.post(
         "/admin/evaluation/generate-pdf",

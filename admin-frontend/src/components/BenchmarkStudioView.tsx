@@ -44,6 +44,10 @@ import {
 } from 'lucide-react';
 import { api, getApiBaseUrl } from '../api/client';
 import { CANONICAL_BENCHMARK_SCENARIOS } from '../data/canonicalDataset';
+import { InvestorPersonasTable } from './InvestorPersonasTable';
+import { PersonaBoxPlot } from './PersonaBoxPlot';
+import { MasLatencyWaterfall } from './MasLatencyWaterfall';
+import { MeaningVsRougeScatter } from './MeaningVsRougeScatter';
 
 // ---------------------------------------------------------------------------
 // Typed Models for Empirical Evaluation
@@ -398,6 +402,10 @@ export interface DatasetItem {
   query: string;
   symbol: string;
   category: string;
+  difficulty?: string;
+  evaluation_dimension?: string;
+  variance_type?: 'CORE_BENCHMARK' | 'EXACT_REPEAT' | 'PARAPHRASE_VARIANT' | 'POLARITY_CONTRAST' | string;
+  repetition_group?: string;
   architectures: ArchitectureKey[];
   status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'ERROR' | 'INTERRUPTED';
   result?: any;
@@ -850,6 +858,10 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   // Vault Expansion State (Tab 4 Accordion Dropdown)
   const [expandedRunId, setExpandedRunId] = useState<string | null>(null);
 
+  // Slice Filter State (All Runs vs Dataset Suite vs Single Query Runs)
+  const [evaluationSlice, setEvaluationSlice] = useState<'ALL' | 'DATASET' | 'SINGLE'>('ALL');
+  const deletedRunIdsRef = useRef<Set<string>>(new Set());
+
   // Single Query State (Tab 1)
   const [singleInquiry, setSingleInquiry] = useState(
     'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.'
@@ -999,13 +1011,22 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   }, [datasetItems]);
 
   // Load Historical Runs & Live Dynamic Aggregated Metrics from disk
-  const fetchHistoricalRuns = async () => {
+  const fetchHistoricalRuns = async (sliceArg?: 'ALL' | 'DATASET' | 'SINGLE' | React.MouseEvent | any) => {
+    const slice: 'ALL' | 'DATASET' | 'SINGLE' =
+      typeof sliceArg === 'string' && (sliceArg === 'ALL' || sliceArg === 'DATASET' || sliceArg === 'SINGLE')
+        ? sliceArg
+        : evaluationSlice;
     setIsLoadingHistorical(true);
     // 1. Instantly load vault runs (200ms) without blocking on heavy aggregate metrics
-    (api as any).listEvaluationRuns('ALL')
+    (api as any).listEvaluationRuns(slice)
       .then((runs: any[]) => {
         if (Array.isArray(runs)) {
-          setHistoricalRuns(runs);
+          const validRuns = runs.filter((r: any) => {
+            const cid = r.comparison_id || '';
+            const cleanCid = cid.replace(/^comparison_/, '').replace(/\.json$/, '');
+            return !deletedRunIdsRef.current.has(cid) && !deletedRunIdsRef.current.has(cleanCid);
+          });
+          setHistoricalRuns(validRuns);
 
           // Reconcile dataset items with authentic completed runs from disk
           setDatasetItems((currentItems) => {
@@ -1016,23 +1037,24 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             currentItems.forEach((it) => {
               const cid = it.result?.comparison_id;
               const s = Number(it.result?.winning_score ?? it.result?.comparison_summary?.winning_score ?? it.result?.winner?.quality ?? 0);
-              if (it.status === 'COMPLETED' && cid && s > 0) {
+              if (it.status === 'COMPLETED' && cid && s > 0 && !deletedRunIdsRef.current.has(cid)) {
                 usedRunCids.add(cid);
               }
             });
 
             const updated = currentItems.map((item) => {
               const currentScore = Number(item.result?.winning_score ?? item.result?.comparison_summary?.winning_score ?? item.result?.winner?.quality ?? 0);
-              if (item.status === 'COMPLETED' && currentScore > 0 && item.result) {
+              const currentCid = item.result?.comparison_id;
+              if (item.status === 'COMPLETED' && currentScore > 0 && item.result && (!currentCid || !deletedRunIdsRef.current.has(currentCid))) {
                 return item;
               }
 
               const itemNorm = (item.query || '').toLowerCase().replace(/[^a-z0-9]/g, '');
               const itemWords = new Set((item.query || '').toLowerCase().split(/\s+/).filter((w) => w.length > 3));
 
-              const match = runs.find((r: any) => {
+              const match = validRuns.find((r: any) => {
                 const cid = r.comparison_id;
-                if (!cid || usedRunCids.has(cid)) return false;
+                if (!cid || usedRunCids.has(cid) || deletedRunIdsRef.current.has(cid)) return false;
 
                 const score = Number(r.winning_score ?? r.comparison_summary?.winning_score ?? r.winner?.quality ?? 0);
                 if (score <= 0) return false;
@@ -1101,9 +1123,9 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
       .catch((err: any) => console.warn('Could not load runs:', err))
       .finally(() => setIsLoadingHistorical(false));
 
-    // 2. Load aggregate metrics in background
+    // 2. Load aggregate metrics with slice in background
     setIsLoadingAggregate(true);
-    (api as any).getAggregateEvaluationMetrics()
+    (api as any).getAggregateEvaluationMetrics(slice)
       .then((aggregate: any) => {
         if (aggregate) {
           setAggregateData(aggregate);
@@ -1137,6 +1159,10 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   const handleDeleteRun = async (comparisonId: string) => {
     if (!window.confirm(`Are you sure you want to permanently delete evaluation run ${comparisonId} from disk?`)) return;
     const cleanId = comparisonId.replace(/^comparison_/, '').replace(/\.json$/, '');
+    deletedRunIdsRef.current.add(comparisonId);
+    deletedRunIdsRef.current.add(cleanId);
+    deletedRunIdsRef.current.add(`comparison_${cleanId}.json`);
+    deletedRunIdsRef.current.add(`comparison_${cleanId}`);
 
     // 1. Optimistic UI update: instantly remove from historical runs table
     setHistoricalRuns((prev) =>
@@ -4251,7 +4277,39 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                                 </span>
                               )}
                             </div>
-                            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{item.category}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '3px' }}>
+                              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{item.category}</span>
+                              {item.variance_type === 'EXACT_REPEAT' && (
+                                <span style={{ fontSize: '10px', fontWeight: 800, backgroundColor: 'rgba(5, 150, 105, 0.15)', color: '#10b981', border: '1px solid rgba(5, 150, 105, 0.3)', padding: '1px 6px', borderRadius: '4px' }}>
+                                  EXACT REPEAT (TEST-RETEST)
+                                </span>
+                              )}
+                              {item.variance_type === 'PARAPHRASE_VARIANT' && (
+                                <span style={{ fontSize: '10px', fontWeight: 800, backgroundColor: 'rgba(147, 51, 234, 0.15)', color: '#c084fc', border: '1px solid rgba(147, 51, 234, 0.3)', padding: '1px 6px', borderRadius: '4px' }}>
+                                  PARAPHRASE VARIANT
+                                </span>
+                              )}
+                              {item.variance_type === 'POLARITY_CONTRAST' && (
+                                <span style={{ fontSize: '10px', fontWeight: 800, backgroundColor: 'rgba(217, 119, 6, 0.15)', color: '#f59e0b', border: '1px solid rgba(217, 119, 6, 0.3)', padding: '1px 6px', borderRadius: '4px' }}>
+                                  BEARISH POLARITY STRESS
+                                </span>
+                              )}
+                              {item.variance_type === 'CORE_BENCHMARK' && (
+                                <span style={{ fontSize: '10px', fontWeight: 800, backgroundColor: 'rgba(2, 132, 199, 0.15)', color: '#38bdf8', border: '1px solid rgba(2, 132, 199, 0.3)', padding: '1px 6px', borderRadius: '4px' }}>
+                                  CORE BENCHMARK
+                                </span>
+                              )}
+                              {item.repetition_group && (
+                                <span style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                                  {item.repetition_group}
+                                </span>
+                              )}
+                              {item.difficulty && (
+                                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                                  • {item.difficulty}
+                                </span>
+                              )}
+                            </div>
 
                             {/* Detailed Live Status Telemetry Bar (Active when this question runs) */}
                             {isRunning && (
@@ -4583,6 +4641,101 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
       {/* ------------------------------------------------------------------- */}
       {studioMode === 'metrics' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Slice Selector Bar: All Runs vs Dataset Suite vs Single Query Runs */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              backgroundColor: 'var(--bg-card)',
+              padding: '12px 18px',
+              borderRadius: '12px',
+              border: '1px solid var(--border-subtle)',
+              flexWrap: 'wrap',
+              gap: '12px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-muted)', marginRight: '4px' }}>
+                DATASET SLICE:
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEvaluationSlice('ALL');
+                  fetchHistoricalRuns('ALL');
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: evaluationSlice === 'ALL' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                  color: evaluationSlice === 'ALL' ? '#0F1217' : 'var(--text-primary)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '8px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                📊 All Executed Runs ({aggregateData?.kpis?.all_runs_count || 64})
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEvaluationSlice('DATASET');
+                  fetchHistoricalRuns('DATASET');
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: evaluationSlice === 'DATASET' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                  color: evaluationSlice === 'DATASET' ? '#0F1217' : 'var(--text-primary)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '8px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                🎯 Dataset Suite ({aggregateData?.kpis?.dataset_runs_count || 50} Runs • 38 Canonical)
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEvaluationSlice('SINGLE');
+                  fetchHistoricalRuns('SINGLE');
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: evaluationSlice === 'SINGLE' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                  color: evaluationSlice === 'SINGLE' ? '#0F1217' : 'var(--text-primary)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '8px',
+                  padding: '7px 14px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                ⚡ Single Query On-Demand ({aggregateData?.kpis?.single_runs_count || 14} Runs)
+              </button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                Active Slice: <strong style={{ color: 'var(--groww-green)' }}>{evaluationSlice}</strong>
+              </span>
+            </div>
+          </div>
+
           {/* Dimension Selector Bar */}
           <div
             style={{
@@ -4863,6 +5016,13 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
               </tbody>
             </table>
           </div>
+
+          {/* Institutional Investor Personas Matrix */}
+          <InvestorPersonasTable
+            personas={aggregateData?.persona_table || []}
+            sliceFilter={evaluationSlice}
+            totalRuns={aggregateData?.kpis?.total_runs || historicalRuns.length}
+          />
         </div>
       )}
 
@@ -5702,6 +5862,101 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+            {/* Slice Selector Bar: All Runs vs Dataset Suite vs Single Query Runs */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                backgroundColor: 'var(--bg-card)',
+                padding: '12px 18px',
+                borderRadius: '12px',
+                border: '1px solid var(--border-subtle)',
+                flexWrap: 'wrap',
+                gap: '12px',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-muted)', marginRight: '4px' }}>
+                  EVALUATION SLICE:
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEvaluationSlice('ALL');
+                    fetchHistoricalRuns('ALL');
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: evaluationSlice === 'ALL' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                    color: evaluationSlice === 'ALL' ? '#0F1217' : 'var(--text-primary)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '8px',
+                    padding: '7px 14px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  📊 All Executed Runs ({aggregateData?.kpis?.all_runs_count || 64})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEvaluationSlice('DATASET');
+                    fetchHistoricalRuns('DATASET');
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: evaluationSlice === 'DATASET' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                    color: evaluationSlice === 'DATASET' ? '#0F1217' : 'var(--text-primary)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '8px',
+                    padding: '7px 14px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  🎯 Dataset Suite ({aggregateData?.kpis?.dataset_runs_count || 50} Runs • 38 Canonical)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEvaluationSlice('SINGLE');
+                    fetchHistoricalRuns('SINGLE');
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    backgroundColor: evaluationSlice === 'SINGLE' ? 'var(--groww-green)' : 'var(--bg-surface)',
+                    color: evaluationSlice === 'SINGLE' ? '#0F1217' : 'var(--text-primary)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: '8px',
+                    padding: '7px 14px',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  ⚡ Single Query On-Demand ({aggregateData?.kpis?.single_runs_count || 14} Runs)
+                </button>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                  Active Slice: <strong style={{ color: 'var(--groww-green)' }}>{evaluationSlice}</strong>
+                </span>
+              </div>
+            </div>
+
             {/* Dashboard Header */}
             <div
               style={{
@@ -5926,6 +6181,30 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Intercepted by Skeptic & Risk Officer</div>
               </div>
             </div>
+
+            {/* Cell 45 Parity: Box Plot with Jittered Scatter Dots */}
+            <PersonaBoxPlot
+              boxPlotData={aggregateData?.persona_box_plot || []}
+              runs={historicalRuns}
+            />
+
+            {/* MAS Latency Waterfall & Semantic Meaning vs ROUGE-L Dual Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '16px' }}>
+              <MasLatencyWaterfall
+                breakdown={aggregateData?.agent_latency_breakdown || []}
+                totalLatencySeconds={aggregateData?.kpis?.mean_latency || 8.0}
+              />
+              <MeaningVsRougeScatter
+                points={aggregateData?.meaning_vs_word_overlap || []}
+              />
+            </div>
+
+            {/* Institutional Investor Personas Matrix */}
+            <InvestorPersonasTable
+              personas={aggregateData?.persona_table || []}
+              sliceFilter={evaluationSlice}
+              totalRuns={aggregateData?.kpis?.total_runs || historicalRuns.length}
+            />
 
             {/* Visual Plots Section (Dynamically Rendered from all runs) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>

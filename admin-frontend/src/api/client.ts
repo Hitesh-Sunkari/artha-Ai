@@ -342,8 +342,14 @@ export const api = {
   getEvaluationRun: (comparisonId: string) =>
     request<any>(`/admin/evaluation/runs/${comparisonId}`, {}, 15000),
 
-  getAggregateEvaluationMetrics: () =>
-    request<any>('/admin/evaluation/aggregate-metrics', {}, 15000),
+  getAggregateEvaluationMetrics: (slice: 'ALL' | 'DATASET' | 'SINGLE' = 'ALL') =>
+    request<any>(`/admin/evaluation/aggregate-metrics?slice=${slice}`, {}, 15000),
+
+  getPersonas: () =>
+    request<any[]>('/admin/evaluation/personas', {}, 15000),
+
+  getReferences: () =>
+    request<any>('/admin/evaluation/references', {}, 15000),
 
   downloadEvaluationJsonUrl: (comparisonId: string) => {
     const baseUrl = getApiBaseUrl();
