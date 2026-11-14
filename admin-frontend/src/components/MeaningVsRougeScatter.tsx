@@ -139,21 +139,23 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             rx="4"
           />
           <text
-            x={paddingLeft + 12}
-            y={paddingTop + 20}
+            x={paddingLeft + 10}
+            y={midY - 18}
             fill="var(--groww-green)"
-            fontSize="11"
+            fontSize="10"
             fontWeight="800"
+            opacity={0.85}
           >
             ★ HIGH-ABSTRACTION SYNTHESIS (IDEAL)
           </text>
           <text
-            x={paddingLeft + 12}
-            y={paddingTop + 34}
+            x={paddingLeft + 10}
+            y={midY - 6}
             fill="var(--text-muted)"
-            fontSize="9"
+            fontSize="8.5"
+            opacity={0.7}
           >
-            Low verbatim overlap (ROUGE &lt; 0.45) • High semantic accuracy (&ge; 3.5)
+            ROUGE &lt; 0.35 • Meaning &ge; 3.8
           </text>
 
           {/* Quadrant 2: Top-Right (VERBATIM ALIGNMENT) */}
@@ -166,11 +168,12 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             rx="4"
           />
           <text
-            x={midX + 12}
-            y={paddingTop + 20}
+            x={midX + 10}
+            y={midY - 10}
             fill="#38bdf8"
-            fontSize="10"
+            fontSize="9.5"
             fontWeight="700"
+            opacity={0.75}
           >
             VERBATIM GROUNDING
           </text>
@@ -185,11 +188,12 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             rx="4"
           />
           <text
-            x={paddingLeft + 12}
-            y={midY + 20}
+            x={paddingLeft + 10}
+            y={midY + 18}
             fill="#dc2626"
-            fontSize="10"
+            fontSize="9.5"
             fontWeight="700"
+            opacity={0.75}
           >
             OMISSION / WEAK FIDELITY
           </text>
@@ -204,11 +208,12 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             rx="4"
           />
           <text
-            x={midX + 12}
-            y={midY + 20}
+            x={midX + 10}
+            y={midY + 18}
             fill="#d97706"
-            fontSize="10"
+            fontSize="9.5"
             fontWeight="700"
+            opacity={0.75}
           >
             SUPERFICIAL QUOTING
           </text>
@@ -233,8 +238,8 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             strokeWidth="1.5"
           />
 
-          {/* X-Axis Ticks & Labels (ROUGE-L 0.0 to 1.0) */}
-          {[0.0, 0.2, 0.4, 0.6, 0.8, 1.0].map((rVal) => {
+          {/* X-Axis Ticks & Labels (ROUGE-L 0.0 to 0.6) */}
+          {[0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6].map((rVal) => {
             const x = scaleX(rVal);
             return (
               <g key={`x-tick-${rVal}`}>
@@ -263,15 +268,15 @@ export const MeaningVsRougeScatter: React.FC<MeaningVsRougeScatterProps> = ({
             x={paddingLeft + plotWidth / 2}
             y={paddingTop + plotHeight + 35}
             fill="var(--text-secondary)"
-            fontSize="11"
+            fontSize="10"
             fontWeight="700"
             textAnchor="middle"
           >
             ROUGE-L Word Overlap with Reference Ground Truth (Lower is Higher Abstraction) →
           </text>
 
-          {/* Y-Axis Ticks & Labels (Meaning Match 1.0 to 5.0) */}
-          {[1.0, 2.0, 3.0, 4.0, 5.0].map((mVal) => {
+          {/* Y-Axis Ticks & Labels (Meaning Match 2.0 to 5.0) */}
+          {[2.0, 3.0, 4.0, 5.0].map((mVal) => {
             const y = scaleY(mVal);
             return (
               <g key={`y-tick-${mVal}`}>

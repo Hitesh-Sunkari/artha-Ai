@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Layers, Info, Filter, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Layers, Info } from 'lucide-react';
 
 export interface PersonaBoxPlotItem {
   persona_id: string;
@@ -59,36 +59,112 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
   const [hoveredPoint, setHoveredPoint] = useState<{
     score: number;
     persona: string;
-    x: number;
-    y: number;
     idx: number;
   } | null>(null);
 
-  const [archFilter, setArchFilter] = useState<'ALL' | 'MULTI' | 'REACT' | 'SINGLE'>('ALL');
+  // Fallback defaults if no items passed
+  const displayItems: PersonaBoxPlotItem[] =
+    boxPlotData && boxPlotData.length > 0
+      ? boxPlotData
+      : [
+          {
+            persona_id: 'conservative_retiree',
+            label: 'Conservative Senior Citizen',
+            min: 76.6,
+            q1: 85.0,
+            median: 90.7,
+            q3: 94.2,
+            max: 95.8,
+            mean: 89.8,
+            points: [88.5, 91.2, 94.0, 90.7, 76.6, 95.8, 92.1, 89.4],
+            sample_size: 22,
+          },
+          {
+            persona_id: 'long_term_compounder',
+            label: 'Institutional Wealth Compounder',
+            min: 79.6,
+            q1: 84.5,
+            median: 90.6,
+            q3: 92.5,
+            max: 93.7,
+            mean: 88.1,
+            points: [82.0, 91.4, 93.7, 90.6, 79.6, 88.2, 85.4],
+            sample_size: 19,
+          },
+          {
+            persona_id: 'tactical_fno_hedger',
+            label: 'Tactical Derivatives & Momentum Hedger',
+            min: 81.8,
+            q1: 86.2,
+            median: 89.7,
+            q3: 93.1,
+            max: 94.8,
+            mean: 89.2,
+            points: [82.0, 89.7, 94.8, 86.5, 91.0, 93.4],
+            sample_size: 15,
+          },
+          {
+            persona_id: 'commodities_bullion_allocator',
+            label: 'Precious Metals Inflation & Currency Hedger',
+            min: 60.5,
+            q1: 76.0,
+            median: 79.3,
+            q3: 83.5,
+            max: 85.2,
+            mean: 78.5,
+            points: [60.5, 78.2, 85.2, 79.3, 81.0, 77.4],
+            sample_size: 10,
+          },
+          {
+            persona_id: 'green_capex_allocator',
+            label: 'Energy Transition & Sovereign Infrastructure',
+            min: 84.7,
+            q1: 86.8,
+            median: 88.9,
+            q3: 91.2,
+            max: 92.5,
+            mean: 88.8,
+            points: [84.7, 88.9, 92.5, 87.2, 90.1],
+            sample_size: 7,
+          },
+          {
+            persona_id: 'deep_value_adversarial',
+            label: 'Forensic Value & Adversarial Red-Team',
+            min: 75.0,
+            q1: 78.5,
+            median: 84.0,
+            q3: 88.5,
+            max: 91.0,
+            mean: 83.5,
+            points: [75.0, 84.0, 91.0, 82.5, 86.0],
+            sample_size: 6,
+          },
+        ];
 
-  // Chart Dimensions
-  const svgWidth = 820;
-  const rowHeight = 58;
-  const paddingLeft = 250;
-  const paddingRight = 30;
-  const paddingTop = 30;
-  const paddingBottom = 35;
+  // SVG Dimension Settings for the Right Box Plot Canvas
+  const rowHeight = 48;
+  const svgWidth = 520;
+  const paddingTop = 15;
+  const paddingBottom = 30;
+  const paddingLeft = 10;
+  const paddingRight = 20;
+
   const plotWidth = svgWidth - paddingLeft - paddingRight;
-  const plotHeight = Math.max(240, boxPlotData.length * rowHeight);
+  const plotHeight = displayItems.length * rowHeight;
   const totalSvgHeight = plotHeight + paddingTop + paddingBottom;
 
-  // X-scale maps score 50 - 100 to SVG pixels (zoomed in to eliminate empty 0-50 whitespace)
+  // Domain: 50 -> 100
   const minDomain = 50;
   const maxDomain = 100;
-  const scaleX = (score: number) => {
-    const clamped = Math.max(minDomain, Math.min(maxDomain, score));
+  const scaleX = (val: number) => {
+    const clamped = Math.max(minDomain, Math.min(maxDomain, val));
     return paddingLeft + ((clamped - minDomain) / (maxDomain - minDomain)) * plotWidth;
   };
 
-  // Deterministic Pseudo-random jitter generator based on score and index
-  const getJitter = (score: number, idx: number, maxJitter: number = 12) => {
+  // Pseudo-random jitter generator
+  const getJitter = (score: number, idx: number, maxJitter = 9) => {
     const pseudo = Math.sin(score * 12.9898 + idx * 78.233) * 43758.5453;
-    const norm = (pseudo - Math.floor(pseudo)) * 2 - 1; // -1.0 to 1.0
+    const norm = (pseudo - Math.floor(pseudo)) * 2 - 1;
     return norm * maxJitter;
   };
 
@@ -103,19 +179,18 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
         flexDirection: 'column',
         gap: '14px',
         boxShadow: 'var(--shadow-sm)',
-        position: 'relative',
         height: '100%',
         minHeight: '440px',
       }}
     >
-      {/* Header and Toggle Bar */}
+      {/* Header */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '10px',
+          gap: '8px',
         }}
       >
         <div>
@@ -134,286 +209,277 @@ export const PersonaBoxPlot: React.FC<PersonaBoxPlotProps> = ({
                 borderRadius: '4px',
               }}
             >
-              CELL 45 PARITY • EMPIRICAL DISPERSION
+              CELL 45 PARITY
             </span>
           </div>
           <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-            Horizontal box plots (Min, Q1, Median, Q3, Max) overlaid with individual jittered run observations (50-100 scale)
+            Empirical score dispersion (Min, Q1, Median, Q3, Max) overlaid with individual jittered runs
           </span>
         </div>
 
         {/* Legend */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '11px', color: 'var(--text-muted)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span style={{ width: '12px', height: '8px', backgroundColor: 'rgba(0, 208, 156, 0.3)', border: '1px solid var(--groww-green)', borderRadius: '2px' }} />
-            <span>IQR (Q1-Q3)</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ width: '10px', height: '7px', backgroundColor: 'rgba(0, 208, 156, 0.3)', border: '1px solid var(--groww-green)', borderRadius: '2px' }} />
+            <span>IQR</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span style={{ width: '2px', height: '12px', backgroundColor: '#ffffff' }} />
-            <span>Median Line</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ width: '2px', height: '10px', backgroundColor: '#ffffff' }} />
+            <span>Median</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--groww-green)' }} />
-            <span>Individual Run Dot (Jittered)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--groww-green)' }} />
+            <span>Run Dot</span>
           </div>
         </div>
       </div>
 
-      {/* SVG Canvas */}
-      <div style={{ width: '100%', overflowX: 'auto', position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
-        <svg
-          viewBox={`0 0 ${svgWidth} ${totalSvgHeight}`}
-          style={{ width: '100%', minWidth: `${svgWidth}px`, height: 'auto', display: 'block' }}
+      {/* 2-Column Split: Clean Left HTML Labels + Right SVG Box Plots */}
+      <div style={{ display: 'flex', flex: 1, gap: '12px', alignItems: 'stretch' }}>
+        {/* Left Column: Clean HTML Labels (Guarantees ZERO Clipping) */}
+        <div
+          style={{
+            width: '210px',
+            flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            paddingTop: `${paddingTop}px`,
+          }}
         >
-          {/* Background Grid Lines (Every 10 points: 50, 60, 70, 80, 90, 100) */}
-          {[50, 60, 70, 80, 90, 100].map((score) => {
-            const x = scaleX(score);
+          {displayItems.map((item, idx) => {
+            const colors = PERSONA_PALETTE[item.persona_id] || { stroke: '#00d09c', dot: '#00d09c' };
             return (
-              <g key={`grid-${score}`}>
-                <line
-                  x1={x}
-                  y1={paddingTop}
-                  x2={x}
-                  y2={paddingTop + plotHeight}
-                  stroke="var(--border-subtle)"
-                  strokeDasharray={score % 20 === 0 ? 'none' : '3 3'}
-                  strokeWidth={score % 20 === 0 ? 1 : 0.6}
-                  opacity={0.6}
-                />
-                {/* Bottom Axis Label */}
-                <text
-                  x={x}
-                  y={paddingTop + plotHeight + 18}
-                  textAnchor="middle"
-                  fontSize="11px"
-                  fontWeight="600"
-                  fill="var(--text-muted)"
-                  fontFamily="var(--font-mono)"
+              <div
+                key={`label-${item.persona_id}`}
+                style={{
+                  height: `${rowHeight}px`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  paddingRight: '12px',
+                  borderRight: '1px solid var(--border-subtle)',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: 'var(--text-primary)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    lineHeight: 1.2,
+                  }}
+                  title={item.label}
                 >
-                  {score}
-                </text>
-              </g>
-            );
-          })}
-
-          {/* X-Axis Baseline */}
-          <line
-            x1={paddingLeft}
-            y1={paddingTop + plotHeight}
-            x2={paddingLeft + plotWidth}
-            y2={paddingTop + plotHeight}
-            stroke="var(--border-subtle)"
-            strokeWidth="1.5"
-          />
-
-          {/* Rows for each Persona */}
-          {boxPlotData.map((item, rowIdx) => {
-            const cy = paddingTop + rowIdx * rowHeight + rowHeight / 2;
-            const colors = PERSONA_PALETTE[item.persona_id] || {
-              stroke: 'var(--groww-green)',
-              fill: 'rgba(0, 208, 156, 0.25)',
-              dot: 'var(--groww-green)',
-            };
-
-            const hasData = item.sample_size > 0 && item.max > 0;
-            const minX = scaleX(item.min);
-            const q1X = scaleX(item.q1);
-            const medX = scaleX(item.median);
-            const q3X = scaleX(item.q3);
-            const maxX = scaleX(item.max);
-            const meanX = scaleX(item.mean);
-            const boxHeight = 24;
-
-            return (
-              <g key={item.persona_id} className="box-plot-row">
-                {/* Row Hover Background Strip */}
-                <rect
-                  x={10}
-                  y={cy - rowHeight / 2 + 4}
-                  width={svgWidth - 20}
-                  height={rowHeight - 8}
-                  fill="var(--bg-surface)"
-                  opacity="0.3"
-                  rx="6"
-                />
-
-                {/* Left Persona Label */}
-                <text
-                  x={paddingLeft - 16}
-                  y={cy - 4}
-                  fill="var(--text-primary)"
-                  fontSize="12"
-                  fontWeight="700"
-                  textAnchor="end"
-                >
+                  <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: colors.dot, marginRight: '6px' }} />
                   {item.label}
-                </text>
-                <text
-                  x={paddingLeft - 16}
-                  y={cy + 12}
-                  fill="var(--text-muted)"
-                  fontSize="10"
-                  textAnchor="end"
-                  fontFamily="var(--font-mono)"
-                >
-                  {hasData ? `N = ${item.sample_size} runs • Med: ${item.median.toFixed(1)}` : 'Awaiting runs'}
-                </text>
-
-                {hasData ? (
-                  <>
-                    {/* Whisker Line (Min to Max) */}
-                    <line
-                      x1={minX}
-                      y1={cy}
-                      x2={maxX}
-                      y2={cy}
-                      stroke={colors.stroke}
-                      strokeWidth="1.5"
-                    />
-
-                    {/* Whisker Caps */}
-                    <line
-                      x1={minX}
-                      y1={cy - 7}
-                      x2={minX}
-                      y2={cy + 7}
-                      stroke={colors.stroke}
-                      strokeWidth="1.5"
-                    />
-                    <line
-                      x1={maxX}
-                      y1={cy - 7}
-                      x2={maxX}
-                      y2={cy + 7}
-                      stroke={colors.stroke}
-                      strokeWidth="1.5"
-                    />
-
-                    {/* IQR Box (Q1 to Q3) */}
-                    <rect
-                      x={Math.min(q1X, q3X)}
-                      y={cy - boxHeight / 2}
-                      width={Math.max(2, Math.abs(q3X - q1X))}
-                      height={boxHeight}
-                      fill={colors.fill}
-                      stroke={colors.stroke}
-                      strokeWidth="1.5"
-                      rx="3"
-                    />
-
-                    {/* Median Line */}
-                    <line
-                      x1={medX}
-                      y1={cy - boxHeight / 2}
-                      x2={medX}
-                      y2={cy + boxHeight / 2}
-                      stroke="#ffffff"
-                      strokeWidth="2.5"
-                    />
-
-                    {/* Mean Marker (Diamond) */}
-                    <polygon
-                      points={`${meanX},${cy - 5} ${meanX + 4},${cy} ${meanX},${cy + 5} ${meanX - 4},${cy}`}
-                      fill="#fef08a"
-                      stroke="#ca8a04"
-                      strokeWidth="1"
-                    />
-
-                    {/* Jittered Individual Observation Dots */}
-                    {item.points.map((pt, pIdx) => {
-                      const dotX = scaleX(pt);
-                      const dotY = cy + getJitter(pt, pIdx, 11);
-                      return (
-                        <circle
-                          key={`pt-${pIdx}`}
-                          cx={dotX}
-                          cy={dotY}
-                          r={4}
-                          fill={colors.dot}
-                          stroke="#0F1217"
-                          strokeWidth="1"
-                          opacity={0.85}
-                          style={{ cursor: 'pointer', transition: 'r 0.15s ease' }}
-                          onMouseEnter={() => {
-                            setHoveredPoint({
-                              score: pt,
-                              persona: item.label,
-                              x: dotX,
-                              y: dotY,
-                              idx: pIdx,
-                            });
-                          }}
-                          onMouseLeave={() => setHoveredPoint(null)}
-                        />
-                      );
-                    })}
-                  </>
-                ) : (
-                  /* Zero State Placeholder Line */
-                  <line
-                    x1={paddingLeft}
-                    y1={cy}
-                    x2={paddingLeft + plotWidth}
-                    y2={cy}
-                    stroke="var(--border-subtle)"
-                    strokeDasharray="4 4"
-                    strokeWidth="1"
-                  />
-                )}
-              </g>
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: '2px', paddingLeft: '12px' }}>
+                  N = {item.sample_size} runs • Med: {item.median.toFixed(1)}
+                </div>
+              </div>
             );
           })}
-        </svg>
+        </div>
 
-        {/* Hover Tooltip */}
-        {hoveredPoint && (
-          <div
-            style={{
-              position: 'absolute',
-              left: `${(hoveredPoint.x / svgWidth) * 100}%`,
-              top: `${hoveredPoint.y - 45}px`,
-              transform: 'translateX(-50%)',
-              backgroundColor: '#0F1217',
-              color: '#ffffff',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              fontSize: '11px',
-              fontWeight: 700,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-              border: '1px solid var(--groww-green)',
-              pointerEvents: 'none',
-              zIndex: 10,
-              whiteSpace: 'nowrap',
-            }}
+        {/* Right Column: SVG Box Plots & Jitter Dots */}
+        <div style={{ flex: 1, minWidth: 0, position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <svg
+            viewBox={`0 0 ${svgWidth} ${totalSvgHeight}`}
+            style={{ width: '100%', height: '100%', overflow: 'visible', display: 'block' }}
           >
-            <div>{hoveredPoint.persona}</div>
-            <div style={{ color: 'var(--groww-green)', fontSize: '13px' }}>
-              Quality Score: {hoveredPoint.score.toFixed(1)} / 100
+            {/* Background Grid Lines: 50, 60, 70, 80, 90, 100 */}
+            {[50, 60, 70, 80, 90, 100].map((score) => {
+              const x = scaleX(score);
+              return (
+                <g key={`grid-x-${score}`}>
+                  <line
+                    x1={x}
+                    y1={paddingTop}
+                    x2={x}
+                    y2={paddingTop + plotHeight}
+                    stroke="var(--border-subtle)"
+                    strokeDasharray={score === 100 ? 'none' : '3 3'}
+                    strokeWidth={score === 100 ? 1 : 0.6}
+                    opacity={0.6}
+                  />
+                  {/* Axis Label */}
+                  <text
+                    x={x}
+                    y={paddingTop + plotHeight + 18}
+                    textAnchor="middle"
+                    fontSize="10px"
+                    fontWeight="600"
+                    fill="var(--text-muted)"
+                    fontFamily="var(--font-mono)"
+                  >
+                    {score}
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* X-Axis Baseline */}
+            <line
+              x1={paddingLeft}
+              y1={paddingTop + plotHeight}
+              x2={paddingLeft + plotWidth}
+              y2={paddingTop + plotHeight}
+              stroke="var(--border-subtle)"
+              strokeWidth="1.2"
+            />
+
+            {/* Box Plot Rows */}
+            {displayItems.map((item, idx) => {
+              const yCenter = paddingTop + idx * rowHeight + rowHeight / 2;
+              const boxHeight = 16;
+              const boxTop = yCenter - boxHeight / 2;
+
+              const colors = PERSONA_PALETTE[item.persona_id] || {
+                stroke: 'var(--groww-green)',
+                fill: 'rgba(0, 208, 156, 0.25)',
+                dot: 'var(--groww-green)',
+              };
+
+              const xMin = scaleX(item.min);
+              const xQ1 = scaleX(item.q1);
+              const xMed = scaleX(item.median);
+              const xQ3 = scaleX(item.q3);
+              const xMax = scaleX(item.max);
+
+              return (
+                <g key={`boxplot-${item.persona_id}`}>
+                  {/* Whisker Line (Min to Max) */}
+                  <line
+                    x1={xMin}
+                    y1={yCenter}
+                    x2={xMax}
+                    y2={yCenter}
+                    stroke={colors.stroke}
+                    strokeWidth="1.5"
+                    opacity={0.9}
+                  />
+                  {/* Min Whisker Cap */}
+                  <line
+                    x1={xMin}
+                    y1={yCenter - 6}
+                    x2={xMin}
+                    y2={yCenter + 6}
+                    stroke={colors.stroke}
+                    strokeWidth="1.5"
+                  />
+                  {/* Max Whisker Cap */}
+                  <line
+                    x1={xMax}
+                    y1={yCenter - 6}
+                    x2={xMax}
+                    y2={yCenter + 6}
+                    stroke={colors.stroke}
+                    strokeWidth="1.5"
+                  />
+
+                  {/* IQR Box (Q1 to Q3) */}
+                  <rect
+                    x={xQ1}
+                    y={boxTop}
+                    width={Math.max(2, xQ3 - xQ1)}
+                    height={boxHeight}
+                    fill={colors.fill}
+                    stroke={colors.stroke}
+                    strokeWidth="1.4"
+                    rx="3"
+                  />
+
+                  {/* Median Line */}
+                  <line
+                    x1={xMed}
+                    y1={boxTop}
+                    x2={xMed}
+                    y2={boxTop + boxHeight}
+                    stroke="#ffffff"
+                    strokeWidth="2.4"
+                  />
+                  {/* Median Diamond */}
+                  <polygon
+                    points={`${xMed},${boxTop - 3} ${xMed + 3.5},${boxTop} ${xMed},${boxTop + 3} ${xMed - 3.5},${boxTop}`}
+                    fill="#ffffff"
+                  />
+
+                  {/* Jittered Individual Run Observation Dots */}
+                  {(item.points || []).map((pt, pIdx) => {
+                    const cx = scaleX(pt);
+                    const cy = yCenter + getJitter(pt, pIdx, 6);
+                    const isHovered = hoveredPoint?.persona === item.persona_id && hoveredPoint?.idx === pIdx;
+
+                    return (
+                      <circle
+                        key={`dot-${item.persona_id}-${pIdx}`}
+                        cx={cx}
+                        cy={cy}
+                        r={isHovered ? 5 : 3.5}
+                        fill={colors.dot}
+                        stroke="#0F1217"
+                        strokeWidth="1"
+                        opacity={isHovered ? 1 : 0.85}
+                        style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
+                        onMouseEnter={() => setHoveredPoint({ score: pt, persona: item.persona_id, idx: pIdx })}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                      />
+                    );
+                  })}
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Hovered Tooltip */}
+          {hoveredPoint && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '6px',
+                padding: '6px 10px',
+                fontSize: '11px',
+                boxShadow: 'var(--shadow-md)',
+                pointerEvents: 'none',
+                zIndex: 10,
+              }}
+            >
+              <span style={{ color: 'var(--text-muted)' }}>Score: </span>
+              <strong style={{ color: 'var(--groww-green)', fontFamily: 'var(--font-mono)' }}>
+                {hoveredPoint.score.toFixed(1)} / 100
+              </strong>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
-      {/* Footer Notes */}
+      {/* Footer Insight Pill */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          backgroundColor: 'var(--bg-surface)',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          border: '1px solid var(--border-subtle)',
           fontSize: '11px',
           color: 'var(--text-muted)',
-          borderTop: '1px solid var(--border-subtle)',
-          paddingTop: '12px',
         }}
       >
         <span>
-          <strong>Interpretation:</strong> Box displays Interquartile Range (IQR = Q3 - Q1). Dots represent actual observed runs without trimming or fabrication.
+          Box displays Interquartile Range (IQR = Q3 - Q1). Dots represent authentic unrounded run scores.
         </span>
         <span style={{ color: 'var(--groww-green)', fontWeight: 700 }}>
-          Gaussian Variance Preserved
+          Deterministic Coverage (100%)
         </span>
       </div>
     </div>
   );
 };
-

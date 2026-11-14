@@ -1,72 +1,78 @@
 import React, { useState } from 'react';
-import { TrendingUp, Activity, CheckCircle2, Shield, Zap } from 'lucide-react';
+import { TrendingUp, Award, Zap, Shield, ChevronRight } from 'lucide-react';
 
 export interface ParetoPoint {
   id: string;
   name: string;
+  shortName: string;
   framework: string;
   quality: number;
   latency: number;
-  cost_usd: number;
   isParetoOptimal: boolean;
   color: string;
+  labelPosition: 'top' | 'bottom' | 'left' | 'right';
   description: string;
 }
 
 const DEFAULT_PARETO_POINTS: ParetoPoint[] = [
   {
     id: 'hierarchical',
-    name: 'ArthaAI Hierarchical',
+    name: 'ArthaAI Hierarchical Fleet',
+    shortName: 'Hierarchical',
     framework: 'Google ADK + FastMCP + CrewAI',
     quality: 82.5,
     latency: 19.1,
-    cost_usd: 0.0008,
     isParetoOptimal: true,
     color: 'var(--groww-green)',
+    labelPosition: 'top',
     description: 'Lead research manager with subagent oversight. Highest overall institutional quality.',
   },
   {
     id: 'parallel',
     name: 'ArthaAI Parallel Fleet',
+    shortName: 'Parallel Fleet',
     framework: 'Google ADK + FastMCP + CrewAI',
     quality: 81.4,
     latency: 14.8,
-    cost_usd: 0.0008,
     isParetoOptimal: true,
     color: '#38bdf8',
+    labelPosition: 'left',
     description: 'Concurrent 4-worker stream dispatch. Pareto-optimal throughput for live production.',
   },
   {
     id: 'sequential',
-    name: 'ArthaAI Sequential',
+    name: 'ArthaAI Sequential Fleet',
+    shortName: 'Sequential',
     framework: 'Google ADK + FastMCP',
     quality: 82.3,
     latency: 22.0,
-    cost_usd: 0.0008,
     isParetoOptimal: false,
     color: '#a78bfa',
+    labelPosition: 'right',
     description: 'Step-by-step deterministic handoffs. High quality with linear latency penalty.',
   },
   {
     id: 'react',
     name: 'ReAct Single Agent',
+    shortName: 'ReAct Agent',
     framework: 'LangChain ReAct / FastMCP Tools',
     quality: 58.6,
     latency: 16.2,
-    cost_usd: 0.0003,
     isParetoOptimal: false,
     color: '#f59e0b',
+    labelPosition: 'bottom',
     description: 'Thought-Action-Observation loop without cross-examination. Dominated by Parallel Fleet.',
   },
   {
     id: 'solitary',
     name: 'Solitary Single Agent',
+    shortName: 'Solitary LLM',
     framework: 'Gemini 2.5 Flash-Lite Prompt',
     quality: 33.8,
     latency: 12.1,
-    cost_usd: 0.0001,
     isParetoOptimal: true,
     color: '#f43f5e',
+    labelPosition: 'right',
     description: 'Unaugmented LLM without tools or secondary validation. Minimal latency, high hallucination.',
   },
 ];
@@ -78,28 +84,28 @@ interface ParetoFrontierPlotProps {
 export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
   points = DEFAULT_PARETO_POINTS,
 }) => {
-  const [hoveredPoint, setHoveredPoint] = useState<ParetoPoint | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  // SVG Dimension Settings
-  const width = 460;
-  const height = 320;
-  const paddingLeft = 50;
-  const paddingRight = 30;
-  const paddingTop = 30;
-  const paddingBottom = 45;
+  // SVG Geometry Dimensions
+  const width = 480;
+  const height = 240;
+  const paddingLeft = 45;
+  const paddingRight = 35;
+  const paddingTop = 25;
+  const paddingBottom = 35;
 
   const plotWidth = width - paddingLeft - paddingRight;
   const plotHeight = height - paddingTop - paddingBottom;
 
   // Domain: Latency (X) 10s -> 25s
   const minLatency = 10;
-  const maxLatency = 26;
+  const maxLatency = 25;
   const scaleX = (lat: number) => {
     const clamped = Math.max(minLatency, Math.min(maxLatency, lat));
     return paddingLeft + ((clamped - minLatency) / (maxLatency - minLatency)) * plotWidth;
   };
 
-  // Domain: Quality (Y) 20 -> 100 (inverted SVG)
+  // Domain: Quality (Y) 20 -> 100
   const minQuality = 20;
   const maxQuality = 100;
   const scaleY = (qual: number) => {
@@ -107,12 +113,11 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
     return paddingTop + (1.0 - (clamped - minQuality) / (maxQuality - minQuality)) * plotHeight;
   };
 
-  // Pareto Frontier Points (Ordered by Latency ascending)
+  // Pareto Frontier Curve Points (Solitary -> Parallel -> Hierarchical)
   const frontierPoints = points
     .filter((p) => p.isParetoOptimal)
     .sort((a, b) => a.latency - b.latency);
 
-  // Build curved Pareto frontier line
   const frontierPath = frontierPoints
     .map((p, idx) => {
       const x = scaleX(p.latency).toFixed(1);
@@ -120,6 +125,8 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
       return `${idx === 0 ? 'M' : 'L'} ${x},${y}`;
     })
     .join(' ');
+
+  const activePoint = points.find((p) => p.id === hoveredId) || points[0];
 
   return (
     <div
@@ -132,7 +139,6 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
         flexDirection: 'column',
         gap: '14px',
         boxShadow: 'var(--shadow-sm)',
-        position: 'relative',
         height: '100%',
         minHeight: '440px',
       }}
@@ -155,7 +161,7 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
                 borderRadius: '4px',
               }}
             >
-              PARETO-OPTIMAL DOMINANCE
+              PARETO DOMINANCE
             </span>
           </div>
           <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
@@ -169,21 +175,14 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
         </div>
       </div>
 
-      {/* SVG Canvas */}
+      {/* SVG Canvas with Non-Colliding Labels */}
       <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', flex: 1 }}>
         <svg viewBox={`0 0 ${width} ${height}`} style={{ width: '100%', height: 'auto', overflow: 'visible' }}>
-          <defs>
-            <linearGradient id="paretoGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="var(--groww-green)" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="transparent" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-
-          {/* Grid lines - Y Quality (Every 20 pts: 20, 40, 60, 80, 100) */}
+          {/* Quality Grid Lines (Y: 20, 40, 60, 80, 100) */}
           {[20, 40, 60, 80, 100].map((q) => {
             const y = scaleY(q);
             return (
-              <g key={`grid-q-${q}`}>
+              <g key={`pareto-q-${q}`}>
                 <line
                   x1={paddingLeft}
                   y1={y}
@@ -208,11 +207,11 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
             );
           })}
 
-          {/* Grid lines - X Latency (Every 5 seconds: 10s, 15s, 20s, 25s) */}
+          {/* Latency Grid Lines (X: 10s, 15s, 20s, 25s) */}
           {[10, 15, 20, 25].map((l) => {
             const x = scaleX(l);
             return (
-              <g key={`grid-l-${l}`}>
+              <g key={`pareto-l-${l}`}>
                 <line
                   x1={x}
                   y1={paddingTop}
@@ -237,127 +236,149 @@ export const ParetoFrontierPlot: React.FC<ParetoFrontierPlotProps> = ({
             );
           })}
 
-          {/* Axis Labels */}
+          {/* Axis Titles */}
           <text
             x={paddingLeft + plotWidth / 2}
-            y={height - 6}
+            y={height - 2}
             textAnchor="middle"
-            fontSize="10px"
+            fontSize="9px"
             fontWeight="700"
             fill="var(--text-muted)"
           >
-            Response Wall-Clock Latency (Seconds → Faster to Left)
+            Response Latency (Seconds → Faster to Left)
           </text>
           <text
             x={-height / 2 + 10}
             y={12}
             transform="rotate(-90)"
             textAnchor="middle"
-            fontSize="10px"
+            fontSize="9px"
             fontWeight="700"
             fill="var(--text-muted)"
           >
-            Quality Score (0 - 100)
+            Quality (0-100)
           </text>
 
-          {/* Pareto Frontier Curve Line */}
+          {/* Pareto Frontier Curve */}
           <path
             d={frontierPath}
             fill="none"
             stroke="var(--groww-green)"
             strokeWidth={2.4}
-            strokeDasharray="none"
             filter="drop-shadow(0 0 6px rgba(0, 208, 156, 0.4))"
           />
 
-          {/* Points */}
+          {/* Non-Colliding Architecture Points & Strategic Placed Labels */}
           {points.map((pt) => {
             const cx = scaleX(pt.latency);
             const cy = scaleY(pt.quality);
-            const isHovered = hoveredPoint?.id === pt.id;
+            const isHovered = hoveredId === pt.id;
+
+            // Intelligent Label Offsets to Completely Prevent Collisions
+            let labelX = cx;
+            let labelY = cy - 10;
+            let textAnchor: 'start' | 'middle' | 'end' = 'middle';
+
+            if (pt.labelPosition === 'top') {
+              labelY = cy - 11;
+              textAnchor = 'middle';
+            } else if (pt.labelPosition === 'bottom') {
+              labelY = cy + 18;
+              textAnchor = 'middle';
+            } else if (pt.labelPosition === 'left') {
+              labelX = cx - 10;
+              labelY = cy + 4;
+              textAnchor = 'end';
+            } else if (pt.labelPosition === 'right') {
+              labelX = cx + 10;
+              labelY = cy + 4;
+              textAnchor = 'start';
+            }
 
             return (
               <g
                 key={pt.id}
                 style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
-                onMouseEnter={() => setHoveredPoint(pt)}
-                onMouseLeave={() => setHoveredPoint(null)}
+                onMouseEnter={() => setHoveredId(pt.id)}
+                onMouseLeave={() => setHoveredId(null)}
               >
                 {/* Glow ring on Pareto optimal points */}
                 {pt.isParetoOptimal && (
                   <circle
                     cx={cx}
                     cy={cy}
-                    r={isHovered ? 14 : 9}
+                    r={isHovered ? 12 : 8}
                     fill={pt.color}
                     opacity={isHovered ? 0.35 : 0.15}
                   />
                 )}
 
-                {/* Point circle */}
+                {/* Main Dot */}
                 <circle
                   cx={cx}
                   cy={cy}
-                  r={isHovered ? 7 : 5.5}
+                  r={isHovered ? 6.5 : 5}
                   fill={pt.color}
                   stroke="#0F1217"
                   strokeWidth={2}
                 />
 
-                {/* Point Label */}
+                {/* Non-Colliding Text Label */}
                 <text
-                  x={cx + (pt.latency > 18 ? -10 : 10)}
-                  y={cy - 8}
-                  textAnchor={pt.latency > 18 ? 'end' : 'start'}
+                  x={labelX}
+                  y={labelY}
+                  textAnchor={textAnchor}
                   fontSize="10px"
                   fontWeight={isHovered ? 800 : 700}
                   fill={isHovered ? 'var(--text-primary)' : pt.color}
                   fontFamily="var(--font-mono)"
                 >
-                  {pt.name} ({pt.quality.toFixed(1)})
+                  {pt.shortName} ({pt.quality.toFixed(1)})
                 </text>
               </g>
             );
           })}
         </svg>
+      </div>
 
-        {/* Hovered Tooltip Card */}
-        {hoveredPoint && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '10px',
-              backgroundColor: 'var(--bg-surface)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '8px',
-              padding: '10px 12px',
-              boxShadow: 'var(--shadow-md)',
-              maxWidth: '220px',
-              fontSize: '11px',
-              zIndex: 10,
-              pointerEvents: 'none',
-            }}
-          >
-            <div style={{ fontWeight: 800, color: hoveredPoint.color, marginBottom: '2px' }}>
-              {hoveredPoint.name}
+      {/* Interactive Architecture Selector Row (Eliminates guesswork & clutters) */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '6px' }}>
+        {points.map((pt) => {
+          const isSelected = hoveredId === pt.id;
+          return (
+            <div
+              key={`pill-${pt.id}`}
+              onMouseEnter={() => setHoveredId(pt.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              style={{
+                backgroundColor: isSelected ? 'rgba(0, 208, 156, 0.12)' : 'var(--bg-surface)',
+                border: isSelected ? `1px solid ${pt.color}` : '1px solid var(--border-subtle)',
+                borderRadius: '8px',
+                padding: '8px 10px',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: pt.color }}>{pt.shortName}</span>
+                {pt.isParetoOptimal && (
+                  <span style={{ fontSize: '8px', padding: '1px 4px', borderRadius: '3px', backgroundColor: 'rgba(0, 208, 156, 0.15)', color: 'var(--groww-green)', fontWeight: 800 }}>
+                    PARETO
+                  </span>
+                )}
+              </div>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>
+                {pt.quality.toFixed(1)} <span style={{ fontSize: '9px', color: 'var(--text-muted)' }}>/ 100</span>
+              </div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
+                {pt.latency.toFixed(1)}s wall-clock
+              </div>
             </div>
-            <div style={{ color: 'var(--text-muted)', fontSize: '10px', marginBottom: '6px' }}>
-              {hoveredPoint.framework}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Quality Score:</span>
-              <strong style={{ color: 'var(--groww-green)' }}>{hoveredPoint.quality.toFixed(1)}/100</strong>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <span style={{ color: 'var(--text-secondary)' }}>Latency:</span>
-              <strong style={{ color: '#38bdf8' }}>{hoveredPoint.latency.toFixed(1)}s</strong>
-            </div>
-            <p style={{ margin: 0, fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-              {hoveredPoint.description}
-            </p>
-          </div>
-        )}
+          );
+        })}
       </div>
 
       {/* Footer Insight Pill */}

@@ -212,20 +212,32 @@ export const ArchitectureRadarChart: React.FC<ArchitectureRadarChartProps> = ({
                   strokeWidth={isHovered ? 1.5 : 0.8}
                   opacity={isHovered ? 1 : 0.5}
                 />
-                {/* Axis Label */}
+                {/* Axis Label and Value Chip */}
                 <text
                   x={labelX}
-                  y={labelY}
+                  y={labelY - 5}
                   textAnchor={Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : Math.cos(angle) > 0 ? 'start' : 'end'}
                   alignmentBaseline="middle"
                   fontSize="10px"
-                  fontWeight={isHovered ? 800 : 600}
-                  fill={isHovered ? 'var(--groww-green)' : 'var(--text-secondary)'}
+                  fontWeight={isHovered ? 800 : 700}
+                  fill={isHovered ? 'var(--groww-green)' : 'var(--text-primary)'}
                   style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
                   onMouseEnter={() => setHoveredDim(dim)}
                   onMouseLeave={() => setHoveredDim(null)}
                 >
                   {dim.label}
+                </text>
+                <text
+                  x={labelX}
+                  y={labelY + 9}
+                  textAnchor={Math.abs(Math.cos(angle)) < 0.2 ? 'middle' : Math.cos(angle) > 0 ? 'start' : 'end'}
+                  alignmentBaseline="middle"
+                  fontSize="9px"
+                  fontWeight="800"
+                  fill="var(--groww-green)"
+                  fontFamily="var(--font-mono)"
+                >
+                  {dim.multiAgent.toFixed(1)}%
                 </text>
               </g>
             );
@@ -338,3 +350,4 @@ export const ArchitectureRadarChart: React.FC<ArchitectureRadarChartProps> = ({
     </div>
   );
 };
+

@@ -6139,62 +6139,62 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
               </div>
             </div>
 
-            {/* Secondary KPI Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>TASK COMPLETION</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+            {/* Secondary KPI Row (7 Core Empirical Indicators in Uniform 1-Row Grid) */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))', gap: '10px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>TASK COMPLETION</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                   {aggregateData?.kpis?.task_completion?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>SEBI LODR Audit Met</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>SEBI LODR Audit Met</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>EVIDENCE GROUNDING</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>EVIDENCE GROUNDING</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                   {aggregateData?.kpis?.evidence_grounding?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>ChromaDB Regulatory Store</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>ChromaDB Regulatory Store</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>CITATION COVERAGE</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>CITATION COVERAGE</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                   {aggregateData?.kpis?.citation_coverage?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Primary source links verified</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Primary source links verified</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>HALLUCINATION RATE</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: (aggregateData?.kpis?.hallucination_rate || 0) < 15 ? 'var(--groww-green)' : '#dc2626', marginTop: '4px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>HALLUCINATION RATE</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: (aggregateData?.kpis?.hallucination_rate || 0) < 15 ? 'var(--groww-green)' : '#dc2626', marginTop: '4px' }}>
                   {aggregateData?.kpis?.hallucination_rate?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Contradiction & fabrications</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Contradiction & fabrications</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>TOOL SUCCESS RATE</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>TOOL SUCCESS RATE</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                   {aggregateData?.kpis?.tool_success_rate?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>FastMCP Live Tools</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>FastMCP Live Tools</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>RETRY RECOVERY</div>
-                <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>RETRY RECOVERY</div>
+                <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--groww-green)', marginTop: '4px' }}>
                   {aggregateData?.kpis?.retry_recovery?.toFixed(1) || '--'}%
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Automated Self-Healing</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Automated Self-Healing</div>
               </div>
 
-              <div style={{ backgroundColor: 'var(--bg-card)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>ADVERSARIAL RECTIFICATIONS</div>
+              <div style={{ backgroundColor: 'var(--bg-card)', padding: '12px 10px', borderRadius: '10px', border: '1px solid var(--border-subtle)', minWidth: 0 }}>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 800, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>ADVERSARIAL RECTIFICATIONS</div>
                 <div style={{ fontSize: '18px', fontWeight: 800, color: '#f59e0b', marginTop: '4px' }}>
                   {aggregateData?.kpis?.adversarial_rectifications || '0 / 0'}
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Intercepted by Skeptic & Risk Officer</div>
+                <div style={{ fontSize: '9.5px', color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Intercepted by Skeptic & Risk</div>
               </div>
             </div>
 
@@ -6239,58 +6239,8 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             />
 
             {/* Visual Plots Section (Dynamically Rendered from all runs) */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              {/* Chart 1: Quality vs. Latency Frontier */}
-              <div
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderRadius: '14px',
-                  padding: '20px',
-                  border: '1px solid var(--border-subtle)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '14px',
-                }}
-              >
-                <div>
-                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                    Quality Score vs. Latency Frontier
-                  </h4>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    Dynamic institutional score (0-100) vs execution wall-clock time across architectures
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {!aggregateData?.has_runs && (
-                    <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontStyle: 'italic', fontSize: '13px' }}>
-                      No runs recorded yet. Execute a comparison in Tab 1 (Single Query) or Tab 2 (Dataset Suite) to populate this chart.
-                    </div>
-                  )}
-                  {(aggregateData?.frontier_chart || []).map((item: any, idx: number) => (
-                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{item.name}</span>
-                        <span style={{ color: 'var(--text-muted)' }}>
-                          <strong style={{ color: item.color }}>{item.score?.toFixed(1)} / 100</strong> • {item.latency?.toFixed(1)}s
-                        </span>
-                      </div>
-                      <div style={{ height: '8px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px', overflow: 'hidden' }}>
-                        <div
-                          style={{
-                            width: `${Math.min(100, item.score || 0)}%`,
-                            height: '100%',
-                            backgroundColor: item.color,
-                            borderRadius: '4px',
-                          }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Chart 2: Key Standard Metric Dimension Shootout */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: '16px' }}>
+              {/* Card 1: Key Standard Metric Dimension Shootout */}
               <div
                 style={{
                   backgroundColor: 'var(--bg-card)',
@@ -6311,7 +6261,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   </span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {(() => {
                     const d1 = (id: number) => aggregateData?.dimension_1_aggregated?.find((r: any) => r.id === id);
                     const pct = (str: string | undefined) => str && str !== 'Awaiting Execution • Run in Tab 1 or 2' ? parseFloat(str.split('%')[0]) || 0 : null;
@@ -6353,11 +6303,8 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   ))}
                 </div>
               </div>
-            </div>
 
-            {/* Additional Charts Row: Asset Sector Distribution & Run Volume Breakdown */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              {/* Asset & Sector Coverage */}
+              {/* Card 2: Empirical Corpus Coverage & Execution Partition */}
               <div
                 style={{
                   backgroundColor: 'var(--bg-card)',
@@ -6366,92 +6313,86 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   border: '1px solid var(--border-subtle)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px',
+                  gap: '16px',
+                  justifyContent: 'space-between',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                    Empirical Evaluation Asset Coverage
-                  </h4>
-                  <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700 }}>
-                    {new Set(historicalRuns.map((r: any) => r.symbol).filter(Boolean)).size} Unique Instruments
-                  </span>
+                {/* Part A: Asset Coverage */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      Empirical Evaluation Asset Coverage
+                    </h4>
+                    <span style={{ fontSize: '11px', color: 'var(--groww-green)', fontWeight: 700 }}>
+                      {new Set(historicalRuns.map((r: any) => r.symbol).filter(Boolean)).size} Unique Instruments
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {(() => {
+                      const counts: Record<string, number> = {};
+                      historicalRuns.forEach((r: any) => {
+                        const sym = r.symbol || 'OTHER';
+                        counts[sym] = (counts[sym] || 0) + 1;
+                      });
+                      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+                      return sorted.map(([sym, count], idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            backgroundColor: 'var(--bg-surface)',
+                            borderRadius: '6px',
+                            padding: '5px 8px',
+                            border: '1px solid var(--border-subtle)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            fontSize: '11px',
+                          }}
+                        >
+                          <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{sym}</span>
+                          <span style={{ backgroundColor: 'rgba(0, 208, 156, 0.12)', color: 'var(--groww-green)', padding: '1px 5px', borderRadius: '4px', fontWeight: 800, fontSize: '10px' }}>
+                            {count}
+                          </span>
+                        </div>
+                      ));
+                    })()}
+                  </div>
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+
+                {/* Part B: Run Partition Volume Breakdown */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h5 style={{ margin: 0, fontSize: '12px', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      Execution Partition Distribution
+                    </h5>
+                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      Single Query vs Dataset Benchmark
+                    </span>
+                  </div>
                   {(() => {
-                    const counts: Record<string, number> = {};
-                    historicalRuns.forEach((r: any) => {
-                      const sym = r.symbol || 'OTHER';
-                      counts[sym] = (counts[sym] || 0) + 1;
-                    });
-                    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-                    return sorted.map(([sym, count], idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          backgroundColor: 'var(--bg-surface)',
-                          borderRadius: '6px',
-                          padding: '6px 10px',
-                          border: '1px solid var(--border-subtle)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          fontSize: '11px',
-                        }}
-                      >
-                        <span style={{ fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{sym}</span>
-                        <span style={{ backgroundColor: 'rgba(0, 208, 156, 0.12)', color: 'var(--groww-green)', padding: '1px 5px', borderRadius: '4px', fontWeight: 800 }}>
-                          {count} runs
-                        </span>
+                    const singleRuns = historicalRuns.filter((r: any) => r.run_type !== 'DATASET').length;
+                    const datasetRuns = historicalRuns.filter((r: any) => r.run_type === 'DATASET').length;
+                    const total = Math.max(1, singleRuns + datasetRuns);
+                    const singlePct = Math.round((singleRuns / total) * 100);
+                    const datasetPct = 100 - singlePct;
+                    return (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                          <span style={{ color: '#0284c7', fontWeight: 700 }}>Single Query: {singleRuns} ({singlePct}%)</span>
+                          <span style={{ color: '#9333ea', fontWeight: 700 }}>Dataset Suite: {datasetRuns} ({datasetPct}%)</span>
+                        </div>
+                        <div style={{ height: '8px', backgroundColor: 'var(--bg-surface)', borderRadius: '4px', overflow: 'hidden', display: 'flex' }}>
+                          <div style={{ width: `${singlePct}%`, backgroundColor: '#0284c7' }} />
+                          <div style={{ width: `${datasetPct}%`, backgroundColor: '#9333ea' }} />
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--text-muted)' }}>
+                          <span>Tab 1 On-Demand</span>
+                          <span>Tab 2 Batch Suite</span>
+                        </div>
                       </div>
-                    ));
+                    );
                   })()}
                 </div>
-              </div>
-
-              {/* Run Partition Volume Breakdown */}
-              <div
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderRadius: '14px',
-                  padding: '20px',
-                  border: '1px solid var(--border-subtle)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)' }}>
-                    Execution Partition Distribution
-                  </h4>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                    Single Query vs Dataset Benchmark
-                  </span>
-                </div>
-                {(() => {
-                  const singleRuns = historicalRuns.filter((r: any) => r.run_type !== 'DATASET').length;
-                  const datasetRuns = historicalRuns.filter((r: any) => r.run_type === 'DATASET').length;
-                  const total = Math.max(1, singleRuns + datasetRuns);
-                  const singlePct = Math.round((singleRuns / total) * 100);
-                  const datasetPct = 100 - singlePct;
-                  return (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
-                        <span style={{ color: '#0284c7', fontWeight: 700 }}>Single Query Runs: {singleRuns} ({singlePct}%)</span>
-                        <span style={{ color: '#9333ea', fontWeight: 700 }}>Dataset Suite Runs: {datasetRuns} ({datasetPct}%)</span>
-                      </div>
-                      <div style={{ height: '10px', backgroundColor: 'var(--bg-surface)', borderRadius: '5px', overflow: 'hidden', display: 'flex' }}>
-                        <div style={{ width: `${singlePct}%`, backgroundColor: '#0284c7' }} />
-                        <div style={{ width: `${datasetPct}%`, backgroundColor: '#9333ea' }} />
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--text-muted)' }}>
-                        <span>Tab 1 On-Demand Runs</span>
-                        <span>Tab 2 Batch Suite Runs</span>
-                      </div>
-                    </div>
-                  );
-                })()}
               </div>
             </div>
           </div>

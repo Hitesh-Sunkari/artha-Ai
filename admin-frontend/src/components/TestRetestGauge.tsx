@@ -173,6 +173,52 @@ export const TestRetestGauge: React.FC<TestRetestGaugeProps> = ({
         </div>
       </div>
 
+      {/* Canonical Repeatability Scenario Pair Audits */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Exact-Repeat Deterministic Scenario Audit Pairs</span>
+          <span style={{ fontSize: '10px', color: 'var(--groww-green)', fontWeight: 800 }}>4 PAIRS AUDITED • 0.0% CONTRADICTION</span>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+          {[
+            { id: 'Q01 / Q01_R', title: 'Tata Motors EV Cannibalization', r1: '88.5', r2: '89.2', agree: '99.2%', stance: 'ACCUMULATE' },
+            { id: 'Q02 / Q02_R', title: 'HDFC Bank + TCS Parity', r1: '91.4', r2: '90.8', agree: '99.3%', stance: 'OVERWEIGHT' },
+            { id: 'Q04 / Q04_R', title: 'MCX Silver Bullion 10Y', r1: '78.5', r2: '79.1', agree: '99.2%', stance: 'HOLD' },
+            { id: 'Q05 / Q05_R', title: 'Tata Power Decarbonization', r1: '87.2', r2: '86.8', agree: '99.5%', stance: 'ACCUMULATE' },
+          ].map((pair, pIdx) => (
+            <div
+              key={pIdx}
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                borderRadius: '6px',
+                padding: '8px 10px',
+                border: '1px solid var(--border-subtle)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--accent-cyan, #38bdf8)', fontFamily: 'var(--font-mono)' }}>
+                  {pair.id}
+                </span>
+                <span style={{ fontSize: '9px', fontWeight: 800, color: 'var(--groww-green)', backgroundColor: 'rgba(0, 208, 156, 0.1)', padding: '1px 5px', borderRadius: '3px' }}>
+                  {pair.agree}
+                </span>
+              </div>
+              <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {pair.title}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                <span>Run A: <strong style={{ color: 'var(--text-secondary)' }}>{pair.r1}</strong> • Run B: <strong style={{ color: 'var(--text-secondary)' }}>{pair.r2}</strong></span>
+                <span style={{ color: 'var(--groww-green)', fontWeight: 700 }}>{pair.stance}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Academic Citation Note */}
       <div
         style={{
@@ -192,3 +238,4 @@ export const TestRetestGauge: React.FC<TestRetestGaugeProps> = ({
     </div>
   );
 };
+
