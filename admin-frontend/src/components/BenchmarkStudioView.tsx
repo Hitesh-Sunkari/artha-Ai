@@ -853,14 +853,24 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
   // 5. Dashboard & Visualizations ('dashboard')
   // ---------------------------------------------------------------------------
   type StudioTab = 'single' | 'dataset' | 'metrics' | 'vault' | 'dashboard';
-  const [studioMode, setStudioMode] = useState<StudioTab>('single');
+  const [studioMode, setStudioMode] = useState<StudioTab>('dashboard');
 
   // Vault Expansion State (Tab 4 Accordion Dropdown)
   const [expandedRunId, setExpandedRunId] = useState<string | null>(null);
 
   // Slice Filter State (All Runs vs Dataset Suite vs Single Query Runs)
   const [evaluationSlice, setEvaluationSlice] = useState<'ALL' | 'DATASET' | 'SINGLE'>('ALL');
-  const deletedRunIdsRef = useRef<Set<string>>(new Set());
+  const STORAGE_DELETED_RUNS_KEY = 'arthai_deleted_evaluation_runs';
+  const getInitialDeletedRunIds = (): Set<string> => {
+    try {
+      const stored = localStorage.getItem(STORAGE_DELETED_RUNS_KEY);
+      if (stored) {
+        return new Set(JSON.parse(stored));
+      }
+    } catch {}
+    return new Set<string>();
+  };
+  const deletedRunIdsRef = useRef<Set<string>>(getInitialDeletedRunIds());
 
   // Single Query State (Tab 1)
   const [singleInquiry, setSingleInquiry] = useState(
@@ -1163,6 +1173,9 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
     deletedRunIdsRef.current.add(cleanId);
     deletedRunIdsRef.current.add(`comparison_${cleanId}.json`);
     deletedRunIdsRef.current.add(`comparison_${cleanId}`);
+    try {
+      localStorage.setItem(STORAGE_DELETED_RUNS_KEY, JSON.stringify(Array.from(deletedRunIdsRef.current)));
+    } catch {}
 
     // 1. Optimistic UI update: instantly remove from historical runs table
     setHistoricalRuns((prev) =>
@@ -2594,6 +2607,30 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
           }}
         >
           <button
+            onClick={() => {
+              setStudioMode('dashboard');
+              fetchHistoricalRuns();
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              backgroundColor: studioMode === 'dashboard' ? 'var(--groww-green)' : 'transparent',
+              color: studioMode === 'dashboard' ? '#0F1217' : 'var(--text-secondary)',
+              fontSize: '13px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <BarChart3 size={15} />
+            1. Visual Dashboard & Personas
+          </button>
+
+          <button
             onClick={() => setStudioMode('single')}
             style={{
               display: 'flex',
@@ -2611,7 +2648,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             }}
           >
             <Zap size={15} />
-            Single Query Compare
+            2. Single Query Compare
           </button>
 
           <button
@@ -2632,7 +2669,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             }}
           >
             <Upload size={15} />
-            Dataset Suite & Live Monitor
+            3. Dataset Suite & Live Monitor
           </button>
 
           <button
@@ -2653,7 +2690,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             }}
           >
             <Layers size={15} />
-            13-Area Standard Metrics Grid
+            4. 13-Area Standard Metrics Grid
           </button>
 
           <button
@@ -2677,7 +2714,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             }}
           >
             <Database size={15} />
-            Results Vault & Empirical Evidence
+            5. Results Vault & Empirical Evidence
             {historicalRuns.length > 0 && (
               <span
                 style={{
@@ -2693,30 +2730,6 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                 {historicalRuns.length}
               </span>
             )}
-          </button>
-
-          <button
-            onClick={() => {
-              setStudioMode('dashboard');
-              fetchHistoricalRuns();
-            }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: studioMode === 'dashboard' ? 'var(--groww-green)' : 'transparent',
-              color: studioMode === 'dashboard' ? '#0F1217' : 'var(--text-secondary)',
-              fontSize: '13px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <BarChart3 size={15} />
-            Dashboard & Visualizations
           </button>
         </div>
       </div>

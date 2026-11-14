@@ -246,3 +246,4 @@ export const MasLatencyWaterfall: React.FC<MasLatencyWaterfallProps> = ({
     </div>
   );
 };
+

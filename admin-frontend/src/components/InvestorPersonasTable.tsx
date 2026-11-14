@@ -369,3 +369,4 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
     </div>
   );
 };
+
