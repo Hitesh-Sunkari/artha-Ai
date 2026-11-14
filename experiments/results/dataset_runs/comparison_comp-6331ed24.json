@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-6331ed24",
-  "timestamp": "2026-11-11T14:35:33.813818+00:00",
+  "timestamp": "2026-11-14T15:46:48.721153+00:00",
   "run_type": "DATASET",
   "query": "Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.",
   "target_symbols": [
@@ -10,7 +10,7 @@
   "symbol": "ITC.NS",
   "winning_architecture": "ArthaAI Hierarchical Fleet",
   "winning_score": 88.62,
-  "total_elapsed_seconds": 83.29,
+  "total_elapsed_seconds": 47.1,
   "storyline_summary": "On the inquiry 'Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.', ArthaAI Hierarchical Fleet achieved the highest institutional score (88.62/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 32.09/100 with 25.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 56.53,
   "hallucination_reduction_pct": 20.0,
@@ -29,48 +29,48 @@
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 85.0,
-      "ARTHAAI_PARALLEL": 39.0,
+      "ARTHAAI_SEQUENTIAL": 97.0,
+      "ARTHAAI_PARALLEL": 95.2,
       "ARTHAAI_HIERARCHICAL": 97.0,
       "REACT_AGENT": 91.0,
       "SINGLE_AGENT": 62.8
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 66.6,
-      "ARTHAAI_PARALLEL": 54.6,
+      "ARTHAAI_SEQUENTIAL": 74.6,
+      "ARTHAAI_PARALLEL": 72.6,
       "ARTHAAI_HIERARCHICAL": 76.6,
       "REACT_AGENT": 80.0,
       "SINGLE_AGENT": 36.6
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 80.0,
-      "ARTHAAI_PARALLEL": 50.0,
+      "ARTHAAI_SEQUENTIAL": 85.0,
+      "ARTHAAI_PARALLEL": 85.0,
       "ARTHAAI_HIERARCHICAL": 90.0,
       "REACT_AGENT": 34.3,
       "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Regulatory Compliance",
-      "ARTHAAI_SEQUENTIAL": 85.0,
-      "ARTHAAI_PARALLEL": 85.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
+      "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 75.0,
       "SINGLE_AGENT": 40.1
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 76.0,
-      "ARTHAAI_PARALLEL": 40.0,
+      "ARTHAAI_SEQUENTIAL": 82.9,
+      "ARTHAAI_PARALLEL": 82.9,
       "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 24.0,
       "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Hallucination Inversion",
-      "ARTHAAI_SEQUENTIAL": 90.0,
-      "ARTHAAI_PARALLEL": 60.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
+      "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 40.0,
       "SINGLE_AGENT": 75.0
@@ -79,18 +79,18 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 78.55,
-      "accuracy": 66.6,
-      "completeness": 85.0,
-      "latency_sec": 22.48,
+      "quality": 86.38,
+      "accuracy": 74.6,
+      "completeness": 97.0,
+      "latency_sec": 5.01,
       "cost_usd": 0.00085
     },
     {
       "architecture": "ArthaAI Parallel Fleet",
-      "quality": 54.25,
-      "accuracy": 54.6,
-      "completeness": 39.0,
-      "latency_sec": 24.44,
+      "quality": 85.62,
+      "accuracy": 72.6,
+      "completeness": 95.2,
+      "latency_sec": 5.72,
       "cost_usd": 0.00078
     },
     {
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 22.48,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
+      "latency_seconds": 5.01,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -189,7 +189,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 2.15
+          "latency_ms": 1.3
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 325.46
+          "latency_ms": 267.95
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 288.13
+          "latency_ms": 283.54
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.65
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.5
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.37
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.63
+          "latency_ms": 9.55
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 21.96
+          "latency_ms": 20.93
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.73
+          "latency_ms": 13.84
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.68
+          "latency_ms": 165.81
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.32
+          "latency_ms": 0.31
         }
       ],
       "retrieved_evidence": [
@@ -302,221 +302,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 78.55,
-        "analytical_accuracy": 66.6,
-        "evidence_grounding": 80,
-        "task_completion_rate": 85,
-        "citation_coverage": 96.7,
-        "citation_precision": 76,
-        "hallucination_rate": 10,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 22.48,
+        "composite_quality_index": 86.38,
+        "analytical_accuracy": 74.6,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 97.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.01,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 82,
-        "llm_judge_critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 85
+            "value": 97.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 96.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 76
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 10
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 66.6,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 72.7
+            "accuracy": 74.6,
+            "mae_bps": 3.81,
+            "rmse_bps": 5.0,
+            "f1_score": 79.5
           },
           "evidence_grounding": {
-            "faithfulness": 88,
-            "citation_precision": 76,
-            "citation_recall": 98.6
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 85
+            "task_success_rate": 100.0,
+            "completion_rate": 97.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.105
           },
           "latency": {
-            "mean": 22.48,
-            "median": 21.13,
-            "p50": 21.13,
-            "p95": 26.07,
-            "p99": 28.77
+            "mean": 5.01,
+            "median": 4.71,
+            "p50": 4.71,
+            "p95": 5.81,
+            "p99": 6.42
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 72.2
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 4,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 3.0,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 50.0,
-            "contradiction_rate": 3.5
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 75,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 80,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 10,
-        "overall_judge_score": 82,
-        "critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt."
+        "completeness": 95.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
-      "latency_ms": 22480.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
+      "latency_ms": 5010.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 96.7,
-      "citation_precision": 76,
-      "hallucination_rate": 10,
-      "task_completion_rate": 85,
-      "completeness": 85,
-      "analytical_accuracy": 66.6,
-      "evidence_grounding": 80,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 78.55,
-      "composite_quality": 78.55,
-      "composite_score": 78.55,
-      "judge_critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt.",
-      "verdict": "The audit report effectively models quantitative parameters,",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 97.0,
+      "completeness": 97.0,
+      "analytical_accuracy": 74.6,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 86.38,
+      "composite_quality": 86.38,
+      "composite_score": 86.38,
+      "judge_critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions.",
+      "verdict": "The automated equity research report demonstrates rigorous i",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 66.6,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 72.7
+          "accuracy": 74.6,
+          "mae_bps": 3.81,
+          "rmse_bps": 5.0,
+          "f1_score": 79.5
         },
         "evidence_grounding": {
-          "faithfulness": 88,
-          "citation_precision": 76,
-          "citation_recall": 98.6
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 85
+          "task_success_rate": 100.0,
+          "completion_rate": 97.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.095
+          "coefficient_of_variation": 0.105
         },
         "latency": {
-          "mean": 22.48,
-          "median": 21.13,
-          "p50": 21.13,
-          "p95": 26.07,
-          "p99": 28.77
+          "mean": 5.01,
+          "median": 4.71,
+          "p50": 4.71,
+          "p95": 5.81,
+          "p99": 6.42
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 72.2
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 4,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 3.0,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 85,
-          "contradiction_rate": 3.5
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -526,7 +524,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 2.15
+          "latency_ms": 1.3
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 325.46
+          "latency_ms": 267.95
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 288.13
+          "latency_ms": 283.54
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.65
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.5
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.37
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.63
+          "latency_ms": 9.55
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 21.96
+          "latency_ms": 20.93
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.73
+          "latency_ms": 13.84
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.68
+          "latency_ms": 165.81
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.32
+          "latency_ms": 0.31
         }
       ],
       "agent_steps": [
@@ -676,8 +674,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 24.44,
-      "executive_synthesis": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
+      "latency_seconds": 5.72,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -727,7 +725,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.6
+          "latency_ms": 0.58
         },
         {
           "tool": "get_latest_quote",
@@ -735,7 +733,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 341.33
+          "latency_ms": 87.4
         },
         {
           "tool": "get_historical_bars",
@@ -744,7 +742,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 278.81
+          "latency_ms": 82.25
         },
         {
           "tool": "get_option_chain",
@@ -752,7 +750,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.62
+          "latency_ms": 0.34
         },
         {
           "tool": "get_derivative_coverage",
@@ -760,7 +758,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.49
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -768,7 +766,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.38
+          "latency_ms": 0.15
         },
         {
           "tool": "get_corporate_news",
@@ -776,7 +774,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 9.63
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -784,7 +782,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.93
+          "latency_ms": 8.58
         },
         {
           "tool": "get_corporate_actions",
@@ -792,7 +790,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.96
+          "latency_ms": 4.41
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -801,18 +799,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.33
+          "latency_ms": 75.75
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.17
         }
       ],
       "retrieved_evidence": [
@@ -840,221 +838,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 54.25,
-        "analytical_accuracy": 54.6,
-        "evidence_grounding": 50,
-        "task_completion_rate": 39,
-        "citation_coverage": 86.7,
-        "citation_precision": 40,
-        "hallucination_rate": 40,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 24.44,
+        "composite_quality_index": 85.62,
+        "analytical_accuracy": 72.6,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.72,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 62,
-        "llm_judge_critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 39
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 86.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 40
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 40
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 54.6,
-            "mae_bps": 3.1,
-            "rmse_bps": 4.2,
-            "f1_score": 52.2
+            "accuracy": 72.6,
+            "mae_bps": 4.11,
+            "rmse_bps": 5.39,
+            "f1_score": 78.3
           },
           "evidence_grounding": {
-            "faithfulness": 52,
-            "citation_precision": 40,
-            "citation_recall": 88.4
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 39
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.106
           },
           "latency": {
-            "mean": 24.44,
-            "median": 22.97,
-            "p50": 22.97,
-            "p95": 28.35,
-            "p99": 31.28
+            "mean": 5.72,
+            "median": 5.38,
+            "p50": 5.38,
+            "p95": 6.64,
+            "p99": 7.33
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 6.7
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.1
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 38
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 33.3,
-            "false_positive_rate": 5.4,
-            "false_negative_rate": 66.7
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 3.3,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
-            "cost_per_task": 0.00024,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00078,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 83.3,
-            "contradiction_rate": 14
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 50,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 40,
-        "overall_judge_score": 62,
-        "critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
-      "output": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
-      "latency_ms": 24440.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
+      "latency_ms": 5720.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 86.7,
-      "citation_precision": 40,
-      "hallucination_rate": 40,
-      "task_completion_rate": 39,
-      "completeness": 39,
-      "analytical_accuracy": 54.6,
-      "evidence_grounding": 50,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 54.25,
-      "composite_quality": 54.25,
-      "composite_score": 54.25,
-      "judge_critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered.",
-      "verdict": "The report correctly identifies the statutory and regulatory",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 72.6,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 85.62,
+      "composite_quality": 85.62,
+      "composite_score": 85.62,
+      "judge_critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives.",
+      "verdict": "The institutional audit report delivers a comprehensive mult",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 54.6,
-          "mae_bps": 3.1,
-          "rmse_bps": 4.2,
-          "f1_score": 52.2
+          "accuracy": 72.6,
+          "mae_bps": 4.11,
+          "rmse_bps": 5.39,
+          "f1_score": 78.3
         },
         "evidence_grounding": {
-          "faithfulness": 52,
-          "citation_precision": 40,
-          "citation_recall": 88.4
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 39
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 9.9,
-          "coefficient_of_variation": 0.1
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.106
         },
         "latency": {
-          "mean": 24.44,
-          "median": 22.97,
-          "p50": 22.97,
-          "p95": 28.35,
-          "p99": 31.28
+          "mean": 5.72,
+          "median": 5.38,
+          "p50": 5.38,
+          "p95": 6.64,
+          "p99": 7.33
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 6.7
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.1
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 38
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 33.3,
-          "false_positive_rate": 5.4,
-          "false_negative_rate": 66.7
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 3.3,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
-          "cost_per_task": 0.00024,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00078,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 39,
-          "contradiction_rate": 14
+          "schema_validity": 100.0,
+          "completeness_score": 83.3,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -1064,7 +1060,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.6
+          "latency_ms": 0.58
         },
         {
           "tool": "get_latest_quote",
@@ -1072,7 +1068,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 341.33
+          "latency_ms": 87.4
         },
         {
           "tool": "get_historical_bars",
@@ -1081,7 +1077,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 278.81
+          "latency_ms": 82.25
         },
         {
           "tool": "get_option_chain",
@@ -1089,7 +1085,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.62
+          "latency_ms": 0.34
         },
         {
           "tool": "get_derivative_coverage",
@@ -1097,7 +1093,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.49
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -1105,7 +1101,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.38
+          "latency_ms": 0.15
         },
         {
           "tool": "get_corporate_news",
@@ -1113,7 +1109,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 9.63
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -1121,7 +1117,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.93
+          "latency_ms": 8.58
         },
         {
           "tool": "get_corporate_actions",
@@ -1129,7 +1125,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.96
+          "latency_ms": 4.41
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -1138,18 +1134,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.33
+          "latency_ms": 75.75
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.17
         }
       ],
       "agent_steps": [
@@ -1523,8 +1519,8 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.8,
-          "coefficient_of_variation": 0.098
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 5.09,
@@ -1571,7 +1567,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 50.0,
           "contradiction_rate": 1.8
         }
       },
@@ -2119,7 +2115,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 91,
+          "completeness_score": 50.0,
           "contradiction_rate": 21
         }
       },
@@ -2514,7 +2510,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 62.8,
+          "completeness_score": 40.0,
           "contradiction_rate": 8.8
         }
       },
@@ -2535,8 +2531,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 22.48,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
+      "latency_seconds": 5.01,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2601,7 +2597,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 2.15
+          "latency_ms": 1.3
         },
         {
           "tool": "get_latest_quote",
@@ -2609,7 +2605,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 325.46
+          "latency_ms": 267.95
         },
         {
           "tool": "get_historical_bars",
@@ -2618,7 +2614,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 288.13
+          "latency_ms": 283.54
         },
         {
           "tool": "get_option_chain",
@@ -2626,7 +2622,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.65
         },
         {
           "tool": "get_derivative_coverage",
@@ -2634,7 +2630,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.5
         },
         {
           "tool": "get_financial_results",
@@ -2642,7 +2638,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.37
         },
         {
           "tool": "get_corporate_news",
@@ -2650,7 +2646,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.63
+          "latency_ms": 9.55
         },
         {
           "tool": "search_news_and_macro",
@@ -2658,7 +2654,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 21.96
+          "latency_ms": 20.93
         },
         {
           "tool": "get_corporate_actions",
@@ -2666,7 +2662,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.73
+          "latency_ms": 13.84
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2675,18 +2671,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.68
+          "latency_ms": 165.81
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.32
+          "latency_ms": 0.31
         }
       ],
       "retrieved_evidence": [
@@ -2714,109 +2710,109 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 78.55,
-        "analytical_accuracy": 66.6,
-        "evidence_grounding": 80,
-        "task_completion_rate": 85,
-        "citation_coverage": 96.7,
-        "citation_precision": 76,
-        "hallucination_rate": 10,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 22.48,
+        "composite_quality_index": 86.38,
+        "analytical_accuracy": 74.6,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 97.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.01,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 82,
-        "llm_judge_critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 85
+            "value": 97.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 96.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 76
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 10
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 66.6,
-            "mae_bps": 12.69,
-            "rmse_bps": 4.06,
-            "f1_score": 72.7
+            "accuracy": 74.6,
+            "mae_bps": 3.81,
+            "rmse_bps": 5.0,
+            "f1_score": 79.5
           },
           "evidence_grounding": {
-            "faithfulness": 88,
-            "citation_precision": 76,
-            "citation_recall": 98.6
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 85,
-            "completion_rate": 85
+            "task_success_rate": 100.0,
+            "completion_rate": 97.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.105
           },
           "latency": {
-            "mean": 22.48,
-            "median": 21.13,
-            "p50": 21.13,
-            "p95": 26.07,
-            "p99": 28.77
+            "mean": 5.01,
+            "median": 4.71,
+            "p50": 4.71,
+            "p95": 5.81,
+            "p99": 6.42
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 72.2
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 4,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 3.0,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
@@ -2824,99 +2820,99 @@
             "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 85,
-            "contradiction_rate": 3.5
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 75,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 80,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 10,
-        "overall_judge_score": 82,
-        "critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt."
+        "completeness": 95.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on ITC Ltd (ITC.NS) resolving user inquiry: \"Evaluate ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 19.12%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9285.00).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b9505.92 (+12.16% CAGR), P90 supercycle ceiling \u20b9806.00, and P10 support floor \u20b9317.17.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 11.07%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9250.80.",
-      "latency_ms": 22480.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\n\u2022 ITC Hotel Business Demerger Scheme (1:10 Ratio): The corporate restructuring to spin off the capital-intensive hotels business into a separate entity unlocks hidden value by freeing the core balance sheet from low-ROCE hospitality assets, allowing a pure-play compounding focus on FMCG and agri-business.\n\u2022 Cigarette Taxation Predictability: The regulatory framework under the GST and annual fiscal budgets has entered a stable regime of measured, predictable tax hikes. This structural predictability prevents volume shifts to the illicit trade segment and supports predictable cash flow generation.\n\u2022 Non-Cigarette FMCG EBITDA Margins: Operating leverage continues to scale upward as supply chain efficiencies take hold and mature brands expand market share. Margin expansion is on track toward industry benchmarks through strategic portfolio premiumization.\n\u2022 Pipeline Processing: Each specialist agent in the linear relay progressively refined these operational vectors against the empirical volatility and options surface data to deliver a high-conviction ACCUMULATE rating.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment Strategy: Allocate the total capital base of \u20b91,000,000.00 across three staggered tranches to mitigate execution slippage near the anchor price of \u20b9285.00.\n\u2022 Risk Boundaries: Enforce a trailing stop-loss boundary at \u20b9250.80, derived from a strict 12% maximum drawdown tolerance threshold.\n\u2022 Milestone Profit Targets: Implement tiered profit-taking targets corresponding to the Monte Carlo P50 (\u20b9505.92) and P90 (\u20b9806.00) path projections over the 5-year horizon.",
+      "latency_ms": 5010.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 96.7,
-      "citation_precision": 76,
-      "hallucination_rate": 10,
-      "task_completion_rate": 85,
-      "completeness": 85,
-      "analytical_accuracy": 66.6,
-      "evidence_grounding": 80,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 78.55,
-      "composite_quality": 78.55,
-      "composite_score": 78.55,
-      "judge_critique": "The audit report effectively models quantitative parameters, Monte Carlo paths, and regulatory compliance under Indian capital markets frameworks. However, it omits granular qualitative breakdowns of the specific 1:10 hotel demerger share entitlement mechanics and quantitative margin trajectory projections for the non-cigarette FMCG segment requested in the prompt.",
-      "verdict": "The audit report effectively models quantitative parameters,",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 97.0,
+      "completeness": 97.0,
+      "analytical_accuracy": 74.6,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 86.38,
+      "composite_quality": 86.38,
+      "composite_score": 86.38,
+      "judge_critique": "The automated equity research report demonstrates rigorous institutional structuring, addressing the ITC 1:10 hotel demerger, cigarette taxation predictability, and non-Cigarette FMCG margins thoroughly while integrating Indian regulatory frameworks. Minor enhancements could tighten empirical tracking of historical tax shifts against past budget iterations to fully insulate against forward-looking assumptions.",
+      "verdict": "The automated equity research report demonstrates rigorous i",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 66.6,
-          "mae_bps": 12.69,
-          "rmse_bps": 4.06,
-          "f1_score": 72.7
+          "accuracy": 74.6,
+          "mae_bps": 3.81,
+          "rmse_bps": 5.0,
+          "f1_score": 79.5
         },
         "evidence_grounding": {
-          "faithfulness": 88,
-          "citation_precision": 76,
-          "citation_recall": 98.6
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 85,
-          "completion_rate": 85
+          "task_success_rate": 100.0,
+          "completion_rate": 97.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.105
         },
         "latency": {
-          "mean": 22.48,
-          "median": 21.13,
-          "p50": 21.13,
-          "p95": 26.07,
-          "p99": 28.77
+          "mean": 5.01,
+          "median": 4.71,
+          "p50": 4.71,
+          "p95": 5.81,
+          "p99": 6.42
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 72.2
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 4,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 3.0,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
@@ -2924,9 +2920,9 @@
           "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 85,
-          "contradiction_rate": 3.5
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -2936,7 +2932,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 2.15
+          "latency_ms": 1.3
         },
         {
           "tool": "get_latest_quote",
@@ -2944,7 +2940,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 325.46
+          "latency_ms": 267.95
         },
         {
           "tool": "get_historical_bars",
@@ -2953,7 +2949,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 288.13
+          "latency_ms": 283.54
         },
         {
           "tool": "get_option_chain",
@@ -2961,7 +2957,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.65
         },
         {
           "tool": "get_derivative_coverage",
@@ -2969,7 +2965,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.5
         },
         {
           "tool": "get_financial_results",
@@ -2977,7 +2973,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.37
         },
         {
           "tool": "get_corporate_news",
@@ -2985,7 +2981,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.63
+          "latency_ms": 9.55
         },
         {
           "tool": "search_news_and_macro",
@@ -2993,7 +2989,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 21.96
+          "latency_ms": 20.93
         },
         {
           "tool": "get_corporate_actions",
@@ -3001,7 +2997,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.73
+          "latency_ms": 13.84
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3010,18 +3006,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.68
+          "latency_ms": 165.81
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.32
+          "latency_ms": 0.31
         }
       ],
       "agent_steps": [
@@ -3086,8 +3082,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 24.44,
-      "executive_synthesis": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
+      "latency_seconds": 5.72,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -3137,7 +3133,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.6
+          "latency_ms": 0.58
         },
         {
           "tool": "get_latest_quote",
@@ -3145,7 +3141,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 341.33
+          "latency_ms": 87.4
         },
         {
           "tool": "get_historical_bars",
@@ -3154,7 +3150,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 278.81
+          "latency_ms": 82.25
         },
         {
           "tool": "get_option_chain",
@@ -3162,7 +3158,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.62
+          "latency_ms": 0.34
         },
         {
           "tool": "get_derivative_coverage",
@@ -3170,7 +3166,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.49
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -3178,7 +3174,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.38
+          "latency_ms": 0.15
         },
         {
           "tool": "get_corporate_news",
@@ -3186,7 +3182,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 9.63
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -3194,7 +3190,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.93
+          "latency_ms": 8.58
         },
         {
           "tool": "get_corporate_actions",
@@ -3202,7 +3198,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.96
+          "latency_ms": 4.41
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3211,18 +3207,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.33
+          "latency_ms": 75.75
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.17
         }
       ],
       "retrieved_evidence": [
@@ -3250,109 +3246,109 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 54.25,
-        "analytical_accuracy": 54.6,
-        "evidence_grounding": 50,
-        "task_completion_rate": 39,
-        "citation_coverage": 86.7,
-        "citation_precision": 40,
-        "hallucination_rate": 40,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 24.44,
+        "composite_quality_index": 85.62,
+        "analytical_accuracy": 72.6,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.72,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 62,
-        "llm_judge_critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 39
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 86.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 40
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 40
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 54.6,
-            "mae_bps": 17.25,
-            "rmse_bps": 4.74,
-            "f1_score": 52.2
+            "accuracy": 72.6,
+            "mae_bps": 4.11,
+            "rmse_bps": 5.39,
+            "f1_score": 78.3
           },
           "evidence_grounding": {
-            "faithfulness": 52,
-            "citation_precision": 40,
-            "citation_recall": 88.4
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 39,
-            "completion_rate": 39
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.106
           },
           "latency": {
-            "mean": 24.44,
-            "median": 22.97,
-            "p50": 22.97,
-            "p95": 28.35,
-            "p99": 31.28
+            "mean": 5.72,
+            "median": 5.38,
+            "p50": 5.38,
+            "p95": 6.64,
+            "p99": 7.33
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 6.7
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.1
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 38
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 33.3,
-            "false_positive_rate": 5.4,
-            "false_negative_rate": 66.7
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 3.3,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
@@ -3360,99 +3356,99 @@
             "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 39,
-            "contradiction_rate": 14
+            "schema_validity": 100.0,
+            "completeness_score": 83.3,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 50,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 40,
-        "overall_judge_score": 62,
-        "critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
-      "output": "# ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n## 1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nDirectly addressing the user inquiry on ITC Ltd (ITC.NS): The concurrent parallel fleet executed 4 specialist streams simultaneously to evaluate all quantitative, derivatives, macro, and governance facets. The reconciled consensus verdict is ACCUMULATE with a conviction score of 84/100.\n\n## 2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n- Stream 1 (Quant Valuation & Monte Carlo Pool): Ingested 1,260 daily observations with empirical volatility of 19.12%. Stochastic 5,000-path simulation establishes a median P50 target of \u20b9505.92 (+12.16% CAGR), upside supercycle P90 of \u20b9806.00, and support P10 floor of \u20b9317.17.\n- Stream 2 (Derivatives Surface & Depth Pool): Audited active contracts with Put-Call Ratio (PCR) at 0.92, open interest Max Pain strike at \u20b9285.00, and ATM implied volatility at 21.4%.\n- Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Verified macroeconomic stability with RBI repo rate at 6.50% and inflation at 5.49%.\n- Stream 4 (Statutory & LODR Pool): Mandatory Finance Act 2024 round-trip friction computed at 22.2 bps. SEBI LODR 2015 Regulations 30, 33, and 44 verified clean with zero non-disclosures.\n\n## 3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nThe Lead Officer and Adversarial Skeptic cross-examined parallel findings: While Stream 1 projected robust compounding (+12.16% CAGR), Stream 2 options Max Pain (\u20b9285.00) indicated near-term consolidation resistance. The divergence was reconciled by anchoring trailing stop-loss boundaries at \u20b9250.80 while preserving long-term capital compounding.\n\n## 4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nConcurrent stream execution delivered high-throughput synthesis with zero sequential handoff latency drag. Capital deployment of \u20b91,000,000.00 is authorized under institutional parameters.",
-      "latency_ms": 24440.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nTo directly answer the user inquiry regarding the ITC 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins, the parallel engine evaluates these pillars through specialized concurrent streams. The 1:10 hotel business demerger unlocks trapped capital by separating low-ROCE hospitality assets from the high-cash-generating core, creating an asset-light, independent corporate structure that enhances shareholder value. Cigarette taxation predictability has improved significantly under the current multi-year tax regime stability, allowing the company to exercise disciplined pricing power and protect cash flow generation. Non-cigarette FMCG EBITDA margins are expanding steadily due to supply chain efficiencies, premiumization, and scale benefits, though they remain moderated by aggressive competitive intensity. The concurrent parallel streams converge to resolve these factors by weighing fundamental business tailwinds against valuation boundaries, resulting in a unified ACCUMULATE consensus conviction score of 84 out of 100 at the \u20b9285.00 anchor price.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 19.12%, expected drift 19.86%. 5,000-path Monte Carlo P50: \u20b9505.92 (+12.16% CAGR), P90: \u20b9806.00, P10: \u20b9317.17.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b9285.00, ATM IV 21.4%.\n\u2022 Stream 3 (Macro Intelligence & News Pool): \u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.. Macro backdrop: RBI repo 6.50%, CPI 5.49%.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps, clean SEBI LODR 2015 Reg 30/33/44 audit.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nA thorough multi-stream audit revealed distinct structural tensions across the concurrent pipelines. Stream 1 projects robust long-term compounding with an expected annualized drift of 19.86% and a median 5-year target of \u20b9505.92, reflecting strong intrinsic cash flows and the value unlocking of the hotel demerger. However, Stream 2 indicates immediate near-term friction, as the Max Pain strike sits precisely at the \u20b9285.00 anchor price with an ATM implied volatility of 21.4% and a Put-Call Ratio of 0.92, pointing to range-bound consolidation driven by options market pinning. Stream 3 and Stream 4 complement this by confirming a pristine regulatory compliance record and a low statutory tax drag of 22.2 bps under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by treating the derivatives-implied pinning as a tactical accumulation window rather than a structural deterrent, ensuring the long-term compounding thesis overrides short-term options hedging pressures.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\nOperating via concurrent execution pathways eliminated pipeline bottlenecks, enabling the real-time synthesis of quantitative distributions, derivatives depth, and macroeconomic disclosures. For the capital base of \u20b91,000,000.00, the high-conviction deployment directive is to execute a phased ACCUMULATE strategy. Deploy 40% immediately at the anchor price of \u20b9285.00, with remaining tranches deployed systematically on technical pullbacks. Establish a trailing stop-loss at \u20b9250.80 (representing a 12% risk threshold below entry, comfortably inside the historical max drawdown of 25.81%). Milestone profit targets are set at \u20b9380.00 for Tranche 1 and \u20b9505.92 for the median Monte Carlo horizon, optimizing risk-adjusted returns over the 5-year investment lifecycle.",
+      "latency_ms": 5720.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 86.7,
-      "citation_precision": 40,
-      "hallucination_rate": 40,
-      "task_completion_rate": 39,
-      "completeness": 39,
-      "analytical_accuracy": 54.6,
-      "evidence_grounding": 50,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 54.25,
-      "composite_quality": 54.25,
-      "composite_score": 54.25,
-      "judge_critique": "The report correctly identifies the statutory and regulatory frameworks but completely omits the specific user inquiries regarding the 1:10 hotel business demerger scheme, cigarette taxation predictability, and non-cigarette FMCG EBITDA margins. While the quantitative and structural parallel fleet execution is robustly formatted, the actual core fundamental questions posed by the user remain unanswered.",
-      "verdict": "The report correctly identifies the statutory and regulatory",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 72.6,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 85.62,
+      "composite_quality": 85.62,
+      "composite_score": 85.62,
+      "judge_critique": "The institutional audit report delivers a comprehensive multi-stream evaluation of ITC's corporate actions, taxation stability, and FMCG margins with strong regulatory alignment under SEBI and Finance Act 2024 mandates. Minor deductions stem from treating commodity ETF standards inside an equity valuation context without altering the rigorous parallel execution profile and risk management directives.",
+      "verdict": "The institutional audit report delivers a comprehensive mult",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 54.6,
-          "mae_bps": 17.25,
-          "rmse_bps": 4.74,
-          "f1_score": 52.2
+          "accuracy": 72.6,
+          "mae_bps": 4.11,
+          "rmse_bps": 5.39,
+          "f1_score": 78.3
         },
         "evidence_grounding": {
-          "faithfulness": 52,
-          "citation_precision": 40,
-          "citation_recall": 88.4
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 39,
-          "completion_rate": 39
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.106
         },
         "latency": {
-          "mean": 24.44,
-          "median": 22.97,
-          "p50": 22.97,
-          "p95": 28.35,
-          "p99": 31.28
+          "mean": 5.72,
+          "median": 5.38,
+          "p50": 5.38,
+          "p95": 6.64,
+          "p99": 7.33
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 6.7
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.1
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 38
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 33.3,
-          "false_positive_rate": 5.4,
-          "false_negative_rate": 66.7
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 3.3,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
@@ -3460,9 +3456,9 @@
           "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 39,
-          "contradiction_rate": 14
+          "schema_validity": 100.0,
+          "completeness_score": 83.3,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -3472,7 +3468,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.6
+          "latency_ms": 0.58
         },
         {
           "tool": "get_latest_quote",
@@ -3480,7 +3476,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 341.33
+          "latency_ms": 87.4
         },
         {
           "tool": "get_historical_bars",
@@ -3489,7 +3485,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 278.81
+          "latency_ms": 82.25
         },
         {
           "tool": "get_option_chain",
@@ -3497,7 +3493,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.62
+          "latency_ms": 0.34
         },
         {
           "tool": "get_derivative_coverage",
@@ -3505,7 +3501,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.49
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -3513,7 +3509,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.38
+          "latency_ms": 0.15
         },
         {
           "tool": "get_corporate_news",
@@ -3521,7 +3517,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 9.63
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -3529,7 +3525,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.93
+          "latency_ms": 8.58
         },
         {
           "tool": "get_corporate_actions",
@@ -3537,7 +3533,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.96
+          "latency_ms": 4.41
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3546,18 +3542,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 139.33
+          "latency_ms": 75.75
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 285,
+            "price": 285.0,
             "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.17
         }
       ],
       "agent_steps": [
@@ -3815,8 +3811,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 76.6,
-            "mae_bps": 8.89,
-            "rmse_bps": 3.4,
+            "mae_bps": 2.8,
+            "rmse_bps": 3.6,
             "f1_score": 82.8
           },
           "evidence_grounding": {
@@ -3825,13 +3821,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 97,
+            "task_success_rate": 96.9,
             "completion_rate": 97
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 5.09,
@@ -3856,10 +3852,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -3872,12 +3868,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 2149,
-            "cost_per_task": 0.00098,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.0003,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 97,
+            "completeness_score": 50.0,
             "contradiction_rate": 1.8
           }
         }
@@ -3915,8 +3912,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 76.6,
-          "mae_bps": 8.89,
-          "rmse_bps": 3.4,
+          "mae_bps": 2.8,
+          "rmse_bps": 3.6,
           "f1_score": 82.8
         },
         "evidence_grounding": {
@@ -3925,13 +3922,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 97,
+          "task_success_rate": 96.9,
           "completion_rate": 97
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 5.09,
@@ -3956,10 +3953,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -3972,12 +3969,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 2149,
-          "cost_per_task": 0.00098,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.0003,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 50.0,
           "contradiction_rate": 1.8
         }
       },
@@ -4361,8 +4359,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 80,
-            "mae_bps": 7.6,
-            "rmse_bps": 3.14,
+            "mae_bps": 5.2,
+            "rmse_bps": 7.1,
             "f1_score": 48
           },
           "evidence_grounding": {
@@ -4371,13 +4369,13 @@
             "citation_recall": 58.2
           },
           "task_completion": {
-            "task_success_rate": 91,
+            "task_success_rate": 88.5,
             "completion_rate": 91
           },
           "consistency": {
             "recommendation_agreement": 80,
-            "std_deviation": 67.9,
-            "coefficient_of_variation": 0.14
+            "std_deviation": 13.3,
+            "coefficient_of_variation": 0.165
           },
           "latency": {
             "mean": 16.52,
@@ -4402,10 +4400,10 @@
             "calls_per_task": 5
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.5,
+            "precision_at_k": 0.5,
+            "recall_at_k": 0.4,
             "mrr": 0.65,
-            "ndcg_at_k": 0.68
+            "ndcg_at_k": 0.62
           },
           "traceability": {
             "trace_completeness": 71.4,
@@ -4418,12 +4416,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 1424,
-            "cost_per_task": 0.000296,
-            "api_calls_per_task": 6
+            "cost_per_task": 0.0002,
+            "api_calls_per_task": 6,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 91,
+            "completeness_score": 50.0,
             "contradiction_rate": 21
           }
         }
@@ -4461,8 +4460,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 80,
-          "mae_bps": 7.6,
-          "rmse_bps": 3.14,
+          "mae_bps": 5.2,
+          "rmse_bps": 7.1,
           "f1_score": 48
         },
         "evidence_grounding": {
@@ -4471,13 +4470,13 @@
           "citation_recall": 58.2
         },
         "task_completion": {
-          "task_success_rate": 91,
+          "task_success_rate": 88.5,
           "completion_rate": 91
         },
         "consistency": {
           "recommendation_agreement": 80,
-          "std_deviation": 67.9,
-          "coefficient_of_variation": 0.14
+          "std_deviation": 13.3,
+          "coefficient_of_variation": 0.165
         },
         "latency": {
           "mean": 16.52,
@@ -4502,10 +4501,10 @@
           "calls_per_task": 5
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.5,
+          "precision_at_k": 0.5,
+          "recall_at_k": 0.4,
           "mrr": 0.65,
-          "ndcg_at_k": 0.68
+          "ndcg_at_k": 0.62
         },
         "traceability": {
           "trace_completeness": 71.4,
@@ -4518,12 +4517,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 1424,
-          "cost_per_task": 0.000296,
-          "api_calls_per_task": 6
+          "cost_per_task": 0.0002,
+          "api_calls_per_task": 6,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 91,
+          "completeness_score": 50.0,
           "contradiction_rate": 21
         }
       },
@@ -4754,8 +4754,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 36.6,
-            "mae_bps": 24.09,
-            "rmse_bps": 5.6,
+            "mae_bps": 12.8,
+            "rmse_bps": 18.4,
             "f1_score": 0
           },
           "evidence_grounding": {
@@ -4764,13 +4764,13 @@
             "citation_recall": 0
           },
           "task_completion": {
-            "task_success_rate": 62.8,
+            "task_success_rate": 74.0,
             "completion_rate": 62.8
           },
           "consistency": {
             "recommendation_agreement": 58,
-            "std_deviation": 260,
-            "coefficient_of_variation": 0.26
+            "std_deviation": 20.3,
+            "coefficient_of_variation": 0.342
           },
           "latency": {
             "mean": 14.76,
@@ -4795,10 +4795,10 @@
             "calls_per_task": 0
           },
           "rag_retrieval": {
-            "precision_at_k": 0,
-            "recall_at_k": 0,
-            "mrr": 0,
-            "ndcg_at_k": 0
+            "precision_at_k": 0.1,
+            "recall_at_k": 0.0,
+            "mrr": 0.1,
+            "ndcg_at_k": 0.1
           },
           "traceability": {
             "trace_completeness": 0,
@@ -4811,12 +4811,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 420,
-            "cost_per_task": 8.9e-05,
-            "api_calls_per_task": 1
+            "cost_per_task": 6e-05,
+            "api_calls_per_task": 1,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 62.8,
+            "completeness_score": 40.0,
             "contradiction_rate": 8.8
           }
         }
@@ -4854,8 +4855,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 36.6,
-          "mae_bps": 24.09,
-          "rmse_bps": 5.6,
+          "mae_bps": 12.8,
+          "rmse_bps": 18.4,
           "f1_score": 0
         },
         "evidence_grounding": {
@@ -4864,13 +4865,13 @@
           "citation_recall": 0
         },
         "task_completion": {
-          "task_success_rate": 62.8,
+          "task_success_rate": 74.0,
           "completion_rate": 62.8
         },
         "consistency": {
           "recommendation_agreement": 58,
-          "std_deviation": 260,
-          "coefficient_of_variation": 0.26
+          "std_deviation": 20.3,
+          "coefficient_of_variation": 0.342
         },
         "latency": {
           "mean": 14.76,
@@ -4895,10 +4896,10 @@
           "calls_per_task": 0
         },
         "rag_retrieval": {
-          "precision_at_k": 0,
-          "recall_at_k": 0,
-          "mrr": 0,
-          "ndcg_at_k": 0
+          "precision_at_k": 0.1,
+          "recall_at_k": 0.0,
+          "mrr": 0.1,
+          "ndcg_at_k": 0.1
         },
         "traceability": {
           "trace_completeness": 0,
@@ -4911,12 +4912,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 420,
-          "cost_per_task": 8.9e-05,
-          "api_calls_per_task": 1
+          "cost_per_task": 6e-05,
+          "api_calls_per_task": 1,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 62.8,
+          "completeness_score": 40.0,
           "contradiction_rate": 8.8
         }
       },

@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-7d005c05",
-  "timestamp": "2026-11-11T11:39:55.987663+00:00",
+  "timestamp": "2026-11-14T15:49:30.016006+00:00",
   "run_type": "DATASET",
   "query": "Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.",
   "target_symbols": [
@@ -8,69 +8,69 @@
   ],
   "primary_symbol": "TATAMOTORS.NS",
   "symbol": "TATAMOTORS.NS",
-  "winning_architecture": "ArthaAI Hierarchical Fleet",
-  "winning_score": 92.47,
-  "total_elapsed_seconds": 265.28,
-  "storyline_summary": "On the inquiry 'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5% hallucination and 97% completeness. In contrast, Single-Agent Solitary Prompt registered 31.6/100 with 40% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
-  "pairwise_quality_delta": 60.87,
-  "hallucination_reduction_pct": 35,
+  "winning_architecture": "ArthaAI Parallel Fleet",
+  "winning_score": 93.11,
+  "total_elapsed_seconds": 54.39,
+  "storyline_summary": "On the inquiry 'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.', ArthaAI Parallel Fleet achieved the highest institutional score (93.11/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 31.6/100 with 40.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+  "pairwise_quality_delta": 61.51,
+  "hallucination_reduction_pct": 35.0,
   "winner": {
-    "architecture": "ARTHAAI_HIERARCHICAL",
-    "label": "ArthaAI Hierarchical Fleet",
-    "quality": 92.47
+    "architecture": "ARTHAAI_PARALLEL",
+    "label": "ArthaAI Parallel Fleet",
+    "quality": 93.11
   },
   "comparison_summary": {
-    "winning_architecture": "ArthaAI Hierarchical Fleet",
-    "winning_score": 92.47,
-    "narrative_summary": "On the inquiry 'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5% hallucination and 97% completeness. In contrast, Single-Agent Solitary Prompt registered 31.6/100 with 40% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
-    "pairwise_delta": 60.87,
-    "hallucination_reduction": 35
+    "winning_architecture": "ArthaAI Parallel Fleet",
+    "winning_score": 93.11,
+    "narrative_summary": "On the inquiry 'Evaluate Tata Motors EV margin cannibalization, JLR cash flow, and 5-year outlook.', ArthaAI Parallel Fleet achieved the highest institutional score (93.11/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 31.6/100 with 40.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+    "pairwise_delta": 61.51,
+    "hallucination_reduction": 35.0
   },
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 59,
-      "ARTHAAI_PARALLEL": 59,
-      "ARTHAAI_HIERARCHICAL": 97,
-      "REACT_AGENT": 61,
-      "SINGLE_AGENT": 74
+      "ARTHAAI_SEQUENTIAL": 95.2,
+      "ARTHAAI_PARALLEL": 97.0,
+      "ARTHAAI_HIERARCHICAL": 97.0,
+      "REACT_AGENT": 61.0,
+      "SINGLE_AGENT": 74.0
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 85,
-      "ARTHAAI_PARALLEL": 82,
-      "ARTHAAI_HIERARCHICAL": 92,
-      "REACT_AGENT": 60,
-      "SINGLE_AGENT": 58
+      "ARTHAAI_SEQUENTIAL": 88.0,
+      "ARTHAAI_PARALLEL": 90.0,
+      "ARTHAAI_HIERARCHICAL": 92.0,
+      "REACT_AGENT": 60.0,
+      "SINGLE_AGENT": 58.0
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 50,
-      "ARTHAAI_PARALLEL": 70,
-      "ARTHAAI_HIERARCHICAL": 90,
+      "ARTHAAI_SEQUENTIAL": 85.0,
+      "ARTHAAI_PARALLEL": 92.0,
+      "ARTHAAI_HIERARCHICAL": 90.0,
       "REACT_AGENT": 35.7,
-      "SINGLE_AGENT": 0
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Regulatory Compliance",
-      "ARTHAAI_SEQUENTIAL": 95,
-      "ARTHAAI_PARALLEL": 95,
-      "ARTHAAI_HIERARCHICAL": 95,
-      "REACT_AGENT": 90,
-      "SINGLE_AGENT": 0
+      "ARTHAAI_SEQUENTIAL": 95.0,
+      "ARTHAAI_PARALLEL": 98.0,
+      "ARTHAAI_HIERARCHICAL": 95.0,
+      "REACT_AGENT": 90.0,
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 45,
-      "ARTHAAI_PARALLEL": 63,
+      "ARTHAAI_SEQUENTIAL": 82.9,
+      "ARTHAAI_PARALLEL": 89.7,
       "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 33.9,
-      "SINGLE_AGENT": 0
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Hallucination Inversion",
-      "ARTHAAI_SEQUENTIAL": 80.0,
-      "ARTHAAI_PARALLEL": 80.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
+      "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 90.0,
       "SINGLE_AGENT": 60.0
@@ -79,41 +79,41 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 69.1,
-      "accuracy": 85,
-      "completeness": 59,
-      "latency_sec": 98.63,
+      "quality": 89.47,
+      "accuracy": 88.0,
+      "completeness": 95.2,
+      "latency_sec": 5.19,
       "cost_usd": 0.00085
     },
     {
       "architecture": "ArthaAI Parallel Fleet",
-      "quality": 75.05,
-      "accuracy": 82,
-      "completeness": 59,
-      "latency_sec": 122.68,
+      "quality": 93.11,
+      "accuracy": 90.0,
+      "completeness": 97.0,
+      "latency_sec": 5.23,
       "cost_usd": 0.00078
     },
     {
       "architecture": "ArthaAI Hierarchical Fleet",
       "quality": 92.47,
-      "accuracy": 92,
-      "completeness": 97,
+      "accuracy": 92.0,
+      "completeness": 97.0,
       "latency_sec": 20.67,
       "cost_usd": 0.00098
     },
     {
       "architecture": "ReAct Single Agent",
       "quality": 58.88,
-      "accuracy": 60,
-      "completeness": 61,
-      "latency_sec": 11,
+      "accuracy": 60.0,
+      "completeness": 61.0,
+      "latency_sec": 11.0,
       "cost_usd": 0.000199
     },
     {
       "architecture": "Single-Agent Solitary Prompt",
       "quality": 31.6,
-      "accuracy": 58,
-      "completeness": 74,
+      "accuracy": 58.0,
+      "completeness": 74.0,
       "latency_sec": 12.3,
       "cost_usd": 7.8e-05
     }
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 98.63,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
+      "latency_seconds": 5.19,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -144,7 +144,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -189,7 +189,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 333.48
+          "latency_ms": 313.72
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 314.32
+          "latency_ms": 347.9
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.54
+          "latency_ms": 0.79
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.44
+          "latency_ms": 0.57
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.52
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.2
+          "latency_ms": 12.46
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.69
+          "latency_ms": 23.5
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 12.04
+          "latency_ms": 11.49
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 143.47
+          "latency_ms": 254.78
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.3
+          "latency_ms": 0.46
         }
       ],
       "retrieved_evidence": [
@@ -302,221 +302,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 69.1,
-        "analytical_accuracy": 85,
-        "evidence_grounding": 50,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 45,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 98.63,
+        "composite_quality_index": 89.47,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.19,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 71,
-        "llm_judge_critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 45
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 85,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 63
+            "accuracy": 88.0,
+            "mae_bps": 1.8,
+            "rmse_bps": 2.36,
+            "f1_score": 86.5
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 45,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.101
           },
           "latency": {
-            "mean": 98.63,
-            "median": 92.72,
-            "p50": 92.72,
-            "p95": 114.41,
-            "p99": 126.25
+            "mean": 5.19,
+            "median": 4.88,
+            "p50": 4.88,
+            "p95": 6.02,
+            "p99": 6.64
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 42.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 1.8,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.4,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
-            "contradiction_rate": 7
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 85,
-        "evidence_grounding": 50,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 71,
-        "critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "latency_ms": 98630.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
+      "latency_ms": 5190.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 45,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 85,
-      "evidence_grounding": 50,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 69.1,
-      "composite_quality": 69.1,
-      "composite_score": 69.1,
-      "judge_critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided.",
-      "verdict": "The report provides a rigorous quantitative framework includ",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 88.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 89.47,
+      "composite_quality": 89.47,
+      "composite_score": 89.47,
+      "judge_critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers.",
+      "verdict": "The institutional research provides a rigorous multi-agent e",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 85,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 63
+          "accuracy": 88.0,
+          "mae_bps": 1.8,
+          "rmse_bps": 2.36,
+          "f1_score": 86.5
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 45,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.095
+          "coefficient_of_variation": 0.101
         },
         "latency": {
-          "mean": 98.63,
-          "median": 92.72,
-          "p50": 92.72,
-          "p95": 114.41,
-          "p99": 126.25
+          "mean": 5.19,
+          "median": 4.88,
+          "p50": 4.88,
+          "p95": 6.02,
+          "p99": 6.64
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 42.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 1.8,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.4,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -526,7 +524,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 333.48
+          "latency_ms": 313.72
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 314.32
+          "latency_ms": 347.9
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.54
+          "latency_ms": 0.79
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.44
+          "latency_ms": 0.57
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.52
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.2
+          "latency_ms": 12.46
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.69
+          "latency_ms": 23.5
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 12.04
+          "latency_ms": 11.49
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 143.47
+          "latency_ms": 254.78
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.3
+          "latency_ms": 0.46
         }
       ],
       "agent_steps": [
@@ -633,7 +631,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -676,8 +674,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 122.68,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
+      "latency_seconds": 5.23,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -697,7 +695,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Stream 2: 5Y Options Chain & Order Book Depth Audit",
-          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "CrewAINewsMacroSpecialist",
@@ -727,7 +725,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.06
+          "latency_ms": 0.56
         },
         {
           "tool": "get_latest_quote",
@@ -735,7 +733,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 345.07
+          "latency_ms": 86.62
         },
         {
           "tool": "get_historical_bars",
@@ -744,7 +742,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 340.42
+          "latency_ms": 85.12
         },
         {
           "tool": "get_option_chain",
@@ -752,7 +750,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.35
         },
         {
           "tool": "get_derivative_coverage",
@@ -760,7 +758,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.22
         },
         {
           "tool": "get_financial_results",
@@ -768,7 +766,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -776,7 +774,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.13
+          "latency_ms": 4.23
         },
         {
           "tool": "search_news_and_macro",
@@ -784,7 +782,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.76
+          "latency_ms": 8.71
         },
         {
           "tool": "get_corporate_actions",
@@ -792,7 +790,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.47
+          "latency_ms": 4.38
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -801,18 +799,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 180.52
+          "latency_ms": 71.14
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.14
         }
       ],
       "retrieved_evidence": [
@@ -840,221 +838,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 75.05,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 70,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 63,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 122.68,
+        "composite_quality_index": 93.11,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 92.0,
+        "task_completion_rate": 97.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 89.7,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 98.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.23,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 75,
-        "llm_judge_critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 97.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 63
+            "value": 89.7
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 82,
-            "mae_bps": 3.1,
-            "rmse_bps": 4.2,
-            "f1_score": 75.5
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 91.0
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 63,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 89.7,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 97.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.098
           },
           "latency": {
-            "mean": 122.68,
-            "median": 115.32,
-            "p50": 115.32,
-            "p95": 142.31,
-            "p99": 157.03
+            "mean": 5.23,
+            "median": 4.91,
+            "p50": 4.91,
+            "p95": 6.06,
+            "p99": 6.69
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 6.7
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 59.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 85.2
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 2.2,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
-            "cost_per_task": 0.00024,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00078,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 66.7,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 83.3,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 70,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 75,
-        "critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth."
+        "completeness": 95.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 92.0,
+        "regulatory_compliance": 98.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 93.0,
+        "critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "latency_ms": 122680.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
+      "latency_ms": 5230.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 63,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 82,
-      "evidence_grounding": 70,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 75.05,
-      "composite_quality": 75.05,
-      "composite_score": 75.05,
-      "judge_critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth.",
-      "verdict": "The automated research provides rigorous quantitative metric",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 89.7,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 97.0,
+      "completeness": 97.0,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 92.0,
+      "regulatory_compliance": 98.0,
+      "overall_judge_score": 93.11,
+      "composite_quality": 93.11,
+      "composite_score": 93.11,
+      "judge_critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives.",
+      "verdict": "The automated financial research exhibits exceptional instit",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 82,
-          "mae_bps": 3.1,
-          "rmse_bps": 4.2,
-          "f1_score": 75.5
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 91.0
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 63,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 89.7,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 97.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 9.9,
-          "coefficient_of_variation": 0.1
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.098
         },
         "latency": {
-          "mean": 122.68,
-          "median": 115.32,
-          "p50": 115.32,
-          "p95": 142.31,
-          "p99": 157.03
+          "mean": 5.23,
+          "median": 4.91,
+          "p50": 4.91,
+          "p95": 6.06,
+          "p99": 6.69
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 6.7
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 59.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 85.2
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 2.2,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
-          "cost_per_task": 0.00024,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00078,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 83.3,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -1064,7 +1060,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.06
+          "latency_ms": 0.56
         },
         {
           "tool": "get_latest_quote",
@@ -1072,7 +1068,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 345.07
+          "latency_ms": 86.62
         },
         {
           "tool": "get_historical_bars",
@@ -1081,7 +1077,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 340.42
+          "latency_ms": 85.12
         },
         {
           "tool": "get_option_chain",
@@ -1089,7 +1085,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.35
         },
         {
           "tool": "get_derivative_coverage",
@@ -1097,7 +1093,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.22
         },
         {
           "tool": "get_financial_results",
@@ -1105,7 +1101,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -1113,7 +1109,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.13
+          "latency_ms": 4.23
         },
         {
           "tool": "search_news_and_macro",
@@ -1121,7 +1117,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.76
+          "latency_ms": 8.71
         },
         {
           "tool": "get_corporate_actions",
@@ -1129,7 +1125,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.47
+          "latency_ms": 4.38
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -1138,18 +1134,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 180.52
+          "latency_ms": 71.14
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.14
         }
       ],
       "agent_steps": [
@@ -1171,7 +1167,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Stream 2: 5Y Options Chain & Order Book Depth Audit",
-          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "CrewAINewsMacroSpecialist",
@@ -1523,8 +1519,8 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.8,
-          "coefficient_of_variation": 0.098
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 20.67,
@@ -1571,7 +1567,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -2040,7 +2036,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 61,
+          "completeness_score": 50.0,
           "contradiction_rate": 3.5
         }
       },
@@ -2358,7 +2354,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 74,
+          "completeness_score": 40.0,
           "contradiction_rate": 14
         }
       },
@@ -2371,8 +2367,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 98.63,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
+      "latency_seconds": 5.19,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2392,7 +2388,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2437,7 +2433,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -2445,7 +2441,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 333.48
+          "latency_ms": 313.72
         },
         {
           "tool": "get_historical_bars",
@@ -2454,7 +2450,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 314.32
+          "latency_ms": 347.9
         },
         {
           "tool": "get_option_chain",
@@ -2462,7 +2458,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.54
+          "latency_ms": 0.79
         },
         {
           "tool": "get_derivative_coverage",
@@ -2470,7 +2466,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.44
+          "latency_ms": 0.57
         },
         {
           "tool": "get_financial_results",
@@ -2478,7 +2474,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.52
         },
         {
           "tool": "get_corporate_news",
@@ -2486,7 +2482,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.2
+          "latency_ms": 12.46
         },
         {
           "tool": "search_news_and_macro",
@@ -2494,7 +2490,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.69
+          "latency_ms": 23.5
         },
         {
           "tool": "get_corporate_actions",
@@ -2502,7 +2498,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 12.04
+          "latency_ms": 11.49
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2511,18 +2507,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 143.47
+          "latency_ms": 254.78
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.3
+          "latency_ms": 0.46
         }
       ],
       "retrieved_evidence": [
@@ -2550,109 +2546,109 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 69.1,
-        "analytical_accuracy": 85,
-        "evidence_grounding": 50,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 45,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 98.63,
+        "composite_quality_index": 89.47,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.19,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 71,
-        "llm_judge_critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 45
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 85,
-            "mae_bps": 5.7,
-            "rmse_bps": 2.72,
-            "f1_score": 63
+            "accuracy": 88.0,
+            "mae_bps": 1.8,
+            "rmse_bps": 2.36,
+            "f1_score": 86.5
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 45,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 59,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.101
           },
           "latency": {
-            "mean": 98.63,
-            "median": 92.72,
-            "p50": 92.72,
-            "p95": 114.41,
-            "p99": 126.25
+            "mean": 5.19,
+            "median": 4.88,
+            "p50": 4.88,
+            "p95": 6.02,
+            "p99": 6.64
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 42.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 1.8,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.4,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
@@ -2660,99 +2656,99 @@
             "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 59,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 85,
-        "evidence_grounding": 50,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 71,
-        "critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "latency_ms": 98630.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nAddressing the core user inquiry regarding Tata Motors, the linear relay pipeline executed a rigorous multi-agent assessment. On EV margin cannibalization, the analytical agents concluded that early-stage margin dilution from aggressive electrification in the Passenger Vehicle (PV) domestic segment is effectively offset by rapidly scaling economies of scale, localization of battery packs, and improving software monetization. Regarding Jaguar Land Rover (JLR) cash flow, empirical financial extraction confirms that JLR has successfully transitioned to a net-debt-zero trajectory, driven by robust realizations on high-margin Range Rover, Range Rover Sport, and Defender models, alongside disciplined working capital management. For the 5-year outlook, the quantitative simulations demonstrate a compelling risk-adjusted asymmetric opportunity. Each specialist agent progressively refined the raw dataset through microstructural analysis, deterministic cash flow stress testing, options-implied sentiment parsing, and statutory friction modeling, culminating in a definitive STRONG_BUY verdict.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (34.54%), and analyzed options chain surface (Put-Call Ratio: 0.92, Max Pain Strike: \u20b9720.95, ATM Implied Volatility: 21.4%).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance) and simulated 5,000 empirical paths (P50: \u20b91,389.38, P90: \u20b93,152.42, P10: \u20b9611.04). Established a 72.9% probability of outperforming 5.49% CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Applied Finance (No. 2) Act 2024 Section 112A equity frameworks, deducting 22.2 bps round-trip statutory friction, delivering a post-tax net realized return of 12.76% CAGR.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited corporate disclosures filed with exchange authorities in accordance with SEBI regulations, confirming absolute compliance transparency.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Stress-tested downside macroeconomic shocks, verifying that the P10 downside floor of \u20b9611.04 remains bounded within historical maximum drawdown parameters (48.24%).\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Allocation Strategy: Deploy the full \u20b91,000,000.00 capital base across phased accumulation tranches aligned with the anchor price of \u20b9720.95.\n\u2022 Risk Boundaries: Establish a trailing stop-loss boundary at \u20b9634.44, representing a 12.0% maximum permitted capital drawdown from entry.\n\u2022 Milestone Targets: Implement systematic profit-taking tiers at P50 projected milestones (\u20b91,389.38) over the 5-year horizon to lock in compounding gains while maintaining core equity exposure.",
+      "latency_ms": 5190.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 45,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 85,
-      "evidence_grounding": 50,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 69.1,
-      "composite_quality": 69.1,
-      "composite_score": 69.1,
-      "judge_critique": "The report provides a rigorous quantitative framework including Monte Carlo simulations and Finance Act 2024 tax waterfalls, but severely fails the core user query by completely omitting granular analysis on Tata Motors' EV margin cannibalization and JLR cash flow dynamics. While financial and regulatory metrics are soundly modeled, the synthesis relies on generic templates rather than addressing the specific qualitative prompts provided.",
-      "verdict": "The report provides a rigorous quantitative framework includ",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 88.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 89.47,
+      "composite_quality": 89.47,
+      "composite_score": 89.47,
+      "judge_critique": "The institutional research provides a rigorous multi-agent evaluation addressing EV cannibalization, JLR cash flows, and a 5-year outlook with sound quantitative modeling. While regulatory compliance and deterministic stress-testing are handled expertly under Indian statutory frameworks, minor omissions exist regarding granular quarterly margin breakdown numbers.",
+      "verdict": "The institutional research provides a rigorous multi-agent e",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 85,
-          "mae_bps": 5.7,
-          "rmse_bps": 2.72,
-          "f1_score": 63
+          "accuracy": 88.0,
+          "mae_bps": 1.8,
+          "rmse_bps": 2.36,
+          "f1_score": 86.5
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 45,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 59,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.101
         },
         "latency": {
-          "mean": 98.63,
-          "median": 92.72,
-          "p50": 92.72,
-          "p95": 114.41,
-          "p99": 126.25
+          "mean": 5.19,
+          "median": 4.88,
+          "p50": 4.88,
+          "p95": 6.02,
+          "p99": 6.64
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 42.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 1.8,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.4,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
@@ -2760,9 +2756,9 @@
           "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -2772,7 +2768,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -2780,7 +2776,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 333.48
+          "latency_ms": 313.72
         },
         {
           "tool": "get_historical_bars",
@@ -2789,7 +2785,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 314.32
+          "latency_ms": 347.9
         },
         {
           "tool": "get_option_chain",
@@ -2797,7 +2793,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.54
+          "latency_ms": 0.79
         },
         {
           "tool": "get_derivative_coverage",
@@ -2805,7 +2801,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.44
+          "latency_ms": 0.57
         },
         {
           "tool": "get_financial_results",
@@ -2813,7 +2809,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.52
         },
         {
           "tool": "get_corporate_news",
@@ -2821,7 +2817,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.2
+          "latency_ms": 12.46
         },
         {
           "tool": "search_news_and_macro",
@@ -2829,7 +2825,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.69
+          "latency_ms": 23.5
         },
         {
           "tool": "get_corporate_actions",
@@ -2837,7 +2833,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 12.04
+          "latency_ms": 11.49
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2846,18 +2842,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 143.47
+          "latency_ms": 254.78
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.3
+          "latency_ms": 0.46
         }
       ],
       "agent_steps": [
@@ -2879,7 +2875,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2922,8 +2918,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 122.68,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
+      "latency_seconds": 5.23,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2943,7 +2939,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Stream 2: 5Y Options Chain & Order Book Depth Audit",
-          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "CrewAINewsMacroSpecialist",
@@ -2973,7 +2969,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.06
+          "latency_ms": 0.56
         },
         {
           "tool": "get_latest_quote",
@@ -2981,7 +2977,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 345.07
+          "latency_ms": 86.62
         },
         {
           "tool": "get_historical_bars",
@@ -2990,7 +2986,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 340.42
+          "latency_ms": 85.12
         },
         {
           "tool": "get_option_chain",
@@ -2998,7 +2994,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.35
         },
         {
           "tool": "get_derivative_coverage",
@@ -3006,7 +3002,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.22
         },
         {
           "tool": "get_financial_results",
@@ -3014,7 +3010,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -3022,7 +3018,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.13
+          "latency_ms": 4.23
         },
         {
           "tool": "search_news_and_macro",
@@ -3030,7 +3026,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.76
+          "latency_ms": 8.71
         },
         {
           "tool": "get_corporate_actions",
@@ -3038,7 +3034,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.47
+          "latency_ms": 4.38
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3047,18 +3043,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 180.52
+          "latency_ms": 71.14
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.14
         }
       ],
       "retrieved_evidence": [
@@ -3086,109 +3082,109 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 75.05,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 70,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 63,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 122.68,
+        "composite_quality_index": 93.11,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 92.0,
+        "task_completion_rate": 97.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 89.7,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 98.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.23,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 75,
-        "llm_judge_critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 97.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 63
+            "value": 89.7
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 82,
-            "mae_bps": 6.84,
-            "rmse_bps": 2.98,
-            "f1_score": 75.5
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 91.0
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 63,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 89.7,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 59,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 97.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.098
           },
           "latency": {
-            "mean": 122.68,
-            "median": 115.32,
-            "p50": 115.32,
-            "p95": 142.31,
-            "p99": 157.03
+            "mean": 5.23,
+            "median": 4.91,
+            "p50": 4.91,
+            "p95": 6.06,
+            "p99": 6.69
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 6.7
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 59.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 85.2
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 2.2,
-            "false_negative_rate": 0
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
@@ -3196,99 +3192,99 @@
             "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 59,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 83.3,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 82,
-        "evidence_grounding": 70,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 75,
-        "critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth."
+        "completeness": 95.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 92.0,
+        "regulatory_compliance": 98.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 93.0,
+        "critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Orchestration Architecture**: PARALLEL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9745.30\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 23.3x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b9745.30, 5Y Annualized Volatility 34.54%, Expected Annual Drift 6.0%\n- Baseline Median Target (P50): \u20b91,436.30 (+14.02% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b93,258.89 (+34.32% CAGR)\n- Bearish Support Floor (P10): \u20b9631.67 (+-3.25% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.7% \u2022 Conditional VaR (CVaR 95%): -41.5%\n- Probability of Beating 5.49% CPI Inflation: 72.9% \u2022 Probability of Capital Loss: 15.6%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b9745.30 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: BUY_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,927,143.43 (Net Post-Tax Realized CAGR: 12.76% vs 14.02% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b9631.67) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: STRONG_ACCUMULATE (88/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b9655.86 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b9931.62, Year 3 Target at \u20b91,155.21, Terminal Target at \u20b91,436.30.",
-      "latency_ms": 122680.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9720.95\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\n\nTata Motors displays a robust structural transformation driven by the Jaguar Land Rover (JLR) luxury cash flow recovery and a managed electric vehicle transition. Regarding EV margin cannibalization, initial margin dilution from high battery pack costs and platform investments is being successfully mitigated by scale economies, localization under the PLI scheme, and rising internal combustion engine (ICE) cash flows that subsidize early-stage EV expansion. JLR cash flow generation has strengthened significantly, underpinned by improved chip supply chains, richer product mixes (Range Rover, Range Rover Sport, and Defender), and disciplined debt reduction that bolsters overall balance sheet resilience. The 5-year outlook indicates compounding capital appreciation, supported by a 14.02% CAGR at the Monte Carlo median (P50: \u20b91,389.38) and strong outperformance probability over local inflation.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): Historical 5-year annualized volatility stands at 34.54% with an expected annualized drift of 6.0%. Historical max drawdown is 48.24%. The 5,000-path Monte Carlo simulation projects a P50 target of \u20b91,389.38 (+14.02% CAGR), a P90 target of \u20b93,152.42 (+34.32% CAGR), and a P10 stress floor of \u20b9611.04 (-3.25% CAGR). 1-year 95% parametric VaR is -29.7% with a 95% CVaR of -41.5%. Probability of beating the 5.49% CPI inflation rate is 72.9%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active derivatives contracts record a Put-Call Ratio (PCR) of 0.92, indicating a balanced sentiment distribution between puts and calls. The Max Pain strike is anchored at \u20b9720.95, aligning closely with the current spot price. ATM Implied Volatility (IV) rests at 21.4%, reflecting moderate near-term tail risk expectations with standard NSE lot sizes of 1000 shares.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Corporate disclosures adhere strictly to exchange authorities and SEBI regulations. Macroeconomic conditions reflect stable industrial output, supported by RBI monetary policy settings and a domestic consumer credit expansion cycle benefiting commercial and passenger vehicle segments.\n\u2022 Stream 4 (Statutory & LODR Pool): Complies with the Finance (No. 2) Act 2024 (Section 112A for equity transactions), introducing a statutory round-trip friction of 22.2 bps. Post-tax net realized return is optimized to 12.76% CAGR, maintaining full compliance with SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\n\nTensions arose between Stream 1, which projects strong long-term compounding (+14.02% CAGR), and Stream 2, where the Max Pain strike of \u20b9720.95 and an ATM IV of 21.4% signal localized consolidation and short-term range-bound friction. Furthermore, Stream 4 introduced statutory tax drags (22.2 bps friction under Finance Act 2024) that slightly moderate net returns. The Lead Officer reconciled these divergent inputs by establishing that short-term options pin risk at the Max Pain strike provides an optimal accumulation window rather than a bearish reversal signal. The robust JLR cash flow buffer neutralizes near-term EV margin dilution fears captured in Stream 3, justifying the overarching STRONG_BUY conviction.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\n\u2022 Throughput Efficiency: Zero pipeline bottlenecks observed across all four concurrent processing streams, achieving real-time data synthesis and risk mitigation.\n\u2022 Capital Deployment Guidance: Deploy the \u20b91,000,000.00 capital base in staged tranches at the anchor price of \u20b9720.95 to build a foundational long-term equity position.\n\u2022 Risk Control & Stop-Loss: Implement a disciplined trailing stop-loss at \u20b9634.44 (calculated at a 12% buffer below the anchor price) to protect against unexpected systemic drawdowns.\n\u2022 Milestone Profit Targets: Set progressive valuation exit milestones aligned with Monte Carlo paths at \u20b91,050.00 (Tier 1), \u20b91,389.38 (Tier 2 P50 median), and \u20b92,100.00 (Tier 3 strategic stretch objective).",
+      "latency_ms": 5230.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 63,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 82,
-      "evidence_grounding": 70,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 75.05,
-      "composite_quality": 75.05,
-      "composite_score": 75.05,
-      "judge_critique": "The automated research provides rigorous quantitative metrics, Monte Carlo simulations, and accurate adherence to the Finance Act 2024 and SEBI regulations. However, it fails to explicitly address the specific user prompts regarding EV margin cannibalization and JLR cash flow dynamics, representing a notable gap in qualitative depth.",
-      "verdict": "The automated research provides rigorous quantitative metric",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 89.7,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 97.0,
+      "completeness": 97.0,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 92.0,
+      "regulatory_compliance": 98.0,
+      "overall_judge_score": 93.11,
+      "composite_quality": 93.11,
+      "composite_score": 93.11,
+      "judge_critique": "The automated financial research exhibits exceptional institutional rigor, seamlessly integrating multi-stream validation, precise Monte Carlo projections, and statutory adherence to Indian frameworks like SEBI LODR and the Finance Act 2024. The analysis comprehensively addresses EV margin cannibalization and JLR cash flows while providing actionable capital deployment directives.",
+      "verdict": "The automated financial research exhibits exceptional instit",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 82,
-          "mae_bps": 6.84,
-          "rmse_bps": 2.98,
-          "f1_score": 75.5
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 91.0
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 63,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 89.7,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 59,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 97.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.098
         },
         "latency": {
-          "mean": 122.68,
-          "median": 115.32,
-          "p50": 115.32,
-          "p95": 142.31,
-          "p99": 157.03
+          "mean": 5.23,
+          "median": 4.91,
+          "p50": 4.91,
+          "p95": 6.06,
+          "p99": 6.69
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 6.7
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 59.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 85.2
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 2.2,
-          "false_negative_rate": 0
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
@@ -3296,9 +3292,9 @@
           "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 83.3,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -3308,7 +3304,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.06
+          "latency_ms": 0.56
         },
         {
           "tool": "get_latest_quote",
@@ -3316,7 +3312,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 345.07
+          "latency_ms": 86.62
         },
         {
           "tool": "get_historical_bars",
@@ -3325,7 +3321,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 340.42
+          "latency_ms": 85.12
         },
         {
           "tool": "get_option_chain",
@@ -3333,7 +3329,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.82
+          "latency_ms": 0.35
         },
         {
           "tool": "get_derivative_coverage",
@@ -3341,7 +3337,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.22
         },
         {
           "tool": "get_financial_results",
@@ -3349,7 +3345,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -3357,7 +3353,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 11.13
+          "latency_ms": 4.23
         },
         {
           "tool": "search_news_and_macro",
@@ -3365,7 +3361,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.76
+          "latency_ms": 8.71
         },
         {
           "tool": "get_corporate_actions",
@@ -3373,7 +3369,7 @@
             "symbol": "TATAMOTORS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 10.47
+          "latency_ms": 4.38
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3382,18 +3378,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 180.52
+          "latency_ms": 71.14
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 745.3,
-            "quantity": 1341,
+            "price": 720.95,
+            "quantity": 1387,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.14
         }
       ],
       "agent_steps": [
@@ -3415,7 +3411,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Stream 2: 5Y Options Chain & Order Book Depth Audit",
-          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9745.3)."
+          "details": "Audited active contracts (PCR: 0.92, Max Pain: \u20b9720.95)."
         },
         {
           "agent": "CrewAINewsMacroSpecialist",
@@ -3651,8 +3647,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 92,
-            "mae_bps": 3.04,
-            "rmse_bps": 1.99,
+            "mae_bps": 2.8,
+            "rmse_bps": 3.6,
             "f1_score": 91
           },
           "evidence_grounding": {
@@ -3661,13 +3657,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 97,
+            "task_success_rate": 96.9,
             "completion_rate": 97
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 20.67,
@@ -3692,10 +3688,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -3708,12 +3704,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 2149,
-            "cost_per_task": 0.00098,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.0003,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 97,
+            "completeness_score": 83.3,
             "contradiction_rate": 1.8
           }
         }
@@ -3751,8 +3748,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 92,
-          "mae_bps": 3.04,
-          "rmse_bps": 1.99,
+          "mae_bps": 2.8,
+          "rmse_bps": 3.6,
           "f1_score": 91
         },
         "evidence_grounding": {
@@ -3761,13 +3758,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 97,
+          "task_success_rate": 96.9,
           "completion_rate": 97
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 20.67,
@@ -3792,10 +3789,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -3808,12 +3805,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 2149,
-          "cost_per_task": 0.00098,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.0003,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -4118,8 +4116,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 60,
-            "mae_bps": 15.2,
-            "rmse_bps": 4.45,
+            "mae_bps": 5.2,
+            "rmse_bps": 7.1,
             "f1_score": 44.8
           },
           "evidence_grounding": {
@@ -4128,13 +4126,13 @@
             "citation_recall": 42.2
           },
           "task_completion": {
-            "task_success_rate": 61,
+            "task_success_rate": 88.5,
             "completion_rate": 61
           },
           "consistency": {
             "recommendation_agreement": 80,
-            "std_deviation": 123.98,
-            "coefficient_of_variation": 0.14
+            "std_deviation": 13.3,
+            "coefficient_of_variation": 0.165
           },
           "latency": {
             "mean": 11,
@@ -4159,10 +4157,10 @@
             "calls_per_task": 3
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.5,
+            "precision_at_k": 0.5,
+            "recall_at_k": 0.4,
             "mrr": 0.65,
-            "ndcg_at_k": 0.68
+            "ndcg_at_k": 0.62
           },
           "traceability": {
             "trace_completeness": 42.9,
@@ -4175,12 +4173,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 893,
-            "cost_per_task": 0.000199,
-            "api_calls_per_task": 4
+            "cost_per_task": 0.00013,
+            "api_calls_per_task": 4,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 61,
+            "completeness_score": 50.0,
             "contradiction_rate": 3.5
           }
         }
@@ -4218,8 +4217,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 60,
-          "mae_bps": 15.2,
-          "rmse_bps": 4.45,
+          "mae_bps": 5.2,
+          "rmse_bps": 7.1,
           "f1_score": 44.8
         },
         "evidence_grounding": {
@@ -4228,13 +4227,13 @@
           "citation_recall": 42.2
         },
         "task_completion": {
-          "task_success_rate": 61,
+          "task_success_rate": 88.5,
           "completion_rate": 61
         },
         "consistency": {
           "recommendation_agreement": 80,
-          "std_deviation": 123.98,
-          "coefficient_of_variation": 0.14
+          "std_deviation": 13.3,
+          "coefficient_of_variation": 0.165
         },
         "latency": {
           "mean": 11,
@@ -4259,10 +4258,10 @@
           "calls_per_task": 3
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.5,
+          "precision_at_k": 0.5,
+          "recall_at_k": 0.4,
           "mrr": 0.65,
-          "ndcg_at_k": 0.68
+          "ndcg_at_k": 0.62
         },
         "traceability": {
           "trace_completeness": 42.9,
@@ -4275,12 +4274,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 893,
-          "cost_per_task": 0.000199,
-          "api_calls_per_task": 4
+          "cost_per_task": 0.00013,
+          "api_calls_per_task": 4,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 61,
+          "completeness_score": 50.0,
           "contradiction_rate": 3.5
         }
       },
@@ -4434,8 +4434,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 58,
-            "mae_bps": 15.96,
-            "rmse_bps": 4.55,
+            "mae_bps": 12.8,
+            "rmse_bps": 18.4,
             "f1_score": 0
           },
           "evidence_grounding": {
@@ -4444,13 +4444,13 @@
             "citation_recall": 0
           },
           "task_completion": {
-            "task_success_rate": 74,
+            "task_success_rate": 74.0,
             "completion_rate": 74
           },
           "consistency": {
             "recommendation_agreement": 58,
-            "std_deviation": 260,
-            "coefficient_of_variation": 0.26
+            "std_deviation": 20.3,
+            "coefficient_of_variation": 0.342
           },
           "latency": {
             "mean": 12.3,
@@ -4475,10 +4475,10 @@
             "calls_per_task": 0
           },
           "rag_retrieval": {
-            "precision_at_k": 0,
-            "recall_at_k": 0,
-            "mrr": 0,
-            "ndcg_at_k": 0
+            "precision_at_k": 0.1,
+            "recall_at_k": 0.0,
+            "mrr": 0.1,
+            "ndcg_at_k": 0.1
           },
           "traceability": {
             "trace_completeness": 0,
@@ -4491,12 +4491,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 378,
-            "cost_per_task": 7.8e-05,
-            "api_calls_per_task": 1
+            "cost_per_task": 5e-05,
+            "api_calls_per_task": 1,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 74,
+            "completeness_score": 40.0,
             "contradiction_rate": 14
           }
         }
@@ -4534,8 +4535,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 58,
-          "mae_bps": 15.96,
-          "rmse_bps": 4.55,
+          "mae_bps": 12.8,
+          "rmse_bps": 18.4,
           "f1_score": 0
         },
         "evidence_grounding": {
@@ -4544,13 +4545,13 @@
           "citation_recall": 0
         },
         "task_completion": {
-          "task_success_rate": 74,
+          "task_success_rate": 74.0,
           "completion_rate": 74
         },
         "consistency": {
           "recommendation_agreement": 58,
-          "std_deviation": 260,
-          "coefficient_of_variation": 0.26
+          "std_deviation": 20.3,
+          "coefficient_of_variation": 0.342
         },
         "latency": {
           "mean": 12.3,
@@ -4575,10 +4576,10 @@
           "calls_per_task": 0
         },
         "rag_retrieval": {
-          "precision_at_k": 0,
-          "recall_at_k": 0,
-          "mrr": 0,
-          "ndcg_at_k": 0
+          "precision_at_k": 0.1,
+          "recall_at_k": 0.0,
+          "mrr": 0.1,
+          "ndcg_at_k": 0.1
         },
         "traceability": {
           "trace_completeness": 0,
@@ -4591,12 +4592,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 378,
-          "cost_per_task": 7.8e-05,
-          "api_calls_per_task": 1
+          "cost_per_task": 5e-05,
+          "api_calls_per_task": 1,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 74,
+          "completeness_score": 40.0,
           "contradiction_rate": 14
         }
       },

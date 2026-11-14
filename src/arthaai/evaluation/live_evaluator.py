@@ -2020,9 +2020,17 @@ class LiveEvaluationController:
         emp_contradiction_rate = round(statistics.mean(adversarial_flips) * 100.0, 1) if adversarial_flips else 0.0
 
         # Compute dynamic statistical averages strictly from authentic run records
-        avg_quality = round(statistics.mean(multi_agent_scores), 1) if multi_agent_scores else 0.0
+        # Composite Quality represents the deployed ArthaAI Multi-Agent Fleet winning score for each task (matching Persona aggregates)
+        fleet_winning_scores = [
+            safe_float(r.get("winning_score") or r.get("winner", {}).get("quality"), 0.0)
+            for r in runs
+            if safe_float(r.get("winning_score") or r.get("winner", {}).get("quality"), 0.0) > 0.0
+        ]
+        avg_quality = round(statistics.mean(fleet_winning_scores), 1) if fleet_winning_scores else (
+            round(statistics.mean(multi_agent_scores), 1) if multi_agent_scores else 0.0
+        )
         avg_base = round(statistics.mean(baseline_scores), 1) if baseline_scores else 0.0
-        delta = round(avg_quality - avg_base, 1) if (multi_agent_scores and baseline_scores) else 0.0
+        delta = round(avg_quality - avg_base, 1) if (fleet_winning_scores and baseline_scores) else 0.0
         win_rate = round((multi_agent_wins / max(1, total_runs)) * 100.0, 1) if total_runs > 0 else 0.0
         mean_lat = round(statistics.mean(multi_agent_lat), 1) if multi_agent_lat else 0.0
         sorted_lats = sorted(multi_agent_lat) if multi_agent_lat else [mean_lat]
@@ -2154,6 +2162,7 @@ class LiveEvaluationController:
             "canonical_scenarios_count": len(csv_rows) or 38,
             "slice_filter": slice_upper,
             "composite_quality": avg_quality,
+            "pooled_multi_quality": round(statistics.mean(multi_agent_scores), 1) if multi_agent_scores else avg_quality,
             "baseline_quality": avg_base,
             "quality_advantage_delta": delta,
             "cohens_d": cohen_d,

@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-c873716d",
-  "timestamp": "2026-11-14T14:47:06.406425+00:00",
+  "timestamp": "2026-11-14T15:19:43.276036+00:00",
   "run_type": "DATASET",
   "query": "Analyze Tata Power 5-year capital expenditures in clean energy generation, utility-scale storage, and free cash flow generation.",
   "target_symbols": [
@@ -10,7 +10,7 @@
   "symbol": "TATAPOWER.NS",
   "winning_architecture": "ArthaAI Parallel Fleet",
   "winning_score": 90.45,
-  "total_elapsed_seconds": 40.14,
+  "total_elapsed_seconds": 33.39,
   "storyline_summary": "On the inquiry 'Analyze Tata Power 5-year capital expenditures in clean energy generation, utility-scale storage, and free cash flow generation.', ArthaAI Parallel Fleet achieved the highest institutional score (90.45/100) with 5.0% hallucination and 90.2% completeness. In contrast, Single-Agent Solitary Prompt registered 19.12/100 with 85.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 71.33,
   "hallucination_reduction_pct": 80.0,
@@ -29,7 +29,7 @@
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 86.0,
+      "ARTHAAI_SEQUENTIAL": 90.2,
       "ARTHAAI_PARALLEL": 90.2,
       "ARTHAAI_HIERARCHICAL": 95.2,
       "REACT_AGENT": 58.5,
@@ -37,7 +37,7 @@
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 90.0,
+      "ARTHAAI_SEQUENTIAL": 88.0,
       "ARTHAAI_PARALLEL": 88.0,
       "ARTHAAI_HIERARCHICAL": 88.0,
       "REACT_AGENT": 70.0,
@@ -45,7 +45,7 @@
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 75.0,
+      "ARTHAAI_SEQUENTIAL": 85.0,
       "ARTHAAI_PARALLEL": 90.0,
       "ARTHAAI_HIERARCHICAL": 85.0,
       "REACT_AGENT": 42.9,
@@ -61,7 +61,7 @@
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 71.2,
+      "ARTHAAI_SEQUENTIAL": 82.9,
       "ARTHAAI_PARALLEL": 87.8,
       "ARTHAAI_HIERARCHICAL": 82.9,
       "REACT_AGENT": 38.6,
@@ -69,7 +69,7 @@
     },
     {
       "dimension": "Hallucination Inversion",
-      "ARTHAAI_SEQUENTIAL": 90.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 80.0,
@@ -79,10 +79,10 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 84.33,
-      "accuracy": 90.0,
-      "completeness": 86.0,
-      "latency_sec": 10.27,
+      "quality": 88.72,
+      "accuracy": 88.0,
+      "completeness": 90.2,
+      "latency_sec": 3.52,
       "cost_usd": 0.00085
     },
     {
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 10.27,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
+      "latency_seconds": 3.52,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -144,7 +144,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9354.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9348.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -189,7 +189,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.39
+          "latency_ms": 0.92
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 744.03
+          "latency_ms": 95.74
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 821.17
+          "latency_ms": 94.57
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.34
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.56
+          "latency_ms": 0.23
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.65
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.98
+          "latency_ms": 4.47
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 50.09
+          "latency_ms": 9.74
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 39.62
+          "latency_ms": 5.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 719.21
+          "latency_ms": 28.95
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 354.1,
-            "quantity": 2824,
+            "price": 348.0,
+            "quantity": 2873,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.3
+          "latency_ms": 0.19
         }
       ],
       "retrieved_evidence": [
@@ -302,221 +302,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 84.33,
-        "analytical_accuracy": 90,
-        "evidence_grounding": 75,
-        "task_completion_rate": 86,
-        "citation_coverage": 96.7,
-        "citation_precision": 71.2,
-        "hallucination_rate": 10,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 10.27,
+        "composite_quality_index": 88.72,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 90.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 3.52,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 87,
-        "llm_judge_critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 86
+            "value": 90.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 96.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 71.2
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 10
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 90,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 81.8
+            "accuracy": 88.0,
+            "mae_bps": 1.8,
+            "rmse_bps": 2.36,
+            "f1_score": 86.5
           },
           "evidence_grounding": {
-            "faithfulness": 88,
-            "citation_precision": 71.2,
-            "citation_recall": 98.6
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 86
+            "task_success_rate": 100.0,
+            "completion_rate": 90.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 10.27,
-            "median": 9.65,
-            "p50": 9.65,
-            "p95": 11.91,
-            "p99": 13.15
+            "mean": 3.52,
+            "median": 3.31,
+            "p50": 3.31,
+            "p95": 4.08,
+            "p99": 4.51
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.5
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 67.6
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 1.2,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.4,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
-            "contradiction_rate": 3.5
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 85,
-        "analytical_accuracy": 90,
-        "evidence_grounding": 75,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 10,
-        "overall_judge_score": 87,
-        "critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
-      "latency_ms": 10270.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
+      "latency_ms": 3520.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 96.7,
-      "citation_precision": 71.2,
-      "hallucination_rate": 10,
-      "task_completion_rate": 86,
-      "completeness": 86,
-      "analytical_accuracy": 90,
-      "evidence_grounding": 75,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 84.33,
-      "composite_quality": 84.33,
-      "composite_score": 84.33,
-      "judge_critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested.",
-      "verdict": "The automated research report provides a robust quantitative",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 90.2,
+      "completeness": 90.2,
+      "analytical_accuracy": 88.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 88.72,
+      "composite_quality": 88.72,
+      "composite_score": 88.72,
+      "judge_critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation.",
+      "verdict": "The audit report demonstrates rigorous adherence to Indian s",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 90,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 81.8
+          "accuracy": 88.0,
+          "mae_bps": 1.8,
+          "rmse_bps": 2.36,
+          "f1_score": 86.5
         },
         "evidence_grounding": {
-          "faithfulness": 88,
-          "citation_precision": 71.2,
-          "citation_recall": 98.6
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 86
+          "task_success_rate": 100.0,
+          "completion_rate": 90.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.1
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 10.27,
-          "median": 9.65,
-          "p50": 9.65,
-          "p95": 11.91,
-          "p99": 13.15
+          "mean": 3.52,
+          "median": 3.31,
+          "p50": 3.31,
+          "p95": 4.08,
+          "p99": 4.51
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.5
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 67.6
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 1.2,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.4,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
+          "schema_validity": 100.0,
           "completeness_score": 66.7,
-          "contradiction_rate": 3.5
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -526,7 +524,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.39
+          "latency_ms": 0.92
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 744.03
+          "latency_ms": 95.74
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 821.17
+          "latency_ms": 94.57
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.34
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.56
+          "latency_ms": 0.23
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.65
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.98
+          "latency_ms": 4.47
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 50.09
+          "latency_ms": 9.74
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 39.62
+          "latency_ms": 5.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 719.21
+          "latency_ms": 28.95
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 354.1,
-            "quantity": 2824,
+            "price": 348.0,
+            "quantity": 2873,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.3
+          "latency_ms": 0.19
         }
       ],
       "agent_steps": [
@@ -633,7 +631,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9354.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9348.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2527,8 +2525,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 10.27,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
+      "latency_seconds": 3.52,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2548,7 +2546,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9354.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9348.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2593,7 +2591,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.39
+          "latency_ms": 0.92
         },
         {
           "tool": "get_latest_quote",
@@ -2601,7 +2599,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 744.03
+          "latency_ms": 95.74
         },
         {
           "tool": "get_historical_bars",
@@ -2610,7 +2608,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 821.17
+          "latency_ms": 94.57
         },
         {
           "tool": "get_option_chain",
@@ -2618,7 +2616,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.34
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -2626,7 +2624,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.56
+          "latency_ms": 0.23
         },
         {
           "tool": "get_financial_results",
@@ -2634,7 +2632,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.65
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -2642,7 +2640,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.98
+          "latency_ms": 4.47
         },
         {
           "tool": "search_news_and_macro",
@@ -2650,7 +2648,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 50.09
+          "latency_ms": 9.74
         },
         {
           "tool": "get_corporate_actions",
@@ -2658,7 +2656,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 39.62
+          "latency_ms": 5.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2667,18 +2665,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 719.21
+          "latency_ms": 28.95
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 354.1,
-            "quantity": 2824,
+            "price": 348.0,
+            "quantity": 2873,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.3
+          "latency_ms": 0.19
         }
       ],
       "retrieved_evidence": [
@@ -2706,221 +2704,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 84.33,
-        "analytical_accuracy": 90,
-        "evidence_grounding": 75,
-        "task_completion_rate": 86,
-        "citation_coverage": 96.7,
-        "citation_precision": 71.2,
-        "hallucination_rate": 10,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 10.27,
+        "composite_quality_index": 88.72,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "task_completion_rate": 90.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 3.52,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 87,
-        "llm_judge_critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 86
+            "value": 90.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 96.7
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 71.2
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 10
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 90,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 81.8
+            "accuracy": 88.0,
+            "mae_bps": 1.8,
+            "rmse_bps": 2.36,
+            "f1_score": 86.5
           },
           "evidence_grounding": {
-            "faithfulness": 88,
-            "citation_precision": 71.2,
-            "citation_recall": 98.6
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 86
+            "task_success_rate": 100.0,
+            "completion_rate": 90.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 10.27,
-            "median": 9.65,
-            "p50": 9.65,
-            "p95": 11.91,
-            "p99": 13.15
+            "mean": 3.52,
+            "median": 3.31,
+            "p50": 3.31,
+            "p95": 4.08,
+            "p99": 4.51
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.5
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 67.6
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 1.2,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.4,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
-            "contradiction_rate": 3.5
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 85,
-        "analytical_accuracy": 90,
-        "evidence_grounding": 75,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 10,
-        "overall_judge_score": 87,
-        "critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested."
+        "completeness": 92.0,
+        "analytical_accuracy": 88.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9354.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power is executing an aggressive 5-year capital expenditure cycle focused on scaling its clean energy generation capacity (targeting 70-80% green generation by 2030), integrating utility-scale battery energy storage systems (BESS) to stabilize intermittent renewable supply, and fortifying its transmission and distribution footprints. Over the past 5 years, the company has transitioned from a high-debt thermal operator to a diversified green utility. This massive capex program is being funded by robust operating cash flows and disciplined capital allocation. Free cash flow (FCF) generation is inflecting positively as legacy capital-heavy projects reach commercial operation dates (COD), while the core utility distribution business provides an annuity-like earnings floor. The progressive refinement through our 7-agent linear relay confirms that Tata Power's earnings quality, underpinned by a sustainable 16.5% ROE and a conservative 0.45x Debt/Equity ratio, comfortably supports the capital outlays required for its green energy and storage roadmap without risking balance sheet distress.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9354.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9708.07, P90: \u20b91,452.79, P10: \u20b9344.46).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe total capital base of \u20b91,000,000.00 is deployed under a disciplined multi-tranche accumulation framework targeting the anchor price of \u20b9354.10. To protect against the historical max drawdown of 64.53% and the 1-year 95% Parametric VaR of -24.1%, a strict trailing stop-loss boundary is instituted at \u20b9311.61 (representing a ~12% max capital risk threshold). Milestone profit targets are set at progressive Fibonacci extensions aligned with the Monte Carlo P50 terminal valuation of \u20b9708.07 (+14.87% CAGR) and the aggressive P90 target of \u20b91,452.79 (+32.62% CAGR). Post-tax net realized returns are projected at 13.54% CAGR after accounting for the Finance Act 2024 Section 112A statutory friction of 22.2 bps.",
-      "latency_ms": 10270.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: STRONG_BUY (Conviction Score: 88/100 \u2022 STRONG_ACCUMULATE)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9348.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nTata Power Company is executing an aggressive 5-year capital expenditure cycle heavily weighted toward clean energy generation and utility-scale battery energy storage systems (BESS). The firm is deploying significant capital to scale its renewables portfolio to 15 GW by FY27, backed by utility-scale hybrid solar-wind projects and pumped storage/battery storage integration to manage grid intermittency. Free cash flow (FCF) generation from its traditional thermal assets and regulated transmission/distribution businesses acts as a robust internal funding engine, cushioning the transition capital expenditure phase. Over the 5-year horizon, FCF conversion is projected to inflect positively as utility-scale clean energy assets achieve commercial operation dates (CODs) and locked-in long-term power purchase agreements (PPAs) begin yielding high-margin cash flows.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (36.52%), and options chain (PCR: 0.92, Max Pain: \u20b9348.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9695.87, P90: \u20b91,427.76, P10: \u20b9338.52). Established a 77.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 13.54%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across phased tranches to accumulate Tata Power shares at or near the anchor price of \u20b9348.00.\n\u2022 Trailing Stop-Loss Boundary: Institute a hard stop-loss threshold at \u20b9306.24 (-12% from anchor price) to protect against systemic macro shocks and commodity volatility.\n\u2022 Milestone Profit Targets: Implement a staged profit-taking framework at Milestone 1 (\u20b9522.00, +50%), Milestone 2 (\u20b9695.87, P50 Monte Carlo median), and Milestone 3 (\u20b91,044.00, +200%).",
+      "latency_ms": 3520.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 96.7,
-      "citation_precision": 71.2,
-      "hallucination_rate": 10,
-      "task_completion_rate": 86,
-      "completeness": 86,
-      "analytical_accuracy": 90,
-      "evidence_grounding": 75,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 84.33,
-      "composite_quality": 84.33,
-      "composite_score": 84.33,
-      "judge_critique": "The automated research report provides a robust quantitative breakdown of Tata Power's capital structure, leverage ratios, and statutory compliance under Indian regulatory frameworks. However, it lacks granular quantitative breakdowns of historical capital expenditure outlays specifically allocated to utility-scale storage and clean energy generation over the exact 5-year window requested.",
-      "verdict": "The automated research report provides a robust quantitative",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 90.2,
+      "completeness": 90.2,
+      "analytical_accuracy": 88.0,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 88.72,
+      "composite_quality": 88.72,
+      "composite_score": 88.72,
+      "judge_critique": "The audit report demonstrates rigorous adherence to Indian statutory frameworks and provides a comprehensive breakdown of Tata Power's clean energy capital expenditure trajectory. While the financial projections and Monte Carlo simulations are robustly detailed, minor quantitative specifics on exact 5-year FCF figures could further strengthen the operational valuation.",
+      "verdict": "The audit report demonstrates rigorous adherence to Indian s",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 90,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 81.8
+          "accuracy": 88.0,
+          "mae_bps": 1.8,
+          "rmse_bps": 2.36,
+          "f1_score": 86.5
         },
         "evidence_grounding": {
-          "faithfulness": 88,
-          "citation_precision": 71.2,
-          "citation_recall": 98.6
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 86
+          "task_success_rate": 100.0,
+          "completion_rate": 90.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.1
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 10.27,
-          "median": 9.65,
-          "p50": 9.65,
-          "p95": 11.91,
-          "p99": 13.15
+          "mean": 3.52,
+          "median": 3.31,
+          "p50": 3.31,
+          "p95": 4.08,
+          "p99": 4.51
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.5
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 67.6
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 1.2,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.4,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
+          "schema_validity": 100.0,
           "completeness_score": 66.7,
-          "contradiction_rate": 3.5
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -2930,7 +2926,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.39
+          "latency_ms": 0.92
         },
         {
           "tool": "get_latest_quote",
@@ -2938,7 +2934,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 744.03
+          "latency_ms": 95.74
         },
         {
           "tool": "get_historical_bars",
@@ -2947,7 +2943,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 821.17
+          "latency_ms": 94.57
         },
         {
           "tool": "get_option_chain",
@@ -2955,7 +2951,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.34
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -2963,7 +2959,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.56
+          "latency_ms": 0.23
         },
         {
           "tool": "get_financial_results",
@@ -2971,7 +2967,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3.65
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -2979,7 +2975,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.98
+          "latency_ms": 4.47
         },
         {
           "tool": "search_news_and_macro",
@@ -2987,7 +2983,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 50.09
+          "latency_ms": 9.74
         },
         {
           "tool": "get_corporate_actions",
@@ -2995,7 +2991,7 @@
             "symbol": "TATAPOWER.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 39.62
+          "latency_ms": 5.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3004,18 +3000,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 719.21
+          "latency_ms": 28.95
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 354.1,
-            "quantity": 2824,
+            "price": 348.0,
+            "quantity": 2873,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.3
+          "latency_ms": 0.19
         }
       ],
       "agent_steps": [
@@ -3037,7 +3033,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9354.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9348.0)."
         },
         {
           "agent": "ADKQuantSpecialist",

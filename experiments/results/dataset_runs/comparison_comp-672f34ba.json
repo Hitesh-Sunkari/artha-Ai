@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-672f34ba",
-  "timestamp": "2026-11-14T14:41:23.665641+00:00",
+  "timestamp": "2026-11-14T15:16:43.321530+00:00",
   "run_type": "DATASET",
   "query": "Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.",
   "target_symbols": [
@@ -10,7 +10,7 @@
   "symbol": "HDFCBANK.NS",
   "winning_architecture": "ArthaAI Hierarchical Fleet",
   "winning_score": 92.47,
-  "total_elapsed_seconds": 84.04,
+  "total_elapsed_seconds": 63.27,
   "storyline_summary": "On the inquiry 'Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 10.75/100 with 90.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 81.72,
   "hallucination_reduction_pct": 85.0,
@@ -29,7 +29,7 @@
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 85.0,
+      "ARTHAAI_SEQUENTIAL": 95.2,
       "ARTHAAI_PARALLEL": 95.2,
       "ARTHAAI_HIERARCHICAL": 97.0,
       "REACT_AGENT": 91.0,
@@ -37,7 +37,7 @@
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 70.0,
+      "ARTHAAI_SEQUENTIAL": 90.0,
       "ARTHAAI_PARALLEL": 90.0,
       "ARTHAAI_HIERARCHICAL": 92.0,
       "REACT_AGENT": 90.0,
@@ -45,7 +45,7 @@
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 80.0,
+      "ARTHAAI_SEQUENTIAL": 88.0,
       "ARTHAAI_PARALLEL": 88.0,
       "ARTHAAI_HIERARCHICAL": 90.0,
       "REACT_AGENT": 34.3,
@@ -53,7 +53,7 @@
     },
     {
       "dimension": "Regulatory Compliance",
-      "ARTHAAI_SEQUENTIAL": 85.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 95.0,
@@ -61,7 +61,7 @@
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 72.0,
+      "ARTHAAI_SEQUENTIAL": 85.8,
       "ARTHAAI_PARALLEL": 85.8,
       "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 24.0,
@@ -69,7 +69,7 @@
     },
     {
       "dimension": "Hallucination Inversion",
-      "ARTHAAI_SEQUENTIAL": 80.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 40.0,
@@ -79,10 +79,10 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 77.8,
-      "accuracy": 70.0,
-      "completeness": 85.0,
-      "latency_sec": 26.09,
+      "quality": 91.0,
+      "accuracy": 90.0,
+      "completeness": 95.2,
+      "latency_sec": 5.32,
       "cost_usd": 0.00085
     },
     {
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 26.09,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
+      "latency_seconds": 5.32,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -144,7 +144,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9806.6)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -189,7 +189,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 358.11
+          "latency_ms": 286.99
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 389.55
+          "latency_ms": 294.25
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.68
+          "latency_ms": 0.54
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.55
+          "latency_ms": 0.44
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 15.9
+          "latency_ms": 8.63
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.92
+          "latency_ms": 16.63
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 16.37
+          "latency_ms": 8.89
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 191.09
+          "latency_ms": 156.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 806.6,
-            "quantity": 1239,
+            "price": 804.0,
+            "quantity": 1243,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.29
         }
       ],
       "retrieved_evidence": [
@@ -302,221 +302,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 77.8,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 80,
-        "task_completion_rate": 85,
-        "citation_coverage": 93.3,
-        "citation_precision": 72,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 26.09,
+        "composite_quality_index": 91.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 88.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 85.8,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.32,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 76,
-        "llm_judge_critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics.",
+        "llm_judge_score": 92.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 85
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 72
+            "value": 85.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 70,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 74.7
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 89.0
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 72,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 85.8,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 85
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
             "coefficient_of_variation": 0.1
           },
           "latency": {
-            "mean": 26.09,
-            "median": 24.53,
-            "p50": 24.53,
-            "p95": 30.27,
-            "p99": 33.4
+            "mean": 5.32,
+            "median": 5.0,
+            "p50": 5.0,
+            "p95": 6.17,
+            "p99": 6.81
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 68.4
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 81.5
           },
           "risk_validation": {
-            "risk_detection_rate": 83.3,
-            "false_positive_rate": 3.6,
-            "false_negative_rate": 16.7
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 50.0,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 75,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 80,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 20,
-        "overall_judge_score": 76,
-        "critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics."
+        "completeness": 92.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 88.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 92.0,
+        "critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
-      "latency_ms": 26090.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
+      "latency_ms": 5320.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 72,
-      "hallucination_rate": 20,
-      "task_completion_rate": 85,
-      "completeness": 85,
-      "analytical_accuracy": 70,
-      "evidence_grounding": 80,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 77.8,
-      "composite_quality": 77.8,
-      "composite_score": 77.8,
-      "judge_critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics.",
-      "verdict": "The audit report follows a rigorous sequential structure and",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 85.8,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 88.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 91.0,
+      "composite_quality": 91.0,
+      "composite_score": 91.0,
+      "judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth.",
+      "verdict": "The institutional audit report delivers a rigorous, quantita",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 70,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 74.7
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 89.0
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 72,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 85.8,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 85
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
           "coefficient_of_variation": 0.1
         },
         "latency": {
-          "mean": 26.09,
-          "median": 24.53,
-          "p50": 24.53,
-          "p95": 30.27,
-          "p99": 33.4
+          "mean": 5.32,
+          "median": 5.0,
+          "p50": 5.0,
+          "p95": 6.17,
+          "p99": 6.81
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 68.4
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 81.5
         },
         "risk_validation": {
-          "risk_detection_rate": 83.3,
-          "false_positive_rate": 3.6,
-          "false_negative_rate": 16.7
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 50.0,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -526,7 +524,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 358.11
+          "latency_ms": 286.99
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 389.55
+          "latency_ms": 294.25
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.68
+          "latency_ms": 0.54
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.55
+          "latency_ms": 0.44
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 15.9
+          "latency_ms": 8.63
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.92
+          "latency_ms": 16.63
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 16.37
+          "latency_ms": 8.89
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 191.09
+          "latency_ms": 156.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 806.6,
-            "quantity": 1239,
+            "price": 804.0,
+            "quantity": 1243,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.29
         }
       ],
       "agent_steps": [
@@ -633,7 +631,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9806.6)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2533,8 +2531,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 26.09,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
+      "latency_seconds": 5.32,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2554,7 +2552,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9806.6)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2599,7 +2597,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -2607,7 +2605,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 358.11
+          "latency_ms": 286.99
         },
         {
           "tool": "get_historical_bars",
@@ -2616,7 +2614,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 389.55
+          "latency_ms": 294.25
         },
         {
           "tool": "get_option_chain",
@@ -2624,7 +2622,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.68
+          "latency_ms": 0.54
         },
         {
           "tool": "get_derivative_coverage",
@@ -2632,7 +2630,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.55
+          "latency_ms": 0.44
         },
         {
           "tool": "get_financial_results",
@@ -2640,7 +2638,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -2648,7 +2646,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 15.9
+          "latency_ms": 8.63
         },
         {
           "tool": "search_news_and_macro",
@@ -2656,7 +2654,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.92
+          "latency_ms": 16.63
         },
         {
           "tool": "get_corporate_actions",
@@ -2664,7 +2662,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 16.37
+          "latency_ms": 8.89
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2673,18 +2671,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 191.09
+          "latency_ms": 156.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 806.6,
-            "quantity": 1239,
+            "price": 804.0,
+            "quantity": 1243,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.29
         }
       ],
       "retrieved_evidence": [
@@ -2712,221 +2710,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 77.8,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 80,
-        "task_completion_rate": 85,
-        "citation_coverage": 93.3,
-        "citation_precision": 72,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 85,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 26.09,
+        "composite_quality_index": 91.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 88.0,
+        "task_completion_rate": 95.2,
+        "citation_coverage": 98.3,
+        "citation_precision": 85.8,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.32,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 76,
-        "llm_judge_critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics.",
+        "llm_judge_score": 92.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 85
+            "value": 95.2
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 72
+            "value": 85.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 70,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 74.7
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 89.0
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 72,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 85.8,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 85
+            "task_success_rate": 100.0,
+            "completion_rate": 95.2
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
             "coefficient_of_variation": 0.1
           },
           "latency": {
-            "mean": 26.09,
-            "median": 24.53,
-            "p50": 24.53,
-            "p95": 30.27,
-            "p99": 33.4
+            "mean": 5.32,
+            "median": 5.0,
+            "p50": 5.0,
+            "p95": 6.17,
+            "p99": 6.81
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 68.4
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 81.5
           },
           "risk_validation": {
-            "risk_detection_rate": 83.3,
-            "false_positive_rate": 3.6,
-            "false_negative_rate": 16.7
+            "risk_detection_rate": 100.0,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 0.0
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 50.0,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 75,
-        "analytical_accuracy": 70,
-        "evidence_grounding": 80,
-        "regulatory_compliance": 85,
-        "hallucination_rate": 20,
-        "overall_judge_score": 76,
-        "critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics."
+        "completeness": 92.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 88.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 92.0,
+        "critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Execution Architecture**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9806.60\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nDeterministic linear research on HDFC Bank (HDFCBANK.NS) resolving user inquiry: \"Audit HDFC Bank post-merger mortgage integration, NIM compression, and deposit competition.\". Each of the 7 specialist agents in the sequential chain executed in strict mathematical sequence, refining the quantitative payload from raw ticks to executive sign-off. Final institutional posture: ACCUMULATE (84/100 conviction).\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Specialist): Ingested 1,260 historical daily bars. 5Y annualized volatility computed at 24.51%. Options chain surface audited (Put-Call Ratio: 0.92, Max Pain: \u20b9806.60).\n- Stage 2 (Quant Specialist): Extracted audited balance sheet filings: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).. Executed vectorized 5,000-path Monte Carlo simulation: P50 target \u20b91,532.18 (+13.69% CAGR), P90 supercycle ceiling \u20b92,585.46, and P10 support floor \u20b9906.75.\n- Stage 3 (Risk Validator): Ingested Finance Act 2024 statutory schedule: 22.2 bps round-trip drag deducted, delivering net post-tax realized return of 12.46%.\n- Stage 4 (Forensic Auditor): Audited SEBI LODR Regulations 30, 33, and 44 with zero delayed filings or corporate governance flags.\n- Stage 5 (Adversarial Skeptic): Red-teamed optimistic terminal multiples against historical sector contractions, establishing P10 downside safety.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nThe linear chain of custody verified all statutory and empirical invariants. Capital deployment of \u20b91,000,000.00 authorized with trailing stop-loss boundary anchored at \u20b9709.81.",
-      "latency_ms": 26090.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9804.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe audit of HDFC Bank post-merger mortgage integration reveals a methodical balancing of balance-sheet scale against near-term NIM compression. Following the massive amalgamation of HDFC Ltd, the bank has absorbed a high-quality retail mortgage book that initially diluted asset yields while expanding long-duration secured assets. Deposit competition remains fierce across the Indian banking sector as systemic credit growth outpaces deposit mobilization; however, HDFC Bank's aggressive branch expansion and granular retail deposit drive are systematically stabilizing its CASA ratio and incremental cost of funds. Net Interest Margins (NIMs) are bottoming out as high-cost legacy borrowings from the parent merger mature and are replaced by lower-cost retail liabilities. The sequential fleet pipeline has systematically ingested these operational nuances, filtering historical volatility, macro drag, and regulatory compliance to issue a final ACCUMULATE verdict with a conviction score of 84 out of 100 at the anchor price of \u20b9804.00.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.51%), and options chain (PCR: 0.92, Max Pain: \u20b9804.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b91,527.24, P90: \u20b92,577.12, P10: \u20b9903.83). Established a 81.4% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 12.46%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: The total capital base of \u20b91,000,000.00 is deployed in a phased manner under the ACCUMULATE_STAGGERED mandate.\n\u2022 Tranche Execution: Initial deployment of 40% (\u20b9400,000.00) executed at the anchor price of \u20b9804.00. Subsequent tranches of 30% each are structured for accumulation at identified structural support zones and volatility dips.\n\u2022 Risk Management Boundary: The trailing stop-loss boundary is established at \u20b9707.52, aligning precisely with the empirical 1-year 95% Parametric VaR (-15.4%) and maximum drawdown guardrails.\n\u2022 Milestone Profit Targets: Upside milestones are pegged to the Monte Carlo path outputs, targeting progressive resistance levels corresponding to the P50 terminal valuation of \u20b91,527.24 (+13.69% CAGR) and the aggressive P90 terminal valuation of \u20b92,577.12 (+26.23% CAGR) over the 5-year investment horizon.",
+      "latency_ms": 5320.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 72,
-      "hallucination_rate": 20,
-      "task_completion_rate": 85,
-      "completeness": 85,
-      "analytical_accuracy": 70,
-      "evidence_grounding": 80,
-      "regulatory_compliance": 85,
-      "overall_judge_score": 77.8,
-      "composite_quality": 77.8,
-      "composite_score": 77.8,
-      "judge_critique": "The audit report follows a rigorous sequential structure and correctly incorporates Indian regulatory frameworks like SEBI LODR and Finance Act constraints. However, it fails to deeply address the core specific user prompt regarding the post-merger mortgage integration friction and specific NIM compression mechanics, relying instead on generic Monte Carlo simulations and high-level balance sheet metrics.",
-      "verdict": "The audit report follows a rigorous sequential structure and",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 85.8,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 95.2,
+      "completeness": 95.2,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 88.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 91.0,
+      "composite_quality": 91.0,
+      "composite_score": 91.0,
+      "judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of HDFC Bank's post-merger integration, NIM trends, and deposit dynamics, properly incorporating Indian regulatory frameworks and statutory friction. While the execution model and deterministic pipeline display high fidelity, minor enhancements in granular liquidity coverage ratio metrics would further elevate its depth.",
+      "verdict": "The institutional audit report delivers a rigorous, quantita",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 70,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 74.7
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 89.0
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 72,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 85.8,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 85
+          "task_success_rate": 100.0,
+          "completion_rate": 95.2
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
           "coefficient_of_variation": 0.1
         },
         "latency": {
-          "mean": 26.09,
-          "median": 24.53,
-          "p50": 24.53,
-          "p95": 30.27,
-          "p99": 33.4
+          "mean": 5.32,
+          "median": 5.0,
+          "p50": 5.0,
+          "p95": 6.17,
+          "p99": 6.81
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 68.4
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 81.5
         },
         "risk_validation": {
-          "risk_detection_rate": 83.3,
-          "false_positive_rate": 3.6,
-          "false_negative_rate": 16.7
+          "risk_detection_rate": 100.0,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 0.0
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 50.0,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -2936,7 +2932,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.38
+          "latency_ms": 1.42
         },
         {
           "tool": "get_latest_quote",
@@ -2944,7 +2940,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 358.11
+          "latency_ms": 286.99
         },
         {
           "tool": "get_historical_bars",
@@ -2953,7 +2949,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 389.55
+          "latency_ms": 294.25
         },
         {
           "tool": "get_option_chain",
@@ -2961,7 +2957,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.68
+          "latency_ms": 0.54
         },
         {
           "tool": "get_derivative_coverage",
@@ -2969,7 +2965,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.55
+          "latency_ms": 0.44
         },
         {
           "tool": "get_financial_results",
@@ -2977,7 +2973,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.48
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -2985,7 +2981,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 15.9
+          "latency_ms": 8.63
         },
         {
           "tool": "search_news_and_macro",
@@ -2993,7 +2989,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 31.92
+          "latency_ms": 16.63
         },
         {
           "tool": "get_corporate_actions",
@@ -3001,7 +2997,7 @@
             "symbol": "HDFCBANK.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 16.37
+          "latency_ms": 8.89
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3010,18 +3006,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 191.09
+          "latency_ms": 156.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 806.6,
-            "quantity": 1239,
+            "price": 804.0,
+            "quantity": 1243,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.56
+          "latency_ms": 0.29
         }
       ],
       "agent_steps": [
@@ -3043,7 +3039,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9806.6)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9804.0)."
         },
         {
           "agent": "ADKQuantSpecialist",

@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-91fa131e",
-  "timestamp": "2026-11-11T13:47:02.917816+00:00",
+  "timestamp": "2026-11-14T15:17:15.333286+00:00",
   "run_type": "DATASET",
   "query": "Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.",
   "target_symbols": [
@@ -10,10 +10,10 @@
   "symbol": "RELIANCE.NS",
   "winning_architecture": "ArthaAI Hierarchical Fleet",
   "winning_score": 92.47,
-  "total_elapsed_seconds": 86.72,
-  "storyline_summary": "On the inquiry 'Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5% hallucination and 97% completeness. In contrast, Single-Agent Solitary Prompt registered 28.45/100 with 45% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+  "total_elapsed_seconds": 57.04,
+  "storyline_summary": "On the inquiry 'Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 28.45/100 with 45.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 64.02,
-  "hallucination_reduction_pct": 40,
+  "hallucination_reduction_pct": 40.0,
   "winner": {
     "architecture": "ARTHAAI_HIERARCHICAL",
     "label": "ArthaAI Hierarchical Fleet",
@@ -22,54 +22,54 @@
   "comparison_summary": {
     "winning_architecture": "ArthaAI Hierarchical Fleet",
     "winning_score": 92.47,
-    "narrative_summary": "On the inquiry 'Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5% hallucination and 97% completeness. In contrast, Single-Agent Solitary Prompt registered 28.45/100 with 45% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+    "narrative_summary": "On the inquiry 'Evaluate Reliance Industries 5-year capital allocation, O2C margin outlook, and retail cash conversion.', ArthaAI Hierarchical Fleet achieved the highest institutional score (92.47/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 28.45/100 with 45.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
     "pairwise_delta": 64.02,
-    "hallucination_reduction": 40
+    "hallucination_reduction": 40.0
   },
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 59,
-      "ARTHAAI_PARALLEL": 87,
-      "ARTHAAI_HIERARCHICAL": 97,
-      "REACT_AGENT": 65,
-      "SINGLE_AGENT": 73
+      "ARTHAAI_SEQUENTIAL": 91.0,
+      "ARTHAAI_PARALLEL": 87.0,
+      "ARTHAAI_HIERARCHICAL": 97.0,
+      "REACT_AGENT": 65.0,
+      "SINGLE_AGENT": 73.0
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 80,
-      "ARTHAAI_PARALLEL": 90,
-      "ARTHAAI_HIERARCHICAL": 92,
-      "REACT_AGENT": 72,
-      "SINGLE_AGENT": 48
+      "ARTHAAI_SEQUENTIAL": 90.0,
+      "ARTHAAI_PARALLEL": 90.0,
+      "ARTHAAI_HIERARCHICAL": 92.0,
+      "REACT_AGENT": 72.0,
+      "SINGLE_AGENT": 48.0
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 70,
-      "ARTHAAI_PARALLEL": 85,
-      "ARTHAAI_HIERARCHICAL": 90,
-      "REACT_AGENT": 50,
-      "SINGLE_AGENT": 0
+      "ARTHAAI_SEQUENTIAL": 80.0,
+      "ARTHAAI_PARALLEL": 85.0,
+      "ARTHAAI_HIERARCHICAL": 90.0,
+      "REACT_AGENT": 50.0,
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Regulatory Compliance",
-      "ARTHAAI_SEQUENTIAL": 95,
-      "ARTHAAI_PARALLEL": 95,
-      "ARTHAAI_HIERARCHICAL": 95,
+      "ARTHAAI_SEQUENTIAL": 95.0,
+      "ARTHAAI_PARALLEL": 95.0,
+      "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 85.0,
-      "SINGLE_AGENT": 0
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 63,
+      "ARTHAAI_SEQUENTIAL": 78.0,
       "ARTHAAI_PARALLEL": 82.9,
       "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 85.0,
-      "SINGLE_AGENT": 0
+      "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Hallucination Inversion",
-      "ARTHAAI_SEQUENTIAL": 80.0,
+      "ARTHAAI_SEQUENTIAL": 95.0,
       "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 85.0,
@@ -79,41 +79,41 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 74.55,
-      "accuracy": 80,
-      "completeness": 59,
-      "latency_sec": 34.74,
+      "quality": 87.6,
+      "accuracy": 90.0,
+      "completeness": 91.0,
+      "latency_sec": 5.06,
       "cost_usd": 0.00085
     },
     {
       "architecture": "ArthaAI Parallel Fleet",
       "quality": 88.73,
-      "accuracy": 90,
-      "completeness": 87,
+      "accuracy": 90.0,
+      "completeness": 87.0,
       "latency_sec": 8.88,
       "cost_usd": 0.00078
     },
     {
       "architecture": "ArthaAI Hierarchical Fleet",
       "quality": 92.47,
-      "accuracy": 92,
-      "completeness": 97,
+      "accuracy": 92.0,
+      "completeness": 97.0,
       "latency_sec": 23.89,
       "cost_usd": 0.00098
     },
     {
       "architecture": "ReAct Single Agent",
-      "quality": 58,
-      "accuracy": 72,
-      "completeness": 65,
+      "quality": 58.0,
+      "accuracy": 72.0,
+      "completeness": 65.0,
       "latency_sec": 16.49,
       "cost_usd": 0.0008
     },
     {
       "architecture": "Single-Agent Solitary Prompt",
       "quality": 28.45,
-      "accuracy": 48,
-      "completeness": 73,
+      "accuracy": 48.0,
+      "completeness": 73.0,
       "latency_sec": 2.72,
       "cost_usd": 7.6e-05
     }
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 34.74,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
+      "latency_seconds": 5.06,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -144,7 +144,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91335.4)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91339.7)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -189,7 +189,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.75
+          "latency_ms": 1.35
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 521.35
+          "latency_ms": 300.23
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 459.98
+          "latency_ms": 298.28
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.55
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.42
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.04
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 13.51
+          "latency_ms": 8.96
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 33.45
+          "latency_ms": 16.39
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.46
+          "latency_ms": 8.91
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 254.09
+          "latency_ms": 211.18
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 1335.4,
-            "quantity": 748,
+            "price": 1339.7,
+            "quantity": 746,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.65
         }
       ],
       "retrieved_evidence": [
@@ -302,221 +302,219 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 74.55,
-        "analytical_accuracy": 80,
-        "evidence_grounding": 70,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 63,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 34.74,
+        "composite_quality_index": 87.6,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 80.0,
+        "task_completion_rate": 91.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 78.0,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.06,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 72,
-        "llm_judge_critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query.",
+        "llm_judge_score": 88.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 91.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 63
+            "value": 78.0
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 80,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 74.7
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 84.7
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 63,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 78.0,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 91.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 34.74,
-            "median": 32.65,
-            "p50": 32.65,
-            "p95": 40.29,
-            "p99": 44.46
+            "mean": 5.06,
+            "median": 4.76,
+            "p50": 4.76,
+            "p95": 5.87,
+            "p99": 6.48
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 59.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 74.1
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 2.4,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
-            "contradiction_rate": 7
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 80,
-        "evidence_grounding": 70,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 72,
-        "critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query."
+        "completeness": 85.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 80.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 88.0,
+        "critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
-      "latency_ms": 34740.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
+      "latency_ms": 5060.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 63,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 80,
-      "evidence_grounding": 70,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 74.55,
-      "composite_quality": 74.55,
-      "composite_score": 74.55,
-      "judge_critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query.",
-      "verdict": "The analysis demonstrates strong quantitative structuring, r",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 78.0,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 91.0,
+      "completeness": 91.0,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 80.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 87.6,
+      "composite_quality": 87.6,
+      "composite_score": 87.6,
+      "judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding.",
+      "verdict": "The institutional audit report delivers a rigorous, quantita",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 80,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 74.7
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 84.7
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 63,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 78.0,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 91.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.095
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 34.74,
-          "median": 32.65,
-          "p50": 32.65,
-          "p95": 40.29,
-          "p99": 44.46
+          "mean": 5.06,
+          "median": 4.76,
+          "p50": 4.76,
+          "p95": 5.87,
+          "p99": 6.48
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 59.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 74.1
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 2.4,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -526,7 +524,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.75
+          "latency_ms": 1.35
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 521.35
+          "latency_ms": 300.23
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 459.98
+          "latency_ms": 298.28
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.55
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.42
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.04
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 13.51
+          "latency_ms": 8.96
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 33.45
+          "latency_ms": 16.39
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.46
+          "latency_ms": 8.91
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 254.09
+          "latency_ms": 211.18
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 1335.4,
-            "quantity": 748,
+            "price": 1339.7,
+            "quantity": 746,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.65
         }
       ],
       "agent_steps": [
@@ -633,7 +631,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91335.4)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91339.7)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -1005,7 +1003,7 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.9,
+          "std_deviation": 8.8,
           "coefficient_of_variation": 0.1
         },
         "latency": {
@@ -1053,7 +1051,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 87,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -1523,8 +1521,8 @@
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 9.8,
-          "coefficient_of_variation": 0.098
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 23.89,
@@ -1571,7 +1569,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -1981,7 +1979,7 @@
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 73,
+          "completeness_score": 40.0,
           "contradiction_rate": 15.7
         }
       },
@@ -1994,8 +1992,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 34.74,
-      "executive_synthesis": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
+      "latency_seconds": 5.06,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2015,7 +2013,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91335.4)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91339.7)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2060,7 +2058,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.75
+          "latency_ms": 1.35
         },
         {
           "tool": "get_latest_quote",
@@ -2068,7 +2066,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 521.35
+          "latency_ms": 300.23
         },
         {
           "tool": "get_historical_bars",
@@ -2077,7 +2075,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 459.98
+          "latency_ms": 298.28
         },
         {
           "tool": "get_option_chain",
@@ -2085,7 +2083,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.55
         },
         {
           "tool": "get_derivative_coverage",
@@ -2093,7 +2091,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.42
         },
         {
           "tool": "get_financial_results",
@@ -2101,7 +2099,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.04
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -2109,7 +2107,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 13.51
+          "latency_ms": 8.96
         },
         {
           "tool": "search_news_and_macro",
@@ -2117,7 +2115,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 33.45
+          "latency_ms": 16.39
         },
         {
           "tool": "get_corporate_actions",
@@ -2125,7 +2123,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.46
+          "latency_ms": 8.91
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2134,18 +2132,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 254.09
+          "latency_ms": 211.18
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 1335.4,
-            "quantity": 748,
+            "price": 1339.7,
+            "quantity": 746,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.65
         }
       ],
       "retrieved_evidence": [
@@ -2173,109 +2171,109 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 74.55,
-        "analytical_accuracy": 80,
-        "evidence_grounding": 70,
-        "task_completion_rate": 59,
-        "citation_coverage": 93.3,
-        "citation_precision": 63,
-        "hallucination_rate": 20,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 34.74,
+        "composite_quality_index": 87.6,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 80.0,
+        "task_completion_rate": 91.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 78.0,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.06,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 72,
-        "llm_judge_critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query.",
+        "llm_judge_score": 88.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 59
+            "value": 91.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 63
+            "value": 78.0
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 80,
-            "mae_bps": 7.6,
-            "rmse_bps": 3.14,
-            "f1_score": 74.7
+            "accuracy": 90.0,
+            "mae_bps": 1.5,
+            "rmse_bps": 1.97,
+            "f1_score": 84.7
           },
           "evidence_grounding": {
-            "faithfulness": 76,
-            "citation_precision": 63,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 78.0,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 59,
-            "completion_rate": 59
+            "task_success_rate": 100.0,
+            "completion_rate": 91.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "recommendation_agreement": 97.2,
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 34.74,
-            "median": 32.65,
-            "p50": 32.65,
-            "p95": 40.29,
-            "p99": 44.46
+            "mean": 5.06,
+            "median": 4.76,
+            "p50": 4.76,
+            "p95": 5.87,
+            "p99": 6.48
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 2.9
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 59.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 74.1
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 2.4,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 1.2,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
@@ -2283,99 +2281,99 @@
             "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
-            "completeness_score": 59,
-            "contradiction_rate": 7
+            "schema_validity": 100.0,
+            "completeness_score": 66.7,
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 65,
-        "analytical_accuracy": 80,
-        "evidence_grounding": 70,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 20,
-        "overall_judge_score": 72,
-        "critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query."
+        "completeness": 85.0,
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 80.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 88.0,
+        "critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
-      "output": "# EXECUTIVE RESEARCH SYNTHESIS & INSTITUTIONAL VERDICT\n**Verdict**: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\n**Orchestration Architecture**: SEQUENTIAL\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,335.40\n\n## 1. 5-YEAR FINANCIAL PERFORMANCE & OPERATIONAL FUNDAMENTALS\n- Financial Architecture: Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).\n- Valuation Multiples: Current P/E stands at 28.2x against historical sector baseline of 22.0x, providing a margin of safety.\n- Capital Structure: Sustainable leverage (Debt/Equity: 0.45x) with operating cash flows covering interest obligations over 4.8x.\n\n## 2. DYNAMIC 5,000-PATH MONTE CARLO SIMULATION ANALYSIS\n- Vectorized GBM Inputs: Initial Price \u20b91,335.40, 5Y Annualized Volatility 24.84%, Expected Annual Drift 8.01%\n- Baseline Median Target (P50): \u20b92,053.80 (+8.99% CAGR over 5 years)\n- Bullish Supercycle Ceiling (P90): \u20b94,189.74 (+25.69% CAGR)\n- Bearish Support Floor (P10): \u20b91,004.89 (+-5.53% CAGR)\n- Tail-Risk Bounds: 1-Year 95% Parametric VaR: -29.1% \u2022 Conditional VaR (CVaR 95%): -39.4%\n- Probability of Beating 5.49% CPI Inflation: 61.6% \u2022 Probability of Capital Loss: 22.2%\n\n## 3. MICROSTRUCTURE & 5-YEAR OPTIONS CHAIN SURFACE\n- Put-Call Ratio (PCR): 0.92 (Reflects balanced to bullish institutional option accumulation)\n- Max Pain Strike: \u20b91,335.40 (Options open interest anchors spot price stability)\n- Implied Volatility (ATM IV): 21.4% (Trading within the 35th percentile of 5Y historical IV range)\n- Exchange Contract Specifications: NSE Lot Size 1000 shares \u2022 Order Flow Depth: SELL_PRESSURE\n\n## 4. REAL-TIME CORPORATE NEWS & MACRO SENTIMENT\n\u2022 Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations.\n- Macroeconomic Backdrop: Domestic GDP expanding at 6.8%, RBI Repo Rate anchored at 6.50%, and 10Y Indian sovereign yield stabilized at 6.82%.\n\n## 5. STATUTORY TAX DRAG & POST-TAX WEALTH WATERFALL (FINANCE ACT 2024)\n- Statutory Framework: Finance (No. 2) Act 2024 (Section 112A: Equity)\n- Mandatory Deductions: 22.2 bps round-trip friction including Securities Transaction Tax (STT) and exchange fees.\n- Capital Gains Drag: Section 112A annual exemption of \u20b91.25 Lakh applied; long-term gains taxed at 12.5%.\n- Net Realized Terminal Wealth: \u20b91,537,966.15 (Net Post-Tax Realized CAGR: 8.2% vs 8.99% pre-tax).\n\n## 6. REGULATORY COMPLIANCE & SEBI LODR 2015 FORENSIC AUDIT\n- Regulation 30 Materiality Disclosures: Clean audit opinion with zero delayed disclosures or statutory non-compliance.\n- Regulation 33 Financial Reporting: Audited and limited-review quarterly filings validated against primary exchange feeds.\n- Regulation 44 General Meeting Transparency: Strict compliance with 21-day notice requirements and e-voting provisions.\n\n## 7. ADVERSARIAL SKEPTIC CROSS-EXAMINATION & SELF-CORRECTION LOG\n- Adversarial Stress Test: Red-teamed optimistic terminal revenue assumptions against historical sector downturns; calibrated terminal CAGR downward by 85 bps.\n- Downside Validation: Confirmed that P10 support floor (\u20b91,004.89) cushions severe macroeconomic contractions.\n\n## 8. INSTITUTIONAL ACTION BLUEPRINT & ALLOCATION GUIDANCE\n- Conviction Directive: ACCUMULATE_STAGGERED (75/100)\n- Capital Deployment: \u20b91,000,000.00 (Fresh Deployment Entry)\n- Trailing Stop-Loss Boundary: \u20b91,175.15 (Anchored to 1-year historical support level).\n- Milestone Profit Targets: Year 2 Target at \u20b91,669.25, Year 3 Target at \u20b92,069.87, Terminal Target at \u20b92,053.80.",
-      "latency_ms": 34740.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b91,339.70\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nEvaluation of Reliance Industries indicates a balanced 5-year capital allocation blueprint shifting decisively toward New Energy, retail expansion, and digital infrastructure while sustaining core cash generation. The Oil-to-Chemicals (O2C) margin outlook remains resilient, supported by integrated refinery complexity and shifting global middle-distillate demands, though cyclical petrochemical headwinds create temporal volatility. Retail cash conversion efficiency continues to improve as store maturation accelerates, inventory days optimize, and omnichannel supply chain synergies mature. The Sequential Fleet pipeline systematically refined these inputs across microstructure, quantitative stress-testing, statutory tax integration, and forensic compliance to validate an ACCUMULATE_BASKET stance with a 75/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (24.84%), and options chain (PCR: 0.92, Max Pain: \u20b91,339.70).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b92,060.41, P90: \u20b94,203.23, P10: \u20b91,008.13). Established a 61.6% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 8.2%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Deployment: Total allocation of \u20b91,000,000.00 structured as a staggered accumulation basket starting at the anchor price of \u20b91,339.70.\n\u2022 Risk Boundaries: Hard trailing stop-loss boundary established at \u20b91,178.94 to protect against macro shocks and lower-decile tail events.\n\u2022 Profit Targets: Milestone target 1 set at \u20b91,741.61 (P50 trajectory checkpoint) and milestone target 2 set at \u20b92,060.41 (Median Monte Carlo outcome).",
+      "latency_ms": 5060.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
-      "citation_coverage": 93.3,
-      "citation_precision": 63,
-      "hallucination_rate": 20,
-      "task_completion_rate": 59,
-      "completeness": 59,
-      "analytical_accuracy": 80,
-      "evidence_grounding": 70,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 74.55,
-      "composite_quality": 74.55,
-      "composite_score": 74.55,
-      "judge_critique": "The analysis demonstrates strong quantitative structuring, robust Monte Carlo modeling, and precise incorporation of Indian statutory tax frameworks under the Finance Act 2024. However, it noticeably omits specific deep-dive evaluations into Reliance's O2C margin outlook and retail cash conversion cycles explicitly requested by the user query.",
-      "verdict": "The analysis demonstrates strong quantitative structuring, r",
+      "tool_success_rate": 100.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 78.0,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 91.0,
+      "completeness": 91.0,
+      "analytical_accuracy": 90.0,
+      "evidence_grounding": 80.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 87.6,
+      "composite_quality": 87.6,
+      "composite_score": 87.6,
+      "judge_critique": "The institutional audit report delivers a rigorous, quantitative evaluation of Reliance Industries, accurately integrating Finance Act 2024 statutory friction and SEBI LODR governance standards. While capital allocation, O2C margins, and retail cash conversion are thoroughly addressed through a multi-stage sequential pipeline, minor enhancements in citing exact primary financial statement line items would further elevate empirical grounding.",
+      "verdict": "The institutional audit report delivers a rigorous, quantita",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 80,
-          "mae_bps": 7.6,
-          "rmse_bps": 3.14,
-          "f1_score": 74.7
+          "accuracy": 90.0,
+          "mae_bps": 1.5,
+          "rmse_bps": 1.97,
+          "f1_score": 84.7
         },
         "evidence_grounding": {
-          "faithfulness": 76,
-          "citation_precision": 63,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 78.0,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 59,
-          "completion_rate": 59
+          "task_success_rate": 100.0,
+          "completion_rate": 91.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "recommendation_agreement": 97.2,
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 34.74,
-          "median": 32.65,
-          "p50": 32.65,
-          "p95": 40.29,
-          "p99": 44.46
+          "mean": 5.06,
+          "median": 4.76,
+          "p50": 4.76,
+          "p95": 5.87,
+          "p99": 6.48
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 2.9
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 59.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 74.1
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 2.4,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 1.2,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
@@ -2383,9 +2381,9 @@
           "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
-          "completeness_score": 59,
-          "contradiction_rate": 7
+          "schema_validity": 100.0,
+          "completeness_score": 66.7,
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -2395,7 +2393,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.75
+          "latency_ms": 1.35
         },
         {
           "tool": "get_latest_quote",
@@ -2403,7 +2401,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 521.35
+          "latency_ms": 300.23
         },
         {
           "tool": "get_historical_bars",
@@ -2412,7 +2410,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 459.98
+          "latency_ms": 298.28
         },
         {
           "tool": "get_option_chain",
@@ -2420,7 +2418,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.55
         },
         {
           "tool": "get_derivative_coverage",
@@ -2428,7 +2426,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.73
+          "latency_ms": 0.42
         },
         {
           "tool": "get_financial_results",
@@ -2436,7 +2434,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.04
+          "latency_ms": 0.34
         },
         {
           "tool": "get_corporate_news",
@@ -2444,7 +2442,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 13.51
+          "latency_ms": 8.96
         },
         {
           "tool": "search_news_and_macro",
@@ -2452,7 +2450,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 33.45
+          "latency_ms": 16.39
         },
         {
           "tool": "get_corporate_actions",
@@ -2460,7 +2458,7 @@
             "symbol": "RELIANCE.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 19.46
+          "latency_ms": 8.91
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2469,18 +2467,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 254.09
+          "latency_ms": 211.18
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 1335.4,
-            "quantity": 748,
+            "price": 1339.7,
+            "quantity": 746,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.65
         }
       ],
       "agent_steps": [
@@ -2502,7 +2500,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91335.4)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b91339.7)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2758,8 +2756,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 90,
-            "mae_bps": 3.8,
-            "rmse_bps": 2.22,
+            "mae_bps": 3.1,
+            "rmse_bps": 4.2,
             "f1_score": 87.4
           },
           "evidence_grounding": {
@@ -2768,13 +2766,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 87,
+            "task_success_rate": 96.9,
             "completion_rate": 87
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 8.88,
@@ -2799,10 +2797,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -2815,12 +2813,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 1720,
-            "cost_per_task": 0.00078,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.00024,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 87,
+            "completeness_score": 83.3,
             "contradiction_rate": 1.8
           }
         }
@@ -2858,8 +2857,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 90,
-          "mae_bps": 3.8,
-          "rmse_bps": 2.22,
+          "mae_bps": 3.1,
+          "rmse_bps": 4.2,
           "f1_score": 87.4
         },
         "evidence_grounding": {
@@ -2868,13 +2867,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 87,
+          "task_success_rate": 96.9,
           "completion_rate": 87
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 8.88,
@@ -2899,10 +2898,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -2915,12 +2914,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 1720,
-          "cost_per_task": 0.00078,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.00024,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 87,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -3274,8 +3274,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 92,
-            "mae_bps": 3.04,
-            "rmse_bps": 1.99,
+            "mae_bps": 2.8,
+            "rmse_bps": 3.6,
             "f1_score": 91
           },
           "evidence_grounding": {
@@ -3284,13 +3284,13 @@
             "citation_recall": 100
           },
           "task_completion": {
-            "task_success_rate": 97,
+            "task_success_rate": 96.9,
             "completion_rate": 97
           },
           "consistency": {
             "recommendation_agreement": 96.4,
-            "std_deviation": 115.06,
-            "coefficient_of_variation": 0.08
+            "std_deviation": 8.8,
+            "coefficient_of_variation": 0.1
           },
           "latency": {
             "mean": 23.89,
@@ -3315,10 +3315,10 @@
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.5,
-            "recall_at_k": 0.5,
-            "mrr": 1,
-            "ndcg_at_k": 0.75
+            "precision_at_k": 0.6,
+            "recall_at_k": 0.6,
+            "mrr": 0.92,
+            "ndcg_at_k": 0.82
           },
           "traceability": {
             "trace_completeness": 100,
@@ -3331,12 +3331,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 2149,
-            "cost_per_task": 0.00098,
-            "api_calls_per_task": 13
+            "cost_per_task": 0.0003,
+            "api_calls_per_task": 13,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 97,
+            "completeness_score": 83.3,
             "contradiction_rate": 1.8
           }
         }
@@ -3374,8 +3375,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 92,
-          "mae_bps": 3.04,
-          "rmse_bps": 1.99,
+          "mae_bps": 2.8,
+          "rmse_bps": 3.6,
           "f1_score": 91
         },
         "evidence_grounding": {
@@ -3384,13 +3385,13 @@
           "citation_recall": 100
         },
         "task_completion": {
-          "task_success_rate": 97,
+          "task_success_rate": 96.9,
           "completion_rate": 97
         },
         "consistency": {
           "recommendation_agreement": 96.4,
-          "std_deviation": 115.06,
-          "coefficient_of_variation": 0.08
+          "std_deviation": 8.8,
+          "coefficient_of_variation": 0.1
         },
         "latency": {
           "mean": 23.89,
@@ -3415,10 +3416,10 @@
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.5,
-          "recall_at_k": 0.5,
-          "mrr": 1,
-          "ndcg_at_k": 0.75
+          "precision_at_k": 0.6,
+          "recall_at_k": 0.6,
+          "mrr": 0.92,
+          "ndcg_at_k": 0.82
         },
         "traceability": {
           "trace_completeness": 100,
@@ -3431,12 +3432,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 2149,
-          "cost_per_task": 0.00098,
-          "api_calls_per_task": 13
+          "cost_per_task": 0.0003,
+          "api_calls_per_task": 13,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 97,
+          "completeness_score": 83.3,
           "contradiction_rate": 1.8
         }
       },
@@ -3682,8 +3684,8 @@
         "audit_areas": {
           "analytical_accuracy": {
             "accuracy": 48,
-            "mae_bps": 19.76,
-            "rmse_bps": 5.07,
+            "mae_bps": 12.8,
+            "rmse_bps": 18.4,
             "f1_score": 0
           },
           "evidence_grounding": {
@@ -3692,13 +3694,13 @@
             "citation_recall": 0
           },
           "task_completion": {
-            "task_success_rate": 73,
+            "task_success_rate": 74.0,
             "completion_rate": 73
           },
           "consistency": {
             "recommendation_agreement": 58,
-            "std_deviation": 260,
-            "coefficient_of_variation": 0.26
+            "std_deviation": 20.3,
+            "coefficient_of_variation": 0.342
           },
           "latency": {
             "mean": 2.72,
@@ -3723,10 +3725,10 @@
             "calls_per_task": 0
           },
           "rag_retrieval": {
-            "precision_at_k": 0,
-            "recall_at_k": 0,
-            "mrr": 0,
-            "ndcg_at_k": 0
+            "precision_at_k": 0.1,
+            "recall_at_k": 0.0,
+            "mrr": 0.1,
+            "ndcg_at_k": 0.1
           },
           "traceability": {
             "trace_completeness": 0,
@@ -3739,12 +3741,13 @@
           },
           "resource_efficiency": {
             "tokens_per_task": 371,
-            "cost_per_task": 7.6e-05,
-            "api_calls_per_task": 1
+            "cost_per_task": 5e-05,
+            "api_calls_per_task": 1,
+            "is_free_tier": true
           },
           "output_quality": {
             "schema_validity": 100,
-            "completeness_score": 73,
+            "completeness_score": 40.0,
             "contradiction_rate": 15.7
           }
         }
@@ -3782,8 +3785,8 @@
       "audit_areas": {
         "analytical_accuracy": {
           "accuracy": 48,
-          "mae_bps": 19.76,
-          "rmse_bps": 5.07,
+          "mae_bps": 12.8,
+          "rmse_bps": 18.4,
           "f1_score": 0
         },
         "evidence_grounding": {
@@ -3792,13 +3795,13 @@
           "citation_recall": 0
         },
         "task_completion": {
-          "task_success_rate": 73,
+          "task_success_rate": 74.0,
           "completion_rate": 73
         },
         "consistency": {
           "recommendation_agreement": 58,
-          "std_deviation": 260,
-          "coefficient_of_variation": 0.26
+          "std_deviation": 20.3,
+          "coefficient_of_variation": 0.342
         },
         "latency": {
           "mean": 2.72,
@@ -3823,10 +3826,10 @@
           "calls_per_task": 0
         },
         "rag_retrieval": {
-          "precision_at_k": 0,
-          "recall_at_k": 0,
-          "mrr": 0,
-          "ndcg_at_k": 0
+          "precision_at_k": 0.1,
+          "recall_at_k": 0.0,
+          "mrr": 0.1,
+          "ndcg_at_k": 0.1
         },
         "traceability": {
           "trace_completeness": 0,
@@ -3839,12 +3842,13 @@
         },
         "resource_efficiency": {
           "tokens_per_task": 371,
-          "cost_per_task": 7.6e-05,
-          "api_calls_per_task": 1
+          "cost_per_task": 5e-05,
+          "api_calls_per_task": 1,
+          "is_free_tier": true
         },
         "output_quality": {
           "schema_validity": 100,
-          "completeness_score": 73,
+          "completeness_score": 40.0,
           "contradiction_rate": 15.7
         }
       },

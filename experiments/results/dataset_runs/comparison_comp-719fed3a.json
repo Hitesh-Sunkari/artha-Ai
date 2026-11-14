@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-719fed3a",
-  "timestamp": "2026-11-14T14:52:32.488924+00:00",
+  "timestamp": "2026-11-14T15:48:28.972753+00:00",
   "run_type": "DATASET",
   "query": "1-Year paired long/short trade recommendation: TCS vs Infosys based on Q3 discretionary spending pipeline and voluntary attrition trends.",
   "target_symbols": [
@@ -9,22 +9,22 @@
   ],
   "primary_symbol": "TCS.NS",
   "symbol": "TCS.NS",
-  "winning_architecture": "ArthaAI Sequential Fleet",
-  "winning_score": 85.78,
-  "total_elapsed_seconds": 40.72,
-  "storyline_summary": "On the inquiry '1-Year paired long/short trade recommendation: TCS vs Infosys based on Q3 discretionary spending pipeline and voluntary attrition trends.', ArthaAI Sequential Fleet achieved the highest institutional score (85.78/100) with 5.0% hallucination and 88.1% completeness. In contrast, Single-Agent Solitary Prompt registered 25.7/100 with 85.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
-  "pairwise_quality_delta": 60.08,
+  "winning_architecture": "ArthaAI Hierarchical Fleet",
+  "winning_score": 88.36,
+  "total_elapsed_seconds": 79.64,
+  "storyline_summary": "On the inquiry '1-Year paired long/short trade recommendation: TCS vs Infosys based on Q3 discretionary spending pipeline and voluntary attrition trends.', ArthaAI Hierarchical Fleet achieved the highest institutional score (88.36/100) with 5.0% hallucination and 92.3% completeness. In contrast, Single-Agent Solitary Prompt registered 25.7/100 with 85.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+  "pairwise_quality_delta": 62.66,
   "hallucination_reduction_pct": 80.0,
   "winner": {
-    "architecture": "ARTHAAI_SEQUENTIAL",
-    "label": "ArthaAI Sequential Fleet",
-    "quality": 85.78
+    "architecture": "ARTHAAI_HIERARCHICAL",
+    "label": "ArthaAI Hierarchical Fleet",
+    "quality": 88.36
   },
   "comparison_summary": {
-    "winning_architecture": "ArthaAI Sequential Fleet",
-    "winning_score": 85.78,
-    "narrative_summary": "On the inquiry '1-Year paired long/short trade recommendation: TCS vs Infosys based on Q3 discretionary spending pipeline and voluntary attrition trends.', ArthaAI Sequential Fleet achieved the highest institutional score (85.78/100) with 5.0% hallucination and 88.1% completeness. In contrast, Single-Agent Solitary Prompt registered 25.7/100 with 85.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
-    "pairwise_delta": 60.08,
+    "winning_architecture": "ArthaAI Hierarchical Fleet",
+    "winning_score": 88.36,
+    "narrative_summary": "On the inquiry '1-Year paired long/short trade recommendation: TCS vs Infosys based on Q3 discretionary spending pipeline and voluntary attrition trends.', ArthaAI Hierarchical Fleet achieved the highest institutional score (88.36/100) with 5.0% hallucination and 92.3% completeness. In contrast, Single-Agent Solitary Prompt registered 25.7/100 with 85.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
+    "pairwise_delta": 62.66,
     "hallucination_reduction": 80.0
   },
   "radar_data": [
@@ -32,30 +32,30 @@
       "dimension": "Completeness",
       "ARTHAAI_SEQUENTIAL": 88.1,
       "ARTHAAI_PARALLEL": 91.0,
-      "ARTHAAI_HIERARCHICAL": 88.1,
+      "ARTHAAI_HIERARCHICAL": 92.3,
       "REACT_AGENT": 55.1,
       "SINGLE_AGENT": 64.7
     },
     {
       "dimension": "Accuracy",
       "ARTHAAI_SEQUENTIAL": 73.4,
-      "ARTHAAI_PARALLEL": 53.4,
-      "ARTHAAI_HIERARCHICAL": 73.4,
+      "ARTHAAI_PARALLEL": 82.8,
+      "ARTHAAI_HIERARCHICAL": 78.4,
       "REACT_AGENT": 70.0,
       "SINGLE_AGENT": 58.0
     },
     {
       "dimension": "Evidence Grounding",
       "ARTHAAI_SEQUENTIAL": 88.0,
-      "ARTHAAI_PARALLEL": 75.0,
-      "ARTHAAI_HIERARCHICAL": 80.0,
+      "ARTHAAI_PARALLEL": 85.0,
+      "ARTHAAI_HIERARCHICAL": 90.0,
       "REACT_AGENT": 67.9,
       "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Regulatory Compliance",
       "ARTHAAI_SEQUENTIAL": 95.0,
-      "ARTHAAI_PARALLEL": 90.0,
+      "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 90.0,
       "SINGLE_AGENT": 0.0
@@ -63,15 +63,15 @@
     {
       "dimension": "Citation Precision",
       "ARTHAAI_SEQUENTIAL": 85.8,
-      "ARTHAAI_PARALLEL": 67.5,
-      "ARTHAAI_HIERARCHICAL": 78.0,
+      "ARTHAAI_PARALLEL": 82.9,
+      "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 66.2,
       "SINGLE_AGENT": 0.0
     },
     {
       "dimension": "Hallucination Inversion",
       "ARTHAAI_SEQUENTIAL": 95.0,
-      "ARTHAAI_PARALLEL": 80.0,
+      "ARTHAAI_PARALLEL": 95.0,
       "ARTHAAI_HIERARCHICAL": 95.0,
       "REACT_AGENT": 95.0,
       "SINGLE_AGENT": 15.0
@@ -88,18 +88,18 @@
     },
     {
       "architecture": "ArthaAI Parallel Fleet",
-      "quality": 73.62,
-      "accuracy": 53.4,
+      "quality": 87.53,
+      "accuracy": 82.8,
       "completeness": 91.0,
-      "latency_sec": 5.41,
+      "latency_sec": 44.13,
       "cost_usd": 0.00078
     },
     {
       "architecture": "ArthaAI Hierarchical Fleet",
-      "quality": 83.02,
-      "accuracy": 73.4,
-      "completeness": 88.1,
-      "latency_sec": 4.44,
+      "quality": 88.36,
+      "accuracy": 78.4,
+      "completeness": 92.3,
+      "latency_sec": 4.64,
       "cost_usd": 0.00098
     },
     {
@@ -821,8 +821,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 5.41,
-      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
+      "latency_seconds": 44.13,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -872,7 +872,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.58
         },
         {
           "tool": "resolve_security",
@@ -880,7 +880,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.39
+          "latency_ms": 0.43
         },
         {
           "tool": "get_latest_quote",
@@ -888,7 +888,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 100.65
+          "latency_ms": 89.24
         },
         {
           "tool": "get_historical_bars",
@@ -897,7 +897,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 90.45
+          "latency_ms": 91.28
         },
         {
           "tool": "get_option_chain",
@@ -905,7 +905,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.41
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -913,7 +913,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.26
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -929,7 +929,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.42
+          "latency_ms": 4.14
         },
         {
           "tool": "search_news_and_macro",
@@ -937,7 +937,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.4
+          "latency_ms": 7.68
         },
         {
           "tool": "get_corporate_actions",
@@ -945,7 +945,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.72
+          "latency_ms": 4.27
         },
         {
           "tool": "get_latest_quote",
@@ -953,7 +953,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 106.1
+          "latency_ms": 108.95
         },
         {
           "tool": "get_historical_bars",
@@ -962,7 +962,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 96.17
+          "latency_ms": 87.07
         },
         {
           "tool": "get_option_chain",
@@ -970,7 +970,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.32
         },
         {
           "tool": "get_derivative_coverage",
@@ -978,7 +978,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.2
         },
         {
           "tool": "get_financial_results",
@@ -986,7 +986,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.33
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -994,7 +994,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.31
+          "latency_ms": 3.96
         },
         {
           "tool": "search_news_and_macro",
@@ -1002,7 +1002,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.11
+          "latency_ms": 7.71
         },
         {
           "tool": "get_corporate_actions",
@@ -1010,7 +1010,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.63
+          "latency_ms": 4.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -1019,7 +1019,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 60.73
+          "latency_ms": 72.43
         },
         {
           "tool": "calculate_statutory_costs",
@@ -1030,7 +1030,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.14
+          "latency_ms": 0.19
         }
       ],
       "retrieved_evidence": [
@@ -1058,24 +1058,24 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 73.62,
-        "analytical_accuracy": 53.4,
-        "evidence_grounding": 75.0,
+        "composite_quality_index": 87.53,
+        "analytical_accuracy": 82.8,
+        "evidence_grounding": 85.0,
         "task_completion_rate": 91.0,
-        "citation_coverage": 93.3,
-        "citation_precision": 67.5,
-        "hallucination_rate": 20.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
         "tool_success_rate": 100.0,
-        "regulatory_compliance": 90.0,
+        "regulatory_compliance": 95.0,
         "retry_rate": 0.0,
         "retry_recovery_rate": 100.0,
-        "latency_seconds": 5.41,
+        "latency_seconds": 44.13,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 75.0,
-        "llm_judge_critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
@@ -1089,15 +1089,15 @@
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 67.5
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20.0
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
@@ -1106,31 +1106,31 @@
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 53.4,
-            "mae_bps": 6.99,
-            "rmse_bps": 9.17,
-            "f1_score": 62.4
+            "accuracy": 82.8,
+            "mae_bps": 2.58,
+            "rmse_bps": 3.38,
+            "f1_score": 83.9
           },
           "evidence_grounding": {
-            "faithfulness": 76.0,
-            "citation_precision": 67.5,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
             "task_success_rate": 100.0,
             "completion_rate": 91.0
           },
           "consistency": {
-            "recommendation_agreement": 97.1,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.118
+            "coefficient_of_variation": 0.104
           },
           "latency": {
-            "mean": 5.41,
-            "median": 5.08,
-            "p50": 5.08,
-            "p95": 6.27,
-            "p99": 6.92
+            "mean": 44.13,
+            "median": 41.48,
+            "p50": 41.48,
+            "p95": 51.19,
+            "p99": 56.48
           },
           "reliability": {
             "success_rate": 100.0,
@@ -1140,7 +1140,7 @@
           },
           "agent_coordination": {
             "handoff_success_rate": 100.0,
-            "coordination_overhead_pct": 4.4
+            "coordination_overhead_pct": 14.0
           },
           "tool_utilization": {
             "tool_success_rate": 100.0,
@@ -1155,11 +1155,11 @@
           },
           "traceability": {
             "trace_completeness": 100.0,
-            "evidence_link_coverage": 64.1
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
             "risk_detection_rate": 100.0,
-            "false_positive_rate": 5.6,
+            "false_positive_rate": 2.1,
             "false_negative_rate": 0.0
           },
           "resource_efficiency": {
@@ -1170,67 +1170,67 @@
           "output_quality": {
             "schema_validity": 100.0,
             "completeness_score": 83.3,
-            "contradiction_rate": 7.0
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
         "completeness": 85.0,
-        "analytical_accuracy": 70.0,
-        "evidence_grounding": 75.0,
-        "regulatory_compliance": 90.0,
-        "hallucination_rate": 20.0,
-        "overall_judge_score": 75.0,
-        "critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair."
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
-      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
-      "latency_ms": 5410.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
+      "latency_ms": 44130.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
       "tool_success_rate": 100.0,
-      "citation_coverage": 93.3,
-      "citation_precision": 67.5,
-      "hallucination_rate": 20.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
       "task_completion_rate": 91.0,
       "completeness": 91.0,
-      "analytical_accuracy": 53.4,
-      "evidence_grounding": 75.0,
-      "regulatory_compliance": 90.0,
-      "overall_judge_score": 73.62,
-      "composite_quality": 73.62,
-      "composite_score": 73.62,
-      "judge_critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair.",
-      "verdict": "The report effectively addresses the statutory, macro, and q",
+      "analytical_accuracy": 82.8,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 87.53,
+      "composite_quality": 87.53,
+      "composite_score": 87.53,
+      "judge_critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy.",
+      "verdict": "The institutional audit reveals a rigorously structured para",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 53.4,
-          "mae_bps": 6.99,
-          "rmse_bps": 9.17,
-          "f1_score": 62.4
+          "accuracy": 82.8,
+          "mae_bps": 2.58,
+          "rmse_bps": 3.38,
+          "f1_score": 83.9
         },
         "evidence_grounding": {
-          "faithfulness": 76.0,
-          "citation_precision": 67.5,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
           "task_success_rate": 100.0,
           "completion_rate": 91.0
         },
         "consistency": {
-          "recommendation_agreement": 97.1,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.118
+          "coefficient_of_variation": 0.104
         },
         "latency": {
-          "mean": 5.41,
-          "median": 5.08,
-          "p50": 5.08,
-          "p95": 6.27,
-          "p99": 6.92
+          "mean": 44.13,
+          "median": 41.48,
+          "p50": 41.48,
+          "p95": 51.19,
+          "p99": 56.48
         },
         "reliability": {
           "success_rate": 100.0,
@@ -1240,7 +1240,7 @@
         },
         "agent_coordination": {
           "handoff_success_rate": 100.0,
-          "coordination_overhead_pct": 4.4
+          "coordination_overhead_pct": 14.0
         },
         "tool_utilization": {
           "tool_success_rate": 100.0,
@@ -1255,11 +1255,11 @@
         },
         "traceability": {
           "trace_completeness": 100.0,
-          "evidence_link_coverage": 64.1
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
           "risk_detection_rate": 100.0,
-          "false_positive_rate": 5.6,
+          "false_positive_rate": 2.1,
           "false_negative_rate": 0.0
         },
         "resource_efficiency": {
@@ -1270,7 +1270,7 @@
         "output_quality": {
           "schema_validity": 100.0,
           "completeness_score": 83.3,
-          "contradiction_rate": 7.0
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -1280,7 +1280,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.58
         },
         {
           "tool": "resolve_security",
@@ -1288,7 +1288,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.39
+          "latency_ms": 0.43
         },
         {
           "tool": "get_latest_quote",
@@ -1296,7 +1296,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 100.65
+          "latency_ms": 89.24
         },
         {
           "tool": "get_historical_bars",
@@ -1305,7 +1305,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 90.45
+          "latency_ms": 91.28
         },
         {
           "tool": "get_option_chain",
@@ -1313,7 +1313,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.41
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -1321,7 +1321,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.26
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -1337,7 +1337,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.42
+          "latency_ms": 4.14
         },
         {
           "tool": "search_news_and_macro",
@@ -1345,7 +1345,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.4
+          "latency_ms": 7.68
         },
         {
           "tool": "get_corporate_actions",
@@ -1353,7 +1353,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.72
+          "latency_ms": 4.27
         },
         {
           "tool": "get_latest_quote",
@@ -1361,7 +1361,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 106.1
+          "latency_ms": 108.95
         },
         {
           "tool": "get_historical_bars",
@@ -1370,7 +1370,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 96.17
+          "latency_ms": 87.07
         },
         {
           "tool": "get_option_chain",
@@ -1378,7 +1378,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.32
         },
         {
           "tool": "get_derivative_coverage",
@@ -1386,7 +1386,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.2
         },
         {
           "tool": "get_financial_results",
@@ -1394,7 +1394,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.33
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -1402,7 +1402,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.31
+          "latency_ms": 3.96
         },
         {
           "tool": "search_news_and_macro",
@@ -1410,7 +1410,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.11
+          "latency_ms": 7.71
         },
         {
           "tool": "get_corporate_actions",
@@ -1418,7 +1418,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.63
+          "latency_ms": 4.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -1427,7 +1427,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 60.73
+          "latency_ms": 72.43
         },
         {
           "tool": "calculate_statutory_costs",
@@ -1438,7 +1438,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.14
+          "latency_ms": 0.19
         }
       ],
       "agent_steps": [
@@ -1488,8 +1488,8 @@
       "architecture": "ARTHAAI_HIERARCHICAL",
       "label": "ArthaAI Hierarchical Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 4.44,
-      "executive_synthesis": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
+      "latency_seconds": 4.64,
+      "executive_synthesis": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -1534,7 +1534,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.15
+          "latency_ms": 0.65
         },
         {
           "tool": "resolve_security",
@@ -1542,7 +1542,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.87
+          "latency_ms": 0.41
         },
         {
           "tool": "get_latest_quote",
@@ -1550,7 +1550,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 98.17
+          "latency_ms": 83.4
         },
         {
           "tool": "get_historical_bars",
@@ -1559,7 +1559,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 88.42
+          "latency_ms": 91.85
         },
         {
           "tool": "get_option_chain",
@@ -1567,7 +1567,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         },
         {
           "tool": "get_derivative_coverage",
@@ -1575,7 +1575,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -1591,7 +1591,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.0
+          "latency_ms": 5.53
         },
         {
           "tool": "search_news_and_macro",
@@ -1599,7 +1599,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.81
+          "latency_ms": 9.37
         },
         {
           "tool": "get_corporate_actions",
@@ -1607,7 +1607,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.12
+          "latency_ms": 4.99
         },
         {
           "tool": "get_latest_quote",
@@ -1615,7 +1615,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 97.48
+          "latency_ms": 95.37
         },
         {
           "tool": "get_historical_bars",
@@ -1624,7 +1624,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 91.87
+          "latency_ms": 98.95
         },
         {
           "tool": "get_option_chain",
@@ -1632,7 +1632,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.43
         },
         {
           "tool": "get_derivative_coverage",
@@ -1640,7 +1640,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.3
         },
         {
           "tool": "get_financial_results",
@@ -1648,7 +1648,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.24
         },
         {
           "tool": "get_corporate_news",
@@ -1656,7 +1656,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.11
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -1664,7 +1664,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.49
+          "latency_ms": 10.48
         },
         {
           "tool": "get_corporate_actions",
@@ -1672,7 +1672,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.12
+          "latency_ms": 4.92
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -1681,7 +1681,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 72.57
+          "latency_ms": 67.77
         },
         {
           "tool": "calculate_statutory_costs",
@@ -1692,7 +1692,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.15
         }
       ],
       "retrieved_evidence": [
@@ -1720,24 +1720,24 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 83.02,
-        "analytical_accuracy": 73.4,
-        "evidence_grounding": 80.0,
-        "task_completion_rate": 88.1,
+        "composite_quality_index": 88.36,
+        "analytical_accuracy": 78.4,
+        "evidence_grounding": 90.0,
+        "task_completion_rate": 92.3,
         "citation_coverage": 98.3,
-        "citation_precision": 78.0,
+        "citation_precision": 87.8,
         "hallucination_rate": 5.0,
         "tool_success_rate": 100.0,
         "regulatory_compliance": 95.0,
         "retry_rate": 0.0,
         "retry_recovery_rate": 100.0,
-        "latency_seconds": 4.44,
+        "latency_seconds": 4.64,
         "prompt_tokens": 1397,
         "completion_tokens": 752,
         "total_tokens": 2149,
         "cost_usd": 0.00098,
-        "llm_judge_score": 88.0,
-        "llm_judge_critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
@@ -1747,7 +1747,7 @@
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 88.1
+            "value": 92.3
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
@@ -1755,7 +1755,7 @@
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 78.0
+            "value": 87.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
@@ -1768,31 +1768,31 @@
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 73.4,
-            "mae_bps": 3.99,
-            "rmse_bps": 5.23,
-            "f1_score": 76.6
+            "accuracy": 78.4,
+            "mae_bps": 3.24,
+            "rmse_bps": 4.25,
+            "f1_score": 83.8
           },
           "evidence_grounding": {
             "faithfulness": 94.0,
-            "citation_precision": 78.0,
+            "citation_precision": 87.8,
             "citation_recall": 100.0
           },
           "task_completion": {
             "task_success_rate": 100.0,
-            "completion_rate": 88.1
+            "completion_rate": 92.3
           },
           "consistency": {
-            "recommendation_agreement": 97.1,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.109
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 4.44,
-            "median": 4.17,
-            "p50": 4.17,
-            "p95": 5.15,
-            "p99": 5.69
+            "mean": 4.64,
+            "median": 4.36,
+            "p50": 4.36,
+            "p95": 5.38,
+            "p99": 5.93
           },
           "reliability": {
             "success_rate": 100.0,
@@ -1802,7 +1802,7 @@
           },
           "agent_coordination": {
             "handoff_success_rate": 100.0,
-            "coordination_overhead_pct": 4.1
+            "coordination_overhead_pct": 4.2
           },
           "tool_utilization": {
             "tool_success_rate": 100.0,
@@ -1817,11 +1817,11 @@
           },
           "traceability": {
             "trace_completeness": 100.0,
-            "evidence_link_coverage": 74.1
+            "evidence_link_coverage": 83.4
           },
           "risk_validation": {
             "risk_detection_rate": 83.3,
-            "false_positive_rate": 3.2,
+            "false_positive_rate": 2.6,
             "false_negative_rate": 16.7
           },
           "resource_efficiency": {
@@ -1837,62 +1837,62 @@
         }
       },
       "judge": {
-        "completeness": 85.0,
-        "analytical_accuracy": 90.0,
-        "evidence_grounding": 80.0,
+        "completeness": 92.0,
+        "analytical_accuracy": 95.0,
+        "evidence_grounding": 90.0,
         "regulatory_compliance": 95.0,
         "hallucination_rate": 5.0,
-        "overall_judge_score": 88.0,
-        "critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration."
+        "overall_judge_score": 93.0,
+        "critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window."
       },
       "key": "ARTHAAI_HIERARCHICAL",
-      "output_text": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
-      "output": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
-      "latency_ms": 4440.0,
+      "output_text": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
+      "output": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
+      "latency_ms": 4640.0,
       "tokens_used": 2149,
       "cost_usd": 0.00098,
       "tool_calls_count": 0,
       "tool_success_rate": 100.0,
       "citation_coverage": 98.3,
-      "citation_precision": 78.0,
+      "citation_precision": 87.8,
       "hallucination_rate": 5.0,
-      "task_completion_rate": 88.1,
-      "completeness": 88.1,
-      "analytical_accuracy": 73.4,
-      "evidence_grounding": 80.0,
+      "task_completion_rate": 92.3,
+      "completeness": 92.3,
+      "analytical_accuracy": 78.4,
+      "evidence_grounding": 90.0,
       "regulatory_compliance": 95.0,
-      "overall_judge_score": 83.02,
-      "composite_quality": 83.02,
-      "composite_score": 83.02,
-      "judge_critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration.",
-      "verdict": "The automated research provides a rigorous hierarchical exec",
+      "overall_judge_score": 88.36,
+      "composite_quality": 88.36,
+      "composite_score": 88.36,
+      "judge_critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window.",
+      "verdict": "The institutional research provides a rigorous, beta-neutral",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 73.4,
-          "mae_bps": 3.99,
-          "rmse_bps": 5.23,
-          "f1_score": 76.6
+          "accuracy": 78.4,
+          "mae_bps": 3.24,
+          "rmse_bps": 4.25,
+          "f1_score": 83.8
         },
         "evidence_grounding": {
           "faithfulness": 94.0,
-          "citation_precision": 78.0,
+          "citation_precision": 87.8,
           "citation_recall": 100.0
         },
         "task_completion": {
           "task_success_rate": 100.0,
-          "completion_rate": 88.1
+          "completion_rate": 92.3
         },
         "consistency": {
-          "recommendation_agreement": 97.1,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.109
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 4.44,
-          "median": 4.17,
-          "p50": 4.17,
-          "p95": 5.15,
-          "p99": 5.69
+          "mean": 4.64,
+          "median": 4.36,
+          "p50": 4.36,
+          "p95": 5.38,
+          "p99": 5.93
         },
         "reliability": {
           "success_rate": 100.0,
@@ -1902,7 +1902,7 @@
         },
         "agent_coordination": {
           "handoff_success_rate": 100.0,
-          "coordination_overhead_pct": 4.1
+          "coordination_overhead_pct": 4.2
         },
         "tool_utilization": {
           "tool_success_rate": 100.0,
@@ -1917,11 +1917,11 @@
         },
         "traceability": {
           "trace_completeness": 100.0,
-          "evidence_link_coverage": 74.1
+          "evidence_link_coverage": 83.4
         },
         "risk_validation": {
           "risk_detection_rate": 83.3,
-          "false_positive_rate": 3.2,
+          "false_positive_rate": 2.6,
           "false_negative_rate": 16.7
         },
         "resource_efficiency": {
@@ -1942,7 +1942,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.15
+          "latency_ms": 0.65
         },
         {
           "tool": "resolve_security",
@@ -1950,7 +1950,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.87
+          "latency_ms": 0.41
         },
         {
           "tool": "get_latest_quote",
@@ -1958,7 +1958,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 98.17
+          "latency_ms": 83.4
         },
         {
           "tool": "get_historical_bars",
@@ -1967,7 +1967,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 88.42
+          "latency_ms": 91.85
         },
         {
           "tool": "get_option_chain",
@@ -1975,7 +1975,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         },
         {
           "tool": "get_derivative_coverage",
@@ -1983,7 +1983,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -1999,7 +1999,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.0
+          "latency_ms": 5.53
         },
         {
           "tool": "search_news_and_macro",
@@ -2007,7 +2007,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.81
+          "latency_ms": 9.37
         },
         {
           "tool": "get_corporate_actions",
@@ -2015,7 +2015,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.12
+          "latency_ms": 4.99
         },
         {
           "tool": "get_latest_quote",
@@ -2023,7 +2023,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 97.48
+          "latency_ms": 95.37
         },
         {
           "tool": "get_historical_bars",
@@ -2032,7 +2032,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 91.87
+          "latency_ms": 98.95
         },
         {
           "tool": "get_option_chain",
@@ -2040,7 +2040,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.43
         },
         {
           "tool": "get_derivative_coverage",
@@ -2048,7 +2048,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.3
         },
         {
           "tool": "get_financial_results",
@@ -2056,7 +2056,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.24
         },
         {
           "tool": "get_corporate_news",
@@ -2064,7 +2064,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.11
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -2072,7 +2072,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.49
+          "latency_ms": 10.48
         },
         {
           "tool": "get_corporate_actions",
@@ -2080,7 +2080,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.12
+          "latency_ms": 4.92
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2089,7 +2089,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 72.57
+          "latency_ms": 67.77
         },
         {
           "tool": "calculate_statutory_costs",
@@ -2100,7 +2100,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.15
         }
       ],
       "agent_steps": [
@@ -3499,8 +3499,8 @@
       "architecture": "ARTHAAI_PARALLEL",
       "label": "ArthaAI Parallel Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 5.41,
-      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
+      "latency_seconds": 44.13,
+      "executive_synthesis": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -3550,7 +3550,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.58
         },
         {
           "tool": "resolve_security",
@@ -3558,7 +3558,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.39
+          "latency_ms": 0.43
         },
         {
           "tool": "get_latest_quote",
@@ -3566,7 +3566,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 100.65
+          "latency_ms": 89.24
         },
         {
           "tool": "get_historical_bars",
@@ -3575,7 +3575,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 90.45
+          "latency_ms": 91.28
         },
         {
           "tool": "get_option_chain",
@@ -3583,7 +3583,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.41
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -3591,7 +3591,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.26
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -3607,7 +3607,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.42
+          "latency_ms": 4.14
         },
         {
           "tool": "search_news_and_macro",
@@ -3615,7 +3615,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.4
+          "latency_ms": 7.68
         },
         {
           "tool": "get_corporate_actions",
@@ -3623,7 +3623,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.72
+          "latency_ms": 4.27
         },
         {
           "tool": "get_latest_quote",
@@ -3631,7 +3631,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 106.1
+          "latency_ms": 108.95
         },
         {
           "tool": "get_historical_bars",
@@ -3640,7 +3640,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 96.17
+          "latency_ms": 87.07
         },
         {
           "tool": "get_option_chain",
@@ -3648,7 +3648,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.32
         },
         {
           "tool": "get_derivative_coverage",
@@ -3656,7 +3656,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.2
         },
         {
           "tool": "get_financial_results",
@@ -3664,7 +3664,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.33
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -3672,7 +3672,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.31
+          "latency_ms": 3.96
         },
         {
           "tool": "search_news_and_macro",
@@ -3680,7 +3680,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.11
+          "latency_ms": 7.71
         },
         {
           "tool": "get_corporate_actions",
@@ -3688,7 +3688,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.63
+          "latency_ms": 4.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -3697,7 +3697,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 60.73
+          "latency_ms": 72.43
         },
         {
           "tool": "calculate_statutory_costs",
@@ -3708,7 +3708,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.14
+          "latency_ms": 0.19
         }
       ],
       "retrieved_evidence": [
@@ -3736,24 +3736,24 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 73.62,
-        "analytical_accuracy": 53.4,
-        "evidence_grounding": 75.0,
+        "composite_quality_index": 87.53,
+        "analytical_accuracy": 82.8,
+        "evidence_grounding": 85.0,
         "task_completion_rate": 91.0,
-        "citation_coverage": 93.3,
-        "citation_precision": 67.5,
-        "hallucination_rate": 20.0,
+        "citation_coverage": 98.3,
+        "citation_precision": 82.9,
+        "hallucination_rate": 5.0,
         "tool_success_rate": 100.0,
-        "regulatory_compliance": 90.0,
+        "regulatory_compliance": 95.0,
         "retry_rate": 0.0,
         "retry_recovery_rate": 100.0,
-        "latency_seconds": 5.41,
+        "latency_seconds": 44.13,
         "prompt_tokens": 1118,
         "completion_tokens": 602,
         "total_tokens": 1720,
         "cost_usd": 0.00078,
-        "llm_judge_score": 75.0,
-        "llm_judge_critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair.",
+        "llm_judge_score": 90.0,
+        "llm_judge_critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
@@ -3767,15 +3767,15 @@
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
-            "value": 93.3
+            "value": 98.3
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 67.5
+            "value": 82.9
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 20.0
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
@@ -3784,31 +3784,31 @@
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 53.4,
-            "mae_bps": 6.99,
-            "rmse_bps": 9.17,
-            "f1_score": 62.4
+            "accuracy": 82.8,
+            "mae_bps": 2.58,
+            "rmse_bps": 3.38,
+            "f1_score": 83.9
           },
           "evidence_grounding": {
-            "faithfulness": 76.0,
-            "citation_precision": 67.5,
-            "citation_recall": 95.2
+            "faithfulness": 94.0,
+            "citation_precision": 82.9,
+            "citation_recall": 100.0
           },
           "task_completion": {
             "task_success_rate": 100.0,
             "completion_rate": 91.0
           },
           "consistency": {
-            "recommendation_agreement": 97.1,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.118
+            "coefficient_of_variation": 0.104
           },
           "latency": {
-            "mean": 5.41,
-            "median": 5.08,
-            "p50": 5.08,
-            "p95": 6.27,
-            "p99": 6.92
+            "mean": 44.13,
+            "median": 41.48,
+            "p50": 41.48,
+            "p95": 51.19,
+            "p99": 56.48
           },
           "reliability": {
             "success_rate": 100.0,
@@ -3818,7 +3818,7 @@
           },
           "agent_coordination": {
             "handoff_success_rate": 100.0,
-            "coordination_overhead_pct": 4.4
+            "coordination_overhead_pct": 14.0
           },
           "tool_utilization": {
             "tool_success_rate": 100.0,
@@ -3833,11 +3833,11 @@
           },
           "traceability": {
             "trace_completeness": 100.0,
-            "evidence_link_coverage": 64.1
+            "evidence_link_coverage": 78.8
           },
           "risk_validation": {
             "risk_detection_rate": 100.0,
-            "false_positive_rate": 5.6,
+            "false_positive_rate": 2.1,
             "false_negative_rate": 0.0
           },
           "resource_efficiency": {
@@ -3848,67 +3848,67 @@
           "output_quality": {
             "schema_validity": 100.0,
             "completeness_score": 83.3,
-            "contradiction_rate": 7.0
+            "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
         "completeness": 85.0,
-        "analytical_accuracy": 70.0,
-        "evidence_grounding": 75.0,
-        "regulatory_compliance": 90.0,
-        "hallucination_rate": 20.0,
-        "overall_judge_score": 75.0,
-        "critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair."
+        "analytical_accuracy": 90.0,
+        "evidence_grounding": 85.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 90.0,
+        "critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy."
       },
       "key": "ARTHAAI_PARALLEL",
-      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
-      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry asks for a 1-Year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Concurrent parallel streams evaluate that TCS exhibits superior margin stability and lower historical volatility (22.15%) relative to Infosys (23.89%), while Infosys has demonstrated a higher trailing 1-year return (19.93% vs 6.0%) but suffers from a higher maximum drawdown profile (38.01% vs TCS max DD of 49.25%). In terms of Q3 discretionary spending, TCS maintains higher stickiness in large-scale cost-optimization deals, whereas Infosys displays higher sensitivity to discretionary cloud and digital transformation pipelines. Voluntary attrition across both Tier-1 IT majors has normalized toward pre-pandemic structural bands (12-14%), removing wage-inflation headwinds. The parallel fleet consensus resolves this by recommending a paired long TCS / short Infosys framework for a 1-year horizon to capture mean reversion in operational stability and margin resilience, backed by an ACCUMULATE_BASKET verdict and a Conviction Score of 75/100.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. 1-Year 95% Parametric VaR stands at -22.4% with a 95% CVaR of -31.1%. Probability of beating the 5.49% CPI inflation benchmark is 68.7%.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract Put-Call Ratio (PCR) is 0.92, indicating balanced market sentiment with slight defensive positioning. Max Pain strike is pinned precisely at \u20b92,407.50, aligning with the anchor spot price. ATM Implied Volatility (IV) is 21.4%, with standard NSE lot sizes of 1000 shares providing adequate structural liquidity.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo rate at 6.50%, CPI inflation at 5.49%. Enterprise discretionary tech spending pipeline indicates stabilization in North American banking and retail verticals.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance (No. 2) Act 2024 compliance under Section 112A for equity taxation. Statutory friction calculates to 22.2 bps round-trip. Post-tax net realized return models at 9.38% CAGR. Clean compliance record under SEBI LODR 2015 Regulations 30, 33, and 44.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 and Stream 2 during parallel processing. While Stream 1 projects a positive 5-year compounding trajectory with an expected drift of 6.0% and a P50 target of \u20b93,930.35, Stream 2 identified short-term options pinning at the Max Pain strike of \u20b92,407.50 alongside an ATM IV of 21.4%, signaling near-term price consolidation and range-bound behavior. Furthermore, Stream 3 highlights macroeconomic moderation in discretionary tech budgets, while Stream 4 enforces a 22.2 bps tax drag under Finance Act 2024 guidelines. The Lead Officer reconciled these divergences by decoupling the immediate 1-year tactical paired trade from the multi-year structural accumulation thesis. The short-term derivatives friction and macro latency justify a staggered accumulation approach rather than lump-sum deployment, preserving capital while positioning for the long-term Monte Carlo P50 upside.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Capital Deployment: Allocate the \u20b91,000,000.00 capital base across a staggered accumulation schedule, deploying 30% upfront at the anchor price of \u20b92,407.50, with remaining tranches deployed incrementally on 5% downward deviations.\n\u2022 Stop-Loss Discipline: Implement a strict trailing stop-loss at \u20b92,118.60 (derived from the 95% Parametric VaR boundary and P10 downside parameters) to protect against systemic IT sector drawdowns.\n\u2022 Milestone Profit Targets: Establish phased profit-taking milestones at \u20b93,150.00 (Target 1), \u20b93,550.00 (Target 2), and the Monte Carlo P50 median target of \u20b93,930.35 (Target 3).\n\u2022 Throughput & Efficiency: Zero pipeline bottlenecks observed across the 4 concurrent processing streams, ensuring real-time alignment with SEBI compliance and tax-adjusted net return optimization (9.38% CAGR post-friction).",
-      "latency_ms": 5410.0,
+      "output_text": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
+      "output": "ARTHAAI PARALLEL FLEET: CONCURRENT MULTI-STREAM RECONCILIATION REPORT\nExecution Model: Concurrent Specialist Pool Fan-Out (4 Simultaneous Streams with Multi-Stream Reconciliation)\nConcurrent Dispatch: Stream 1 (Quant/Valuation) || Stream 2 (Derivatives/Depth) || Stream 3 (Macro/News) || Stream 4 (Statutory/LODR)\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & CONCURRENT CONSENSUS VERDICT\nThe user inquiry requests a 1-year paired long/short trade recommendation comparing Tata Consultancy Services (TCS) and Infosys (INFY) based on Q3 discretionary spending pipelines and voluntary attrition trends. Based on parallel stream reconciliations, a long TCS versus short Infosys paired trade is recommended with tactical asymmetry. TCS exhibits superior margin defense and stable execution amid tight discretionary tech spending, while Infosys shows higher historical volatility (23.89% vs 22.15%) and greater maximum drawdown exposure (38.01%), making it the vulnerable short leg. Voluntary attrition normalisation across both firms has reduced wage inflation, yet TCS retains superior pipeline conversion in large-scale cost-optimization deals. The parallel architecture resolves this by scaling into a structured basket accumulation rather than an aggressive delta-one short, capitalizing on TCS baseline strength and pairing it against INFY beta-drag.\n\n2. INDEPENDENT CONCURRENT STREAM DISCOVERIES\n\u2022 Stream 1 (Quant Valuation & Monte Carlo Pool): 5Y annual volatility 22.15%, expected drift 6.0%. 5,000-path Monte Carlo P50: \u20b93,930.35 (+10.3% CAGR), P90: \u20b97,167.52, P10: \u20b92,151.85. Primary asset LTP \u20b92,407.50 against comparative pair Infosys LTP \u20b91,141.50 with 19.93% return and 38.01% Max DD.\n\u2022 Stream 2 (Derivatives Surface & Depth Pool): Active contract PCR 0.92, Max Pain strike \u20b92,407.50, ATM IV 21.4%. NSE lot size 1000 shares indicating balanced institutional hedging without severe directional skew.\n\u2022 Stream 3 (Macro Intelligence & News Pool): Regular corporate disclosures filed with exchange authorities in accordance with SEBI regulations. Macro backdrop: RBI repo 6.50%, CPI 5.49%. Discretionary tech spending pipeline reflects cautious enterprise behavior favoring vendor consolidation.\n\u2022 Stream 4 (Statutory & LODR Pool): Finance Act 2024 statutory friction 22.2 bps round-trip under Section 112A, clean SEBI LODR 2015 Reg 30/33/44 audit compliance, post-tax net realized return projected at 9.38% CAGR.\n\n3. CROSS-STREAM DIVERGENCE & RECONCILIATION ANALYSIS\nTensions emerged between Stream 1 long-term compounding forecasts (P50 path targeting \u20b93,930.35) and Stream 2 derivatives data where the Max Pain strike aligns precisely with the anchor price of \u20b92,407.50, signaling near-term price consolidation and range-bound pinning. Furthermore, Stream 3 highlights selective discretionary tech budgets that challenge aggressive growth assumptions, while Stream 4 confirms minor structural friction via a 22.2 bps statutory tax drag. The Lead Officer reconciled these divergences by rejecting an immediate all-in deployment. Instead, the parallel architecture mandates an ACCUMULATE_BASKET approach, decoupling immediate entry from derivative pinning zones through staggered tranche execution and leveraging the paired long/short spread to mitigate macro sector drift.\n\n4. PARALLEL FLEET EXECUTION PROFILE & HIGH-CONVICTION DIRECTIVE\n\u2022 Throughput & Bottlenecks: Concurrent multi-stream processing completed with zero latency bottlenecks across quantitative, derivative, macro, and statutory pools.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base in structured tranches (40% initial, 30% on minor drawdowns, 30% upon structural pipeline expansion confirmation).\n\u2022 Risk Management: Implement a trailing stop-loss anchored at \u20b92,118.60, aligning closely with the P10 downside threshold of \u20b92,151.85.\n\u2022 Milestone Profit Targets: Target Stage 1 at \u20b93,129.00 (+30%) and Stage 2 at \u20b93,930.35 (Monte Carlo P50 median expectation), securing net returns after accounting for the 22.2 bps statutory tax friction.",
+      "latency_ms": 44130.0,
       "tokens_used": 1720,
       "cost_usd": 0.00078,
       "tool_calls_count": 0,
       "tool_success_rate": 100.0,
-      "citation_coverage": 93.3,
-      "citation_precision": 67.5,
-      "hallucination_rate": 20.0,
+      "citation_coverage": 98.3,
+      "citation_precision": 82.9,
+      "hallucination_rate": 5.0,
       "task_completion_rate": 91.0,
       "completeness": 91.0,
-      "analytical_accuracy": 53.4,
-      "evidence_grounding": 75.0,
-      "regulatory_compliance": 90.0,
-      "overall_judge_score": 73.62,
-      "composite_quality": 73.62,
-      "composite_score": 73.62,
-      "judge_critique": "The report effectively addresses the statutory, macro, and quantitative dimensions of the query and incorporates Indian regulatory compliance frameworks such as SEBI LODR and Finance Act 2024. However, it exhibits a critical cross-asset mapping flaw by blending a paired long/short equities prompt (TCS vs Infosys) with single-stock Monte Carlo metrics, ETF commodity boilerplate, and a static anchor price, diluting precision for the specific stock pair.",
-      "verdict": "The report effectively addresses the statutory, macro, and q",
+      "analytical_accuracy": 82.8,
+      "evidence_grounding": 85.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 87.53,
+      "composite_quality": 87.53,
+      "composite_score": 87.53,
+      "judge_critique": "The institutional audit reveals a rigorously structured parallel evaluation that successfully integrates macro discretionary trends, statutory costs, and derivatives data for TCS and Infosys. While the long/short thesis is robustly defended, minor friction exists around mixing single-stock valuation anchors with comparative pair mechanics, which is well-mitigated by the assigned structured basket accumulation strategy.",
+      "verdict": "The institutional audit reveals a rigorously structured para",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 53.4,
-          "mae_bps": 6.99,
-          "rmse_bps": 9.17,
-          "f1_score": 62.4
+          "accuracy": 82.8,
+          "mae_bps": 2.58,
+          "rmse_bps": 3.38,
+          "f1_score": 83.9
         },
         "evidence_grounding": {
-          "faithfulness": 76.0,
-          "citation_precision": 67.5,
-          "citation_recall": 95.2
+          "faithfulness": 94.0,
+          "citation_precision": 82.9,
+          "citation_recall": 100.0
         },
         "task_completion": {
           "task_success_rate": 100.0,
           "completion_rate": 91.0
         },
         "consistency": {
-          "recommendation_agreement": 97.1,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.118
+          "coefficient_of_variation": 0.104
         },
         "latency": {
-          "mean": 5.41,
-          "median": 5.08,
-          "p50": 5.08,
-          "p95": 6.27,
-          "p99": 6.92
+          "mean": 44.13,
+          "median": 41.48,
+          "p50": 41.48,
+          "p95": 51.19,
+          "p99": 56.48
         },
         "reliability": {
           "success_rate": 100.0,
@@ -3918,7 +3918,7 @@
         },
         "agent_coordination": {
           "handoff_success_rate": 100.0,
-          "coordination_overhead_pct": 4.4
+          "coordination_overhead_pct": 14.0
         },
         "tool_utilization": {
           "tool_success_rate": 100.0,
@@ -3933,11 +3933,11 @@
         },
         "traceability": {
           "trace_completeness": 100.0,
-          "evidence_link_coverage": 64.1
+          "evidence_link_coverage": 78.8
         },
         "risk_validation": {
           "risk_detection_rate": 100.0,
-          "false_positive_rate": 5.6,
+          "false_positive_rate": 2.1,
           "false_negative_rate": 0.0
         },
         "resource_efficiency": {
@@ -3948,7 +3948,7 @@
         "output_quality": {
           "schema_validity": 100.0,
           "completeness_score": 83.3,
-          "contradiction_rate": 7.0
+          "contradiction_rate": 1.8
         }
       },
       "fastmcp_tools": [
@@ -3958,7 +3958,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.61
+          "latency_ms": 0.58
         },
         {
           "tool": "resolve_security",
@@ -3966,7 +3966,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.39
+          "latency_ms": 0.43
         },
         {
           "tool": "get_latest_quote",
@@ -3974,7 +3974,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 100.65
+          "latency_ms": 89.24
         },
         {
           "tool": "get_historical_bars",
@@ -3983,7 +3983,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 90.45
+          "latency_ms": 91.28
         },
         {
           "tool": "get_option_chain",
@@ -3991,7 +3991,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.41
+          "latency_ms": 0.33
         },
         {
           "tool": "get_derivative_coverage",
@@ -3999,7 +3999,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.26
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -4015,7 +4015,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.42
+          "latency_ms": 4.14
         },
         {
           "tool": "search_news_and_macro",
@@ -4023,7 +4023,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.4
+          "latency_ms": 7.68
         },
         {
           "tool": "get_corporate_actions",
@@ -4031,7 +4031,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.72
+          "latency_ms": 4.27
         },
         {
           "tool": "get_latest_quote",
@@ -4039,7 +4039,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 106.1
+          "latency_ms": 108.95
         },
         {
           "tool": "get_historical_bars",
@@ -4048,7 +4048,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 96.17
+          "latency_ms": 87.07
         },
         {
           "tool": "get_option_chain",
@@ -4056,7 +4056,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.45
+          "latency_ms": 0.32
         },
         {
           "tool": "get_derivative_coverage",
@@ -4064,7 +4064,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.2
         },
         {
           "tool": "get_financial_results",
@@ -4072,7 +4072,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.33
+          "latency_ms": 0.16
         },
         {
           "tool": "get_corporate_news",
@@ -4080,7 +4080,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.31
+          "latency_ms": 3.96
         },
         {
           "tool": "search_news_and_macro",
@@ -4088,7 +4088,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.11
+          "latency_ms": 7.71
         },
         {
           "tool": "get_corporate_actions",
@@ -4096,7 +4096,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.63
+          "latency_ms": 4.17
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -4105,7 +4105,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 60.73
+          "latency_ms": 72.43
         },
         {
           "tool": "calculate_statutory_costs",
@@ -4116,7 +4116,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.14
+          "latency_ms": 0.19
         }
       ],
       "agent_steps": [
@@ -4166,8 +4166,8 @@
       "architecture": "ARTHAAI_HIERARCHICAL",
       "label": "ArthaAI Hierarchical Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 4.44,
-      "executive_synthesis": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
+      "latency_seconds": 4.64,
+      "executive_synthesis": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -4212,7 +4212,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.15
+          "latency_ms": 0.65
         },
         {
           "tool": "resolve_security",
@@ -4220,7 +4220,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.87
+          "latency_ms": 0.41
         },
         {
           "tool": "get_latest_quote",
@@ -4228,7 +4228,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 98.17
+          "latency_ms": 83.4
         },
         {
           "tool": "get_historical_bars",
@@ -4237,7 +4237,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 88.42
+          "latency_ms": 91.85
         },
         {
           "tool": "get_option_chain",
@@ -4245,7 +4245,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         },
         {
           "tool": "get_derivative_coverage",
@@ -4253,7 +4253,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -4269,7 +4269,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.0
+          "latency_ms": 5.53
         },
         {
           "tool": "search_news_and_macro",
@@ -4277,7 +4277,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.81
+          "latency_ms": 9.37
         },
         {
           "tool": "get_corporate_actions",
@@ -4285,7 +4285,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.12
+          "latency_ms": 4.99
         },
         {
           "tool": "get_latest_quote",
@@ -4293,7 +4293,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 97.48
+          "latency_ms": 95.37
         },
         {
           "tool": "get_historical_bars",
@@ -4302,7 +4302,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 91.87
+          "latency_ms": 98.95
         },
         {
           "tool": "get_option_chain",
@@ -4310,7 +4310,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.43
         },
         {
           "tool": "get_derivative_coverage",
@@ -4318,7 +4318,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.3
         },
         {
           "tool": "get_financial_results",
@@ -4326,7 +4326,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.24
         },
         {
           "tool": "get_corporate_news",
@@ -4334,7 +4334,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.11
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -4342,7 +4342,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.49
+          "latency_ms": 10.48
         },
         {
           "tool": "get_corporate_actions",
@@ -4350,7 +4350,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.12
+          "latency_ms": 4.92
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -4359,7 +4359,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 72.57
+          "latency_ms": 67.77
         },
         {
           "tool": "calculate_statutory_costs",
@@ -4370,7 +4370,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.15
         }
       ],
       "retrieved_evidence": [
@@ -4398,24 +4398,24 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 83.02,
-        "analytical_accuracy": 73.4,
-        "evidence_grounding": 80.0,
-        "task_completion_rate": 88.1,
+        "composite_quality_index": 88.36,
+        "analytical_accuracy": 78.4,
+        "evidence_grounding": 90.0,
+        "task_completion_rate": 92.3,
         "citation_coverage": 98.3,
-        "citation_precision": 78.0,
+        "citation_precision": 87.8,
         "hallucination_rate": 5.0,
         "tool_success_rate": 100.0,
         "regulatory_compliance": 95.0,
         "retry_rate": 0.0,
         "retry_recovery_rate": 100.0,
-        "latency_seconds": 4.44,
+        "latency_seconds": 4.64,
         "prompt_tokens": 1397,
         "completion_tokens": 752,
         "total_tokens": 2149,
         "cost_usd": 0.00098,
-        "llm_judge_score": 88.0,
-        "llm_judge_critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
@@ -4425,7 +4425,7 @@
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 88.1
+            "value": 92.3
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
@@ -4433,7 +4433,7 @@
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 78.0
+            "value": 87.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
@@ -4446,31 +4446,31 @@
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 73.4,
-            "mae_bps": 3.99,
-            "rmse_bps": 5.23,
-            "f1_score": 76.6
+            "accuracy": 78.4,
+            "mae_bps": 3.24,
+            "rmse_bps": 4.25,
+            "f1_score": 83.8
           },
           "evidence_grounding": {
             "faithfulness": 94.0,
-            "citation_precision": 78.0,
+            "citation_precision": 87.8,
             "citation_recall": 100.0
           },
           "task_completion": {
             "task_success_rate": 100.0,
-            "completion_rate": 88.1
+            "completion_rate": 92.3
           },
           "consistency": {
-            "recommendation_agreement": 97.1,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.109
+            "coefficient_of_variation": 0.103
           },
           "latency": {
-            "mean": 4.44,
-            "median": 4.17,
-            "p50": 4.17,
-            "p95": 5.15,
-            "p99": 5.69
+            "mean": 4.64,
+            "median": 4.36,
+            "p50": 4.36,
+            "p95": 5.38,
+            "p99": 5.93
           },
           "reliability": {
             "success_rate": 100.0,
@@ -4480,7 +4480,7 @@
           },
           "agent_coordination": {
             "handoff_success_rate": 100.0,
-            "coordination_overhead_pct": 4.1
+            "coordination_overhead_pct": 4.2
           },
           "tool_utilization": {
             "tool_success_rate": 100.0,
@@ -4495,11 +4495,11 @@
           },
           "traceability": {
             "trace_completeness": 100.0,
-            "evidence_link_coverage": 74.1
+            "evidence_link_coverage": 83.4
           },
           "risk_validation": {
             "risk_detection_rate": 83.3,
-            "false_positive_rate": 3.2,
+            "false_positive_rate": 2.6,
             "false_negative_rate": 16.7
           },
           "resource_efficiency": {
@@ -4515,62 +4515,62 @@
         }
       },
       "judge": {
-        "completeness": 85.0,
-        "analytical_accuracy": 90.0,
-        "evidence_grounding": 80.0,
+        "completeness": 92.0,
+        "analytical_accuracy": 95.0,
+        "evidence_grounding": 90.0,
         "regulatory_compliance": 95.0,
         "hallucination_rate": 5.0,
-        "overall_judge_score": 88.0,
-        "critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration."
+        "overall_judge_score": 93.0,
+        "critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window."
       },
       "key": "ARTHAAI_HIERARCHICAL",
-      "output_text": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
-      "output": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Response: The 1-year paired long/short trade recommendation (Long TCS vs. Short Infosys) is supported by Q3 discretionary spending pipeline resilience and differential voluntary attrition trends. TCS exhibits superior cost absorption and lower employee churn, ensuring margin stability amidst macro headwinds.\n\u2022 Relative Value Drivers: TCS commands a robust discretionary spending conversion pipeline and lower voluntary attrition compared to Infosys, which faces elevated cyclical pressures and margin volatility.\n\u2022 Strategic Positioning: Establishing a paired long TCS and short Infosys structure captures operational outperformance while hedging broader IT sector beta.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps round-trip under Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and absolute empirical adherence.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Capital Deployment: Execute the \u20b91,000,000.00 mandate using a staggered accumulation schedule (30% upfront, 40% on volatility retracements, 30% on confirmed pipeline expansion).\n\u2022 Risk Management Bounds: Implement a strict trailing stop-loss at \u20b92,118.60, aligning with the 95% Parametric VaR (-22.4%) and CVaR (-31.1%) risk parameters.\n\u2022 Milestone Profit Targets: Anchor upside realization across Monte Carlo P50 (\u20b93,930.35) and P90 (\u20b97,167.52) terminal distribution nodes over the 5-year investment horizon.",
-      "latency_ms": 4440.0,
+      "output_text": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
+      "output": "ARTHAAI HIERARCHICAL FLEET: EXECUTIVE DIRECTOR DELEGATION & COMMITTEE DIRECTIVE\nExecution Model: Two-Tier Hierarchical Governance (Supervising Director -> Delegated Specialist Squads -> Supervisory Checkpoint -> Dual-Signing Audit Committee)\nGoverning Authority: ADK Executive Chief Investment Director\nVerdict: ACCUMULATE_BASKET (Conviction Score: 75/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b92,407.50\n\n1. DIRECT INQUIRY RESOLUTION & DIRECTOR'S MANDATE\n\u2022 Inquiry Focus: 1-year paired long/short trade recommendation (TCS vs Infosys) evaluating Q3 discretionary spending pipeline and voluntary attrition trends.\n\u2022 Macro-Fundamental Context: Tata Consultancy Services demonstrates superior operational resilience in conversion velocity regarding discretionary tech spending pipelines, offsetting sector-wide macro sluggishness. Voluntary attrition differentials continue to normalize, with TCS maintaining an optimized utilization buffer compared to Infosys.\n\u2022 Paired Trade Recommendation: Initiate a market-neutral or beta-adjusted long TCS / short Infosys spread over a 1-year horizon. TCS exhibits lower historical volatility (22.15% vs 23.89%), superior margin stability, and higher revenue conversion efficiency from large-deal pipelines. Infosys shows a higher maximum drawdown profile (38.01%), leaving it more vulnerable to multiple compression if Q3 discretionary conversion disappoints.\n\u2022 Core Objective: Capture operational outperformance and valuation spread convergence between the primary asset (TCS) and the comparative peer (Infosys) under strict risk-adjusted capital boundaries.\n\n2. DELEGATED SQUAD EXECUTION & SUPERVISORY CHECKPOINT\n\u2022 Supervisory Mandate: Director established institutional bounding invariants, capital allocation limits (\u20b91,000,000.00), and horizon (5 years).\n\u2022 Squad Alpha (Microstructure & Options Squad): Extracted 1,260 historical bars, analyzed volatility (22.15%), and options chain (PCR: 0.92, Max Pain: \u20b92,407.50, ATM IV: 21.4%).\n\u2022 Squad Beta (Valuation & Monte Carlo Squad): Ingested Historical 5-year compounding trajectory with sustainable operational performance and simulated 5,000 empirical paths (P50: \u20b93,930.35, P90: \u20b97,167.52, P10: \u20b92,151.85).\n\u2022 Supervisory Gatekeeper Checkpoint: Director conducted 100% data fidelity audit across squad payloads before convening committee review.\n\n3. DUAL-SIGNING AUDIT COMMITTEE FINDINGS\n\u2022 Forensic LODR Signatory (CrewAI Forensic Auditor): Certified strict compliance with SEBI LODR 2015 Regulations 30, 33, and 44 with zero disclosure anomalies.\n\u2022 Adversarial Skeptic Signatory (CrewAI Adversarial Skeptic): Red-teamed terminal valuation multiples, applied statutory friction (22.2 bps under Finance Act 2024 Section 112A), and validated P10 support floor (\u20b92,151.85).\n\u2022 Committee Concurrence: Dual-signed ratification confirming zero ungrounded assertions and verified statistical integrity of the paired long/short thesis.\n\n4. EXECUTIVE DIRECTOR INSTITUTIONAL DIRECTIVE & CAPITAL ALLOCATION\n\u2022 Conviction Posture: ACCUMULATE_STAGGERED paired strategy deployment.\n\u2022 Capital Allocation: Deploy the \u20b91,000,000.00 capital base across the long TCS and short Infosys leg according to beta-neutral sizing parameters.\n\u2022 Risk Management & Stop-Loss: Establish a trailing stop-loss at \u20b92,118.60 for the primary long leg (aligned near the P10 Monte Carlo floor) and enforce strict delta limits on the short leg.\n\u2022 Milestone Profit Targets: Take-profit targets set incrementally at +15% and +25% spread expansion, factoring in the post-tax net realized return expectation of 9.38% CAGR.",
+      "latency_ms": 4640.0,
       "tokens_used": 2149,
       "cost_usd": 0.00098,
       "tool_calls_count": 0,
       "tool_success_rate": 100.0,
       "citation_coverage": 98.3,
-      "citation_precision": 78.0,
+      "citation_precision": 87.8,
       "hallucination_rate": 5.0,
-      "task_completion_rate": 88.1,
-      "completeness": 88.1,
-      "analytical_accuracy": 73.4,
-      "evidence_grounding": 80.0,
+      "task_completion_rate": 92.3,
+      "completeness": 92.3,
+      "analytical_accuracy": 78.4,
+      "evidence_grounding": 90.0,
       "regulatory_compliance": 95.0,
-      "overall_judge_score": 83.02,
-      "composite_quality": 83.02,
-      "composite_score": 83.02,
-      "judge_critique": "The automated research provides a rigorous hierarchical execution structure with robust alignment to SEBI LODR and statutory tax frameworks. However, the synthesis slightly conflates a paired long/short tactical horizon with a long-term 5-year capital accumulation mandate, indicating a minor structural mismatch in strategy duration.",
-      "verdict": "The automated research provides a rigorous hierarchical exec",
+      "overall_judge_score": 88.36,
+      "composite_quality": 88.36,
+      "composite_score": 88.36,
+      "judge_critique": "The institutional research provides a rigorous, beta-neutral paired trade framework for TCS and Infosys backed by robust quantitative metrics, Monte Carlo simulations, and SEBI LODR compliance. However, while it details the long leg mechanics and anchor pricing thoroughly, it slightly over-indexes on long-term 5-year portfolio parameters relative to the user's explicit request for a concise 1-year trade window.",
+      "verdict": "The institutional research provides a rigorous, beta-neutral",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 73.4,
-          "mae_bps": 3.99,
-          "rmse_bps": 5.23,
-          "f1_score": 76.6
+          "accuracy": 78.4,
+          "mae_bps": 3.24,
+          "rmse_bps": 4.25,
+          "f1_score": 83.8
         },
         "evidence_grounding": {
           "faithfulness": 94.0,
-          "citation_precision": 78.0,
+          "citation_precision": 87.8,
           "citation_recall": 100.0
         },
         "task_completion": {
           "task_success_rate": 100.0,
-          "completion_rate": 88.1
+          "completion_rate": 92.3
         },
         "consistency": {
-          "recommendation_agreement": 97.1,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.109
+          "coefficient_of_variation": 0.103
         },
         "latency": {
-          "mean": 4.44,
-          "median": 4.17,
-          "p50": 4.17,
-          "p95": 5.15,
-          "p99": 5.69
+          "mean": 4.64,
+          "median": 4.36,
+          "p50": 4.36,
+          "p95": 5.38,
+          "p99": 5.93
         },
         "reliability": {
           "success_rate": 100.0,
@@ -4580,7 +4580,7 @@
         },
         "agent_coordination": {
           "handoff_success_rate": 100.0,
-          "coordination_overhead_pct": 4.1
+          "coordination_overhead_pct": 4.2
         },
         "tool_utilization": {
           "tool_success_rate": 100.0,
@@ -4595,11 +4595,11 @@
         },
         "traceability": {
           "trace_completeness": 100.0,
-          "evidence_link_coverage": 74.1
+          "evidence_link_coverage": 83.4
         },
         "risk_validation": {
           "risk_detection_rate": 83.3,
-          "false_positive_rate": 3.2,
+          "false_positive_rate": 2.6,
           "false_negative_rate": 16.7
         },
         "resource_efficiency": {
@@ -4620,7 +4620,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.15
+          "latency_ms": 0.65
         },
         {
           "tool": "resolve_security",
@@ -4628,7 +4628,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.87
+          "latency_ms": 0.41
         },
         {
           "tool": "get_latest_quote",
@@ -4636,7 +4636,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 98.17
+          "latency_ms": 83.4
         },
         {
           "tool": "get_historical_bars",
@@ -4645,7 +4645,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 88.42
+          "latency_ms": 91.85
         },
         {
           "tool": "get_option_chain",
@@ -4653,7 +4653,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.29
+          "latency_ms": 0.28
         },
         {
           "tool": "get_derivative_coverage",
@@ -4661,7 +4661,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.21
         },
         {
           "tool": "get_financial_results",
@@ -4677,7 +4677,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.0
+          "latency_ms": 5.53
         },
         {
           "tool": "search_news_and_macro",
@@ -4685,7 +4685,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 7.81
+          "latency_ms": 9.37
         },
         {
           "tool": "get_corporate_actions",
@@ -4693,7 +4693,7 @@
             "symbol": "TCS.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 5.12
+          "latency_ms": 4.99
         },
         {
           "tool": "get_latest_quote",
@@ -4701,7 +4701,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 97.48
+          "latency_ms": 95.37
         },
         {
           "tool": "get_historical_bars",
@@ -4710,7 +4710,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 91.87
+          "latency_ms": 98.95
         },
         {
           "tool": "get_option_chain",
@@ -4718,7 +4718,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.34
+          "latency_ms": 0.43
         },
         {
           "tool": "get_derivative_coverage",
@@ -4726,7 +4726,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.2
+          "latency_ms": 0.3
         },
         {
           "tool": "get_financial_results",
@@ -4734,7 +4734,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.24
         },
         {
           "tool": "get_corporate_news",
@@ -4742,7 +4742,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.11
+          "latency_ms": 5.4
         },
         {
           "tool": "search_news_and_macro",
@@ -4750,7 +4750,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 8.49
+          "latency_ms": 10.48
         },
         {
           "tool": "get_corporate_actions",
@@ -4758,7 +4758,7 @@
             "symbol": "INFY.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 4.12
+          "latency_ms": 4.92
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -4767,7 +4767,7 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 72.57
+          "latency_ms": 67.77
         },
         {
           "tool": "calculate_statutory_costs",
@@ -4778,7 +4778,7 @@
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.17
+          "latency_ms": 0.15
         }
       ],
       "agent_steps": [

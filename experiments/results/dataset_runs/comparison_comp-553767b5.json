@@ -1,6 +1,6 @@
 {
   "comparison_id": "comp-553767b5",
-  "timestamp": "2026-11-14T14:41:10.115317+00:00",
+  "timestamp": "2026-11-14T15:16:28.992586+00:00",
   "run_type": "DATASET",
   "query": "What is the valuation unlock and dividend yield outlook for ITC shareholders following the hospitality business spinoff?",
   "target_symbols": [
@@ -10,7 +10,7 @@
   "symbol": "ITC.NS",
   "winning_architecture": "ArthaAI Hierarchical Fleet",
   "winning_score": 88.62,
-  "total_elapsed_seconds": 69.98,
+  "total_elapsed_seconds": 30.46,
   "storyline_summary": "On the inquiry 'What is the valuation unlock and dividend yield outlook for ITC shareholders following the hospitality business spinoff?', ArthaAI Hierarchical Fleet achieved the highest institutional score (88.62/100) with 5.0% hallucination and 97.0% completeness. In contrast, Single-Agent Solitary Prompt registered 37.45/100 with 35.0% unsupported claims. Multi-agent cross-examination successfully verified Finance Act 2024 statutory drag (22.22 bps) and anchored live market quotes.",
   "pairwise_quality_delta": 51.17,
   "hallucination_reduction_pct": 30.0,
@@ -29,7 +29,7 @@
   "radar_data": [
     {
       "dimension": "Completeness",
-      "ARTHAAI_SEQUENTIAL": 87.2,
+      "ARTHAAI_SEQUENTIAL": 93.0,
       "ARTHAAI_PARALLEL": 91.2,
       "ARTHAAI_HIERARCHICAL": 97.0,
       "REACT_AGENT": 87.0,
@@ -37,7 +37,7 @@
     },
     {
       "dimension": "Accuracy",
-      "ARTHAAI_SEQUENTIAL": 72.5,
+      "ARTHAAI_SEQUENTIAL": 76.6,
       "ARTHAAI_PARALLEL": 74.6,
       "ARTHAAI_HIERARCHICAL": 76.6,
       "REACT_AGENT": 90.0,
@@ -45,7 +45,7 @@
     },
     {
       "dimension": "Evidence Grounding",
-      "ARTHAAI_SEQUENTIAL": 85.0,
+      "ARTHAAI_SEQUENTIAL": 90.0,
       "ARTHAAI_PARALLEL": 88.0,
       "ARTHAAI_HIERARCHICAL": 90.0,
       "REACT_AGENT": 31.4,
@@ -61,7 +61,7 @@
     },
     {
       "dimension": "Citation Precision",
-      "ARTHAAI_SEQUENTIAL": 82.9,
+      "ARTHAAI_SEQUENTIAL": 87.8,
       "ARTHAAI_PARALLEL": 85.8,
       "ARTHAAI_HIERARCHICAL": 87.8,
       "REACT_AGENT": 22.0,
@@ -79,10 +79,10 @@
   "bar_chart_data": [
     {
       "architecture": "ArthaAI Sequential Fleet",
-      "quality": 84.39,
-      "accuracy": 72.5,
-      "completeness": 87.2,
-      "latency_sec": 45.09,
+      "quality": 88.02,
+      "accuracy": 76.6,
+      "completeness": 93.0,
+      "latency_sec": 5.57,
       "cost_usd": 0.00085
     },
     {
@@ -123,8 +123,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 45.09,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
+      "latency_seconds": 5.57,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -144,7 +144,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9283.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9285.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -189,7 +189,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.9
+          "latency_ms": 1.4
         },
         {
           "tool": "get_latest_quote",
@@ -197,7 +197,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3472.34
+          "latency_ms": 310.75
         },
         {
           "tool": "get_historical_bars",
@@ -206,7 +206,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 740.9
+          "latency_ms": 268.34
         },
         {
           "tool": "get_option_chain",
@@ -214,7 +214,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.71
+          "latency_ms": 1.17
         },
         {
           "tool": "get_derivative_coverage",
@@ -222,7 +222,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.24
+          "latency_ms": 1.33
         },
         {
           "tool": "get_financial_results",
@@ -230,7 +230,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.02
+          "latency_ms": 0.78
         },
         {
           "tool": "get_corporate_news",
@@ -238,7 +238,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 34.31
+          "latency_ms": 14.09
         },
         {
           "tool": "search_news_and_macro",
@@ -246,7 +246,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 121.79
+          "latency_ms": 25.08
         },
         {
           "tool": "get_corporate_actions",
@@ -254,7 +254,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 56.4
+          "latency_ms": 13.79
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -263,18 +263,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 581.82
+          "latency_ms": 137.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 283.1,
-            "quantity": 3532,
+            "price": 285.0,
+            "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.35
+          "latency_ms": 0.25
         }
       ],
       "retrieved_evidence": [
@@ -302,34 +302,34 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 84.39,
-        "analytical_accuracy": 72.5,
-        "evidence_grounding": 85,
-        "task_completion_rate": 87.2,
+        "composite_quality_index": 88.02,
+        "analytical_accuracy": 76.6,
+        "evidence_grounding": 90.0,
+        "task_completion_rate": 93.0,
         "citation_coverage": 98.3,
-        "citation_precision": 82.9,
-        "hallucination_rate": 5,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 45.09,
+        "citation_precision": 87.8,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.57,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 90,
-        "llm_judge_critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 87.2
+            "value": 93.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
@@ -337,184 +337,182 @@
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 82.9
+            "value": 87.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 5
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 72.5,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 78.3
+            "accuracy": 76.6,
+            "mae_bps": 3.51,
+            "rmse_bps": 4.6,
+            "f1_score": 82.8
           },
           "evidence_grounding": {
-            "faithfulness": 94,
-            "citation_precision": 82.9,
-            "citation_recall": 100
+            "faithfulness": 94.0,
+            "citation_precision": 87.8,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 87.2
+            "task_success_rate": 100.0,
+            "completion_rate": 93.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.104
           },
           "latency": {
-            "mean": 45.09,
-            "median": 42.39,
-            "p50": 42.39,
-            "p95": 52.31,
-            "p99": 57.72
+            "mean": 5.57,
+            "median": 5.24,
+            "p50": 5.24,
+            "p95": 6.47,
+            "p99": 7.13
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 78.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 83.4
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 3.3,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 2.8,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
             "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 92,
-        "analytical_accuracy": 88,
-        "evidence_grounding": 85,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 5,
-        "overall_judge_score": 90,
-        "critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business."
+        "completeness": 95.0,
+        "analytical_accuracy": 92.0,
+        "evidence_grounding": 90.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 93.0,
+        "critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
-      "latency_ms": 45090.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
+      "latency_ms": 5570.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
+      "tool_success_rate": 100.0,
       "citation_coverage": 98.3,
-      "citation_precision": 82.9,
-      "hallucination_rate": 5,
-      "task_completion_rate": 87.2,
-      "completeness": 87.2,
-      "analytical_accuracy": 72.5,
-      "evidence_grounding": 85,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 84.39,
-      "composite_quality": 84.39,
-      "composite_score": 84.39,
-      "judge_critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business.",
-      "verdict": "The institutional report provides a thorough, highly structu",
+      "citation_precision": 87.8,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 93.0,
+      "completeness": 93.0,
+      "analytical_accuracy": 76.6,
+      "evidence_grounding": 90.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 88.02,
+      "composite_quality": 88.02,
+      "composite_score": 88.02,
+      "judge_critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards.",
+      "verdict": "The institutional audit report delivers a rigorous, multi-la",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 72.5,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 78.3
+          "accuracy": 76.6,
+          "mae_bps": 3.51,
+          "rmse_bps": 4.6,
+          "f1_score": 82.8
         },
         "evidence_grounding": {
-          "faithfulness": 94,
-          "citation_precision": 82.9,
-          "citation_recall": 100
+          "faithfulness": 94.0,
+          "citation_precision": 87.8,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 87.2
+          "task_success_rate": 100.0,
+          "completion_rate": 93.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.1
+          "coefficient_of_variation": 0.104
         },
         "latency": {
-          "mean": 45.09,
-          "median": 42.39,
-          "p50": 42.39,
-          "p95": 52.31,
-          "p99": 57.72
+          "mean": 5.57,
+          "median": 5.24,
+          "p50": 5.24,
+          "p95": 6.47,
+          "p99": 7.13
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 78.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 83.4
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 3.3,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 2.8,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
+          "schema_validity": 100.0,
           "completeness_score": 66.7,
           "contradiction_rate": 1.8
         }
@@ -526,7 +524,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.9
+          "latency_ms": 1.4
         },
         {
           "tool": "get_latest_quote",
@@ -534,7 +532,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3472.34
+          "latency_ms": 310.75
         },
         {
           "tool": "get_historical_bars",
@@ -543,7 +541,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 740.9
+          "latency_ms": 268.34
         },
         {
           "tool": "get_option_chain",
@@ -551,7 +549,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.71
+          "latency_ms": 1.17
         },
         {
           "tool": "get_derivative_coverage",
@@ -559,7 +557,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.24
+          "latency_ms": 1.33
         },
         {
           "tool": "get_financial_results",
@@ -567,7 +565,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.02
+          "latency_ms": 0.78
         },
         {
           "tool": "get_corporate_news",
@@ -575,7 +573,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 34.31
+          "latency_ms": 14.09
         },
         {
           "tool": "search_news_and_macro",
@@ -583,7 +581,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 121.79
+          "latency_ms": 25.08
         },
         {
           "tool": "get_corporate_actions",
@@ -591,7 +589,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 56.4
+          "latency_ms": 13.79
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -600,18 +598,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 581.82
+          "latency_ms": 137.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 283.1,
-            "quantity": 3532,
+            "price": 285.0,
+            "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.35
+          "latency_ms": 0.25
         }
       ],
       "agent_steps": [
@@ -633,7 +631,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9283.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9285.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2484,8 +2482,8 @@
       "architecture": "ARTHAAI_SEQUENTIAL",
       "label": "ArthaAI Sequential Fleet",
       "status": "SUCCESS",
-      "latency_seconds": 45.09,
-      "executive_synthesis": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
+      "latency_seconds": 5.57,
+      "executive_synthesis": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
       "agentic_flow_steps": [
         {
           "agent": "ADKResearchManager",
@@ -2505,7 +2503,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9283.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9285.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
@@ -2550,7 +2548,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.9
+          "latency_ms": 1.4
         },
         {
           "tool": "get_latest_quote",
@@ -2558,7 +2556,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3472.34
+          "latency_ms": 310.75
         },
         {
           "tool": "get_historical_bars",
@@ -2567,7 +2565,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 740.9
+          "latency_ms": 268.34
         },
         {
           "tool": "get_option_chain",
@@ -2575,7 +2573,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.71
+          "latency_ms": 1.17
         },
         {
           "tool": "get_derivative_coverage",
@@ -2583,7 +2581,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.24
+          "latency_ms": 1.33
         },
         {
           "tool": "get_financial_results",
@@ -2591,7 +2589,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.02
+          "latency_ms": 0.78
         },
         {
           "tool": "get_corporate_news",
@@ -2599,7 +2597,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 34.31
+          "latency_ms": 14.09
         },
         {
           "tool": "search_news_and_macro",
@@ -2607,7 +2605,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 121.79
+          "latency_ms": 25.08
         },
         {
           "tool": "get_corporate_actions",
@@ -2615,7 +2613,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 56.4
+          "latency_ms": 13.79
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2624,18 +2622,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 581.82
+          "latency_ms": 137.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 283.1,
-            "quantity": 3532,
+            "price": 285.0,
+            "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.35
+          "latency_ms": 0.25
         }
       ],
       "retrieved_evidence": [
@@ -2663,34 +2661,34 @@
       "anchor_price": 1438.3,
       "statutory_drag_bps": 22.22,
       "metrics": {
-        "composite_quality_index": 84.39,
-        "analytical_accuracy": 72.5,
-        "evidence_grounding": 85,
-        "task_completion_rate": 87.2,
+        "composite_quality_index": 88.02,
+        "analytical_accuracy": 76.6,
+        "evidence_grounding": 90.0,
+        "task_completion_rate": 93.0,
         "citation_coverage": 98.3,
-        "citation_precision": 82.9,
-        "hallucination_rate": 5,
-        "tool_success_rate": 100,
-        "regulatory_compliance": 95,
-        "retry_rate": 0,
-        "retry_recovery_rate": 100,
-        "latency_seconds": 45.09,
+        "citation_precision": 87.8,
+        "hallucination_rate": 5.0,
+        "tool_success_rate": 100.0,
+        "regulatory_compliance": 95.0,
+        "retry_rate": 0.0,
+        "retry_recovery_rate": 100.0,
+        "latency_seconds": 5.57,
         "prompt_tokens": 1202,
         "completion_tokens": 647,
         "total_tokens": 1849,
         "cost_usd": 0.00085,
-        "llm_judge_score": 90,
-        "llm_judge_critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business.",
+        "llm_judge_score": 93.0,
+        "llm_judge_critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards.",
         "evaluator_formulas": {
           "tool_success_rate": {
             "formula": "successful_tool_calls / total_tool_calls * 100",
             "successful_tool_calls": 11,
             "total_tool_calls": 11,
-            "value": 100
+            "value": 100.0
           },
           "task_completion_rate": {
             "formula": "completed_tasks_meeting_requirements / evaluated_tasks * 100",
-            "value": 87.2
+            "value": 93.0
           },
           "citation_coverage": {
             "formula": "supported_claims_with_valid_citations / eligible_factual_claims * 100",
@@ -2698,184 +2696,182 @@
           },
           "citation_precision": {
             "formula": "citations_that_correctly_support_their_claims / citations_checked * 100",
-            "value": 82.9
+            "value": 87.8
           },
           "hallucination_rate": {
             "formula": "unsupported_factual_claims / factual_claims_evaluated * 100",
-            "value": 5
+            "value": 5.0
           },
           "retry_recovery_rate": {
             "formula": "recovered_initial_failures / initial_failures * 100",
-            "value": 100
+            "value": 100.0
           }
         },
         "audit_areas": {
           "analytical_accuracy": {
-            "accuracy": 72.5,
-            "mae_bps": 2.9,
-            "rmse_bps": 3.8,
-            "f1_score": 78.3
+            "accuracy": 76.6,
+            "mae_bps": 3.51,
+            "rmse_bps": 4.6,
+            "f1_score": 82.8
           },
           "evidence_grounding": {
-            "faithfulness": 94,
-            "citation_precision": 82.9,
-            "citation_recall": 100
+            "faithfulness": 94.0,
+            "citation_precision": 87.8,
+            "citation_recall": 100.0
           },
           "task_completion": {
-            "task_success_rate": 96.9,
-            "completion_rate": 87.2
+            "task_success_rate": 100.0,
+            "completion_rate": 93.0
           },
           "consistency": {
-            "recommendation_agreement": 96.4,
+            "recommendation_agreement": 97.2,
             "std_deviation": 8.8,
-            "coefficient_of_variation": 0.1
+            "coefficient_of_variation": 0.104
           },
           "latency": {
-            "mean": 45.09,
-            "median": 42.39,
-            "p50": 42.39,
-            "p95": 52.31,
-            "p99": 57.72
+            "mean": 5.57,
+            "median": 5.24,
+            "p50": 5.24,
+            "p95": 6.47,
+            "p99": 7.13
           },
           "reliability": {
-            "success_rate": 100,
-            "failure_rate": 0,
-            "retry_rate": 0,
-            "recovery_rate": 100
+            "success_rate": 100.0,
+            "failure_rate": 0.0,
+            "retry_rate": 0.0,
+            "recovery_rate": 100.0
           },
           "agent_coordination": {
-            "handoff_success_rate": 100,
-            "coordination_overhead_pct": 8.8
+            "handoff_success_rate": 100.0,
+            "coordination_overhead_pct": 3.0
           },
           "tool_utilization": {
-            "tool_success_rate": 100,
-            "tool_error_rate": 0,
+            "tool_success_rate": 100.0,
+            "tool_error_rate": 0.0,
             "calls_per_task": 11
           },
           "rag_retrieval": {
-            "precision_at_k": 0.6,
-            "recall_at_k": 0.6,
-            "mrr": 0.92,
-            "ndcg_at_k": 0.82
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "mrr": 0.0,
+            "ndcg_at_k": 0.0
           },
           "traceability": {
-            "trace_completeness": 100,
-            "evidence_link_coverage": 78.8
+            "trace_completeness": 100.0,
+            "evidence_link_coverage": 83.4
           },
           "risk_validation": {
-            "risk_detection_rate": 100,
-            "false_positive_rate": 3.3,
-            "false_negative_rate": 0
+            "risk_detection_rate": 83.3,
+            "false_positive_rate": 2.8,
+            "false_negative_rate": 16.7
           },
           "resource_efficiency": {
             "tokens_per_task": 1849,
-            "cost_per_task": 0.00026,
-            "api_calls_per_task": 13,
-            "is_free_tier": true
+            "cost_per_task": 0.00085,
+            "api_calls_per_task": 13
           },
           "output_quality": {
-            "schema_validity": 100,
+            "schema_validity": 100.0,
             "completeness_score": 66.7,
             "contradiction_rate": 1.8
           }
         }
       },
       "judge": {
-        "completeness": 92,
-        "analytical_accuracy": 88,
-        "evidence_grounding": 85,
-        "regulatory_compliance": 95,
-        "hallucination_rate": 5,
-        "overall_judge_score": 90,
-        "critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business."
+        "completeness": 95.0,
+        "analytical_accuracy": 92.0,
+        "evidence_grounding": 90.0,
+        "regulatory_compliance": 95.0,
+        "hallucination_rate": 5.0,
+        "overall_judge_score": 93.0,
+        "critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards."
       },
       "key": "ARTHAAI_SEQUENTIAL",
-      "output_text": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
-      "output": "# ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\n**Execution Model**: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\n**Chain of Custody**: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\n**Verdict**: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\n**Target Horizon**: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9283.10\n\n## 1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe spinoff of ITC's capital-intensive hospitality business unlocks substantial shareholder value by removing a drag on return ratios and allowing a pure-play re-rating of the core FMCG and cash-generative cigarette segments. Shareholders will receive direct equity shares in the newly listed hospitality entity proportionate to their existing holdings, crystallizing hidden asset value. Regarding dividend yield, while the payout ratio may experience a minor recalibration to support the core business growth post-spinoff, ITC is expected to maintain its status as an elite dividend yield generator due to its robust free cash flow conversion and low capital expenditure requirements in the mature tobacco segment. The sequential pipeline validates an ACCUMULATE stance with an 84/100 conviction score, driven by a P50 Monte Carlo price target of \u20b9502.54 over the 5-year horizon, supported by a 16.5% ROE and balanced 0.45x debt-to-equity profile.\n\n## 2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n- Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9283.10).\n- Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable Return on Equity (16.5% ROE) and balanced leverage (Debt/Equity: 0.45x).) and simulated 5,000 empirical paths (P50: \u20b9502.54, P90: \u20b9800.63, P10: \u20b9315.06).\n- Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n- Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n- Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n## 3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\nCapital deployment is structured for the \u20b91,000,000.00 base via a phased accumulation strategy. An initial deployment of 40% (\u20b9400,000) is allocated at the anchor price of \u20b9283.10, with subsequent tranches deployed systematically upon volatility contractions or minor technical pullbacks. A trailing stop-loss boundary is hard-coded at \u20b9249.13 (representing a 12% maximum drawdown tolerance from the anchor), anchored by the 1-Year 95% Parametric VaR of -13.8% and CVaR of -20.6%. Milestone profit targets are mapped to the P50 Monte Carlo projection of \u20b9502.54 (representing a 12.16% CAGR) and the P90 aggressive target of \u20b9800.63, ensuring strict adherence to risk-adjusted return parameters and the 79.5% probability threshold of beating the 5.49% CPI inflation rate.",
-      "latency_ms": 45090.0,
+      "output_text": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
+      "output": "ARTHAAI SEQUENTIAL FLEET: DETERMINISTIC PIPELINE AUDIT REPORT\nExecution Model: 7-Agent Linear Relay Pipeline (Step-by-Step Cumulative Refinement)\nChain of Custody: ADK Research Manager -> Microstructure Specialist -> Quant Specialist -> News Macro Specialist -> Risk Validator -> Forensic Auditor -> Adversarial Skeptic -> Executive Sign-Off\nVerdict: ACCUMULATE (Conviction Score: 84/100 \u2022 ACCUMULATE_STAGGERED)\nTarget Horizon: 5 Years \u2022 Capital Base: \u20b91,000,000.00 \u2022 Anchor Price: \u20b9285.00\n\n1. DIRECT INQUIRY RESOLUTION & PIPELINE VERDICT\nThe hospitality business spinoff of ITC Ltd unlocks trapped capital by separating a capital-intensive, lower-return hotel segment from its high-margin, cash-generative cigarette and FMCG core. Shareholders receive direct equity stakes in the newly listed hotel entity proportional to their existing holdings, removing the conglomerate discount historically applied to ITC's valuation multiples. Concurrently, the core tobacco and FMCG segments retain an exceptionally strong free cash flow profile, sustaining ITC's industry-leading dividend yield outlook (historically ranging between 3 percent to 5 percent), albeit with modest cash-per-share adjustments post-spinoff as capital expenditure requirements shift to the standalone hospitality vehicle. \n\nThe 7-agent sequential pipeline progressively refined this thesis: the Microstructure Agent mapped liquidity and options pricing at the \u20b9285.00 anchor; the Quant Agent deployed a 5,000-path Monte Carlo simulation establishing a P50 target of \u20b9505.92 and a 79.5 percent probability of beating CPI inflation; the Tax and Risk Agents applied Finance Act 2024 frictions and stress-tested downside floors; and the Adversarial Skeptic validated conglomerate discount compression before final executive sign-off at an 84/100 conviction score.\n\n2. STAGE-BY-STAGE CUMULATIVE REFINEMENT TRAIL\n\u2022 Stage 1 (Microstructure Handoff): Ingested 1,260 historical daily bars, computed annualized volatility (19.12%), and options chain (PCR: 0.92, Max Pain: \u20b9285.00).\n\u2022 Stage 2 (Quantitative Valuation Handoff): Processed corporate financials (Historical 5-year compounding trajectory with sustainable operational performance.) and simulated 5,000 empirical paths (P50: \u20b9505.92, P90: \u20b9806.00, P10: \u20b9317.17). Established a 79.5% probability of outperforming CPI inflation over 5 years.\n\u2022 Stage 3 (Statutory Tax Friction Handoff): Deducted Finance Act 2024 statutory friction (22.2 bps), post-tax net return 11.07%.\n\u2022 Stage 4 (Forensic SEBI Audit Handoff): Audited SEBI LODR 2015 Reg 30/33/44, confirming clean compliance.\n\u2022 Stage 5 (Adversarial Skeptic Handoff): Red-teamed terminal growth multiples and verified downside P10 risk floor.\n\n3. PIPELINE INVARIANTS & CONVICTION ALLOCATION\n\u2022 Capital Base Allocation: Total deployable capital is \u20b91,000,000.00 structured across a staged accumulation model to mitigate near-term volatility and event-driven friction around the record dates.\n\u2022 Initial Tranche: Deploy 40 percent (\u20b9400,000.00) immediately at the anchor price of \u20b9285.00, acquiring approximately 1,403 shares.\n\u2022 Staggered Accumulation Tranche: Deploy remaining 60 percent (\u20b9600,000.00) in two equal tranches of \u20b9300,000.00 upon confirmation of structural support holding or secondary pullback phases.\n\u2022 Stop-Loss Boundary: Trailing stop-loss fixed at 12 percent below anchor price, establishing a hard stop boundary at \u20b9250.80.\n\u2022 Profit Targets and Milestones: Milestone 1 target at \u20b9425.00 (trim 25 percent position); Milestone 2 target at P50 Median projection of \u20b9505.92 (trim 50 percent position); terminal holding managed dynamically against the P90 path trajectory of \u20b9806.00.",
+      "latency_ms": 5570.0,
       "tokens_used": 1849,
       "cost_usd": 0.00085,
       "tool_calls_count": 0,
-      "tool_success_rate": 100,
+      "tool_success_rate": 100.0,
       "citation_coverage": 98.3,
-      "citation_precision": 82.9,
-      "hallucination_rate": 5,
-      "task_completion_rate": 87.2,
-      "completeness": 87.2,
-      "analytical_accuracy": 72.5,
-      "evidence_grounding": 85,
-      "regulatory_compliance": 95,
-      "overall_judge_score": 84.39,
-      "composite_quality": 84.39,
-      "composite_score": 84.39,
-      "judge_critique": "The institutional report provides a thorough, highly structured analysis of ITC's hospitality spinoff, valuation unlock, and dividend outlook. It robustly incorporates Indian statutory frictions, SEBI compliance frameworks, and quantitative risk metrics (VaR, Monte Carlo paths). Minor enhancements could include a deeper explicit projection on the exact EBITDA margin impact of the hotel segment removal on the core FMCG business.",
-      "verdict": "The institutional report provides a thorough, highly structu",
+      "citation_precision": 87.8,
+      "hallucination_rate": 5.0,
+      "task_completion_rate": 93.0,
+      "completeness": 93.0,
+      "analytical_accuracy": 76.6,
+      "evidence_grounding": 90.0,
+      "regulatory_compliance": 95.0,
+      "overall_judge_score": 88.02,
+      "composite_quality": 88.02,
+      "composite_score": 88.02,
+      "judge_critique": "The institutional audit report delivers a rigorous, multi-layered evaluation of the ITC hospitality spinoff, seamlessly integrating quantitative Monte Carlo simulations with Indian statutory tax and regulatory frameworks. The analysis successfully addresses valuation unlock mechanics and dividend yield impacts while maintaining strict adherence to SEBI and Finance Act 2024 compliance standards.",
+      "verdict": "The institutional audit report delivers a rigorous, multi-la",
       "audit_areas": {
         "analytical_accuracy": {
-          "accuracy": 72.5,
-          "mae_bps": 2.9,
-          "rmse_bps": 3.8,
-          "f1_score": 78.3
+          "accuracy": 76.6,
+          "mae_bps": 3.51,
+          "rmse_bps": 4.6,
+          "f1_score": 82.8
         },
         "evidence_grounding": {
-          "faithfulness": 94,
-          "citation_precision": 82.9,
-          "citation_recall": 100
+          "faithfulness": 94.0,
+          "citation_precision": 87.8,
+          "citation_recall": 100.0
         },
         "task_completion": {
-          "task_success_rate": 96.9,
-          "completion_rate": 87.2
+          "task_success_rate": 100.0,
+          "completion_rate": 93.0
         },
         "consistency": {
-          "recommendation_agreement": 96.4,
+          "recommendation_agreement": 97.2,
           "std_deviation": 8.8,
-          "coefficient_of_variation": 0.1
+          "coefficient_of_variation": 0.104
         },
         "latency": {
-          "mean": 45.09,
-          "median": 42.39,
-          "p50": 42.39,
-          "p95": 52.31,
-          "p99": 57.72
+          "mean": 5.57,
+          "median": 5.24,
+          "p50": 5.24,
+          "p95": 6.47,
+          "p99": 7.13
         },
         "reliability": {
-          "success_rate": 100,
-          "failure_rate": 0,
-          "retry_rate": 0,
-          "recovery_rate": 100
+          "success_rate": 100.0,
+          "failure_rate": 0.0,
+          "retry_rate": 0.0,
+          "recovery_rate": 100.0
         },
         "agent_coordination": {
-          "handoff_success_rate": 100,
-          "coordination_overhead_pct": 8.8
+          "handoff_success_rate": 100.0,
+          "coordination_overhead_pct": 3.0
         },
         "tool_utilization": {
-          "tool_success_rate": 100,
-          "tool_error_rate": 0,
+          "tool_success_rate": 100.0,
+          "tool_error_rate": 0.0,
           "calls_per_task": 11
         },
         "rag_retrieval": {
-          "precision_at_k": 0.6,
-          "recall_at_k": 0.6,
-          "mrr": 0.92,
-          "ndcg_at_k": 0.82
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0
         },
         "traceability": {
-          "trace_completeness": 100,
-          "evidence_link_coverage": 78.8
+          "trace_completeness": 100.0,
+          "evidence_link_coverage": 83.4
         },
         "risk_validation": {
-          "risk_detection_rate": 100,
-          "false_positive_rate": 3.3,
-          "false_negative_rate": 0
+          "risk_detection_rate": 83.3,
+          "false_positive_rate": 2.8,
+          "false_negative_rate": 16.7
         },
         "resource_efficiency": {
           "tokens_per_task": 1849,
-          "cost_per_task": 0.00026,
-          "api_calls_per_task": 13,
-          "is_free_tier": true
+          "cost_per_task": 0.00085,
+          "api_calls_per_task": 13
         },
         "output_quality": {
-          "schema_validity": 100,
+          "schema_validity": 100.0,
           "completeness_score": 66.7,
           "contradiction_rate": 1.8
         }
@@ -2887,7 +2883,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 6.9
+          "latency_ms": 1.4
         },
         {
           "tool": "get_latest_quote",
@@ -2895,7 +2891,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 3472.34
+          "latency_ms": 310.75
         },
         {
           "tool": "get_historical_bars",
@@ -2904,7 +2900,7 @@
             "limit": 1260
           },
           "status": "SUCCESS",
-          "latency_ms": 740.9
+          "latency_ms": 268.34
         },
         {
           "tool": "get_option_chain",
@@ -2912,7 +2908,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.71
+          "latency_ms": 1.17
         },
         {
           "tool": "get_derivative_coverage",
@@ -2920,7 +2916,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.24
+          "latency_ms": 1.33
         },
         {
           "tool": "get_financial_results",
@@ -2928,7 +2924,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 1.02
+          "latency_ms": 0.78
         },
         {
           "tool": "get_corporate_news",
@@ -2936,7 +2932,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 34.31
+          "latency_ms": 14.09
         },
         {
           "tool": "search_news_and_macro",
@@ -2944,7 +2940,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 121.79
+          "latency_ms": 25.08
         },
         {
           "tool": "get_corporate_actions",
@@ -2952,7 +2948,7 @@
             "symbol": "ITC.NS"
           },
           "status": "SUCCESS",
-          "latency_ms": 56.4
+          "latency_ms": 13.79
         },
         {
           "tool": "retrieve_regulatory_evidence",
@@ -2961,18 +2957,18 @@
             "limit": 4
           },
           "status": "SUCCESS",
-          "latency_ms": 581.82
+          "latency_ms": 137.58
         },
         {
           "tool": "calculate_statutory_costs",
           "arguments": {
             "instrument_type": "EQUITY_DELIVERY",
-            "price": 283.1,
-            "quantity": 3532,
+            "price": 285.0,
+            "quantity": 3508,
             "transaction_type": "ROUND_TRIP"
           },
           "status": "SUCCESS",
-          "latency_ms": 0.35
+          "latency_ms": 0.25
         }
       ],
       "agent_steps": [
@@ -2994,7 +2990,7 @@
         {
           "agent": "ADKMicrostructureSpecialist",
           "action": "Step 3: 5-Year Options Chain & Derivatives Surface Audit",
-          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9283.1)."
+          "details": "Audited active option contracts (PCR: 0.92, Max Pain: \u20b9285.0)."
         },
         {
           "agent": "ADKQuantSpecialist",
