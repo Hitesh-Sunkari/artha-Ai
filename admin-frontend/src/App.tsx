@@ -790,7 +790,7 @@ export const App: React.FC = () => {
           id: 'benchmark' as AdminSubTab,
           label: '3. Benchmark & Eval Studio',
           icon: FlaskConical,
-          count: `38 Scenarios • ${benchmarkRunsCount || 64} Runs`,
+          count: `48 Scenarios • ${benchmarkRunsCount || 72} Runs`,
         },
       ],
     },
@@ -1888,7 +1888,7 @@ export const App: React.FC = () => {
                           fontFamily: 'var(--font-mono)',
                         }}
                       >
-                        38 CANONICAL SCENARIOS • {benchmarkRunsCount || 64} RUNS
+                        48 CANONICAL SCENARIOS • {benchmarkRunsCount || 72} RUNS
                       </span>
                     </div>
                     <p style={{ fontSize: '12px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>

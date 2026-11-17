@@ -1725,7 +1725,7 @@ class LiveEvaluationController:
                         all_files.append(f)
         all_files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
 
-        # Load canonical benchmark suite CSV metadata (38 scenarios)
+        # Load canonical benchmark suite CSV metadata (48 canonical scenarios: 6 personas * 8 scenarios)
         repo_root = Path(__file__).resolve().parent.parent.parent.parent
         csv_path = repo_root / "experiments" / "datasets" / "arthaai_evaluation_benchmark_suite.csv"
         csv_map: dict[str, dict[str, Any]] = {}
@@ -1754,7 +1754,7 @@ class LiveEvaluationController:
                 "total_runs_count": 0,
                 "single_runs_count": 0,
                 "dataset_runs_count": 0,
-                "canonical_scenarios_count": len(csv_rows) or 38,
+                "canonical_scenarios_count": len(csv_rows) or 48,
                 "slice_filter": slice_filter,
                 "message": "No evaluation runs recorded yet. Execute runs in Tab 1 or Tab 2 to dynamically calculate empirical scores.",
                 "kpis": {},
@@ -1813,7 +1813,7 @@ class LiveEvaluationController:
                 "total_runs_count": 0,
                 "single_runs_count": 0,
                 "dataset_runs_count": 0,
-                "canonical_scenarios_count": len(csv_rows) or 38,
+                "canonical_scenarios_count": len(csv_rows) or 48,
                 "slice_filter": slice_filter,
                 "message": "No valid runs found on disk.",
                 "kpis": {},
@@ -2159,7 +2159,7 @@ class LiveEvaluationController:
             "all_runs_count": len(all_runs),
             "single_runs_count": single_count,
             "dataset_runs_count": dataset_count,
-            "canonical_scenarios_count": len(csv_rows) or 38,
+            "canonical_scenarios_count": len(csv_rows) or 48,
             "slice_filter": slice_upper,
             "composite_quality": avg_quality,
             "pooled_multi_quality": round(statistics.mean(multi_agent_scores), 1) if multi_agent_scores else avg_quality,

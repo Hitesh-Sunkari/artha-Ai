@@ -4912,7 +4912,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
                   transition: 'all 0.15s ease',
                 }}
               >
-                🎯 Dataset Suite ({aggregateData?.kpis?.dataset_runs_count || 50} Runs • 38 Canonical)
+                🎯 Dataset Suite ({aggregateData?.kpis?.dataset_runs_count || 50} Runs • {aggregateData?.kpis?.canonical_scenarios_count || 48} Canonical)
               </button>
               <button
                 type="button"
@@ -5231,6 +5231,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
             personas={reconciledPersonaTable}
             sliceFilter={evaluationSlice}
             totalRuns={reconciledTotalRuns}
+            canonicalScenariosCount={aggregateData?.kpis?.canonical_scenarios_count || 48}
           />
         </div>
       )}
@@ -6429,6 +6430,7 @@ export const BenchmarkStudioView: React.FC<BenchmarkStudioViewProps> = ({
               personas={reconciledPersonaTable}
               sliceFilter={evaluationSlice}
               totalRuns={reconciledTotalRuns}
+              canonicalScenariosCount={aggregateData?.kpis?.canonical_scenarios_count || 48}
             />
 
             {/* Visual Plots Section (Dynamically Rendered from all runs) */}

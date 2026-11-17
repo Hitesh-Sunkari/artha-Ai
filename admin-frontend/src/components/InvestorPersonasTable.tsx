@@ -22,6 +22,7 @@ interface InvestorPersonasTableProps {
   personas: PersonaTableRow[];
   sliceFilter?: string;
   totalRuns?: number;
+  canonicalScenariosCount?: number;
 }
 
 const PERSONA_COLORS: Record<string, { bg: string; text: string; border: string; accent: string }> = {
@@ -67,7 +68,9 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
   personas = [],
   sliceFilter = 'ALL',
   totalRuns = 0,
+  canonicalScenariosCount = 48,
 }) => {
+  const totalScenarios = canonicalScenariosCount || (personas.reduce((sum, p) => sum + (p.scenarios_count || 0), 0) || 48);
   return (
     <div
       style={{
@@ -113,7 +116,7 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
               Institutional Investor Personas & Scenario Coverage Matrix
             </h3>
             <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-              Deterministic mapping across 38 canonical benchmark scenarios ({sliceFilter} slice • {totalRuns} total empirical runs)
+              Deterministic mapping across {totalScenarios} canonical benchmark scenarios ({sliceFilter} slice • {totalRuns} total empirical runs)
             </span>
           </div>
         </div>
@@ -141,7 +144,7 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
               borderRadius: '6px',
             }}
           >
-            38 SCENARIOS (100% COVERAGE)
+            {totalScenarios} SCENARIOS (100% COVERAGE)
           </span>
         </div>
       </div>
@@ -153,7 +156,7 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
             <tr style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}>
               <th style={{ padding: '12px 18px', fontWeight: 700, width: '260px' }}>Investor Persona & Profile</th>
               <th style={{ padding: '12px 14px', fontWeight: 700, width: '150px' }}>Risk & Horizon</th>
-              <th style={{ padding: '12px 14px', fontWeight: 700, textAlign: 'center', width: '110px' }}>Scenarios (38)</th>
+              <th style={{ padding: '12px 14px', fontWeight: 700, textAlign: 'center', width: '110px' }}>Scenarios ({totalScenarios})</th>
               <th style={{ padding: '12px 14px', fontWeight: 700, textAlign: 'center', width: '100px' }}>Runs</th>
               <th style={{ padding: '12px 14px', fontWeight: 700, textAlign: 'right', width: '110px' }}>Mean Quality</th>
               <th style={{ padding: '12px 14px', fontWeight: 700, textAlign: 'right', width: '90px' }}>Std Dev (σ)</th>
@@ -255,7 +258,7 @@ export const InvestorPersonasTable: React.FC<InvestorPersonasTableProps> = ({
                         color: 'var(--text-primary)',
                       }}
                     >
-                      {p.scenarios_count} / 38
+                      {p.scenarios_count} / {totalScenarios}
                     </span>
                   </td>
 
